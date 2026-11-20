@@ -14,10 +14,10 @@ import org.jetbrains.annotations.Nullable;
  * Glimmerfish instinct presentation on Wathe's {@code GetInstinctHighlight} event (client only): the glimmering local
  * player sees every other living player through walls, keyless, in one colour; every other viewer except a Wathe-dead
  * spectator loses the outline of a glimmering player. Wraith privacy (a HEAD cancel on Wathe's highlight method),
- * SparkTraits' public {@code isInstinctHidden} and the fear/obscure suppressors still win.
+ * the traits' public {@code isInstinctHidden} and the fear/obscure suppressors still win.
  * 灵光鱼的本能展示，挂在 Wathe 的 {@code GetInstinctHighlight} 事件上（仅客户端）：灵光中的本地玩家无需按键、
  * 以单一颜色隔墙看到其他所有存活玩家；除已死亡的旁观者外，其他观察者都看不到灵光中玩家的描边。冤魂隐私（Wathe 高亮方法头部取消）、
- * SparkTraits 公开的 {@code isInstinctHidden} 以及恐惧 / 障眼压制仍然优先。
+ * 特质公开的 {@code isInstinctHidden} 以及恐惧 / 障眼压制仍然优先。
  */
 public final class FisherGlimmerInstinctHooks {
     private static boolean registered;

@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.sound;
 import net.minecraft.util.Identifier;
 
 /**
- * Whitelist for game-event sounds controlled by SparkAssist's event volume.
- * SparkAssist 只缩放这里列出的游戏事件音效，避免影响普通方块、玩家、语音或其他角色音效。
+ * Whitelist for game-event sounds controlled by the client settings' event volume.
+ * 客户端设置的事件音量只缩放这里列出的游戏事件音效，避免影响普通方块、玩家、语音或其他角色音效。
  */
 public final class EventSoundVolumeRules {
     private static final EventSoundCatalog CATALOG = EventSoundCatalog.createDefault();

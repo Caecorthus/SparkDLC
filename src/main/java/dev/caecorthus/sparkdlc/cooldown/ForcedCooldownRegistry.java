@@ -161,7 +161,7 @@ public final class ForcedCooldownRegistry {
     /**
      * Plain {@code remove} (owner remove hooks run and release their own timers), then the forced part that was still
      * covering the item is installed again exactly, never shortening a cooldown a hook just set.
-     * 先普通 {@code remove}（所属模组的 remove 钩子照常运行并释放自有计时），再精确重装仍覆盖该物品的强制部分；
+     * 先普通 {@code remove}（所属功能的 remove 钩子照常运行并释放自有计时），再精确重装仍覆盖该物品的强制部分；
      * 绝不缩短钩子刚设置的冷却。
      */
     public static int clearItemKeepingForced(ServerPlayerEntity player, Item item) {

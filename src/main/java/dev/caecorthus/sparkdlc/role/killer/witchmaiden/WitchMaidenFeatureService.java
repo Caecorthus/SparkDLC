@@ -12,7 +12,7 @@ public final class WitchMaidenFeatureService {
     /**
      * Asked by {@code mixin/witchmaiden/GameFunctionsWitchMaidenVoodooMixin} at the head of Wathe's
      * {@code killPlayer}, before {@code KillPlayer.BEFORE}: that event stops at the first non-null result, and
-     * NoellesRoles answers {@code allowWithoutBody()} for a Taotie-swallowed victim before SparkWitch's listeners run.
+     * NoellesRoles answers {@code allowWithoutBody()} for a Taotie-swallowed victim before this mod's listeners run.
      * 由 {@code GameFunctionsWitchMaidenVoodooMixin} 在 Wathe {@code killPlayer} 开头、{@code KillPlayer.BEFORE}
      * 之前调用：该事件以首个非空结果为准，NoellesRoles 会先对被饕餮吞下的受害者返回 {@code allowWithoutBody()}。
      */

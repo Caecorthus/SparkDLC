@@ -15,12 +15,12 @@ import net.minecraft.client.MinecraftClient;
 /**
  * The Medium's client hub: the 通灵 question box opens on the server's menu packet, the caster-only result of either
  * window becomes a HUD card, the corner HUD draws the 通灵 / 幽灵的加护 rows, the dead get the vote screen of the live
- * window's kind (once per window, then on the shared ability key) with a three-line HUD prompt, the SparkWitch skill
+ * window's kind (once per window, then on the shared ability key) with a three-line HUD prompt, the Role Skill 2
  * key casts 幽灵的加护, and the corpse-sight outlines are registered. 招魂 is the inventory drawer
  * ({@link MediumHauntDrawer}, attached by its own mixin).
  * 通灵师客户端注册中心：服务端的菜单数据包打开通灵提问框，任一窗口仅发给施放者的结果显示为 HUD 卡片，右下角 HUD 绘制通灵 /
  * 幽灵的加护两行，死者获得与进行中窗口种类相同的投票界面（每个窗口自动弹出一次，之后按共享技能键打开）与三行 HUD 提示，
- * SparkWitch 技能键施放幽灵的加护，并注册尸体透视描边。招魂是背包抽屉（{@link MediumHauntDrawer}，由其自有 mixin 挂载）。
+ * “职业技能 2”键施放幽灵的加护，并注册尸体透视描边。招魂是背包抽屉（{@link MediumHauntDrawer}，由其自有 mixin 挂载）。
  */
 public final class MediumClientModule {
     private static boolean registered;
@@ -70,9 +70,9 @@ public final class MediumClientModule {
     }
 
     /**
-     * A menu packet opens its screen only on a confirmed SparkWitch server, for a local player whose synced role is
+     * A menu packet opens its screen only on a confirmed SparkDLC server, for a local player whose synced role is
      * the Medium, and never over a screen that is already open (chat, the vote screen, a typed question).
-     * 菜单数据包只在已确认的 SparkWitch 服务器上、本地玩家同步身份为通灵师时打开界面，且绝不覆盖已经打开的界面
+     * 菜单数据包只在已确认的 SparkDLC 服务器上、本地玩家同步身份为通灵师时打开界面，且绝不覆盖已经打开的界面
      * （聊天、投票界面、正在输入的提问）。
      */
     private static boolean mayOpenMenu(MinecraftClient client) {

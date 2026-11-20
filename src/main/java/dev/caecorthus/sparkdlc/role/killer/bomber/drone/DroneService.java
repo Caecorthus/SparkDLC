@@ -178,13 +178,13 @@ public final class DroneService {
     }
 
     /**
-     * Admin path only: SparkFactionAPI {@code /sparkdlc:clearCooldown} just removed {@code item}'s vanilla
+     * Admin path only: {@code /sparkdlc:clearCooldown} just removed {@code item}'s vanilla
      * cooldown (called through {@code AdminClearedItemLocks}). During the opening that remove alone does not stick
      * (the lock is re-synced every tick and placement/piloting read the round clock), so for the rest of this round the
      * player's drones of that kind ignore the opening lock (no re-sync, may be placed and piloted). Clearing a grenade
      * drone also ends the loss cooldown of any queued return, which would otherwise come back on delivery. No-op for
      * other items and outside an ACTIVE match; role mechanics that remove cooldowns never call this.
-     * 仅管理员路径：SparkFactionAPI /sparkdlc:clearCooldown 刚移除了该物品的原版冷却（经由 AdminClearedItemLocks
+     * 仅管理员路径：/sparkdlc:clearCooldown 刚移除了该物品的原版冷却（经由 AdminClearedItemLocks
      * 调用）。开局锁期间仅移除原版冷却无效（开局锁每刻重新同步，放置与驾驶读取回合时钟），因此本回合剩余时间内该玩家此型号的
      * 无人机不再受开局锁约束（不再同步冷却，可放置与驾驶）。清除投弹无人机时还会结束排队归还的损毁冷却，否则交付时会重新写入。
      * 其他物品或对局未处于 ACTIVE 时不做任何事；移除冷却的职业机制不会调用此方法。
@@ -253,9 +253,9 @@ public final class DroneService {
 
     /**
      * The owner picks a placed grenade drone back up: its pilot session ends, the item (same charge and payload) goes
-     * into a free hotbar slot and the drone is removed. Refused while Engineer-stunned or SparkTraits-interaction
+     * into a free hotbar slot and the drone is removed. Refused while Engineer-stunned or trait-interaction
      * blocked, and with a tip when the hotbar is full.
-     * 主人收回已放置的投弹无人机：结束其驾驶会话，物品（保持电量与挂载）放入空闲快捷栏格，并移除实体。被工程师定身或被 SparkTraits
+     * 主人收回已放置的投弹无人机：结束其驾驶会话，物品（保持电量与挂载）放入空闲快捷栏格，并移除实体。被工程师定身或被词条
      * 阻止交互时拒绝；快捷栏已满时提示并拒绝。
      */
     public static boolean recoverGrenadeDrone(ServerPlayerEntity owner, DroneEntity drone) {
@@ -368,8 +368,8 @@ public final class DroneService {
     private static void startRound(ServerWorld world, GameWorldComponent game) {
         endRound(world);
         // Status is still STARTING: the round id is adopted on first access once ACTIVE. Roles are final here (after
-        // every RoleAssigned, including SparkTraits Conscience rewrites).
-        // 此时状态仍为 STARTING：回合 id 在进入 ACTIVE 后首次访问时采用。此处身份已是最终结果（所有 RoleAssigned 之后，含 SparkTraits 良心改写）。
+        // every RoleAssigned, including Conscience trait rewrites).
+        // 此时状态仍为 STARTING：回合 id 在进入 ACTIVE 后首次访问时采用。此处身份已是最终结果（所有 RoleAssigned 之后，含良心词条改写）。
         Round round = new Round();
         ROUNDS.put(world, round);
         for (ServerPlayerEntity player : world.getPlayers()) {
@@ -485,10 +485,10 @@ public final class DroneService {
     }
 
     /**
-     * Mid-round reconciliation, like TabletShopService#tick: SparkWitch recruitment rewrites inventories after
+     * Mid-round reconciliation, like TabletShopService#tick: Witch recruitment rewrites inventories after
      * RoleAssigned and Wraith promotion never fires it, so new Bombers are found by polling. Settled once either way; a
      * missing drone never re-triggers a grant (disguise stashes would duplicate it).
-     * 局中对账，同 TabletShopService#tick：SparkWitch 招募会在 RoleAssigned 后重写物品栏，冤魂晋升根本不触发该事件，因此靠轮询发现新的
+     * 局中对账，同 TabletShopService#tick：魔女招募会在 RoleAssigned 后重写物品栏，冤魂晋升根本不触发该事件，因此靠轮询发现新的
      * 炸弹客。无论是否发放都只结算一次；无人机缺失绝不会再次触发发放（伪装暂存物品会导致重复）。
      */
     private static void reconcileStarters(ServerWorld world, Round round) {

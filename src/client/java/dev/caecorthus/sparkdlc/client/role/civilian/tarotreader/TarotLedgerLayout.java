@@ -225,10 +225,10 @@ public final class TarotLedgerLayout {
 
     /**
      * Title, icon and the "Paid" chip in the band. The chip carries no amount: the price actually paid can be below
-     * the list price (a Black Raven acting as the reader gets killer discounts, such as SparkStrength's engine-failure
+     * the list price (a Black Raven acting as the reader gets killer discounts, such as the engine-failure
      * discount) and the server never sends it, so a fixed number could be wrong.
      * 标题带中的标题、图标与“已付”标记。标记不写金额：实际成交价可能低于标价（黑羽鸦扮演塔罗牌师时享有杀手折扣，
-     * 例如 SparkStrength 动力损毁期间的折扣），而服务端不会下发成交价，写死的数字可能是错的。
+     * 例如动力损毁期间的折扣），而服务端不会下发成交价，写死的数字可能是错的。
      */
     public static TitleBar titleBar(Panel panel, int paidLabelWidth) {
         Rect f = panel.frame();
@@ -382,8 +382,8 @@ public final class TarotLedgerLayout {
     }
 
     /**
-     * Drag or click-to-jump in the gutter: the thumb centre follows the pointer (SparkAssist {@code dragScroll}).
-     * 在槽位中拖动或点击跳转：滑块中心跟随指针（同 SparkAssist {@code dragScroll}）。
+     * Drag or click-to-jump in the gutter: the thumb centre follows the pointer (the guidebook's {@code dragScroll}).
+     * 在槽位中拖动或点击跳转：滑块中心跟随指针（同指南书的 {@code dragScroll}）。
      */
     public static int dragScroll(Panel panel, Content content, double mouseY) {
         int max = maxScroll(panel, content);

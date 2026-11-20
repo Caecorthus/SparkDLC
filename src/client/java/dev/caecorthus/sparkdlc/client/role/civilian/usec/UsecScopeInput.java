@@ -62,7 +62,7 @@ public final class UsecScopeInput {
         }
     }
 
-    /** Disconnect or a non-SparkWitch server. / 断线或非 SparkWitch 服务器。 */
+    /** Disconnect or a non-SparkDLC server. / 断线或非 SparkDLC 服务器。 */
     public static void reset() {
         TRACKER.reset();
         UsecZoomState.reset();

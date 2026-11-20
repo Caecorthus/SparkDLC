@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/** After ordinary/Traits HEAD and Raven's priority-400 resolver, fill absence only. / 在普通本能、Traits HEAD 和优先级400鸦裁决后，仅填补无高亮。 */
+/** After ordinary/trait HEAD and Raven's priority-400 resolver, fill absence only. / 在普通本能、词条 HEAD 和优先级400鸦裁决后，仅填补无高亮。 */
 @Mixin(value = WatheClient.class, remap = false, priority = 300)
 public abstract class WatheClientFactorFallbackMixin {
     @ModifyReturnValue(method = "getInstinctHighlight", at = @At("RETURN"))

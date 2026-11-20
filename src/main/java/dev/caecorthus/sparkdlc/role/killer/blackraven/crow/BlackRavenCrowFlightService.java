@@ -7,11 +7,11 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server half of the crow flight: validates {@code sparkdlc:black_raven_crow_move} like SparkStrength's
+ * Server half of the crow flight: validates {@code sparkdlc:black_raven_crow_move} like the Bomber drone's
  * {@code DronePilotService.move} (stale moves dropped silently, non-finite poses corrected) and replays the pose through
  * {@link BlackRavenCrowEntity#applyPilotStep}. Moves beyond the per-tick count merge into one latest pose that the crow
  * applies on its own tick ({@link #applyDeferredMove}), so a burst never drops a pose.
- * 乌鸦飞行的服务端部分：仿照 SparkStrength {@code DronePilotService.move} 校验 {@code black_raven_crow_move}（过期的移动包静默
+ * 乌鸦飞行的服务端部分：仿照炸弹客无人机的 {@code DronePilotService.move} 校验 {@code black_raven_crow_move}（过期的移动包静默
  * 丢弃，非有限位姿予以纠正），再经 {@link BlackRavenCrowEntity#applyPilotStep} 重放位姿。超过每刻数量的移动合并为一个最新位姿，
  * 由乌鸦在自身刻中应用（{@link #applyDeferredMove}），因此突发不会丢失位姿。
  */

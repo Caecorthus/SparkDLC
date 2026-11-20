@@ -189,7 +189,7 @@ public final class CoronerService {
         component.setActiveDisguise(targetUuid, snapshot);
         if (CoronerDisguises.isHigherPriorityMorphActive(coroner)) {
             /*
-             * SparkStrength/Noelles 的变形怪效果优先级高于验尸官长期伪装。
+             * 本模组变形试剂/Noelles 变形怪的变形效果优先级高于验尸官长期伪装。
              * 高优先级变形存在时，验尸官先记住自己原本选中的尸体身份，但暂时不发放该身份装备。
              */
             component.setTemporaryEquipmentSuppressed(true);
@@ -360,13 +360,13 @@ public final class CoronerService {
 
     /**
      * Fake corpse guard (owner decision 2026-10-16): a corpse counts only while Wathe lists its owner as dead, which
-     * covers every mod's fake corpse (SparkWitch Fiend feign death, NoellesRoles Jester, SparkTraits Depression)
-     * without depending on any of them. SparkTraits' Last Stand pending corpse can sit on a dead-listed owner, so its
-     * public facade is asked as well (a direct call since the SparkDLC fusion). A fake corpse pays no proximity coins
+     * covers every fake corpse (the Fiend's feign death, NoellesRoles Jester, the Depression trait) without asking
+     * any of those features. The Last Stand trait's pending corpse can sit on a dead-listed owner, so the trait
+     * contract ({@code SparkTraitsApi.isFakeDeathBody}) is asked as well. A fake corpse pays no proximity coins
      * and cannot be bagged.
-     * 假尸体判定（所有者 2026-10-16 决定）：只有 Wathe 把尸体主人记为死亡时尸体才算数，无需依赖任何模组即可覆盖
-     * SparkWitch 魔人假死、NoellesRoles 小丑、SparkTraits 抑郁等假尸体。SparkTraits 背水一战待决尸体的主人可能已在死亡
-     * 名单中，因此同时询问其公开门面（融合进 SparkDLC 后为直接调用）。假尸体不给靠近金币，也不能装袋。
+     * 假尸体判定（所有者 2026-10-16 决定）：只有 Wathe 把尸体主人记为死亡时尸体才算数，无需询问任何一个功能即可覆盖
+     * 魔人假死、NoellesRoles 小丑、抑郁词条等假尸体。背水一战词条待决尸体的主人可能已在死亡
+     * 名单中，因此同时询问词条契约（{@code SparkTraitsApi.isFakeDeathBody}）。假尸体不给靠近金币，也不能装袋。
      *
      * <p>A Partygoer corpse (owner 2026-10-21) is owned by the Partygoer's UUID, which Wathe never lists as dead, so the
      * dead-list check already refuses it; the explicit marker check keeps it refused should such a corpse ever be given
@@ -423,7 +423,7 @@ public final class CoronerService {
         }
         /*
          * 验尸官伪装期间死亡时，尸体应展示为当前尸体身份的外观。
-         * 这里复用 SparkStrength 变形试剂的尸体外观世界组件，但上方先检查 MorphMarkPlayerComponent，
+         * 这里复用变形试剂的尸体外观世界组件，但上方先检查 MorphMarkPlayerComponent，
          * 确保变形试剂死亡外观拥有更高优先级，验尸官不会覆盖它。
          */
         MorphBodyDisguiseWorldComponent.KEY.get(victim.getServerWorld())

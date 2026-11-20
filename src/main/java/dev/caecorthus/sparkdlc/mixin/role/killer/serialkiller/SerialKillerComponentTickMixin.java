@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** 在 NoellesRoles 连环杀手组件写入刀 CD 后再次执行 SparkStrength 清零。 */
+/** 在 NoellesRoles 连环杀手组件写入刀 CD 后再次执行本模组的清零。 */
 @Mixin(value = SerialKillerPlayerComponent.class, remap = false)
 public abstract class SerialKillerComponentTickMixin {
     @Shadow @Final private PlayerEntity player;

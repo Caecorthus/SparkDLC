@@ -50,8 +50,8 @@ public final class BlackRavenCrowFeatureService {
                 BlackRavenCrowSessions.endAndClear(serverPlayer, BlackRavenCrowEndReason.ROLE_LOST);
             }
         });
-        // Any death ends the session; a SparkTraits-intercepted death (the player stays in play) keeps the unlock.
-        // 任何死亡都会结束会话；被 SparkTraits 拦截的死亡（玩家仍留在对局中）保留解锁进度。
+        // Any death ends the session; a death intercepted by Last Stand (the player stays in play) keeps the unlock.
+        // 任何死亡都会结束会话；被背水一战拦截的死亡（玩家仍留在对局中）保留解锁进度。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 BlackRavenCrowSessions.end(victim, BlackRavenCrowEndReason.DIED);

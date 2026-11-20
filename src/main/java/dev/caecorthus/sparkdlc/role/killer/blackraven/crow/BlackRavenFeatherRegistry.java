@@ -11,11 +11,11 @@ import net.minecraft.registry.Registry;
 /**
  * Registers the Raven Form world content with fixed ids (stable contract): the display-only Homing Feather item and its
  * marker entity (both {@code sparkdlc:homing_feather}) and the landing particle {@code sparkdlc:black_feather}.
- * Runs from {@code SparkWitch} during common initialization, so every registry entry exists on both sides. The item is
- * deliberately kept out of {@code SparkDlcItems} and out of the SparkWitch creative tab.
+ * Runs from {@code SparkDLC#onInitialize} during common initialization, so every registry entry exists on both sides.
+ * The item is deliberately kept out of {@code SparkDlcItems} and out of the creative tab.
  * 以固定 id 注册化鸦的世界内容（稳定契约）：仅用于显示的归羽物品及其标记实体（均为 {@code sparkdlc:homing_feather}），以及落地粒子
- * {@code sparkdlc:black_feather}。在通用初始化阶段由 {@code SparkWitch} 调用，因此每个注册项在两端都存在。该物品刻意不放进
- * {@code SparkDlcItems}，也不进入 SparkWitch 创造物品栏。
+ * {@code sparkdlc:black_feather}。在通用初始化阶段由 {@code SparkDLC#onInitialize} 调用，因此每个注册项在两端都存在。该物品刻意
+ * 不放进 {@code SparkDlcItems}，也不进入创造物品栏。
  */
 public final class BlackRavenFeatherRegistry {
     private static Item homingFeather;

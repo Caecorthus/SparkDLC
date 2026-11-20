@@ -35,32 +35,35 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Savior kit and its lifecycle. Server only. Layout: the game-given room key and letter in hotbar slots 0/1,
- * SparkStrength's police tablet in 2, then the pistol (3) and the lightsaber (4), so the gun stays left of the sword.
- * A Wathe revolver is planted in main-inventory slot 9: during a round SparkFactionAPI's limited inventory draws only
- * the hotbar and the second row (27–35), and rows 9–26 are not drawn at all, so the revolver is invisible and out of
- * reach; it exists for Wathe's death drop (and the innocent-kill punishment). Both visible weapons start on cooldown.
- * Every kit item is placed with {@code setStack}: inserting a gun into a Savior's inventory is refused by a mixin.
- * One grant per player per round ({@link #GRANTED}): at the round start in an after-default
- * {@code ON_FINISH_INITIALIZE} phase (after SparkStrength's default-phase tablet grant, on final roles), or on a
- * {@code RoleAssigned} to the Savior while the round is ACTIVE (an admin role change, a Schrödinger's Cat
- * transformation; the USEC pattern). Any holder may use the weapons (owner, 2026-11-09, the AXMC precedent), and they
- * vanish with whoever holds them on a terminal death (not one SparkTraits intercepted) and on a live-round
- * disconnect; Wathe's own death drop still drops the hidden revolver. A role change away strips nothing.
- * 救世主装备及其生命周期。仅服务端。布局：游戏发放的房间钥匙与信件放在快捷栏 0/1，SparkStrength 警用平板放在 2，然后是
- * 手枪（3）与光剑（4），保证枪在剑左边。主背包 9 槽塞一把 Wathe 左轮：对局中 SparkFactionAPI 的受限物品栏只绘制快捷栏与
- * 第二行（27–35），9–26 行完全不绘制，因此该左轮不可见也碰不到；它留作 Wathe 死亡掉落（以及误杀惩罚）。两把可见武器都带开局
- * 冷却。所有装备都用 {@code setStack} 放置：向救世主物品栏插入枪械会被 mixin 拒绝。每名玩家每回合只发放一次
- * （{@link #GRANTED}）：开局时在默认阶段之后的 {@code ON_FINISH_INITIALIZE} 阶段（晚于 SparkStrength 默认阶段的平板发放，
- * 按最终身份）发放，或在 ACTIVE 对局中通过 {@code RoleAssigned} 成为救世主时发放（管理员换职业、薛定谔之猫转化；USEC 模式）。
- * 武器任何持有者都能使用（所有者 2026-11-09，与 AXMC 先例一致），持有者最终死亡（不含被 SparkTraits 拦截的死亡）以及在
- * 进行中的对局里断线时随之消失；Wathe 自身的死亡掉落仍会掉出隐藏的左轮。转出救世主不收走任何东西。
+ * the police tablet ({@code sparkdlc:tablet}) in 2, then the pistol (3) and the lightsaber (4), so the gun stays left
+ * of the sword. A Wathe revolver is planted in main-inventory slot 9: during a round the limited inventory
+ * ({@code LimitedInventoryRows}) draws only the hotbar and the second row (27–35), and rows 9–26 are not drawn at all,
+ * so the revolver is invisible and out of reach; it exists for Wathe's death drop (and the innocent-kill punishment).
+ * Both visible weapons start on cooldown. Every kit item is placed with {@code setStack}: inserting a gun into a
+ * Savior's inventory is refused by a mixin. One grant per player per round ({@link #GRANTED}): at the round start in
+ * an after-default {@code ON_FINISH_INITIALIZE} phase (after the default-phase tablet grant of
+ * {@code TabletShopService}, on final roles), or on a {@code RoleAssigned} to the Savior while the round is ACTIVE (an
+ * admin role change, a Schrödinger's Cat transformation; the USEC pattern). Any holder may use the weapons (owner,
+ * 2026-11-09, the AXMC precedent), and they vanish with whoever holds them on a terminal death (not one the Last
+ * Stand trait intercepted) and on a live-round disconnect; Wathe's own death drop still drops the hidden revolver. A
+ * role change away strips nothing.
+ * 救世主装备及其生命周期。仅服务端。布局：游戏发放的房间钥匙与信件放在快捷栏 0/1，警用平板（{@code sparkdlc:tablet}）放在 2，
+ * 然后是手枪（3）与光剑（4），保证枪在剑左边。主背包 9 槽塞一把 Wathe 左轮：对局中受限物品栏
+ * （{@code LimitedInventoryRows}）只绘制快捷栏与第二行（27–35），9–26 行完全不绘制，因此该左轮不可见也碰不到；它留作 Wathe
+ * 死亡掉落（以及误杀惩罚）。两把可见武器都带开局冷却。所有装备都用 {@code setStack} 放置：向救世主物品栏插入枪械会被 mixin
+ * 拒绝。每名玩家每回合只发放一次（{@link #GRANTED}）：开局时在默认阶段之后的 {@code ON_FINISH_INITIALIZE} 阶段（晚于
+ * {@code TabletShopService} 默认阶段的平板发放，按最终身份）发放，或在 ACTIVE 对局中通过 {@code RoleAssigned} 成为救世主时
+ * 发放（管理员换职业、薛定谔之猫转化；USEC 模式）。武器任何持有者都能使用（所有者 2026-11-09，与 AXMC 先例一致），持有者
+ * 最终死亡（不含被背水一战词条拦截的死亡）以及在进行中的对局里断线时随之消失；Wathe 自身的死亡掉落仍会掉出隐藏的左轮。
+ * 转出救世主不收走任何东西。
  */
 public final class SaviorLoadoutService {
     /**
      * Wathe's ON_FINISH_INITIALIZE phase for the Savior, ordered after the default phase (the USEC/Seeker pattern):
-     * roles are final and SparkStrength's default-phase tablet grant has run, so the tablet moves at once. Still STARTING.
-     * 救世主在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后（USEC/搜寻者模式）：身份已是最终身份，SparkStrength
-     * 默认阶段的平板发放也已执行，因此平板可立即移动。对局仍处于 STARTING。
+     * roles are final and the default-phase tablet grant ({@code TabletShopService}) has run, so the tablet moves at
+     * once. Still STARTING.
+     * 救世主在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后（USEC/搜寻者模式）：身份已是最终身份，默认阶段的
+     * 平板发放（{@code TabletShopService}）也已执行，因此平板可立即移动。对局仍处于 STARTING。
      */
     static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("savior_finish_initialize");
     static final int KEY_SLOT = 0;
@@ -70,9 +73,9 @@ public final class SaviorLoadoutService {
     static final int LIGHTSABER_SLOT = 4;
     /** Top-left hidden main-inventory slot (PlayerScreenHandler slot 9). / 隐藏主背包左上角（PlayerScreenHandler 槽位 9）。 */
     static final int HIDDEN_REVOLVER_SLOT = 9;
-    /** First slot of the second visible row (SparkFactionAPI limited inventory). / 第二可见行的首槽（SparkFactionAPI 受限物品栏）。 */
+    /** First slot of the second visible row (the limited inventory). / 第二可见行的首槽（受限物品栏）。 */
     static final int SECOND_ROW_START = 27;
-    /** A mid-round tablet comes from SparkStrength's 20-tick reconciliation. / 局中平板来自 SparkStrength 每 20 刻的对账。 */
+    /** A mid-round tablet comes from TabletShopService's 20-tick reconciliation. / 局中平板来自其每 20 刻的对账。 */
     private static final int TABLET_RETRY_ATTEMPTS = 40;
 
     /**
@@ -167,8 +170,9 @@ public final class SaviorLoadoutService {
         // 再按钥匙、信件、平板、手枪、光剑排序。
         moveExistingToHotbar(player, KEY_SLOT, WatheItems.KEY);
         moveExistingToHotbar(player, LETTER_SLOT, WatheItems.LETTER);
-        // At the round start the tablet is already there; mid-round SparkStrength reconciles it later, so retry briefly.
-        // 开局时平板已在身上；局中由 SparkStrength 稍后对账发放，因此短暂重试。
+        // At the round start the tablet is already there; mid-round the tablet reconciliation hands it out later, so
+        // retry briefly.
+        // 开局时平板已在身上；局中由平板对账稍后发放，因此短暂重试。
         Item tablet = tabletItem();
         if (tablet != null && !moveExistingToHotbar(player, TABLET_SLOT, tablet)) {
             scheduleTabletMove(player, 0);
@@ -187,8 +191,8 @@ public final class SaviorLoadoutService {
             SaviorCooldowns.writeCooldown(player, SparkDlcItems.saviorPistol(), SaviorRules.PISTOL_START_COOLDOWN_TICKS);
             SaviorCooldowns.writeCooldown(player, SparkDlcItems.saviorLightsaber(), SaviorRules.LIGHTSABER_START_COOLDOWN_TICKS);
         }
-        // The Savior may not pick guns back up for the whole round (Wathe tag); our mixin covers SparkWitch guns.
-        // 整局禁止救世主捡枪（Wathe 标签）；SparkWitch 自有枪械由 mixin 拦截。
+        // The Savior may not pick guns back up for the whole round (Wathe tag); our mixin covers this mod's own guns.
+        // 整局禁止救世主捡枪（Wathe 标签）；本模组自有枪械由 mixin 拦截。
         GameWorldComponent.KEY.get(player.getServerWorld()).addToPreventGunPickup(player);
         inventory.markDirty();
         player.currentScreenHandler.sendContentUpdates();
@@ -265,12 +269,12 @@ public final class SaviorLoadoutService {
     }
 
     /**
-     * Pure: where a displaced stack goes. From a hotbar kit slot: the rows the player can use first (SparkFactionAPI's
+     * Pure: where a displaced stack goes. From a hotbar kit slot: the rows the player can use first (the
      * limited-inventory order: the free hotbar slots 5–8, then the second row 27–35), the hidden rows 10–26 last. From the
-     * hidden slot 9: the rest of the hidden rows first, since another add-on parked it there out of sight. Never a kit
-     * slot (0–4, 9).
-     * 纯函数：被挤出的物品去向。来自快捷栏装备槽：先放玩家能用的行（SparkFactionAPI 受限物品栏顺序：空闲快捷栏 5–8，再到第二行
-     * 27–35），最后才放隐藏行 10–26。来自隐藏槽 9：先放其余隐藏行，因为那是其他附属模组刻意藏起来的物品。绝不放进装备槽（0–4、9）。
+     * hidden slot 9: the rest of the hidden rows first, since another role feature parked it there out of sight. Never
+     * a kit slot (0–4, 9).
+     * 纯函数：被挤出的物品去向。来自快捷栏装备槽：先放玩家能用的行（受限物品栏顺序：空闲快捷栏 5–8，再到第二行
+     * 27–35），最后才放隐藏行 10–26。来自隐藏槽 9：先放其余隐藏行，因为那是其他职业功能刻意藏起来的物品。绝不放进装备槽（0–4、9）。
      */
     static int[] displacedOrder(boolean fromHiddenRow) {
         IntStream hotbar = IntStream.range(LIGHTSABER_SLOT + 1, PlayerInventory.getHotbarSize());
@@ -291,11 +295,11 @@ public final class SaviorLoadoutService {
     }
 
     /**
-     * {@code KillPlayer.AFTER} for every victim: a death SparkTraits intercepted (Last Stand; fail-closed check, the
+     * {@code KillPlayer.AFTER} for every victim: a death the Last Stand trait intercepted (fail-closed check, the
      * USEC/Dominator precedent) keeps everything. Otherwise every Savior pistol and lightsaber is stripped from the
      * victim, whoever holds them, and the state is forgotten. Wathe's drop loop already ran and dropped the revolvers;
      * revolvers are never touched here.
-     * 对每名受害者执行的 {@code KillPlayer.AFTER}：被 SparkTraits 拦截的死亡（背水一战；保守失败判定，USEC/支配者先例）保留一切。
+     * 对每名受害者执行的 {@code KillPlayer.AFTER}：被背水一战词条拦截的死亡（保守失败判定，USEC/支配者先例）保留一切。
      * 否则从受害者身上（无论是谁持有）清除所有救世主手枪与光剑并忘记状态。Wathe 的掉落循环已经执行并掉出了左轮；这里从不触碰左轮。
      */
     static void afterKill(ServerPlayerEntity victim) {

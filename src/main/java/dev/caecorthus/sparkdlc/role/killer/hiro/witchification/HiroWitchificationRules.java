@@ -27,11 +27,11 @@ public final class HiroWitchificationRules {
 
     /**
      * A kill counts when Wathe committed it ({@code KillPlayer.AFTER}) for a victim other than the responsible player,
-     * SparkTraits did not intercept the death, the round is ACTIVE and the responsible player is a raw-role Hiro who
+     * no trait intercepted the death, the round is ACTIVE and the responsible player is a raw-role Hiro who
      * is not dead in Wathe. Her body does not matter: swallowed by a Taotie or inside a Rift Gate she is a spectator
      * but alive, and a poison or grenade kill committing then still counts. The victim's role or faction does not
      * matter.
-     * 击杀计数的条件：Wathe 已提交该击杀（{@code KillPlayer.AFTER}）、受害者不是责任人本人、SparkTraits 未拦截这次死亡、对局处于
+     * 击杀计数的条件：Wathe 已提交该击杀（{@code KillPlayer.AFTER}）、受害者不是责任人本人、词条未拦截这次死亡、对局处于
      * ACTIVE，且责任人是在 Wathe 中未死亡的真实身份希罗。与她的身体状态无关：被饕餮吞下或身处裂隙门内时她是旁观者但仍然存活，此时
      * 结算的毒杀或手雷击杀照样计数。受害者的职业与阵营不影响计数。
      */
@@ -87,10 +87,10 @@ public final class HiroWitchificationRules {
     }
 
     /**
-     * First empty slot Wathe's limited inventory shows: hotbar 0-8, then 27-35 only while SparkFactionAPI's second
+     * First empty slot Wathe's limited inventory shows: hotbar 0-8, then 27-35 only while its second
      * row is shown; never the hidden 9-26, where {@code PlayerInventory#insertStack} would otherwise bury the item.
      * Returns -1 when every shown slot is taken.
-     * Wathe 受限物品栏显示的第一个空栏位：快捷栏 0-8，然后仅在 SparkFactionAPI 第二行显示时为 27-35；绝不使用隐藏的 9-26
+     * Wathe 受限物品栏显示的第一个空栏位：快捷栏 0-8，然后仅在其第二行显示时为 27-35；绝不使用隐藏的 9-26
      * （{@code PlayerInventory#insertStack} 否则会把物品埋进那里）。可见栏位全满时返回 -1。
      */
     public static int shownEmptySlot(boolean secondRowShown, IntPredicate emptySlot) {

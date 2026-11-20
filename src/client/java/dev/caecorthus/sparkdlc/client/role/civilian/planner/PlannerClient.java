@@ -10,11 +10,11 @@ import net.minecraft.entity.player.PlayerEntity;
 /**
  * Client side of the Master Planner's recommendation on the shared ability key. It registers no key binding and no
  * HUD callback: {@code SparkDLCClient}'s ability-key dispatch calls {@link #onAbilityKey} for the raw planner role on
- * a confirmed SparkWitch server, and her two corner rows are the {@code RoleHudDispatcher.renderPlanner} layer
+ * a confirmed SparkDLC server, and her two corner rows are the {@code RoleHudDispatcher.renderPlanner} layer
  * ({@link PlannerHud}). Server authority: the press sends {@code sparkdlc:use_planner_recommend} with the UUID of the
  * player under the crosshair ({@link PlannerTargeting}), or her own; it never checks the cooldown, coins or the
  * target's tasks, so every refusal comes from the server. Role-owned; never the {@code gui.sparkdlc.skills} panel.
- * 规划大师共享技能键推荐的客户端部分。不注册按键、也不注册 HUD 回调：已确认的 SparkWitch 服务器上，{@code SparkDLCClient}
+ * 规划大师共享技能键推荐的客户端部分。不注册按键、也不注册 HUD 回调：已确认的 SparkDLC 服务器上，{@code SparkDLCClient}
  * 的技能键分发对真实职业为规划大师的玩家调用 {@link #onAbilityKey}，她的两行角落读数是 {@code RoleHudDispatcher.renderPlanner}
  * 层（{@link PlannerHud}）。服务端权威：按下时发送 {@code sparkdlc:use_planner_recommend}，携带准星下玩家的 UUID
  * （{@link PlannerTargeting}），没有目标时为她自己的 UUID；从不检查冷却、金币或目标的任务，因此所有拒绝都来自服务端。

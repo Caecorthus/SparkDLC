@@ -65,8 +65,8 @@ public final class ChargeIndicatorHud {
         if (kind == Kind.KNIFE && isScavenger(player)) {
             return;
         }
-        // A forced-melee lock throws the release away, and SparkTraits already puts its own mark under the crosshair.
-        // 强制近战锁定会作废这次松手，而 SparkTraits 已经在准星下画了自己的标记。
+        // A forced-melee lock throws the release away, and the trait HUD already puts its own mark under the crosshair.
+        // 强制近战锁定会作废这次松手，而词条 HUD 已经在准星下画了自己的标记。
         if (TraitCharge.meleeLocked(player, stack)) {
             return;
         }

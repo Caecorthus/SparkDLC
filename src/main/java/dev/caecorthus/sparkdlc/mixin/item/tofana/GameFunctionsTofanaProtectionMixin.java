@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// Tofana precedes Traits' priority-900 terminal escape injection at the same invocation.
-// 同一调用点上，托法娜先于 Traits priority=900 的最终脱险判定。
+// Tofana precedes the Last Escape trait's priority-900 terminal escape injection at the same invocation.
+// 同一调用点上，托法娜先于 Last Escape 天赋 priority=900 的最终脱险判定。
 @Mixin(value = GameFunctions.class, priority = 1000)
 public abstract class GameFunctionsTofanaProtectionMixin {
     @Inject(

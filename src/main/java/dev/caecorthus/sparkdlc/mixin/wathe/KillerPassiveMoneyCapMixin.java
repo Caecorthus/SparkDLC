@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 /**
- * 通过 SparkStrength 覆盖 Wathe 杀手被动收入的余额上限。
+ * 覆盖 Wathe 杀手被动收入的余额上限。
  *
  * <p>Wathe 的 {@code GameConstants.KILLER_PASSIVE_MONEY_CAP} 会在编译时内联到
  * {@code MurderGameMode.tickServerGameLoop}。这里仅替换该方法中的 200，

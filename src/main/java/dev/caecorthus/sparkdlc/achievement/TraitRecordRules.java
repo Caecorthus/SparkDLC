@@ -3,12 +3,12 @@ package dev.caecorthus.sparkdlc.achievement;
 import java.util.UUID;
 
 /**
- * Achievements read from the record events SparkTraits writes for them: Last Escape cancelling a death, and the
+ * Achievements read from the record events traits write for them: Last Escape cancelling a death, and the
  * coins the Showman and the Plunderer earn on a kill. Each event is written only while the trait is really active, so
- * holding the trait needs no separate check. Servers without that SparkTraits never write them, so every rule here
+ * holding the trait needs no separate check. Servers older than these events never write them, so every rule here
  * simply finds nothing.
- * 依据 SparkTraits 专为成就写下的记录事件判断的成就：绝处逢生取消一次死亡，以及作秀与掠夺者在击杀时获得的金币。每条事件只在词条
- * 确实生效时写入，因此不必另外检查是否持有词条。没有该版本 SparkTraits 的服务器不会写这些事件，因此这里的规则只是什么也找不到。
+ * 依据词条专为成就写下的记录事件判断的成就：绝处逢生取消一次死亡，以及作秀与掠夺者在击杀时获得的金币。每条事件只在词条
+ * 确实生效时写入，因此不必另外检查是否持有词条。早于这些事件的旧服务器不会写这些事件，因此这里的规则只是什么也找不到。
  */
 final class TraitRecordRules {
     /**

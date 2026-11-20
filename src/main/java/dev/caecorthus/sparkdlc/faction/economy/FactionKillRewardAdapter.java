@@ -9,8 +9,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Adapts Wathe kill hooks into SparkFactionAPI custom kill-reward compensation.
- * 将 Wathe 击杀钩子适配到 SparkFactionAPI 的自定义击杀奖励补偿。
+ * Adapts Wathe kill hooks into the faction core's custom kill-reward compensation.
+ * 将 Wathe 击杀钩子适配到阵营核心的自定义击杀奖励补偿。
  */
 public final class FactionKillRewardAdapter {
     private FactionKillRewardAdapter() {

@@ -15,7 +15,7 @@ import java.util.TreeSet;
 /**
  * General per-account round statistics kept next to the unlocked achievements. They describe how the player has
  * played, never how close they are to any achievement: no field is named after one, so reading the save file
- * reveals nothing about what is left to find. Fields a newer SparkAssist wrote are kept and written back untouched,
+ * reveals nothing about what is left to find. Fields a newer version wrote are kept and written back untouched,
  * so a downgrade never drops them.
  * <p>
  * Killed-role sets are kept per kill group (see {@link RoleGroups}): {@link #killedRoles} never shrinks, while
@@ -25,7 +25,7 @@ import java.util.TreeSet;
  * leaving mid-round never settles, so it neither counts nor breaks anything (an intended leniency).
  * <p>
  * 与已解锁成就一起保存的账号通用对局统计。只记录玩家怎么玩过，不记录离某个成就还差多少：
- * 没有任何字段以成就命名，所以翻看存档也看不出还剩什么没发现。较新版本 SparkAssist 写入的字段会原样保留并写回，降级不会丢失。
+ * 没有任何字段以成就命名，所以翻看存档也看不出还剩什么没发现。较新版本写入的字段会原样保留并写回，降级不会丢失。
  * 击杀身份集合按击杀分组保存（见 {@link RoleGroups}）：{@link #killedRoles} 只增不减，{@link #streakKilledRoles}
  * 会被 {@link #resetStreak} 清空，例如玩家在该分组中死亡时。
  * 连续类统计（{@link #winStreak}、{@link #survivedWinStreak}、{@link #consumedSinceDeath}）只在一局结算时变化：
@@ -98,7 +98,7 @@ public final class LifetimeStats {
     // 死因 → 击杀非好人的次数；停电那份只计灯灭期间的击杀。
     private final Map<String, Integer> nonCivilianKills = new TreeMap<>();
     private final Map<String, Integer> blackoutNonCivilianKills = new TreeMap<>();
-    // Written by a newer SparkAssist; kept as is. 较新版本写入的字段，原样保留。
+    // Written by a newer version; kept as is. 较新版本写入的字段，原样保留。
     private final Map<String, JsonElement> laterFields = new TreeMap<>();
 
     /**
@@ -229,9 +229,9 @@ public final class LifetimeStats {
     }
 
     /**
-     * Counts {@code count} casts that landed {@code catchName} (SparkWitch's catch name, e.g. {@code SALMON},
+     * Counts {@code count} casts that landed {@code catchName} (the Fisher's catch name, e.g. {@code SALMON},
      * {@code SKUNK} for nothing).
-     * 记入 {@code count} 次钓到 {@code catchName}（SparkWitch 的渔获名，例如 {@code SALMON}，空军为 {@code SKUNK}）。
+     * 记入 {@code count} 次钓到 {@code catchName}（钓鱼佬的渔获名，例如 {@code SALMON}，空军为 {@code SKUNK}）。
      */
     public void recordFishCaught(String catchName, int count) {
         addCount(fishCaught, catchName, count);

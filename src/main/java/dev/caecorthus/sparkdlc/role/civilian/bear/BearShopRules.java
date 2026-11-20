@@ -12,12 +12,12 @@ import java.util.List;
  * Rys-T helmet 100 (stock 1), CENS ProFlex DX5 earplugs 50 (stock 1), 40 mm smoke round 75 (unlimited). Types follow
  * precedent: gear is TOOL, the round is WEAPON like the USEC and Hunter rounds. Landing (D9): a bought helmet goes on
  * the head when the head slot is empty and bought earplugs into the headset slot when it is empty, else Wathe's default
- * insertion (SparkFactionAPI second row included); a round first tops up a shown stack. A second helmet or pair of
+ * insertion (the visible second row included); a round first tops up a shown stack. A second helmet or pair of
  * earplugs is refused while the buyer already owns one (stock is not enforced for a role gained mid-round).
  * 稳定契约：纯 BEAR 商店规格（所有者 2026-11-05，D9）。Wathe 在两端构建列表并按下标购买、没有握手，因此列表形状只取决于职业，
  * 绝不取决于运行状态。顺序（按所有者给出）：Rys-T 头盔 100（限购 1）、CENS ProFlex DX5 耳塞 50（限购 1）、40 mm 烟雾榴弹 75
  * （不限量）。类型沿用先例：装备为 TOOL，榴弹与 USEC、猎人的弹药同为 WEAPON。落点（D9）：头部槽为空时买到的头盔直接戴上，
- * 耳机槽为空时买到的耳塞直接戴上，否则走 Wathe 默认放入（含 SparkFactionAPI 第二行）；榴弹先补进显示中的物品堆。买家已持有
+ * 耳机槽为空时买到的耳塞直接戴上，否则走 Wathe 默认放入（含可见的第二行）；榴弹先补进显示中的物品堆。买家已持有
  * 头盔或耳塞时拒绝再买（中途获得的职业不受库存限制）。
  */
 public final class BearShopRules {

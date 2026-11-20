@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
- * SparkFactionAPI economy policy and starting loadout assignment for the Witch faction.
- * 魔女阵营的 SparkFactionAPI 经济策略与开局经济/负载分配。
+ * Economy policy ({@code FactionEconomyPolicy}) and starting loadout assignment for the Witch faction.
+ * 魔女阵营的经济策略（{@code FactionEconomyPolicy}）与开局经济/负载分配。
  */
 public final class WitchFactionEconomyPolicy {
     private WitchFactionEconomyPolicy() {

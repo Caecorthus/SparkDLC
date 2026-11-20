@@ -24,12 +24,11 @@ import net.minecraft.util.Identifier;
  *
  * <p>{@code getMaxUseTime} is no help either — it is how long the item may be held (100 ticks for the knife, 7200 for
  * the shuriken, 72000 for the axe), not when a release starts to count. So every item is listed with the number its
- * own release check uses: where the owning module has a constant, that constant itself (the modules are fused in
- * SparkDLC, so it is read directly instead of by name at run time with a fallback). A change in that module then
- * reaches the indicator without touching this file.
+ * own release check uses: where the owning feature has a constant, that constant itself, read directly. A change in
+ * that feature then reaches the indicator without touching this file.
  * {@code getMaxUseTime} 同样帮不上忙——它只是物品最多能按住多久（刀 100 刻、手里剑 7200、飞斧 72000），而不是松手从何时起
- * 有效。因此每件道具都按其自身松手判定所用的数值列出：所属模块有常量时直接使用该常量（各模块已融合进 SparkDLC，不再在运行时
- * 按名称读取并带兜底值）。那个模块改了规则，指示会自动跟上，无需改动本文件。</p>
+ * 有效。因此每件道具都按其自身松手判定所用的数值列出：所属功能有常量时直接读取并使用该常量。那个功能改了规则，
+ * 指示会自动跟上，无需改动本文件。</p>
  */
 public final class ChargeItems {
     /** Wathe's {@code KnifeItem.onStoppedUsing} needs more than 10 elapsed ticks, so tick 11 is the first that stabs. Wathe 的 {@code KnifeItem.onStoppedUsing} 要求已用刻数超过 10，因此第 11 刻是第一个能出刀的。 */

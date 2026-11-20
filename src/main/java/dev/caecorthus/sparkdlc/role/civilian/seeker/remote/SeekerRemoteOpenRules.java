@@ -34,7 +34,7 @@ public final class SeekerRemoteOpenRules {
      * @param sameDevice     the resolved target is the device the open session already shows
      *                       / 解析出的目标正是当前会话显示的设备
      * @param swallowed      body swallowed by a Taotie / 本体被饕餮吞噬
-     * @param lastStand      SparkTraits Last Stand pending / 最后一搏待定
+     * @param lastStand      Last Stand trait pending / 最后一搏词条待定
      * @param grounded       {@link SeekerRemoteRules#isBodyGrounded} / 本体立足
      * @param throttled      {@link SeekerRemoteRules#isOpenThrottled} / 打开节流中
      * @param consoleDevice  a console device anywhere in the inventory / 背包任意位置持有控制台设备

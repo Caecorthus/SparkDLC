@@ -7,11 +7,11 @@ import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
  * it knows to be infected (the synced {@code infectedIds()}, which reaches only a Sphinx Hao, a spectator or a
  * creative player) is outlined in Team Jiahao gold. A keyed answer at {@link #OUTLINE_PRIORITY}, the Koko level: below
  * Wathe's {@code skip()} (100), the Seeker mark (95) and the Corrupt Cop view (93), above the Insider's own view (65)
- * and SparkStrength's tablet suspect mark (80). It answers only while the key gate reads true, so a key-up frame never
+ * and the tablet suspect mark (80). It answers only while the key gate reads true, so a key-up frame never
  * masks a lower always-on outline. Everyone else keeps the Team Jiahao (Insider-style) instinct behaviour.
  * 狮身豪自身本能描边的纯规则：存活的狮身豪按住本能键时，它所知的每名被感染者（同步的 {@code infectedIds()}，只发给狮身豪、
  * 旁观者与创造模式玩家）以嘉豪阵营金色描边。按键型答复，优先级 {@link #OUTLINE_PRIORITY}（与可可相同）：低于 Wathe 的
- * {@code skip()}（100）、搜寻者标记（95）与黑警视角（93），高于内应自身视角（65）与 SparkStrength 平板嫌疑人标记（80）。只在按键
+ * {@code skip()}（100）、搜寻者标记（95）与黑警视角（93），高于内应自身视角（65）与平板嫌疑人标记（80）。只在按键
  * 门槛为真时作答，因此松开按键的帧不会遮住更低优先级的常亮描边。其他目标保持嘉豪阵营（内应式）本能行为。
  */
 public final class SphinxHaoInstinctRules {
@@ -34,8 +34,8 @@ public final class SphinxHaoInstinctRules {
 
     /**
      * Whether an infected target is outlined: another living participant, not spectating or creative, not invisible
-     * (to the viewer), not swallowed and not hidden from the viewer's instinct by SparkTraits.
-     * 被感染目标是否描边：其他存活参与者，非旁观或创造模式，未隐身（且对观察者不隐身），未被吞下，未被 SparkTraits 从观察者
+     * (to the viewer), not swallowed and not hidden from the viewer's instinct by a trait.
+     * 被感染目标是否描边：其他存活参与者，非旁观或创造模式，未隐身（且对观察者不隐身），未被吞下，未被特质从观察者
      * 本能中隐藏。
      */
     public static boolean outlinesTarget(boolean samePlayer, boolean infected, boolean playingAndAlive,

@@ -31,8 +31,8 @@ public final class NinjaGrapplingHookItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        // SparkTraits Last Escape forbids attacking and interacting (like the Rift Gate placement and corpse throw);
-        // not the weapon gate, since the hook is no weapon. / SparkTraits 脱险期间禁止攻击与交互（同裂隙门放置与
+        // The trait Last Escape forbids attacking and interacting (like the Rift Gate placement and corpse throw);
+        // not the weapon gate, since the hook is no weapon. / 词条「脱险」期间禁止攻击与交互（同裂隙门放置与
         // 尸体投掷）；钩爪不是武器，因此不用武器门槛。
         if (SparkTraitsApi.isKillerInteractionBlocked(user)) {
             return TypedActionResult.fail(stack);

@@ -35,9 +35,9 @@ public final class WraithViewerGates {
     }
 
     /**
-     * Render thread: whether an add-on gate reveals active Wraith {@code target}'s body to {@code viewer}. Never true
-     * for the Wraith itself or a target that is not an active Wraith. A gate that throws is dropped.
-     * 渲染线程：附属模组闸门是否向 {@code viewer} 显示活跃冤魂 {@code target} 的身体。冤魂本人或非活跃冤魂的目标
+     * Render thread: whether an installed gate reveals active Wraith {@code target}'s body to {@code viewer}. Never
+     * true for the Wraith itself or a target that is not an active Wraith. A gate that throws is dropped.
+     * 渲染线程：已安装的闸门是否向 {@code viewer} 显示活跃冤魂 {@code target} 的身体。冤魂本人或非活跃冤魂的目标
      * 永远为 false。抛出异常的闸门会被丢弃。
      */
     public static boolean revealsBody(PlayerEntity viewer, PlayerEntity target) {

@@ -7,10 +7,10 @@ import org.jetbrains.annotations.Nullable;
  * Pure Witches' Sabbath rules (plan §10, D6, C6): the caster refusal order, the per-teammate skip order, the mana
  * gate, and the message keys and tuning numbers this package owns. No Minecraft state is read here; the server
  * adapters in {@link WitchesSabbathTargets} feed the probes lazily, so a later (more expensive) seam is consulted only
- * when every earlier check passed — the SparkFactionAPI veto always last.
+ * when every earlier check passed — the canAffectPlayer veto always last.
  * 魔女集会的纯规则（plan §10、D6、C6）：施放者拒绝顺序、逐个队友的跳过顺序、魔力门槛，以及本包自有的消息键与数值。
  * 此处不读取任何 Minecraft 状态；{@link WitchesSabbathTargets} 中的服务端适配器惰性提供探针，只有前序检查全部通过时
- * 才会查询后面（更昂贵）的接缝——SparkFactionAPI 否决永远最后。
+ * 才会查询后面（更昂贵）的接缝——canAffectPlayer 否决永远最后。
  */
 public final class WitchesSabbathRules {
     // --- Message keys (actionbar) / 消息键（动作栏） ---
@@ -130,8 +130,8 @@ public final class WitchesSabbathRules {
         boolean kidnapperControlled();
 
         /**
-         * SparkStrength capture stun: SparkStrength only locks the input on the client, so the server refuses too.
-         * SparkStrength 捕捉眩晕：SparkStrength 只在客户端锁定输入，因此服务端同样拒绝。
+         * Engineer capture stun: it only locks the input on the client, so the server refuses too.
+         * 工程师捕捉眩晕：它只在客户端锁定输入，因此服务端同样拒绝。
          */
         boolean captureStunned();
 
@@ -146,7 +146,7 @@ public final class WitchesSabbathRules {
 
         boolean participant();
 
-        /** SFA effective faction is exactly {@code sparkdlc:witch} (raw role; unknown → false). / 有效阵营恰为魔女阵营。 */
+        /** The effective faction is exactly {@code sparkdlc:witch} (raw role; unknown → false). / 有效阵营恰为魔女阵营。 */
         boolean witchFaction();
 
         boolean ownCamera();
@@ -160,9 +160,9 @@ public final class WitchesSabbathRules {
         boolean kidnapperControlled();
 
         /**
-         * D19: SparkStrength capture-stunned AND the lock point cannot be moved to the landing spot (fail closed). A
+         * D19: capture-stunned AND the lock point cannot be moved to the landing spot (fail closed). A
          * capture stun whose lock can move, a Hunter trap root and a Control Expert stun are pulled and stay held.
-         * D19：处于 SparkStrength 捕捉眩晕，且锁定点无法移到落点（失败即关闭）。锁定点可移动的捕捉眩晕、猎人捕兽夹定身与
+         * D19：处于捕捉眩晕，且锁定点无法移到落点（失败即关闭）。锁定点可移动的捕捉眩晕、猎人捕兽夹定身与
          * 控场专家眩晕都会被召集，并保持原状态。
          */
         boolean captureStunPinned();

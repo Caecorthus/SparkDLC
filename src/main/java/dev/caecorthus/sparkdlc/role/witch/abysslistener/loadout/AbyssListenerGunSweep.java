@@ -27,10 +27,10 @@ final class AbyssListenerGunSweep {
     /**
      * Where one found gun copy sits. HOTBAR is a visible, usable slot; CURSOR is a gun mid-move inside the holder's
      * own slots (the slot guard still allows PICKUP there); STRAY is anywhere else (main slots 9-35, including the
-     * second row 27-35 that SparkFactionAPI 0.1.5.13+ shows above the hotbar, armor, offhand, crafting grid, an open
+     * second row 27-35 that is shown above the hotbar, armor, offhand, crafting grid, an open
      * container).
      * 找到的一份枪所在位置。HOTBAR 为可见可用的栏位；CURSOR 为正在持有者自身栏位间移动的枪（栏位防护仍允许 PICKUP）；
-     * STRAY 为其他任何位置（主背包 9-35，包括 SparkFactionAPI 0.1.5.13+ 显示在快捷栏上方的第二行 27-35、盔甲、副手、
+     * STRAY 为其他任何位置（主背包 9-35，包括显示在快捷栏上方的第二行 27-35、盔甲、副手、
      * 合成格、已打开的容器）。
      */
     enum Location {

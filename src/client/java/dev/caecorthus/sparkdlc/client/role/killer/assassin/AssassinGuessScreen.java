@@ -35,11 +35,11 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
- * SparkStrength's Assassin menu, shown in place of NoellesRoles' {@code AssassinScreen}: the living targets on the
+ * The mod's Assassin menu, shown in place of NoellesRoles' {@code AssassinScreen}: the living targets on the
  * left, the guessable roles of the chosen target grouped by faction on the right, the stakes and the buttons below.
  * Clicking a role only pencils it in for that target ({@link AssassinGuessNotebook}); nothing is sent until Guess is
  * pressed, so targets and roles can be changed freely and the screen can be closed with the marks kept for the round.
- * SparkStrength 的刺客菜单，替代 NoellesRoles 的 AssassinScreen：左边是存活目标，右边是所选目标可猜的身份（按阵营分组），
+ * 本模组的刺客菜单，替代 NoellesRoles 的 AssassinScreen：左边是存活目标，右边是所选目标可猜的身份（按阵营分组），
  * 下方是风险提示与按钮。点选身份只是用铅笔为该目标记下（AssassinGuessNotebook），按下“确认猜测”前什么都不发送；
  * 因此可以随意更换目标与身份，也可以直接关闭界面，标记保留到本局结束。
  *
@@ -59,8 +59,8 @@ public final class AssassinGuessScreen extends Screen {
     private static final int LONGEST_COOLDOWN_SECONDS = 60;
     private static final int ROLE_SCROLL_ROWS = 2;
     /**
-     * Band display order: innocents are an Assassin's usual targets, killers the rarest (only listed with SparkTraits).
-     * 分组显示顺序：平民是刺客最常见的目标，杀手最少见（仅在安装 SparkTraits 时列出）。
+     * Band display order: innocents are an Assassin's usual targets, killers the rarest.
+     * 分组显示顺序：平民是刺客最常见的目标，杀手最少见。
      */
     private static final List<RolePickerBand> BAND_ORDER = List.of(
             RolePickerBand.INNOCENTS,

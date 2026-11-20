@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * NoellesRoles records its own {@code shadow_transform} line right after the Shadow Jester partner becomes Jester.
- * Once SparkFactionAPI records the same change as {@code role_changed}, that Noelles line is suppressed for the
+ * Once this mod records the same change as {@code role_changed}, that Noelles line is suppressed for the
  * same player and tick. Wrapped at server start because Noelles registers its formatter during its own init.
- * NoellesRoles 会在影子小丑搭档化身小丑后立即记录自己的 {@code shadow_transform} 行。SparkFactionAPI 已将同一变化记为
+ * NoellesRoles 会在影子小丑搭档化身小丑后立即记录自己的 {@code shadow_transform} 行。本模组已将同一变化记为
  * {@code role_changed} 时，同一玩家同一刻的 Noelles 行被抑制。因 Noelles 在自身初始化时注册格式化器，故在服务器启动时包裹。
  */
 public final class NoellesShadowTransformReplayCompat {

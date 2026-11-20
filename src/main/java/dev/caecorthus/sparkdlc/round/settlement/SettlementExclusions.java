@@ -32,11 +32,11 @@ import java.util.function.Predicate;
  * 不会改变结果。此处不判断存活；调用方保留自己的存活判断。
  *
  * <p>A role may instead be registered with a condition ({@link #registerConditionalRole}): its holders are excluded
- * only while the owner's predicate says so (SparkWitch's Charon without a running Soul Moment). The condition is part
+ * only while the owner's predicate says so (the Charon without a running Soul Moment). The condition is part
  * of the player query {@link #isExcluded(GameWorldComponent, UUID)} only; the role-level queries
  * ({@link #containsRole}, {@link #isExcludedRole}) keep answering for unconditional roles alone, because a role by
  * itself carries no player state.
- * 身份也可以带条件注册（{@link #registerConditionalRole}）：仅当所属模组的谓词成立时其持有者才被排除（如 SparkWitch 中
+ * 身份也可以带条件注册（{@link #registerConditionalRole}）：仅当所有者的谓词成立时其持有者才被排除（如
  * 没有进行中亡魂时刻的卡戎）。条件只参与玩家查询 {@link #isExcluded(GameWorldComponent, UUID)}；身份级查询
  * （{@link #containsRole}、{@link #isExcludedRole}）仍只回答无条件注册的身份，因为身份本身不携带玩家状态。</p>
  */

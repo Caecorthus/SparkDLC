@@ -11,9 +11,9 @@ public final class LastEscapeVisionRules {
     }
 
     /**
-     * Whether [desaturation, spread, brightness] may be handed to the Witch compositor as an escape composition:
+     * Whether [desaturation, spread, brightness] may be handed to the perception compositor as an escape composition:
      * all finite, desaturation within [0.5, 1], spread and brightness not negative. Anything else reads as "no escape".
-     * [灰阶、扩散、亮度] 是否可作为脱险参数交给 Witch 合成器：全部为有限值，灰阶在 [0.5, 1] 内，扩散与亮度不为负。
+     * [灰阶、扩散、亮度] 是否可作为脱险参数交给感知合成器：全部为有限值，灰阶在 [0.5, 1] 内，扩散与亮度不为负。
      * 其余情况一律视为“无脱险”。
      */
     public static boolean isValid(float desaturation, float spread, float brightness) {

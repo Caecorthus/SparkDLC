@@ -9,9 +9,10 @@ import java.util.Optional;
 
 /**
  * Fixed Prophecy answer groups; declaration order is the UI order and never depends on the round's roles.
- * Foreign death reasons are matched by id string only, so NoellesRoles/SparkTraits stay optional; unknown ids are OTHER.
- * 预言的固定死因分组；声明顺序即界面顺序，不随本局职业变化。外部死因只按 id 字符串匹配，
- * NoellesRoles/SparkTraits 保持可选；未知 id 归为「其他」。
+ * Death reasons from outside this role are matched by id string only (NoellesRoles and the traits used to be
+ * optional); unknown ids are OTHER.
+ * 预言的固定死因分组；声明顺序即界面顺序，不随本局职业变化。本职业以外的死因只按 id 字符串匹配
+ * （NoellesRoles 与词条曾是可选的）；未知 id 归为「其他」。
  */
 public enum ProphetDeathCauseGroup {
     BLADE,
@@ -26,9 +27,9 @@ public enum ProphetDeathCauseGroup {
     PENALTY,
     OTHER;
 
-    // Ids verified against wathe-1.5.6-spark-1.21.1, NoellesRoles, SparkTraits and SparkWitch kill sites. Every
-    // sparkdlc death reason must have an entry (owner-picked group); a local test fails when one is missing.
-    // id 已对照 wathe-1.5.6-spark-1.21.1、NoellesRoles、SparkTraits 与 SparkWitch 的击杀调用核实。每个 sparkdlc
+    // Ids verified against the kill sites of wathe-1.5.6-spark-1.21.1, NoellesRoles and this mod's traits and roles.
+    // Every sparkdlc death reason must have an entry (owner-picked group); a local test fails when one is missing.
+    // id 已对照 wathe-1.5.6-spark-1.21.1、NoellesRoles 以及本模组词条与职业的击杀调用核实。每个 sparkdlc
     // 死因都必须有条目（分组由所有者决定）；缺少条目时本地测试会失败。
     private static final Map<Identifier, ProphetDeathCauseGroup> BY_REASON = Map.ofEntries(
             entry("wathe:knife_stab", BLADE),

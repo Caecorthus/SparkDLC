@@ -57,7 +57,7 @@ public final class M1903A4Rules {
          * 射手被其他机制控制：控场专家眩晕、搜寻者远程视角、绑匪操控、激活的冤魂，或进行中的支配者强制开枪序列（与救世主手枪同一组）。
          */
         HELD,
-        /** SparkTraits blocks a weapon action with the rifle. / SparkTraits 阻止用步枪执行武器动作。 */
+        /** A trait blocks a weapon action with the rifle. / 词条阻止用步枪执行武器动作。 */
         WEAPON_BLOCKED,
         /**
          * The rifle item cooldown runs: its own shot / reload / round-start lock, or any outside lock (Knight duel seal,
@@ -80,7 +80,7 @@ public final class M1903A4Rules {
      * @param mainHand      the rifle is the main-hand stack
      * @param spectator     spectator game mode
      * @param held          stun, Seeker remote lock, Kidnapper control, active Wraith or Dominator sequence
-     * @param weaponBlocked SparkTraits blocks a weapon action with the rifle
+     * @param weaponBlocked a trait blocks a weapon action with the rifle
      * @param coolingDown   the rifle item cooldown runs
      * @param loaded        at least one round is loaded
      */
@@ -112,8 +112,8 @@ public final class M1903A4Rules {
 
     /**
      * Kill confirmation (the shooter-only kill sound): a player was hit who was alive before, is dead after the one
-     * non-forced kill, and whose death SparkTraits did not intercept. A shield, a feign death or any veto is no kill.
-     * 击杀确认（只有射手听得到的击杀音效）：命中了一名此前存活的玩家，在这一次非强制击杀之后已死亡，且其死亡未被 SparkTraits
+     * non-forced kill, and whose death no trait intercepted. A shield, a feign death or any veto is no kill.
+     * 击杀确认（只有射手听得到的击杀音效）：命中了一名此前存活的玩家，在这一次非强制击杀之后已死亡，且其死亡未被词条
      * 拦截。护盾、假死或任何否决都不算击杀。
      */
     public static boolean confirmsKill(boolean hitPlayer, boolean aliveBefore, boolean deadAfter, boolean intercepted) {

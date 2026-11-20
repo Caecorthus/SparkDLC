@@ -59,8 +59,8 @@ import java.util.UUID;
  */
 public final class SeekerRemoteStreaming {
     /**
-     * Around the session focus; argument: the focus entity id. Distinct from SparkStrength's drone tickets.
-     * 位于会话焦点周围；参数为焦点实体 id。与 SparkStrength 的无人机票据互不相同。
+     * Around the session focus; argument: the focus entity id. Distinct from the Bomber drone's tickets.
+     * 位于会话焦点周围；参数为焦点实体 id。与轰炸者无人机的票据互不相同。
      */
     private static final ChunkTicketType<Integer> FOCUS_TICKET = ChunkTicketType.create(
             SparkDLC.MOD_ID + ":seeker_remote", Integer::compare, SeekerRemoteStreamingRules.TICKET_EXPIRY_TICKS);

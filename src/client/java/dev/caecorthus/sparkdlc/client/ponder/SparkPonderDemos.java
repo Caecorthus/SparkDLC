@@ -61,7 +61,7 @@ final class SparkPonderDemos {
         DEMOS.put(itemId, new Demo(Identifier.of(itemId), List.of(scenes), true, List.of()));
     }
 
-    /** A demo for an item another mod adds; only exists while those mods are loaded. 其他模组物品的演示；仅在这些模组都已加载时存在。 */
+    /** A demo that names the mods it needs; only exists while those mods are loaded. 声明了所需模组的演示；仅在这些模组都已加载时存在。 */
     static void item(String itemId, List<String> requiredMods, Scene... scenes) {
         DEMOS.put(itemId, new Demo(Identifier.of(itemId), List.of(scenes), true, requiredMods));
     }

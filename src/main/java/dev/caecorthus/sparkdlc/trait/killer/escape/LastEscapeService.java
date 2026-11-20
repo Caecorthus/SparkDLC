@@ -74,7 +74,7 @@ public final class LastEscapeService {
         return player != null && TraitWorldComponent.KEY.get(player.getWorld()).isLastEscapeActive(player.getUuid());
     }
 
-    /** Bilateral vehicle/direct-push supplement to FactionAPI; no block collision changes.
+    /** Bilateral vehicle/direct-push supplement to the faction core's collision exemption; no block collision changes.
      *  双向补齐载具/直接推挤路径，不改变方块碰撞。 */
     public static boolean blocksEntityCollision(Entity first, Entity second) {
         return (first instanceof PlayerEntity firstPlayer && isActive(firstPlayer))

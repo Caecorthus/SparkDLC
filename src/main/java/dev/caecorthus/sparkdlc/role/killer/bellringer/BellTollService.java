@@ -19,11 +19,11 @@ import net.minecraft.util.TypedActionResult;
 /**
  * Server-authoritative bell toll: forced, terminal kills of every valid target whose sanity is below 0.
  * Owner-approved exception: the kill uses {@code force = true} with {@link SparkDlcDeathReasons#BELL_TOLL}
- * (registered SparkTraits-terminal), so no shield or revive stops it; only SparkFactionAPI's structural
+ * (registered as a terminal death reason), so no shield or revive stops it; only the faction core's structural
  * {@code canAffectPlayer} policy is honoured, both here and inside Wathe's kill path.
  * 服务端权威的敲钟结算：对所有理智低于 0 的有效目标执行强制且终结的击杀。
- * 所有者批准的例外：以 {@code force = true} 与 {@link SparkDlcDeathReasons#BELL_TOLL}（已注册为 SparkTraits 终结原因）击杀，
- * 任何护盾或复活都无法阻止；仅遵循 SparkFactionAPI 的结构性 {@code canAffectPlayer} 策略（此处与 Wathe 击杀流程中均会检查）。
+ * 所有者批准的例外：以 {@code force = true} 与 {@link SparkDlcDeathReasons#BELL_TOLL}（已注册为终结原因）击杀，
+ * 任何护盾或复活都无法阻止；仅遵循阵营核心的结构性 {@code canAffectPlayer} 策略（此处与 Wathe 击杀流程中均会检查）。
  */
 public final class BellTollService {
     private BellTollService() {
@@ -101,12 +101,12 @@ public final class BellTollService {
     }
 
     /**
-     * Raw {@code getMood() < 0}: Wathe answers 1 for FAKE/NONE mood and SparkTraits already resolves the
+     * Raw {@code getMood() < 0}: Wathe answers 1 for FAKE/NONE mood and the trait feature already resolves the
      * effective mood type there; the {@code isLowerThan*} helpers are avoided because Well Trained overrides them.
      * A Rift Gate occupant is a living SPECTATOR, which {@code isParticipant} rejects, so it is admitted explicitly:
      * the toll pierces a gate like poison (owner decision C13/C16); the Riftwalker's occupant policy allows
      * {@code sparkdlc:bell_toll}, and the kill's {@code KillPlayer.AFTER} ends the session as DIED.
-     * 直接使用 {@code getMood() < 0}：FAKE/NONE 情绪在 Wathe 中返回 1，SparkTraits 已在该处解析有效情绪类型；
+     * 直接使用 {@code getMood() < 0}：FAKE/NONE 情绪在 Wathe 中返回 1，词条功能已在该处解析有效情绪类型；
      * 不使用 {@code isLowerThan*}，因为“训练有素”会覆盖它们。裂隙门内的玩家是存活的旁观者，{@code isParticipant} 会拒绝，
      * 因此单独放行：钟声与毒一样穿透裂隙门（所有者决定 C13/C16）；隙行者的门内策略放行 {@code sparkdlc:bell_toll}，
      * 击杀后的 {@code KillPlayer.AFTER} 以 DIED 结束会话。
@@ -119,11 +119,11 @@ public final class BellTollService {
     }
 
     /**
-     * Exact 30 s: SparkTraits' exact write performs the vanilla {@code set} itself after Fast Hands and other
-     * cooldown modifiers, so it goes first and the plain vanilla write is only the fallback when Traits is
-     * absent or older (never both, which would send two cooldown packets).
-     * 精确 30 秒：SparkTraits 的精确写入会在“快手”等冷却倍率之后自行完成原版写入，因此优先调用；
-     * 仅在 Traits 缺失或过旧时回退到原版写入（二者不会同时执行，以免发送两次冷却数据包）。
+     * Exact 30 s: the trait API's exact write performs the vanilla {@code set} itself after Fast Hands and other
+     * cooldown modifiers, so it goes first; the plain vanilla write is the fallback for a refused exact write,
+     * unreachable since the fusion (never both, which would send two cooldown packets).
+     * 精确 30 秒：词条 API 的精确写入会在“快手”等冷却倍率之后自行完成原版写入，因此优先调用；
+     * 原版写入是精确写入被拒绝时的回退，融合后不可达（二者不会同时执行，以免发送两次冷却数据包）。
      */
     private static void applyCooldown(ServerPlayerEntity ringer, Item bell) {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(ringer, bell, BellRingerRules.TOLL_COOLDOWN_TICKS)) {

@@ -37,7 +37,7 @@ public abstract class MurderGameModeBlackRavenWalletMixin {
             allow = 1
     )
     private void sparkdlc$creditRavenWallet(PlayerShopComponent shop, int amount, Operation<Void> original) {
-        // Timed receipt: never a SparkStrength purse contribution. / 定时收入：不计入 SparkStrength 团队资金。
+        // Timed receipt: never a killer-team purse contribution. / 定时收入：不计入杀手团队资金。
         if (!BlackRavenDisguiseEconomy.creditKillerIncome(shop, amount, false)) {
             original.call(shop, amount);
         }

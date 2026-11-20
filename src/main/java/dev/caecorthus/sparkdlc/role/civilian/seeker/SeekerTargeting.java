@@ -22,12 +22,13 @@ import java.util.function.BooleanSupplier;
 /**
  * Frozen contract: the two Seeker predicates. "Owner of record" (online, exactly Seeker, game running, match id bound)
  * drives cleanup; "active participant" (plus alive, not spectator/creative, not an active Wraith) gates every action.
- * Living-spectator states (Taotie-swallowed body, SparkTraits Last Stand pending or Depression fake death) fail only
- * the participant predicate, so they end sessions (WP-09) but never clear state, devices, LostTo or PendingReturn.
+ * Living-spectator states (Taotie-swallowed body, the Last Stand trait pending or the Depression trait's fake death)
+ * fail only the participant predicate, so they end sessions (WP-09) but never clear state, devices, LostTo or
+ * PendingReturn.
  * Server only: the match id is never synced, so every predicate is false on a client.
  * 冻结契约：搜寻者的两个谓词。“记录中的拥有者”（在线、恰为搜寻者、对局进行中、matchId 一致）用于清理；
  * “可行动的参与者”（另加存活、非旁观/创造、非激活冤魂）作为所有行动的门槛。活着的旁观状态（本体被饕餮吞噬、
- * SparkTraits 背水一战待定或抑郁假死）只让参与者谓词失败，因此只结束会话（WP-09），从不清空状态、设备、LostTo 或 PendingReturn。
+ * 背水一战词条待定或抑郁词条假死）只让参与者谓词失败，因此只结束会话（WP-09），从不清空状态、设备、LostTo 或 PendingReturn。
  * 仅服务端：matchId 从不同步，客户端上所有谓词均为 false。
  */
 public final class SeekerTargeting {
@@ -84,8 +85,9 @@ public final class SeekerTargeting {
 
     /**
      * Deploy/place gate: the common gate (incl. the Q5-b impostor rule), an available body, no open session, and no
-     * SparkTraits weapon-action block for this stack.
-     * 部署与放置门槛：公共门槛（含 Q5-b 内鬼规则）、本体可用、没有打开的会话，且该物品未被 SparkTraits 武器动作封锁。
+     * trait weapon-action block ({@code SparkTraitsApi.blocksWeaponAction}) for this stack.
+     * 部署与放置门槛：公共门槛（含 Q5-b 内鬼规则）、本体可用、没有打开的会话，且该物品未被词条武器动作封锁
+     * （{@code SparkTraitsApi.blocksWeaponAction}）。
      */
     public static boolean canUseDevice(ServerPlayerEntity player, ItemStack stack) {
         if (player == null || stack == null || stack.isEmpty()) {

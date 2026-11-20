@@ -230,11 +230,11 @@ public final class MediumSkillService {
     /**
      * Shared caster gate of all three skills and their paid confirmations (the Specter/Dominator {@code mayCast}
      * set): an ACTIVE round, the raw Medium role, playing and alive, never an alive spectator (Taotie-swallowed, Rift
-     * occupant) or creative, not held by a Ninja grapple, not silenced and not role-skill blocked by SparkTraits.
+     * occupant) or creative, not held by a Ninja grapple, not silenced and not role-skill blocked by the traits.
      * Refusals are silent. Grand Witch Fear is checked last by each entry ({@link #deniedByFear}) because it tells the
      * player why.
      * 三个技能及其付费确认共用的施放者门槛（幽魂/支配者 {@code mayCast} 的同一组条件）：对局 ACTIVE、真实职业为通灵师、
-     * 参与且存活、不是存活旁观者（被饕餮吞下、裂隙门内）或创造模式、未被忍者钩爪拉住、未被沉默、未被 SparkTraits 禁用职业
+     * 参与且存活、不是存活旁观者（被饕餮吞下、裂隙门内）或创造模式、未被忍者钩爪拉住、未被沉默、未被词条禁用职业
      * 技能。拒绝时不提示。大魔女恐惧由各入口最后检查（{@link #deniedByFear}），因为它会提示原因。
      */
     static boolean mayUse(ServerPlayerEntity player) {

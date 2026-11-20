@@ -5,10 +5,10 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * SparkWitch civilian and police roles: the Blind, the Fisher, the Perfumer, the Orthopedist, the Saint, the Tarot
+ * The mod's own civilian and police roles: the Blind, the Fisher, the Perfumer, the Orthopedist, the Saint, the Tarot
  * Reader, Emma, the Control Expert and the Seeker, plus the police-role kill collection. "As role X" is my real role
  * at that event from the match record, so a Black Raven disguised as X never counts.
- * SparkWitch 好人与警职身份：盲人、钓鱼佬、调香师、骨科大夫、圣徒、塔罗牌师、樱羽艾玛、控场专家与搜寻者，以及警职击杀收集。
+ * 本模组自有的好人与警职身份：盲人、钓鱼佬、调香师、骨科大夫、圣徒、塔罗牌师、樱羽艾玛、控场专家与搜寻者，以及警职击杀收集。
  * “以 X 身份”指对局记录中该事件发生时我的真实身份，因此伪装成 X 的黑羽鸦永远不算。
  */
 final class SparkCivilianRules {
@@ -40,8 +40,8 @@ final class SparkCivilianRules {
 
     static final String SWORDFISH_STAB = "sparkdlc:swordfish_stab";
     /**
-     * SparkTraits kills a living Impostor with this reason, without a killer, once no real killer is left alive.
-     * 一旦没有真正的杀手存活，SparkTraits 就以这个死因、在没有凶手的情况下杀死存活的内鬼。
+     * The Impostor trait kills its living holder with this reason, without a killer, once no real killer is left alive.
+     * 一旦没有真正的杀手存活，内鬼词条就以这个死因、在没有凶手的情况下杀死存活的内鬼。
      */
     static final String SELF_REALIZATION = "sparkdlc:self_realization";
     static final String FACTOR_BACKLASH = "sparkdlc:factor_backlash";
@@ -56,7 +56,7 @@ final class SparkCivilianRules {
     static final List<String> TAROT_READINGS = List.of(
             "sparkdlc_tarot_regular", "sparkdlc_tarot_identity", "sparkdlc_tarot_survival");
     static final String SKUNK = "SKUNK";
-    /** Every catch that is a fish, i.e. SparkWitch's catch names without SKUNK. 所有鱼类渔获，即去掉 SKUNK 的 SparkWitch 渔获名。 */
+    /** Every catch that is a fish, i.e. the Fisher's catch names without SKUNK. 所有鱼类渔获，即去掉 SKUNK 的钓鱼佬渔获名。 */
     static final List<String> FISH = List.of(
             "SALMON", "COD", "CLOWNFISH", "GOLDFISH", "KEY_FISH", "PUFFERFISH", "SWORDFISH", "GLIMMERFISH");
 
@@ -102,11 +102,11 @@ final class SparkCivilianRules {
      * round ends as a civilian win that is not the time running out (then killers were still alive, or the win was
      * held back and not decided by my stab). Needs the complete record. A living Conscience killer is a 好人 although
      * the record shows their killer role, so who is left alive is not checked. A living Impostor is on the killer
-     * faction without the record showing it, but SparkTraits kills them ({@link #SELF_REALIZATION}, no killer) as soon
+     * faction without the record showing it, but the trait kills them ({@link #SELF_REALIZATION}, no killer) as soon
      * as no real killer is left, so that death comes after the last real killer's and is left out.
      * 以钓鱼佬身份用剑鱼刺杀的一击，是本局杀手阵营玩家的最后一次真实死亡，且本局以好人获胜结束，但不是时间耗尽（那时还有杀手存活，
      * 或胜利被拖住、并非由我这一击决定）。需要完整记录。存活的良知杀手是好人，记录里却显示其杀手身份，所以不检查谁还活着。
-     * 存活的内鬼属于杀手阵营，记录里却看不出来；但一旦没有真正的杀手存活，SparkTraits 就会让其死亡（{@link #SELF_REALIZATION}，
+     * 存活的内鬼属于杀手阵营，记录里却看不出来；但一旦没有真正的杀手存活，内鬼词条就会让其死亡（{@link #SELF_REALIZATION}，
      * 没有凶手），这次死亡在最后一名真正杀手的死亡之后，因此不计入。
      */
     static boolean swordfishClearsTheLastKiller(AchievementContext context) {
@@ -251,9 +251,9 @@ final class SparkCivilianRules {
     /**
      * 七种武器: ever killed a 非好人 as each of the 7 {@link #SEVEN_WEAPONS_ROLES}, across rounds. A kill counts when
      * the victim's faction was known and differed from mine ({@link LifetimeStats#rivalKillsAs}); police are always
-     * on the civilian side (SparkTraits never gives them Impostor), so that is a kill of a 非好人.
+     * on the civilian side (police never get the Impostor trait), so that is a kill of a 非好人.
      * 累计分别以 7 个 {@link #SEVEN_WEAPONS_ROLES} 身份各击杀过一名非好人，可跨局。死者阵营已知且与我不同的击杀才计入
-     * （{@link LifetimeStats#rivalKillsAs}）；警职永远站在好人一方（SparkTraits 从不给警职内鬼），所以这就是击杀非好人。
+     * （{@link LifetimeStats#rivalKillsAs}）；警职永远站在好人一方（警职从不会获得内鬼词条），所以这就是击杀非好人。
      */
     static boolean policeKillWithEveryRole(AchievementContext context) {
         return SEVEN_WEAPONS_ROLES.stream().allMatch(role -> context.stats().rivalKillsAs(role) >= 1);
@@ -262,8 +262,8 @@ final class SparkCivilianRules {
     // ---- Helpers 辅助 ----
 
     /**
-     * The winning faction: SparkFactionAPI's when it named one, otherwise the one Wathe's win status stands for.
-     * 获胜阵营：SparkFactionAPI 给出时取它，否则取 Wathe 胜利状态对应的阵营。
+     * The winning faction: the custom faction win's when there is one, otherwise the one Wathe's win status stands for.
+     * 获胜阵营：有自定义阵营胜利时取它，否则取 Wathe 胜利状态对应的阵营。
      */
     static String winningFaction(AchievementContext context) {
         String winner = context.outcome().winningFactionId();

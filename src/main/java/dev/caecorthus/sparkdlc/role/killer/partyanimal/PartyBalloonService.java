@@ -23,7 +23,7 @@ import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
  * 被塞气球的人不会收到任何消息、声音或物品。
  */
 public final class PartyBalloonService {
-    /** SparkFactionAPI action id for giving a balloon. / 塞气球在 SparkFactionAPI 中的行为 id。 */
+    /** {@code canAffectPlayer} action id for giving a balloon. / 塞气球的 {@code canAffectPlayer} 行为 id。 */
     public static final Identifier BALLOON_ACTION_ID = SparkDLC.id("party_balloon");
 
     private static final float SQUEAK_VOLUME = 0.35F;

@@ -47,8 +47,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Stable, null-safe queries for optional downstream integrations.
- * 为可选下游集成提供稳定且支持空值的查询接口。
+ * Stable, null-safe trait queries: the mod's public contract toward its other features and third-party add-ons.
+ * 稳定且支持空值的天赋查询接口：本模组面向自身其他功能与第三方附属模组的公开契约。
  */
 public final class SparkTraitsApi {
     /**
@@ -120,12 +120,12 @@ public final class SparkTraitsApi {
                 : dev.caecorthus.sparkdlc.trait.civilian.police.VigilanteVeteranTraitService.marksmanRangeMultiplier(player);
     }
 
-    /** Target range for a downstream gun that validates its own shots (today SparkWitch's Savior pistol): Niko's
+    /** Target range for a downstream gun that validates its own shots (today the Savior pistol): Niko's
      * fixed 300 blocks while {@code shooter} is a sneaking Niko holder and {@code gun} is one Niko covers (revolver,
      * derringer, Savior pistol), otherwise {@code baseRange}; never below {@code baseRange}. It is the range the
      * client already aims with, so a receiver that keeps its own tolerance rejects Niko's long shots. Null-safe,
      * client- and server-safe.
-     * 供自行校验射击的下游枪械（目前为 SparkWitch 救世主手枪）查询目标距离：{@code shooter} 是潜行的 Niko 持有者且
+     * 供自行校验射击的下游枪械（目前为救世主手枪）查询目标距离：{@code shooter} 是潜行的 Niko 持有者且
      * {@code gun} 属于 Niko 覆盖的枪（左轮、德林加、救世主手枪）时为固定 300 格，否则为 {@code baseRange}；绝不低于
      * {@code baseRange}。这正是客户端瞄准所用的射程，接收方若沿用自身容差会拒绝 Niko 的远距离射击。支持空值，
      * 客户端与服务端均可调用。 */
@@ -147,9 +147,9 @@ public final class SparkTraitsApi {
 
     /** Throw charge for downstream throwables that time their own charge instead of vanilla item use:
      * shortened when the player holds an active Herculean Strength, otherwise {@code baseTicks}.
-     * Launch speed needs no call; SparkTraits scales every thrown projectile itself. Null-safe, both sides.
+     * Launch speed needs no call; the trait scales every thrown projectile itself. Null-safe, both sides.
      * 供自行计时蓄力（不走原版使用流程）的下游投掷物查询蓄力时长：玩家持有生效的力大无穷时缩短，
-     * 否则返回 {@code baseTicks}。初速无需调用，SparkTraits 会自行放大所有投掷物。支持空值，两端均可调用。 */
+     * 否则返回 {@code baseTicks}。初速无需调用，该天赋会自行放大所有投掷物。支持空值，两端均可调用。 */
     public static int getThrowChargeTicks(PlayerEntity player, int baseTicks) {
         return player == null || player.getWorld() == null ? baseTicks
                 : dev.caecorthus.sparkdlc.trait.killer.HerculeanStrengthService.throwChargeTicks(player, baseTicks);
@@ -336,7 +336,7 @@ public final class SparkTraitsApi {
      * 创建调试存活状态命令所需的旁观者可见死亡词条快照。
      *
      * <p>This does not kill the player, clear traits, spawn a body, or trigger any death event.
-     * It only mirrors the snapshot step that normally happens in SparkTraits' real-death hook,
+     * It only mirrors the snapshot step that normally happens in the traits' real-death hook,
      * so the existing RoleNameRenderer path has data to display immediately.</p>
      */
     public static void snapshotDeathTraitsForDebug(ServerPlayerEntity player) {
@@ -417,8 +417,8 @@ public final class SparkTraitsApi {
      * Applies the killer charisma discount to a shop entry when the player truly owns that trait.
      * 仅当玩家真实拥有杀手词条【魅力】时，对商店条目套用一次折扣包装。
      *
-     * <p>这个公共门面专门给外部模组的 shop 构建阶段使用，避免它们直接依赖
-     * {@code dev.caecorthus.sparkdlc} 包里的实现细节。</p>
+     * <p>这个公共门面专门给天赋功能之外（含第三方附属模组）的 shop 构建阶段使用，避免调用方直接依赖
+     * 天赋包里的实现细节。</p>
      */
     public static @Nullable ShopEntry discountShopEntryForCharisma(
             PlayerEntity player,
@@ -451,7 +451,7 @@ public final class SparkTraitsApi {
 
     /**
      * Server only; call after a mid-round role change, once the player's new balance is written. Built for the former
-     * SparkWitch Grand Witch recruitment (removed 2026-10-05); kept as a public role-change seam.
+     * Grand Witch recruitment (removed 2026-10-05); kept as a public role-change seam.
      * Removes every active trait the current role could not have rolled at round start (no slot cap; unique-trait
      * memory kept), then draws one replacement per removed trait, hidden ones included, from that role's pool, never
      * Pig, Childish or a removed trait; a free trait (Well Supplied) earns no draw. If the player then holds Well
@@ -460,7 +460,7 @@ public final class SparkTraitsApi {
      * drawn names, each in order; hidden traits are left out. Nothing happens outside a running game, for a null
      * visitor, for a dead, role-less or active-Wraith player, during a pending Last Stand or Depression fake death, or
      * while Depression psycho is active.
-     * 仅服务端；在局中换身份、写入新余额后调用。原为 SparkWitch 大魔女招募（已于 2026-10-05 移除）而建，作为公共换身份
+     * 仅服务端；在局中换身份、写入新余额后调用。原为大魔女招募（已于 2026-10-05 移除）而建，作为公共换身份
      * 接口保留。移除当前身份在开局时无法获得的全部生效天赋（不设槽位上限，
      * 保留每局唯一记录），再按移除数量（隐藏天赋同样计入）从该身份候选池中逐个补抽，不会抽到猪、幼稚或被移除的天赋；
      * 免费天赋（物资充沛）不补抽。之后若玩家持有物资充沛（从任何原身份保留或补抽到），当前余额会按起始金币再加成一次。仅在有天赋被移除时调用 {@code visitor} 一次，依次传入本人可见的被移除
@@ -479,10 +479,10 @@ public final class SparkTraitsApi {
 
     /**
      * Server-authoritative: whether the player is in a Depression psycho (the trait's own psycho, not plain Wathe psycho),
-     * whose stash holds their real inventory. Built for the former SparkWitch Grand Witch recruitment (removed
+     * whose stash holds their real inventory. Built for the former Grand Witch recruitment (removed
      * 2026-10-05), which refused such targets (owner decision 2026-10-04); kept as a public role-change seam. Null-safe;
      * always false on a remote client.
-     * 服务端权威：玩家是否处于抑郁疯魔（该天赋自身的疯魔，而非普通 Wathe 疯魔），其暂存保存着真实物品。原为 SparkWitch
+     * 服务端权威：玩家是否处于抑郁疯魔（该天赋自身的疯魔，而非普通 Wathe 疯魔），其暂存保存着真实物品。原为
      * 大魔女招募（已于 2026-10-05 移除）而建，该招募会拒绝此类目标（所有者 2026-10-04 决定）；作为公共换身份接口保留。
      * 支持空值；远端客户端始终返回 false。
      */
@@ -491,8 +491,8 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Captures Wraith-preserved trait state as an opaque, ordered NBT payload for SparkWitch.
-     * 将冤魂保留的天赋状态保存为供 SparkWitch 使用的不透明有序 NBT 载荷。
+     * Captures Wraith-preserved trait state as an opaque, ordered NBT payload for the Wraith role.
+     * 将冤魂保留的天赋状态保存为供冤魂职业使用的不透明有序 NBT 载荷。
      */
     public static NbtCompound captureWraithTraitSnapshot(PlayerEntity player) {
         NbtCompound snapshot = new NbtCompound();
@@ -560,8 +560,8 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Delegates Wraith activity to its SparkWitch owner without creating a mandatory dependency.
-     * 在不引入强制依赖的前提下，将冤魂活动状态委托给其 SparkWitch 所有者。
+     * Delegates Wraith activity to the Wraith role's own query ({@code SparkRoleApi.isWraithActive}).
+     * 将冤魂活动状态委托给冤魂职业自身的查询（{@code SparkRoleApi.isWraithActive}）。
      */
     public static boolean isWraithActive(PlayerEntity player) {
         return SparkRoleApi.isWraithActive(player);
@@ -620,9 +620,9 @@ public final class SparkTraitsApi {
 
     /**
      * Weapon cooldown to keep after a non-final kill: 20% of the original, rounded up.
-     * SparkTraits already applies it to item cooldowns; weapons with their own cooldown state use this value.
+     * The trait already applies it to item cooldowns; weapons with their own cooldown state use this value.
      * Never negative and never longer than the original (0 for a non-positive original).
-     * 非最终击杀后武器应保留的冷却：原冷却的 20%，向上取整。物品冷却已由 SparkTraits 处理，
+     * 非最终击杀后武器应保留的冷却：原冷却的 20%，向上取整。物品冷却已由该天赋处理，
      * 自带冷却状态的武器使用此值。不会为负，也不会超过原冷却（原冷却不为正时为 0）。
      */
     public static int getNonFinalKillCooldownTicks(int originalTicks) {
@@ -646,8 +646,8 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Returns whether the entity is an exact fake-death body owned by SparkTraits runtime state.
-     * 返回该实体是否为 SparkTraits 运行时状态精确记录的假死尸体。
+     * Returns whether the entity is an exact fake-death body owned by the traits' runtime state.
+     * 返回该实体是否为天赋运行时状态精确记录的假死尸体。
      */
     public static boolean isFakeDeathBody(Entity entity) {
         return entity instanceof PlayerBodyEntity body
@@ -655,8 +655,8 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Returns whether SparkTraits currently prevents this viewer from highlighting the target by instinct.
-     * 返回 SparkTraits 当前是否阻止该观察者通过本能透视高亮目标。
+     * Returns whether a trait currently prevents this viewer from highlighting the target by instinct.
+     * 返回天赋当前是否阻止该观察者通过本能透视高亮目标。
      */
     public static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
         if (viewer == null || target == null) {
@@ -775,10 +775,11 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Registers a server-thread predicate; while any registered predicate returns true for a player, SparkTraits skips
-     * that player's blue sanity drain but still counts the window down (so the owner can apply its own effect).
+     * Registers a server-thread predicate; while any registered predicate returns true for a player, the blue-poison
+     * tick skips that player's blue sanity drain but still counts the window down (so the owner can apply its own
+     * effect).
      * A throwing predicate counts as not exempt. Registering the same instance twice has no extra effect.
-     * 注册服务端线程谓词：只要任一谓词对某玩家返回 true，SparkTraits 就跳过该玩家的蓝毒扣理智，但窗口照常倒计时
+     * 注册服务端线程谓词：只要任一谓词对某玩家返回 true，蓝毒逻辑就跳过该玩家的蓝毒扣理智，但窗口照常倒计时
      * （便于注册方施加自己的效果）。抛异常的谓词视为不豁免；重复注册同一实例没有额外效果。
      */
     public static void registerBlueSanityDrainExemption(Predicate<ServerPlayerEntity> exemption) {

@@ -26,11 +26,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Two bottom-right lines for the Specter, drawn from the {@code HudRenderCallback} that {@code SpecterClientModule}
  * registers: skill one (mark → shriek, or its cooldown) on the bottom row and the Otherworld state (locked / ready /
- * active / cooldown) above it. Both rows sit in the shared SparkWitch corner slot, which
+ * active / cooldown) above it. Both rows sit in the shared bottom-right corner slot, which
  * {@code SaintHudLayoutRules} reserves two rows high for the Specter so the Karma line stacks above. Reads only the
  * local player's raw synced role and owner-synced Specter state; the server re-validates every press.
  * 幽魂右下角两行提示，由 {@code SpecterClientModule} 注册的 {@code HudRenderCallback} 绘制：下行为技能一（标记 → 尖啸，或其
- * 冷却），上行为里世界状态（未解锁 / 可用 / 进行中 / 冷却）。两行都位于 SparkWitch 共享右下角位置，
+ * 冷却），上行为里世界状态（未解锁 / 可用 / 进行中 / 冷却）。两行都位于共享右下角位置，
  * {@code SaintHudLayoutRules} 为幽魂预留两行高度，使业障行叠放在其上方。只读取本地玩家真实同步的身份与仅同步给本人的
  * 幽魂状态；每次按键都由服务端重新校验。
  */
@@ -61,8 +61,8 @@ public final class SpecterHudRenderer {
     }
 
     /**
-     * Local player is the Specter (raw synced role) on a confirmed SparkWitch server, alive, playing, not swallowed.
-     * 本地玩家在已确认的 SparkWitch 服务器上是幽魂（真实同步身份），存活、参与对局、未被吞下。
+     * Local player is the Specter (raw synced role) on a confirmed SparkDLC server, alive, playing, not swallowed.
+     * 本地玩家在已确认的 SparkDLC 服务器上是幽魂（真实同步身份），存活、参与对局、未被吞下。
      */
     static boolean isActiveSpecter(@Nullable ClientPlayerEntity player) {
         return player != null

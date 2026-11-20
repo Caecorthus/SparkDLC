@@ -145,7 +145,7 @@ public final class EffectiveTraitService {
      *
      * <p>Wathe 的 {@code getAllKillerTeamPlayers()} 只读取角色的原始
      * {@code canUseKiller()} 属性，因此会遗漏“原始好人 + impostor”玩家，
-     * 也会把带有 conscience 的原始杀手继续算入杀手列表。这里按 SparkTraits
+     * 也会把带有 conscience 的原始杀手继续算入杀手列表。这里按天赋
      * 已确定的阵营规则重新构造列表：</p>
      *
      * <ul>
@@ -201,12 +201,12 @@ public final class EffectiveTraitService {
     }
 
     /**
-     * Faction after SparkTraits alignment flips: an Impostor plays for the killers and a Conscience killer for the
+     * Faction after the traits' alignment flips: an Impostor plays for the killers and a Conscience killer for the
      * civilians; a missing or NONE role stays NONE, anything else keeps its role's faction. Deliberately not
-     * SparkFactionAPI's effective-faction resolver, which would also apply other mods' registered resolvers.
+     * the faction API's effective-faction resolver, which would also apply every other registered resolver.
      * Shared by Stands Firm and Sensitive.
-     * SparkTraits 阵营翻转后的阵营：内鬼属于杀手方、善良杀手属于好人方；身份缺失或为 NONE 时仍为 NONE，其余保留身份原始阵营。
-     * 有意不使用 SparkFactionAPI 的有效阵营解析器，以免引入其他模组注册的解析规则。供立场坚定与敏感共用。
+     * 天赋阵营翻转后的阵营：内鬼属于杀手方、善良杀手属于好人方；身份缺失或为 NONE 时仍为 NONE，其余保留身份原始阵营。
+     * 有意不使用阵营 API 的有效阵营解析器，以免引入其他已注册的解析规则。供立场坚定与敏感共用。
      */
     public static Faction effectiveFaction(GameWorldComponent game, ServerPlayerEntity player) {
         Role role = game.getRole(player);

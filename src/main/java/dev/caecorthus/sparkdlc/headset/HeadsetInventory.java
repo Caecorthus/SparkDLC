@@ -7,11 +7,11 @@ import net.minecraft.item.ItemStack;
 /**
  * The one-stack {@link Inventory} behind {@link HeadsetSlot}: a live view of {@link HeadsetSlots} for its player, so
  * the component stays the only storage and every write goes through the facade (which syncs on the server). It is
- * not a {@code PlayerInventory}, so SparkFactionAPI's two-row rules, Wathe's clears and every 0..40 loop ignore it.
+ * not a {@code PlayerInventory}, so the two-row inventory rules, Wathe's clears and every 0..40 loop ignore it.
  * Removing builds new stacks instead of splitting the stored one, so emptying the slot always replaces the stored
  * stack (and syncs) rather than leaving a zero-count stack behind.
  * {@link HeadsetSlot} 背后的单格 {@link Inventory}：对其玩家 {@link HeadsetSlots} 的实时视图，组件仍是唯一存储，每次写入都经由
- * 门面（服务端会同步）。它不是 {@code PlayerInventory}，因此 SparkFactionAPI 两行规则、Wathe 的清空与所有 0..40 循环都忽略它。
+ * 门面（服务端会同步）。它不是 {@code PlayerInventory}，因此两行受限物品栏规则、Wathe 的清空与所有 0..40 循环都忽略它。
  * 取出时新建物品堆而不拆分已存的那一个，因此清空栏位总会替换已存物品堆（并同步），不会留下数量为 0 的物品堆。
  */
 public final class HeadsetInventory implements Inventory {

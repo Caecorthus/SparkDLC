@@ -13,8 +13,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server-side economy hooks for SparkStrength role enhancements.
- * SparkStrength 角色增强的服务端金币逻辑。
+ * Server-side economy hooks for the role kits.
+ * 职业套件的服务端金币逻辑。
  */
 public final class RoleEconomyService {
     private static boolean registered;
@@ -38,8 +38,8 @@ public final class RoleEconomyService {
     }
 
     /**
-     * Pays the role's own +50 even to a SparkTraits Impostor; SparkTraits' Impostor +50 stacks on top (owner rule).
-     * 即使是 SparkTraits 内鬼也发放职业自带的 +50；SparkTraits 的内鬼 +50 另行叠加（所有者规则）。
+     * Pays the role's own +50 even to an Impostor trait holder; the Impostor trait's +50 stacks on top (owner rule).
+     * 即使是内鬼词条持有者也发放职业自带的 +50；内鬼词条的 +50 另行叠加（所有者规则）。
      */
     public static void onTaskComplete(ServerPlayerEntity player) {
         Role role = GameWorldComponent.KEY.get(player.getServerWorld()).getRole(player);

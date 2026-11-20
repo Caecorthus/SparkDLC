@@ -1,10 +1,10 @@
 #version 150
 
-// SparkWitch scope, passes 1-2: one direction of a separable Gaussian, written at half resolution (Java halves both
+// Scope, passes 1-2: one direction of a separable Gaussian, written at half resolution (Java halves both
 // blur targets). Pass 1 reads the full-size main target with linear filtering, so each tap also averages a 2x2 block
 // (the downsample). Steps are in OUTPUT texels and the radius scales with the target height, so the blur covers the
 // same share of the screen at any resolution.
-// SparkWitch 开镜第 1-2 步：可分离高斯模糊的一个方向，以半分辨率写出（Java 把两个模糊目标减半）。第 1 步以线性过滤读取
+// 开镜第 1-2 步：可分离高斯模糊的一个方向，以半分辨率写出（Java 把两个模糊目标减半）。第 1 步以线性过滤读取
 // 全尺寸 main，因此每个采样同时平均 2x2 像素块（即降采样）。步长以输出纹素计，半径随目标高度缩放，因此任意分辨率下模糊
 // 覆盖屏幕的比例相同。
 

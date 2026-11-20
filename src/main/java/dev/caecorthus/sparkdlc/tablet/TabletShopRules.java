@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Pure grant, police-network and highlight rules for the SparkStrength tablet item. The tablet is never sold: it is
+ * Pure grant, police-network and highlight rules for the tablet item. The tablet is never sold: it is
  * granted free to every tablet-eligible player (the class name is historical).
- * SparkStrength 平板物品的纯发放、义警网络与高亮规则。平板从不出售，而是免费发放给每名符合条件的玩家（类名沿用旧称）。
+ * 平板物品的纯发放、义警网络与高亮规则。平板从不出售，而是免费发放给每名符合条件的玩家（类名沿用旧称）。
  */
 public final class TabletShopRules {
     public static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
@@ -37,9 +37,9 @@ public final class TabletShopRules {
     }
 
     /**
-     * Police-network role ({@code TabletChannelRules.Facts#policeRole}): SparkFactionAPI {@code PoliceRoles} minus
+     * Police-network role ({@code TabletChannelRules.Facts#policeRole}): the faction core's {@code PoliceRoles} minus
      * Veteran, with Corrupt Cop registered by {@code TabletShopService#register}.
-     * 义警网络身份（Facts#policeRole）：SparkFactionAPI PoliceRoles 去掉老兵；黑警由 TabletShopService#register 注册。
+     * 义警网络身份（Facts#policeRole）：阵营核心的 PoliceRoles 去掉老兵；黑警由 TabletShopService#register 注册。
      */
     public static boolean isPoliceNetworkRole(@Nullable Role role) {
         if (role == null || VeteranRules.isVeteran(role)) {
@@ -68,11 +68,11 @@ public final class TabletShopRules {
      * Tablet eligibility: a real round role that belongs to at least one tablet network
      * ({@code TabletChannelResolver.identityChannels} non-empty, which since the public channel is every round role),
      * or a real role whose tablet feature needs no channel:
-     * the Attendant (door monitor) or the Bomber (drone directory; a SparkTraits Conscience Bomber has no channel).
+     * the Attendant (door monitor) or the Bomber (drone directory; a Bomber with the Conscience trait has no channel).
      * Disguises never count: a Coroner's Attendant disguise is lent a temporary tablet instead, and a Coroner's Bomber
      * disguise gets no drones at all.
      * 平板资格：拥有有效局内身份，且属于至少一个平板网络（identityChannels 非空；有了公共频道后即所有局内身份），或真实身份的平板功能无需频道：
-     * 乘务员（房门监控）或炸弹客（无人机目录；SparkTraits 善良炸弹客没有频道）。伪装不计入：验尸官的乘务员伪装改为借出临时平板，
+     * 乘务员（房门监控）或炸弹客（无人机目录；带善良天赋的炸弹客没有频道）。伪装不计入：验尸官的乘务员伪装改为借出临时平板，
      * 验尸官的炸弹客伪装没有无人机。
      *
      * @param hasRole            {@code TabletChannelRules.Facts#hasRole} / 拥有有效局内身份

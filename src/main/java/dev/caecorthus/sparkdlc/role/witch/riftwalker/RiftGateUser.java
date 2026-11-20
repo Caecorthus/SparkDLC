@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.role.witch.riftwalker;
 
 /**
  * Pure classification of who may use a Rift Gate and on which terms (D5, D5b, D14, C1). Built from the RAW role and
- * the SparkFactionAPI effective faction by {@link RiftGateUsers#classify}; never from the Black Raven acting role.
+ * the effective faction by {@link RiftGateUsers#classify}; never from the Black Raven acting role.
  * 纯分类：谁可以使用裂隙门、按什么条件（D5、D5b、D14、C1）。由 {@link RiftGateUsers#classify} 依据原始职业与
- * SparkFactionAPI 有效阵营构建，从不使用黑羽鸦伪装职业。
+ * 有效阵营构建，从不使用黑羽鸦伪装职业。
  */
 public enum RiftGateUser {
     RIFTWALKER(RiftwalkerRules.STAY_RIFTWALKER, RiftwalkerRules.REENTRY_COOLDOWN_RIFTWALKER, 0),

@@ -74,8 +74,8 @@ public final class SpiritPossessionService {
         registered = true;
         ServerTickEvents.END_WORLD_TICK.register(SpiritPossessionService::tick);
         VIEWS.registerCleanup();
-        // Optional SFA seam: forced-cooldown features may floor/extend the possession cooldown (nominal 45 s).
-        // 可选 SFA 接缝：强制冷却功能可为附身冷却设下限或延长（标称 45 秒）。
+        // Forced-cooldown seam: forced-cooldown features may floor/extend the possession cooldown (nominal 45 s).
+        // 强制冷却接缝：强制冷却功能可为附身冷却设下限或延长（标称 45 秒）。
         ForcedCooldowns.registerRoleSkillStore(new FunctionRoleSkillCooldownStore(
                 SpiritPossessionRules.COOLDOWN_STORE_ID,
                 SpiritPossessionService::isSpiritualist,

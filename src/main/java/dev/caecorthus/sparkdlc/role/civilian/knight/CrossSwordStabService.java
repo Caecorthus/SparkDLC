@@ -126,9 +126,9 @@ public final class CrossSwordStabService {
         }
         // Same veto as the Swordfish stab, asked with the death reason it kills with. Rift occupants are alive
         // spectators, so LIVING_SURVIVOR above refuses them as sender (since 2026-11-13 the payload, like the
-        // Swordfish's, is also on the Rift deny-list) and the SFA Rift policy refuses them as target.
+        // Swordfish's, is also on the Rift deny-list) and the Rift player-affect policy refuses them as target.
         // 与剑鱼刺击相同的否决，以实际击杀死因询问。裂隙门内玩家是活着的旁观者，上方 LIVING_SURVIVOR 已拒绝其作为发送者
-        // （自 2026-11-13 起该数据包与剑鱼的一样也在裂隙拦截名单中），SFA 的裂隙策略拒绝其作为目标。
+        // （自 2026-11-13 起该数据包与剑鱼的一样也在裂隙拦截名单中），裂隙的玩家影响策略拒绝其作为目标。
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         if (!SparkFactionApi.canAffectPlayer(player, victim, GameConstants.DeathReasons.KNIFE, game)
                 || SparkTraitsApi.isLastEscapeActive(victim)) {

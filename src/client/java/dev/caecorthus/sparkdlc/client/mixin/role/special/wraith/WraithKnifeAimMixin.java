@@ -9,9 +9,9 @@ import net.minecraft.util.hit.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
 
 /**
- * Knife stabs and the knife indicator pass through active Wraiths; NoellesRoles Scavenger and SparkStrength
- * Veteran instant knives reuse this selector too.
- * 刀刺与刀准星穿过冤魂；NoellesRoles 清道夫与 SparkStrength 老兵的瞬刺也复用此选靶。
+ * Knife stabs and the knife indicator pass through active Wraiths; the NoellesRoles Scavenger's and the
+ * Veteran's instant knives reuse this selector too.
+ * 刀刺与刀准星穿过冤魂；NoellesRoles 清道夫与老兵的瞬刺也复用此选靶。
  */
 @Mixin(value = KnifeItem.class, remap = false)
 public abstract class WraithKnifeAimMixin {

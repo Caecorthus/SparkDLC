@@ -87,7 +87,7 @@ public final class BewitchedPromotionService {
         locks.clearForcedAccompliceRole(uuid);
         BewitchedPlayerComponent.KEY.get(player).clear();
         try {
-            // Skills, mana, starting money and role kits (SparkWitch and other mods). / 技能、魔力、开局金币与职业装备。
+            // Skills, mana, starting money and role kits (this mod and other mods). / 技能、魔力、开局金币与职业装备。
             RoleAssigned.EVENT.invoker().assignRole(player, role);
         } catch (RuntimeException exception) {
             // The role is committed: log the listener failure, never undo. / 身份已提交：记录监听器故障，绝不撤销。

@@ -29,19 +29,19 @@ import java.util.UUID;
 /**
  * A weapon whose hit starts a Depression fake death keeps at most 20% of its original cooldown.
  * Only item cooldowns count; skill cooldowns are out of scope. Weapons with their own cooldown state
- * (SparkWitch's ceremonial sword) apply the same rule through SparkTraitsApi.
+ * (the ceremonial sword) apply the same rule through SparkTraitsApi.
  * 击中后触发抑郁假死的武器最多只保留原本冷却的 20%。只处理物品冷却，技能冷却不算；
- * 自带冷却状态的武器（SparkWitch 仪礼剑）通过 SparkTraitsApi 套用同一规则。
+ * 自带冷却状态的武器（仪礼剑）通过 SparkTraitsApi 套用同一规则。
  */
 public final class DepressionFakeKillCooldowns {
     public static final int COOLDOWN_PERCENT = 20;
     private static final Identifier FLUSH_PHASE = SparkDLC.id("depression_fake_kill_cooldowns");
     /**
      * Weapons whose cooldown started before a tick-time kill (thrown, marked, pushed or injected earlier), by death reason.
-     * Wathe grenades, Niko repeat shots and SparkWitch fire-poker falls name their weapon through {@link #withWeaponHint};
+     * Wathe grenades, Niko repeat shots and fire-poker falls name their weapon through {@link #withWeaponHint};
      * a fall alone names nothing, since Wathe credits any last attacker.
      * tick 中发生的击杀所对应、冷却更早就已开始的武器（投掷、标记、推击或注射），按死亡原因查找；
-     * Wathe 手雷、Niko 连射和 SparkWitch 烧火棍坠车通过 {@link #withWeaponHint} 直接指明武器；
+     * Wathe 手雷、Niko 连射和烧火棍坠车通过 {@link #withWeaponHint} 直接指明武器；
      * 单纯坠车不指明武器，因为 Wathe 会把任意最后攻击者记为凶手。
      */
     private static final Map<Identifier, List<Identifier>> DELAYED_WEAPONS = Map.of(
@@ -79,8 +79,8 @@ public final class DepressionFakeKillCooldowns {
         }
         registered = true;
         ServerTickEvents.START_SERVER_TICK.register(server -> phase++);
-        // After every default-phase listener, so END-tick kills (e.g. SparkWitch dashes) are applied in the same tick.
-        // 排在所有默认阶段监听之后，使 END tick 中的击杀（如 SparkWitch 冲刺）在同一 tick 内生效。
+        // After every default-phase listener, so END-tick kills (e.g. role dashes) are applied in the same tick.
+        // 排在所有默认阶段监听之后，使 END tick 中的击杀（如职业冲刺）在同一 tick 内生效。
         ServerTickEvents.END_SERVER_TICK.addPhaseOrdering(Event.DEFAULT_PHASE, FLUSH_PHASE);
         ServerTickEvents.END_SERVER_TICK.register(FLUSH_PHASE, server -> {
             flushAll(server);
@@ -305,8 +305,9 @@ public final class DepressionFakeKillCooldowns {
     private static Set<Item> delayedWeapons(FakeKill kill) {
         Set<Item> weapons = new LinkedHashSet<>();
         for (Identifier itemId : DELAYED_WEAPONS.getOrDefault(kill.deathReason(), List.of())) {
-            // Optional mods may be absent; unknown ids are simply skipped.
-            // 可选模组可能未安装；未注册的物品直接跳过。
+            // Looked up by id; an unregistered id would be skipped, which is unreachable since the fusion (every id
+            // here is one of this mod's own items).
+            // 按 id 查找；未注册的物品会被跳过，融合后不可达（此处的 id 都是本模组自己的物品）。
             Registries.ITEM.getOrEmpty(itemId).ifPresent(weapons::add);
         }
         if (kill.poisonedByNeedle()) {

@@ -51,23 +51,23 @@ public final class RiftGateConsoleClientRules {
 
     /** What the tablet intercept does with one use. / 拦截器对一次使用的处理方式。 */
     public enum InterceptAction {
-        /** Not ours: vanilla (and SparkStrength) handle the use. / 不归我们处理：交给原版（及 SparkStrength）。 */
+        /** Not ours: vanilla (and the tablet item) handle the use. / 不归我们处理：交给原版（及平板物品）。 */
         PASS,
         /** Ask the server to open the console and CONSUME. / 请求服务端打开控制台并返回 CONSUME。 */
         OPEN,
         /**
          * A console use inside the throttle window or while an open request is outstanding: CONSUME without sending, so
-         * it never falls through to SparkStrength's own tablet.
-         * 节流窗口内或已有未应答打开请求时的控制台使用：返回 CONSUME 且不发包，避免落到 SparkStrength 自己的平板。
+         * it never falls through to the tablet's own screen.
+         * 节流窗口内或已有未应答打开请求时的控制台使用：返回 CONSUME 且不发包，避免落到平板自己的界面。
          */
         SWALLOW
     }
 
     /**
-     * The intercept gate (copy of the Seeker console's shape, Riftwalker-owned): a SparkWitch server that accepts the
+     * The intercept gate (copy of the Seeker console's shape, Riftwalker-owned): a SparkDLC server that accepts the
      * console request, a live Riftwalker by RAW role, not inside a gate, no screen open, the tablet used from the
      * hotbar (main hand), and no armed bypass. Sneaking is deliberately not an input.
-     * 拦截门槛（仿照搜寻者控制台的形状，隙行者自有）：可接收控制台请求的 SparkWitch 服务器、原始职业为隙行者且存活、
+     * 拦截门槛（仿照搜寻者控制台的形状，隙行者自有）：可接收控制台请求的 SparkDLC 服务器、原始职业为隙行者且存活、
      * 不在门内、没有打开的界面、从快捷栏（主手）使用平板，且没有待用的旁路。刻意不把潜行作为输入。
      */
     public static InterceptAction interceptAction(boolean serverReady, boolean liveRiftwalker, boolean insideGate,

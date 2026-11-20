@@ -20,11 +20,11 @@ import java.util.Optional;
  * NoellesRoles throwing axe versus Bomber drones (server). Its entity collision is custom (players only, piercing),
  * so a drone is resolved on this tick's segment before the pierce loop and broken (attributed to the thrower); players
  * before the drone are still hit, players behind it are shielded, and the axe stops at the drone. With no drone on the
- * segment the cut stays infinite and NoellesRoles behaves exactly as before. Coexists with SparkWitch's Seeker hooks on
+ * segment the cut stays infinite and NoellesRoles behaves exactly as before. Coexists with the Seeker's hooks on
  * the same calls (each wrapper only narrows the hit set).
  * NoellesRoles 飞斧与炸弹客无人机（服务端）。其实体碰撞为自定义（只认玩家、可贯穿），因此在贯穿循环前判定本刻路径上的无人机并将其击毁
  * （归属投掷者）；无人机之前的玩家照常命中，之后的玩家被挡下，飞斧停在无人机处。路径上没有无人机时截断距离保持无穷大，
- * NoellesRoles 行为完全不变。与 SparkWitch 搜寻者在相同调用上的钩子共存（每个包装只会缩小命中集合）。
+ * NoellesRoles 行为完全不变。与搜寻者在相同调用上的钩子共存（每个包装只会缩小命中集合）。
  *
  * <p>Partygoers on the same segment before the drone cut (and before the first block) die too
  * ({@code PartygoerWeaponHits#onThrowingAxeSweep}, NoellesRoles' throwing-axe death reason); the axe pierces them like

@@ -202,8 +202,8 @@ public final class TimekeeperWatchService {
         );
         for (Item item : coolingItems) {
             // Serves the user and every target. Natural cooldowns (including owner timers released by remove hooks)
-            // clear; penalties forced through SparkFactionAPI keep running.
-            // 同时用于使用者自己与所有目标。清除自然冷却（含 remove 钩子释放的所属模组计时）；经 SparkFactionAPI
+            // clear; penalties forced through {@code ForcedCooldowns} keep running.
+            // 同时用于使用者自己与所有目标。清除自然冷却（含 remove 钩子释放的所属功能计时）；经 {@code ForcedCooldowns}
             // 强制施加的惩罚继续生效。
             ForcedCooldowns.clearItemKeepingForced(player, item);
         }
@@ -216,7 +216,7 @@ public final class TimekeeperWatchService {
         AssassinPlayerComponent.KEY.get(player).setCooldown(0);
         TaotiePlayerComponent.KEY.get(player).setSwallowCooldown(0);
 
-        // 以下是 SparkStrength 自己增加的专属技能冷却，只清倒计时，不清追踪/标记等业务状态。
+        // 以下是职业套件自己增加的专属技能冷却，只清倒计时，不清追踪/标记等业务状态。
         NoisemakerGlowUserComponent.KEY.get(player).setCooldownTicks(0);
         PhantomBackpackUserComponent.KEY.get(player).setCooldownTicks(0);
         ProfessorSerumUserComponent.KEY.get(player).setCooldownTicks(0);

@@ -8,13 +8,12 @@ import java.util.List;
 /**
  * Stable contract: the pure Insider shop specification (D9, C5). Wathe builds the list on both sides and buys by index
  * with no version handshake, so the shape is a constant that depends only on the exact Insider role, never on running
- * state. Order: revolver (150, stock 1), then crowbar (50, stock 1). The SparkStrength tablet is not sold: SparkStrength
- * issues it free at round start to every police-network role (the Insider included), so this shop never lists it. No
- * {@code wathe:grenade}, so SparkStrength never appends its M67.
- * 稳定契约：纯内应商店规格（D9、C5）。Wathe 在两端各自构建列表并按下标购买，没有版本握手，因此列表形状是只取决于
- * 精确内应职业的常量，绝不取决于运行状态。顺序：左轮（150，库存 1），然后是撬棍（50，库存 1）。不出售 SparkStrength
- * 平板：SparkStrength 在开局免费发放给所有警察网络职业（含内应），因此本商店从不列出平板。不出售 {@code wathe:grenade}，
- * 因此 SparkStrength 不会追加 M67。
+ * state. Order: revolver (150, stock 1), then crowbar (50, stock 1). The tablet is not sold: it is issued free at round
+ * start to every police-network role (the Insider included), so this shop never lists it. No {@code wathe:grenade}, so
+ * the M67 is never appended.
+ * 稳定契约：纯内应商店规格（D9、C5）。Wathe 在两端各自构建列表并按下标购买，没有版本握手，因此列表形状是只取决于精确内
+ * 应职业的常量，绝不取决于运行状态。顺序：左轮（150，库存 1），然后是撬棍（50，库存 1）。不出售平板：平板在开局免费发放
+ * 给所有警察网络职业（含内应），因此本商店从不列出平板。不出售 {@code wathe:grenade}，因此不会追加 M67。
  */
 public final class InsiderShopRules {
     /** Every Insider entry is limited to one per round (D9 for the revolver). / 每个内应条目每局限购一件（左轮见 D9）。 */

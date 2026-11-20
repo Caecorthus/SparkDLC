@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Pure per-attack de-duplication: one reaction per (Fiend, attacker, hit kind) per server tick, so SparkTraits Heavy
+ * Pure per-attack de-duplication: one reaction per (Fiend, attacker, hit kind) per server tick, so the trait Heavy
  * Artillery's second same-tick {@code killPlayer} does not pay twice. Later ticks are new attacks (D6: no limit).
- * 纯粹的单次攻击去重：每个服务端刻内同一（魔人、攻击者、攻击类型）只反应一次，使 SparkTraits 重炮在同一刻的第二次
+ * 纯粹的单次攻击去重：每个服务端刻内同一（魔人、攻击者、攻击类型）只反应一次，使重炮词条在同一刻的第二次
  * {@code killPlayer} 不会重复发放。之后的刻视为新的攻击（D6：不设上限）。
  */
 final class FiendHitLedger {

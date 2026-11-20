@@ -23,7 +23,7 @@ public final class MagicianAbility {
     }
     public static void handle(ServerPlayerEntity player, int action) {
         GameWorldComponent game=GameWorldComponent.KEY.get(player.getWorld());
-        // Wathe's isRole uses Role object identity.  FactionAPI/NoellesRoles can
+        // Wathe's isRole uses Role object identity.  The faction core/NoellesRoles can
         // expose another Role instance with the same id after role assignment,
         // so the active ability must validate the stable identifier instead.
         var role = game.getRole(player);
@@ -37,11 +37,11 @@ public final class MagicianAbility {
             return;
         }
         // Same server-side skill locks as the Fiend Dash: the payload guards drop the packet, and the inventory
-        // buttons send START_/STOP_ actions directly, so the handler re-checks the stun, a SparkTraits silence or Last
+        // buttons send START_/STOP_ actions directly, so the handler re-checks the stun, a trait silence or Last
         // Escape, and Fear itself. / 与魔人疾驰相同的服务端技能锁：数据包守卫会丢弃该包，而背包按钮直接发送开始/结束动作，
-        // 因此处理器自行再次检查眩晕、SparkTraits 沉默或绝境逃生，以及恐惧。
-        // The NoellesRoles silence is checked directly too, so it holds without SparkTraits (as for the Time Stealer).
-        // 也直接检查 NoellesRoles 沉默，使其在没有 SparkTraits 时同样生效（与窃时者一致）。
+        // 因此处理器自行再次检查眩晕、词条沉默或绝境逃生，以及恐惧。
+        // The NoellesRoles silence is checked directly too (as for the Time Stealer): the trait block covers only a
+        // silenced effective killer. / 也直接检查 NoellesRoles 沉默（与窃时者一致）：词条封锁只覆盖被沉默的有效杀手。
         if (ControlExpertStun.isStunned(player)
                 || NoellesSilenceBridge.isSilenced(player)
                 || SparkTraitsApi.isRoleSkillBlocked(player)

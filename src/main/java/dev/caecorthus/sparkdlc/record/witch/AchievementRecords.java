@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Stable cross-mod contract: the SparkWitch-only match-record events that SparkAssist reads (through SparkFactionAPI's
+ * The match-record events of the mod's own roles that the achievement feature reads (through the faction core's
  * round-end broadcast) to award local hidden achievements (achievement record contract W2-W7, 2026-10-09; W8-W15 and
  * W17, 2026-10-14). Event types and field names are frozen; a reader matches them by string. They have no replay
  * formatter on purpose, so Wathe's replay skips them. Every writer runs on the logical server after its feature's own
@@ -22,7 +22,7 @@ import java.util.UUID;
  * shot distance and scope) adds fields to the existing {@code sparkdlc:usec_rifle_fire} item use instead; see
  * {@code UsecReplay}. W16 (Bone Setting absorbed a trap fracture) likewise adds a field to the existing
  * {@code sparkdlc:hunter_trap_triggered} global event; see {@code HunterTrapEntity}.
- * 稳定的跨模组契约：SparkAssist 通过 SparkFactionAPI 回合结束广播读取这些 SparkWitch 专属对局记录事件，用于颁发本地隐藏
+ * 成就功能通过阵营核心的回合结束广播读取这些本模组职业专属的对局记录事件，用于颁发本地隐藏
  * 成就（成就记录契约 W2-W7，2026-10-09；W8-W15 与 W17，2026-10-14）。事件类型与字段名冻结，读取方按字符串匹配。它们刻意
  * 没有回放格式化器，因此 Wathe 回放会跳过它们。每个写入方都在逻辑服务端、在其功能自身的成功检查之后执行；对局未激活时不记录；
  * 记录失败绝不影响玩法。W1（USEC 射击距离与开镜）则在既有 {@code sparkdlc:usec_rifle_fire} 物品使用记录上追加字段，见

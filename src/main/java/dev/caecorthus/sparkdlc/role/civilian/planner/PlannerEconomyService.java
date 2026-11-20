@@ -25,27 +25,27 @@ import org.jetbrains.annotations.Nullable;
  * <ul>
  *   <li>{@code TaskComplete} (one listener, so the order is fixed): first the planner's own
  *   +{@link PlannerRules#OWN_TASK_COINS} for every task (owner 2026-11-16, Q1), only for a living planner in an ACTIVE
- *   round and a confirmed non-Impostor (SparkTraits pays an Impostor's task income itself; owner rule from #189: no
- *   double pay); then, when the completed type is a live recommendation, the target's reward:
+ *   round and a confirmed non-Impostor (the Impostor trait pays its holder's task income itself; owner rule from #189:
+ *   no double pay); then, when the completed type is a live recommendation, the target's reward:
  *   {@link PlannerRules#rewardCoins} by the target's Wathe role faction and +{@link PlannerRules#REWARD_MOOD} sanity
  *   (Wathe clamps it; a FAKE-mood role stays at 1), and the marker is cleared. The task itself is an ordinary Wathe
  *   task, so Wathe's own +0.5 and every other listener already ran or still run normally. Nothing here touches the
  *   task map: Wathe calls this listener while iterating it.</li>
  *   <li>Shop: the task slip ({@link PlannerRules#SLIP_PRICE}, unlimited, re-buyable), a real item that any holder can
- *   use, passed through the optional SparkTraits Charisma discount; {@code CanSeeMoney} ALLOW for a living planner and
+ *   use, passed through the Charisma trait's discount; {@code CanSeeMoney} ALLOW for a living planner and
  *   DENY otherwise (Tono Hanna / Saint precedent).</li>
  * </ul>
- * All coins go through {@code addToBalance}, so income observers (SparkFactionAPI's income record, SparkTraits
- * Snowball, SparkStrength's purse) see ordinary income.
+ * All coins go through {@code addToBalance}, so income observers (the income record, the Snowball trait, the
+ * killer team purse) see ordinary income.
  * 规划大师的金币、推荐奖励与商店，全部由服务端决定：
  * {@code TaskComplete}（单个监听器，顺序固定）：先发规划大师自己每个任务 +{@link PlannerRules#OWN_TASK_COINS}（所有者
- * 2026-11-16，Q1），只发给 ACTIVE 回合中存活且确认不是内鬼的规划大师（内鬼的任务收入由 SparkTraits 自行支付；#189 的所有者
+ * 2026-11-16，Q1），只发给 ACTIVE 回合中存活且确认不是内鬼的规划大师（内鬼的任务收入由内鬼词条自行支付；#189 的所有者
  * 规则：不重复发放）；再在完成的类型是有效推荐时发放目标奖励：按目标 Wathe 职业阵营的 {@link PlannerRules#rewardCoins} 与
  * +{@link PlannerRules#REWARD_MOOD} 理智（由 Wathe 截断；伪装理智职业保持 1），并清除标记。该任务本身就是普通 Wathe 任务，因此
  * Wathe 自己的 +0.5 与其他监听器照常执行。此处从不改动任务表：Wathe 在遍历任务表时调用本监听器。
- * 商店：任务单（{@link PlannerRules#SLIP_PRICE}，不限购，可重复购买），谁拿到都能用的真实物品，经过可选的 SparkTraits 魅力折扣；
+ * 商店：任务单（{@link PlannerRules#SLIP_PRICE}，不限购，可重复购买），谁拿到都能用的真实物品，经过魅力词条的折扣；
  * {@code CanSeeMoney} 对存活的规划大师 ALLOW，否则 DENY（沿用远野汉娜与圣徒的先例）。
- * 所有金币都经 {@code addToBalance}，使收入观察者（SparkFactionAPI 收入记录、SparkTraits 滚雪球、SparkStrength 钱包）视其为普通收入。
+ * 所有金币都经 {@code addToBalance}，使收入观察者（收入记录、滚雪球词条、杀手团队资金）视其为普通收入。
  */
 final class PlannerEconomyService {
     private PlannerEconomyService() {

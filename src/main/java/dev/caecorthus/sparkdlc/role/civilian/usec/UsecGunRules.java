@@ -16,13 +16,13 @@ import java.util.function.BooleanSupplier;
  * derringer, Hunter shotgun, serial pistols, Demon Hunter pistol, ...). The AXMC is outside that tag, so the rifle and
  * its parts are never affected. The role is read live and exactly, so a former USEC whose role changed is free again,
  * and the death revolver a dead USEC drops ({@code dropItem}, not an insertion) still lands for others. Server
- * authority only, like Wathe's and SparkTraits' Impostor pickup guards; a creative player is exempt, as in both.
+ * authority only, like Wathe's and the Impostor trait's pickup guards; a creative player is exempt, as in both.
  * Asked by three {@code mixin/usec/} seams: the ground pickup ({@code ItemEntity#onPlayerCollision} HEAD), inventory
  * insertion ({@code PlayerInventory#insertStack} HEAD, so offers and gives fall back to a drop), and container slot
  * clicks ({@code ScreenHandlerUsecItemMixin}), which move stacks without {@code insertStack}.
  * 稳定契约（所有者 O2，2026-10-07）：USEC 永远不能拾取或获得任何 {@code wathe:guns} 物品（左轮、德林杰、猎人霰弹枪、
  * 疯魔双枪、恶魔猎手手枪等）。AXMC 不在该标签内，因此步枪及其零件从不受影响。职业按实时精确判定，所以职业已改变的前 USEC
- * 恢复自由；已死亡 USEC 掉落给他人的死亡左轮（{@code dropItem}，不是放入背包）照常落地。与 Wathe 及 SparkTraits 内鬼的拾取
+ * 恢复自由；已死亡 USEC 掉落给他人的死亡左轮（{@code dropItem}，不是放入背包）照常落地。与 Wathe 及内鬼词条的拾取
  * 拦截一样只由服务端裁定；创造模式玩家豁免，两者亦然。由三个 {@code mixin/usec/} 接缝调用：地面拾取
  * （{@code ItemEntity#onPlayerCollision} HEAD）、放入背包（{@code PlayerInventory#insertStack} HEAD，因此给予与 offer
  * 会退回为丢出）以及容器栏位点击（{@code ScreenHandlerUsecItemMixin}，它移动物品时不经过 {@code insertStack}）。

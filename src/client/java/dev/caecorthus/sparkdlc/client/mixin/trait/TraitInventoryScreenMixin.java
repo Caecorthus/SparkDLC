@@ -35,9 +35,9 @@ public abstract class TraitInventoryScreenMixin extends LimitedHandledScreen<Pla
         try {
             var entries = OwnerInventoryClientAdapter.collect(player);
             var card = OwnerInventoryClientAdapter.card();
-            // SparkWitch's fallback card anchors to this slot, so fill the slot to sit flush beside it. SparkWitch is
-            // fused in SparkDLC, so it is always present.
-            // SparkWitch 的回退卡锚定在本列左侧，因此原生卡占满整列以紧贴排列。SparkWitch 已融合进 SparkDLC，始终存在。
+            // The role-skill fallback card anchors to this slot, so fill the slot to sit flush beside it. That card is
+            // part of this mod, so fillSlot is always true.
+            // 职业技能回退卡锚定在本列左侧，因此原生卡占满整列以紧贴排列。该卡属于本模组，fillSlot 恒为 true。
             var snapshot = card.prepareNative(this, textRenderer,
                     List.of(new InventoryInfoCard.Section(Text.translatable("gui.sparkdlc.traits"), entries)),
                     true);

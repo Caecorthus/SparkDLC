@@ -27,9 +27,9 @@ import java.util.List;
 
 /**
  * The lights sabotage, built on Wathe's own blackout so every existing reader of {@code isBlackoutActive()}, every
- * {@code BlackoutEffect.BEFORE} listener and SparkWitch's Saboteur lamp leases keep working.
+ * {@code BlackoutEffect.BEFORE} listener and the Saboteur's lamp leases keep working.
  * 灯光破坏，建立在 Wathe 自己的停电之上，因此所有读取 isBlackoutActive() 的代码、BlackoutEffect.BEFORE 监听器以及
- * SparkWitch 破坏者的灯具租约都照常工作。
+ * 破坏者的灯具租约都照常工作。
  *
  * <p>Repair mode stretches every lamp and the world timer to {@link SabotageRules#OUTAGE_CAP_TICKS}; a breaker repair
  * gives each lamp a short staggered time (nearest first) and zeroes the world timer, so Wathe ends the effects on its

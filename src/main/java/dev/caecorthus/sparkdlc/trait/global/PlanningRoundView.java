@@ -7,14 +7,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.function.Supplier;
 
 /**
- * Lets round-start trait planning ask money questions about the round it is planning. SparkTraits plans traits inside
+ * Lets round-start trait planning ask money questions about the round it is planning. Traits are planned inside
  * {@code MurderGameMode.assignRolesAndGetKillerCount}, while Wathe's status is still STARTING. Listeners that answer
- * for a running round only (SparkWitch's Hanna, Noa, Planner, Saint, Judge and others answer DENY until then) would
+ * for a running round only (Hanna, Noa, Planner, Saint, Judge and others answer DENY until then) would
  * otherwise keep money traits from ever rolling for their roles. While such a check runs for a player who already holds
  * a role and is not dead, the status reads ACTIVE. The field is written directly, so nothing is synced, and the old
  * status is restored before returning. Every other caller, and every other moment, sees the real status.
- * 让开局词条规划按即将开始的对局回答金币问题。SparkTraits 在 {@code MurderGameMode.assignRolesAndGetKillerCount} 内规划词条，
- * 此时 Wathe 的状态仍是 STARTING。只对进行中对局作答的监听器（SparkWitch 的汉娜、诺亚、策划、圣徒、审判官等在此之前返回 DENY）
+ * 让开局词条规划按即将开始的对局回答金币问题。词条在 {@code MurderGameMode.assignRolesAndGetKillerCount} 内规划，
+ * 此时 Wathe 的状态仍是 STARTING。只对进行中对局作答的监听器（汉娜、诺亚、策划、圣徒、审判官等在此之前返回 DENY）
  * 会让这些身份永远抽不到金币词条。当此类判定针对已有身份且未死亡的玩家执行时，状态读作 ACTIVE：直接写字段，因此不会同步，
  * 返回前恢复原状态。其他调用方和其他时刻看到的都是真实状态。
  */

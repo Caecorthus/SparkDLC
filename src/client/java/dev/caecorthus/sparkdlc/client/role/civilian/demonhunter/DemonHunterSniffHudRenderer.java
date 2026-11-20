@@ -17,7 +17,7 @@ import org.agmas.noellesroles.client.NoellesrolesClient;
 /**
  * 在右下角绘制猎魔人嗅探技能状态。
  *
- * <p>坐标沿用 SparkStrength 侦探第二技能的右下角行位：放在 Wathe/NoellesRoles
+ * <p>坐标沿用侦探第二技能的右下角行位：放在 Wathe/NoellesRoles
  * 原能力提示上方一行。猎魔人和侦探不会同时是同一个角色，所以不会互相覆盖。</p>
  */
 public final class DemonHunterSniffHudRenderer {

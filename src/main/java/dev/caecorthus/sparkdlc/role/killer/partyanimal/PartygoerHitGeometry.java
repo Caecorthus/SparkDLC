@@ -181,10 +181,10 @@ public final class PartygoerHitGeometry {
 
     /**
      * Client target wrapper (apply after the drone wrapper): keep {@code original} unless a Partygoer lies strictly
-     * nearer on the shooter's look ray. The ray length is the original pick's distance, so extended ranges (SparkTraits
-     * Marksman) are kept; {@code range} is only the fallback. Uses Wathe's own aim ({@code getRotationVec(0)}).
-     * 客户端目标包装（在无人机包装之后套用）：除非射手视线上有严格更近的派对客，否则保留原结果。射线长度取原选择的距离（保留 SparkTraits
-     * 神射手等延长射程），range 仅作兜底。朝向与 Wathe 相同（getRotationVec(0)）。
+     * nearer on the shooter's look ray. The ray length is the original pick's distance, so extended ranges (the
+     * Marksman trait) are kept; {@code range} is only the fallback. Uses Wathe's own aim ({@code getRotationVec(0)}).
+     * 客户端目标包装（在无人机包装之后套用）：除非射手视线上有严格更近的派对客，否则保留原结果。射线长度取原选择的距离（保留
+     * 神射手词条等延长射程），range 仅作兜底。朝向与 Wathe 相同（getRotationVec(0)）。
      */
     public static HitResult preferNearer(@Nullable Entity shooter, @Nullable HitResult original, double range) {
         if (shooter == null || original == null) {

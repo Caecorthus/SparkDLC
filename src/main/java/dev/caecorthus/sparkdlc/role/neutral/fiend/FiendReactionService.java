@@ -17,11 +17,11 @@ import org.jetbrains.annotations.Nullable;
  * Dormant Fiend hit reactions (gold, notes, Speed III, cooldown aura) and the bomb-pass payout. Server only. Reactions
  * run only for a kill the immunity actually cancelled (C3), once per attack: same-tick repeats are collapsed by
  * {@link FiendHitLedger}, and a gun kill while every gun the attacker holds (main and off hand) is already cooling down
- * is a synthetic follow-up of a shot that already paid (SparkTraits Niko burst repeats fire 2 and 4 ticks later without
+ * is a synthetic follow-up of a shot that already paid (the Niko trait's burst repeats fire 2 and 4 ticks later without
  * firing a gun again); any held gun still ready means this is a real shot.
  * 休眠魔人的受击反应（金币、便条、速度 III、冷却光环）与炸弹转手奖励。仅服务端。只对免疫实际取消的击杀触发（C3），
  * 且每次攻击只触发一次：同一刻的重复由 {@link FiendHitLedger} 合并；若击杀时攻击者手持的每把枪（主手与副手）都已在冷却，
- * 则视为已结算射击的合成补射（SparkTraits Niko 连射在 2、4 刻后补射，不会再次开枪）；只要有一把手持枪未冷却即为真实射击。
+ * 则视为已结算射击的合成补射（Niko 词条连射在 2、4 刻后补射，不会再次开枪）；只要有一把手持枪未冷却即为真实射击。
  */
 public final class FiendReactionService {
     static final String GUN_MESSAGE = "message.sparkdlc.fiend.reward.gun";

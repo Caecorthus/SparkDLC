@@ -36,10 +36,10 @@ public final class NatsumeClientState {
     }
 
     /**
-     * True while the hypnosis binds the local player: a confirmed SparkWitch server, a living participant, and its own
+     * True while the hypnosis binds the local player: a confirmed SparkDLC server, a living participant, and its own
      * synced hypnosis running. Called for every instinct query and HUD text draw, so the O(1) checks run first and the
      * participant lookup only for a hypnotised player. Dead or spectating viewers are never bound.
-     * 催眠约束本地玩家时返回 true：已确认 SparkWitch 服务器、存活参与者、且其自身同步的催眠正在进行。每次本能查询与 HUD
+     * 催眠约束本地玩家时返回 true：已确认 SparkDLC 服务器、存活参与者、且其自身同步的催眠正在进行。每次本能查询与 HUD
      * 文字绘制都会调用，因此先做 O(1) 判断，只有被催眠时才查询参与状态。死亡或旁观的观察者永不受约束。
      */
     public static boolean bindsLocalPlayer() {

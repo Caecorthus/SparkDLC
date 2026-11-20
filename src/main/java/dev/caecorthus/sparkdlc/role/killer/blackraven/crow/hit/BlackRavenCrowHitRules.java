@@ -21,8 +21,8 @@ public final class BlackRavenCrowHitRules {
     public static final double GUN_MAX_DISTANCE = 65.0;
     /**
      * Growth of the rewound crow volumes when the server confirms a client-picked hitscan shot (revolver, derringer,
-     * add-on guns): the Hunter shotgun claim's confirm growth, so a crow the shooter's screen showed on the ray is
-     * accepted. / 服务端确认客户端选中的即时射击（左轮、德林加、附属枪械）时，回溯乌鸦体积的扩大量：与猎枪声明确认相同。
+     * API-routed guns): the Hunter shotgun claim's confirm growth, so a crow the shooter's screen showed on the ray is
+     * accepted. / 服务端确认客户端选中的即时射击（左轮、德林加、经 API 转入的枪械）时，回溯乌鸦体积的扩大量：与猎枪声明确认相同。
      */
     public static final double GUN_CONFIRM_GROWTH = 0.5;
     /**
@@ -33,9 +33,9 @@ public final class BlackRavenCrowHitRules {
     /** Wathe knife stab reach plus the latency tolerance of every client-trusted stab. / Wathe 刀刺距离加延迟容差。 */
     public static final double KNIFE_REACH = 3.5;
     /**
-     * Latency tolerance an add-on melee weapon's own reach gets on the crow ({@code SparkRoleApi.crowMeleeStandIn}),
+     * Latency tolerance a melee weapon's own reach gets on the crow through {@code SparkRoleApi.crowMeleeStandIn},
      * the allowance that turns Wathe's 3-block stab into {@link #KNIFE_REACH}.
-     * 附属模组近战武器自身距离在乌鸦上获得的延迟容差（{@code SparkRoleApi.crowMeleeStandIn}），即把 Wathe 3 格刺击变为
+     * 经 {@code SparkRoleApi.crowMeleeStandIn} 转入的近战武器自身距离在乌鸦上获得的延迟容差，即把 Wathe 3 格刺击变为
      * {@link #KNIFE_REACH} 的余量。
      */
     public static final double ADDON_MELEE_TOLERANCE = 0.5;
@@ -48,17 +48,17 @@ public final class BlackRavenCrowHitRules {
      */
     public static final double GRENADE_RADIUS = 3.0;
     /**
-     * SparkFactionAPI's action for a player-owned projectile reaching a player (its {@code getOtherEntities} collision
-     * filter; also the Wind Spirit exemption in {@code WraithParticipation}).
-     * SparkFactionAPI 中玩家投射物命中玩家所用的行为 id（其 {@code getOtherEntities} 碰撞过滤；亦为 {@code WraithParticipation}
+     * The faction core's action for a player-owned projectile reaching a player (its {@code getOtherEntities}
+     * collision filter; also the Wind Spirit exemption in {@code WraithParticipation}).
+     * 阵营核心中玩家投射物命中玩家所用的行为 id（其 {@code getOtherEntities} 碰撞过滤；亦为 {@code WraithParticipation}
      * 中风灵豁免所用）。
      */
     public static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
     /** Vanilla projectile entity margin ({@code ProjectileUtil.getEntityCollision}, 0.3F). / 原版投射物实体余量。 */
     public static final double PROJECTILE_MARGIN = 0.3;
     /**
-     * SparkStrength M67 kill radius ({@code M67Rules.BLAST_RADIUS}), the sphere the Magician puppet blast uses too.
-     * SparkStrength M67 击杀半径，与魔术师皮套爆炸使用的球体相同。
+     * M67 kill radius ({@code M67Rules.BLAST_RADIUS}), the sphere the Magician puppet blast uses too.
+     * M67 击杀半径，与魔术师皮套爆炸使用的球体相同。
      */
     public static final double M67_RADIUS = 5.0;
 
@@ -131,9 +131,9 @@ public final class BlackRavenCrowHitRules {
     }
 
     /**
-     * Reach on the crow of an add-on melee weapon with its own nominal {@code reach} (plus
+     * Reach on the crow of an API-routed melee weapon with its own nominal {@code reach} (plus
      * {@link #ADDON_MELEE_TOLERANCE}); NaN for a non-positive or non-finite reach, which then never hits.
-     * 自带名义距离 {@code reach} 的附属模组近战武器在乌鸦上的距离（加 {@link #ADDON_MELEE_TOLERANCE}）；距离非正或非有限时为
+     * 自带名义距离 {@code reach}、经 API 转入的近战武器在乌鸦上的距离（加 {@link #ADDON_MELEE_TOLERANCE}）；距离非正或非有限时为
      * NaN，此时永远命中不了。
      */
     public static double addonMeleeReach(double reach) {

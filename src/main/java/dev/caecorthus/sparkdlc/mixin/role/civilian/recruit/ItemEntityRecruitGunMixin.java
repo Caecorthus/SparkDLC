@@ -16,11 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * The Recruit's one ground gun per round. Wathe's own {@code ItemEntityMixin} already lets an innocent with no gun
  * pick one up; this only adds the per-round limit. HEAD vetoes a second {@code wathe:guns} pickup (the USEC and
- * SparkTraits Impostor precedent); the {@code sendPickup} hook, which vanilla reaches only after
+ * Impostor trait precedent); the {@code sendPickup} hook, which vanilla reaches only after
  * {@code insertStack} succeeded, marks the first one used. {@code item} is captured before the insert, because a
  * fully picked-up stack reads as air afterwards (Wathe's pickup record does the same).
  * 新兵每局只能从地面捡一把枪。Wathe 自身的 {@code ItemEntityMixin} 已允许没有枪的好人捡枪；这里只增加每局上限。
- * HEAD 否决第二次捡起 {@code wathe:guns}（沿用 USEC 与 SparkTraits 内鬼的先例）；原版只有在 {@code insertStack}
+ * HEAD 否决第二次捡起 {@code wathe:guns}（沿用 USEC 与内鬼天赋的先例）；原版只有在 {@code insertStack}
  * 成功后才会调用 {@code sendPickup}，在此标记第一把已用掉。{@code item} 取自插入前的局部变量，因为整组被捡走后
  * 物品堆会变成空气（Wathe 的拾取记录同样如此）。
  */

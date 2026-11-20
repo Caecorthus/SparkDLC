@@ -39,14 +39,14 @@ public abstract class PigPlayerRendererMixin {
             int light,
             CallbackInfo ci
     ) {
-        // The cheap gates run first: the Wraith queries below are reflective and every player renders each frame.
-        // 先执行廉价判定：下方冤魂查询依赖反射，而每名玩家每帧都会渲染。
+        // The cheap gates run first: the Wraith queries below cost more and every player renders each frame.
+        // 先执行廉价判定：下方冤魂查询开销更大，而每名玩家每帧都会渲染。
         if (!SparkDlcServerConnection.isConfirmedServer() || !PigTraitService.isPig(player)) {
             return;
         }
         AbstractClientPlayerEntity viewer = MinecraftClient.getInstance().player;
-        // SparkWitch owns Wraith projection; this trait-owned renderer only yields to its public state query.
-        // SparkWitch 负责冤魂投影；此天赋渲染器仅通过公开状态查询让出渲染权。
+        // The Wraith feature owns Wraith projection; this trait-owned renderer only yields to its state query.
+        // 冤魂功能负责冤魂投影；此天赋渲染器仅通过其状态查询让出渲染权。
         boolean wraithViewer = SparkTraitsApi.isWraithActive(viewer);
         boolean spectatorReveal = viewer != null
                 && viewer.isSpectator()

@@ -337,9 +337,9 @@ public final class LobbyMapReset {
     /**
      * Wathe {@code tryResetTrain}, at its template-area reads: for a prepared world, narrows the copy to the probe
      * block. The copy still runs, changes that block (barrier, then the template state) and reports success, so its
-     * retry handling, entity discards and add-ons hooked on its result (SparkStrength sabotage) behave as before.
+     * retry handling, entity discards and features hooked on its result (the sabotage system) behave as before.
      * 对已准备的世界，把复制缩小为探针方块。复制照常运行，改变该方块（先屏障再恢复模板状态）并报告成功，
-     * 因此其重试处理、实体清除以及依赖其结果的附属模组（SparkStrength 破坏系统）行为不变。
+     * 因此其重试处理、实体清除以及依赖其结果的功能（破坏系统）行为不变。
      */
     public static Box templateForWatheCopy(ServerWorld world, MapVariablesWorldComponent areas, Box template) {
         Prepared prepared = PREPARED.get(world.getRegistryKey());

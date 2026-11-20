@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.achievement;
 
 /**
- * SparkTraits traits. A trait "held at a kill" is checked against my owner-visible trait timeline within
+ * Traits. A trait "held at a kill" is checked against my owner-visible trait timeline within
  * {@link RoundFacts#RECORD_TICK_TOLERANCE} of the kill's record tick.
- * SparkTraits 词条。“击杀时持有的词条”按击杀的记录 tick 前后 {@link RoundFacts#RECORD_TICK_TOLERANCE} 以内，对照我自身可见的词条时间线判断。
+ * 词条。“击杀时持有的词条”按击杀的记录 tick 前后 {@link RoundFacts#RECORD_TICK_TOLERANCE} 以内，对照我自身可见的词条时间线判断。
  */
 final class TraitRules {
     static final String HEAVY_ARTILLERY = "sparkdlc:heavy_artillery";

@@ -4,10 +4,10 @@ import java.util.function.IntPredicate;
 
 /**
  * Slot rules of the two-row limited inventory shown during a Wathe round: the hotbar (0-8) plus vanilla's bottom main
- * row (27-35), which vanilla already draws directly above the hotbar. Main 9-26 stay hidden; Spark add-ons park
+ * row (27-35), which vanilla already draws directly above the hotbar. Main 9-26 stay hidden; role features park
  * role items there (filling upward from 9), so they are deliberately not exposed.
  * Wathe 对局中两行受限物品栏的槽位规则：快捷栏（0-8）加原版紧贴快捷栏上方的主背包底行（27-35）。
- * 主背包 9-26 保持隐藏；Spark 附属模组会把职业物品从 9 往后藏在这里，因此刻意不暴露。
+ * 主背包 9-26 保持隐藏；各职业功能会把职业物品从 9 往后藏在这里，因此刻意不暴露。
  */
 public final class LimitedInventoryRows {
     public static final int ROW_SIZE = 9;

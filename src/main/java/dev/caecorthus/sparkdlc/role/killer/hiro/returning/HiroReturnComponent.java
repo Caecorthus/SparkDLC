@@ -23,7 +23,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  * Owner-private 死亡回归 (Return by Death) state of 二阶堂希罗, component {@code sparkdlc:nikaido_hiro_return}:
  * <ul>
  *   <li>the skill cooldown as counting-down ticks (Specter pattern: the server counts and syncs once per second, the
- *       client counts locally in between); it is the SparkFactionAPI forced-cooldown store
+ *       client counts locally in between); it is the forced-cooldown store
  *       {@code sparkdlc:nikaido_hiro_return};</li>
  *   <li>the window as an absolute world-time end tick ({@code world.getTime()}), 0 when closed;</li>
  *   <li>the record point taken when the window opened, null when there is none;</li>
@@ -35,7 +35,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  * {@link HiroRules#RETURN_COOLDOWN_TICKS} cooldown (owner rule 7), so a window never outlives its end tick. Opening
  * the window, the mana spend, the triggered Return, the victims and the teleport belong to {@link HiroReturnService}.
  * 二阶堂希罗仅本人可见的「死亡回归」状态，组件 {@code sparkdlc:nikaido_hiro_return}：技能冷却为倒计时刻数（幽魂模式：服务端
- * 计数并每秒同步一次，客户端在两次同步之间本地倒计时），也是 SparkFactionAPI 强制冷却存储
+ * 计数并每秒同步一次，客户端在两次同步之间本地倒计时），也是强制冷却存储
  * {@code sparkdlc:nikaido_hiro_return}；窗口以世界时间（{@code world.getTime()}）的绝对结束刻保存，关闭时为 0；记录点在窗口
  * 开启时写入，没有时为 null；另有她此刻处于假死的受害者人数（由 {@link HiroVictimFeignService} 写入；每名受害者各自计时，
  * 因此窗口关闭后它仍可能大于 0）。只同步给本人，HUD 所需数据尽在于此。组件只保存状态，唯一例外：未遭攻击而到期的窗口会在
@@ -163,9 +163,9 @@ public final class HiroReturnComponent
     }
 
     /**
-     * Server only, the SparkFactionAPI forced-cooldown write path (store {@code sparkdlc:nikaido_hiro_return}): sets
+     * Server only, the forced-cooldown write path (store {@code sparkdlc:nikaido_hiro_return}): sets
      * the cooldown exactly (floored at 0) and syncs the owner. The store's gate already excludes a running window.
-     * 仅服务端，SparkFactionAPI 强制冷却的写入路径（存储 {@code sparkdlc:nikaido_hiro_return}）：精确设置冷却（下限为 0）并同步
+     * 仅服务端，强制冷却的写入路径（存储 {@code sparkdlc:nikaido_hiro_return}）：精确设置冷却（下限为 0）并同步
      * 给本人。存储门控已排除进行中的窗口。
      */
     public void setCooldownTicks(int ticks) {

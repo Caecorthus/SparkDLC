@@ -37,9 +37,11 @@ public final class RecruitRules {
     }
 
     /**
-     * "Good" for the Recruit's innocent-kill rule: SparkFactionAPI's effective faction is CIVILIAN, which folds
-     * Impostor out and Conscience in. Neutrals are not good.
-     * 新兵误杀规则中的“好人”：SparkFactionAPI 有效阵营为 CIVILIAN，内鬼已排除、善良已计入。中立不算好人。
+     * "Good" for the Recruit's innocent-kill rule: the effective faction
+     * ({@code SparkFactionApi#resolveEffectiveFaction}) is CIVILIAN, which folds Impostor out and Conscience in.
+     * Neutrals are not good.
+     * 新兵误杀规则中的“好人”：有效阵营（{@code SparkFactionApi#resolveEffectiveFaction}）为 CIVILIAN，内鬼已排除、
+     * 善良已计入。中立不算好人。
      */
     public static boolean isGood(@Nullable PlayerEntity player, GameWorldComponent game) {
         return player != null && FactionIds.CIVILIAN.equals(SparkFactionApi.resolveEffectiveFaction(player, game));

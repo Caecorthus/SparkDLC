@@ -57,9 +57,9 @@ public final class ShockDeviceItem extends Item {
         if (!serverWorld.spawnEntity(device)) {
             return TypedActionResult.fail(stack);
         }
-        // Plain vanilla cooldown so SparkTraits Fast Hands may shorten it; it binds the Item, so a re-bought device
+        // Plain vanilla cooldown so the Fast Hands trait may shorten it; it binds the Item, so a re-bought device
         // waits as well.
-        // 普通原版冷却，SparkTraits 快手可缩短；冷却绑定在物品类型上，因此重新购买的装置同样需要等待。
+        // 普通原版冷却，快手词条可缩短；冷却绑定在物品类型上，因此重新购买的装置同样需要等待。
         ce.getItemCooldownManager().set(this, ControlExpertRules.SHOCK_DEVICE_COOLDOWN);
         GameRecordManager.recordItemUse(ce, ControlExpertRules.SHOCK_DEVICE_ID, null, null);
         stack.decrementUnlessCreative(1, ce);

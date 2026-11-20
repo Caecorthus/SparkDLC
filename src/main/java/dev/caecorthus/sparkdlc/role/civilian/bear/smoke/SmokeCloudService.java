@@ -140,10 +140,10 @@ public final class SmokeCloudService {
     /**
      * Blocks along {@code from} → {@code to} after which a tunnel of {@code radius} can no longer touch live smoke (the
      * far end of the last cloud box the segment crosses, as {@link #carveTunnel} would clip it); 0 when it crosses
-     * none. A long miss ray (SparkTraits Niko: 300 blocks) uses it to raycast blocks only as far as smoke exists.
+     * none. A long miss ray (the Niko trait: 300 blocks) uses it to raycast blocks only as far as smoke exists.
      * Read-only: nothing is recorded or sent.
      * 沿 {@code from} → {@code to} 的格数，越过它之后半径 {@code radius} 的通道不可能再碰到存活烟雾（线段穿过的最后一个烟团盒子
-     * 的远端，与 {@link #carveTunnel} 的裁剪一致）；不穿过任何烟团时为 0。很长的未命中射线（SparkTraits Niko：300 格）据此只在
+     * 的远端，与 {@link #carveTunnel} 的裁剪一致）；不穿过任何烟团时为 0。很长的未命中射线（Niko 词条：300 格）据此只在
      * 有烟的范围内做方块射线检测。只读：不记录也不发送任何东西。
      */
     public static double tunnelReach(ServerWorld world, Vec3d from, Vec3d to, float radius) {

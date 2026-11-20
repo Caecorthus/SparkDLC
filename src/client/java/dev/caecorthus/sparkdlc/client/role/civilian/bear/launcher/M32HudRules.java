@@ -127,11 +127,11 @@ public final class M32HudRules {
     }
 
     /**
-     * Whether the HUD shows: not under F1, a confirmed SparkWitch server, the launcher in the main hand, and either no
+     * Whether the HUD shows: not under F1, a confirmed SparkDLC server, the launcher in the main hand, and either no
      * Wathe round at all ({@code gameIdle}: INACTIVE, so lobby and off-match holders see it) or a live round (train HUD
      * shown, ACTIVE, the local player playing and alive). STARTING and STOPPING hide it, like the other role HUD lines
      * ({@code HudRenderCallback} draws above Wathe's round-end fade). Shown while aiming too.
-     * HUD 是否显示：未按 F1、已确认的 SparkWitch 服务器、主手持发射器，并且要么完全没有 Wathe 对局（{@code gameIdle}：
+     * HUD 是否显示：未按 F1、已确认的 SparkDLC 服务器、主手持发射器，并且要么完全没有 Wathe 对局（{@code gameIdle}：
      * INACTIVE，因此大厅与局外持有者也能看到），要么处于进行中的对局（列车 HUD 显示、ACTIVE、本地玩家在局内存活）。STARTING
      * 与 STOPPING 时隐藏，与其他职业 HUD 行一致（{@code HudRenderCallback} 绘制在 Wathe 回合结束黑幕之上）。瞄准时同样显示。
      */

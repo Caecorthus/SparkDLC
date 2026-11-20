@@ -55,9 +55,9 @@ public final class BartenderShopService {
     /**
      * Rebuilds a base-spirit or ingredient entry at the buff price. Upstream lists them with the legacy
      * {@code ShopEntry(stack, price, type)} constructor, so there is no custom buy handler to carry over. Subclassed
-     * entries (another mod's wrapper) are left alone rather than unwrapped.
+     * entries (a wrapper such as the Charisma trait's discounted entry, or an add-on's) are left alone, not unwrapped.
      * 以增强后的价格重建基酒或调剂条目。上游用旧版 ShopEntry(stack, price, type) 构造器上架它们，因此没有自定义购买处理需要保留。
-     * 子类条目（其他模组的包装）原样保留，不拆包。
+     * 子类条目（包装条目，如魅力词条的折扣条目或附属模组的包装）原样保留，不拆包。
      */
     private static ShopEntry repriced(ShopEntry entry) {
         int price = priceFor(entry.stack().getItem());

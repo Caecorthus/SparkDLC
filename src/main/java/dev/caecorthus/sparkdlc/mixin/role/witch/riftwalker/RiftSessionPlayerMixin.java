@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * {@code ServerPlayerEntity#attack} calls {@code setCameraEntity(target)} in SPECTATOR (then {@code tick} drags the body
  * to the camera every tick), so an occupant's attack is cancelled at HEAD (the Fabric {@code AttackEntityCallback}
  * lock fails it too). {@code setCameraEntity} additionally vetoes another PLAYER as an occupant's camera, NR Taotie
- * style; non-player cameras stay allowed because SparkTraits Last Stand and Depression legitimately point the camera at
+ * style; non-player cameras stay allowed because the Last Stand and Depression traits legitimately point the camera at
  * a death body, which the session tick then reads as INTERCEPTED (it never touches the game mode).
  * 为裂隙门内玩家封住旁观者附身视角的服务端 mixin（调研 03 §3.3，第 1 条）。原版旁观模式下 {@code ServerPlayerEntity#attack}
  * 会调用 {@code setCameraEntity(target)}（随后 {@code tick} 每刻把本体拖到镜头处），因此门内玩家的攻击在 HEAD 处取消
  * （Fabric {@code AttackEntityCallback} 锁也会使其失败）。{@code setCameraEntity} 另外按 NR 饕餮的做法，否决把其他玩家设为
- * 门内玩家的镜头；非玩家镜头保持允许，因为 SparkTraits 背水一战与抑郁会合理地把镜头指向死亡尸体，会话逐刻随后将其判为
+ * 门内玩家的镜头；非玩家镜头保持允许，因为背水一战与抑郁天赋会合理地把镜头指向死亡尸体，会话逐刻随后将其判为
  * INTERCEPTED（从不改动游戏模式）。
  */
 @Mixin(ServerPlayerEntity.class)

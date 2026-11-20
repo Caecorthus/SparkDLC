@@ -86,7 +86,7 @@ import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialKillerCooldownServ
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolGuardService;
 
 /**
- * 统一注册 SparkStrength 的服务端事件。
+ * 统一注册职业套件的服务端事件。
  */
 public final class RoleKitEvents {
     private RoleKitEvents() {
@@ -187,8 +187,8 @@ public final class RoleKitEvents {
         // Mid-round tablet grant reconciliation (replaces a RoleAssigned-time grant; see TabletShopService#tick).
         // 局中平板补发对账（取代 RoleAssigned 时发放；见 TabletShopService#tick）。
         ServerTickEvents.END_WORLD_TICK.register(TabletShopService::tick);
-        // Must stay on END_WORLD_TICK: it reads what SparkTraits' player component tick did earlier in the same world tick.
-        // 必须挂在 END_WORLD_TICK：它读取同一世界 tick 内 SparkTraits 玩家组件刚做的结果。
+        // Must stay on END_WORLD_TICK: it reads what the trait player component tick did earlier in this world tick.
+        // 必须挂在 END_WORLD_TICK：它读取同一世界 tick 内词条玩家组件刚做的结果。
         ServerTickEvents.END_WORLD_TICK.register(ToxicologistBluePassiveService::tick);
         ServerTickEvents.END_WORLD_TICK.register(VeteranBlackoutService::tick);
         BlackoutSightService.register();

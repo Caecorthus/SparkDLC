@@ -47,8 +47,8 @@ public abstract class GameFunctionsSaintProtectionMixin {
         if (killer == null && dev.caecorthus.sparkdlc.role.civilian.emma.EmmaTerminalService.isBacklash(deathReason)) {
             return;
         }
-        // Traits owns active-phase immunity and its train/lifecycle exceptions before protection costs.
-        // Traits 在消耗保护前裁定脱险无敌及列车/生命周期例外。
+        // The Last Escape trait owns active-phase immunity and its train/lifecycle exceptions before protection costs.
+        // Last Escape 天赋在消耗保护前裁定脱险无敌及列车/生命周期例外。
         if (SparkTraitsApi.isLastEscapeActive(victim)) {
             return;
         }

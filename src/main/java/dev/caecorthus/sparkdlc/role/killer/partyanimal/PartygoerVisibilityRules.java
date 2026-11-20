@@ -6,10 +6,10 @@ import dev.caecorthus.sparkdlc.sabotage.BlackoutSightRules;
  * Who sees the Partygoer (派对客) through walls with the instinct key (本能透视). Owner rules, 2026-10-21:
  * 谁能用本能键穿墙看到派对客。主人 2026-10-21 定下的规则：
  * <ul>
- *   <li>Effective killers (SparkTraits Impostor civilians included), spectators and creative players see it in the
- *   Party Animal's role colour. / 有效杀手（含 SparkTraits 内鬼好人）、旁观者与创造模式玩家看到派对狂的职业色。</li>
- *   <li>Every other viewer who has an instinct key right now sees it in Wathe's civilian green; SparkTraits Conscience
- *   killers count here. / 其他此刻拥有本能键的观察者看到 Wathe 的平民绿色；SparkTraits 善良杀手也算在这里。</li>
+ *   <li>Effective killers (Impostor-trait civilians included), spectators and creative players see it in the
+ *   Party Animal's role colour. / 有效杀手（含内鬼词条好人）、旁观者与创造模式玩家看到派对狂的职业色。</li>
+ *   <li>Every other viewer who has an instinct key right now sees it in Wathe's civilian green; Conscience-trait
+ *   killers count here. / 其他此刻拥有本能键的观察者看到 Wathe 的平民绿色；善良词条杀手也算在这里。</li>
  *   <li>A viewer without an instinct key (a plain civilian) sees nothing: the Partygoer adds no new x-ray.
  *   / 没有本能键的观察者（普通好人）什么都看不到：派对客不会带来新的透视。</li>
  *   <li>Always key-gated, like ordinary instinct; hidden from everyone while swallowed by a Taotie or invisible.
@@ -36,9 +36,9 @@ public final class PartygoerVisibilityRules {
     /** Wathe's civilian instinct green. / Wathe 的平民本能绿色。 */
     public static final int KEY_HOLDER_COLOR = 0x4EDD35;
     /**
-     * Event priority: below {@code skip()} (100) and SparkWitch's Fear/Obscure suppression (102), so both still hide
+     * Event priority: below {@code skip()} (100) and the Fear/Obscure suppression (102), so both still hide
      * it, and above Wathe's default 0.
-     * 事件优先级：低于 skip()（100）与 SparkWitch 恐惧/障眼压制（102），二者仍能隐藏它；高于 Wathe 默认的 0。
+     * 事件优先级：低于 skip()（100）与恐惧/障眼压制（102），二者仍能隐藏它；高于 Wathe 默认的 0。
      */
     public static final int HIGHLIGHT_PRIORITY = 80;
 
@@ -47,10 +47,10 @@ public final class PartygoerVisibilityRules {
 
     /**
      * Classifies the viewer. The three instinct-key sources are alternatives: Wathe's native killer gate as add-ons
-     * extend it (true only while the key is held), the viewer's SparkFactionAPI faction capability and role-specific
+     * extend it (true only while the key is held), the viewer's faction capability and role-specific
      * keys; the last two count only for a living viewer.
      * 给观察者分类。三种本能键来源任一成立即可：被附属模组扩展后的 Wathe 原生杀手入口（仅在按住按键时为 true）、
-     * 观察者 SparkFactionAPI 阵营能力与职业专属按键；后两者只对存活观察者有效。
+     * 观察者的阵营能力与职业专属按键；后两者只对存活观察者有效。
      *
      * @param nativeInstinctGate {@code WatheClient.isInstinctEnabledAndIsKiller()} / Wathe 原生本能入口
      * @param factionInstinct    the effective faction declares {@code canUseInstinct} / 有效阵营声明了 canUseInstinct

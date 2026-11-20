@@ -53,13 +53,13 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
 /**
- * Hold-W item demos for SparkStrength's civilian-side items (the Toxicologist's Capsule and Blue Belladonna, the
+ * Hold-W item demos for the role kits' civilian-side items (the Toxicologist's Capsule and Blue Belladonna, the
  * Attendant's Flashlight, the Professor's Sedative and Truth Serum, the Engineer's Capture Device, the Timekeeper's
  * Dying Watch, the Perfumer's Aroma Orb and Zephyr Perfume) and for the Bartender's spirits and modifiers as they run
- * with SparkStrength's retuning. Effects only some players see, or only on a HUD, are told in captions; outlines are
+ * with this mod's retuning. Effects only some players see, or only on a HUD, are told in captions; outlines are
  * boxes and the flashlight beam is drawn as lines, which the captions call illustrations.
- * SparkStrength 平民侧物品（毒理学家的胶囊与蓝颠茄、乘务员的手电筒、教授的镇静与吐真试剂、工程师的捕捉装置、计时员的濒毁怀表、
- * 调香师的香薰与晨风香水）以及酒保烈酒与修饰材料（按 SparkStrength 调整后的数值）的按住 W 物品演示。只有部分人看得到、
+ * 职业套件的平民侧物品（毒理学家的胶囊与蓝颠茄、乘务员的手电筒、教授的镇静与吐真试剂、工程师的捕捉装置、计时员的濒毁怀表、
+ * 调香师的香薰与晨风香水）以及酒保烈酒与修饰材料（按本模组调整后的数值）的按住 W 物品演示。只有部分人看得到、
  * 或只显示在界面上的效果写在字幕里；描边用方框表示，手电光束用线条表示，字幕注明是示意。
  */
 final class RoleKitCivilianItemScenes {
@@ -67,19 +67,19 @@ final class RoleKitCivilianItemScenes {
     private static final Vec3d POISON_RISE = new Vec3d(0, 0.05, 0);
     /** A player's height: the top of the head above the feet. 玩家身高：头顶离脚底的高度。 */
     private static final double HEAD_TOP = 1.8;
-    /** Blue-poisoned players in a Toxicologist's sight (SparkTraits ConsciencePoisonerService.BLUE_POISON_COLOR). 毒理学家视线内中蓝毒者的颜色。 */
+    /** Blue-poisoned players in a Toxicologist's sight (SparkDLC ConsciencePoisonerService.BLUE_POISON_COLOR). 毒理学家视线内中蓝毒者的颜色。 */
     private static final int BLUE_POISON = 0x00BFFF;
-    /** The Professor's outline of a sedated player (SparkStrength ProfessorSerumRules.SEDATIVE_HIGHLIGHT_COLOR). 教授看到的镇静目标描边颜色。 */
+    /** The Professor's outline of a sedated player (SparkDLC ProfessorSerumRules.SEDATIVE_HIGHLIGHT_COLOR). 教授看到的镇静目标描边颜色。 */
     private static final int SEDATIVE_YELLOW = 0xFFD84A;
     /** The illustrated flashlight beam. 示意手电光束的颜色。 */
     private static final int BEAM_YELLOW = 0xFFF1A8;
-    /** Aroma Orb's burst (SparkStrength AromaService.LAVENDER_BURST). 香薰命中时的薰衣草色粒子。 */
+    /** Aroma Orb's burst (SparkDLC AromaService.LAVENDER_BURST). 香薰命中时的薰衣草色粒子。 */
     private static final DustParticleEffect LAVENDER_BURST =
             new DustParticleEffect(new Vector3f(0.72f, 0.55f, 0.95f), 1.1f);
     /** Aroma Orb's wisps (AromaService.LAVENDER_WISP). 香薰的淡紫色香气。 */
     private static final DustParticleEffect LAVENDER_WISP =
             new DustParticleEffect(new Vector3f(0.78f, 0.64f, 0.97f), 0.7f);
-    /** Zephyr Perfume's mist (SparkStrength ZephyrService.ZEPHYR_MIST). 晨风香水的喷雾。 */
+    /** Zephyr Perfume's mist (SparkDLC ZephyrService.ZEPHYR_MIST). 晨风香水的喷雾。 */
     private static final DustParticleEffect ZEPHYR_MIST =
             new DustParticleEffect(new Vector3f(0.86f, 0.94f, 1.0f), 0.9f);
     /**
@@ -138,7 +138,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Capsule (SparkStrength CapsuleItem, CapsuleEntity, ToxicologistCapsuleShop; Wathe FoodPlatterBlock,
+     * Capsule (SparkDLC CapsuleItem, CapsuleEntity, ToxicologistCapsuleShop; Wathe FoodPlatterBlock,
      * PoisonUtils.applyFoodPoison): 100 coins in the Toxicologist's shop. In the inventory, a food or drink on the
      * cursor right-clicked onto an empty capsule goes inside (one portion, poison flags kept). A right-click throws it
      * like a snowball (a swing); it is used up hit or miss. A hit player is made to eat or drink the contents, and
@@ -234,8 +234,8 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Blue Belladonna (SparkStrength BlueBelladonnaItem, ToxicologistBlueRules, ToxicologistBluePassiveService,
-     * CapsuleItem.forceConsume; SparkTraits ConsciencePoisonerService.triggerBlueTrap): 25 coins in the
+     * Blue Belladonna (SparkDLC BlueBelladonnaItem, ToxicologistBlueRules, ToxicologistBluePassiveService,
+     * CapsuleItem.forceConsume, ConsciencePoisonerService.triggerBlueTrap): 25 coins in the
      * Toxicologist's shop, hidden in hand. Eaten in 16 ticks; a Toxicologist (or a Coroner disguised as one) then has
      * 5 s of blue state: no blue sanity drain, +0.1 sanity a second and Speed II without particles. Anyone else who
      * eats it, by hand or from a Capsule, springs the buyer's blue trap: an effective civilian loses sanity for 3 s
@@ -331,8 +331,8 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Flashlight (SparkStrength FlashlightItem, FlashlightBlackoutService, AttendantFlashlightService,
-     * FlashlightBeamRules and the client flashlight renderer; SparkStrength LightsSabotageService,
+     * Flashlight (SparkDLC FlashlightItem, FlashlightBlackoutService, AttendantFlashlightService,
+     * FlashlightBeamRules and the client flashlight renderer, LightsSabotageService,
      * SabotageBlackoutEffectsMixin, client SabotageSkyLight): every Attendant gets one at the start; it is not hidden
      * in hand. A right-click toggles it (a swing, an action-bar note). The only blackout left is the killers' lights
      * sabotage (Wathe's shop blackout is gone, SabotageShopFilter), and it blinds nobody: the lamps go out and the
@@ -426,7 +426,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Professor's Sedative and Truth Serum (SparkStrength ProfessorSerumItem, ProfessorSerumService,
+     * Professor's Sedative and Truth Serum (SparkDLC ProfessorSerumItem, ProfessorSerumService,
      * ProfessorSerumRules, ProfessorSedativeMoodMixin, ProfessorSerumClientHooks, HiddenEquipmentHelperMixin): bought
      * in the Professor's shop (50 and 125 coins), hidden in a Professor's hand. A right-click on a living player in the
      * crosshair feeds them (useOnEntity; use() also looks 1.5 blocks ahead); with nobody there the Professor drinks it.
@@ -512,7 +512,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Capture Device (SparkStrength CaptureDeviceItem, CaptureDeviceEntity, CaptureDeviceEntityRenderer,
+     * Capture Device (SparkDLC CaptureDeviceItem, CaptureDeviceEntity, CaptureDeviceEntityRenderer,
      * EngineerRules, EngineerStunnedPlayerComponent and its client input mixins, EngineerShopService,
      * HiddenEquipmentHelperMixin): 125 coins in the Engineer's shop, hidden in an Engineer's hand. A right-click on a
      * floor or ceiling places it (a private sound); it is drawn flat at 0.4 scale and only its owner and dead or
@@ -599,19 +599,19 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Dying Watch (SparkStrength TimekeeperWatchItem, TimekeeperWatchService, TimekeeperConstants,
+     * Dying Watch (SparkDLC TimekeeperWatchItem, TimekeeperWatchService, TimekeeperConstants,
      * TimekeeperWatchClientHooks, TimekeeperWatchAttackMixin, SparkTraitsApi; NoellesRoles IronManVialItem): the
      * Timekeeper's starting watch, hidden in hand; only a living Timekeeper (or a Coroner disguised as one) can use it.
      * A left-click switches the mode without attacking. A right-click (a swing) in item mode spends 100 coins and
      * clears the item cooldowns of the Timekeeper and of every other living innocent (Conscience killers included,
      * Impostors not); in ability mode it spends 75 coins and clears the targets' role-ability cooldowns, not the
-     * Timekeeper's own (most NoellesRoles and SparkStrength ability cooldowns). Neutral and witch-faction players are
+     * Timekeeper's own (most NoellesRoles and role-kit ability cooldowns). Neutral and witch-faction players are
      * never targets. Targets get an action-bar note; coins are spent even with no target. The watch's own cooldown
      * is 40 s (item) or 30 s (ability), kept per mode. With the Impostor trait the targets flip to killers and other
      * Impostors. The demo uses the Professor's Iron Man vial, whose item cooldown is 5 minutes.
      * 濒毁怀表：计时员的开局物品，拿在手上别人看不见；只有存活的计时员（或伪装成计时员的验尸官）能用。左键切换模式，不会
      * 出手攻击。物品模式右键（会挥手）花 100 金币，清空计时员自己和其他所有存活好人（含善良杀手，不含内鬼）的物品冷却；技能
-     * 模式花 75 金币，清空目标的职业技能冷却（多数 NoellesRoles 与 SparkStrength 技能），不含计时员自己。中立和魔女阵营
+     * 模式花 75 金币，清空目标的职业技能冷却（多数 NoellesRoles 与职业套件技能），不含计时员自己。中立和魔女阵营
      * 永远不是目标。被刷新的人收到动作栏提示；没刷到人也照样扣钱。怀表自身冷却
      * 物品模式 40 秒、技能模式 30 秒，两种模式分开计算。带内鬼词条时目标反转为杀手和其他内鬼。演示用教授的铁人药剂，其
      * 物品冷却为 5 分钟。
@@ -677,7 +677,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Aroma Orb (SparkStrength AromaOrbItem, AromaOrbEntity, AromaService, PerfumerKitService, PerfumerKitRules,
+     * Aroma Orb (SparkDLC AromaOrbItem, AromaOrbEntity, AromaService, PerfumerKitService, PerfumerKitRules,
      * PerfumerScentComponent; client PerfumerAromaMouseMixin): 75 coins in the Perfumer's shop, hidden in a Perfumer's
      * hand, usable only by a living Perfumer. A right-click throws it fast and flat at 1.5 blocks a tick (a swing, no
      * cooldown, one used per throw); it never hits its thrower and spares no faction. It shatters on whatever it hits.
@@ -747,7 +747,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Zephyr Perfume (SparkStrength ZephyrPerfumeItem, ZephyrService, PerfumerScentComponent, PerfumerShopService,
+     * Zephyr Perfume (SparkDLC ZephyrPerfumeItem, ZephyrService, PerfumerScentComponent, PerfumerShopService,
      * PerfumerZephyrMoodDrainMixin): 150 coins in the Perfumer's shop, one per round (none while it is active or a
      * bottle is carried), hidden in a Perfumer's hand, usable only by a living Perfumer. A right-click sprays it on
      * oneself (a swing): the mist and the sound reach only the user. For the rest of the round the Perfumer has an
@@ -799,23 +799,23 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Bartender spirits as they run with SparkStrength (NoellesRoles RumItem, GinItem, VodkaItem, TequilaItem,
+     * Bartender spirits as they run with this mod (NoellesRoles RumItem, GinItem, VodkaItem, TequilaItem,
      * BaseSpiritItem, StimulationEffect, StimulationCooldownMixin, the GIN_IMMUNITY blackout listener and the
-     * collision mixins; SparkStrength BartenderRules, BartenderIngredientDurationMixin, BartenderVodkaMixin,
-     * BartenderStimulationCrashMixin; SparkFactionAPI NoellesCollisionCompatibility; Wathe EntityMixin,
+     * collision mixins; SparkDLC BartenderRules, BartenderIngredientDurationMixin, BartenderVodkaMixin,
+     * BartenderStimulationCrashMixin, NoellesCollisionCompatibility; Wathe EntityMixin,
      * WorldBlackoutComponent): each takes effect when someone drinks a base spirit holding it, at once when the glass
      * is iced. Rum: Speed II for 10 s, no particles. Tequila: 12 s of No Collision, so the drinker and other players
-     * pass through each other, though players are solid to each other once a round is 30 s old (SparkStrength
+     * pass through each other, though players are solid to each other once a round is 30 s old (SparkDLC
      * PlayerCollisionGraceRules). Gin: Night Vision for 20 s, so the drinker sees in the dark of a lights sabotage
      * (it also clears Blindness and grants Gin Immunity, which cancels a blackout's blindness, but the lights sabotage
      * blinds nobody; power coming back clears everyone's Night Vision, Wathe removeBlackoutEffects). Vodka: 20 s of Stimulation (sprinting costs no stamina);
      * running item cooldowns drop to 60% at once and cooldowns set meanwhile are cut to 80%; at the end stamina
-     * empties and the drinker is exhausted for about 15 s (SparkStrength drops NoellesRoles' Slowness II). The glass
-     * adds 20% sanity and every spirit another 20%. Times shown are SparkStrength's; special liqueur doubles them.
-     * 酒保的烈酒（按 SparkStrength 调整后）：有人喝下调了它的基酒时生效，加了冰块就立刻生效。朗姆酒：速度 II 10 秒，不冒粒子。
+     * empties and the drinker is exhausted for about 15 s (this mod drops NoellesRoles' Slowness II). The glass
+     * adds 20% sanity and every spirit another 20%. Times shown are this mod's; special liqueur doubles them.
+     * 酒保的烈酒（按本模组调整后）：有人喝下调了它的基酒时生效，加了冰块就立刻生效。朗姆酒：速度 II 10 秒，不冒粒子。
      * 龙舌兰：12 秒无碰撞，和别的玩家能互相穿过（开局 30 秒后玩家之间本是实心的）。金酒：夜视 20 秒，灯光破坏的黑暗里
      * 也看得清（还会解除失明并给金酒免疫，免疫能挡掉停电失明，但灯光破坏本来就不致盲；来电时 Wathe 会清掉所有人的夜视）。伏特加：20 秒亢奋（疾跑不耗体力）；正在进行的物品冷却立刻剩 60%，期间新设的冷却打 8 折；结束时体力清零并进入
-     * 疲惫约 15 秒（SparkStrength 去掉了 NoellesRoles 的缓慢 II）。这杯酒本身回 20% 理智，每种烈酒再多回 20%。时长为 SparkStrength 数值，特调利口酒
+     * 疲惫约 15 秒（本模组去掉了 NoellesRoles 的缓慢 II）。这杯酒本身回 20% 理智，每种烈酒再多回 20%。时长为本模组数值，特调利口酒
      * 会翻倍。
      */
     private static void spirits(SceneBuilder scene, SceneBuildingUtil util) {
@@ -966,7 +966,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Bartender modifiers (NoellesRoles BaseSpiritItem, IceCubeItem, SpecialLiqueurItem, SpecialSpiceItem; SparkStrength
+     * Bartender modifiers (NoellesRoles BaseSpiritItem, IceCubeItem, SpecialLiqueurItem, SpecialSpiceItem; SparkDLC
      * GhostflameBittersItem, BartenderCooldownService, EmberSugarItem, BartenderCocktailUseTimeMixin, BartenderRules;
      * Wathe GameConstants revolver cooldown): they have no drink effect of their own and count toward a glass's three
      * ingredients. Without ice a base spirit first gives Slowness II and Blindness for 3 s (the effects and sanity come
@@ -1316,9 +1316,9 @@ final class RoleKitCivilianItemScenes {
      * The illustrated beam of a lit flashlight: rays fanning 20 degrees (FlashlightBeamRules.OUTER_HALF_ANGLE) around
      * the holder's look, from the lens of the flashlight in the right hand (held at the hip, pointing along the look,
      * as FlashlightAim poses it) to where they meet the floor or the stage's walls, plus the rim joining their ends.
-     * Ponder cannot run SparkStrength's flashlight shader, so lines stand in for it.
+     * Ponder cannot run the flashlight shader, so lines stand in for it.
      * 开着的手电的示意光束：以持有者视线为轴、半角 20 度散开的射线，从右手里手电的镜片（FlashlightAim 让它在腰间顺着视线
-     * 指向前方）画到碰上地面或舞台墙壁处，再把末端连成一圈。Ponder 跑不了 SparkStrength 的手电着色器，所以用线条代替。
+     * 指向前方）画到碰上地面或舞台墙壁处，再把末端连成一圈。Ponder 跑不了手电着色器，所以用线条代替。
      */
     private static final class Beam extends TickingInstruction {
         private static final int RAYS = 12;

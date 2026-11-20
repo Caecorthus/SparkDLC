@@ -19,9 +19,9 @@ public final class ItemCooldownSyncRules {
 
     /**
      * Whether an entry with {@code remainingTicks} left must be raised to {@code lockTicks}. Raise only: a longer entry
-     * (another mod's forced penalty) is never shortened. The phase tolerance only covers a running entry; a missing
+     * (another feature's forced penalty) is never shortened. The phase tolerance only covers a running entry; a missing
      * one is always written, so the slot never reads ready while the lock still holds.
-     * 剩余 {@code remainingTicks} 的条目是否需要提高到 {@code lockTicks}。只提高：更长的条目（其他模组的强制惩罚）绝不缩短。
+     * 剩余 {@code remainingTicks} 的条目是否需要提高到 {@code lockTicks}。只提高：更长的条目（其他功能的强制惩罚）绝不缩短。
      * 阶段容差只适用于仍在计时的条目；条目不存在时总是写入，锁仍生效时栏位绝不显示为可用。
      */
     public static boolean needsRaise(int remainingTicks, int lockTicks) {

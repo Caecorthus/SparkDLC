@@ -10,12 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
- * Gift Watch loadout (owner decision 2026-10-05), driven by {@link TimeStealerLoadoutService}. SparkTraits Conscience
+ * Gift Watch loadout (owner decision 2026-10-05), driven by {@link TimeStealerLoadoutService}. The Conscience trait
  * settles after Wathe's RoleAssigned, so the watch is granted lazily from the living holder's tick, not at role
  * assignment: a Conscience Time Stealer keeps exactly one Gift Watch in the hotbar next to the Clock, and its first
  * grant of the round writes the 45 s round-start cooldown; anyone else loses every copy. Like the Clock it never
  * creates item entities, and every placement is an explicit slot write.
- * 赠时怀表装备（所有者决定 2026-10-05），由 {@link TimeStealerLoadoutService} 驱动。SparkTraits 善良在 Wathe 的
+ * 赠时怀表装备（所有者决定 2026-10-05），由 {@link TimeStealerLoadoutService} 驱动。善良词条在 Wathe 的
  * RoleAssigned 之后才确定，因此赠时怀表由存活持有者的 tick 延迟发放，而不是在职业分配时发放：善良窃时者在快捷栏里于时钟之外
  * 恰好保留一块赠时怀表，本局首次发放时写入 45 秒开局冷却；其他人失去所有副本。与时钟一样从不生成物品实体，每次放置都是
  * 显式的栏位写入。

@@ -179,7 +179,7 @@ public final class BlackRavenCrowRules {
         NOT_ELIGIBLE(null),
         /** crow-world's 3 s landing hold: no skills. / crow-world 的 3 秒落地定身：不能使用技能。 */
         LANDING_HELD(null),
-        /** SparkTraits role-skill block (Last Escape, silence) or Taotie-swallowed: silent like other skills. / 静默。 */
+        /** Trait role-skill block (Last Escape, silence) or Taotie-swallowed: silent like other skills. / 静默。 */
         SILENT_BLOCKED(null),
         LOCKED("locked"),
         /** Grand Witch Fear; the Fear service sends its own message. / 大魔女恐惧；由恐惧服务发送提示。 */

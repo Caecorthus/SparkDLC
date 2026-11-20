@@ -32,9 +32,9 @@ public final class NatsumeMoodIcon {
 
     /**
      * The sprite Wathe's icon draw should use: the sketchbook copy for a living, playing local 夏目安安 on a confirmed
-     * SparkWitch server, else Wathe's own sprite. The pure sprite match runs first, so other sprites leave before any
+     * SparkDLC server, else Wathe's own sprite. The pure sprite match runs first, so other sprites leave before any
      * component lookup.
-     * Wathe 图标绘制应使用的 sprite：已确认 SparkWitch 服务器上存活且在局的本地夏目安安使用素描本版，否则使用 Wathe 自己的
+     * Wathe 图标绘制应使用的 sprite：已确认 SparkDLC 服务器上存活且在局的本地夏目安安使用素描本版，否则使用 Wathe 自己的
      * sprite。先做纯 sprite 匹配，其他 sprite 在任何组件查询之前返回。
      */
     public static Identifier spriteFor(Identifier watheSprite) {

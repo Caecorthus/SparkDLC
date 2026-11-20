@@ -40,12 +40,12 @@ import java.util.OptionalDouble;
 
 /**
  * Server placement transaction behind {@link RiftGateItem#use} (plan §5.1): validate (round, alive Riftwalker, not
- * inside a gate, not stunned or Kidnapper-controlled, SparkTraits interaction lock, floor, fall line, room in
+ * inside a gate, not stunned or Kidnapper-controlled, trait interaction lock, floor, fall line, room in
  * front, spacing, neighbours), allocate the gate number, spawn and register the entity, consume one item,
  * start the short placement cooldown, play the cue and record the replay item use. Never charges anything on failure.
  * Owned by P1.
  * {@link RiftGateItem#use} 背后的服务端放置事务（plan §5.1）：校验（对局、存活的隙行者、不在门内、未眩晕且未被绑架者控制、
- * SparkTraits 交互封锁、地面、坠落线、正前方空间、间距、邻居），分配门编号，生成并登记实体，消耗一个物品，开始短暂的放置冷却，
+ * 词条交互封锁、地面、坠落线、正前方空间、间距、邻居），分配门编号，生成并登记实体，消耗一个物品，开始短暂的放置冷却，
  * 播放提示并记录回放。失败时不扣任何东西。归属 P1。
  *
  * <p>Server authority: the client only sends vanilla's use-item packet (it predicts nothing but CONSUME); every check
@@ -123,11 +123,11 @@ public final class RiftGatePlacementService {
     /**
      * Who may place: an ACTIVE round; a living, playing, survival participant who is not an active Wraith; RAW role
      * Riftwalker; not inside a gate; not Control-Expert-stunned; not Kidnapper-controlled (M-7, C16: the client input
-     * lock is not authority, and entry and console close refuse a dragged player too); not under the SparkTraits
-     * killer-interaction lock (Hunter trap precedent; an absent Traits adds no lock).
-     * 谁可以放置：对局处于 ACTIVE；存活、参与中、生存模式且不是激活冤魂的参与者；原始职业为隙行者；不在门内；
-     * 未被控制专家眩晕；未被绑架者控制（M-7、C16：客户端输入锁不是权威，进门与控制台关门同样拒绝被拖行的玩家）；
-     * 未处于 SparkTraits 杀手交互封锁（与猎人陷阱相同；未安装 Traits 时不附加封锁）。
+     * lock is not authority, and entry and console close refuse a dragged player too); not under the trait
+     * killer-interaction lock (Hunter trap precedent).
+     * 谁可以放置：对局处于 ACTIVE；存活、参与中、生存模式且不是激活冤魂的参与者；原始职业为隙行者；不在门内；未被控制专
+     * 家眩晕；未被绑架者控制（M-7、C16：客户端输入锁不是权威，进门与控制台关门同样拒绝被拖行的玩家）；未处于词条杀手交
+     * 互封锁（与猎人陷阱相同）。
      */
     @Nullable
     private static RiftGatePlacementFailure userFailure(ServerWorld world, ServerPlayerEntity player) {

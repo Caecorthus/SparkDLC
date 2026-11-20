@@ -46,22 +46,21 @@ final class WatheShopScenes {
         item("wathe:poison_vial", scene("wathe/bar", WatheShopScenes::poisonVial));
         item("wathe:scorpion", scene("wathe/bedroom", WatheShopScenes::scorpion));
         item("wathe:body_bag", scene("wathe/aisle", WatheShopScenes::bodyBag));
-        // No wathe:blackout demo: SparkStrength took the blackout out of every shop (SabotageShopFilter) and moved the
-        // lights to the killers' tablet; that sabotage is the sparkdlc:circuit_breaker demo
+        // No wathe:blackout demo: the sabotage feature took the blackout out of every shop (SabotageShopFilter) and
+        // moved the lights to the killers' tablet; that sabotage is the sparkdlc:circuit_breaker demo
         // (RoleKitKillerItemScenes::circuitBreaker).
-        // 没有 wathe:blackout 的演示：SparkStrength 已把停电器从所有商店下架（SabotageShopFilter），关灯改由杀手的平板发动；
+        // 没有 wathe:blackout 的演示：破坏功能已把停电器从所有商店下架（SabotageShopFilter），关灯改由杀手的平板发动；
         // 灯光破坏见 sparkdlc:circuit_breaker 演示（RoleKitKillerItemScenes::circuitBreaker）。
         // A NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat, so that scene follows
-        // the bat demo. It used to be appended only when both SparkStrength and NoellesRoles were loaded; the first
-        // is part of SparkDLC and the second is a hard dependency, so it is always appended.
-        // NoellesRoles 连环杀手的疯魔模式改发两把手枪而不是球棒，因此该场景紧随球棒演示。原先只在 SparkStrength 与
-        // NoellesRoles 都加载时才追加；前者已是 SparkDLC 的一部分，后者是硬依赖，因此始终追加。
+        // the bat demo. It is always appended: the pistols are part of this mod and NoellesRoles is a hard dependency.
+        // NoellesRoles 连环杀手的疯魔模式改发两把手枪而不是球棒，因此该场景紧随球棒演示。
+        // 它始终追加：手枪属于本模组，NoellesRoles 是硬依赖。
         item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode),
                 scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
     }
 
     /**
-     * Grenade (GrenadeItem, GrenadeEntity; Spark: SparkStrength GrenadeExplosionMixin): one right-click throws it,
+     * Grenade (GrenadeItem, GrenadeEntity; Spark: SparkDLC GrenadeExplosionMixin): one right-click throws it,
      * it blows up on the first thing it touches and kills everyone within 3 blocks, the thrower included. On Spark
      * walls and closed doors shield; plain Wathe uses a cube with no cover. 3 min cooldown, single use.
      * 手雷：右键一下扔出，撞到任何东西即爆炸，炸死 3 格内所有人（包括扔的人）。Spark 上墙和关着的门能挡住爆炸；
@@ -399,11 +398,11 @@ final class WatheShopScenes {
      * psycho skin and garbled name everyone can see; a public psycho plays music for the whole train (the Silencer's
      * is silent). A fully charged left-click kills; by default one shield absorbs the first ordinary lethal hit (only
      * the psycho hears it). The shop entry cools down 5 min from the purchase. Not every psycho gets the bat: with
-     * SparkStrength a NoellesRoles Serial Killer gets twin pistols instead (RoleKitKillerItemScenes::serialPistols,
+     * this mod a NoellesRoles Serial Killer gets twin pistols instead (RoleKitKillerItemScenes::serialPistols,
      * appended to this demo), hence the hedged caption.
      * 疯魔模式：在商店购买，默认持续 30 秒，球棒锁在手上，所有人都能看到疯魔皮肤和乱码名字；公开的疯魔会让全车响起
      * 音乐（静语者的没有）。蓄满力的左键一击必杀；默认 1 层护盾挡下第一次普通致命攻击（只有疯魔自己听得到）。
-     * 商店购买后冷却 5 分钟。并非所有疯魔都拿球棒：装了 SparkStrength 时，NoellesRoles 连环杀手改拿两把手枪（见
+     * 商店购买后冷却 5 分钟。并非所有疯魔都拿球棒：在本模组中，NoellesRoles 连环杀手改拿两把手枪（见
      * RoleKitKillerItemScenes::serialPistols，已追加到本演示），所以字幕留有余地。
      */
     private static void psychoMode(SceneBuilder scene, SceneBuildingUtil util) {

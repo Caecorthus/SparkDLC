@@ -19,11 +19,11 @@ import net.minecraft.text.Text;
  * Draws Noa's owner-only painting line ({@link NoaPaintHudRules}). Reads only the local player's real synced role and
  * its owner-only {@link NoaComponent} ready tick, counted down against the client world clock for display; the server
  * alone decides a painting. It never reads or shows her sanity (owner rule). Called by {@link NoaClient} only on a
- * confirmed SparkWitch server. Role-owned presentation: never the action bar and never the
+ * confirmed SparkDLC server. Role-owned presentation: never the action bar and never the
  * {@code gui.sparkdlc.skills} panel.
  * 绘制诺亚仅本人可见的作画行（{@link NoaPaintHudRules}）。只读取本地玩家同步的真实职业及其仅本人同步的
  * {@link NoaComponent} 就绪刻，并依据客户端世界时钟倒数用于展示；作画是否生效只由服务端决定。从不读取或显示她的
- * 理智（所有者规则）。仅在已确认的 SparkWitch 服务器上由 {@link NoaClient} 调用。属于职业自有展示：绝不使用动作栏，
+ * 理智（所有者规则）。仅在已确认的 SparkDLC 服务器上由 {@link NoaClient} 调用。属于职业自有展示：绝不使用动作栏，
  * 也绝不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class NoaPaintHud {

@@ -20,8 +20,9 @@ public final class DoorLogRules {
     public static final String WATHE_KEY = "wathe:key";
     public static final String WATHE_LOCKPICK = "wathe:lockpick";
     /**
-     * Items that open any room door by design. Matched by registry id so optional mods (SparkWitch) stay soft.
-     * 设计上可开任意房门的物品。按注册 id 匹配，使可选模组（SparkWitch）保持软依赖。
+     * Items that open any room door by design. Matched by registry id; for the mod's own two keys that is a leftover
+     * of when they lived in another jar.
+     * 设计上可开任意房门的物品。按注册 id 匹配；对本模组自己的两把钥匙而言，这是它们曾在另一个 jar 中时留下的做法。
      */
     public static final Set<String> UNIVERSAL_KEYS = Set.of(
             "noellesroles:master_key",
@@ -30,9 +31,9 @@ public final class DoorLogRules {
             "sparkdlc:spare_key"
     );
     /**
-     * Universal keys that also open from the off-hand, and only while the main hand is empty: SparkWitch's Spare Key
+     * Universal keys that also open from the off-hand, and only while the main hand is empty: the Spare Key
      * (the Attendant's round-start key) reads exactly that hand. Every other key works from the main hand only.
-     * 主手为空时也能在副手开门的万能钥匙：SparkWitch 的备用钥匙（乘务员开局钥匙）恰好按此规则读取副手。其他钥匙只认主手。
+     * 主手为空时也能在副手开门的万能钥匙：备用钥匙（乘务员开局钥匙）恰好按此规则读取副手。其他钥匙只认主手。
      */
     public static final Set<String> OFF_HAND_KEYS = Set.of("sparkdlc:spare_key");
 

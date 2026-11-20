@@ -17,17 +17,16 @@ import java.util.function.Predicate;
 public final class CorruptCopRules {
     public static final Identifier CORRUPT_COP_ID = Identifier.of("noellesroles", "corrupt_cop");
     public static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");
-    // SparkWitch Insider (内应), matched by stable id only: SparkWitch is not a SparkStrength dependency.
-    // SparkWitch 的内应，仅按稳定 id 匹配：SparkWitch 不是 SparkStrength 的依赖。
+    // The Insider (内应), matched by id only: it used to live in another jar.
+    // 内应，仅按 id 匹配：它曾位于另一个 jar。
     public static final Identifier INSIDER_ID = Identifier.of("sparkdlc", "insider");
-    // SparkWitch 狮身豪 (Sphinx Hao): a second SparkWitch Team Jiahao member with the Insider's team capabilities,
-    // matched by stable id only like the Insider.
-    // SparkWitch 的狮身豪：与内应拥有相同阵营能力的第二个 SparkWitch 嘉豪阵营成员，与内应一样仅按稳定 id 匹配。
+    // 狮身豪 (Sphinx Hao): a second Team Jiahao partner with the Insider's team capabilities, matched by id only like
+    // the Insider.
+    // 狮身豪：与内应拥有相同阵营能力的第二个嘉豪阵营搭档，与内应一样仅按 id 匹配。
     public static final Identifier SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
-    // SparkWitch 狙击手 (Sniper, SparkWitch PR #245): a third SparkWitch Team Jiahao member with the Insider's team
-    // capabilities (Insider-style instinct), matched by stable id only like the Insider.
-    // SparkWitch 的狙击手（SparkWitch PR #245）：与内应拥有相同阵营能力（内应式本能）的第三个 SparkWitch 嘉豪阵营成员，
-    // 与内应一样仅按稳定 id 匹配。
+    // 狙击手 (Sniper, PR #245): a third Team Jiahao partner with the Insider's team capabilities (Insider-style
+    // instinct), matched by id only like the Insider.
+    // 狙击手（PR #245）：与内应拥有相同阵营能力（内应式本能）的第三个嘉豪阵营搭档，与内应一样仅按 id 匹配。
     public static final Identifier SNIPER_ID = Identifier.of("sparkdlc", "sniper");
     public static final int ABILITY_COLOR = 0x193264;
     public static final float LATERAL_SPEED_MULTIPLIER = 2.25F;
@@ -50,9 +49,10 @@ public final class CorruptCopRules {
             boolean taskUnlocked
     ) {
         /*
-         * Before the task unlock this x-ray stays silent: SparkWitch's own priority-93 answer still outlines the Insider
-         * for the cop, and NoellesRoles' priority-0 Moment window answer is left untouched.
-         * 任务解锁前本透视不作答：SparkWitch 自身优先级 93 的答复仍会为黑警描出内应，NoellesRoles 优先级 0 的黑警时刻窗口也不受影响。
+         * Before the task unlock this x-ray stays silent: the Team Jiahao instinct answer at priority 93 still outlines
+         * the Insider for the cop, and NoellesRoles' priority-0 Moment window answer is left untouched.
+         * 任务解锁前本透视不作答：嘉豪阵营优先级 93 的本能答复仍会为黑警描出内应，NoellesRoles 优先级 0 的黑警时刻窗口
+         * 也不受影响。
          */
         if (!isCorruptCop(viewerRole)
                 || !taskUnlocked
@@ -78,10 +78,10 @@ public final class CorruptCopRules {
     /**
      * Whose real role may use the neutral master key on train doors, and whose corpse lends one to the Coroner: a
      * neutral-aligned role, plus always the Corrupt Cop itself. Callers pass {@code SparkFactionApi::isNeutralAligned}
-     * because SparkFactionAPI's native Wathe factions (witch faction, Team Jiahao) are no longer {@code isNeutral()} yet
+     * because the native Wathe factions (witch faction, Team Jiahao) are no longer {@code isNeutral()} yet
      * keep this perk (owner D3); the cop never depends on that lookup. The predicate never sees null.
      * 哪些真实身份可用中立万能钥匙开列车门、其尸体会借给验尸官中立钥匙：与中立对齐的身份，以及黑警本身。调用方传入
-     * SparkFactionApi::isNeutralAligned，因为 SparkFactionAPI 的原生 Wathe 阵营（魔女阵营、嘉豪阵营）的 isNeutral()
+     * SparkFactionApi::isNeutralAligned，因为原生 Wathe 阵营（魔女阵营、嘉豪阵营）的 isNeutral()
      * 已为 false，但保留该待遇（所有者 D3）；黑警从不依赖该查询。判定函数不会收到 null。
      */
     public static boolean isNeutralKeyRole(@Nullable Role role, Predicate<? super Role> neutralAligned) {
@@ -158,13 +158,13 @@ public final class CorruptCopRules {
     }
 
     /**
-     * The Corrupt Cop's SparkWitch teammates (Team Jiahao): the Insider, the Sphinx Hao and the Sniper. Used wherever
-     * the Insider alone used to stand for "a SparkWitch Jiahao member" (concealment pairing, blackout team, Partygoer
-     * instinct key). Stays id-exact (not the {@code sparkdlc:jiahao} faction) so these rules stay Minecraft-light and
-     * never count the Corrupt Cop itself, whose faction is Team Jiahao too.
-     * 黑警在 SparkWitch 中的队友（嘉豪阵营）：内应、狮身豪与狙击手。凡是此前用内应单独代表“SparkWitch 嘉豪成员”的地方
-     * （隐身配对、熄灯队伍、派对客本能键）都改用此判定。保持按 id 精确匹配（而非 sparkdlc:jiahao 阵营），使本规则类保持轻量，
-     * 且永远不把同属嘉豪阵营的黑警本身算进来。
+     * The Corrupt Cop's teammates (Team Jiahao): the Insider, the Sphinx Hao and the Sniper. Used wherever the Insider
+     * alone used to stand for "a Team Jiahao partner" (concealment pairing, blackout team, Partygoer instinct key).
+     * Stays id-exact (not the {@code sparkdlc:jiahao} faction) so these rules stay Minecraft-light and never count the
+     * Corrupt Cop itself, whose faction is Team Jiahao too.
+     * 黑警的队友（嘉豪阵营）：内应、狮身豪与狙击手。凡是此前用内应单独代表“嘉豪阵营搭档”的地方（隐身配对、熄灯队伍、
+     * 派对客本能键）都改用此判定。保持按 id 精确匹配（而非 sparkdlc:jiahao 阵营），使本规则类保持轻量，且永远不把同属嘉
+     * 豪阵营的黑警本身算进来。
      */
     public static boolean isSparkWitchJiahaoMember(Role role) {
         return isInsider(role) || isSphinxHao(role) || isSniper(role);
@@ -222,7 +222,7 @@ public final class CorruptCopRules {
             boolean corruptCop
     ) {
         return doorType == DoorInteraction.DoorType.TRAIN_DOOR
-                // 仍保留 SparkStrength 黑警增强里原本的小门行为；其它中立角色只吃“中立万能钥匙”的列车门能力。
+                // 仍保留黑警增强里原本的小门行为；其它中立角色只吃“中立万能钥匙”的列车门能力。
                 || (corruptCop && doorType == DoorInteraction.DoorType.SMALL_DOOR && requiresKey);
     }
 }

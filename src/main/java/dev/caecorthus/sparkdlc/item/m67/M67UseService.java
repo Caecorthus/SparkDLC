@@ -31,11 +31,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Server-owned sessions; packets never supply charge duration. Stable cross-mod contract (the Magician puppet's
- * replay calls it, MagicianM67Replay): this class name and the public static {@link #refreshEquipment} and
- * {@link #withReleaseAuthorization} signatures.
- * 服务端管理蓄力，数据包不能指定蓄力时间。稳定的跨模组契约（魔术师皮套的回放经 MagicianM67Replay 调用）：
- * 本类名，以及 public static {@link #refreshEquipment} 与 {@link #withReleaseAuthorization} 的签名。
+ * Server-owned sessions; packets never supply charge duration. The Magician puppet's replay
+ * ({@code MagicianM67Replay}) calls the public static {@link #refreshEquipment} and
+ * {@link #withReleaseAuthorization}.
+ * 服务端管理蓄力，数据包不能指定蓄力时间。魔术师皮套的回放（{@code MagicianM67Replay}）会调用
+ * public static {@link #refreshEquipment} 与 {@link #withReleaseAuthorization}。
  */
 public final class M67UseService {
     private static final Map<ServerPlayerEntity, Equipment> EQUIPMENT = new IdentityHashMap<>();
@@ -63,9 +63,11 @@ public final class M67UseService {
     }
 
     /**
-     * A role holder during ACTIVE is a participant: live means a match throw, anything else is refused. SparkWitch infers
-     * a match grenade at detonation from the same facts (ACTIVE and the thrower holds a role), so both must stay aligned.
-     * ACTIVE 期间持有角色即为参赛者：存活则为对局投掷，否则拒绝。SparkWitch 在引爆时以同样条件（ACTIVE 且投掷者持有角色）推断对局手雷，两边须保持一致。
+     * A role holder during ACTIVE is a participant: live means a match throw, anything else is refused.
+     * {@code M67MatchBlastHits} infers a match grenade at detonation from the same facts (ACTIVE and the thrower holds
+     * a role), so both must stay aligned.
+     * ACTIVE 期间持有角色即为参赛者：存活则为对局投掷，否则拒绝。{@code M67MatchBlastHits} 在引爆时以同样条件
+     * （ACTIVE 且投掷者持有角色）推断对局手雷，两边须保持一致。
      */
     static ThrowMode throwMode(ServerPlayerEntity player) {
         if (!player.isAlive() || player.isSpectator()) {
@@ -183,8 +185,8 @@ public final class M67UseService {
     }
 
     /**
-     * Scope only the vanilla RELEASE_USE_ITEM invocation, never arbitrary stopUsingItem calls. Cross-mod contract: a
-     * Magician puppet's replayed release runs inside it. / 仅授权原版松开数据包调用。跨模组契约：魔术师皮套回放的松手在此作用域内执行。
+     * Scope only the vanilla RELEASE_USE_ITEM invocation, never arbitrary stopUsingItem calls. A Magician puppet's
+     * replayed release runs inside it. / 仅授权原版松开数据包调用。魔术师皮套回放的松手在此作用域内执行。
      */
     public static void withReleaseAuthorization(ServerPlayerEntity player, Runnable stopUsingItem) {
         refreshEquipment(player);
@@ -217,8 +219,8 @@ public final class M67UseService {
                 ? M67Rules.BOMBER_COOLDOWN_TICKS : M67Rules.THROW_COOLDOWN_TICKS;
     }
 
-    /** Compare references, not counts: successful consumption is not another equip. Cross-mod contract: a Magician
-     *  puppet's replayed use calls it first. / 比较引用而非数量：成功投掷扣除数量不视为重新装备。跨模组契约：魔术师皮套回放使用前先调用它。 */
+    /** Compare references, not counts: successful consumption is not another equip. A Magician puppet's replayed use
+     *  calls it first. / 比较引用而非数量：成功投掷扣除数量不视为重新装备。魔术师皮套回放使用前先调用它。 */
     public static void refreshEquipment(ServerPlayerEntity player) {
         UUID round = M67RoundService.throwRoundId(player.getServerWorld());
         if (round == null || throwMode(player) == ThrowMode.REFUSED) {

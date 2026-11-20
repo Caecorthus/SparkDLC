@@ -17,7 +17,7 @@ import java.util.UUID;
 @Mixin(value = GameFunctions.class, priority = 500)
 public abstract class JudgeKillCompletionMixin {
     // MixinExtras 0.5 appends wrappers around the previous stage: lower priority is offered later/outer.
-    // 0.5 版包装器包住前一层；较低优先级后应用，位于 Traits 2000 与 HEAD 1000 的外侧。
+    // 0.5 版包装器包住前一层；较低优先级后应用，位于天赋 2000 与 HEAD 1000 的外侧。
     @WrapMethod(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V")
     private static void sparkdlc$judgeGuard(ServerPlayerEntity victim, boolean spawnBody,
                                             ServerPlayerEntity killer, Identifier reason, boolean force,

@@ -4,13 +4,13 @@ import java.util.function.BooleanSupplier;
 
 /**
  * Pure, side-neutral rules for the Taotie swallowing a Partygoer (owner rule 2026-10-21: the Taotie can swallow the
- * Partygoer, then gets Slowness IV and is kicked to death 5 s later, and the Partygoer is let out). Precedent: SparkWitch's
+ * Partygoer, then gets Slowness IV and is kicked to death 5 s later, and the Partygoer is let out). Precedent: the
  * Seeker car swallow. The server validation order is fixed here so the service only supplies facts; later checks are
  * asked only after every earlier one passed. The client claim encodes "whatever the vanilla crosshair is on gets
  * swallowed": vanilla's crosshair also hits players, so a Partygoer under it is nearer than any player on that ray, and
  * NoellesRoles (which only ever aims at players) must not swallow someone standing behind it.
  * 饕餮吞派对客的纯规则，两端通用（主人规则 2026-10-21：饕餮可以吞下派对客，随后获得缓慢 IV，5 秒后被一脚踢死，派对客被放出）。
- * 先例：SparkWitch 搜寻者小车被吞。服务端校验顺序固定在此处，服务层只提供事实；前序检查全部通过后才会询问后续检查。客户端认领
+ * 先例：搜寻者小车被吞。服务端校验顺序固定在此处，服务层只提供事实；前序检查全部通过后才会询问后续检查。客户端认领
  * 编码了“原版准星对着什么就吞什么”：原版准星也会命中玩家，所以准星上的派对客比该射线上的任何玩家都近，NoellesRoles（只瞄准玩家）
  * 不能吞掉站在它身后的人。
  */
@@ -71,10 +71,10 @@ public final class PartygoerTaotieRules {
         /** Bonked by a Taotie head. / 被饕餮头颅砸晕。 */
         boolean dazed();
 
-        /** Engineer stun or SparkWitch Control Expert stun. / 工程师定身或 SparkWitch 控场专家眩晕。 */
+        /** Engineer stun or Control Expert stun. / 工程师定身或控场专家眩晕。 */
         boolean stunned();
 
-        /** SparkTraits role-skill block or a pending Last Stand. / SparkTraits 职业技能封锁或背水一战待定。 */
+        /** Trait role-skill block or a pending Last Stand. / 词条职业技能封锁或背水一战待定。 */
         boolean roleSkillBlocked();
 
         /** Already has a Partygoer kicking inside. / 肚子里已经有一只派对客在踢。 */
@@ -201,10 +201,10 @@ public final class PartygoerTaotieRules {
      * Client claim of one shared-key press. Cheap gates first: only a real press of NoellesRoles' ability key on a server
      * that accepts {@code partygoer_swallow}; then the local Taotie must be ready and the vanilla crosshair must be on a
      * Partygoer that {@linkplain #shieldsPress shields} the press. Claimed means NoellesRoles sees no press this call.
-     * Only our own entity is ever claimed, so SparkWitch's Search Car claim on the same key never competes with it.
+     * Only our own entity is ever claimed, so the Seeker's Search Car claim on the same key never competes with it.
      * 客户端对一次共享键按下的认领。先做廉价判定：只有在能接收 {@code partygoer_swallow} 的服务器上真实按下 NoellesRoles 技能键；
      * 之后本地饕餮必须就绪，且原版准星落在遮挡本次按键的派对客上。认领后 NoellesRoles 在这次调用中看不到按键。只认领我们自己的
-     * 实体，因此与同一按键上 SparkWitch 搜寻小车的认领互不冲突。
+     * 实体，因此与同一按键上搜寻小车的认领互不冲突。
      */
     public static boolean claimsPress(boolean pressed, boolean abilityKey, boolean connectionReady,
                                       BooleanSupplier taotieReady, BooleanSupplier partygoerInReach) {

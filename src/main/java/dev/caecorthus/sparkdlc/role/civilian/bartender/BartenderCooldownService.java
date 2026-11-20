@@ -12,10 +12,10 @@ import java.util.Set;
 /**
  * Spice A's effect: clears the cooldown of every item the drinker carries (hotbar, backpack, armour, offhand and
  * the cursor). Only item cooldowns: shop cooldowns live in PlayerShopComponent and role abilities in their own
- * components, so neither is touched. Cooldowns SparkStrength holds up every tick while a state lasts (skateboard
+ * components, so neither is touched. Cooldowns a role kit holds up every tick while a state lasts (skateboard
  * ride, drone flight, M67 pin) are re-raised by their owners on the next tick.
  * 调料 A 的效果：清空饮用者身上所有物品（快捷栏、背包、盔甲、副手与鼠标）的冷却。只清物品冷却：商店冷却在
- * PlayerShopComponent、职业技能在各自组件中，均不受影响。SparkStrength 在状态持续期间每刻维持的冷却
+ * PlayerShopComponent、职业技能在各自组件中，均不受影响。职业增强在状态持续期间每刻维持的冷却
  * （滑板骑行、无人机飞行、M67 拔销）会在下一刻由其所属逻辑重新抬高。
  */
 public final class BartenderCooldownService {

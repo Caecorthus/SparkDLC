@@ -23,19 +23,19 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Hanna's coins and shop, all server authority, all gated to a living Hanna in an ACTIVE round:
  * <ul>
- *   <li>Tasks: +{@link HannaRules#TASK_COINS}, only for a confirmed non-Impostor (SparkTraits pays an Impostor's task
+ *   <li>Tasks: +{@link HannaRules#TASK_COINS}, only for a non-Impostor (the Impostor trait pays its holder's task
  *   income itself; owner rule from #189: no double pay). Her +{@link HannaRules#TASK_MANA} mana per task is not paid
  *   here: it is {@code WitchManaRules.taskReward}.</li>
  *   <li>Passive: +{@link HannaRules#PASSIVE_COINS} every {@link HannaRules#PASSIVE_INTERVAL_TICKS} of world time.</li>
- *   <li>Shop: the parasol and the handkerchief, real items that any holder can use, each passed through the optional
- *   SparkTraits Charisma discount like the Discoverer's row. The shop and the balance are hidden once she is dead
+ *   <li>Shop: the parasol and the handkerchief, real items that any holder can use, each passed through the
+ *   Charisma trait's discount like the Discoverer's row. The shop and the balance are hidden once she is dead
  *   (Saint and Noa precedent).</li>
  * </ul>
  * 汉娜的金币与商店，全部由服务端决定，且只对 ACTIVE 回合中存活的汉娜生效：
- * 任务 +{@link HannaRules#TASK_COINS}，只发给确认不是内鬼的汉娜（内鬼的任务收入由 SparkTraits 自行支付；#189 的所有者规则：
+ * 任务 +{@link HannaRules#TASK_COINS}，只发给不是内鬼的汉娜（内鬼的任务收入由内鬼词条自行支付；#189 的所有者规则：
  * 不重复发放）。每个任务的 +{@link HannaRules#TASK_MANA} 魔力不在此处发放，而是 {@code WitchManaRules.taskReward}。
  * 被动：世界时间每 {@link HannaRules#PASSIVE_INTERVAL_TICKS} 刻 +{@link HannaRules#PASSIVE_COINS}。商店：洋伞与手帕，都是
- * 谁拿到都能用的真实物品，并像探索者的商品一样经过可选的 SparkTraits 魅力折扣。死亡后隐藏商店与余额（沿用圣徒与诺亚的先例）。
+ * 谁拿到都能用的真实物品，并像探索者的商品一样经过魅力词条的折扣。死亡后隐藏商店与余额（沿用圣徒与诺亚的先例）。
  */
 final class HannaEconomyService {
     /** Stable shop entry ids (the item ids). / 稳定的商店条目 id（即物品 id）。 */
@@ -53,10 +53,9 @@ final class HannaEconomyService {
     }
 
     /**
-     * {@code addToBalance} so income observers (SparkFactionAPI's income record, SparkTraits Snowball, SparkStrength's
-     * purse) see ordinary income. An unknown Impostor answer (null) never pays.
-     * 使用 {@code addToBalance}，使收入观察者（SparkFactionAPI 收入记录、SparkTraits 滚雪球、SparkStrength 钱包）视其为普通
-     * 收入。内鬼答案未知（null）时从不发放。
+     * {@code addToBalance} so income observers (the income record, the Snowball trait, the killer team purse) see
+     * ordinary income.
+     * 使用 {@code addToBalance}，使收入观察者（收入记录、滚雪球词条、杀手共享钱包）视其为普通收入。
      */
     private static void onTaskComplete(PlayerEntity player) {
         if (player instanceof ServerPlayerEntity hanna && canEarn(hanna)

@@ -6,10 +6,10 @@ import dev.doctor4t.wathe.api.Role;
 
 /**
  * Bewitched (魔化使) role definition: a witch-faction member with the plain Accomplice profile (FAKE mood, unlimited
- * sprint, round clock, C1). SparkFactionAPI's third-faction draw deals it at round start in a Grand Witch round
+ * sprint, round clock, C1). The third-faction draw deals it at round start in a Grand Witch round
  * ({@code registry/WitchThirdFactionLineup}); it is never drawn by a Wathe pass and is not a Wathe special role, so
  * {@code /wathe:forceRole} can still force it.
- * 魔化使职业定义：魔女阵营成员，参数与普通共犯一致（伪装情绪、无限疾跑、可见回合时间，C1）。由 SparkFactionAPI 第三阵营
+ * 魔化使职业定义：魔女阵营成员，参数与普通共犯一致（伪装情绪、无限疾跑、可见回合时间，C1）。由第三阵营
  * 抽取在有大魔女的对局开局时发放（{@code registry/WitchThirdFactionLineup}）；从不由 Wathe 分配抽取，也不是 Wathe 特殊职业，
  * 因此仍可用 {@code /wathe:forceRole} 强制指定。
  */

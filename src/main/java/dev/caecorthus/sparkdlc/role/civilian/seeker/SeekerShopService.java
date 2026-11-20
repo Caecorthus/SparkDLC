@@ -13,10 +13,10 @@ import java.util.List;
 
 /**
  * Replaces the Seeker's shop on both sides with the camera (150, re-buyable any time with no ownership limit). The
- * entry keeps Wathe's default buy handler and passes through the optional SparkTraits Charisma discount. The
- * SparkStrength tablet is issued by SparkStrength at round start, never sold here.
+ * entry keeps Wathe's default buy handler and passes through the Charisma trait's discount (applied only to a player
+ * who owns that trait). The tablet is issued by {@code TabletShopService} at round start, never sold here.
  * 在两端把搜寻者商店替换为摄像头（150，随时可再买、不限拥有数量）。条目保留 Wathe 默认购买处理，
- * 并经过可选的 SparkTraits 魅力折扣。SparkStrength 平板由 SparkStrength 开局发放，此处不出售。
+ * 并经过魅力词条折扣（仅对拥有该词条的玩家生效）。平板由 {@code TabletShopService} 开局发放，此处不出售。
  */
 public final class SeekerShopService {
     private static boolean registered;
@@ -37,8 +37,8 @@ public final class SeekerShopService {
         if (!SeekerShopRules.rebuildsShopFor(role)) {
             return;
         }
-        // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
-        // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
+        // Trait shop entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
+        // 词条商店条目（如内鬼左轮）可能已先加入；重建时保留它们。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (SeekerShopRules.EntrySpec spec : SeekerShopRules.entries()) {

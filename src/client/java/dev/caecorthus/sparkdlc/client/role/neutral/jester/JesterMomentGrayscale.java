@@ -12,11 +12,11 @@ import net.minecraft.util.math.MathHelper;
 import org.agmas.noellesroles.jester.JesterPlayerComponent;
 
 /**
- * The Jester's screen greys 10% per Jester Moment kill, up to 50%, like SparkTraits Depression's grayscale. The kill
+ * The Jester's screen greys 10% per Jester Moment kill, up to 50%, like the Depression trait's grayscale. The kill
  * count is NoellesRoles' own, which it syncs to the Jester. Owns a private vanilla {@code color_convolve}
  * {@link PostEffectProcessor} (its Saturation uniform = 1 - grayscale), separate from GameRenderer's shared slot and
  * from the other grayscale/blur processors; each reads and writes the main framebuffer in turn, so they stack.
- * 小丑在小丑时刻中每击杀一人，屏幕灰度增加 10%，最高 50%，效果类似 SparkTraits 抑郁的灰阶。击杀数取自 NoellesRoles
+ * 小丑在小丑时刻中每击杀一人，屏幕灰度增加 10%，最高 50%，效果类似抑郁特质的灰阶。击杀数取自 NoellesRoles
  * 同步给小丑本人的计数。持有私有的原版 {@code color_convolve} 后处理器（Saturation = 1 - 灰度），独立于 GameRenderer
  * 的共享槽位以及其他灰阶/模糊处理器；各处理器依次读写主帧缓冲，因此可以叠加。
  */

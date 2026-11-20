@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
- * Gives Attendants their SparkStrength starter flashlight.
- * 给乘务员发放 SparkStrength 开局手电筒。
+ * Gives Attendants their role-kit starter flashlight.
+ * 给乘务员发放职业增强的开局手电筒。
  */
 public final class AttendantFlashlightService {
     private AttendantFlashlightService() {

@@ -60,8 +60,8 @@ public final class MiniWitherFeatureService {
                 WitherGoheiLoadoutService.stripAll(serverPlayer);
             }
         });
-        // A SparkTraits-intercepted death (Last Stand) leaves the player in play, so nothing is cleared.
-        // 被 SparkTraits 拦截的死亡（最后的坚守）使玩家仍留在对局中，因此不清空任何东西。
+        // A death intercepted by the Last Stand trait leaves the player in play, so nothing is cleared.
+        // 被最后的坚守词条拦截的死亡使玩家仍留在对局中，因此不清空任何东西。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;

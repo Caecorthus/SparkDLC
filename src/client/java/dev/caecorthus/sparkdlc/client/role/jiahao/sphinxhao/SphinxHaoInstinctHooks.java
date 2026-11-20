@@ -83,10 +83,10 @@ public final class SphinxHaoInstinctHooks {
     }
 
     /**
-     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): its own read of the public
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade, like Koko's.
-     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：自有的一份公共
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，同可可。
+     * Trait contract ({@code trait.api}), called directly: its own read of the public
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)}, like Koko's.
+     * 特质契约（{@code trait.api}），直接调用：自有的一份公共
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 读取，同可可。
      */
     private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
         return SparkTraitsApi.isInstinctHidden(viewer, target);

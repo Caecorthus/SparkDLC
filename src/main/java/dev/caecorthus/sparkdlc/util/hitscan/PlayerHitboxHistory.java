@@ -37,10 +37,10 @@ public final class PlayerHitboxHistory {
     }
 
     /**
-     * {@code hittable}: neither spectator nor creative nor under SparkTraits Last Escape when recorded. Wathe-dead
+     * {@code hittable}: neither spectator nor creative nor under the Last Escape trait when recorded. Wathe-dead
      * players, Rift Gate occupants and swallowed players are spectators, so their boxes from that time are never
      * projectile hit volumes.
-     * {@code hittable}：记录时既非旁观、也非创造模式、也不处于 SparkTraits 最后逃脱。Wathe 判定死亡的玩家、裂隙门内的玩家
+     * {@code hittable}：记录时既非旁观、也非创造模式、也不处于最后逃脱词条之下。Wathe 判定死亡的玩家、裂隙门内的玩家
      * 与被吞下的玩家都是旁观者，因此他们那段时间的箱体永远不会成为投射物命中体积。
      */
     private record Sample(int tick, RegistryKey<World> world, Box box, boolean hittable) {

@@ -31,9 +31,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * SparkAssist captions share their measured lines and stay above the playback controls. Ponder still draws its
+ * The mod's captions share their measured lines and stay above the playback controls. Ponder still draws its
  * original window, palette, fade and animated pointer; the pointer remains anchored to the scene after a move.
- * SparkAssist 字幕共用测量后的行，保持在播放控件上方；保留 Ponder 原生窗口、配色、淡入和指向动画，移动后仍指向场景。
+ * 本模组的字幕共用测量后的行，保持在播放控件上方；保留 Ponder 原生窗口、配色、淡入和指向动画，移动后仍指向场景。
  */
 @Pseudo
 @Mixin(targets = "net.createmod.ponder.foundation.element.TextWindowElement", remap = false)

@@ -158,9 +158,9 @@ public final class PartygoerTaotieService {
 
     /**
      * Release FIRST (so the brain is already out and hunting when KillPlayer.AFTER runs), then the forced kill with the
-     * KICKED reason itself (SparkTraits matches terminal reasons by identity). Credit follows the Partygoer's own rule:
+     * KICKED reason itself (traits match terminal reasons by identity). Credit follows the Partygoer's own rule:
      * the summoner when online, unless the Taotie counts as a killer.
-     * 先放出（这样 KillPlayer.AFTER 运行时大脑已经出来并开始追人），再用 KICKED 死因常量本身强制击杀（SparkTraits 按同一对象
+     * 先放出（这样 KillPlayer.AFTER 运行时大脑已经出来并开始追人），再用 KICKED 死因常量本身强制击杀（词条按同一对象
      * 匹配终结死因）。击杀归属沿用派对客自己的规则：召唤者在线时记给召唤者，除非饕餮算作杀手阵营。
      */
     private static void kickToDeath(Digestion digestion, ServerPlayerEntity taotie) {

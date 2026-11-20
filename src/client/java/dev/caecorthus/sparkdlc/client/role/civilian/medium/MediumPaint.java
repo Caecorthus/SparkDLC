@@ -9,12 +9,12 @@ import net.minecraft.client.gui.DrawContext;
 /**
  * Role-local tokens and fill primitives for the Medium's screens, HUD card and inventory drawer, in the Harpy Express
  * house style with the ghost-fire teal as the only accent (teal means "your pick / yours" and nothing else).
- * {@link InventoryCardPaint} is SparkFactionAPI's copy, shared with SparkTraits, and the Tarot classes belong to the
+ * {@link InventoryCardPaint} is the shared set, also used by the trait screens, and the Tarot classes belong to the
  * Tarot Reader, so the few recipes they lack (a taller answer button, a frame that can fade, the blessing icons, the
  * face tile) live here. Every primitive is fill-only: callers wrap them in {@link InventoryCardPaint#batch} and draw
  * text and textures after the batch.
  * 通灵师界面、HUD 卡片与背包抽屉的职业自有令牌与填充原语，沿用哈比特快风格，仅以鬼火青绿作为强调色（青绿只表示
- * 「你的选择 / 你的东西」）。{@link InventoryCardPaint} 位于 SparkFactionAPI、与 SparkTraits 共用，塔罗类归塔罗牌师所有，
+ * 「你的选择 / 你的东西」）。{@link InventoryCardPaint} 是共用原语、特质界面也在用，塔罗类归塔罗牌师所有，
  * 因此它们缺少的少量配方（更高的作答按钮、可渐隐的外框、加护图标、头像格）放在这里。所有原语只做填充：调用方用
  * {@link InventoryCardPaint#batch} 包裹，批次结束后再绘制文字与贴图。
  */

@@ -20,13 +20,14 @@ import java.util.function.BooleanSupplier;
 public final class OwnerInventoryClientAdapter implements OwnerInventoryPresentation.Adapter {
     private static final OwnerInventoryClientAdapter INSTANCE = new OwnerInventoryClientAdapter();
     /**
-     * SparkTraits' own instance of SparkFactionAPI's shared info card: its caches, its "+N more" lang key, its
-     * SparkStrength HUD bridge and its SparkAssist decoration (own logger and failure latch). The traits card
-     * reserves no second inventory row. Never hand this instance to another mod. Created on first use, so a
-     * linkage failure still surfaces inside the mixin's guarded render and only disables the native card.
-     * SparkTraits 自己的共享信息卡实例（由 SparkFactionAPI 提供）：自己的缓存、“+N 项”语言键、SparkStrength HUD 桥接
-     * 与 SparkAssist 点缀（独立的日志名与失败锁存）。天赋卡不预留物品栏第二行。不要把该实例交给其他模组。
-     * 首次使用时才创建，因此链接失败仍发生在 mixin 受保护的渲染调用内，只会停用原生卡。
+     * The native trait card's own instance of the shared info card ({@code client.gui.card}): its caches, its
+     * "+N more" lang key, the killer team-wallet HUD row and the guidebook decoration (own logger and failure latch).
+     * The traits card reserves no second inventory row. Never hand this instance to the role-skill card. Created on
+     * first use, so a failure to create it still surfaces inside the mixin's guarded render and only disables the
+     * native card.
+     * 原生天赋卡自己的共享信息卡实例（{@code client.gui.card}）：自己的缓存、“+N 项”语言键、杀手团队余额 HUD 行
+     * 与指南点缀（独立的日志名与失败锁存）。天赋卡不预留物品栏第二行。不要把该实例交给职业技能卡。
+     * 首次使用时才创建，因此创建失败仍发生在 mixin 受保护的渲染调用内，只会停用原生卡。
      */
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more", () -> 0,
@@ -111,7 +112,7 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
         Card.INSTANCE.invalidateCaches();
     }
 
-    /** The traits card renderer (SparkTraits' own instance, see {@link Card}). 天赋卡渲染器（SparkTraits 自己的实例）。 */
+    /** The traits card renderer (the native trait card's own instance, see {@link Card}). 天赋卡渲染器（原生天赋卡自己的实例）。 */
     public static InventoryInfoCard card() {
         return Card.INSTANCE;
     }

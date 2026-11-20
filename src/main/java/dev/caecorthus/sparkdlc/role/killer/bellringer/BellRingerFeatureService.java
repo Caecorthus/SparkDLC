@@ -82,9 +82,9 @@ public final class BellRingerFeatureService {
                 clearPlayer(player);
             }
         });
-        // SparkTraits keeps terminal reasons in a live set read at kill time, so registering once the server
+        // The trait feature keeps terminal reasons in a live set read at kill time, so registering once the server
         // starts (every mod initialised, on the server thread) is early enough and idempotent across restarts.
-        // SparkTraits 在击杀时实时读取终结原因集合；在服务端启动时（所有模组已初始化、位于服务端线程）
+        // 词条功能在击杀时实时读取终结原因集合；在服务端启动时（所有模组已初始化、位于服务端线程）
         // 注册即足够早，且多次启动重复注册是幂等的。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.BELL_TOLL));

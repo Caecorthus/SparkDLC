@@ -358,8 +358,8 @@ public final class RoleEvents {
         KillPlayer.AFTER.register(WraithConversion::afterKill);
         KillPlayer.AFTER.register(WitchManaService::afterKill);
         KillPlayer.AFTER.register(WitchEconomyService::afterKill);
-        // A SparkTraits-intercepted death (Last Stand) is not a death: no use for the killer, and a revived Dominator
-        // keeps uses and mark (Time Stealer / Seeker precedent). / SparkTraits 拦截的死亡（背水一战）不算死亡：击杀者不加次数，
+        // A death the Last Stand trait intercepted is not a death: no use for the killer, and a revived Dominator
+        // keeps uses and mark (Time Stealer / Seeker precedent). / 被背水一战词条拦截的死亡不算死亡：击杀者不加次数，
         // 复活的支配者保留次数与标记（窃时者、搜寻者先例）。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
@@ -408,8 +408,8 @@ public final class RoleEvents {
                 DominatorSkillService.clearPlayer(serverPlayer);
                 GuardianAngelFeatureService.clearRoundPlayer(serverPlayer);
                 if (WraithStateService.isActive(serverPlayer)) {
-                    // SparkTraits observes active Wraith state while dispatching terminal trait removals.
-                    // SparkTraits 分发终局天赋移除事件时必须仍能观察到激活的冤魂状态。
+                    // The traits observe active Wraith state while dispatching terminal trait removals.
+                    // 天赋功能分发终局天赋移除事件时必须仍能观察到激活的冤魂状态。
                     SparkTraitsApi.clearWraithTraits(serverPlayer, true);
                 }
                 WraithLifecycle.clearPlayer(serverPlayer);
@@ -427,8 +427,8 @@ public final class RoleEvents {
         });
         GameEvents.ON_FINISH_FINALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
-                // Round end clears only SparkWitch runtime state; role maps and other mods remain owned by wathe.
-                // 回合结束只清理 SparkWitch 运行态，身份表和其他模组状态仍由 wathe 自己管理。
+                // Round end clears only the own roles' runtime state; role maps and other mods remain owned by wathe.
+                // 回合结束只清理本模组职业的运行态，身份表和其他模组状态仍由 wathe 自己管理。
                 WitchWorldComponent.KEY.get(serverWorld).clearRoundState();
                 FirePokerFallAttributionService.clearAll();
                 SpecterOtherworldComponent.KEY.get(serverWorld).clear();

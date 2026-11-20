@@ -15,7 +15,7 @@ public enum SpiritPossessionEndReason {
     TARGET_LOST(2, "target_lost"),
     /** The spirit projection ended (body hurt, moved or swallowed, or the ability key). / 灵魂出窍结束（肉身受伤、被移动、被吞噬，或按下技能键）。 */
     RETURNED(3, "returned"),
-    /** Round over, death, role change, a stun or a SparkTraits skill block. / 对局结束、死亡、身份变化、眩晕或 SparkTraits 技能封锁。 */
+    /** Round over, death, role change, a stun or a trait's skill block. / 对局结束、死亡、身份变化、眩晕或词条技能封锁。 */
     INTERRUPTED(4, "interrupted");
 
     private final int wire;

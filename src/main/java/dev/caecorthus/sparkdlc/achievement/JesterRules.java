@@ -41,9 +41,9 @@ final class JesterRules {
 
     /**
      * 五十度灰: as the Jester, kill 5 different players within one Jester Moment (from my {@code jester_moment_start}
-     * to my {@code jester_moment_end} or my death). SparkStrength greys the screen 10% per such kill, capped at 50%.
+     * to my {@code jester_moment_end} or my death). The role kit greys the screen 10% per such kill, capped at 50%.
      * 以小丑身份在一次小丑时刻内（从我的 {@code jester_moment_start} 到我的 {@code jester_moment_end} 或我死亡）击杀 5 名不同的玩家。
-     * SparkStrength 每杀一人让画面灰 10%，最多 50%。
+     * 职业套件每杀一人让画面灰 10%，最多 50%。
      */
     static boolean fiveKillsInOneMoment(AchievementContext context) {
         List<MatchEvent> kills = Rules.myKills(context, kill -> Rules.killedAs(context, kill, JESTER));
@@ -80,10 +80,10 @@ final class JesterRules {
 
     /**
      * 双影谢幕: I won a {@code NEUTRAL} win and ended the round as a Shadow Jester. The only way a Shadow Jester is a
-     * neutral winner is the allied pair's showdown (Noelle's Roles' or SparkStrength's), whose two winners are both
+     * neutral winner is the allied pair's showdown (Noelle's Roles' or the role kit's), whose two winners are both
      * listed.
      * 我以 {@code NEUTRAL} 胜利获胜，且以影子小丑身份结束本局。影子小丑成为中立赢家的唯一途径就是结盟二人的终局对决
-     * （Noelle's Roles 或 SparkStrength 的版本），两人都列为赢家。
+     * （Noelle's Roles 或职业套件的版本），两人都列为赢家。
      */
     static boolean wonShadowShowdown(AchievementContext context) {
         return wonNeutralAs(context, SHADOW_JESTER);

@@ -35,10 +35,11 @@ public final class TarotReaderRules {
     }
 
     /**
-     * Bucket for an SFA faction id, falling back to the role's Wathe faction only for ids outside the five buckets.
-     * SFA appends native constants (WITCH, JIAHAO) to Wathe's {@code Faction} enum at runtime, so the fallback compares
-     * the built-in constants by identity and never switches over the enum: any other constant reads as no bucket.
-     * 按 SFA 阵营 ID 归桶；仅当 ID 不属于五个桶时才回退到职业的 Wathe 阵营。SFA 会在运行时向 Wathe 的
+     * Bucket for a faction id of the faction core, falling back to the role's Wathe faction only for ids outside the
+     * five buckets. The faction core appends native constants (WITCH, JIAHAO) to Wathe's {@code Faction} enum at
+     * runtime, so the fallback compares the built-in constants by identity and never switches over the enum: any
+     * other constant reads as no bucket.
+     * 按阵营核心的阵营 ID 归桶；仅当 ID 不属于五个桶时才回退到职业的 Wathe 阵营。阵营核心会在运行时向 Wathe 的
      * {@code Faction} 枚举追加原生常量（WITCH、JIAHAO），因此回退只按引用比较内置常量、从不对该枚举做 switch：
      * 其他常量一律视为不属于任何桶。
      */

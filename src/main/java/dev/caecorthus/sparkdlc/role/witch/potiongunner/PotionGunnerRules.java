@@ -28,7 +28,7 @@ public final class PotionGunnerRules {
     /** Item-use replay record for one launcher shot. / 一次炮筒发射的物品使用回放记录。 */
     public static final Identifier FIRE_REPLAY_ID = SparkDLC.id("potion_launcher_fire");
 
-    /** SparkFactionAPI affect action ids. / SparkFactionAPI 影响行为 id。 */
+    /** {@code SparkFactionApi.canAffectPlayer} action ids. / canAffectPlayer 影响行为 id。 */
     public static final Identifier BLAST_ACTION = SparkDLC.id("potion_shell_blast");
 
     public static final int SHELL_MAX_STACK = 8;

@@ -48,7 +48,7 @@ public final class CoronerPlayerComponent implements AutoSyncedComponent {
     private @Nullable UUID activeDisguiseUuid;
     private @Nullable Identifier activeDisguiseRoleId;
     /*
-     * 当 SparkStrength/Noelles 的变形怪效果覆盖验尸官外观时，验尸官尸体身份的装备也会被临时收回。
+     * 当本模组变形试剂/Noelles 变形怪的变形效果覆盖验尸官外观时，验尸官尸体身份的装备也会被临时收回。
      * 这个标记用于在高优先级变形结束后，只补发一次原伪装身份对应的临时装备。
      */
     private boolean temporaryEquipmentSuppressed;

@@ -12,12 +12,12 @@ import java.util.UUID;
 
 /**
  * Pure client outline policy for Seeker devices and the owner's breaker mark (plan §3.14, §3.15, owner decision
- * Q12/Q13). Instinct viewers are killers (Wathe's {@code isKiller()}, which SparkTraits extends to Impostors),
+ * Q12/Q13). Instinct viewers are killers (Wathe's {@code isKiller()}, which the traits extend to Impostors),
  * spectators with spectator information, and the Grand Witch, every accomplice (plain or special) and the Murderous
  * Witch. The owner always sees their own car dimly; cameras are never outlined. During a car or camera view the owner
  * also sees their own body. The hooks feed plain facts in; nothing here touches the client.
  * 搜寻者设备与拥有者损坏者标记的纯客户端描边规则（计划 §3.14、§3.15，所有者决定 Q12/Q13）。有本能的观察者为
- * 杀手（Wathe 的 {@code isKiller()}，SparkTraits 会把内鬼也算进去）、可见旁观信息的旁观者，以及大魔女、所有共犯
+ * 杀手（Wathe 的 {@code isKiller()}，特质会把内鬼也算进去）、可见旁观信息的旁观者，以及大魔女、所有共犯
  * （普通或特殊）和杀意魔女。拥有者始终以暗色看到自己的小车；摄像头从不描边。小车或摄像头视角期间，拥有者还会看到
  * 自己的本体描边。钩子只传入事实，这里不接触客户端。
  */
@@ -91,10 +91,10 @@ public final class SeekerInstinctRules {
      * Whether the owner's breaker-mark outline shows on this player. Hidden while the target is a spectator or
      * swallowed (a swallowed outline would reveal the Taotie), while the target is invisible to the viewer (vanilla
      * still draws an outline silhouette for invisible entities, so an always-on mark would expose e.g. a Phantom;
-     * SparkWitch's other always-on player outlines skip invisible targets too), when SparkTraits hides the target from
+     * the other always-on player outlines skip invisible targets too), when a trait hides the target from
      * the viewer, or while the viewer is swallowed.
      * 损坏者标记描边是否显示在该玩家上。目标为旁观者或被吞噬（否则会暴露饕餮位置）、目标对观察者隐身（原版仍会为隐身
-     * 实体绘制描边轮廓，常亮标记会暴露如幽灵等隐身者；SparkWitch 其他常亮玩家描边同样跳过隐身目标）、SparkTraits
+     * 实体绘制描边轮廓，常亮标记会暴露如幽灵等隐身者；其他常亮玩家描边同样跳过隐身目标）、特质
      * 对观察者隐藏目标，或观察者自己被吞噬时均不显示。
      */
     public static boolean showsMark(@Nullable UUID markTarget, int markRemainingTicks, @Nullable UUID targetUuid,

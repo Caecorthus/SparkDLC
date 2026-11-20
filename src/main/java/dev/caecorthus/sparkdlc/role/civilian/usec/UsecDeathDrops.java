@@ -42,9 +42,9 @@ public final class UsecDeathDrops {
     /**
      * Mixin seam ({@code PlayerEntityUsecItemMixin}, RETURN of {@code PlayerEntity#dropItem(ItemStack, boolean,
      * boolean)}): records a revolver item entity created for a USEC on the server. A drop cancelled at HEAD (a
-     * Last Stand revolver kept by SparkTraits, a Coroner temporary grant) never reaches RETURN and is not recorded.
+     * revolver kept by the Last Stand trait, a Coroner temporary grant) never reaches RETURN and is not recorded.
      * mixin 接缝（{@code PlayerEntityUsecItemMixin}，{@code PlayerEntity#dropItem(ItemStack, boolean, boolean)} 的 RETURN）：
-     * 记录服务端为 USEC 生成的左轮物品实体。在 HEAD 被取消的丢弃（SparkTraits 背水一战保留的左轮、验尸官的临时装备）不会到达
+     * 记录服务端为 USEC 生成的左轮物品实体。在 HEAD 被取消的丢弃（背水一战词条保留的左轮、验尸官的临时装备）不会到达
      * RETURN，因此不被记录。
      */
     public static void noteDrop(PlayerEntity player, @Nullable ItemEntity dropped) {
@@ -57,11 +57,11 @@ public final class UsecDeathDrops {
     }
 
     /**
-     * {@code KillPlayer.AFTER} for every victim. A SparkTraits-intercepted death (Last Stand; the same fail-closed
+     * {@code KillPlayer.AFTER} for every victim. A trait-intercepted death (Last Stand; the same fail-closed
      * check as the Seeker) keeps everything. Otherwise every bound item is stripped from any victim (a non-USEC holder
      * included) and the component is cleared; a USEC victim also drops one revolver unless one already dropped this
      * tick.
-     * 对每名受害者执行的 {@code KillPlayer.AFTER}。被 SparkTraits 拦截的死亡（背水一战；与搜寻者相同的保守失败判定）保留一切。
+     * 对每名受害者执行的 {@code KillPlayer.AFTER}。被词条拦截的死亡（背水一战；与搜寻者相同的保守失败判定）保留一切。
      * 否则从任何受害者身上（含非 USEC 持有者）清除所有绑定物品并清空组件；USEC 受害者还会掉落一把左轮，除非本刻已经掉落过一把。
      */
     static void afterKill(ServerPlayerEntity victim) {

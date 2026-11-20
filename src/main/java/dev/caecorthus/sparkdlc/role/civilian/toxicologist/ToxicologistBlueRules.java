@@ -22,7 +22,7 @@ public final class ToxicologistBlueRules {
     public static final int BELLADONNA_BLUE_TICKS = 5 * 20;
     public static final int BELLADONNA_EAT_TICKS = 16;
 
-    /** "10 sanity per second" in SparkTraits' convention (1 point = 0.01 Wathe mood). 按 SparkTraits 约定 1 点理智 = 0.01 心情值。 */
+    /** "10 sanity per second" in the traits' convention (1 point = 0.01 Wathe mood). 按词条的约定 1 点理智 = 0.01 心情值。 */
     public static final float SANITY_REGEN_PER_SECOND = 0.10f;
     public static final float SANITY_REGEN_PER_TICK = SANITY_REGEN_PER_SECOND / 20.0f;
     /** Status-effect amplifier 1 is Speed II. 状态效果等级 1 即速度 II。 */
@@ -74,9 +74,9 @@ public final class ToxicologistBlueRules {
     }
 
     /**
-     * The blue state is either remaining window ticks after SparkTraits' own decrement, or a drain SparkTraits skipped
+     * The blue state is either remaining window ticks after the trait component's own decrement, or a drain it skipped
      * for this player during the current world tick (the exemption heartbeat). See ToxicologistBluePassiveService.
-     * 蓝毒状态 = SparkTraits 自减后仍有剩余窗口，或本世界 tick 内 SparkTraits 刚为该玩家跳过一次扣理智（豁免心跳）。
+     * 蓝毒状态 = 词条组件自减后仍有剩余窗口，或本世界 tick 内词条组件刚为该玩家跳过一次扣理智（豁免心跳）。
      */
     public static boolean isBlueStateActive(int remainingWindowTicks, boolean drainSkippedThisTick) {
         return remainingWindowTicks > 0 || drainSkippedThisTick;

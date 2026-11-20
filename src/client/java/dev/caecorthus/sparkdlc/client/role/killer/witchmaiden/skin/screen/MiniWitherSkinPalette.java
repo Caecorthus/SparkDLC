@@ -4,10 +4,10 @@ import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.MiniWitherSki
 
 /**
  * Colours of the Mini Wither appearance screen (owner pick 2026-11-02, mockup A "暗夜面板"): the flat translucent dark
- * look of SparkAssist's SparkDLC settings screen, with the Witch Maiden's magenta as the only accent. The neutral
- * values are copied from SparkAssist's {@code SettingsPalette}, because SparkWitch cannot depend on SparkAssist.
- * 小凋灵外观界面的颜色（所有者 2026-11-02 选定方案 A「暗夜面板」）：沿用 SparkAssist SparkDLC 设置界面扁平半透明的深色风格，
- * 以巫女洋红为唯一强调色。中性色复制自 SparkAssist 的 {@code SettingsPalette}，因为 SparkWitch 不能依赖 SparkAssist。
+ * look of the SparkDLC settings screen, with the Witch Maiden's magenta as the only accent. The neutral values are a
+ * copy of the settings screen's {@code SettingsPalette}, made when that palette lived in another jar.
+ * 小凋灵外观界面的颜色（所有者 2026-11-02 选定方案 A「暗夜面板」）：沿用 SparkDLC 设置界面扁平半透明的深色风格，
+ * 以巫女洋红为唯一强调色。中性色复制自设置界面的 {@code SettingsPalette}（复制时该调色板还在另一个 jar 中）。
  */
 public final class MiniWitherSkinPalette {
     public static final int PANEL = 0xB0181818;

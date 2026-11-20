@@ -57,7 +57,7 @@ public class MiniWitherSkullEntity extends ThrownEntity {
             TrackedDataHandlerRegistry.BYTE);
     /** The margin vanilla projectile collision grows every entity box by. / 原版投射物碰撞为实体箱体增加的余量。 */
     private static final double PLAYER_HIT_MARGIN = 0.3;
-    /** SparkFactionAPI's action for player-owned projectiles. / SparkFactionAPI 对玩家发射物使用的行为 id。 */
+    /** The faction core's action for player-owned projectiles. / 阵营核心对玩家发射物使用的行为 id。 */
     private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
     private static final int CRIMSON_TRAIL_STEPS = 6;
     private static final DustParticleEffect CRIMSON_DUST = new DustParticleEffect(new Vector3f(0.85F, 0.1F, 0.08F),
@@ -180,9 +180,9 @@ public class MiniWitherSkullEntity extends ThrownEntity {
 
     /**
      * Corpses never stop a skull, nor do players its blast or kill could never reach; the owner and (for a hostile
-     * skull) the killer team are passed on the server, and so is a Raven Form crow whose owner SparkFactionAPI shields
+     * skull) the killer team are passed on the server, and so is a Raven Form crow whose owner the faction core shields
      * from the shooter. Every other entity stops it; a Rift Gate deflects it.
-     * 尸体永不挡下头颅，爆炸或击杀不可能触及的玩家也一样；服务端还会让主人以及（敌对头颅时）杀手队伍放行，SparkFactionAPI 禁止
+     * 尸体永不挡下头颅，爆炸或击杀不可能触及的玩家也一样；服务端还会让主人以及（敌对头颅时）杀手队伍放行，阵营核心禁止
      * 射手影响其主人的化鸦乌鸦亦然。其他实体都会挡下头颅；裂隙门会使其偏转。
      */
     @Override
@@ -263,9 +263,9 @@ public class MiniWitherSkullEntity extends ThrownEntity {
         world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.CRIMSON_HIT),
                 SoundCategory.PLAYERS, 0.5F, 1.6F);
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
-        // A non-forced kill with the live owner as killer: money, records and every protection apply, and SparkTraits
-        // judges a Conscience owner's innocent victim (小脑) from this killer. / 非强制击杀，凶手为在线主人：金币、记录与
-        // 所有防护照常生效，SparkTraits 也据此判定善良主人误杀好人（小脑）。
+        // A non-forced kill with the live owner as killer: money, records and every protection apply, and the trait
+        // feature judges a Conscience owner's innocent victim (小脑) from this killer. / 非强制击杀，凶手为在线主人：金币、记录与
+        // 所有防护照常生效，词条功能也据此判定善良主人误杀好人（小脑）。
         if (owner == null || MiniWitherTargeting.mayAffect(owner, victim, game)) {
             // BEAR: this skull is the Rys-T attack source. / BEAR：这颗头颅即 Rys-T 的攻击来源。
             RangedOriginScope.run(getPos().subtract(getVelocity()), getUuid(),

@@ -36,8 +36,8 @@ public final class JudgeClientHooks {
                 || isHardHidden(viewer, target)) {
             return originalColor;
         }
-        // As with factor fallback, Traits HEAD may skip event dispatch; honor explicit skip results.
-        // 与因子后备逻辑一致，Traits HEAD 可能跳过事件派发，补色前尊重显式跳过结果。
+        // As with factor fallback, the trait HEAD may skip event dispatch; honor explicit skip results.
+        // 与因子后备逻辑一致，特质 HEAD 可能跳过事件派发，补色前尊重显式跳过结果。
         GetInstinctHighlight.HighlightResult event = GetInstinctHighlight.EVENT.invoker().getHighlight(target);
         return JudgeClientRules.resolveOutline(originalColor, true, false,
                 event != null && event.isSkip(), true, JudgeRules.OUTLINE_COLOR);

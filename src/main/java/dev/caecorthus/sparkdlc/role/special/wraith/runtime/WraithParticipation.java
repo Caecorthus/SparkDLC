@@ -90,8 +90,8 @@ final class WraithParticipation {
     }
 
     /**
-     * Registers active Wraith players into SparkFactionAPI's bilateral entity-collision exemption.
-     * 将冤魂透明态玩家登记到 SparkFactionAPI 的双向实体碰撞豁免表。
+     * Registers active Wraith players into {@code SparkFactionApi}'s bilateral entity-collision exemption.
+     * 将冤魂透明态玩家登记到 {@code SparkFactionApi} 的双向实体碰撞豁免表。
      *
      * <p>这里统一沿用 {@link WraithCollisionRules#isCollisionTransparent(net.minecraft.entity.Entity)}：
      * active 冤魂是玩法态，{@code noellesroles:no_collision} 是同步态。碰撞判断会同时接受两者，

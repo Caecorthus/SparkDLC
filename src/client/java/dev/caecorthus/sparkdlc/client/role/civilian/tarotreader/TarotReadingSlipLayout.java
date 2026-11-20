@@ -11,9 +11,9 @@ package dev.caecorthus.sparkdlc.client.role.civilian.tarotreader;
 public final class TarotReadingSlipLayout {
     /**
      * Distance from the screen bottom to the slip's bottom edge; mirrors the private
-     * {@code ControlExpertStatusHudRules.ACTION_BAR_CLEARANCE}, so SparkWitch keeps one "above the actionbar" band.
+     * {@code ControlExpertStatusHudRules.ACTION_BAR_CLEARANCE}, so the role HUDs keep one "above the actionbar" band.
      * 屏幕底部到结果条底边的距离；与私有的 {@code ControlExpertStatusHudRules.ACTION_BAR_CLEARANCE} 保持一致，
-     * 使 SparkWitch 只有一条"动作栏上方"的显示带。
+     * 使职业 HUD 只有一条"动作栏上方"的显示带。
      */
     public static final int ACTION_BAR_CLEARANCE = 76;
     /** Vanilla TextRenderer.fontHeight; the content box is one line tall. 原版字体行高；内容框高一行。 */

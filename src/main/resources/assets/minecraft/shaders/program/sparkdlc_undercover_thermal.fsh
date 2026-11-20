@@ -1,9 +1,9 @@
 #version 150
 
-// SparkStrength Undercover thermal, after Tarkov's T-7 goggles: a clean, full-resolution white-hot monochrome image.
+// Undercover thermal, after Tarkov's T-7 goggles: a clean, full-resolution white-hot monochrome image.
 // DiffuseSampler = the rendered frame; HeatSampler = living bodies (and the Undercover's own arm) re-rendered flat white
 // (alpha 1) over the world depth, so only the parts the camera really sees are hot.
-// SparkStrength 卧底热成像，参照塔科夫 T-7：干净的全分辨率白热单色画面。
+// 卧底热成像，参照塔科夫 T-7：干净的全分辨率白热单色画面。
 // DiffuseSampler 是渲染好的画面；HeatSampler 是以世界深度重新渲染的纯白活人（以及卧底自己的手臂，alpha 1），
 // 只有相机真正看得到的部分才是热的。
 

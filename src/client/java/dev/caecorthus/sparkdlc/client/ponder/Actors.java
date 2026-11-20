@@ -64,8 +64,8 @@ public final class Actors {
     }
 
     /**
-     * Stand on a skateboard (SparkStrength's, drawn under the feet; legs still while rolling), or step off with an
-     * empty stack. Move the rider with {@link #walk} as usual. 站上滑板（SparkStrength 的，画在脚下；滑行时双腿不动），
+     * Stand on a skateboard (drawn under the feet; legs still while rolling), or step off with an
+     * empty stack. Move the rider with {@link #walk} as usual. 站上滑板（画在脚下；滑行时双腿不动），
      * 空物品即下板。骑手照常用 walk 移动。
      */
     public static void ride(SceneBuilder scene, ElementLink<ActorElement> actor, ItemStack board) {

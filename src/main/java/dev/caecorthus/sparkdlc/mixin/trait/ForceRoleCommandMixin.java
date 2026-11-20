@@ -18,8 +18,8 @@ import java.util.Collection;
 import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
- * Blocks forced roles that would conflict with already locked SparkTraits traits.
- * 阻止与已锁定 SparkTraits 天赋冲突的 Wathe 强制身份。
+ * Blocks forced roles that would conflict with already locked traits.
+ * 阻止与已锁定天赋冲突的 Wathe 强制身份。
  */
 @Mixin(value = ForceRoleCommand.class, remap = false)
 public abstract class ForceRoleCommandMixin {
@@ -47,8 +47,8 @@ public abstract class ForceRoleCommandMixin {
                     continue;
                 }
 
-                // Keep Wathe's forced-role storage semantics while adding SparkTraits validation.
-                // 保留 Wathe 的锁定身份存储语义，只在写入前加入 SparkTraits 校验。
+                // Keep Wathe's forced-role storage semantics while adding the trait validation.
+                // 保留 Wathe 的锁定身份存储语义，只在写入前加入天赋校验。
                 component.addForcedRole(role, targetPlayer.getUuid());
                 source.sendFeedback(() -> Text.translatable("commands.wathe.forcerole.success", roleText, targetPlayer.getDisplayName()), true);
             }

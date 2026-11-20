@@ -33,15 +33,15 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-/** SparkWitch-owned placed Hunter trap. Trigger authority and poison attribution stay server-side. */
+/** Placed Hunter trap. Trigger authority and poison attribution stay server-side. */
 public final class HunterTrapEntity extends Entity {
     public static final Identifier EVENT_TRIGGERED = SparkDLC.id("hunter_trap_triggered");
     public static final Identifier POISON_SOURCE = SparkDLC.id("trap");
     public static final String POISON_PLACER_NBT_KEY = "SparkWitchTrapPlacer";
     /**
-     * Achievement record contract W16 (2026-10-14), read by SparkAssist: on {@link #EVENT_TRIGGERED}, true when an
-     * active Bone Setting absorbed this trap's fracture. Every earlier field keeps its name and meaning.
-     * 成就记录契约 W16（2026-10-14），由 SparkAssist 读取：写在 {@link #EVENT_TRIGGERED} 上，生效中的正骨吸收了这次捕兽夹
+     * Achievement record contract W16 (2026-10-14), read by the achievement rules: on {@link #EVENT_TRIGGERED}, true
+     * when an active Bone Setting absorbed this trap's fracture. Every earlier field keeps its name and meaning.
+     * 成就记录契约 W16（2026-10-14），由成就规则读取：写在 {@link #EVENT_TRIGGERED} 上，生效中的正骨吸收了这次捕兽夹
      * 骨折时为 true。原有字段的名称与含义均不变。
      */
     static final String BONE_SETTING_ABSORBED_KEY = "bone_setting_absorbed";
@@ -308,14 +308,14 @@ public final class HunterTrapEntity extends Entity {
     }
 
     /**
-     * SparkStrength Partygoer seam (owner rule 2026-10-21: whatever can kill a player kills a Partygoer in one hit). Only
+     * Partygoer seam (owner rule 2026-10-21: whatever can kill a player kills a Partygoer in one hit). Only
      * the trap's poison can kill a player, so only a poisoned trap catches a Partygoer, after the players in its box had
      * their chance this tick. It dies at once ({@code wathe:poison}, the reason the trap poison kills a player with),
      * credited to whom that poison would credit (the poisoner, else the placer) while online; the trap then snaps and is
-     * spent as on a player. No trigger record: SparkStrength records the kill.
-     * SparkStrength 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客）。捕兽夹只有其毒能杀死玩家，因此只有带毒的
+     * spent as on a player. No trigger record: the Partygoer feature records the kill.
+     * 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客）。捕兽夹只有其毒能杀死玩家，因此只有带毒的
      * 捕兽夹会夹住派对客，且排在本 tick 夹框内的玩家之后。它立即死亡（{@code wathe:poison}，即捕兽夹毒杀玩家所用的死因），在线时
-     * 记在该毒所记之人头上（下毒者，否则放置者）；随后捕兽夹与夹住玩家时一样合拢并用掉。不写触发记录：由 SparkStrength 记录击杀。
+     * 记在该毒所记之人头上（下毒者，否则放置者）；随后捕兽夹与夹住玩家时一样合拢并用掉。不写触发记录：由派对客功能记录击杀。
      */
     private void triggerOnPartygoer(Entity partygoer) {
         UUID placerUuid = getOwnerUuid();

@@ -22,17 +22,17 @@ import java.util.UUID;
  * The one-line call sites that let ranged fire carve BEAR smoke (S3 + bullet tunnels): every hitscan ray carves a
  * {@link BearRicochetRules#TUNNEL_RADIUS} capsule ({@code SmokeCloudService.carveTunnel}), every blast a hole
  * ({@code carveHole}). Purely visual (smoke never feeds a server rule) and cheap when no smoke exists: the smoke service
- * returns early. Server thread only; a client world or a degenerate segment is ignored. SparkStrength's M67 and drone
+ * returns early. Server thread only; a client world or a degenerate segment is ignored. The M67 and the Bomber drone
  * use the public {@code SparkRoleApi.carveSmoke} instead.
  * 让远程攻击在 BEAR 烟雾中开洞的一行式调用点（S3 + 弹道通道）：每条命中扫描射线开出半径 {@link BearRicochetRules#TUNNEL_RADIUS}
  * 的胶囊（{@code SmokeCloudService.carveTunnel}），每次爆炸开一个洞（{@code carveHole}）。纯视觉（烟雾从不影响服务端规则），
- * 没有烟时开销极小：烟雾服务会提前返回。仅限服务端线程；客户端世界或退化线段会被忽略。SparkStrength 的 M67 与无人机改用公开的
+ * 没有烟时开销极小：烟雾服务会提前返回。仅限服务端线程；客户端世界或退化线段会被忽略。M67 与炸弹客无人机改用公开的
  * {@code SparkRoleApi.carveSmoke}。
  */
 public final class RangedSmokeCarve {
     /**
-     * The gun receivers' base target distance cap; SparkTraits Niko widens it per shot (see the four-argument
-     * {@link #gunShot(PlayerEntity, Entity, double, double)}). / 枪械接收器的基础目标距离上限；SparkTraits Niko 会按每次射击
+     * The gun receivers' base target distance cap; the Niko trait widens it per shot (see the four-argument
+     * {@link #gunShot(PlayerEntity, Entity, double, double)}). / 枪械接收器的基础目标距离上限；Niko 词条会按每次射击
      * 放宽它（见四参数的 {@link #gunShot(PlayerEntity, Entity, double, double)}）。
      */
     static final double MAX_TARGET_DISTANCE = 65.0;
@@ -93,13 +93,13 @@ public final class RangedSmokeCarve {
 
     /**
      * {@link #gunShot(PlayerEntity, Entity, double)} with the target cap the receiver really used for this shot, so the
-     * tunnel follows the real bullet: {@code targetRange} is that receiver's widen-only cap (SparkTraits Niko: 300
+     * tunnel follows the real bullet: {@code targetRange} is that receiver's widen-only cap (the Niko trait: 300
      * blocks; never below 65, and 65 for a non-finite value). A widened cap is also that shooter's client pick range,
      * so a miss then runs that far instead of {@code range}. The miss ray is clipped by blocks only as far as live
      * smoke reaches along it ({@code SmokeCloudService.tunnelReach}), so a 300-block shot never raycasts past the last
      * cloud it could carve, and not at all when it crosses none.
      * 带上接收器对这一枪实际使用的目标上限的 {@link #gunShot(PlayerEntity, Entity, double)}，使通道跟随真实弹道：
-     * {@code targetRange} 是该接收器只放宽不收紧的上限（SparkTraits Niko：300 格；不低于 65，非有限值按 65）。被放宽的上限同时是
+     * {@code targetRange} 是该接收器只放宽不收紧的上限（Niko 词条：300 格；不低于 65，非有限值按 65）。被放宽的上限同时是
      * 该射手的客户端选靶距离，因此未命中时按它而不是 {@code range} 延伸。未命中射线只在沿途存活烟雾所及的范围内被方块截断
      * （{@code SmokeCloudService.tunnelReach}），因此 300 格的一枪不会越过它能开洞的最后一团烟做射线检测，不穿过任何烟时完全不做。
      */
@@ -138,11 +138,11 @@ public final class RangedSmokeCarve {
     }
 
     /**
-     * {@link #gunShot} for Wathe's gun receiver, by the payload's target entity id. SparkTraits widens that receiver's
-     * 65-block cap for a sneaking Niko holder (its own {@code @ModifyConstant}); the same value is read here through
-     * the trait contract ({@code SparkTraitsApi.getServerGunTargetRange}: widen-only, never below the 65 passed in), for the
-     * gun in the main hand, as the receiver does. Asked only while the world has smoke.
-     * 以数据包目标实体 id 为 Wathe 枪械接收器调用 {@link #gunShot}。SparkTraits 会为潜行的 Niko 持有者放宽该接收器的 65 格上限
+     * {@link #gunShot} for Wathe's gun receiver, by the payload's target entity id. The Niko trait widens that
+     * receiver's 65-block cap for its sneaking holder (its own {@code @ModifyConstant}); the same value is read here
+     * through the trait contract ({@code SparkTraitsApi.getServerGunTargetRange}: widen-only, never below the 65
+     * passed in), for the gun in the main hand, as the receiver does. Asked only while the world has smoke.
+     * 以数据包目标实体 id 为 Wathe 枪械接收器调用 {@link #gunShot}。Niko 词条会为潜行的持有者放宽该接收器的 65 格上限
      * （它自己的 {@code @ModifyConstant}）；这里经词条契约读取同一数值（{@code SparkTraitsApi.getServerGunTargetRange}：只放宽，
      * 不低于传入的 65），与接收器一样按主手的枪查询。只在世界中有烟时才查询。
      */

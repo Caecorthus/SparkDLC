@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * SparkStrength 新版影子小丑“双影谢幕”规则。
+ * 本模组新版影子小丑“双影谢幕”规则。
  *
  * <p>这里刻意不调用 NoellesRoles 的 {@code activateShowdown}，也不写入
  * NoellesRoles 的 {@code showdownActive} 字段，从而保留原有“和杀手战斗”的旧谢幕。
@@ -141,7 +141,7 @@ public final class ShadowJesterShowdownService {
     }
 
     /**
-     * 判断一名玩家是否属于 SparkTraits 计算后的有效杀手阵营。
+     * 判断一名玩家是否属于按词条计算后的有效杀手阵营。
      *
      * <p>善良词条会把原始杀手排除；内鬼词条会把原始好人翻为杀手。
      * 没有相关词条时回退到 Wathe 原始角色阵营。
@@ -155,16 +155,16 @@ public final class ShadowJesterShowdownService {
     }
 
     /**
-     * Cross-mod ordering: the victim's effective faction at its death, whichever side of SparkTraits' own
-     * {@code KillPlayer.AFTER} listener this runs on. That listener snapshots and then clears the victim's traits, so the
-     * live traits may already be gone here; SparkTraits' public round-end view (live traits, else that death snapshot)
-     * fills them in. Same precedence as {@link SparkTraitsApi#isEffectiveKiller(Role, PlayerEntity)}: Impostor makes a killer, then
-     * Conscience a non-killer, else the raw role. Without SparkTraits both reads are empty and the raw role decides, as
-     * before. Living players keep using {@link #isEffectiveKiller}.
-     * 跨模组顺序：受害者死亡时的有效阵营，无论本调用在 SparkTraits 自己的 KillPlayer.AFTER 监听器之前还是之后执行。该监听器会先
-     * 快照、再清空受害者的词条，因此此处的在线词条可能已不存在；由 SparkTraits 公开的本局结束视图（在线词条，否则该次死亡快照）
-     * 补上。优先级与 SparkTraitsApi#isEffectiveKiller 相同：内鬼判为杀手，其次善良判为非杀手，否则看原始职业。未安装
-     * SparkTraits 时两处读取都为空，仍由原始职业决定。存活玩家继续使用 isEffectiveKiller。
+     * Listener ordering: the victim's effective faction at its death, whichever side of the traits' own
+     * {@code KillPlayer.AFTER} listener this runs on. That listener snapshots and then clears the victim's traits, so
+     * the live traits may already be gone here; the round-end trait view ({@code SparkTraitsApi.getRoundEndTraitIds}:
+     * live traits, else that death snapshot) fills them in. Same precedence as
+     * {@link SparkTraitsApi#isEffectiveKiller(Role, PlayerEntity)}: Impostor makes a killer, then Conscience a
+     * non-killer, else the raw role. Living players keep using {@link #isEffectiveKiller}.
+     * 监听器顺序：受害者死亡时的有效阵营，无论本调用在词条自己的 KillPlayer.AFTER 监听器之前还是之后执行。该监听器会先
+     * 快照、再清空受害者的词条，因此此处的在线词条可能已不存在；由本局结束词条视图
+     * （SparkTraitsApi.getRoundEndTraitIds：在线词条，否则该次死亡快照）补上。优先级与 SparkTraitsApi#isEffectiveKiller
+     * 相同：内鬼判为杀手，其次善良判为非杀手，否则看原始职业。存活玩家继续使用 isEffectiveKiller。
      */
     private static boolean diedAsEffectiveKiller(ServerWorld world, GameWorldComponent game, ServerPlayerEntity victim) {
         Role role = game.getRole(victim);
@@ -254,7 +254,7 @@ public final class ShadowJesterShowdownService {
         List<ServerPlayerEntity> pair = findLivingBoundPair(world, game);
         // NoellesRoles 原有的“与杀手战斗”双影谢幕必须独立运行。
         // 如果旧机制已经激活，说明当前结盟影子小丑正在进行原版终局对决，
-        // 此时不能因为某名杀手死亡而再次启动 SparkStrength 的新版清场谢幕。
+        // 此时不能因为某名杀手死亡而再次启动新版清场谢幕。
         if (pair == null || isLegacyShowdownActive(pair)) {
             return;
         }
@@ -412,9 +412,9 @@ public final class ShadowJesterShowdownService {
                     || player.getUuid().equals(component.getSecondJester())) {
                 continue;
             }
-            // Settlement-excluded roles (SparkWitch's Black Raven, via SparkFactionAPI) never count as alive here, so
-            // they cannot hold up the clearing win; nobody is skipped without that API.
-            // 结算排除的身份（经 SparkFactionAPI，例如 SparkWitch 的黑羽鸦）在此不算存活，不会拖住清场胜利；没有该 API 时不跳过任何人。
+            // Settlement-excluded roles (the Black Raven, via SettlementExclusions) never count as alive here, so they
+            // cannot hold up the clearing win.
+            // 结算排除的身份（经 SettlementExclusions，例如黑羽鸦）在此不算存活，不会拖住清场胜利。
             if (SettlementExclusions.isExcluded(game, player.getUuid())) {
                 continue;
             }

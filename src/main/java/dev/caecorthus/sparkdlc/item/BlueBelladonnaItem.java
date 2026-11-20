@@ -20,9 +20,9 @@ import java.util.UUID;
 
 /**
  * Blue Belladonna: a blue fruit carrying the buyer's blue-poison marker. A Toxicologist-like eater enters the blue
- * state; anyone else gets exactly what blue-poisoned food does (SparkTraits decides sanity drain vs lethal poison).
+ * state; anyone else gets exactly what blue-poisoned food does (trait rules decide sanity drain vs lethal poison).
  * 蓝颠茄：带有购买者蓝毒标记的蓝色果实。类毒理学家食用后进入蓝毒状态；其他人食用的结果与蓝毒食物完全一致
- * （由 SparkTraits 判定是扣理智还是致死蓝毒）。
+ * （由天赋规则判定是扣理智还是致死蓝毒）。
  */
 public final class BlueBelladonnaItem extends Item {
     /**
@@ -50,17 +50,17 @@ public final class BlueBelladonnaItem extends Item {
 
     /**
      * Deliberately does not call super: super runs PlayerEntity.eatFood, where Wathe completes the EAT mood task and
-     * runs PoisonUtils.applyFoodPoison (whose SparkTraits hook would also strip the blue marker from the whole stack).
+     * runs PoisonUtils.applyFoodPoison (whose trait hook would also strip the blue marker from the whole stack).
      * 刻意不调用 super：super 会进入 PlayerEntity.eatFood，Wathe 会在那里完成进食心情任务并执行 PoisonUtils.applyFoodPoison
-     * （其上的 SparkTraits 钩子还会把整组果实的蓝毒标记一起清掉）。
+     * （其上的天赋钩子还会把整组果实的蓝毒标记一起清掉）。
      */
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient() && user instanceof ServerPlayerEntity player) {
             applyEaten(player, stack);
-            // Private burp: SparkTraits' Cautious trait mutes the public burp inside eatFood, which is bypassed here,
+            // Private burp: the Cautious trait mutes the public burp inside eatFood, which is bypassed here,
             // so broadcasting it would leak that trait. Chewing sounds still go through the vanilla (muted) path.
-            // 打嗝声只给本人：SparkTraits 的谨慎天赋在 eatFood 内静音公开打嗝声，而这里绕过了 eatFood，
+            // 打嗝声只给本人：谨慎天赋在 eatFood 内静音公开打嗝声，而这里绕过了 eatFood，
             // 公开播放会暴露该天赋。咀嚼声仍走原版（可被静音的）路径。
             player.playSoundToPlayer(
                     SoundEvents.ENTITY_PLAYER_BURP,

@@ -10,9 +10,9 @@ import java.util.UUID;
 
 /**
  * Victim and killer state captured at the start of {@code GameFunctions.killPlayer}, written as extra fields onto the
- * Wathe {@code death} record (achievement record contract A1). Field names are a stable contract read by SparkAssist.
+ * Wathe {@code death} record (achievement record contract A1). Field names are read by string by the achievement rules.
  * 在 {@code GameFunctions.killPlayer} 开始时捕获的受害者与凶手状态，作为额外字段写入 Wathe {@code death} 记录（成就
- * 记录契约 A1）。字段名是 SparkAssist 读取的稳定契约。
+ * 记录契约 A1）。字段名由成就规则按字符串读取。
  *
  * @param victimRole  role id, null when the victim has no role; 身份标识，无身份时为 null
  * @param killer      null when no killer was passed; 未传入凶手时为 null

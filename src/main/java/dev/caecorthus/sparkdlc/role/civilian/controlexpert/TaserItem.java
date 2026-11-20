@@ -75,8 +75,8 @@ public final class TaserItem extends Item {
         if (target != null) {
             ControlExpertStun.apply(ce, target, ControlExpertRules.TASER_TAIL_TICKS);
         }
-        // A miss costs the same as a hit. Plain vanilla cooldown so SparkTraits Fast Hands may shorten it.
-        // 未命中与命中代价相同。普通原版冷却，SparkTraits 快手可缩短。
+        // A miss costs the same as a hit. Plain vanilla cooldown so the Fast Hands trait may shorten it.
+        // 未命中与命中代价相同。普通原版冷却，快手词条可缩短。
         ce.getItemCooldownManager().set(this, ControlExpertRules.TASER_COOLDOWN);
         NbtCompound extra = new NbtCompound();
         extra.putBoolean("hit", target != null);

@@ -12,11 +12,11 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Round-start loadout at ON_FINISH_INITIALIZE: revolver + Search Car, exact 60 s car cooldown, starting balance.
- * The grant is driven only by {@code SeekerLifecycleService} (WP-02), after SparkTraits Conscience compensation and
+ * The grant is driven only by {@code SeekerLifecycleService} (WP-02), after the Conscience trait's compensation and
  * Wathe's per-Item revolver start cooldown, while the round is still STARTING; this module registers no round-start
  * listener of its own, so the loadout can never be granted twice.
  * ON_FINISH_INITIALIZE 时的开局装备：左轮 + 搜寻小车、精确 60 秒小车冷却、开局余额。发放只由
- * {@code SeekerLifecycleService}（WP-02）驱动，时机在 SparkTraits 良心补偿与 Wathe 按物品写入的左轮开局冷却之后、
+ * {@code SeekerLifecycleService}（WP-02）驱动，时机在良心词条补偿与 Wathe 按物品写入的左轮开局冷却之后、
  * 对局仍处于 STARTING 时；本模块不注册任何开局监听，因此装备不会被发放两次。
  */
 public final class SeekerLoadoutService {
@@ -44,9 +44,9 @@ public final class SeekerLoadoutService {
             return;
         }
         PlayerInventory inventory = player.getInventory();
-        // The revolver shares Wathe's per-Item start cooldown. SparkTraits refuses free guns to an Impostor at this
-        // point; that trait rule is deliberately not bypassed.
-        // 左轮沿用 Wathe 按物品写入的开局冷却。SparkTraits 此时会拒绝向内鬼发放免费枪械；刻意不绕过该词条规则。
+        // The revolver shares Wathe's per-Item start cooldown. The Impostor trait refuses free guns to its holder at
+        // this point; that trait rule is deliberately not bypassed.
+        // 左轮沿用 Wathe 按物品写入的开局冷却。内鬼词条此时会拒绝向其持有者发放免费枪械；刻意不绕过该词条规则。
         inventory.insertStack(new ItemStack(WatheItems.REVOLVER));
         if (needsCarItem(holdsCarItem(inventory))) {
             inventory.insertStack(new ItemStack(SparkDlcItems.seekerCar()));

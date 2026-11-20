@@ -24,11 +24,11 @@ public final class BellRingerEchoTargeting {
     }
 
     /**
-     * Base mood not NONE and effective faction civilian (approximates SparkTraits' effective REAL mood).
-     * Base mood is read from the role itself, never from SparkTraits' mood redirect; the effective faction
-     * comes from SparkFactionAPI, so Conscience killers count and Impostor civilians do not.
-     * 基础情绪非 NONE 且有效阵营为平民（近似 SparkTraits 的有效真实情绪）。基础情绪直接读取职业本身，
-     * 不经过 SparkTraits 的情绪重定向；有效阵营来自 SparkFactionAPI，因此良知杀手计入、冒名平民不计入。
+     * Base mood not NONE and effective faction civilian (approximates the trait feature's effective REAL mood).
+     * Base mood is read from the role itself, never from the traits' mood redirect; the effective faction
+     * comes from the faction core, so Conscience killers count and Impostor civilians do not.
+     * 基础情绪非 NONE 且有效阵营为平民（近似词条功能的有效真实情绪）。基础情绪直接读取职业本身，
+     * 不经过词条的情绪重定向；有效阵营来自阵营核心，因此良知杀手计入、冒名平民不计入。
      */
     public static boolean hasRealSanity(ServerPlayerEntity player, GameWorldComponent game) {
         Role role = game.getRole(player);
@@ -45,9 +45,9 @@ public final class BellRingerEchoTargeting {
 
     /**
      * Classifies {@code player} for a cast by {@code ringer}; the ringer itself is always a hearer.
-     * SparkFactionAPI's structural affect veto is honoured: a vetoed player with real sanity only hears.
+     * The faction core's structural affect veto is honoured: a vetoed player with real sanity only hears.
      * 按 {@code ringer} 的施法对 {@code player} 分类；敲钟人本人始终为听者。
-     * 遵守 SparkFactionAPI 的结构性影响否决：被否决的有理智玩家只会听到钟声。
+     * 遵守阵营核心的结构性影响否决：被否决的有理智玩家只会听到钟声。
      */
     public static BellRingerRules.Audience audience(
             ServerPlayerEntity ringer,

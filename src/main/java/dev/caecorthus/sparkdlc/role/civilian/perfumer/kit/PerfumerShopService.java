@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Appends the SparkStrength Perfumer kit to the Perfumer's final shop list (after SparkWitch's own entries).
- * 在调香师最终商店列表（SparkWitch 自身条目之后）追加 SparkStrength 调香师道具。
+ * Appends the Perfumer kit to the Perfumer's final shop list (after the role's own entries from
+ * {@code perfumer.PerfumerShopService}).
+ * 在调香师最终商店列表（职业自身条目即 {@code perfumer.PerfumerShopService} 之后）追加调香师道具。
  */
 public final class PerfumerShopService {
     private PerfumerShopService() {

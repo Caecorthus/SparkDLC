@@ -21,17 +21,17 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Medium coins, the USEC/Accountant task-pay model (2026-11-10): the balance is overwritten with
  * {@link MediumRules#INITIAL_MONEY} for every living final Medium in its own {@code ON_FINISH_INITIALIZE} phase
- * (after the default phase, so roles are final), +{@link MediumRules#TASK_REWARD} per completed task (never for a
- * SparkTraits Impostor or an unknown answer, read through {@code SparkTraitsApi.hasActiveTrait}: SparkTraits pays an
- * Impostor's task income itself, the Accountant/BEAR precedent). No passive income. Income goes through
- * {@code addToBalance} so income observers (SparkFactionAPI's income record, SparkTraits Snowball) see ordinary
+ * (after the default phase, so roles are final), +{@link MediumRules#TASK_REWARD} per completed task (never for
+ * an Impostor or an unknown answer, read through {@code SparkTraitsApi.hasActiveTrait}: the Impostor trait pays its
+ * own task income, the Accountant/BEAR precedent). No passive income. Income goes through
+ * {@code addToBalance} so income observers (the income record {@code IncomeRecorder}, the Snowball trait) see ordinary
  * income; the round-start overwrite is the only {@code setBalance}. {@code CanSeeMoney} answers ALLOW for a living
  * Medium, so the money HUD shows. Server is the only writer; the client only reads {@code CanSeeMoney}.
  * 通灵师金币，沿用 USEC/会计的任务收入模式（2026-11-10）：在自有 {@code ON_FINISH_INITIALIZE} 阶段（排在默认阶段之后，
  * 此时职业已是最终职业）把每名存活的最终通灵师的余额覆盖为 {@link MediumRules#INITIAL_MONEY}；每完成一个任务
- * +{@link MediumRules#TASK_REWARD}（SparkTraits 内鬼或无法判定时不发，经 {@code SparkTraitsApi.hasActiveTrait} 读取：内鬼的
- * 任务收入由 SparkTraits 自行支付，沿用会计/BEAR 先例）。无被动收入。收入经 {@code addToBalance} 发放，收入观察者
- * （SparkFactionAPI 收入记录、SparkTraits 滚雪球）视其为普通收入；开局覆盖是唯一的 {@code setBalance}。
+ * +{@link MediumRules#TASK_REWARD}（内鬼或无法判定时不发，经 {@code SparkTraitsApi.hasActiveTrait} 读取：内鬼的
+ * 任务收入由内鬼词条自行支付，沿用会计/BEAR 先例）。无被动收入。收入经 {@code addToBalance} 发放，收入观察者
+ * （收入记录 {@code IncomeRecorder}、滚雪球词条）视其为普通收入；开局覆盖是唯一的 {@code setBalance}。
  * {@code CanSeeMoney} 对存活的通灵师返回 ALLOW，使金币 HUD 显示。只有服务端写入；客户端只读取 {@code CanSeeMoney}。
  */
 final class MediumEconomyService {

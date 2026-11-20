@@ -118,9 +118,9 @@ public final class PlannerRecommendService {
     }
 
     /**
-     * Swallowed by a Taotie, stunned by a Control Expert, or role-skill-blocked by SparkTraits (泽渡可可's set). The
+     * Swallowed by a Taotie, stunned by a Control Expert, or role-skill-blocked by a trait (泽渡可可's set). The
      * other locks are payload guards that run before this code.
-     * 被饕餮吞下、被控场专家眩晕，或被 SparkTraits 禁用职业技能（与泽渡可可相同）。其余锁定是先于本代码运行的数据包拦截。
+     * 被饕餮吞下、被控场专家眩晕，或被词条禁用职业技能（与泽渡可可相同）。其余锁定是先于本代码运行的数据包拦截。
      */
     static boolean isControlled(PlayerEntity player) {
         return NoellesTaotieSeekerBridge.isSwallowed(player)

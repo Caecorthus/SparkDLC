@@ -55,7 +55,7 @@ public final class JunkerSearchRules {
      * @param spectator        spectator game mode / 旁观模式
      * @param swallowed        swallowed by a NoellesRoles Taotie / 被饕餮吞下
      * @param stunned          Control Expert stun (or a landing Black Raven) / 控场专家眩晕
-     * @param roleSkillBlocked SparkTraits role-skill block / SparkTraits 职业技能封锁
+     * @param roleSkillBlocked the traits' role-skill block / 词条造成的职业技能封锁
      * @param dueling          either duelist of a running Knight duel / 进行中骑士决斗的任一方
      * @param insideRift       inside a Rift Gate / 身处裂隙门内
      * @param feared           Grand Witch Fear (Apprentice exemptions applied) / 大魔女恐惧（已计入预备魔女豁免）

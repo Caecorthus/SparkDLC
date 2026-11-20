@@ -98,9 +98,9 @@ public final class SparkDLC implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        // Files written under the old names, before any module reads the new ones (the team-list cache is read by
+        // Files written under the old names, before any feature reads the new ones (the team-list cache is read by
         // the faction and round services on both sides; the client-only files follow in SparkDLCClient).
-        // 以旧名字写出的文件，要在任何模块读取新名字之前带过来（团队名单缓存在两端都由阵营与对局服务在启动时读取；
+        // 以旧名字写出的文件，要在任何功能读取新名字之前带过来（团队名单缓存在两端都由阵营与对局服务在启动时读取；
         // 仅客户端的文件在 SparkDLCClient 中处理）。
         LegacyFiles.carryOverCommon(FabricLoader.getInstance().getConfigDir());
         startFactionAndRoundServices();
@@ -127,8 +127,8 @@ public final class SparkDLC implements ModInitializer {
         // Every command of the mod, and the old command names, in one place.
         // 本模组的全部命令以及旧命令名，统一在一处注册。
         SparkDlcCommands.register();
-        // One creative tab for the whole mod, once every module has registered its items.
-        // 所有模块注册完物品后，注册全模组唯一的创造模式物品栏。
+        // One creative tab for the whole mod, once every feature has registered its items.
+        // 所有功能注册完物品后，注册全模组唯一的创造模式物品栏。
         SparkDlcItemGroups.register();
         // Old registry ids of the five former mods, once every new id is registered and before the registries freeze.
         // 五个旧模组的旧注册表 id：在所有新 id 注册完成之后、注册表冻结之前设为别名。
@@ -226,8 +226,8 @@ public final class SparkDLC implements ModInitializer {
         dev.caecorthus.sparkdlc.role.civilian.bear.BearItems.register();
         SparkDlcItemGroups.registerRoleSection();
         SparkDlcEntities.registerRoleEntities();
-        // NoellesRoles remains the packet-filter owner; FactionAPI only extends its hidden-item predicate.
-        // NoellesRoles 仍负责装备包过滤，FactionAPI 这里只扩展其隐藏物品判定。
+        // NoellesRoles remains the packet-filter owner; this mod only extends its hidden-item predicate.
+        // NoellesRoles 仍负责装备包过滤，本模组这里只扩展其隐藏物品判定。
         NoellesHiddenEquipment.register(SparkDlcItems.perfumeEssence());
         NoellesHiddenEquipment.register(SparkDlcItems.cologne());
         NoellesHiddenEquipment.register(SparkDlcItems.blackRavenLedger());

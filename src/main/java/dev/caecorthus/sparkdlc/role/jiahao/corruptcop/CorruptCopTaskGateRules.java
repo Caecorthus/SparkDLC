@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.role.jiahao.corruptcop;
 
 /**
- * Pure task gate for the Corrupt Cop's SparkStrength buffs: the "Arrogant ASF" toggle and the keyed instinct x-ray
+ * Pure task gate for the Corrupt Cop's buffs: the "Arrogant ASF" toggle and the keyed instinct x-ray
  * unlock after {@code totalPlayers / 8} completed tasks, at least 1 and at most 3. Total players counts every round
  * role holder, dead ones included, the same count NoellesRoles uses for the cop's Moment threshold; integer division
  * matches it.
- * 黑警 SparkStrength 增强的纯任务门槛：“展示豪度”开关与按键本能透视需完成 {@code 总人数 / 8} 个任务后解锁，至少 1 个、
+ * 黑警增强的纯任务门槛：“展示豪度”开关与按键本能透视需完成 {@code 总人数 / 8} 个任务后解锁，至少 1 个、
  * 至多 3 个。总人数为本局全部身份持有者（含已死亡者），与 NoellesRoles 计算黑警时刻门槛所用人数一致；同样取整除。
  */
 public final class CorruptCopTaskGateRules {

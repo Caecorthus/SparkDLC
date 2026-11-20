@@ -15,8 +15,8 @@ import net.minecraft.util.Identifier;
 import java.util.Objects;
 
 /**
- * Shared command-time validation for SparkWitch ability and Wathe role locks.
- * SparkWitch 能力锁定与 Wathe 身份锁定的命令期共用校验入口。
+ * Shared command-time validation for ability locks and Wathe role locks.
+ * 能力锁定与 Wathe 身份锁定的命令期共用校验入口。
  */
 public final class WitchSkillLockValidationService {
     private WitchSkillLockValidationService() {

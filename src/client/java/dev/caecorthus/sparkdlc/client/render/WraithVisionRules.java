@@ -11,8 +11,8 @@ public final class WraithVisionRules {
     private WraithVisionRules() {
     }
 
-    /** Compose once, after selecting existing Witch vision, without changing its brightness or spread.
-     * 在现有魔女视野选定后一次合成，不改变亮度或扩散效果。 */
+    /** Compose once, after selecting the existing vision effect, without changing its brightness or spread.
+     * 在现有视野效果选定后一次合成，不改变亮度或扩散效果。 */
     public static float composeLastEscape(float existingFactor, float lastEscapeFactor) {
         return Math.max(existingFactor, lastEscapeFactor);
     }
@@ -23,8 +23,8 @@ public final class WraithVisionRules {
         return perceptionActive && (escapeActive ? existingFactor < 1.0f : existingFactor <= 0.0f);
     }
 
-    /** On a tie retain Witch's existing effect, including its luma coefficients.
-     * 同强度保留 Witch 原效果及其亮度系数。 */
+    /** On a tie retain the existing effect, including its luma coefficients.
+     * 同强度保留原效果及其亮度系数。 */
     public static Vision composeLastEscape(Vision existing, float[] escape) {
         if (escape == null || escape[0] <= existing.desaturation()) {
             return existing;

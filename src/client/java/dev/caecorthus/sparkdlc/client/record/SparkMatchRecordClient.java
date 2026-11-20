@@ -9,19 +9,18 @@ import org.jetbrains.annotations.Nullable;
  * match, before the round turns INACTIVE on the client, so it is already here when the round-end screen appears.
  * It is null before the first finished match of a connection and is cleared on disconnect.
  * <p>
- * Stable cross-mod contract: SparkAssist reads this class (a direct call now that the modules are fused in SparkDLC;
- * it used to be reflective). Keep the fully qualified class name
- * {@code dev.caecorthus.sparkdlc.client.record.SparkMatchRecordClient}, the method {@code latest()}, and the
+ * The achievements read the record through this class ({@code achievement.MatchRecordReader}, a direct call; it
+ * used to be a reflective one from another jar): the method {@code latest()}, and the
  * {@link MatchRecordSnapshot} accessors {@code matchId()}, {@code events()}, {@code seq()}, {@code type()},
  * {@code tick()} and {@code data()}.
  * <p>
  * 客户端读取当前服务器上最近一局已结束对局记录的入口。服务端每局发送一次，且早于客户端上回合变为 INACTIVE，
  * 因此出现局末画面时记录已经到达。本次连接中尚无已结束对局时为 null，断开连接时清除。
  * <p>
- * 稳定的跨模组契约：SparkAssist 读取本类（各模块已融合进 SparkDLC，现为直接调用，原先通过反射）。请保持完整类名
- * {@code dev.caecorthus.sparkdlc.client.record.SparkMatchRecordClient}、方法 {@code latest()}，以及
+ * 成就功能经由本类读取记录（{@code achievement.MatchRecordReader}，直接调用；原先是来自另一个 jar 的反射调用）：
+ * 方法 {@code latest()}，以及
  * {@link MatchRecordSnapshot} 的访问器 {@code matchId()}、{@code events()}、{@code seq()}、{@code type()}、
- * {@code tick()}、{@code data()} 不变。
+ * {@code tick()}、{@code data()}。
  */
 public final class SparkMatchRecordClient {
     private SparkMatchRecordClient() {

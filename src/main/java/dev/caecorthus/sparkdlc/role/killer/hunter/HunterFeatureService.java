@@ -137,7 +137,7 @@ public final class HunterFeatureService {
         }
 
         // Dismantlers need direct view. Class 2 (every killer, the Loose End and the Undercover) removes the trap at
-        // once; class 1 (police, plus any SparkTraits Impostor holder) must keep the right button pressed for five
+        // once; class 1 (police, plus any Impostor trait holder) must keep the right button pressed for five
         // seconds. Both sides return SUCCESS, as before: on the client that sends the press and, above all, stops
         // vanilla from going on to use the held item (a PASS here would fire a held gun at the trap). Only the server
         // changes the trap; the client HUD reads the channel the trap syncs.
@@ -190,8 +190,8 @@ public final class HunterFeatureService {
         return ActionResult.SUCCESS;
     }
 
-    /** Class 1: the live PoliceRoles registry, the fixed list, or a SparkTraits Impostor holder.
-     * 第一类：实时 PoliceRoles 注册表、固定名单，或带 SparkTraits 内鬼词条者。 */
+    /** Class 1: the live PoliceRoles registry, the fixed list, or an Impostor trait holder.
+     * 第一类：实时 PoliceRoles 注册表、固定名单，或带内鬼词条者。 */
     private static boolean isTrapPoliceClass(PlayerEntity player, Role role) {
         if (role == null) {
             return false;
@@ -233,12 +233,12 @@ public final class HunterFeatureService {
     }
 
     /**
-     * Floors every carried item's cooldown at {@code ticks} through SparkFactionAPI's shared forced-cooldown contract
+     * Floors every carried item's cooldown at {@code ticks} through the shared forced-cooldown contract
      * ({@code ForcedCooldowns.raiseAll}); this class never writes a cooldown itself. The contract is monotonic, so an
      * item already cooling for longer keeps its own timer; exact, so Fast Hands, Stimulation and per-item cooldown
      * rewrites cannot shorten it; and it skips the registered exemptions (NoellesRoles timed bomb, Seeker car, Knight
      * cross sword), like every other forced lock. Server only.
-     * 通过 SparkFactionAPI 的共享强制冷却契约（{@code ForcedCooldowns.raiseAll}）把携带的每件物品的冷却抬高到至少
+     * 通过共享强制冷却契约（{@code ForcedCooldowns.raiseAll}）把携带的每件物品的冷却抬高到至少
      * {@code ticks}；本类从不自行写冷却。该契约单调：冷却剩余更长的物品保持原有计时；精确：快手、兴奋剂与按物品改写冷却的逻辑
      * 都无法缩短它；并且与其他强制锁定一样跳过已登记的豁免物品（NoellesRoles 定时炸弹、寻踪者小车、骑士十字剑）。仅服务端。
      */

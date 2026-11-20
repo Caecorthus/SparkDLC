@@ -34,9 +34,9 @@ public final class FerrymanMomentRules {
     }
 
     /**
-     * Who may rise: a ferried participant that Wathe holds dead, that is not a Charon, whose death SparkTraits Last
-     * Stand has not taken over, and that is not an active Wraith.
-     * 谁能复活：已被摆渡、Wathe 记为死亡、不是摆渡人、死亡未被 SparkTraits 背水一战接管，且不是活跃冤魂的参与者。
+     * Who may rise: a ferried participant that Wathe holds dead, that is not a Charon, whose death the Last Stand trait
+     * has not taken over, and that is not an active Wraith.
+     * 谁能复活：已被摆渡、Wathe 记为死亡、不是摆渡人、死亡未被背水一战词条接管，且不是活跃冤魂的参与者。
      *
      * <p>Wraith default (owner answer pending): a ferried civilian that became a Wraith stays in Wathe's dead set but
      * is already back in play with Wraith state (muted, harmless, promotable), so reviving it would leave a Lost Soul

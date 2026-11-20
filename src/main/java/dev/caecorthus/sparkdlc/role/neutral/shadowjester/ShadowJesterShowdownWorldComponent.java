@@ -15,7 +15,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import java.util.UUID;
 
 /**
- * 保存 SparkStrength 新版“双影谢幕”的世界级状态。
+ * 保存本模组新版“双影谢幕”的世界级状态。
  *
  * <p>这个组件专门对应“最后一名有效杀手死亡后，影子小丑转而清场”的新机制。
  * NoellesRoles 原有的 {@code ShadowJesterPlayerComponent.showdownActive} 仍然只代表

@@ -111,13 +111,13 @@ public final class DominatorSkillService {
      * (not the post-win STOPPING fade, which Wathe still calls running); the Dominator; alive, not a spectator and not
      * swallowed ({@link DominatorRules#isActiveCaster}); not held by another mechanic ({@link NinjaGrappleService#isHeld}:
      * Taotie, Last Stand, Last Escape, Kidnapper control, Control Expert stun, Seeker session, borrowed camera, Hunter
-     * root); not silenced by NoellesRoles (checked directly so it holds without SparkTraits, as for the Magician and
-     * Time Stealer) and not role-skill blocked by SparkTraits. The payload guards drop the request in most of these
-     * states too; this keeps the handler correct on its own.
+     * root); not silenced by NoellesRoles (checked directly, as for the Magician and Time Stealer: the trait block
+     * covers only a silenced effective killer) and not role-skill blocked by a trait. The payload guards drop the
+     * request in most of these states too; this keeps the handler correct on its own.
      * 施放者门槛，静默拒绝（恐惧会显示自己的提示，由调用方检查）：对局恰为 ACTIVE（不含胜负判定后的 STOPPING 淡出，Wathe 仍视其为
      * 进行中）；是支配者；存活、非旁观、未被吞下（{@link DominatorRules#isActiveCaster}）；未被其他机制持有
      * （{@link NinjaGrappleService#isHeld}：饕餮、背水一战、脱险、绑架者控制、控场专家眩晕、搜寻者会话、镜头被占用、猎人定身）；
-     * 未被 NoellesRoles 沉默（直接检查，使其在没有 SparkTraits 时同样生效，与魔术师、窃时者一致），且未被 SparkTraits 封锁职业技能。
+     * 未被 NoellesRoles 沉默（直接检查，与魔术师、窃时者一致：词条封锁只覆盖被沉默的有效杀手），且未被词条封锁职业技能。
      * 这些状态下数据包拦截大多也会丢弃请求；此处保证处理器自身正确。
      */
     static boolean mayCast(ServerPlayerEntity caster) {

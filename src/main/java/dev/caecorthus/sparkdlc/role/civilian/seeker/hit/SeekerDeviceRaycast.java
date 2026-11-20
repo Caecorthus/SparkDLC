@@ -44,11 +44,11 @@ public final class SeekerDeviceRaycast {
      * Client target wrappers (revolver, derringer, knife, Demon Hunter): returns {@code original} unless a Seeker
      * device lies nearer on the look ray within {@code range}, then that device's EntityHitResult. Side-neutral.
      * The ray uses Wathe's own aim ({@code getRotationVec(0)}, the vanilla collision helper's tick delta) and its
-     * length is the original result's distance, so extended ranges (SparkTraits Marksman) are kept automatically;
+     * length is the original result's distance, so extended ranges (the Marksman trait) are kept automatically;
      * {@code range} is only the fallback when the original carries no usable position.
      * 客户端目标包装（左轮、德林加、刀、猎魔枪）：除非视线上 {@code range} 内有更近的搜寻者设备，
      * 否则原样返回 {@code original}；有则返回该设备的 EntityHitResult。射线使用与 Wathe 相同的朝向，长度取原结果的距离，
-     * 因此自动保留延长后的射程（SparkTraits 神射手）；{@code range} 仅在原结果无可用位置时作为兜底。
+     * 因此自动保留延长后的射程（神射手词条）；{@code range} 仅在原结果无可用位置时作为兜底。
      */
     public static HitResult preferNearerDevice(Entity shooter, HitResult original, double range) {
         if (shooter == null || original == null) {

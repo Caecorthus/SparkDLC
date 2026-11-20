@@ -83,8 +83,8 @@ import java.util.List;
 import dev.caecorthus.sparkdlc.faction.witch.WitchThirdFactionLineup;
 
 /**
- * Internal owner for SparkWitch role and faction registration; SparkDlcRoles remains the compatibility facade.
- * SparkWitch 职业与阵营注册的内部归属；SparkDlcRoles 继续作为兼容门面。
+ * Internal owner for the registration of the mod's own roles and factions; SparkDlcRoles remains the facade in front
+ * of it. / 本模组自有职业与阵营注册的内部归属；SparkDlcRoles 继续作为其门面。
  */
 public final class SparkDlcRoleRegistry {
     public static final Identifier EMMA_ID = EmmaRules.ROLE_ID;
@@ -233,44 +233,44 @@ public final class SparkDlcRoleRegistry {
         registerThirdFactionLineups();
         PoliceRoles.register(JUDGE_ID);
         PoliceRoles.register(PoliceSlotAssignmentService.EMMA_ID);
-        // Police classification only: SparkStrength issues its tablet at round start from this list; cop slots come
+        // Police classification only: the police tablet is issued at round start from this list; cop slots come
         // from PoliceSlotAssignmentService.
-        // 仅作警察分类：SparkStrength 据此在开局发放平板；警位由 PoliceSlotAssignmentService 分配。
+        // 仅作警察分类：开局据此发放警用平板；警位由 PoliceSlotAssignmentService 分配。
         PoliceRoles.register(CONTROL_EXPERT_ID);
         // Police classification only, like the Control Expert; cop slots come from PoliceSlotAssignmentService.
         // 与控场专家相同，仅作警察分类；警位由 PoliceSlotAssignmentService 分配。
         PoliceRoles.register(SEEKER_ID);
-        // Police classification only, so SparkStrength issues the Insider a tablet at round start on its police channel
-        // (D4), as SparkStrength does for the Corrupt Cop; the Insider stays on Team Jiahao and never takes a cop slot.
-        // 仅作警察分类，使 SparkStrength 开局为内应发放接入警察频道的平板（D4），与 SparkStrength 对黑警的处理相同；
+        // Police classification only, so the Insider is issued a tablet at round start on its police channel
+        // (D4), as the Corrupt Cop is; the Insider stays on Team Jiahao and never takes a cop slot.
+        // 仅作警察分类，使内应开局获发接入警察频道的平板（D4），与黑警的处理相同；
         // 内应仍属嘉豪阵营，从不占用警位。
         PoliceRoles.register(INSIDER_ID);
-        // Police classification only, so the Sniper gets SparkStrength's tablet (public and vigilante channels) at
+        // Police classification only, so the Sniper gets the tablet (public and vigilante channels) at
         // round start like the Corrupt Cop and Insider; it stays on Team Jiahao and never takes a cop slot.
-        // 仅作警察分类，使狙击手像黑警、内应一样在开局拿到 SparkStrength 平板（公共与义警频道）；仍属嘉豪阵营，不占警位。
+        // 仅作警察分类，使狙击手像黑警、内应一样在开局拿到平板（公共与义警频道）；仍属嘉豪阵营，不占警位。
         PoliceRoles.register(SNIPER_ID);
-        // Police classification, like the Control Expert and the Seeker (SparkTraits police traits, SparkStrength tablet);
+        // Police classification, like the Control Expert and the Seeker (police traits, tablet);
         // cop slots come from PoliceSlotAssignmentService.
-        // 与控场专家、搜寻者相同的警察分类（SparkTraits 警察词条、SparkStrength 平板）；警位由 PoliceSlotAssignmentService 分配。
+        // 与控场专家、搜寻者相同的警察分类（警察词条、平板）；警位由 PoliceSlotAssignmentService 分配。
         PoliceRoles.register(USEC_ID);
-        // Police classification only, like the other Vigilante variants (SparkTraits police traits, SparkStrength
-        // tablet); cop slots come from PoliceSlotAssignmentService.
-        // 与其他义警变体相同的警察分类（SparkTraits 警察词条、SparkStrength 平板）；警位由 PoliceSlotAssignmentService 分配。
+        // Police classification only, like the other Vigilante variants (police traits, tablet); cop slots come from
+        // PoliceSlotAssignmentService.
+        // 与其他义警变体相同的警察分类（警察词条、平板）；警位由 PoliceSlotAssignmentService 分配。
         PoliceRoles.register(KNIGHT_ID);
-        // Police classification, like the other Vigilante variants (SparkTraits police traits, SparkStrength tablet);
+        // Police classification, like the other Vigilante variants (police traits, tablet);
         // cop slots come from PoliceSlotAssignmentService.
-        // 与其他义警变体相同的警察分类（SparkTraits 警察词条、SparkStrength 平板）；警位由 PoliceSlotAssignmentService 分配。
+        // 与其他义警变体相同的警察分类（警察词条、平板）；警位由 PoliceSlotAssignmentService 分配。
         PoliceRoles.register(SAVIOR_ID);
         PoliceRoles.register(BLACK_RAVEN_ID);
-        // Plan v2 §3.3: the Black Raven never counts as alive for settlement in other mods either.
-        // 计划 v2 §3.3：黑羽鸦在其他模组的结算中同样不算存活。
+        // Plan v2 §3.3: the Black Raven never counts as alive in the settlement counts of other features either.
+        // 计划 v2 §3.3：黑羽鸦在其他功能的结算计数中同样不算存活。
         SettlementExclusions.registerRole(BLACK_RAVEN_ID);
-        // A living Stowaway never counts as alive for settlement in other mods either.
-        // 活着的偷渡客在其他模组的结算中同样不算存活。
+        // A living Stowaway never counts as alive in the settlement counts of other features either.
+        // 活着的偷渡客在其他功能的结算计数中同样不算存活。
         SettlementExclusions.registerRole(STOWAWAY_ID);
-        // An untransformed Schrödinger's Cat never counts as alive for settlement in other mods either (owner
-        // 2026-11-03); a transformed one holds another role id. 未转化的薛定谔之猫在其他模组的结算中同样不算存活
-        //（所有者 2026-11-03）；转化后的猫持有其他职业 id。
+        // An untransformed Schrödinger's Cat never counts as alive in the settlement counts of other features either
+        // (owner 2026-11-03); a transformed one holds another role id. 未转化的薛定谔之猫在其他功能的结算计数中同样
+        // 不算存活（所有者 2026-11-03）；转化后的猫持有其他职业 id。
         SettlementExclusions.registerRole(SCHRODINGERS_CAT_ID);
         registerCharonConditionalSettlementExclusion();
         WatheRoles.SPECIAL_ROLES.add(WraithRole.ROLE);
@@ -280,14 +280,16 @@ public final class SparkDlcRoleRegistry {
     }
 
     /**
-     * A Charon without a running Soul Moment of his own (at least one soul) does not count as alive for settlement in
-     * other mods either (PR #232 follow-up): SparkFactionAPI asks {@code FerrymanSettlement.isExcluded(PlayerEntity)}
-     * per player, on server worlds only, for holders of the Charon's raw role. Fails closed: a SparkFactionAPI 2.0.0
-     * jar built before conditional roles existed lacks the method, and then SparkTraits keeps counting him as it did
-     * before instead of the server failing to start.
-     * 没有自己正在进行且至少有一名灵魂的亡魂时刻的卡戎，在其他模组的结算中同样不算存活（PR #232 后续）：SparkFactionAPI 只在
-     * 服务端世界、只对原始身份为卡戎的玩家逐个询问 {@code FerrymanSettlement.isExcluded(PlayerEntity)}。失败即关闭：在加入
-     * 带条件身份之前构建的 SparkFactionAPI 2.0.0 没有该方法，此时 SparkTraits 仍按原先方式把他计入，而不是让服务端无法启动。
+     * A Charon without a running Soul Moment of his own (at least one soul) does not count as alive in the settlement
+     * counts of other features either (PR #232 follow-up): {@code SettlementExclusions} asks
+     * {@code FerrymanSettlement.isExcluded(PlayerEntity)} per player, on server worlds only, for holders of the
+     * Charon's raw role. The {@code LinkageError} catch was the fail-closed path for a faction-core jar built before
+     * conditional roles existed (the trait counts kept counting him as before instead of the server failing to start);
+     * unreachable since the fusion.
+     * 没有自己正在进行且至少有一名灵魂的亡魂时刻的卡戎，在其他功能的结算计数中同样不算存活（PR #232 后续）：
+     * {@code SettlementExclusions} 只在服务端世界、只对原始身份为卡戎的玩家逐个询问
+     * {@code FerrymanSettlement.isExcluded(PlayerEntity)}。{@code LinkageError} 捕获原是为“在加入带条件身份之前构建的
+     * 阵营核心 jar”准备的失败即关闭路径（此时词条计数仍按原先方式把他计入，而不是让服务端无法启动）；融合后不可达。
      */
     private static void registerCharonConditionalSettlementExclusion() {
         try {
@@ -638,12 +640,12 @@ public final class SparkDlcRoleRegistry {
                         .build())
                 .winCondition(WitchWinConditions::checkWin)
                 // Native Wathe constant WITCH (fabric.mod.json sparkdlc:native_wathe_factions): witch roles keep
-                // other mods' neutral perks through SparkFactionApi.isNeutralAligned (D3) but are drawn by no Wathe pass
-                // and take no neutral slot; SparkFactionAPI's third-faction draw deals them from WitchThirdFactionLineup
-                // (owner 2026-11-16, replacing the D1 quota pass).
+                // the neutral perks other features grant through SparkFactionApi.isNeutralAligned (D3) but are drawn by
+                // no Wathe pass and take no neutral slot; the third-faction draw (ThirdFactionDraw) deals them from
+                // WitchThirdFactionLineup (owner 2026-11-16, replacing the D1 quota pass).
                 // 原生 Wathe 常量 WITCH（fabric.mod.json 的 sparkdlc:native_wathe_factions）：魔女职业通过
-                // SparkFactionApi.isNeutralAligned 保留其他模组的中立特权（D3），但不参与任何 Wathe 抽取、不占中立名额，
-                // 由 SparkFactionAPI 第三阵营抽取按 WitchThirdFactionLineup 发放（所有者 2026-11-16，取代 D1 名额分配）。
+                // SparkFactionApi.isNeutralAligned 保留其他功能给予中立的特权（D3），但不参与任何 Wathe 抽取、不占中立名额，
+                // 由第三阵营抽取（ThirdFactionDraw）按 WitchThirdFactionLineup 发放（所有者 2026-11-16，取代 D1 名额分配）。
                 .neutralAligned(true)
                 .dealtInWatheNeutralPool(false)
                 .build());
@@ -660,16 +662,17 @@ public final class SparkDlcRoleRegistry {
                         .instinctColor(0xC13838)
                         .build())
                 .build());
-        // Team Jiahao (嘉豪阵营): the Insider plus NoellesRoles' Corrupt Cop, the native Wathe constant JIAHAO. Capabilities
-        // are copied from SparkFactionAPI's built-in wathe:neutral so no gameplay switch changes; no win condition, since
-        // Jiahao wins stay on NoellesRoles' Corrupt Cop neutralWin branch (NoellesRolesJiahaoTeamWinMixin). Neutral perks
-        // are kept (D3), but Wathe's neutral pass no longer deals the Corrupt Cop: owner 2026-11-16 overturned D6, and
-        // Team Jiahao is now a third faction dealt only by SparkFactionAPI's draw from JiahaoThirdFactionLineup
-        // (SparkFactionAPI refuses a third-faction lineup on a faction still dealt in the neutral pool).
-        // 嘉豪阵营：内应与 NoellesRoles 黑警，原生 Wathe 常量 JIAHAO。能力复制自 SparkFactionAPI 内置 wathe:neutral，
-        // 不改变任何玩法开关；没有胜利条件，嘉豪胜利仍走 NoellesRoles 黑警 neutralWin 分支（NoellesRolesJiahaoTeamWinMixin）。
-        // 保留中立特权（D3），但 Wathe 中立分配不再发放黑警：所有者 2026-11-16 推翻 D6，嘉豪阵营改为第三阵营，只由
-        // SparkFactionAPI 抽取按 JiahaoThirdFactionLineup 发放（SparkFactionAPI 拒绝为仍进入中立池的阵营注册第三阵营阵容）。
+        // Team Jiahao (嘉豪阵营): the Insider plus NoellesRoles' Corrupt Cop, the native Wathe constant JIAHAO.
+        // Capabilities are copied from the built-in wathe:neutral faction so no gameplay switch changes; no win
+        // condition, since Jiahao wins stay on NoellesRoles' Corrupt Cop neutralWin branch
+        // (NoellesRolesJiahaoTeamWinMixin). Neutral perks are kept (D3), but Wathe's neutral pass no longer deals the
+        // Corrupt Cop: owner 2026-11-16 overturned D6, and Team Jiahao is now a third faction dealt only by the
+        // third-faction draw from JiahaoThirdFactionLineup (ThirdFactionLineups refuses a third-faction lineup on a
+        // faction still dealt in the neutral pool).
+        // 嘉豪阵营：内应与 NoellesRoles 黑警，原生 Wathe 常量 JIAHAO。能力复制自内置的 wathe:neutral 阵营，不改变任何玩
+        // 法开关；没有胜利条件，嘉豪胜利仍走 NoellesRoles 黑警 neutralWin 分支（NoellesRolesJiahaoTeamWinMixin）。保留
+        // 中立特权（D3），但 Wathe 中立分配不再发放黑警：所有者 2026-11-16 推翻 D6，嘉豪阵营改为第三阵营，只由第三阵营
+        // 抽取按 JiahaoThirdFactionLineup 发放（ThirdFactionLineups 拒绝为仍进入中立池的阵营注册第三阵营阵容）。
         SparkFactionApi.registerFaction(FactionDefinition.builder(SparkDlcFactions.JIAHAO)
                 .color(InsiderRules.TEAM_JIAHAO_COLOR)
                 .translationKeyPrefix("faction.sparkdlc.jiahao")
@@ -682,29 +685,29 @@ public final class SparkDlcRoleRegistry {
     }
 
     /**
-     * External seam (SparkFactionAPI 0.1.6.0 {@code bindRoleFaction}, owner D2): NoellesRoles' Corrupt Cop joins Team
-     * Jiahao in every round, with or without an Insider. Bound by literal id during common init on both sides, after
-     * the faction exists; SparkFactionAPI resolves it lazily, so NoellesRoles' load order does not matter.
-     * 外部接缝（SparkFactionAPI 0.1.6.0 {@code bindRoleFaction}，所有者 D2）：NoellesRoles 黑警在每一局都属于嘉豪阵营，
-     * 不论有无内应。在双端通用初始化中、阵营注册之后按字面 id 绑定；SparkFactionAPI 惰性解析，与 NoellesRoles 加载顺序无关。
+     * Seam toward NoellesRoles ({@code SparkFactionApi.bindRoleFaction}, owner D2): NoellesRoles' Corrupt Cop joins
+     * Team Jiahao in every round, with or without an Insider. Bound by literal id during common init on both sides,
+     * after the faction exists; the binding is resolved lazily, so NoellesRoles' load order does not matter.
+     * 面向 NoellesRoles 的接缝（{@code SparkFactionApi.bindRoleFaction}，所有者 D2）：NoellesRoles 黑警在每一局都属于嘉豪阵
+     * 营，不论有无内应。在双端通用初始化中、阵营注册之后按字面 id 绑定；绑定惰性解析，与 NoellesRoles 加载顺序无关。
      */
     private static void bindCorruptCopToTeamJiahao() {
         SparkFactionApi.bindRoleFaction(InsiderRules.CORRUPT_COP_ID, SparkDlcFactions.JIAHAO);
     }
 
     /**
-     * External seam (SparkFactionAPI {@code registerThirdFactionLineup}, owner 2026-11-16): the witch faction and Team
-     * Jiahao form the {@code third_faction} category. SparkFactionAPI draws at most one of them per round, before
-     * Wathe's neutral pass (50/50 between the drawable ones, a player minimum and a member cap it owns), and deals the
-     * roles these pure lineups return; forced members are passed in as present and always kept. Registered in common
-     * init after the factions, the Corrupt Cop binding and the roles exist. Method references on purpose, so a
-     * SparkFactionAPI 2.0.0 jar built before the draw fails closed here (no third faction is dealt) instead of the
-     * server failing to start.
-     * 外部接缝（SparkFactionAPI {@code registerThirdFactionLineup}，所有者 2026-11-16）：魔女阵营与嘉豪阵营组成
-     * {@code third_faction} 类别。SparkFactionAPI 在 Wathe 中立分配之前每局至多抽取其中一个（在可抽取的阵营间 50/50，
-     * 最低人数与成员上限由其负责），并发放这些纯阵容返回的职业；强制指定的成员作为已在场成员传入，始终保留。在双端通用
-     * 初始化中、阵营、黑警绑定与职业都已存在之后注册。刻意使用方法引用：在加入该抽取之前构建的 SparkFactionAPI 2.0.0
-     * 会在这里失败即关闭（不发放任何第三阵营），而不是让服务端无法启动。
+     * Third-faction lineups ({@code SparkFactionApi.registerThirdFactionLineup}, owner 2026-11-16): the witch faction
+     * and Team Jiahao form the {@code third_faction} category. The third-faction draw deals at most one of them per
+     * round, before Wathe's neutral pass (50/50 between the drawable ones, a player minimum and a member cap it owns),
+     * and deals the roles these pure lineups return; forced members are passed in as present and always kept.
+     * Registered in common init after the factions, the Corrupt Cop binding and the roles exist. The method references
+     * and the {@code LinkageError} catch were the fail-closed path for a faction-core jar built before the draw (no
+     * third faction dealt instead of the server failing to start); unreachable since the fusion.
+     * 第三阵营阵容（{@code SparkFactionApi.registerThirdFactionLineup}，所有者 2026-11-16）：魔女阵营与嘉豪阵营组成
+     * {@code third_faction} 类别。第三阵营抽取在 Wathe 中立分配之前每局至多抽取其中一个（在可抽取的阵营间 50/50，最低人
+     * 数与成员上限由其负责），并发放这些纯阵容返回的职业；强制指定的成员作为已在场成员传入，始终保留。在双端通用初始化
+     * 中、阵营、黑警绑定与职业都已存在之后注册。方法引用与 {@code LinkageError} 捕获原是为“在加入该抽取之前构建的阵营
+     * 核心 jar”准备的失败即关闭路径（不发放任何第三阵营，而不是让服务端无法启动）；融合后不可达。
      */
     private static void registerThirdFactionLineups() {
         try {
@@ -729,9 +732,9 @@ public final class SparkDlcRoleRegistry {
                 .moodType(Role.MoodType.FAKE)
                 .maxSprintTime(-1)
                 .canSeeTime(true)
-                // Never drawn by a Wathe pass: only SparkFactionAPI's third-faction draw deals her (WitchThirdFactionLineup),
+                // Never drawn by a Wathe pass: only the third-faction draw deals her (WitchThirdFactionLineup),
                 // and its own admin-tunable player minimum replaces the old 18-player condition (owner 2026-11-16).
-                // 从不由 Wathe 分配抽取：只由 SparkFactionAPI 第三阵营抽取发放（WitchThirdFactionLineup），抽取自身可由管理员
+                // 从不由 Wathe 分配抽取：只由第三阵营抽取发放（WitchThirdFactionLineup），抽取自身可由管理员
                 // 调整的最低人数取代旧的 18 人条件（所有者 2026-11-16）。
                 .appearanceCondition(context -> false)
                 .build());
@@ -746,9 +749,9 @@ public final class SparkDlcRoleRegistry {
                 .build());
         // Special accomplice (accomplice-variant pool), registered right after the Accomplice rather than appended:
         // nothing may be registered after the Insider (InsiderRegistrationContractTest), so, like the Curser, it sits
-        // mid-list. The SparkWitch assassin-guess tail is re-sorted, so the shifted Wathe role index is harmless.
+        // mid-list. The assassin-guess tail is re-sorted, so the shifted Wathe role index is harmless.
         // 特殊共犯（共犯变体池），紧接在共犯之后注册而非追加到末尾：内应之后禁止再注册职业
-        // （InsiderRegistrationContractTest），因此与诅咒者一样插在中间。SparkWitch 刺客猜测尾部会重新排序，
+        // （InsiderRegistrationContractTest），因此与诅咒者一样插在中间。刺客猜测尾部会重新排序，
         // 因此 Wathe 职业下标的偏移无害。
         abyssListener = SparkFactionApi.registerRole(AbyssListenerRole.DEFINITION);
         // Special accomplice: never drawn naturally; only the Bewitched promotion pool (or an admin force) assigns it.
@@ -1148,10 +1151,10 @@ public final class SparkDlcRoleRegistry {
                 .canSeeTime(false)
                 .nativeWatheFaction(Faction.CIVILIAN)
                 .build());
-        // Specter (PR #207): a SparkFactionAPI killer (native Wathe KILLER, FAKE mood, unlimited sprint, round clock),
+        // Specter (PR #207): a killer (native Wathe KILLER, FAKE mood, unlimited sprint, round clock),
         // registered after BEAR and right before the Insider, which stays last; skills and state live in
         // roles/killer/specter (CONTEXT.md). Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
-        // 幽魂（PR #207）：SparkFactionAPI 杀手（原生 Wathe KILLER、虚假理智、无限体力、可见回合时间），注册在 BEAR 之后、
+        // 幽魂（PR #207）：杀手（原生 Wathe KILLER、虚假理智、无限体力、可见回合时间），注册在 BEAR 之后、
         // 内应之前，内应仍为最后一个；技能与状态位于 roles/killer/specter（见 CONTEXT.md）。不是魔女技能职业：不加入
         // isRegisteredSparkWitchRole。
         specter = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SPECTER_ID, FactionIds.KILLER)
@@ -1242,14 +1245,14 @@ public final class SparkDlcRoleRegistry {
                 .canSeeTime(false)
                 .nativeWatheFaction(Faction.CIVILIAN)
                 .build());
-        // 二阶堂希罗 Nikaido Hiro (2026-11-11): a SparkFactionAPI killer with the Specter's profile (native Wathe KILLER,
+        // 二阶堂希罗 Nikaido Hiro (2026-11-11): a killer with the Specter's profile (native Wathe KILLER,
         // FAKE mood, unlimited sprint, round clock), one killer slot, no appearance condition (drawn at any player
         // count). Registered after 橘雪莉 (main's PR #206) and right before the Insider, which stays last
         // (InsiderRegistrationContractTest), so only the Insider's own index shifts. Skills, shop and state live in
         // roles/killer/hiro, the Rope in item/rope (CONTEXT.md). A mana role on the Witch Maiden's numbers
         // (mana/WitchManaRules) but never a Witch-skill role: kept out of isRegisteredSparkWitchRole and out of the
         // gui.sparkdlc.skills panel.
-        // 二阶堂希罗（2026-11-11）：SparkFactionAPI 杀手，参数与幽魂相同（原生 Wathe KILLER、伪装情绪、无限冲刺、可见回合
+        // 二阶堂希罗（2026-11-11）：杀手，参数与幽魂相同（原生 Wathe KILLER、伪装情绪、无限冲刺、可见回合
         // 时间），占 1 个杀手名额，无出现条件（任何人数都可抽取）。注册在橘雪莉（PR #206）之后、紧挨内应之前（内应仍为最后一个，
         // InsiderRegistrationContractTest），因此只有内应自身的下标改变。技能、商店与状态位于 roles/killer/hiro，绳索位于
         // item/rope（见 CONTEXT.md）。魔力沿用巫女的数值（mana/WitchManaRules），但不是魔女技能职业：不加入
@@ -1318,13 +1321,13 @@ public final class SparkDlcRoleRegistry {
         // (FAKE mood with fake tasks, civilian stamina, round clock). Registered right before the Insider, which stays last
         // (InsiderRegistrationContractTest), so only the Insider's own index shifts. Never drawn by a Wathe pass: the
         // Team Jiahao third-faction lineup deals the Insider or Sphinx Hao, 50/50, in the second seat
-        // (JiahaoThirdFactionLineup, owner Q1). Not in PoliceRoles (SparkStrength's public tablet only, no police
+        // (JiahaoThirdFactionLineup, owner Q1). Not in PoliceRoles (the public tablet channel only, no police
         // channel); never a Witch-skill role (kept out of isRegisteredSparkWitchRole and the gui.sparkdlc.skills
         // panel). Skills, hao, shop and key live in roles/neutral/sphinxhao.
         // 狮身豪（2026-11-17）：嘉豪阵营第二名成员（原生 Wathe JIAHAO），参数与内应相同（伪装情绪带假任务、平民体力、可见回合
         // 时间）。注册在内应之前、紧挨内应（内应仍为最后一个，InsiderRegistrationContractTest），因此只有内应自身的下标改变。
         // 从不由 Wathe 分配抽取：嘉豪阵营第三阵营阵容的第二个席位以各 50% 发放内应或狮身豪（JiahaoThirdFactionLineup，
-        // 所有者 Q1）。不加入 PoliceRoles（只有 SparkStrength 公共频道平板，没有警用频道）；不是魔女技能职业（不加入 isRegisteredSparkWitchRole，
+        // 所有者 Q1）。不加入 PoliceRoles（只有公共频道平板，没有警用频道）；不是魔女技能职业（不加入 isRegisteredSparkWitchRole，
         // 也不进入 gui.sparkdlc.skills 面板）。技能、豪度值、商店与钥匙位于 roles/neutral/sphinxhao。
         sphinxHao = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SPHINX_HAO_ID, SparkDlcFactions.JIAHAO)
                 .color(SphinxHaoRules.COLOR)
@@ -1351,10 +1354,10 @@ public final class SparkDlcRoleRegistry {
                 .build());
         // Appended last so existing registration order stays unchanged; a Team Jiahao member (native Wathe JIAHAO) with
         // the Corrupt Cop's profile (FAKE mood with tasks, civilian stamina, round clock). Never drawn by a Wathe pass:
-        // SparkFactionAPI's third-faction draw deals it beside the Corrupt Cop when Team Jiahao has a second slot
+        // the third-faction draw deals it beside the Corrupt Cop when Team Jiahao has a second slot
         // (JiahaoThirdFactionLineup, owner 2026-11-16). Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
         // 追加在最后以保持既有注册顺序不变；嘉豪阵营成员（原生 Wathe JIAHAO），参数与黑警相同（伪装情绪但有任务、平民体力、
-        // 可见回合时间）。从不由 Wathe 分配抽取：嘉豪阵营有第二个名额时，由 SparkFactionAPI 第三阵营抽取与黑警一起发放
+        // 可见回合时间）。从不由 Wathe 分配抽取：嘉豪阵营有第二个名额时，由第三阵营抽取与黑警一起发放
         //（JiahaoThirdFactionLineup，所有者 2026-11-16）。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
         insider = SparkFactionApi.registerRole(FactionRoleDefinition.builder(INSIDER_ID, SparkDlcFactions.JIAHAO)
                 .color(InsiderRules.COLOR)

@@ -8,9 +8,9 @@ import java.util.List;
 
 /**
  * Lights sabotage moved to the tablet, so Wathe's {@code blackout} shop entry leaves every final shop list, including
- * the SparkWitch shops that put Wathe's entry back. Pure id filter, the same on client and server (purchases resolve by
+ * the role shops that put Wathe's entry back. Pure id filter, the same on client and server (purchases resolve by
  * index).
- * 灯光破坏已移到平板，所以 Wathe 的 blackout 商店条目从所有最终商店列表中移除，包括会把 Wathe 条目放回去的 SparkWitch 商店。
+ * 灯光破坏已移到平板，所以 Wathe 的 blackout 商店条目从所有最终商店列表中移除，包括会把 Wathe 条目放回去的职业商店。
  * 纯 id 过滤，客户端与服务端结果一致（购买按下标解析）。
  */
 public final class SabotageShopFilter {

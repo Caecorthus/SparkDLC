@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.collision;
 
 /**
- * SparkStrength 的开局玩家碰撞保护规则。
+ * 开局玩家碰撞保护规则。
  *
  * <p>Wathe 的玩家实体碰撞是按 tick 判断的，因此这里统一把配置写成 tick，
  * 同时保留秒数常量作为最直观的调节入口。后续只需要修改

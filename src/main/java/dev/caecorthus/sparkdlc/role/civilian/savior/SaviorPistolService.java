@@ -45,14 +45,15 @@ import org.jetbrains.annotations.Nullable;
  * click/shoot sounds, 4° recoil feedback, muzzle packet, 65-block target tolerance, innocent-shooting punishment and
  * backfire, but drops the two civilian-pistol modifiers the owner excluded: the innocent gun cooldown override and the
  * -0.35 mood cost of a kill (the Savior is police). The 10 s cooldown is always written, hit or miss, except in
- * creative mode. While a game runs any living holder may fire ({@link SaviorRules#mayUseWeapons}). SparkTraits may
- * widen the player-target tolerance through {@code SparkTraitsApi.getServerGunTargetRange} (a sneaking Niko holder: 300 blocks) and
- * rewrites the cooldown through the vanilla write (Niko 60 s, Fast Reload, Fast Hands), as it does for the revolver.
+ * creative mode. While a game runs any living holder may fire ({@link SaviorRules#mayUseWeapons}). Traits may widen
+ * the player-target tolerance through {@code SparkTraitsApi.getServerGunTargetRange} (a sneaking Niko holder: 300
+ * blocks) and rewrite the cooldown through the vanilla write (Niko 60 s, Fast Reload, Fast Hands), as they do for the
+ * revolver.
  * 救世主手枪的服务端部分，复制自 Wathe 的 {@code GunShootPayload.Receiver}。保留左轮的点击/开枪音效、4° 后坐反馈、
  * 枪口数据包、65 格目标容差、误杀惩罚与后坐反噬，但去掉所有者排除的两项平民手枪修正：误杀冷却覆盖与击杀的 -0.35 理智
  * 损失（救世主属于警类）。无论命中与否都写入 10 秒冷却，创造模式除外。对局进行中任何存活的持有者都能开枪
- * （{@link SaviorRules#mayUseWeapons}）。SparkTraits 可通过 {@code SparkTraitsApi.getServerGunTargetRange} 放宽玩家目标容差（潜行的 Niko
- * 持有者为 300 格），并经原版冷却写入改写冷却（Niko 60 秒、快速装填、快手），与左轮相同。
+ * （{@link SaviorRules#mayUseWeapons}）。词条可通过 {@code SparkTraitsApi.getServerGunTargetRange} 放宽玩家目标容差（潜行的
+ * Niko 持有者为 300 格），并经原版冷却写入改写冷却（Niko 60 秒、快速装填、快手），与左轮相同。
  */
 public final class SaviorPistolService {
     private static boolean registered;
@@ -96,9 +97,9 @@ public final class SaviorPistolService {
         // The server only accepts a real player within the revolver's lag tolerance; the aim itself is the client's. A
         // substituted owner was already measured on its crow. / 服务端只接受真实玩家且在左轮的延迟容差内；瞄准本身由客户端
         // 决定。被替身的主人已按乌鸦量过距离。
-        // SparkTraits may widen that tolerance for this shooter and gun (a sneaking Niko holder: 300 blocks, matching
-        // the client pick it already widened); crows, puppets, devices and Partygoers keep the 65-block cap.
-        // SparkTraits 可为该射手与该枪放宽此容差（潜行的 Niko 持有者为 300 格，与它已放宽的客户端选靶一致）；乌鸦、皮套、
+        // Traits may widen that tolerance for this shooter and gun (a sneaking Niko holder: 300 blocks, matching
+        // the client pick they already widened); crows, puppets, devices and Partygoers keep the 65-block cap.
+        // 词条可为该射手与该枪放宽此容差（潜行的 Niko 持有者为 300 格，与其已放宽的客户端选靶一致）；乌鸦、皮套、
         // 设备与派对客仍按 65 格上限。
         double tolerance = SparkTraitsApi.getServerGunTargetRange(shooter, pistol.getItem(),
                 SaviorRules.PISTOL_SERVER_TOLERANCE);
@@ -108,8 +109,10 @@ public final class SaviorPistolService {
                 && BlackRavenCrowHits.receiverDistance(candidate, shooter.distanceTo(candidate)) < tolerance) {
             target = candidate;
         }
-        // SparkFactionAPI drops a protected wathe:gunshoot at HEAD (no click, no cooldown); the pistol does the same.
-        // SparkFactionAPI 在 HEAD 丢弃受保护的 wathe:gunshoot（无点击声、无冷却）；手枪同样处理。
+        // The faction core's gun guard (GunShootPayloadReceiverMixin) drops a protected wathe:gunshoot at HEAD (no
+        // click, no cooldown); the pistol does the same.
+        // 阵营核心的枪击守卫（GunShootPayloadReceiverMixin）在 HEAD 丢弃受保护的 wathe:gunshoot（无点击声、无冷却）；
+        // 手枪同样处理。
         if (target != null && !SaviorRules.mayAffect(shooter, target, GameConstants.DeathReasons.GUN,
                 SaviorRules.PISTOL_DEATH_REASON, game)) {
             BlackRavenCrowTargets.forget(target);
@@ -176,10 +179,10 @@ public final class SaviorPistolService {
     }
 
     /**
-     * Shooter gates of the other SparkWitch fire services (USEC rifle, M32A1), checked before the click: the
-     * SparkTraits weapon gate, the Control Expert stun, the Seeker remote lock, Kidnapper control, an active Wraith,
+     * Shooter gates of the mod's other fire services (USEC rifle, M32A1), checked before the click: the
+     * trait weapon gate, the Control Expert stun, the Seeker remote lock, Kidnapper control, an active Wraith,
      * and the Dominator rule that refuses a hand shot during a forced-shot sequence.
-     * 与其他 SparkWitch 开火服务（USEC 步枪、M32A1）相同的射手门槛，在点击声之前检查：SparkTraits 武器门槛、控场专家眩晕、
+     * 与本模组其他开火服务（USEC 步枪、M32A1）相同的射手门槛，在点击声之前检查：词条武器门槛、控场专家眩晕、
      * 搜寻者远程锁定、绑匪操控、激活的冤魂，以及支配者强制开枪序列中拒绝亲手开枪的规则。
      */
     private static boolean refusesShooter(ServerPlayerEntity shooter, ItemStack pistol) {
@@ -199,13 +202,13 @@ public final class SaviorPistolService {
     /**
      * Non-player target, after the click and before the record, through the add-on gun entries
      * ({@code SparkRoleApi.hitGunWorldTarget} refuses items outside {@code wathe:guns}, so they are called directly):
-     * a Magician puppet ends (decoy, the Magician is paid), a Seeker device breaks, and a SparkStrength Partygoer dies
+     * a Magician puppet ends (decoy, the Magician is paid), a Seeker device breaks, and a Partygoer dies
      * (owner rule 2026-10-21). Each re-checks aim and line of sight within the revolver's 65-block cap. A Bomber drone
-     * has no SparkWitch seam and stays a miss.
+     * has no add-on gun entry and stays a miss.
      * 非玩家目标，在点击声之后、记录之前，经附属枪械入口处理（{@code SparkRoleApi.hitGunWorldTarget} 拒绝
      * {@code wathe:guns} 以外的物品，因此直接调用）：魔术师皮套被结束（诱饵，魔术师获得报酬），搜寻者设备被打坏，
-     * SparkStrength 派对客死亡（所有者规则 2026-10-21）。每项都在左轮 65 格上限内复查瞄准与视线。轰炸者无人机没有
-     * SparkWitch 接缝，仍为未命中。
+     * 派对客死亡（所有者规则 2026-10-21）。每项都在左轮 65 格上限内复查瞄准与视线。轰炸者无人机没有附属枪械入口，
+     * 仍为未命中。
      */
     private static boolean hitWorldTarget(ServerPlayerEntity shooter, @Nullable Entity entity, ItemStack pistol) {
         if (entity == null || entity instanceof PlayerEntity) {

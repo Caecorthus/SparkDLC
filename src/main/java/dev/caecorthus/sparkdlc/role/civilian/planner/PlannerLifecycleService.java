@@ -61,10 +61,10 @@ final class PlannerLifecycleService {
     }
 
     /**
-     * Seconds until Wathe deals the planner's next task, at the timer's observed speed (SparkTraits Anxiety and the
+     * Seconds until Wathe deals the planner's next task, at the timer's observed speed (the Anxiety trait and the
      * like speed it up), or "unknown" (-1) when no deal can happen: every type is held or a Bell Ringer Echo holds
      * generation. Read-only: Wathe's timer is never written.
-     * 距 Wathe 给规划大师发下一个任务的秒数，按观测到的计时速度换算（SparkTraits 焦虑等会加快它）；无法发任务时为“未知”（-1）：
+     * 距 Wathe 给规划大师发下一个任务的秒数，按观测到的计时速度换算（焦虑词条等会加快它）；无法发任务时为“未知”（-1）：
      * 所有类型都已持有，或敲钟人回响暂停了生成。只读：从不写入 Wathe 的计时。
      */
     private static void publishNextTask(ServerPlayerEntity player, PlannerComponent state) {

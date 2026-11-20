@@ -95,9 +95,9 @@ public final class NoellesTaotieSeekerBridge {
     }
 
     /**
-     * NoellesRoles' swallow reach (feet to feet, squared). A compile-time constant inlined into SparkWitch, pinned to 9
+     * NoellesRoles' swallow reach (feet to feet, squared). A compile-time constant inlined into this mod, pinned to 9
      * by the contract test so an upstream change cannot drift silently.
-     * NoellesRoles 的吞噬距离（脚到脚，平方）。它是被内联进 SparkWitch 的编译期常量，由契约测试固定为 9，
+     * NoellesRoles 的吞噬距离（脚到脚，平方）。它是被内联进本模组的编译期常量，由契约测试固定为 9，
      * 防止上游改动悄然失配。
      */
     public static int swallowDistanceSquared() {

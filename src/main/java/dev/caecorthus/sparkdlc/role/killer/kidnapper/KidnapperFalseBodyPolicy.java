@@ -10,7 +10,7 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
-/** Owns cross-mod fake-corpse rejection. / 只负责跨模组假尸体拒绝规则。 */
+/** Owns fake-corpse rejection across roles and traits. / 只负责跨职业与词条的假尸体拒绝规则。 */
 public final class KidnapperFalseBodyPolicy {
     private KidnapperFalseBodyPolicy() {
     }
@@ -24,8 +24,8 @@ public final class KidnapperFalseBodyPolicy {
                 // The fake corpse of a 二阶堂希罗 victim, even after its camera falls back (2026-11-11).
                 // 二阶堂希罗受害者的假尸体，即使视角已回落到本人（2026-11-11）。
                 && !HiroFakeBodies.isFake(body)
-                // A killed SparkStrength Partygoer is no passenger's body (2026-10-21).
-                // 被打死的 SparkStrength 派对客不是乘客的尸体（2026-10-21）。
+                // A killed Partygoer is no passenger's body (2026-10-21).
+                // 被打死的派对客不是乘客的尸体（2026-10-21）。
                 && !PartygoerCorpseComponent.isPartygoerCorpse(body)
                 && !isCameraBoundFakeBody(body);
     }

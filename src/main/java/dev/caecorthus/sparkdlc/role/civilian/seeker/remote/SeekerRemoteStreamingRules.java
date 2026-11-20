@@ -18,8 +18,8 @@ import java.util.function.IntPredicate;
 public final class SeekerRemoteStreamingRules {
     /**
      * Cap on the view distance used for the focus ticket: Wathe maps are small, so a wider ring would only load (or
-     * generate) terrain far outside the play area. Same cap as SparkStrength's drone view.
-     * 焦点票据使用的视距上限：Wathe 地图很小，更大的范围只会加载（甚至生成）游戏区域外的地形。与 SparkStrength 无人机视野相同。
+     * generate) terrain far outside the play area. Same cap as the Bomber drone's view.
+     * 焦点票据使用的视距上限：Wathe 地图很小，更大的范围只会加载（甚至生成）游戏区域外的地形。与轰炸者无人机视野相同。
      */
     public static final int MAX_TICKET_VIEW_DISTANCE = 8;
     /** Extra rings so the edge of the sent view is fully loaded first. / 额外的圈数，使发送视野的边缘先完全加载。 */

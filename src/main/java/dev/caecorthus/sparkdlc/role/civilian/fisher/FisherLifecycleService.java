@@ -44,8 +44,8 @@ public final class FisherLifecycleService {
                 FisherPufferfishService.sweepAll(server);
             }
         });
-        // SparkTraits' DEFAULT-phase Conscience compensation settles final roles before rods are granted.
-        // SparkTraits 的 DEFAULT 阶段良知补偿先确定最终身份，然后才发鱼竿。
+        // The Conscience trait's DEFAULT-phase compensation settles final roles before rods are granted.
+        // 良知词条的 DEFAULT 阶段补偿先确定最终身份，然后才发鱼竿。
         GameEvents.ON_FINISH_INITIALIZE.addPhaseOrdering(Event.DEFAULT_PHASE, FINISH_INITIALIZE_PHASE);
         GameEvents.ON_FINISH_INITIALIZE.register(FINISH_INITIALIZE_PHASE, (world, game) -> {
             if (world instanceof ServerWorld serverWorld) {

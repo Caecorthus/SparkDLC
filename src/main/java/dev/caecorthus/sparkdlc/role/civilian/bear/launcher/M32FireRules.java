@@ -49,7 +49,7 @@ public final class M32FireRules {
      * @param sessionLocked Seeker remote session / 搜寻者遥控会话
      * @param kidnapped     under Kidnapper control / 被绑匪控制
      * @param activeWraith  an active Wraith / 激活的冤魂
-     * @param weaponBlocked SparkTraits blocks a weapon action with the held launcher / SparkTraits 封锁持该发射器的武器操作
+     * @param weaponBlocked a trait blocks a weapon action with the held launcher / 词条封锁持该发射器的武器操作
      * @param coolingDown   the launcher's item cooldown is running / 发射器物品冷却中
      * @param loaded        the cylinder holds at least one round / 转轮至少装有一发
      */
@@ -114,10 +114,10 @@ public final class M32FireRules {
 
     /**
      * The exact floor write of the 1 s shot cooldown ({@code UsecCooldowns.write} rule): {@code max(existing,
-     * requested)}; a longer running lock (Saint Karma, a SparkFactionAPI forced lock, the Fiend aura) is never
+     * requested)}; a longer running lock (Saint Karma, a {@code ForcedCooldowns} lock, the Fiend aura) is never
      * shortened. Returns the ticks to write, or 0 when nothing new is written.
      * 1 秒射击冷却的精确取大写入（{@code UsecCooldowns.write} 规则）：{@code max(既有, 请求)}；绝不缩短正在运行的更长锁定（圣徒
-     * 业报、SparkFactionAPI 强制锁定、魔人光环）。返回应写入的刻数；无需写入新值时为 0。
+     * 业报、{@code ForcedCooldowns} 强制锁定、魔人光环）。返回应写入的刻数；无需写入新值时为 0。
      */
     public static int floorWrite(int existingTicks, int requestedTicks) {
         int existing = Math.max(0, existingTicks);

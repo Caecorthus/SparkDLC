@@ -12,12 +12,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
  * authority and syncs through Wathe's {@code PlayerStaminaComponent}; the local client applies the same boost to its
  * own prediction, exactly like Wathe applies its base regen on both sides, so the HUD bar fills at the server's rate
  * instead of jumping on every resync. The client value never reaches the server (it sends no stamina), so a wrong
- * prediction is overwritten by the next sync and can never grant stamina. SparkTraits Excellent Physique's bonus is
+ * prediction is overwritten by the next sync and can never grant stamina. The Excellent Physique trait's bonus is
  * server-only, so with that trait the client still under-predicts and resyncs, as it already does today.
  * {@code mixin.usec.UsecStaminaRegenMixin} 的运行时接线。客户端/服务端权威：服务端副本是权威，经 Wathe 的
  * {@code PlayerStaminaComponent} 同步；本地客户端对自己的预测施加同样的加成，与 Wathe 在两端都执行基础恢复的做法一致，
  * 使 HUD 体力条以服务端速率增长，而不是每次重新同步时跳变。客户端数值从不发往服务端（不发送体力），因此错误预测会被下次
- * 同步覆盖，绝不会凭空获得体力。SparkTraits 体质优异的加成只在服务端执行，带该词条时客户端仍会少算并重新同步，与现状相同。
+ * 同步覆盖，绝不会凭空获得体力。体质优异词条的加成只在服务端执行，带该词条时客户端仍会少算并重新同步，与现状相同。
  */
 public final class UsecStaminaService {
     private UsecStaminaService() {

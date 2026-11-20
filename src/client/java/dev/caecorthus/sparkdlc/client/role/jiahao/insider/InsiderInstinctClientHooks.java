@@ -17,15 +17,15 @@ import org.jetbrains.annotations.Nullable;
  * Client seam: the Insider's single Wathe {@link GetInstinctHighlight} listener (the Insider's own view at
  * {@link InsiderHighlightRules#INSIDER_VIEW_PRIORITY}, the Corrupt Cop view at {@link InsiderHighlightRules#PRIORITY}).
  * Roles and the Corrupt Cop Moment state are read from components NoellesRoles and Wathe already sync to every client;
- * nothing new is sent. Existing hide rules keep working: HEAD vetoes (Wraith privacy, fear, Taotie, SparkTraits)
+ * nothing new is sent. Existing hide rules keep working: HEAD vetoes (Wraith privacy, fear, Taotie, traits)
  * answer before the event, {@code skip()} (100) and suppression (102) outrank this listener, invisible targets are
- * left alone, and a SparkTraits {@code isInstinctHidden} target gets no Insider outline. Killers get no answer, so
+ * left alone, and a trait {@code isInstinctHidden} target gets no Insider outline. Killers get no answer, so
  * Wathe's default paints the Insider like any other passenger.
  * 客户端接缝：内应唯一的 Wathe {@link GetInstinctHighlight} 监听器（内应自身视角优先级
  * {@link InsiderHighlightRules#INSIDER_VIEW_PRIORITY}，黑警视角优先级 {@link InsiderHighlightRules#PRIORITY}）。
  * 职业与黑警时刻状态读取自 NoellesRoles 和 Wathe 已同步给所有客户端的组件，不发送任何新数据。现有隐藏规则继续生效：
- * HEAD 否决（冤魂隐私、恐惧、饕餮、SparkTraits）先于事件作答，{@code skip()}（100）与压制（102）高于本监听器，
- * 不处理隐身目标，SparkTraits {@code isInstinctHidden} 隐藏的目标不会得到内应描边。杀手不会得到答复，
+ * HEAD 否决（冤魂隐私、恐惧、饕餮、特质）先于事件作答，{@code skip()}（100）与压制（102）高于本监听器，
+ * 不处理隐身目标，特质 {@code isInstinctHidden} 隐藏的目标不会得到内应描边。杀手不会得到答复，
  * 因此 Wathe 默认逻辑会把内应与其他乘客一样描绘。
  */
 public final class InsiderInstinctClientHooks {

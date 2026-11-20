@@ -124,9 +124,9 @@ public final class SwordfishStabService {
             }
             return;
         }
-        // SparkStrength Partygoer seam (owner rule 2026-10-21): it dies to an accepted stab, which then costs the
+        // Partygoer seam (owner rule 2026-10-21): it dies to an accepted stab, which then costs the
         // Swordfish and plays the stab like a player hit; never friendly fire (a Partygoer is never an innocent).
-        // SparkStrength 派对客接缝（所有者规则 2026-10-21）：被接纳的刺击打死它，随后与刺中玩家一样消耗剑鱼并播放刺击；
+        // 派对客接缝（所有者规则 2026-10-21）：被接纳的刺击打死它，随后与刺中玩家一样消耗剑鱼并播放刺击；
         // 永不触发小脑（派对客永远不是好人）。
         if (PartygoerWeaponTarget.isPartygoer(entity)) {
             if (PartygoerWeaponTarget.killByWeapon(attacker, entity, SparkDlcDeathReasons.SWORDFISH_STAB)) {
@@ -147,9 +147,9 @@ public final class SwordfishStabService {
         Identifier attackerFaction = SparkFactionApi.resolveEffectiveFaction(attacker, game);
         Identifier victimFaction = SparkFactionApi.resolveEffectiveFaction(target, game);
         boolean deadBefore = game.isPlayerDead(target.getUuid());
-        // This facade parries non-knife melee too. Query before costs while the exact stack is still nonempty;
+        // This trait check parries non-knife melee too. Query before costs while the exact stack is still nonempty;
         // Q4 consumes an accepted hit even when parried, shielded, revived, or met by Tofana retaliation.
-        // 此门面也格挡非刀近战；在原栈尚非空、扣费前查询。Q4：有效命中被格挡、护盾、复活或托法娜反击也消耗。
+        // 此词条检查也格挡非刀近战；在原栈尚非空、扣费前查询。Q4：有效命中被格挡、护盾、复活或托法娜反击也消耗。
         boolean parried = SparkTraitsApi.shouldCancelMeleeAttack(attacker, target, stack);
         consume(attacker, stack);
         playStab(attacker, target);
@@ -263,8 +263,8 @@ public final class SwordfishStabService {
         // 魔术师皮套与玩家同等竞争（更近的皮套会使提交给其后方玩家的刺击被拒绝）。
         candidates.addAll(attacker.getServerWorld().getEntitiesByClass(MagicianPlaybackEntity.class, search,
                 puppet -> isAimCandidate(attacker, puppet)));
-        // SparkStrength Partygoers compete as players do too (listed last, so an exact tie keeps the earlier candidate).
-        // SparkStrength 派对客同样与玩家同等竞争（列在最后，完全等距时保留先列出的候选）。
+        // Partygoers compete as players do too (listed last, so an exact tie keeps the earlier candidate).
+        // 派对客同样与玩家同等竞争（列在最后，完全等距时保留先列出的候选）。
         candidates.addAll(attacker.getServerWorld().getOtherEntities(attacker, search,
                 partygoer -> PartygoerWeaponTarget.isPartygoer(partygoer)
                         && isAimCandidate(attacker, partygoer)));

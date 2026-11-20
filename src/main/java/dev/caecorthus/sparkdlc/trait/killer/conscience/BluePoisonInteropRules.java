@@ -9,8 +9,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Pure decisions behind the downstream blue-poison facade (no world, stack or registry access).
- * 下游蓝毒门面背后的纯规则判定，不访问世界、物品堆或注册表。
+ * Pure decisions behind the public blue-poison facade (no world, stack or registry access).
+ * 公开蓝毒门面背后的纯规则判定，不访问世界、物品堆或注册表。
  */
 public final class BluePoisonInteropRules {
     /** What converting native Wathe poison into blue poison does to one poison surface.

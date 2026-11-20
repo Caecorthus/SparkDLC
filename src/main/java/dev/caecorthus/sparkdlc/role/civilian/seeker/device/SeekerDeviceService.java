@@ -644,11 +644,13 @@ public final class SeekerDeviceService {
     }
 
     /**
-     * Return slot: the original index when still empty, else the first empty hotbar slot, else (when SparkFactionAPI
-     * 0.1.5.13+ shows it) the first empty slot of the second row 27-35, so the car stays reachable, else the first
-     * empty main slot; -1 when the inventory is full.
-     * 归还槽位：原索引仍为空时优先；否则快捷栏首个空位；否则（SparkFactionAPI 0.1.5.13+ 显示时）第二行 27-35 的首个
-     * 空位，使小车仍可取用；否则主背包首个空位；背包已满时返回 -1。
+     * Return slot: the original index when still empty, else the first empty hotbar slot, else (when the second row
+     * is shown) the first empty slot of the second row 27-35, so the car stays reachable, else the first empty main
+     * slot; -1 when the inventory is full. {@code LimitedInventoryRows.isSecondRowShown} is constant true now (it
+     * used to detect SparkFactionAPI 0.1.5.13+), so the not-shown path is unreachable since the fusion.
+     * 归还槽位：原索引仍为空时优先；否则快捷栏首个空位；否则（第二行显示时）第二行 27-35 的首个空位，使小车仍可取用；
+     * 否则主背包首个空位；背包已满时返回 -1。{@code LimitedInventoryRows.isSecondRowShown} 如今恒为 true（原先用于检测
+     * SparkFactionAPI 0.1.5.13+），因此“不显示”的路径融合后不可达。
      */
     static int chooseReturnSlot(int originalSlot, boolean originalEmpty, boolean[] mainEmpty, int hotbarSize,
                                 boolean secondRowShown) {

@@ -7,7 +7,7 @@ import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.util.Identifier;
 
 /**
- * Registers SparkAssist's item demos with Ponder. 向 Ponder 注册 SparkAssist 的物品演示。
+ * Registers the mod's item demos with Ponder. 向 Ponder 注册本模组的物品演示。
  */
 public final class SparkPonderPlugin implements PonderPlugin {
     static void register() {

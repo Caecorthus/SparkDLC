@@ -38,16 +38,17 @@ public final class SphinxHaoSkillRules {
         NO_TARGET,
         /** The crosshair player is already infected: refused, no cooldown. / 准星玩家已被感染：拒绝，不进冷却。 */
         ALREADY_INFECTED,
-        /** SparkFactionAPI vetoed the target: silent, no cooldown. / SparkFactionAPI 否决目标：静默，不进冷却。 */
+        /** {@code canAffectPlayer} vetoed the target: silent, no cooldown. / canAffectPlayer 否决目标：静默，不进冷却。 */
         VETOED,
         /** Go on to the Fear re-check, then infect. / 继续检查恐惧，然后感染。 */
         INFECT
     }
 
     /**
-     * Guard order after {@code mayCast}: cooldown, a running 豪气冲天 window, target, already infected, SparkFactionAPI veto. The Fear re-check
-     * runs after this (it tells the caster why on its own).
-     * {@code mayCast} 之后的守卫顺序：冷却、进行中的豪气冲天窗口、目标、是否已感染、SparkFactionAPI 否决。之后再检查恐惧（恐惧会自行提示原因）。
+     * Guard order after {@code mayCast}: cooldown, a running 豪气冲天 window, target, already infected, canAffectPlayer
+     * veto. The Fear re-check runs after this (it tells the caster why on its own).
+     * {@code mayCast} 之后的守卫顺序：冷却、进行中的豪气冲天窗口、目标、是否已感染、canAffectPlayer 否决。之后再检查恐
+     * 惧（恐惧会自行提示原因）。
      */
     public static InfectOutcome infectOutcome(int cooldownRemaining, boolean roarRunning, boolean targetFound,
                                               boolean alreadyInfected, boolean policyAllows) {

@@ -16,9 +16,9 @@ import net.minecraft.text.Text;
 
 /**
  * Red top-left "heard the Bell Ringer's bell" hint, placed below Wathe's mood/task block. Called by
- * {@link BellRingerClient} only on a confirmed SparkWitch server; still checks the local player state.
+ * {@link BellRingerClient} only on a confirmed SparkDLC server; still checks the local player state.
  * The window is the owner-only synced countdown, so it shows only for players the server made hearers.
- * 红色左上角“听到敲钟人的钟声”提示，位于 Wathe 情绪/任务区块下方。仅在已确认的 SparkWitch 服务器上由
+ * 红色左上角“听到敲钟人的钟声”提示，位于 Wathe 情绪/任务区块下方。仅在已确认的 SparkDLC 服务器上由
  * {@link BellRingerClient} 调用；仍需检查本地玩家状态。显示窗口来自仅拥有者同步的倒计时，
  * 因此只会出现在服务端判定为“听者”的玩家端。
  */

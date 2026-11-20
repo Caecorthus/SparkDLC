@@ -38,8 +38,8 @@ public final class BellRingerEchoService {
         if (!BellRingerRules.isBellRinger(context.role())) {
             return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
-        // SparkWitch packets are not covered by SparkTraits' own packet gate, so ask the facade here.
-        // SparkWitch 自有数据包不在 SparkTraits 的数据包拦截范围内，因此在此主动查询公共门面。
+        // The trait feature gates only NoellesRoles' skill packets itself, so this skill asks the trait API here.
+        // 词条功能只自行拦截 NoellesRoles 的技能数据包，因此本技能在此主动查询词条 API。
         if (SparkTraitsApi.isRoleSkillBlocked(caster) || caster.isSpectator()) {
             return WitchSkillUseResult.fail("message.sparkdlc.bell_echo.blocked");
         }

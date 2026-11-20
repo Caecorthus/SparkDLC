@@ -31,11 +31,11 @@ import org.jetbrains.annotations.Nullable;
  * decides whether a shared ability-key press belongs to the Search Car under the vanilla crosshair, queues
  * {@code seeker_car_swallow} for the END client tick, and draws a role-owned hint line under the crosshair. It never
  * touches NoellesRoles' Taotie HUD lines (the Saint HUD reserves three of them) and never renders in the witch skill
- * panel. A client that cannot send the payload, or is not on a confirmed SparkWitch server, leaves NoellesRoles alone.
+ * panel. A client that cannot send the payload, or is not on a confirmed SparkDLC server, leaves NoellesRoles alone.
  * 饕餮客户端（仅客户端预测；服务端在 {@code SeekerTaotieService} 中重新校验一切）：判断一次共享技能键按下是否属于
  * 原版准星上的搜寻小车，把 {@code seeker_car_swallow} 排到客户端 END 刻发送，并在准星下方绘制职业自有的提示行。
  * 它从不改动 NoellesRoles 的饕餮 HUD 行（圣徒 HUD 为其预留三行），也从不在魔女技能面板中渲染。无法发送该数据包
- * 或未连接到已确认的 SparkWitch 服务器时，不干预 NoellesRoles。
+ * 或未连接到已确认的 SparkDLC 服务器时，不干预 NoellesRoles。
  */
 public final class SeekerTaotieClient {
     /** {@link #claimPress}: leave the press to NoellesRoles. / 把按键留给 NoellesRoles。 */

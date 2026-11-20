@@ -83,10 +83,10 @@ public abstract class LimitedInventoryScreenMixin extends LimitedHandledScreen<P
                 !sparkdlc$guideInput.releaseKey(key, sparkdlc$guide.capturesKeyboard()));
     }
 
-    // The modal guide owns the pointer: the inventory, Wathe's shop/item tooltips and the SparkWitch/SparkTraits
-    // card must not hover under the scrim. -100000 rather than -1 because shop widgets can sit at negative x (about
+    // The modal guide owns the pointer: the inventory, Wathe's shop/item tooltips and the info
+    // cards must not hover under the scrim. -100000 rather than -1 because shop widgets can sit at negative x (about
     // -10 at 427 px). The guide itself still receives the real coordinates through afterRender.
-    // 模态指南独占指针：遮罩下的背包、Wathe 商店与物品提示以及 SparkWitch/SparkTraits 信息卡都不应响应悬停。使用
+    // 模态指南独占指针：遮罩下的背包、Wathe 商店与物品提示以及信息卡都不应响应悬停。使用
     // -100000 而非 -1，因为商店控件可能位于负横坐标（427 像素宽时约为 -10）。指南本身仍通过 afterRender 获得真实坐标。
     @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private int sparkdlc$hideMouseX(int mouseX) {

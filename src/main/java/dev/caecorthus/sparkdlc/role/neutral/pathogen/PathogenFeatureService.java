@@ -29,9 +29,9 @@ import java.util.UUID;
 public final class PathogenFeatureService {
     /**
      * Runs before every default-phase chat listener, so a muted Pathogen's line is dropped before NoellesRoles' Taotie
-     * stomach or Noisemaker relays (or SparkStrength's Reporter channel) can forward it.
-     * 先于所有默认阶段的聊天监听器执行，使被禁言病原体的消息在 NoellesRoles 饕餮胃内 / 大嗓门转发（以及 SparkStrength
-     * 记者频道）转发之前就被丢弃。
+     * stomach or Noisemaker relays (or the Reporter channel) can forward it.
+     * 先于所有默认阶段的聊天监听器执行，使被禁言病原体的消息在 NoellesRoles 饕餮胃内 / 大嗓门转发（以及记者频道）转发之
+     * 前就被丢弃。
      */
     static final Identifier MUTE_PHASE = SparkDLC.id("pathogen_mute");
     private static boolean registered;

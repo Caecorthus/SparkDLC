@@ -9,7 +9,7 @@ import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/** Substitutes the SparkWitch-owned corpse snapshot only at Wathe's body-role display seam. */
+/** Substitutes the Wraith's corpse snapshot only at Wathe's body-role display seam. */
 @Mixin(value = RoleNameRenderer.class, remap = false)
 public abstract class WraithBodyRoleNameMixin {
     @ModifyExpressionValue(

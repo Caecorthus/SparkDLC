@@ -700,8 +700,8 @@ public final class DepressionTraitService {
     }
 
     private static void clearActivePsychoState(ServerPlayerEntity player, ActiveState state) {
-        // English: Wathe stopPsycho removes the bat, but SparkTraits must clear its own synced state first.
-        // 中文：Wathe 的 stopPsycho 只会移除棒子；SparkTraits 自己同步的疯魔状态必须先独立清理。
+        // English: Wathe stopPsycho removes the bat, but the trait must clear its own synced state first.
+        // 中文：Wathe 的 stopPsycho 只会移除棒子；天赋自己同步的疯魔状态必须先独立清理。
         TraitPlayerComponent.KEY.get(player).setDepressionPsychoState(false, null);
         ServerPlayerEntity attacker = player.getServer().getPlayerManager().getPlayer(state.attackerUuid());
         if (attacker != null) {

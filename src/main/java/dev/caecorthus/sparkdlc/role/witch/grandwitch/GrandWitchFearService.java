@@ -27,18 +27,18 @@ public final class GrandWitchFearService {
     public static final float TOTAL_MOOD_LOSS = 0.5f;
     public static final int PULSE_INTERVAL_TICKS = 20;
 
-    // Generated FEAR column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated FEAR column of config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // Rule of the former literal list: every role skill of SparkWitch, NoellesRoles and SparkStrength is
+    // Rule of the former literal list: every role skill of this mod and NoellesRoles is
     // blocked (owner 2026-10-07), weapons are not: wathe:gunshoot, the Savior pistol and the Bandit revolver
     // stay allowed, while the Serial Killer and Demon Hunter pistols are blocked (owner 2026-10-07). Tablet
     // meetings, votes and chat, breaker repair, detective notes, drone moves and exit, the Timekeeper's watch-mode
     // pick and the Seeker's close and car moves stay allowed, so a feared Seeker can always leave the view. Many
     // handlers re-check Fear on use as well. Since 2026-11-13 a role-owned weapon (the Vendetta knife) is blocked
     // like those two pistols, while weapons any holder may fire (the USEC rifle, M32A1, potion launcher) stay allowed.
-    // 生成的 FEAR 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 FEAR 列（config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。
-    // 原字面量名单的规则：拦截 SparkWitch、NoellesRoles 与 SparkStrength 的所有职业技能（所有者 2026-10-07）；不拦截武器：
+    // 原字面量名单的规则：拦截本模组与 NoellesRoles 的所有职业技能（所有者 2026-10-07）；不拦截武器：
     // wathe:gunshoot、救世主手枪与强盗左轮放行，连环杀手与猎魔人手枪被拦截（所有者 2026-10-07）。平板会议、投票与聊天、
     // 修电闸、侦探笔记、无人机移动与退出、计时员怀表模式切换以及搜寻者的关闭与小车移动放行，使被恐惧的搜寻者总能退出视角。
     // 许多处理器在使用时也会再次检查恐惧。自 2026-11-13 起，职业专属武器（仇杀客的刀）与这两把手枪一样被拦截，而任何
@@ -52,9 +52,9 @@ public final class GrandWitchFearService {
      * 被恐惧拦截但不提示“技能被封锁”的 id：逐刻发送的数据流，否则在途数据包会反复刷出提示（化鸦乌鸦移动；恐惧会在下一服务端刻结束会话）。
      * 它们仍保留在 {@link #BLOCKED_ROLE_SKILL_PAYLOADS} 中。
      */
-    // Generated FEAR_SILENT column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated FEAR_SILENT column of config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // 生成的 FEAR_SILENT 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 FEAR_SILENT 列（config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。
     private static final Set<Identifier> SILENTLY_BLOCKED_PAYLOADS = GeneratedPayloadPolicy.FEAR_SILENT;
 

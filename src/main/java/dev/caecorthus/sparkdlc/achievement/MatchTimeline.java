@@ -20,25 +20,25 @@ import java.util.function.Predicate;
 /**
  * Queries over one settled round's match record, built once per round. Events keep record order (Wathe's sequence
  * order) and record ticks (world ticks since the server started the match). Every query tolerates a missing record
- * (old servers send none, so the timeline is simply empty) and missing fields (servers without a given mod).
+ * (old servers send none, so the timeline is simply empty) and missing fields (older servers that never wrote them).
  * <p>
- * Roles come from Wathe's {@code role_assigned} snapshot plus SparkFactionAPI's {@code role_changed} events, so
+ * Roles come from Wathe's {@code role_assigned} snapshot plus the mod's {@code role_changed} events, so
  * {@link #roleAt} is the role a player held when an event happened, not their final role. Factions are effective
  * factions where the record carries them (a {@code death} has {@code victim_faction} / {@code killer_faction}),
  * otherwise the base faction of the role held at that time.
  * <p>
  * Who is alive is rebuilt from the opening snapshot and the deaths, Last Stand false deaths and T-Virus revivals
  * after it (see {@link #aliveAfter}). The record may have lost its tail: Wathe writes {@code match_end} after every
- * gameplay event and SparkFactionAPI cuts oversized records from the end, so rules that need "all", "none" or "the
+ * gameplay event and the record broadcast cuts oversized records from the end, so rules that need "all", "none" or "the
  * last" must check {@link #isComplete} first.
  * <p>
  * 一局已结算对局的记录查询，每局只构建一次。事件保持记录顺序（Wathe 序号顺序）和记录 tick（服务端开始对局后的世界 tick）。
- * 所有查询都能容忍没有记录（旧服务器不发送，时间线为空）和缺字段（服务器没装对应模组）。
- * 身份取自 Wathe 的 {@code role_assigned} 快照加上 SparkFactionAPI 的 {@code role_changed} 事件，所以 {@link #roleAt}
+ * 所有查询都能容忍没有记录（旧服务器不发送，时间线为空）和缺字段（旧服务器从未写入）。
+ * 身份取自 Wathe 的 {@code role_assigned} 快照加上本模组的 {@code role_changed} 事件，所以 {@link #roleAt}
  * 是事件发生时玩家的身份，而不是最终身份。阵营在记录带有时取实际阵营（{@code death} 带 {@code victim_faction} /
  * {@code killer_faction}），否则取当时身份的基础阵营。
  * 谁还活着由开局快照加上之后的死亡、背水一战假死与 T 病毒复活还原（见 {@link #aliveAfter}）。记录可能丢了末尾：
- * Wathe 在所有对局事件之后才写 {@code match_end}，而 SparkFactionAPI 会从末尾截断超大的记录，所以需要"全部 / 没有 /
+ * Wathe 在所有对局事件之后才写 {@code match_end}，而对局记录广播会从末尾截断超大的记录，所以需要"全部 / 没有 /
  * 最后一个"的规则必须先检查 {@link #isComplete}。
  */
 public final class MatchTimeline {
@@ -117,11 +117,11 @@ public final class MatchTimeline {
 
     /**
      * Whether the record reached {@code match_end}, i.e. no gameplay event is missing. Wathe writes {@code match_end}
-     * after every gameplay event (only the {@code player_result}s follow it), and SparkFactionAPI only ever cuts an
+     * after every gameplay event (only the {@code player_result}s follow it), and the record broadcast only cuts an
      * oversized record from the end; without {@code match_end} the record was cut or never arrived. Rules whose
      * condition says "all", "none" or "the last" must require it.
      * 记录是否一直写到了 {@code match_end}，即没有缺失任何对局事件。Wathe 在所有对局事件之后才写 {@code match_end}
-     * （之后只有各 {@code player_result}），而 SparkFactionAPI 只会从末尾截断超大的记录；没有 {@code match_end}
+     * （之后只有各 {@code player_result}），而对局记录广播只会从末尾截断超大的记录；没有 {@code match_end}
      * 说明记录被截断或根本没收到。条件里有"全部 / 没有 / 最后一个"的规则必须要求它。
      */
     public boolean isComplete() {
@@ -357,11 +357,11 @@ public final class MatchTimeline {
     }
 
     /**
-     * Whether this death was SparkTraits' Last Stand false death: the same player's
-     * {@link MatchEvent#LAST_STAND_TRIGGERED} follows it in the same tick (SparkTraits writes it right after Wathe's
+     * Whether this death was the Last Stand trait's false death: the same player's
+     * {@link MatchEvent#LAST_STAND_TRIGGERED} follows it in the same tick (the trait writes it right after Wathe's
      * death record), before any other death of theirs. The player comes back about 5 seconds later.
-     * 这次死亡是否为 SparkTraits 背水一战的假死：同一 tick 内、在此人下一次死亡之前，紧跟着此人的
-     * {@link MatchEvent#LAST_STAND_TRIGGERED}（SparkTraits 紧接在 Wathe 的死亡记录之后写入）。此人约 5 秒后复活。
+     * 这次死亡是否为背水一战词条的假死：同一 tick 内、在此人下一次死亡之前，紧跟着此人的
+     * {@link MatchEvent#LAST_STAND_TRIGGERED}（该词条紧接在 Wathe 的死亡记录之后写入）。此人约 5 秒后复活。
      */
     public boolean isFakeDeath(MatchEvent death) {
         return death.is(MatchEvent.DEATH) && fakeDeaths.get(position(death));
@@ -508,8 +508,8 @@ public final class MatchTimeline {
     // ---- Building 构建 ----
 
     /**
-     * How long a Last Stand false death lasts before the revival (SparkTraits {@code LastStandService.PENDING_TICKS}).
-     * 背水一战假死到复活之间的时长（SparkTraits {@code LastStandService.PENDING_TICKS}）。
+     * How long a Last Stand false death lasts before the revival ({@code LastStandService.PENDING_TICKS}).
+     * 背水一战假死到复活之间的时长（{@code LastStandService.PENDING_TICKS}）。
      */
     static final int LAST_STAND_PENDING_TICKS = 100;
 

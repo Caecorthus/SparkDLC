@@ -79,9 +79,9 @@ public final class SpecterFearComponent implements AutoSyncedComponent, ServerTi
             clear();
             return;
         }
-        // SparkTraits Last Stand holds the player as a spectator for a few seconds before reviving them; the death
+        // The Last Stand trait holds the player as a spectator for a few seconds before reviving them; the death
         // hook keeps fear through that intercepted death, so it is frozen here instead of cleared.
-        // SparkTraits 背水一战会在复活前把玩家以旁观者身份保持数秒；死亡钩子在该被拦截的死亡中保留恐惧，因此这里冻结而不是清空。
+        // 背水一战词条会在复活前把玩家以旁观者身份保持数秒；死亡钩子在该被拦截的死亡中保留恐惧，因此这里冻结而不是清空。
         if (SparkTraitsApi.isLastStandPending(owner)) {
             return;
         }

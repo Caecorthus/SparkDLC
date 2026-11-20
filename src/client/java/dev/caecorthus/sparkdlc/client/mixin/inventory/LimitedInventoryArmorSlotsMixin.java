@@ -86,9 +86,9 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     @Inject(method = "init()V", at = @At("TAIL"))
     private void sparkdlc$addArmorPanel(CallbackInfo ci) {
         // init re-runs on every resize after clearChildren(), so the panel and its gate are rebuilt together. Every
-        // armor geometry call takes the layout anchor, which centres the block on SparkFactionAPI's two-row inventory
+        // armor geometry call takes the layout anchor, which centres the block on the two-row inventory
         // when that is shown. / 每次缩放都会在 clearChildren() 后重新 init，面板与其开关一起重建。所有护甲几何调用都
-        // 使用布局锚点；显示 SparkFactionAPI 两行物品栏时，护甲块以两行物品栏为中心。
+        // 使用布局锚点；显示两行物品栏时，护甲块以两行物品栏为中心。
         sparkdlc$armorPanel = LimitedInventoryArmorSlots.applies(this, handler)
                 ? addDrawableChild(new LimitedInventoryArmorPanel(x, LimitedInventoryArmorSlots.anchorY(y),
                         this::sparkdlc$paintArmorSlots))
@@ -150,11 +150,11 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     /**
      * Wathe's press always sends PICKUP. A shift + left press that vanilla would quick-move between the hotbar and an
      * armor slot becomes one {@code SWAP} with that hotbar index instead. Taking a worn piece onto an empty cursor
-     * needs a free shown slot (the hotbar, plus SparkFactionAPI 0.1.5.13+'s second row): otherwise closing the screen
+     * needs a free shown slot (the hotbar plus the second row): otherwise closing the screen
      * would return it into the main inventory Wathe hides (number-key swaps still exchange it). Any other press is
      * untouched.
      * Wathe 的按下总是发送 PICKUP。原版会在快捷栏与护甲槽之间快速移动的 Shift + 左键改为一次带快捷栏序号的
-     * {@code SWAP}。用空光标取下已穿的护甲需要有空的显示栏位（快捷栏，以及 SparkFactionAPI 0.1.5.13+ 的第二行），
+     * {@code SWAP}。用空光标取下已穿的护甲需要有空的显示栏位（快捷栏与第二行），
      * 否则关闭界面时它会被放回 Wathe 隐藏的主背包（数字键交换仍可调换）。其他按下保持不变。
      */
     @WrapOperation(
@@ -199,10 +199,10 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     /**
      * Esc, the inventory key and a Touchscreen tap outside all close through {@code close()}, which sends the close
      * packet first; on that packet the server offers the cursor stack to the first free inventory slot. With no shown
-     * slot free (hotbar, plus SparkFactionAPI 0.1.5.13+'s second row) that slot is in the hidden main inventory, so a
+     * slot free (hotbar plus the second row) that slot is in the hidden main inventory, so a
      * cursor armor piece is clicked back into its own empty armor slot before the close packet leaves.
      * Esc、物品栏键与触屏点到外部都经由 {@code close()} 关闭，它会先发送关闭数据包；服务器收到后把光标物品放进第一个空
-     * 背包格。没有空的显示栏位（快捷栏，以及 SparkFactionAPI 0.1.5.13+ 的第二行）时那会是隐藏的主背包，因此在关闭
+     * 背包格。没有空的显示栏位（快捷栏与第二行）时那会是隐藏的主背包，因此在关闭
      * 数据包发出前先把光标上的护甲点回其自身的空护甲槽。
      */
     @Inject(method = "close()V", at = @At("HEAD"))

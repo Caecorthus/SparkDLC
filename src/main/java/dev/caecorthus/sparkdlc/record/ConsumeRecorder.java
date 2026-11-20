@@ -19,26 +19,26 @@ import org.jetbrains.annotations.Nullable;
  * <ul>
  *   <li>{@code ItemStack#finishUsing}: every finished eat/drink use (vanilla {@code consumeItem}), including Wathe
  *   cocktails, Noelle's fine drink / base spirit (which override {@code finishUsing} without {@code super}) and
- *   SparkStrength's Blue Belladonna eaten by hand. The item is read before the call, because finishing may empty the
- *   stack, and recorded after it returns, only if the stack was used or replaced (a refusal such as SparkStrength's
+ *   the Blue Belladonna eaten by hand. The item is read before the call, because finishing may empty the
+ *   stack, and recorded after it returns, only if the stack was used or replaced (a refusal such as the
  *   Coroner cancelling a base spirit returns it untouched).</li>
  *   <li>Wathe {@code PoisonUtils.applyFoodPoison(target, stack)} outside the target's own {@code finishUsing}: the
  *   "food consumed" hook that consumers without a use animation call for the fed player, i.e. Noelle's Waiter feeding
- *   and SparkStrength capsules. Inside {@code finishUsing} (Wathe's {@code eatFood} hook, SparkWitch's poison-apple
+ *   and the mod's capsules. Inside {@code finishUsing} (Wathe's {@code eatFood} hook, the poison-apple
  *   cocktail hook) it is skipped, so nothing is counted twice.</li>
  * </ul>
  * Not covered: consumption that calls neither (a capsule-delivered Blue Belladonna, {@code applyEaten} only), instant
- * items that are neither food nor drink by these rules (SparkWitch Fisher fish, SparkStrength Professor serum), and
+ * items that are neither food nor drink by these rules (the Fisher's fish, the Professor's serum), and
  * creative players whose stack {@code finishUsing} leaves untouched.
  * 通过两个服务端汇聚点记录 {@code sparkdlc:consume}（actor = 食用者，{@code item} 物品标识，{@code kind}
  * food/drink）：{@code ItemStack#finishUsing} 覆盖所有完成的吃/喝（原版 {@code consumeItem}），包括 Wathe 鸡尾酒、Noelle
- * 的精酿饮品/基酒（重写 {@code finishUsing} 且不调用 {@code super}）以及手动食用的 SparkStrength 蓝颠茄；物品在调用前
- * 读取（完成使用可能清空物品堆），在返回后且物品堆被消耗或替换时才记录（拒绝饮用，如 SparkStrength 验尸官取消基酒，
+ * 的精酿饮品/基酒（重写 {@code finishUsing} 且不调用 {@code super}）以及手动食用的蓝颠茄；物品在调用前
+ * 读取（完成使用可能清空物品堆），在返回后且物品堆被消耗或替换时才记录（拒绝饮用，如验尸官取消基酒，
  * 会原样返回物品堆）。Wathe {@code PoisonUtils.applyFoodPoison(target, stack)} 若不在目标自身的
- * {@code finishUsing} 内，则是无使用动画的进食方式为被喂者调用的“已进食”钩子，即 Noelle 服务员喂食与 SparkStrength
- * 胶囊；在 {@code finishUsing} 内（Wathe {@code eatFood} 钩子、SparkWitch 毒苹果鸡尾酒钩子）则跳过，避免重复计数。
+ * {@code finishUsing} 内，则是无使用动画的进食方式为被喂者调用的“已进食”钩子，即 Noelle 服务员喂食与本模组的
+ * 胶囊；在 {@code finishUsing} 内（Wathe {@code eatFood} 钩子、毒苹果鸡尾酒钩子）则跳过，避免重复计数。
  * 未覆盖：两者都不调用的进食（胶囊投喂的蓝颠茄，只调用 {@code applyEaten}）、按上述规则既非食物也非饮品的即时物品
- * （SparkWitch 渔夫的鱼、SparkStrength 教授血清），以及 {@code finishUsing} 未改动物品堆的创造模式玩家。
+ * （渔夫的鱼、教授血清），以及 {@code finishUsing} 未改动物品堆的创造模式玩家。
  */
 public final class ConsumeRecorder {
     public static final String EVENT_TYPE = "sparkdlc:consume";

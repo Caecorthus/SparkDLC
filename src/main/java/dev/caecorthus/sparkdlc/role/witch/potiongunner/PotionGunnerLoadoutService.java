@@ -268,12 +268,12 @@ public final class PotionGunnerLoadoutService {
 
     /**
      * Where a kept launcher outside the hotbar moves, or {@link #NO_SLOT} to leave it: the leftmost empty hotbar slot;
-     * else, with SparkFactionAPI 0.1.5.13+'s second row shown and the launcher not already in it, the first empty
-     * second-row slot 27-35, so a launcher in hidden storage, the offhand or armor becomes visible. A launcher parked in
-     * the shown row therefore still moves into a free hotbar slot.
-     * 不在快捷栏的保留炮筒要移到的位置，保持不动时为 {@link #NO_SLOT}：最左侧空快捷栏位；否则在显示 SparkFactionAPI
-     * 0.1.5.13+ 第二行且炮筒不在该行时，移到第二行 27-35 的第一个空栏位，使位于隐藏栏位、副手或盔甲栏的炮筒变为可见。
-     * 因此放在显示中第二行的炮筒仍会移入空快捷栏位。
+     * else, with the second row shown and the launcher not already in it, the first empty second-row slot 27-35, so a
+     * launcher in hidden storage, the offhand or armor becomes visible. A launcher parked in the shown row therefore
+     * still moves into a free hotbar slot.
+     * 不在快捷栏的保留炮筒要移到的位置，保持不动时为 {@link #NO_SLOT}：最左侧空快捷栏位；否则在显示第二行且炮筒不在该行
+     * 时，移到第二行 27-35 的第一个空栏位，使位于隐藏栏位、副手或盔甲栏的炮筒变为可见。因此放在显示中第二行的炮筒仍会移
+     * 入空快捷栏位。
      */
     static int keeperMoveSlot(int keeper, boolean secondRowShown, IntPredicate emptySlot) {
         if (PlayerInventory.isValidHotbarIndex(keeper)) {
@@ -411,13 +411,15 @@ public final class PotionGunnerLoadoutService {
     }
 
     /**
-     * Moves shells out of hidden main slots into shown room in {@link #returnSlots} shown-only order; true when anything
-     * moved. With SparkFactionAPI 0.1.5.13+ the second row 27-35 is shown, so shells parked there stay put: loading
-     * works from any shown slot, and pulling them back would refill a hotbar slot the player kept free (Wathe's custom
-     * shop handlers and the psycho bat need one). Without it, 27-35 is hidden and surfaced into the hotbar as before.
-     * 按 {@link #returnSlots} 的“仅显示栏位”顺序把隐藏主背包栏位中的炮弹移入显示中的空余处；有移动时返回 true。
-     * SparkFactionAPI 0.1.5.13+ 会显示第二行 27-35，因此放在那里的炮弹保持不动：在任何显示中的栏位都能装填，把它们拉回会
-     * 占掉玩家特意空出的快捷栏位（Wathe 自定义商店处理与疯魔球棒需要它）。没有第二行时 27-35 是隐藏的，照旧移入快捷栏。
+     * Moves shells out of hidden main slots into shown room in {@link #returnSlots} shown-only order; true when
+     * anything moved. The second row 27-35 is shown, so shells parked there stay put: loading works from any shown
+     * slot, and pulling them back would refill a hotbar slot the player kept free (Wathe's custom shop handlers and the
+     * psycho bat need one). The branch for a hidden second row (27-35 surfaced into the hotbar) is unreachable since
+     * the fusion: {@code LimitedInventoryRows.isSecondRowShown} is always true.
+     * 按 {@link #returnSlots} 的“仅显示栏位”顺序把隐藏主背包栏位中的炮弹移入显示中的空余处；有移动时返回 true。第二行
+     * 27-35 处于显示状态，因此放在那里的炮弹保持不动：在任何显示中的栏位都能装填，把它们拉回会占掉玩家特意空出的快捷栏
+     * 位（Wathe 自定义商店处理与疯魔球棒需要它）。第二行隐藏时的分支（27-35 移入快捷栏）融合后不可达：
+     * {@code LimitedInventoryRows.isSecondRowShown} 恒为 true。
      */
     private static boolean surfaceHiddenShells(PlayerInventory inventory) {
         boolean changed = false;

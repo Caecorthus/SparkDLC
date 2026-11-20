@@ -92,7 +92,7 @@ public final class BlackRavenDisguiseRules {
             wathe("discovery_civilian")
     );
 
-    /** Literal police ids, checked alongside SparkFactionAPI's PoliceRoles. / 与 SparkFactionAPI PoliceRoles 并行检查的警察 id。 */
+    /** Literal police ids, checked alongside the faction API's PoliceRoles. / 与阵营 API 的 PoliceRoles 并行检查的警察 id。 */
     public static final Set<Identifier> POLICE_IDS = orderedSet(
             wathe("vigilante"),
             wathe("veteran"),

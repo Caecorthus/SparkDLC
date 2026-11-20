@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Reveals an invisible Wraith only to actual spectators, and its body to viewers an add-on gate names
+ * Reveals an invisible Wraith only to actual spectators, and its body to viewers another feature's gate names
  * ({@code WraithViewerGates}).
  * 仅向真正的旁观者显示隐身冤魂；其他功能的闸门（{@code WraithViewerGates}）指定的观察者可看到其身体。
  */

@@ -12,11 +12,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
  * Blind money (D8), Angler rule: the balance is visible to a living participant Blind, set to 0 when the role is
- * assigned, and every completed task pays {@link BlindRules#TASK_REWARD}. Like the Angler there is no SparkTraits
- * Impostor check (task income stacks with Impostor income; SparkTraits itself no longer rolls the Impostor for the
+ * assigned, and every completed task pays {@link BlindRules#TASK_REWARD}. Like the Angler there is no Impostor
+ * trait check (task income stacks with Impostor income; trait assignment itself no longer rolls the Impostor for the
  * Blind).
  * 盲人金币（D8），沿用钓鱼佬规则：存活参与的盲人可见余额，分配职业时余额置 0，每完成一个任务获得
- * {@link BlindRules#TASK_REWARD}。与钓鱼佬相同，不检查 SparkTraits 内鬼（任务收入与内鬼收入叠加；SparkTraits
+ * {@link BlindRules#TASK_REWARD}。与钓鱼佬相同，不检查内鬼词条（任务收入与内鬼收入叠加；词条分配
  * 本身已不再为盲人抽取内鬼）。
  */
 public final class BlindEconomyService {

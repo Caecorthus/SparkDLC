@@ -19,8 +19,8 @@ import net.minecraft.util.math.Vec3d;
 
 /**
  * Demos for Wathe's own roles beyond what the item demos cover. They follow the Spark server stack, as the guide
- * does (SparkStrength reworks the Veteran).
- * Wathe 自带身份中物品演示没有覆盖到的部分。与指南书一致，按 Spark 服务器的实际规则演示（SparkStrength 改写了老兵）。
+ * does (this mod reworks the Veteran).
+ * Wathe 自带身份中物品演示没有覆盖到的部分。与指南书一致，按 Spark 服务器的实际规则演示（本模组改写了老兵）。
  */
 final class WatheRoleScenes {
     private WatheRoleScenes() {
@@ -32,13 +32,13 @@ final class WatheRoleScenes {
     }
 
     /**
-     * Veteran on Spark (SparkStrength VeteranKnifeService, VeteranRules, InnocentKnifeKillRules; Wathe
+     * Veteran on Spark (SparkDLC VeteranKnifeService, VeteranRules, InnocentKnifeKillRules; Wathe
      * WorldBlackoutComponent): right-click stabs at once within 3 blocks, silent, no cooldown; 2 stabs per knife,
      * then the knife is gone; the shop sells another for 300. Stabbing an innocent kills the Veteran too. During a
-     * blackout the Veteran gets Wathe's Night Vision and nothing more: SparkStrength's old through-wall outlines are
+     * blackout the Veteran gets Wathe's Night Vision and nothing more: the old through-wall outlines are
      * gone (VeteranBlackoutService now only covers a Coroner disguised as a Veteran).
      * Spark 上的老兵：右键立即刺杀 3 格内的人，无声、无冷却；每把刀刺 2 次后消失，商店 300 金币可再买一把。刺死好人
-     * 自己也会死。停电时老兵只有 Wathe 给的夜视：SparkStrength 以前的隔墙轮廓已删除（VeteranBlackoutService 现在只管
+     * 自己也会死。停电时老兵只有 Wathe 给的夜视：以前的隔墙轮廓已删除（VeteranBlackoutService 现在只管
      * 伪装成老兵的验尸官）。
      */
     private static void veteran(SceneBuilder scene, SceneBuildingUtil util) {

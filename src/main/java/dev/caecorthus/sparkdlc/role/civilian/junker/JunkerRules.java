@@ -8,11 +8,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * 拾荒者 Ragpicker — civilian who sees dropped items through walls and loots corpses.
  * <p>Ported from NoellesRoles' Parox build, where the role is {@code noellesroles:junker}, a civilian
- * ({@code isInnocent = true, canUseKiller = false}, real sanity, passenger stamina). The SparkWitch copy keeps its own
+ * ({@code isInnocent = true, canUseKiller = false}, real sanity, passenger stamina). This mod's copy keeps its own
  * id so the two can coexist.
  * 拾荒者——能隔着墙看见掉落物、并能从尸体上搜刮物品的平民。
  * <p>移植自 NoellesRoles 的 Parox 版本（原 id 为 {@code noellesroles:junker}），在原版里是平民
- * （{@code isInnocent = true, canUseKiller = false}、真实理智、乘客级体力）。SparkWitch 这份用自己的 id，两者可共存。
+ * （{@code isInnocent = true, canUseKiller = false}、真实理智、乘客级体力）。本模组这份用自己的 id，两者可共存。
  */
 public final class JunkerRules {
 

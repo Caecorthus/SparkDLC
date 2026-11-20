@@ -16,7 +16,7 @@ public final class RiftGateConsoleDevices {
     private RiftGateConsoleDevices() {
     }
 
-    /** A SparkStrength tablet in hotbar slots 0–8. / 快捷栏 0–8 格中有 SparkStrength 平板。 */
+    /** A tablet in hotbar slots 0–8. / 快捷栏 0–8 格中有平板。 */
     public static boolean hasTabletInHotbar(@Nullable PlayerEntity player) {
         if (player == null) {
             return false;

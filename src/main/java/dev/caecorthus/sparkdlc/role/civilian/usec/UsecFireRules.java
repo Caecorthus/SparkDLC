@@ -57,7 +57,7 @@ public final class UsecFireRules {
      * @param sessionLocked Seeker remote session
      * @param kidnapped     under Kidnapper control
      * @param activeWraith  an active Wraith
-     * @param weaponBlocked SparkTraits blocks a weapon action with the held rifle
+     * @param weaponBlocked a trait blocks a weapon action with the held rifle
      * @param coolingDown   the rifle item cooldown (round start or bolt) is running
      * @param chambered     a round sits in the chamber
      */
@@ -166,12 +166,12 @@ public final class UsecFireRules {
      * Whether a candidate player may be hit (before geometry), the Shriek Gun's target semantics
      * ({@code ShriekGunService.isEligible}): never the shooter, a spectator (Rift Gate occupants, swallowed or
      * Wathe-dead players), a creative player, a player who is not playing and alive in Wathe, an active Wraith or a
-     * SparkTraits Last Escape player. Vendetta isolation is {@code ShriekGunRules.vendettaAllows}: an active Vendetta
-     * and everyone else touch only their exact pair. An active Vendetta is itself an active, promoted Wraith, so it is
-     * never a target; there is no bound-killer exception.
+     * player in the Last Escape trait's active state. Vendetta isolation is {@code ShriekGunRules.vendettaAllows}: an
+     * active Vendetta and everyone else touch only their exact pair. An active Vendetta is itself an active, promoted
+     * Wraith, so it is never a target; there is no bound-killer exception.
      * 候选玩家能否被命中（几何判定之前），与啸音铳的目标语义一致（{@code ShriekGunService.isEligible}）：射手本人、旁观者
-     * （裂隙门内、被吞下或 Wathe 判定死亡的玩家）、创造模式玩家、在 Wathe 中并非在局且存活的玩家、激活冤魂与 SparkTraits
-     * 绝处逢生玩家都不能命中。复仇者隔离即 {@code ShriekGunRules.vendettaAllows}：激活的复仇者与其他人只能触及其确切配对。
+     * （裂隙门内、被吞下或 Wathe 判定死亡的玩家）、创造模式玩家、在 Wathe 中并非在局且存活的玩家、激活冤魂与处于
+     * 绝处逢生词条生效状态的玩家都不能命中。复仇者隔离即 {@code ShriekGunRules.vendettaAllows}：激活的复仇者与其他人只能触及其确切配对。
      * 激活的复仇者本身就是已激活、已晋升的冤魂，因此永远不是目标；不存在绑定杀手例外。
      */
     public static boolean targetEligible(boolean self, boolean spectatorOrCreative, boolean playingAndAlive,
@@ -210,8 +210,8 @@ public final class UsecFireRules {
     }
 
     /**
-     * A civilian shot a civilian (SparkFactionAPI effective factions, pre-shot snapshot). / 好人射击好人（SparkFactionAPI
-     * 有效阵营，射击前快照）。
+     * A civilian shot a civilian (effective factions from {@code SparkFactionApi#resolveEffectiveFaction}, pre-shot
+     * snapshot). / 好人射击好人（{@code SparkFactionApi#resolveEffectiveFaction} 的有效阵营，射击前快照）。
      */
     public static boolean isInnocentShot(@Nullable Identifier shooterFaction, @Nullable Identifier victimFaction) {
         return FactionIds.CIVILIAN.equals(shooterFaction) && FactionIds.CIVILIAN.equals(victimFaction);

@@ -8,8 +8,8 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure rules for bottom-right SparkWitch skill HUD state.
- * SparkWitch 右下角技能 HUD 的纯展示规则。
+ * Pure rules for bottom-right role skill HUD state.
+ * 右下角职业技能 HUD 的纯展示规则。
  */
 public final class WitchSkillHudRules {
     private WitchSkillHudRules() {

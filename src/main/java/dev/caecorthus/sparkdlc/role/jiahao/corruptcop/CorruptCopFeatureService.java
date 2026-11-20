@@ -39,10 +39,11 @@ public final class CorruptCopFeatureService {
         Role playerRole = GameWorldComponent.KEY.get(context.getWorld()).getRole(player);
         /*
          * The key's effective identity is the real role or the Coroner's borrowed corpse. "Neutral" means
-         * neutral-aligned (SparkFactionAPI), so the native witch faction and Team Jiahao keep train doors (owner D3).
+         * neutral-aligned (SparkFactionApi.isNeutralAligned), so the native witch faction and Team Jiahao keep train
+         * doors (owner D3).
          * 中立万能钥匙的“有效身份”同时看真实职业和验尸官尸体伪装：
          * 验尸官从中立尸体获得 neutral_master_key 后，应当能按该尸体身份使用列车门能力。
-         * “中立”指与中立对齐（SparkFactionAPI），原生魔女阵营与嘉豪阵营因此保留列车门能力（所有者 D3）。
+         * “中立”指与中立对齐（SparkFactionApi.isNeutralAligned），原生魔女阵营与嘉豪阵营因此保留列车门能力（所有者 D3）。
          */
         DoorInteraction.DoorInteractionResult result = CorruptCopRules.neutralMasterKeyDoorResult(
                 handItemId,

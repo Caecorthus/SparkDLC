@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.sound;
 
 /**
- * Event-level sound groups exposed in SparkAssist's client settings. Serialized names are config keys and must not
+ * Event-level sound groups exposed in the mod's client settings. Serialized names are config keys and must not
  * change; new groups are appended and default to full volume.
- * SparkAssist 设置里暴露的事件级音量分组。序列化名称即配置键，不得更改；新分组追加在末尾，默认满音量。
+ * 本模组客户端设置里暴露的事件级音量分组。序列化名称即配置键，不得更改；新分组追加在末尾，默认满音量。
  */
 public enum EventSoundGroup {
     PSYCHO_MODE("psycho_mode", "option.sparkdlc.event_sound_volume.psycho_mode"),
@@ -31,7 +31,7 @@ public enum EventSoundGroup {
     HOLY_FLASH_TINNITUS("holy_flash_tinnitus", "option.sparkdlc.event_sound_volume.holy_flash_tinnitus"),
     SHIELD_CLANG("shield_clang", "option.sparkdlc.event_sound_volume.shield_clang"),
     LAST_STAND_FINAL_MOMENT("last_stand_final_moment", "option.sparkdlc.event_sound_volume.last_stand_final_moment"),
-    /** SparkWitch Sphinx Hao's 《Fade》 during 豪气冲天 (2026-11-17). SparkWitch 狮身豪「豪气冲天」期间的《Fade》。 */
+    /** The Sphinx Hao's 《Fade》 during 豪气冲天 (2026-11-17). 狮身豪「豪气冲天」期间的《Fade》。 */
     SPHINX_HAO_FADE("sphinx_hao_fade", "option.sparkdlc.event_sound_volume.sphinx_hao_fade");
 
     private final String serializedName;

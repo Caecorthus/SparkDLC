@@ -49,16 +49,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 其他包现在即可依赖。归属 P2。
  *
  * <p>Body model (D3): an occupant is an ALIVE spectator held at the gate anchor (NR Taotie pattern). Wathe's weapons
- * skip spectators, so knife, gun, grenade and bat cannot reach it; the SparkFactionAPI policy denies every other
- * player-affect action except the Swapper (P9's crush), poison (D3) and the bell toll / time-stolen terminal deaths
- * (C13). Game-mode ownership: SPECTATOR is handed back
- * only on a living release (see {@link RiftSessionRules#mayRestoreMode}); death, Last Stand, Depression, disconnect
- * and round reset never touch the mode, so a corpse is never revived.
- * 本体模型（D3）：门内玩家是被固定在门锚点的「活着的旁观者」（NR 饕餮模式）。Wathe 的武器跳过旁观者，刀、枪、手雷、
- * 球棒都打不到；SparkFactionAPI 策略拒绝其他所有玩家影响行为，只放行交换者（P9 的夹死）、毒（D3）以及敲钟与窃时两种终结死亡
- * （C13）。游戏模式归属：
- * 只有存活释放时才交还旁观模式（见 {@link RiftSessionRules#mayRestoreMode}）；死亡、背水一战、抑郁、断线与对局重置
- * 从不改动模式，因此绝不会复活尸体。
+ * skip spectators, so knife, gun, grenade and bat cannot reach it; the affect policy ({@code RiftSessionAffectPolicy})
+ * denies every other player-affect action except the Swapper (P9's crush), poison (D3) and the bell toll / time-stolen
+ * terminal deaths (C13). Game-mode ownership: SPECTATOR is handed back only on a living release (see
+ * {@link RiftSessionRules#mayRestoreMode}); death, Last Stand, Depression, disconnect and round reset never touch the
+ * mode, so a corpse is never revived.
+ * 本体模型（D3）：门内玩家是被固定在门锚点的「活着的旁观者」（NR 饕餮模式）。Wathe 的武器跳过旁观者，刀、枪、手雷、球棒
+ * 都打不到；影响策略（{@code RiftSessionAffectPolicy}）拒绝其他所有玩家影响行为，只放行交换者（P9 的夹死）、毒（D3）以
+ * 及敲钟与窃时两种终结死亡（C13）。游戏模式归属：只有存活释放时才交还旁观模式（见
+ * {@link RiftSessionRules#mayRestoreMode}）；死亡、背水一战、抑郁、断线与对局重置从不改动模式，因此绝不会复活尸体。
  */
 public final class RiftSessionService {
     /** Global, never 0; unique per player per entry is all the C2S echo needs. / 全局递增且不为 0。 */

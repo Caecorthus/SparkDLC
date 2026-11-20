@@ -66,14 +66,14 @@ final class RopeTargeting {
      * Whether something other than the strangle itself holds, hides or controls {@code user}; checked at the start and
      * again every tick of a running strangle, where it is the "stunned / feared / hypnotised / controlled" interrupt.
      * It reads the Taser stun and the Raven landing hold directly rather than {@code ControlExpertStun.isStunned},
-     * which also answers true for the Rope's own hold. SparkStrength: its {@code sparkdlc:engineer_stunned} lock
+     * which also answers true for the Rope's own hold. The {@code sparkdlc:engineer_stunned} lock
      * (the Engineer's capture device and the Jester Moment's freeze share that component) is read through the existing
-     * probe {@code RiftwalkerStatusProbes.isCaptureStunned} (a direct call since the SparkDLC fusion); its Taotie head daze has no
-     * SparkWitch seam and is not covered.
+     * probe {@code RiftwalkerStatusProbes.isCaptureStunned}; the Taotie head daze had no seam the Rope could reach
+     * when this was written and is not covered.
      * 是否有勒杀之外的机制持有、隐藏或控制着 {@code user}；开始时检查一次，勒杀进行中的每一刻再次检查，即「被眩晕 / 恐惧 / 催眠 / 控制」
      * 的打断条件。这里直接读取电击眩晕与黑羽鸦落地定身，而不读 {@code ControlExpertStun.isStunned}，后者对绳索自身的定身同样返回
-     * true。SparkStrength：其 {@code sparkdlc:engineer_stunned} 锁定（工程师捕捉装置与小丑时刻的全员定身共用该组件）通过已有的
-     * 探针 {@code RiftwalkerStatusProbes.isCaptureStunned} 读取（融合进 SparkDLC 后为直接调用）；饕餮头颅眩晕在 SparkWitch 中没有接缝，未覆盖。
+     * true。{@code sparkdlc:engineer_stunned} 锁定（工程师捕捉装置与小丑时刻的全员定身共用该组件）通过已有的
+     * 探针 {@code RiftwalkerStatusProbes.isCaptureStunned} 读取；饕餮头颅眩晕在编写本类时没有绳索可用的接缝，未覆盖。
      */
     static boolean isControlled(ServerPlayerEntity user) {
         ControlExpertStatusComponent stun = ControlExpertStatusComponent.KEY.getNullable(user);
@@ -97,10 +97,10 @@ final class RopeTargeting {
 
     /**
      * The target gate, everything but the aim and the back check: another participant in the user's world whom
-     * SparkFactionAPI lets the user affect (action id = the death reason, the id its kill veto will ask for again),
+     * the faction core lets the user affect (action id = the death reason, the id its kill veto will ask for again),
      * not hidden or untouchable (Last Escape, Last Stand, swallowed, feigning, a Cat spectre, inside a Rift, in Raven
      * Form, carried by the Kidnapper) and in no strangle on either side.
-     * 目标门槛（不含瞄准与背后判定）：与使用者同一世界的另一名参与者，SparkFactionAPI 允许使用者影响它（动作 id 即死因，其击杀否决届时
+     * 目标门槛（不含瞄准与背后判定）：与使用者同一世界的另一名参与者，阵营核心允许使用者影响它（动作 id 即死因，其击杀否决届时
      * 会再次询问同一 id），未被隐藏或不可触碰（脱险、背水一战、被吞下、假死、猫的幽魂阶段、裂隙内、化鸦中、被绑匪搬运），且不在任何
      * 勒杀的任一方。
      */

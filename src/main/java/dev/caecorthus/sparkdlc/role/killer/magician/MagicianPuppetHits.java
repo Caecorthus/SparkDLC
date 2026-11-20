@@ -97,11 +97,11 @@ public final class MagicianPuppetHits {
      */
     static final double M1903A4_BOX_EXPANSION = 0.1;
     /**
-     * SparkStrength M67 kill radius ({@code M67Rules.BLAST_RADIUS}: 5.0 since SparkStrength 3fa84e9, 2026-10-03).
-     * SparkStrength M67 击杀半径（自 SparkStrength 3fa84e9 起为 5.0）。
+     * M67 kill radius ({@code M67Rules.BLAST_RADIUS}: 5.0 since legacy SparkStrength commit 3fa84e9, 2026-10-03).
+     * M67 击杀半径（自旧 SparkStrength 仓库提交 3fa84e9 起为 5.0）。
      */
     public static final double M67_RADIUS = 5.0;
-    /** SparkStrength M67 item name for the replay. / 回放用的 SparkStrength M67 物品名。 */
+    /** M67 item name for the replay. / 回放用的 M67 物品名。 */
     static final String M67_ITEM_KEY = "item.sparkdlc.m67";
     /** Replay name of the Murderous Witch Death Ray (a skill, no item). / 杀意魔女死光的回放名（技能，无物品）。 */
     static final String DEATH_RAY_WEAPON_KEY = "replay.sparkdlc.magician.weapon.death_ray";
@@ -117,12 +117,12 @@ public final class MagicianPuppetHits {
 
     /**
      * Wathe revolver/derringer receiver, called at its {@code recordItemUse} anchor (after Wathe's spectator, gun-tag,
-     * cooldown and spent-derringer checks and after SparkTraits' Last Escape HEAD cancel). A puppet id never resolves to
+     * cooldown and spent-derringer checks and after the Last Escape trait's HEAD cancel). A puppet id never resolves to
      * Wathe's {@code ServerPlayerEntity} target, so Wathe then finishes the shot as a miss: sounds, muzzle flash, ammo
      * and cooldown, no punishment, no mood loss (D3). Validates revolver or derringer in the main hand, a live foreign
      * puppet, distance below Wathe's 65 cap, aim and line of sight. Returns true when the puppet ended.
      * Wathe 左轮/德林加接收器，在其 {@code recordItemUse} 锚点调用（位于 Wathe 的旁观、枪械标签、冷却与德林加已用检查之后，
-     * 也在 SparkTraits 最后逃脱的 HEAD 取消之后）。皮套 id 永远不会解析为 Wathe 的 {@code ServerPlayerEntity} 目标，
+     * 也在最后逃脱词条的 HEAD 取消之后）。皮套 id 永远不会解析为 Wathe 的 {@code ServerPlayerEntity} 目标，
      * 因此 Wathe 随后按未命中收尾：有声音、枪口火光、耗弹与冷却，没有惩罚也不扣理智（D3）。校验主手为左轮或德林加、
      * 他人的活皮套、距离低于 65、瞄准与视线。皮套被结束时返回 true。
      */
@@ -145,15 +145,15 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * Add-on gun shot routed through {@code SparkRoleApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
-     * pistols, lethal guns under D5 that fire through their own payload). The facade has already checked the gun (a
+     * Gun shot routed through {@code SparkRoleApi.hitGunWorldTarget} (today the Serial Killer
+     * pistols, lethal guns under D5 that fire through their own payload). That API has already checked the gun (a
      * {@code wathe:guns} stack in hand, not cooling down); this is the revolver entry with the caller's
      * {@code maxDistance} (capped at Wathe's 65): a live foreign puppet, aim and line of sight. The puppet ends
      * ({@code GUN}, the gun's own name in the replay) and pays the Magician (D4); the caller then finishes the shot as
      * a miss, so the hit costs what a real shot costs and never the innocent-shot punishment or mood loss (D3).
      * True = ended.
-     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：D5 下的致命枪械，
-     * 经自有数据包开火）。门面已校验枪械（手中的 {@code wathe:guns} 物品且未冷却）；这里按左轮入口处理，距离取调用方的
+     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的枪械射击（目前为连环杀手手枪：D5 下的致命枪械，
+     * 经自有数据包开火）。该 API 已校验枪械（手中的 {@code wathe:guns} 物品且未冷却）；这里按左轮入口处理，距离取调用方的
      * {@code maxDistance}（上限为 Wathe 的 65）：他人的活皮套、瞄准与视线。皮套被结束（{@code GUN}，回放显示该枪自己的名称）
      * 并向魔术师付款（D4）；调用方随后按未命中收尾，因此命中付出真实射击的代价，绝不触发误杀惩罚或理智损失（D3）。
      * 返回 true 表示已结束。
@@ -177,13 +177,13 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * Wathe knife charged-stab receiver, called at its HEAD after SparkTraits' priority-2200 guards (Last Escape, forced
+     * Wathe knife charged-stab receiver, called at its HEAD after the traits' priority-2200 guards (Last Escape, forced
      * melee cooldown, raised-knife release). Wathe returns at once for a non-player id, so the caller cancels after a
-     * puppet stab. Validates the Wathe knife in either hand, no knife cooldown, the SparkTraits weapon-action gate, a
+     * puppet stab. Validates the Wathe knife in either hand, no knife cooldown, the trait weapon-action gate, a
      * live foreign puppet, reach (3 + 0.5 latency) and line of sight. An accepted stab costs Wathe's own knife cooldown
      * (D3; none in creative or Loose Ends) and plays the stab sound. Returns true when the puppet ended.
-     * Wathe 刀蓄力刺击接收器，在其 HEAD 处、SparkTraits 优先级 2200 的守卫（最后逃脱、强制近战冷却、举刀释放）之后调用。
-     * Wathe 遇到非玩家 id 会立即返回，因此刺中皮套后由调用方取消。校验任一手持 Wathe 刀、刀未冷却、SparkTraits 武器动作门槛、
+     * Wathe 刀蓄力刺击接收器，在其 HEAD 处、词条功能优先级 2200 的守卫（最后逃脱、强制近战冷却、举刀释放）之后调用。
+     * Wathe 遇到非玩家 id 会立即返回，因此刺中皮套后由调用方取消。校验任一手持 Wathe 刀、刀未冷却、词条武器动作门槛、
      * 他人的活皮套、距离（3 + 0.5 延迟）与视线。被接受的刺击付出 Wathe 自身的刀冷却（D3；创造模式或亡命徒模式没有），
      * 并播放刺击声。皮套被结束时返回 true。
      */
@@ -243,13 +243,13 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * SparkWitch Hunter double-barrel shotgun, read-only half (server branch, after the shell is spent), asked once per
+     * Hunter double-barrel shotgun, read-only half (server branch, after the shell is spent), asked once per
      * pellet ray ({@code start → end}, block-clipped by the caller) before anything is ended: nearest-wins along that
      * ray. Returns the puppet whose box (grown like the player pick, 0.1) is entered strictly nearer than
      * {@code target} and than every Seeker device the shooter may break, else null. The caller ends each returned
      * puppet once ({@link #endShotgunPuppet}) after every ray was asked, so a puppet ended by one pellet still absorbs
      * the other pellets that reached it first; such a ray kills nobody and skips the Seeker step (D3).
-     * SparkWitch 猎人双管猎枪的只读部分（服务端分支、耗弹之后），在结束任何皮套之前对每条弹丸射线（{@code start → end}，
+     * 猎人双管猎枪的只读部分（服务端分支、耗弹之后），在结束任何皮套之前对每条弹丸射线（{@code start → end}，
      * 已由调用方按方块截断）询问一次：沿该射线执行最近者命中。返回箱体（与玩家选取同样扩大 0.1）入射严格近于 {@code target}
      * 且近于射手可打坏的所有搜寻者设备的皮套，否则为 null。调用方在询问完所有射线后对每个返回的皮套只结束一次
      * （{@link #endShotgunPuppet}），因此被某颗弹丸结束的皮套仍会吸收其他先到达它的弹丸；这样的射线不击杀任何人并跳过
@@ -732,10 +732,10 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * SparkStrength M67 blast, from {@code M67MatchBlastHits} after its match-grenade gate (ACTIVE round, thrower
+     * M67 blast, from {@code M67MatchBlastHits} after its match-grenade gate (ACTIVE round, thrower
      * with a match role, fuse run out, thrower online): {@link #onBlast} with the M67's own kill radius and Wathe's
      * {@code grenade} reason, as the M67 uses for players.
-     * SparkStrength M67 爆炸，由 {@code M67MatchBlastHits} 在其对局手雷门槛（对局 ACTIVE、投掷者持有对局职业、引信到时、
+     * M67 爆炸，由 {@code M67MatchBlastHits} 在其对局手雷门槛（对局 ACTIVE、投掷者持有对局职业、引信到时、
      * 投掷者在线）之后调用：以 M67 自身的击杀半径与 Wathe 的 {@code grenade} 死因（M67 对玩家使用的死因）调用 {@link #onBlast}。
      */
     public static void onM67Blast(ServerWorld world, Vec3d center, @Nullable ServerPlayerEntity thrower) {
@@ -745,11 +745,11 @@ public final class MagicianPuppetHits {
     /**
      * Angler Swordfish stab, from the Swordfish receiver after its release, aim-ray and nearest-target checks resolved
      * {@code target} (the submitted puppet was the nearest candidate on the server's own ray). Repeats the main-hand
-     * Swordfish, cooldown and SparkTraits weapon gates, reach (3 + 0.5 latency) and line of sight. True means accepted:
+     * Swordfish, cooldown and trait weapon gates, reach (3 + 0.5 latency) and line of sight. True means accepted:
      * the caller consumes the Swordfish and plays the stab exactly as on a player hit (D3), with no friendly-fire
      * death ({@code swordfish_stab}).
      * 钓鱼佬剑鱼刺击，由剑鱼接收器在其松手、瞄准射线与最近目标检查得出 {@code target} 之后调用（提交的皮套是服务端自身射线上
-     * 最近的候选）。重查主手剑鱼、冷却与 SparkTraits 武器门槛、距离（3 + 0.5 延迟）与视线。true 表示接纳：调用方与命中玩家时
+     * 最近的候选）。重查主手剑鱼、冷却与词条武器门槛、距离（3 + 0.5 延迟）与视线。true 表示接纳：调用方与命中玩家时
      * 完全一样消耗剑鱼并播放刺击（D3），但没有误伤致死（{@code swordfish_stab}）。
      */
     public static boolean onSwordfishStab(ServerPlayerEntity attacker, @Nullable Entity target) {
@@ -777,11 +777,11 @@ public final class MagicianPuppetHits {
      * Wathe bat left-click ({@code MagicianPuppetAttackHandlers}, server): Wathe's own bat kill applies to player
      * targets only, so a puppet needs this entry. Like Wathe: the Wathe bat in the main hand at full attack charge
      * ({@code getAttackCooldownProgress(0.5F) >= 1}), then {@code bat} with Wathe's bat hit sound (3.0 at the eye) and
-     * the attack charge reset (D3). Also requires the SparkTraits weapon gate, a live foreign puppet, and the melee
+     * the attack charge reset (D3). Also requires the trait weapon gate, a live foreign puppet, and the melee
      * re-check every client-trusted entry makes (reach 3 + 1, line of sight). True = ended (cancel the attack).
      * Wathe 球棒左键（{@code MagicianPuppetAttackHandlers}，服务端）：Wathe 自身的球棒击杀只作用于玩家目标，因此皮套需要本入口。
      * 与 Wathe 一致：主手 Wathe 球棒且攻击蓄满（{@code getAttackCooldownProgress(0.5F) >= 1}），随后以 {@code bat} 结束，
-     * 播放 Wathe 球棒命中声（眼部高度、音量 3.0）并重置攻击蓄力（D3）。另需 SparkTraits 武器门槛、他人活皮套，以及所有信任
+     * 播放 Wathe 球棒命中声（眼部高度、音量 3.0）并重置攻击蓄力（D3）。另需词条武器门槛、他人活皮套，以及所有信任
      * 客户端的入口都会做的近战复查（距离 3 + 1、视线）。返回 true 表示已结束（取消这次攻击）。
      */
     public static boolean onBatHit(ServerPlayerEntity attacker, @Nullable Entity target) {
@@ -810,9 +810,9 @@ public final class MagicianPuppetHits {
 
     /**
      * Grand Witch Ceremonial Sword left-click, from its attack handler on a fully charged strike (the handler already
-     * applied the SparkTraits gate and reset the charge): a live foreign puppet in melee reach with line of sight takes
+     * applied the trait gate and reset the charge): a live foreign puppet in melee reach with line of sight takes
      * the strike as a sword kill ({@link #ceremonialSwordKill}). True = ended.
-     * 大魔女仪礼剑左键，由其攻击处理器在蓄满的一击上调用（处理器已做过 SparkTraits 门槛并重置蓄力）：近战距离内且视线畅通的
+     * 大魔女仪礼剑左键，由其攻击处理器在蓄满的一击上调用（处理器已做过词条门槛并重置蓄力）：近战距离内且视线畅通的
      * 他人活皮套按一次剑杀承受这一击（{@link #ceremonialSwordKill}）。返回 true 表示已结束。
      */
     public static boolean onCeremonialSwordStrike(ServerPlayerEntity attacker, @Nullable Entity target) {
@@ -903,10 +903,10 @@ public final class MagicianPuppetHits {
 
     /**
      * A Ceremonial Sword kill on a puppet, gated like {@code CeremonialSwordCombatService.killWithCeremonialSword} (no
-     * sword kill cooldown, no strike in progress, the SparkTraits weapon gate) and paid like its completed kill: the
+     * sword kill cooldown, no strike in progress, the trait weapon gate) and paid like its completed kill: the
      * 30 s sword kill cooldown and the trident hit sound (D3; no record line, the forced end records the replay).
      * 对皮套的一次仪礼剑击杀，门槛与 {@code CeremonialSwordCombatService.killWithCeremonialSword} 相同（无剑杀冷却、无进行中的
-     * 攻击、SparkTraits 武器门槛），代价与其完成击杀时相同：30 秒剑杀冷却与三叉戟命中声（D3；不写使用记录，由强制结束记录回放）。
+     * 攻击、词条武器门槛），代价与其完成击杀时相同：30 秒剑杀冷却与三叉戟命中声（D3；不写使用记录，由强制结束记录回放）。
      */
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, MagicianPlaybackEntity puppet) {
         GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(attacker);
@@ -958,8 +958,8 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * The Wathe knife itself in either hand (never a {@code KnifeItem} subclass, matching the SparkTraits knife gate).
-     * 任一手持的 Wathe 刀本身（不含 {@code KnifeItem} 子类，与 SparkTraits 刀门槛一致）。
+     * The Wathe knife itself in either hand (never a {@code KnifeItem} subclass, matching the trait knife gate).
+     * 任一手持的 Wathe 刀本身（不含 {@code KnifeItem} 子类，与词条刀门槛一致）。
      */
     private static ItemStack heldKnife(PlayerEntity player) {
         ItemStack main = player.getMainHandStack();

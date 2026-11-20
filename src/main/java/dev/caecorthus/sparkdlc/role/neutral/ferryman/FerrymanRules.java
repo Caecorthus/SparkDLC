@@ -129,10 +129,10 @@ public final class FerrymanRules {
 
     /**
      * Whether the Charon may hold this kill at all (pardon window or gaze feign). A forced kill ignores a cancel, so it
-     * is never held (no window, no feign, no gaze spent); neither is a SparkTraits-terminal reason, a kill with no
+     * is never held (no window, no feign, no gaze spent); neither is a trait-terminal reason, a kill with no
      * attacker or by the Charon itself, an unheld Wathe reason, or the window's own replay.
      * 摆渡人能否扣住这次击杀（宽恕窗口或「瞥视」假死）。强制击杀无视取消，因此从不扣住（不开窗口、不假死、不消耗瞥视）；
-     * SparkTraits 终结死因、没有攻击者或由摆渡人自己造成的击杀、不扣住的 Wathe 死因以及窗口自身的重放同样不扣住。
+     * 词条终结死因、没有攻击者或由摆渡人自己造成的击杀、不扣住的 Wathe 死因以及窗口自身的重放同样不扣住。
      */
     public static boolean mayHoldKill(boolean replaying, boolean force, boolean terminal, boolean hasKiller,
                                       boolean selfKill, @Nullable Identifier deathReason) {

@@ -10,11 +10,11 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
 /**
- * Registers the third-faction player minimum (owner 2026-11-16). The value lives in SparkFactionAPI, which owns the
+ * Registers the third-faction player minimum (owner 2026-11-16). The value lives in the faction core, which owns the
  * round-start third-faction draw and reads it when the next round begins; 0 means no minimum. The member-cap dividend
- * stays on Wathe's {@code /wathe:gameSettings set roleDividend third_faction}, which SparkFactionAPI attaches.
- * 注册第三阵营最低人数命令（所有者 2026-11-16）。数值保存在负责开局第三阵营抽取的 SparkFactionAPI 中，下一局开始时读取；
- * 0 表示没有最低人数。成员上限除数仍由 SparkFactionAPI 挂在 Wathe 的
+ * stays on Wathe's {@code /wathe:gameSettings set roleDividend third_faction}, which the faction core attaches.
+ * 注册第三阵营最低人数命令（所有者 2026-11-16）。数值保存在负责开局第三阵营抽取的阵营核心中，下一局开始时读取；
+ * 0 表示没有最低人数。成员上限除数仍由阵营核心挂在 Wathe 的
  * {@code /wathe:gameSettings set roleDividend third_faction} 上。
  */
 public final class ThirdFactionSettingsCommand {

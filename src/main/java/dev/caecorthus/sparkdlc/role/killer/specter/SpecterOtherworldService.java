@@ -86,7 +86,7 @@ public final class SpecterOtherworldService {
     }
 
     /**
-     * Otherworld targeting rule (stable contract, read by {@code GameFunctionsSpecterOtherworldTargetMixin}, the two
+     * Otherworld targeting rule (read by {@code GameFunctionsSpecterOtherworldTargetMixin}, the two
      * receiver seams below and the Raven Form kill link): while the world Otherworld window is open, a non-forced kill
      * credited to a Specter only lands on a player who is not effective-killer faction
      * ({@link SpecterRules#isEffectiveKiller}) and is either cowardly or at effective real sanity 25 or below
@@ -97,7 +97,7 @@ public final class SpecterOtherworldService {
      * {@link #NON_ATTACK_REASONS}; a shot the Dominator forces out of a Specter (the Dominator's attack, not the
      * Specter's); the replay of a kill a Charon's pardon held (it already passed this rule once); and spectating,
      * creative or role-less victims.
-     * 里世界索敌规则（稳定契约，由 {@code GameFunctionsSpecterOtherworldTargetMixin}、下方两个接收器接缝与化鸦击杀链接读取）：
+     * 里世界索敌规则（由 {@code GameFunctionsSpecterOtherworldTargetMixin}、下方两个接收器接缝与化鸦击杀链接读取）：
      * 世界里世界窗口开启时，记在幽魂名下的非强制击杀只能落在不属于有效杀手阵营（{@link SpecterRules#isEffectiveKiller}），
      * 且处于怯懦或有效真实理智不高于 25（{@link SpecterRules#isLowSanity}）的玩家身上，也就是幽魂看到有边框的那批玩家。
      * 其他受害者不受伤，也不消耗任何护盾或保护，无论致命一击来自小刀、枪、球棒、手雷、毒，还是其他模组投出的武器。规则在
@@ -234,9 +234,9 @@ public final class SpecterOtherworldService {
     }
 
     /**
-     * Alive, not creative/spectating, has a role that is not the Specter itself, and not SparkFactionAPI effective
+     * Alive, not creative/spectating, has a role that is not the Specter itself, and not faction-core effective
      * killer faction (a Conscience killer is slowed, an Impostor is not; the caster never slows itself).
-     * 存活、非创造/旁观、有职业且不是幽魂本身，并且不属于 SFA 有效杀手阵营（善良杀手会被减速，内鬼不会；施放者不会减速自己）。
+     * 存活、非创造/旁观、有职业且不是幽魂本身，并且不属于阵营核心的有效杀手阵营（善良杀手会被减速，内鬼不会；施放者不会减速自己）。
      */
     private static boolean isNonKillerParticipant(ServerPlayerEntity player, GameWorldComponent game) {
         if (player.isSpectator()

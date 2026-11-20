@@ -16,14 +16,14 @@ import java.nio.file.Path;
 import java.util.function.UnaryOperator;
 
 /**
- * Client-only persistence of {@link ScopeSettings} in {@code config/sparkdlc-client.json} (SparkAssist
- * {@code SparkDlcConfigManager} precedent): loaded once from {@link ScopeClient#register()} (or by the first
+ * Client-only persistence of {@link ScopeSettings} in {@code config/sparkdlc-client.json} (after the precedent of
+ * {@code SparkDlcConfigManager}): loaded once from {@link ScopeClient#register()} (or by the first
  * {@code ScopeSettingsEditor} call, whichever comes first), saved on every change from the Accessibility screen. The
  * {@code apply*} setters behind {@link ScopeSettingsEditor} (the SparkDLC settings screen) change the same live
  * settings without writing; {@link #save()} writes them. A missing or unreadable file means defaults; a save merges
  * into the file's existing JSON object, so unknown keys survive; I/O errors are logged and never break the options
  * screen.
- * {@link ScopeSettings} 的纯客户端持久化，保存在 {@code config/sparkdlc-client.json}（参照 SparkAssist 的
+ * {@link ScopeSettings} 的纯客户端持久化，保存在 {@code config/sparkdlc-client.json}（参照
  * {@code SparkDlcConfigManager}）：由 {@link ScopeClient#register()}（或第一次 {@code ScopeSettingsEditor} 调用，以先到者为准）
  * 加载一次，辅助功能界面每次修改时保存。{@link ScopeSettingsEditor}（SparkDLC 设置界面）背后的 {@code apply*}
  * 方法修改同一份实时设置但不写文件，由 {@link #save()} 写入。文件缺失或无法读取时使用默认值；保存时合并进文件已有的 JSON

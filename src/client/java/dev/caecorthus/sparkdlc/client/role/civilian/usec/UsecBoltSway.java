@@ -413,7 +413,7 @@ public final class UsecBoltSway {
          *
          * @param scoped      the USEC scope profile is active / USEC 开镜配置处于激活
          * @param interrupted no living local player holding the rifle in the main hand with no screen open, or not a
-         *                    SparkWitch server / 没有主手持步枪、未打开界面的存活本地玩家，或不是 SparkWitch 服务器
+         *                    SparkDLC server / 没有主手持步枪、未打开界面的存活本地玩家，或不是 SparkDLC 服务器
          * @param cooldown    the local player's synced rifle cooldown / 本地玩家已同步的步枪冷却
          */
         public void tick(boolean scoped, boolean interrupted, UsecCooldowns.Status cooldown) {

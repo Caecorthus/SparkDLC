@@ -28,10 +28,10 @@ import java.util.UUID;
 
 /**
  * Where the guess screen gets its targets and roles: from NoellesRoles' own {@code AssassinScreen}, never a copy of its
- * rules. SparkWitch and SparkTraits mix into that screen (the bound Vendetta target, the hidden Savior, the guessable
- * Saboteur); asking the native screen keeps all of that working without those mods knowing about this one.
- * 猜测界面的目标与身份来源：直接取自 NoellesRoles 自己的 AssassinScreen，而不是复制它的规则。SparkWitch 与 SparkTraits 都对
- * 该界面打了 mixin（复仇绑定目标、隐藏救世主、可猜破坏者）；向原生界面取数能让这些功能照常工作，而那些模组无需知道本界面。
+ * rules. This mod's role and trait mixins hook that screen (the bound Vendetta target, the hidden Savior, the guessable
+ * Saboteur); asking the native screen keeps all of that working without those mixins knowing about this one.
+ * 猜测界面的目标与身份来源：直接取自 NoellesRoles 自己的 AssassinScreen，而不是复制它的规则。本模组的职业与特质都对
+ * 该界面打了 mixin（复仇绑定目标、隐藏救世主、可猜破坏者）；向原生界面取数能让这些功能照常工作，而那些 mixin 无需知道本界面。
  */
 public final class AssassinGuessSources {
     private static boolean abilityKeyDown;
@@ -108,11 +108,11 @@ public final class AssassinGuessSources {
     }
 
     /**
-     * The roles that can be guessed, in registration order: NoellesRoles' own list, plus the killer roles (SparkTraits'
-     * role phase lists them too, and SparkTraits is always present since the SparkDLC fusion). The Assassin itself is
-     * left out: the server ignores any guess at another Assassin.
-     * 可猜的身份，按注册顺序：NoellesRoles 自己的列表，再加上杀手身份（SparkTraits 的猜身份阶段同样列出；融合进 SparkDLC 后
-     * SparkTraits 始终存在）。不含刺客本身：服务端会忽略对其他刺客的任何猜测。
+     * The roles that can be guessed, in registration order: NoellesRoles' own list, plus the killer roles (the trait
+     * role-guess phase lists them too). The Assassin itself is left out: the server ignores any guess at another
+     * Assassin.
+     * 可猜的身份，按注册顺序：NoellesRoles 自己的列表，再加上杀手身份（特质的猜身份阶段同样列出）。不含刺客本身：
+     * 服务端会忽略对其他刺客的任何猜测。
      */
     public static List<Role> roles(ClientPlayerEntity player) {
         List<Role> offered = ((AssassinScreenInvoker) new AssassinScreen(player)).sparkdlc$guessableRoles();

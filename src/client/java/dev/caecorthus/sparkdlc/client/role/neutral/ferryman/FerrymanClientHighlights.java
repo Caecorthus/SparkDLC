@@ -54,12 +54,12 @@ public final class FerrymanClientHighlights {
     private static final int PRIORITY = GetInstinctHighlight.HighlightResult.PRIORITY_DEFAULT + 40;
     /**
      * The veil's hide priority: Wathe keeps the highest-priority result, and {@code skip()} carries only
-     * {@code PRIORITY_HIGH} (100), which the Fisher glimmer, the Black Raven and SparkTraits Final Moment outlines
+     * {@code PRIORITY_HIGH} (100), which the Fisher glimmer, the Black Raven and the trait Final Moment outlines
      * (101) beat and NoellesRoles Undercover (100) ties, where the earlier listener wins. 300 matches the Fisher /
-     * SparkStrength hide.
+     * Professor serum hide.
      * 帷幕的隐藏优先级：Wathe 保留优先级最高的结果，而 {@code skip()} 只带 {@code PRIORITY_HIGH}（100），钓鱼佬灵光、黑羽鸦与
-     * SparkTraits 最终时刻的描边（101）都会压过它，NoellesRoles 卧底（100）与之持平，此时先注册者胜出。300 与钓鱼佬 /
-     * SparkStrength 的隐藏一致。
+     * 特质最终时刻的描边（101）都会压过它，NoellesRoles 卧底（100）与之持平，此时先注册者胜出。300 与钓鱼佬 /
+     * 教授试剂的隐藏一致。
      */
     public static final int VEIL_HIDE_PRIORITY = 300;
 
@@ -173,10 +173,10 @@ public final class FerrymanClientHighlights {
      * death game time against the client world clock, {@link FerrymanRules#isFreshBody}) that Wathe's
      * {@link CanTargetBody} seam lets this player target. Owner liveness and the fake-body registries are deliberately
      * not read here: an outline that skipped bodies whose owner is alive would point out every Fiend, Charon-feign,
-     * Magician or SparkTraits fake corpse across the map.
+     * Magician or trait fake corpse across the map.
      * 只对客户端能低成本判断服务端仍会受理的遗体显示琥珀色：新鲜（Wathe 同步的死亡游戏时间对照客户端世界时钟，
      * {@link FerrymanRules#isFreshBody}）且 Wathe 的 {@link CanTargetBody} 接缝允许该玩家选中。此处刻意不读取主人是否存活
-     * 与假尸体登记：若描边跳过主人仍存活的遗体，就会隔着整张地图指出每一具魔人、卡戎假死、魔术师或 SparkTraits 的假尸体。
+     * 与假尸体登记：若描边跳过主人仍存活的遗体，就会隔着整张地图指出每一具魔人、卡戎假死、魔术师或特质的假尸体。
      */
     private static boolean isFerriableHint(ClientPlayerEntity self, PlayerBodyEntity body) {
         return FerrymanRules.isFreshBody(self.getWorld().getTime(), body.getDeathGameTime())

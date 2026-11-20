@@ -16,10 +16,13 @@ import java.util.function.IntPredicate;
 
 /**
  * Frozen contract: the single "max + exact" writer of the {@code seeker_car} item cooldown. A longer existing cooldown
- * is kept; SparkTraits' exact write is used first and the vanilla set only when it returns false (never both).
+ * is kept; the exact write ({@code SparkTraitsApi.setExactItemCooldownRemaining}) is used first and the vanilla set
+ * only when it returns false (never both). It returns false only for a null player or item, which
+ * {@link #writeFloorExact} never passes, so the vanilla fallback is unreachable since the fusion.
  * Only {@code SeekerStatusComponent#apply} calls {@link #writeFloorExact}; it is never written anywhere else.
  * 冻结契约：{@code seeker_car} 物品冷却“取大 + 精确”的唯一写入方。保留更长的既有冷却；
- * 优先使用 SparkTraits 精确写入，仅当其返回 false 时才回退原版写入（绝不写两次）。
+ * 优先使用精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}），仅当其返回 false 时才回退原版写入（绝不写两次）。
+ * 它只在玩家或物品为空时返回 false，而 {@link #writeFloorExact} 从不传入空值，因此原版回退融合后不可达。
  * 只有 {@code SeekerStatusComponent#apply} 调用 {@link #writeFloorExact}，其他地方从不写入。
  */
 public final class SeekerCooldowns {
@@ -38,8 +41,9 @@ public final class SeekerCooldowns {
             return false;
         }
         Item car = SparkDlcItems.seekerCar();
-        // SparkTraits bypasses Fast Hands itself and performs the vanilla write; only on false do we write vanilla.
-        // SparkTraits 自行绕过快手并完成原版写入；仅当其返回 false 时才由我们写入原版冷却。
+        // The exact write bypasses Fast Hands itself and performs the vanilla write; only on false do we write
+        // vanilla (unreachable since the fusion: player and item are never null here).
+        // 精确写入自行绕过快手并完成原版写入；仅当其返回 false 时才由我们写入原版冷却（融合后不可达：此处玩家与物品都不为空）。
         return write(remainingTicks(player), ticks,
                 merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, car, merged),
                 merged -> player.getItemCooldownManager().set(car, merged));

@@ -29,10 +29,10 @@ public final class NoaMoodIcon {
     }
 
     /**
-     * The sprite Wathe's icon draw should use: the cyan copy for a local Noa on a confirmed SparkWitch server while the
+     * The sprite Wathe's icon draw should use: the cyan copy for a local Noa on a confirmed SparkDLC server while the
      * displayed mood is at or above 0, else Wathe's own sprite. Cheapest checks first; every other client leaves before
      * any component lookup.
-     * Wathe 图标绘制应使用的 sprite：已确认 SparkWitch 服务器上的本地诺亚在显示理智不低于 0 时用青色版，否则用 Wathe 自己的
+     * Wathe 图标绘制应使用的 sprite：已确认 SparkDLC 服务器上的本地诺亚在显示理智不低于 0 时用青色版，否则用 Wathe 自己的
      * sprite。先做开销最小的判断；其他客户端在任何组件查询之前返回。
      */
     public static Identifier spriteFor(Identifier watheSprite) {

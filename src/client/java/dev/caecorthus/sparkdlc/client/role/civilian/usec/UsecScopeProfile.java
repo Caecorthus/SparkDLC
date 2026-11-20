@@ -76,8 +76,8 @@ public final class UsecScopeProfile implements ScopeProfile {
     @Override
     public void drawReticle(DrawContext context, ScopeFrame frame) {
         MinecraftClient client = MinecraftClient.getInstance();
-        // AP holdover follows the shooter's own Marksman multiplier (fails closed to 1.0 without SparkTraits).
-        // AP 抬枪刻度跟随射手自己的精确枪手倍率（没有 SparkTraits 时回退为 1.0）。
+        // AP holdover follows the shooter's own Marksman multiplier (1.0 when the shooter has no active Marksman).
+        // AP 抬枪刻度跟随射手自己的精确枪手倍率（射手没有生效的精确枪手时为 1.0）。
         double marksman = SparkTraitsApi.getMarksmanRangeMultiplier(client.player);
         UsecReticleRenderer.draw(context, client.textRenderer, frame, UsecReticleStyle.DEFAULT,
                 client.getWindow().getScaleFactor(), marksman, UsecZoomState.fovMultiplier());

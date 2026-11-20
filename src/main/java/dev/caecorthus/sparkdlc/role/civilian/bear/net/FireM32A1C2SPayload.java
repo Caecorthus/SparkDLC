@@ -14,13 +14,13 @@ import net.minecraft.util.Identifier;
  * the hold-over). The server uses the aim only as the launch direction from its own eye position and validates
  * everything else ({@code M32FireService}). Decoding
  * is tolerant: a payload without aim decodes to NaN and the server falls back to its own rotation. The id is on the
- * Control Expert stun, Seeker session, Rift occupant and Knight duel deny-lists here, and cross-repo on SparkStrength
- * {@code TaotieHeadRules} and SparkFactionAPI {@code AntiFastRoundRules}.
+ * Control Expert stun, Seeker session, Rift occupant and Knight duel deny-lists, on the Taotie head daze list
+ * ({@code TaotieHeadRules}) and on the round's safe-time list ({@code AntiFastRoundRules}).
  * 稳定数据包契约：M32A1 开火意图 {@code sparkdlc:fire_m32a1}，与反坦克炮筒一样携带点击瞬间的发射方向（攻击键先于该刻的朝向
  * 数据包处理）：无论通过 M2A1 瞄准还是腰射，始终为按下瞬间的视线方向（所有者 2026-11-11：不设射程调节；M2A1 的固定
  * 刻度尺就是抬高量）。服务端只把朝向用作从其自身眼部位置出发的发射方向，其余全部复核（{@code M32FireService}）。解码是宽容的：不带
- * 朝向的载荷解码为 NaN，服务端回退到自身朝向。该 id 在本模组的控场专家眩晕、搜寻者会话、隙行者门内与骑士决斗拒绝列表中，
- * 跨仓库则在 SparkStrength {@code TaotieHeadRules} 与 SparkFactionAPI {@code AntiFastRoundRules} 中。
+ * 朝向的载荷解码为 NaN，服务端回退到自身朝向。该 id 在控场专家眩晕、搜寻者会话、隙行者门内与骑士决斗拒绝列表中，
+ * 也在饕餮头部眩晕列表（{@code TaotieHeadRules}）与对局安全时间列表（{@code AntiFastRoundRules}）中。
  */
 public record FireM32A1C2SPayload(float yaw, float pitch) implements CustomPayload {
     public static final Identifier PAYLOAD_ID = SparkDLC.id("fire_m32a1");

@@ -7,7 +7,7 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.entity.player.PlayerEntity;
 
-/** Restricted Angler shop: bait only, SparkTraits entries preserved. / 钓鱼佬专属商店：只卖鱼饵，保留 SparkTraits 条目。 */
+/** Restricted Angler shop: bait only, trait entries preserved. / 钓鱼佬专属商店：只卖鱼饵，保留词条的条目。 */
 public final class FisherShopService {
     private static boolean registered;
 

@@ -5,10 +5,10 @@ import dev.doctor4t.wathe.api.Role;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure Team Jiahao name-tag cohort rules: a SparkWitch partner (Insider or Sphinx Hao) and every other team member
+ * Pure Team Jiahao name-tag cohort rules: a Corrupt Cop partner (Insider or Sphinx Hao) and every other team member
  * read each other as "嘉豪同伙" (D7, C9). Killers get no cohort line on the Insider (owner 2026-10-05, replacing D3's
  * "杀手同伙").
- * 嘉豪阵营名牌同伙提示的纯规则：SparkWitch 搭档（内应或狮身豪）与其他所有阵营成员互相显示“嘉豪同伙”（D7、C9）。杀手看
+ * 嘉豪阵营名牌同伙提示的纯规则：黑警的搭档（内应或狮身豪）与其他所有阵营成员互相显示“嘉豪同伙”（D7、C9）。杀手看
  * 内应时没有同伙提示（所有者 2026-10-05 决定，取代 D3 的“杀手同伙”）。
  */
 public final class InsiderCohortRules {

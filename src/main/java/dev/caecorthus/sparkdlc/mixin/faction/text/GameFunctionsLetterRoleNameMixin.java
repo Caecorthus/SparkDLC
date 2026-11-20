@@ -19,10 +19,10 @@ import java.util.List;
  * Makes the role name on the round letter translate on each client (see
  * {@link WatheTextRepairs#translatableLetterRoleName}). Works on the finished lore at the tail of
  * {@code applyLetterLore}: Wathe builds the lines inside a lambda whose number differs between the two Wathe 1.5.6
- * builds, and other mods (SparkWitch's Dominator letter) also edit the finished lore.
+ * builds, and other features (the Dominator letter) also edit the finished lore.
  * 让开局信件上的身份名在每个客户端各自翻译（见 {@link WatheTextRepairs#translatableLetterRoleName}）。在
  * {@code applyLetterLore} 末尾改成品 lore：Wathe 在一个 lambda 里构造这些行，两个 Wathe 1.5.6 构建的 lambda 编号不同；
- * 其他模组（SparkWitch 的支配者信件）也是改成品 lore。
+ * 其他功能（支配者信件）也是改成品 lore。
  */
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsLetterRoleNameMixin {

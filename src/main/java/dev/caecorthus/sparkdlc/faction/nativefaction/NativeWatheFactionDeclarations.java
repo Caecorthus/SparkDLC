@@ -20,11 +20,11 @@ import java.util.regex.Pattern;
 /**
  * Reads and validates the {@code sparkdlc:native_wathe_factions} declarations from every mod's
  * {@code fabric.mod.json}. It runs inside Wathe's {@code Faction} static initializer, so it only uses the JDK, Fabric
- * Loader metadata and {@link Identifier} parsing: never {@code Faction.fromRole}, a SparkFactionAPI registry, an
+ * Loader metadata and {@link Identifier} parsing: never {@code Faction.fromRole}, a faction-core registry, an
  * {@code EnumMap}/{@code EnumSet} or {@code Enum.valueOf} (those would cache the 4-constant array).
  * 读取并校验所有模组 {@code fabric.mod.json} 中的 {@code sparkdlc:native_wathe_factions} 声明。它运行在
  * Wathe {@code Faction} 的静态初始化中，因此只使用 JDK、Fabric Loader 元数据与 {@link Identifier} 解析：
- * 绝不调用 {@code Faction.fromRole}、SparkFactionAPI 注册表、{@code EnumMap}/{@code EnumSet} 或
+ * 绝不调用 {@code Faction.fromRole}、阵营核心的注册表、{@code EnumMap}/{@code EnumSet} 或
  * {@code Enum.valueOf}（它们会缓存只有 4 个常量的数组）。
  */
 public final class NativeWatheFactionDeclarations {

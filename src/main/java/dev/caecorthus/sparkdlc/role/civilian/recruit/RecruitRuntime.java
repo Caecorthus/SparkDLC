@@ -24,12 +24,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Server authority for the Recruit: the first completed task grants Wathe's knife, knife kills cost 35 sanity, and
  * killing a good player with the knife or pushing one off the train kills the Recruit with Wathe's own SHOT_INNOCENT
- * death (shown as "小脑" in zh_cn). A SparkTraits Impostor trait removes both the knife sanity cost and that penalty.
+ * death (shown as "小脑" in zh_cn). The Impostor trait removes both the knife sanity cost and that penalty.
  * Revolver kills cost no sanity through {@code mixin/recruit/RecruitGunSanityMixin}; the revolver keeps Wathe's 15 s
  * passenger cooldown (the Recruit is not a police role), and Wathe's own innocent-gun punishment still applies. Ground guns follow Wathe's own pickup rule, and
  * {@code mixin/recruit/ItemEntityRecruitGunMixin} allows only one ground gun pickup per round.
  * 新兵的服务端权威：完成第一个任务获得 Wathe 的刀；用刀击杀损失 35 理智；用刀杀死好人或把好人推下列车时，以 Wathe 自身的
- * SHOT_INNOCENT 死亡（中文显示为“小脑”）处死新兵。拥有 SparkTraits 内鬼词条时，免除用刀理智消耗与该惩罚。左轮击杀
+ * SHOT_INNOCENT 死亡（中文显示为“小脑”）处死新兵。拥有内鬼词条时，免除用刀理智消耗与该惩罚。左轮击杀
  * 不扣理智（{@code mixin/recruit/RecruitGunSanityMixin}）；左轮保持 Wathe 乘客规则的 15 秒冷却（新兵不是警类职业），左轮误杀
  * 仍由 Wathe 自身惩罚处理。
  * 地面枪械沿用 Wathe 自身拾取规则，{@code mixin/recruit/ItemEntityRecruitGunMixin} 只允许每局从地面捡一把。
@@ -86,11 +86,11 @@ public final class RecruitRuntime {
     }
 
     /**
-     * The knife always lands in the hotbar, never in a row SparkFactionAPI hides: a free hotbar slot, else the selected
-     * slot, whose displaced item moves to a free inventory slot, then an empty off hand, or is dropped at the
-     * Recruit's feet, never deleted (the Knight duel knife and Vendetta precedent).
-     * 刀一定发到快捷栏，绝不进入 SparkFactionAPI 隐藏的物品栏行：优先空的快捷栏格，否则放进当前选中格；被替换的物品移到
-     * 背包空位，其次是空着的副手，否则掉落在新兵脚下，绝不删除（沿用骑士决斗小刀与复仇者的先例）。
+     * The knife always lands in the hotbar, never in a row the limited inventory hides ({@code LimitedInventoryRows}):
+     * a free hotbar slot, else the selected slot, whose displaced item moves to a free inventory slot, then an empty
+     * off hand, or is dropped at the Recruit's feet, never deleted (the Knight duel knife and Vendetta precedent).
+     * 刀一定发到快捷栏，绝不进入受限物品栏（{@code LimitedInventoryRows}）隐藏的行：优先空的快捷栏格，否则放进当前选中格；
+     * 被替换的物品移到背包空位，其次是空着的副手，否则掉落在新兵脚下，绝不删除（沿用骑士决斗小刀与复仇者的先例）。
      */
     private static void giveKnife(ServerPlayerEntity player) {
         ItemStack knife = new ItemStack(WatheItems.KNIFE);
@@ -122,9 +122,9 @@ public final class RecruitRuntime {
         if (!RecruitRules.isRecruit(game.getRole(killer))) {
             return;
         }
-        // A SparkTraits Impostor is a killer by trait: the Recruit's knife sanity cost and innocent-kill death do not
-        // apply. Absent/older/failing Traits reads as not Impostor, so the ordinary rule stays.
-        // 拥有 SparkTraits 内鬼词条时按杀手处理：免除新兵的用刀理智消耗与误杀处死。Traits 缺失、过旧或出错时视为非内鬼，
+        // An Impostor is a killer by trait: the Recruit's knife sanity cost and innocent-kill death do not
+        // apply. A player without the trait component reads as not Impostor, so the ordinary rule stays.
+        // 拥有内鬼词条时按杀手处理：免除新兵的用刀理智消耗与误杀处死。没有词条组件的玩家视为非内鬼，
         // 保留普通规则。
         if (SparkTraitsApi.hasActiveTrait(killer, TraitIds.IMPOSTOR)) {
             return;

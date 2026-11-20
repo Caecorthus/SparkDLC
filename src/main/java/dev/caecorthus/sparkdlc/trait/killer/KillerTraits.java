@@ -10,8 +10,8 @@ import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
 
 /**
- * Registers killer-only SparkTraits trait definitions.
- * 注册 SparkTraits 的杀手专用天赋定义。
+ * Registers the killer-only trait definitions.
+ * 注册杀手专用天赋定义。
  */
 public final class KillerTraits {
     public static final Identifier BLOODTHIRSTY = SparkDLC.id("bloodthirsty");

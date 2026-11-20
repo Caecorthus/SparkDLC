@@ -9,7 +9,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
-/** Adds the SparkWitch-owned ghost dividend branch to Wathe's game settings tree. */
+/** Adds the mod's own ghost dividend branch to Wathe's game settings tree. */
 public final class WatheGhostDividendCommand {
     public static final String WATHE_PERMISSION = "wathe.command.gamesettings";
 

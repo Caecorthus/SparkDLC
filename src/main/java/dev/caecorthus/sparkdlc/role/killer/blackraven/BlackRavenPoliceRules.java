@@ -36,10 +36,10 @@ public final class BlackRavenPoliceRules {
     }
 
     /**
-     * Pays only on an exact FALSE Impostor answer: an absent SparkTraits reads FALSE, an unknown answer (null) never
-     * pays (Judge semantics; SparkTraits pays an Impostor's task income itself).
-     * 仅在内鬼答案确切为 FALSE 时发放：未安装 SparkTraits 视为 FALSE，未知（null）从不发放（与法官相同；内鬼的任务收入由
-     * SparkTraits 自行支付）。
+     * Pays only on an exact FALSE Impostor answer; an unknown answer (null, unreachable since the fusion) never
+     * pays (Judge semantics; the Impostor trait pays its holder's task income itself).
+     * 仅在内鬼答案确切为 FALSE 时发放；未知（null，融合后不可达）从不发放（与法官相同；内鬼的任务收入由
+     * 内鬼词条自行支付）。
      */
     public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
         return Boolean.FALSE.equals(impostor);
@@ -65,12 +65,12 @@ public final class BlackRavenPoliceRules {
     }
 
     /**
-     * Feather Blade friendly fire, the Swordfish gate: both factions are pre-kill SparkFactionAPI snapshots; only a
-     * civilian marker whose mark really killed a civilian is punished. An intercepted death (SparkTraits) or a
+     * Feather Blade friendly fire, the Swordfish gate: both factions are pre-kill effective-faction snapshots; only a
+     * civilian marker whose mark really killed a civilian is punished. An intercepted death (Last Stand) or a
      * non-final/fake death never counts, nor does a victim that was already dead. The marker's own liveness is
      * checked separately ({@link #punishment}).
-     * 羽刃误杀，与剑鱼相同的门槛：双方阵营均为击杀前的 SparkFactionAPI 快照；只有好人标记者的标记确实杀死好人时才惩罚。
-     * 被拦截的死亡（SparkTraits）、非最终死亡/假死，以及原本已死亡的受害者都不算。标记者自身的存活另行判断（{@link #punishment}）。
+     * 羽刃误杀，与剑鱼相同的门槛：双方阵营均为击杀前的有效阵营快照；只有好人标记者的标记确实杀死好人时才惩罚。
+     * 被拦截的死亡（背水一战）、非最终死亡/假死，以及原本已死亡的受害者都不算。标记者自身的存活另行判断（{@link #punishment}）。
      */
     public static boolean shouldPunishMarkKill(@Nullable Identifier markerFaction, @Nullable Identifier victimFaction,
                                                boolean deadBefore, boolean deadAfter,

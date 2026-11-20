@@ -19,22 +19,22 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Toxicologist blue-state passive: inside SparkTraits' blue sanity-drain window a Toxicologist (or a Coroner disguised
+ * Toxicologist blue-state passive: inside the traits' blue sanity-drain window a Toxicologist (or a Coroner disguised
  * as one) skips the drain, regains sanity instead and has Speed II. Server-authoritative; mood syncs through Wathe and
  * the effect through vanilla status-effect packets.
- * 毒理学家蓝毒被动：处于 SparkTraits 蓝毒扣理智窗口时，毒理学家（或伪装成毒理学家的验尸官）不再扣理智，
+ * 毒理学家蓝毒被动：处于词条的蓝毒扣理智窗口时，毒理学家（或伪装成毒理学家的验尸官）不再扣理智，
  * 改为回复理智并获得速度 II。服务端权威；理智经 Wathe 同步，效果经原版状态效果包同步。
  *
- * <p>Tick order: CCA ticks the player's SparkTraits component (decrement, then drain or skip) inside the world's
+ * <p>Tick order: CCA ticks the player's trait component (decrement, then drain or skip) inside the world's
  * entity loop, before END_WORLD_TICK where {@link #tick} runs. A food, bed or Blue Belladonna window of N ticks is
- * opened outside that loop, so SparkTraits consumes it on the next N ticks while we read N-1..0 remaining; the last
- * tick is only visible through the exemption heartbeat, giving exactly N regen ticks (100 ticks = +50 sanity), or
- * N-1 if SparkTraits never consults our exemption. Conscience blue gas renews a 1-tick window from the gas entity's
+ * opened outside that loop, so the trait component consumes it on the next N ticks while we read N-1..0 remaining;
+ * the last tick is only visible through the exemption heartbeat, giving exactly N regen ticks (100 ticks = +50
+ * sanity); it would be N-1 without the heartbeat. Conscience blue gas renews a 1-tick window from the gas entity's
  * tick, so depending on entity order we read 1 or 0; the heartbeat covers the 0 case, and the 1 case can add one
  * extra regen tick (+0.5 sanity) on the tick a player steps into gas.
- * Tick 顺序：CCA 在世界实体循环内先跑玩家的 SparkTraits 组件（自减，再扣理智或跳过），之后才是本类所在的 END_WORLD_TICK。
- * 食物、床或蓝颠茄开出的 N tick 窗口在该循环之外写入，SparkTraits 在之后 N 个 tick 消耗它，我们读到的剩余为 N-1..0；
- * 最后一个 tick 只能靠豁免心跳看到，因此正好回复 N 个 tick（100 tick = +50 理智）；若 SparkTraits 从不询问豁免则为 N-1。
+ * Tick 顺序：CCA 在世界实体循环内先跑玩家的词条组件（自减，再扣理智或跳过），之后才是本类所在的 END_WORLD_TICK。
+ * 食物、床或蓝颠茄开出的 N tick 窗口在该循环之外写入，词条组件在之后 N 个 tick 消耗它，我们读到的剩余为 N-1..0；
+ * 最后一个 tick 只能靠豁免心跳看到，因此正好回复 N 个 tick（100 tick = +50 理智）；没有该心跳则为 N-1。
  * 良心蓝毒气在毒气实体 tick 中续 1 tick 窗口，按实体顺序我们会读到 1 或 0；读到 0 时靠心跳，读到 1 时踏入毒气那一刻
  * 可能多回复 1 个 tick（+0.5 理智）。</p>
  */
@@ -100,11 +100,11 @@ public final class ToxicologistBluePassiveService {
     }
 
     /**
-     * SparkTraits exemption predicate. SparkTraits consults it, on the server thread inside the player's component
+     * Blue-drain exemption predicate. The trait component consults it, on the server thread inside its own
      * tick, only when it is about to apply a blue drain tick, so returning true also records a skipped-drain heartbeat
-     * that {@link #tick} turns into regen. Exempt players keep their window ticking down in SparkTraits.
-     * SparkTraits 豁免谓词：仅在服务端线程、玩家组件 tick 中即将扣一次蓝毒理智时询问，因此返回 true 的同时记录一次
-     * “已跳过扣理智”心跳，由 {@link #tick} 转成回复。被豁免玩家的窗口在 SparkTraits 中照常倒计时。
+     * that {@link #tick} turns into regen. Exempt players keep their window ticking down in the trait component.
+     * 蓝毒扣理智豁免谓词：词条组件仅在服务端线程、自身 tick 中即将扣一次蓝毒理智时询问，因此返回 true 的同时记录一次
+     * “已跳过扣理智”心跳，由 {@link #tick} 转成回复。被豁免玩家的窗口在词条组件中照常倒计时。
      */
     private static boolean exemptFromBlueSanityDrain(ServerPlayerEntity player) {
         if (!isEligible(player)) {

@@ -40,13 +40,13 @@ import java.util.UUID;
  * role-owned skill: it never enters the witch skill registry, the shared witch-skill cooldowns or the witch skill
  * panel. Every gate lives in the pure {@link JunkerSearchRules}; the cooldown is an absolute ready tick in the
  * owner-synced {@link JunkerPlayerComponent}, reached by other features only through
- * {@code compat/cooldown/RoleForcedCooldowns#ragpickerSearch}. Spending looted items is {@link JunkerLootSpend}'s
+ * {@code cooldown/provider/RoleForcedCooldowns#ragpickerSearch}. Spending looted items is {@link JunkerLootSpend}'s
  * job and replay lines are {@link JunkerReplay}'s.
  * 拾荒者搜刮流程：尸体记录钩子、技能键请求、五秒搜刮与物品转移。
  * <p>{@code sparkdlc:ragpicker_search}（共享的 NoellesRoles 技能键 G）的服务端处理。搜刮是职业自有技能：从不进入
  * 魔女技能注册表、共享的魔女技能冷却或魔女技能面板。所有门槛都在纯规则 {@link JunkerSearchRules} 中；冷却是只同步给
  * 本人的 {@link JunkerPlayerComponent} 上的绝对就绪刻，其他功能只能经
- * {@code compat/cooldown/RoleForcedCooldowns#ragpickerSearch} 作用于它。搜刮所得物品的消耗由
+ * {@code cooldown/provider/RoleForcedCooldowns#ragpickerSearch} 作用于它。搜刮所得物品的消耗由
  * {@link JunkerLootSpend} 负责，回放记录由 {@link JunkerReplay} 负责。
  */
 public final class JunkerService {

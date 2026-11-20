@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.timekeeper;
 import net.minecraft.text.Text;
 
 /**
- * SparkStrength 计时员怀表只保留两个“刷新冷却”模式。
+ * 计时员怀表只保留两个“刷新冷却”模式。
  * 自改版 NoellesRoles 中的时间回溯、损坏和精致状态不在本移植范围内。
  */
 public enum TimekeeperWatchMode {

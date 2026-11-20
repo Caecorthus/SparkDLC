@@ -22,8 +22,8 @@ import net.minecraft.util.Identifier;
 public final class BewitchedShopService {
     /**
      * Ordered after the default phase, so entries any default-phase listener adds (role or trait shops, whatever the
-     * mod load order) are cleared too.
-     * 排在默认阶段之后，因此任何默认阶段监听器（职业或词条商店，无论模组加载顺序）追加的条目也会被清空。
+     * registration order) are cleared too.
+     * 排在默认阶段之后，因此任何默认阶段监听器（职业或词条商店，无论注册顺序）追加的条目也会被清空。
      */
     static final Identifier CLEAR_PHASE = SparkDLC.id("bewitched_shop_clear");
     private static boolean registered;

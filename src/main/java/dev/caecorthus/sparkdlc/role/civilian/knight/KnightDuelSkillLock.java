@@ -14,24 +14,24 @@ import java.util.Set;
  * rather than by an item use (spec: all weapons but the knife and the derringer are sealed). The server enforces both
  * lists in {@code mixin/knight/KnightDuelSkillPayloadGuardMixin}; the client's shared dispatch only skips a duelist's
  * press. {@link #BLOCKED_WHILE_DUELING} (G skills) and {@link #SEALED_WEAPON_PAYLOADS} (payload weapons) are this
- * lock's own lists (decoupled from the stun, Seeker, Rift and Fear lists), kept as plain ids so no optional mod
- * class is loaded. Deliberately left out of both: the Wathe knife and gun and the Knight's own cross-sword stab (see
+ * lock's own lists (decoupled from the stun, Seeker, Rift and Fear lists), kept as plain ids so the lock names no
+ * payload class. Deliberately left out of both: the Wathe knife and gun and the Knight's own cross-sword stab (see
  * {@link #SEALED_WEAPON_PAYLOADS}), skill-key-2 (N) payloads, inventory-panel skills (Morphling, Swapper and Voodoo
- * morphs, SparkStrength player widgets), item-opened screens, the shop, and every exit or close payload. A new G-key
+ * morphs, the role kits' player widgets), item-opened screens, the shop, and every exit or close payload. A new G-key
  * or weapon payload must be classified deliberately, as a complete row of the canonical table.
  * 稳定契约（所有者 2026-10-30 决定）：骑士决斗进行时，双方决斗者失去全部主职业技能，即共享的 NoellesRoles 技能键（G）
  * 发送的所有数据包，以及所有经 C2S 数据包而非物品使用发射的武器（规格：除刀与德林加外的武器均被封印）。两份名单都由服务端的
  * {@code mixin/knight/KnightDuelSkillPayloadGuardMixin} 强制执行；客户端共享分发只会跳过决斗者的按键。
  * {@link #BLOCKED_WHILE_DUELING}（G 键技能）与 {@link #SEALED_WEAPON_PAYLOADS}（数据包武器）是该锁自有的名单
- * （与眩晕、搜寻者、裂隙与恐惧名单解耦），以纯 id 保存，不加载任何可选模组的类。两份名单均有意不列入：Wathe 刀与枪、
+ * （与眩晕、搜寻者、裂隙与恐惧名单解耦），以纯 id 保存，因此该锁不引用任何数据包类。两份名单均有意不列入：Wathe 刀与枪、
  * 骑士自己的十字剑刺击（见 {@link #SEALED_WEAPON_PAYLOADS}）、技能键 2（N）数据包、背包面板技能（变形者、换位者与巫毒
- * 变形，SparkStrength 玩家小部件）、由物品打开的界面、商店以及所有退出或关闭数据包。
+ * 变形，职业增强的玩家小部件）、由物品打开的界面、商店以及所有退出或关闭数据包。
  * 新增 G 键或武器数据包必须作为规范表中完整的一行有意识地归类。
  */
 public final class KnightDuelSkillLock {
-    // Generated DUEL_PRIMARY column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated DUEL_PRIMARY column of config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // 生成的 DUEL_PRIMARY 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 DUEL_PRIMARY 列（config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。
     public static final Set<Identifier> BLOCKED_WHILE_DUELING = GeneratedPayloadPolicy.DUEL_PRIMARY;
 
@@ -61,9 +61,9 @@ public final class KnightDuelSkillLock {
      * {@code sparkdlc:drone_pilot_start}、{@code drone_pilot_move} 与 {@code drone_pilot_exit}（驾驶无人机；退出必须
      * 始终放行）以及 {@code sparkdlc:m67_cancel}（取消投掷）。
      */
-    // Generated DUEL_WEAPON column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated DUEL_WEAPON column of config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // 生成的 DUEL_WEAPON 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 DUEL_WEAPON 列（config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。
     public static final Set<Identifier> SEALED_WEAPON_PAYLOADS = GeneratedPayloadPolicy.DUEL_WEAPON;
 

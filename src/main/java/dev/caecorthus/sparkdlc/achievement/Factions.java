@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Faction ids as SparkFactionAPI names them, and the two sides achievements talk about: "好人" is the civilian
+ * Faction ids as {@code SparkFactionApi} names them, and the two sides achievements talk about: "好人" is the civilian
  * faction; "非好人" is every other real faction (killers, neutrals, witches, …). Achievements judge a player by their
  * <em>effective</em> faction, so a Conscience or Impostor flip counts.
- * SparkFactionAPI 使用的阵营 id，以及成就里说的两方：“好人”即平民阵营；“非好人”是其他所有真实阵营（杀手、中立、魔女……）。
+ * {@code SparkFactionApi} 使用的阵营 id，以及成就里说的两方：“好人”即平民阵营；“非好人”是其他所有真实阵营（杀手、中立、魔女……）。
  * 成就按<em>实际</em>阵营判断玩家，良知、内鬼等词条造成的阵营翻转同样算数。
  */
 public final class Factions {
@@ -29,10 +29,11 @@ public final class Factions {
     public static final String JIAHAO = "sparkdlc:jiahao";
 
     /**
-     * Native custom Wathe constants SparkWitch declares through SparkFactionAPI, used when the API cannot name them
-     * (this side's {@code Faction} enum lacks the constant, so there is nothing to ask the API about).
-     * SparkWitch 通过 SparkFactionAPI 声明的 Wathe 原生自定义常量；API 无法给出 id 时（本端的 {@code Faction} 枚举没有该常量，
-     * 无从向 API 查询）使用。
+     * The mod's own native custom Wathe constants ({@code sparkdlc:native_wathe_factions}), a fallback for when the
+     * API cannot name them (this side's {@code Faction} enum lacks the constant, so there is nothing to ask the API
+     * about); unreachable since the fusion, because this jar always declares both.
+     * 本模组自己声明的 Wathe 原生自定义常量（{@code sparkdlc:native_wathe_factions}）；API 无法给出 id 时（本端的
+     * {@code Faction} 枚举没有该常量，无从向 API 查询）的回退。融合后不可达：本 jar 总会声明这两个常量。
      */
     private static final Map<String, String> NATIVE_FALLBACK = Map.of("WITCH", WITCH, "JIAHAO", JIAHAO);
 
@@ -65,25 +66,25 @@ public final class Factions {
 
     /**
      * The id for a Wathe {@code Faction} constant name as written in {@code role_assigned} ({@code CIVILIAN} →
-     * {@code wathe:civilian}), or null. SparkFactionAPI appends native custom constants ({@code WITCH},
+     * {@code wathe:civilian}), or null. The faction core appends native custom constants ({@code WITCH},
      * {@code JIAHAO}) and names their ids through {@code factionIdOf(Faction.valueOf(name))}; when it has no id for
      * the name (a constant this side lacks) the built-ins keep the {@code wathe:} form and the known natives use
-     * their SparkWitch ids.
+     * their {@code sparkdlc:} ids.
      * {@code role_assigned} 中 Wathe {@code Faction} 常量名对应的 id（{@code CIVILIAN} → {@code wathe:civilian}），没有则为
-     * null。SparkFactionAPI 会追加原生自定义常量（{@code WITCH}、{@code JIAHAO}），并通过
+     * null。阵营核心会追加原生自定义常量（{@code WITCH}、{@code JIAHAO}），并通过
      * {@code factionIdOf(Faction.valueOf(name))} 给出其 id；API 对该名称没有 id（本端没有这个常量）时，内置阵营沿用
-     * {@code wathe:} 形式，已知的原生阵营使用 SparkWitch 的 id。
+     * {@code wathe:} 形式，已知的原生阵营使用其 {@code sparkdlc:} id。
      */
     public static String fromWatheName(String name) {
         return fromWatheName(name, Factions::sparkFactionId);
     }
 
     /**
-     * {@link #fromWatheName(String)} with the SparkFactionAPI lookup given: it returns the id, or null (or blank) to
-     * fall back for this name only. The modules are fused in SparkDLC and the real lookup is a direct call, so a
-     * lookup that throws is no longer swallowed here.
-     * 指定 SparkFactionAPI 查询的 {@link #fromWatheName(String)}：查询返回 id；返回 null（或空白）时只对这一个名称回退。
-     * 各模块已融合进 SparkDLC，真正的查询是直接调用，因此这里不再吞掉查询抛出的异常。
+     * {@link #fromWatheName(String)} with the {@code SparkFactionApi} lookup given: it returns the id, or null (or
+     * blank) to fall back for this name only. The real lookup is a direct call, so a lookup that throws is not
+     * swallowed here (it was while the lookup was reflective).
+     * 指定 {@code SparkFactionApi} 查询的 {@link #fromWatheName(String)}：查询返回 id；返回 null（或空白）时只对这一个名称
+     * 回退。真正的查询是直接调用，因此这里不吞掉查询抛出的异常（原先查询走反射时会吞掉）。
      */
     static String fromWatheName(String name, Function<String, String> sparkFactionLookup) {
         if (name == null || name.isBlank()) {
@@ -99,11 +100,11 @@ public final class Factions {
     }
 
     /**
-     * SparkFactionAPI's {@code factionIdOf(Faction)} for a constant name, or null when this side's {@code Faction}
-     * has no such constant or the API has no id for it. The modules are fused in SparkDLC, so this is a direct call
-     * (it used to be a reflective lookup that failed closed without SparkFactionAPI).
-     * 按常量名调用 SparkFactionAPI 的 {@code factionIdOf(Faction)}；本端的 {@code Faction} 没有该常量，或 API 没有对应 id 时
-     * 返回 null。各模块已融合进 SparkDLC，因此这里是直接调用（原先是反射查找，没有 SparkFactionAPI 时失败关闭）。
+     * {@code SparkFactionApi.factionIdOf(Faction)} for a constant name, or null when this side's {@code Faction}
+     * has no such constant or the API has no id for it. A direct call (it used to be a reflective lookup that failed
+     * closed while the faction core was a separate mod).
+     * 按常量名调用 {@code SparkFactionApi.factionIdOf(Faction)}；本端的 {@code Faction} 没有该常量，或 API 没有对应 id 时
+     * 返回 null。这里是直接调用（阵营核心还是独立模组时是反射查找，失败关闭）。
      */
     private static String sparkFactionId(String constant) {
         Faction faction;

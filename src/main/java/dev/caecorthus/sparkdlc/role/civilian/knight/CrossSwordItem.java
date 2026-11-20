@@ -49,8 +49,9 @@ public final class CrossSwordItem extends Item {
     }
 
     /**
-     * Gray {@code .tooltip.lineN} lines after the name (the SparkWitch item style); the hold wording follows Wathe's
-     * knife tooltip. / 名称后的灰色 {@code .tooltip.lineN} 说明（SparkWitch 物品样式）；蓄力措辞沿用 Wathe 小刀提示。
+     * Gray {@code .tooltip.lineN} lines after the name (the item style of the mod's own roles); the hold wording
+     * follows Wathe's knife tooltip.
+     * 名称后的灰色 {@code .tooltip.lineN} 说明（本模组自有职业的物品样式）；蓄力措辞沿用 Wathe 小刀提示。
      */
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
@@ -82,11 +83,11 @@ public final class CrossSwordItem extends Item {
         return heldTicks >= MIN_HOLD_TICKS && heldTicks <= MAX_USE_TICKS;
     }
 
-    // No cooldown handling here (spec 无cd): no SparkWitch code sets one, the duel whitelists the sword, and the
-    // forced-cooldown writers (Fiend aura, Abyss suppression, AC shell) skip it through the SparkFactionAPI item
+    // No cooldown handling here (spec 无cd): none of the mod's own roles sets one, the duel whitelists the sword, and
+    // the forced-cooldown writers (Fiend aura, Abyss suppression, AC shell) skip it through the forced-cooldown item
     // exemption in RoleForcedCooldowns. Removing a cooldown every tick would send a cooldown packet per tick.
-    // 这里不处理冷却（规格“无cd”）：SparkWitch 中没有代码为它设置冷却，决斗白名单包含十字剑，强制冷却写入方（魔人光环、
-    // 聆渊压制、AC 弹）经 RoleForcedCooldowns 中的 SparkFactionAPI 物品豁免跳过它。每 tick 移除冷却会每 tick 发送冷却包。
+    // 这里不处理冷却（规格“无cd”）：本模组自有职业的代码都不为它设置冷却，决斗白名单包含十字剑，强制冷却写入方（魔人光环、
+    // 聆渊压制、AC 弹）经 RoleForcedCooldowns 中的强制冷却物品豁免跳过它。每 tick 移除冷却会每 tick 发送冷却包。
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);

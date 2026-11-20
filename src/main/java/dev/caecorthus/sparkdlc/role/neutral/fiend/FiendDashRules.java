@@ -23,10 +23,10 @@ public final class FiendDashRules {
     /**
      * Dash gate, checked in order: the moment Fiend (role-gated) in an ACTIVE round whose moment is running (active and
      * not yet complete, so a won moment grants nothing), playing and alive, not swallowed by a Taotie, not stunned
-     * (Control Expert), not role-skill blocked (SparkTraits), ready; Fear is checked last so its message only appears
+     * (Control Expert), not role-skill blocked (traits), ready; Fear is checked last so its message only appears
      * when Dash would otherwise fire.
      * 疾驰门槛，按顺序检查：处于 ACTIVE 回合、时刻正在进行（已开始且尚未完成，已获胜的时刻不再授予）的时刻中魔人
-     * （按职业判断），在局存活，未被饕餮吞下，未被电击眩晕（控场专家），未被职业技能封锁（SparkTraits），已就绪；恐惧
+     * （按职业判断），在局存活，未被饕餮吞下，未被电击眩晕（控场专家），未被职业技能封锁（词条），已就绪；恐惧
      * 最后检查，使其提示只在本可发动疾驰时出现。
      */
     public static DashVerdict verdict(boolean momentFiend, boolean roundActive, boolean momentRunning,

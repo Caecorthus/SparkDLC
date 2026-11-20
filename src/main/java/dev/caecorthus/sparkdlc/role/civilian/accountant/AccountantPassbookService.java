@@ -41,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  *   round reset and would carry stored coins into the next round.</li>
  * </ul>
  * Transfers use {@code setBalance}, never {@code addToBalance}: the coins were already earned, so income observers
- * (SparkFactionAPI's income record, SparkTraits Snowball, and SparkStrength's killer team purse — owner 2026-11-04:
+ * (the income record, the Snowball trait, and the killer team purse — owner 2026-11-04:
  * the shared purse does not take passbook coins) must not count them again.
  * 存折运行逻辑（服务端权威）。存入的金币保存在物品的自定义数据（{@link AccountantRules#STORED_COINS_KEY}）中，随物品移动。
  * 存入（右键）：只有存活的会计（{@link AccountantRules#depositVerdict}），全部余额存入。
@@ -51,8 +51,8 @@ import org.jetbrains.annotations.Nullable;
  * 死亡：Wathe 的 {@code ShouldDropOnDeath} 让任何携带者死亡时掉落存折，金币不会留在死人背包里；掉落的存折永不消失（Wathe
  * 在回合结束时清除掉落物）。
  * 世界交互：物品展示框、盔甲架、悦灵与饰纹陶罐绝不收走存折，因为它们能躲过 Wathe 的回合重置，会把存款带到下一局。
- * 转账使用 {@code setBalance}，从不使用 {@code addToBalance}：这些金币已经赚过一次，收入观察者（SparkFactionAPI 收入记录、
- * SparkTraits 滚雪球、SparkStrength 杀手共享钱包——所有者 2026-11-04：共享钱包不吃存折）不得再次计入。
+ * 转账使用 {@code setBalance}，从不使用 {@code addToBalance}：这些金币已经赚过一次，收入观察者（收入记录、
+ * 滚雪球词条、杀手共享钱包——所有者 2026-11-04：共享钱包不吃存折）不得再次计入。
  */
 public final class AccountantPassbookService {
     private static boolean registered;

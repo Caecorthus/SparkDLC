@@ -13,10 +13,10 @@ import org.jetbrains.annotations.Nullable;
  * 失败关闭。
  *
  * <p>External seam: the stable signal is the entry's display item, not the entry id or NoellesRoles' anonymous
- * {@code TimekeeperShopHandler$1} class. The SparkStrength Coroner's copy of the entry shows the same item and matches
+ * {@code TimekeeperShopHandler$1} class. The Coroner's copy of the entry shows the same item and matches
  * here on purpose; it is excluded later by the exact-role gate, never by this class.
  * 外部接缝：稳定信号是条目的展示物品，而不是条目 id 或 NoellesRoles 的匿名类 {@code TimekeeperShopHandler$1}。
- * SparkStrength 验尸官复制的条目展示同一物品，在此处有意匹配；它随后由精确职业门排除，而不是由本类排除。
+ * 验尸官复制的条目展示同一物品，在此处有意匹配；它随后由精确职业门排除，而不是由本类排除。
  */
 public final class NoellesTimekeeperPurchase {
     /** Registered by NoellesRoles {@code ModItems} (ASM-pinned). / 由 NoellesRoles {@code ModItems} 注册（ASM 钉住）。 */

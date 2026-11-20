@@ -23,8 +23,8 @@ public final class FactionBlackoutCooldownAdapter {
             return;
         }
 
-        // Wathe and SparkTraits have already shared native killer cooldowns; add only custom bridges here.
-        // wathe 与 SparkTraits 已经分发原生杀手冷却；这里仅追加自定义阵营桥接。
+        // Wathe and the traits have already shared native killer cooldowns; add only custom bridges here.
+        // wathe 与词条功能已经分发原生杀手冷却；这里仅追加自定义阵营桥接。
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(purchaser.getWorld());
         int cooldownTicks = GameConstants.getInTicks(5, 0);
         for (ServerPlayerEntity player : purchaser.getServerWorld().getPlayers()) {

@@ -30,8 +30,8 @@ import java.util.UUID;
  * @param gunDrops             times the player dropped their gun for shooting an innocent 误杀无辜而丢枪的次数
  * @param poisonOverlays       translation keys of poison overlays shown to the player, in order
  *                             依次显示给玩家的中毒画面翻译键
- * @param depressionAttackers  players whose attack sent the local player into Depression psycho (SparkTraits,
- *                             owner-only data) 攻击本地玩家、使其进入抑郁疯魔的玩家（SparkTraits，仅本人可见的数据）
+ * @param depressionAttackers  players whose attack sent the local player into Depression psycho (the trait's
+ *                             owner-only data) 攻击本地玩家、使其进入抑郁疯魔的玩家（该词条仅本人可见的数据）
  * @param explosiveNearby      round-tick spans, in order, in which a live explosive was within
  *                             {@link RoundObservation#EXPLOSIVE_RANGE_BLOCKS} of the player while they were alive
  *                             玩家存活期间、{@link RoundObservation#EXPLOSIVE_RANGE_BLOCKS} 格内有未爆爆炸物的对局 tick 时段，按顺序

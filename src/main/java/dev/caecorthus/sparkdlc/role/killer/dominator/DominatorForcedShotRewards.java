@@ -6,12 +6,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Kill-money rule of the forced shot (owner decision): only the forced shooter's own balance is frozen while the shot
  * and its scheduled consequences run ({@code DominatorForcedShotRewardMixin}); every other player's rewards and
- * penalties (killer teammates' Wathe share and pool, SparkFactionAPI faction rewards, NoellesRoles bounties,
- * SparkStrength penalties) settle normally. The Dominator's own +100 is paid by {@link DominatorForcedShotService}
+ * penalties (killer teammates' Wathe share and pool, the faction core's faction rewards, NoellesRoles bounties,
+ * role-kit penalties) settle normally. The Dominator's own +100 is paid by {@link DominatorForcedShotService}
  * after the shot, on a committed death only.
  * 强制开枪的击杀奖金规则（所有者决定）：只在这一枪及其排定后果运行期间冻结被强制开枪者自己的余额
- * （{@code DominatorForcedShotRewardMixin}）；其他所有玩家的奖励与扣罚（杀手队友的 Wathe 分成与奖池、SparkFactionAPI 阵营奖励、
- * NoellesRoles 悬赏、SparkStrength 扣罚）照常结算。支配者自己的 +100 由 {@link DominatorForcedShotService} 在开枪之后、
+ * （{@code DominatorForcedShotRewardMixin}）；其他所有玩家的奖励与扣罚（杀手队友的 Wathe 分成与奖池、阵营核心的阵营奖励、
+ * NoellesRoles 悬赏、职业强化扣罚）照常结算。支配者自己的 +100 由 {@link DominatorForcedShotService} 在开枪之后、
  * 且仅在死亡确定时发放。
  */
 public final class DominatorForcedShotRewards {

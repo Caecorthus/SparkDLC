@@ -28,10 +28,10 @@ import java.util.Set;
  * 按与乌鸦的距离判断是否追踪，使主人能看到乌鸦周围的事物。focusOf 返回 null 时两个分支都回退为原版；BlackRavenCrowStreaming 每刻
  * 调用 updatePosition 恢复以本体为准的追踪。
  *
- * <p>Coexists with the Seeker's and SparkStrength's drone tracker mixins (HEAD inject + {@code @ModifyExpressionValue}
+ * <p>Coexists with the Seeker's and the Bomber drone's tracker mixins (HEAD inject + {@code @ModifyExpressionValue}
  * on the same method): each HEAD inject cancels only for its own entity type and player, and the expression mixins
  * chain. Default {@code require}.
- * 与搜寻者及 SparkStrength 无人机的追踪 mixin（同一方法上的 HEAD 注入与表达式修改）共存：各 HEAD 注入只对自己的实体类型与玩家取消，
+ * 与搜寻者及炸弹客无人机的追踪 mixin（同一方法上的 HEAD 注入与表达式修改）共存：各 HEAD 注入只对自己的实体类型与玩家取消，
  * 表达式 mixin 链式叠加。使用默认 require。</p>
  */
 @Mixin(targets = "net.minecraft.server.world.ServerChunkLoadingManager$EntityTracker")

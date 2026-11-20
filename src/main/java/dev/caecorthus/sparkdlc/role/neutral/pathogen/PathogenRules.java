@@ -62,12 +62,12 @@ public final class PathogenRules {
 
     /**
      * Money visibility for the exact Pathogen role: {@code TRUE} (ALLOW) while not dead, {@code FALSE} (DENY) once
-     * dead, {@code null} (no answer) for every other role. Deliberately no running-state check: SparkTraits offers Task
-     * Master to FAKE-mood roles during STARTING only when this answers ALLOW, and a dead Pathogen must not keep the
+     * dead, {@code null} (no answer) for every other role. Deliberately no running-state check: the Task Master trait
+     * is offered to FAKE-mood roles during STARTING only when this answers ALLOW, and a dead Pathogen must not keep the
      * counter through Wathe's {@code canAccessShop} fallback.
-     * 精确病原体身份的金币可见性：未死亡为 {@code TRUE}（ALLOW），死亡后为 {@code FALSE}（DENY），其他身份为 {@code null}
-     * （不作答）。刻意不检查对局运行状态：SparkTraits 只在此处于 STARTING 阶段答 ALLOW 时才为假理智职业提供任务大师；
-     * 死亡的病原体也不能经由 Wathe 的 {@code canAccessShop} 兜底继续看到金币。
+     * 精确病原体身份的金币可见性：未死亡为 {@code TRUE}（ALLOW），死亡后为 {@code FALSE}（DENY），其他身份为
+     * {@code null}（不作答）。刻意不检查对局运行状态：任务大师词条只在此处于 STARTING 阶段答 ALLOW 时才提供给假理智职
+     * 业；死亡的病原体也不能经由 Wathe 的 {@code canAccessShop} 兜底继续看到金币。
      */
     public static @Nullable Boolean moneyVisible(@Nullable Role role, boolean dead) {
         if (!isPathogen(role)) {

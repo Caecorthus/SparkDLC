@@ -38,14 +38,14 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Demos for SparkWitch's Wraith and the three good-side roles a Wraith is promoted to, opened only from the role's
- * guide page; each needs SparkWitch. A Wraith is invisible to the living (WraithPresence, WraithViewerRules), so the
+ * Demos for the Wraith and the three good-side roles a Wraith is promoted to, opened only from the role's
+ * guide page. A Wraith is invisible to the living (WraithPresence, WraithViewerRules), so the
  * demos draw it as an ordinary actor in its role colour and say once per demo that living players do not see it.
- * SparkWitch 冤魂及其三种好人晋升身份的演示，只从该职业的指南页打开；都需要 SparkWitch。活人看不见冤魂（WraithPresence、
+ * 冤魂及其三种好人晋升身份的演示，只从该职业的指南页打开。活人看不见冤魂（WraithPresence、
  * WraithViewerRules），所以演示把它画成身份颜色的普通演员，并在每个演示里用一句字幕说明活人其实看不见它。
  */
 final class WraithScenes {
-    /** NoellesRoles' shared ability key, which SparkWitch skills reuse. SparkWitch 技能沿用的 NoellesRoles 技能键。 */
+    /** NoellesRoles' shared ability key, which this mod's role skills reuse. 本模组职业技能沿用的 NoellesRoles 技能键。 */
     private static final String ABILITY_KEY = "key.noellesroles.ability";
     /** A standing actor's eyes above the feet. 站立演员的眼睛离脚底的高度。 */
     private static final double EYES = 1.62;
@@ -74,13 +74,13 @@ final class WraithScenes {
      * WraithParticipation, WraithProgression, WraithPromotionQueue, WraithPromotionRoles): a good, killer or witch
      * player who dies (not by leaving, nor by falling off the train unaided) may, by default 75% within the round's
      * quota, rise as a Wraith on the spot, the body staying behind with the pre-death role. The Wraith is invisible to
-     * living players (the SparkStrength Spiritualist excepted), has no collision and passes closed doors, which stay
+     * living players (the Spiritualist excepted), has no collision and passes closed doors, which stay
      * shut. Until promotion it may use only food platters, drink trays and empty beds and only eat or drink; 3 tasks
      * done as a Wraith promote it at once, waking it if asleep: good to the Wind Spirit, Guardian Angel or Vendetta,
      * killer to the Saboteur, witch to the Curser. The camera swings round once the Wraith is inside the cabin; the
      * demo shows two of the three tasks and a short sleep.
      * 冤魂：好人、杀手、魔女阵营的玩家死亡（中途退出、自己掉下火车除外）时，在本局名额内默认有 75% 概率在原地化为冤魂，
-     * 尸体留在原地并显示生前身份。活人看不见冤魂（SparkStrength 的灵界行者除外），冤魂没有碰撞，能穿过关着的门，门保持
+     * 尸体留在原地并显示生前身份。活人看不见冤魂（灵界行者除外），冤魂没有碰撞，能穿过关着的门，门保持
      * 关闭。晋升前只能用餐盘、饮品托盘和空床，只能吃喝；以冤魂身份完成 3 个任务立刻晋升（睡着也会被叫醒）：好人成为风精灵、
      * 守护天使或仇杀客，杀手成为破坏者，魔女成为诅咒者。冤魂进入包厢后镜头转到另一侧；演示只做了三个任务中的两个，睡觉也缩短了。
      */

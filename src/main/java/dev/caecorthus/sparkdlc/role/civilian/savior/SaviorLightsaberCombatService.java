@@ -47,13 +47,13 @@ import net.minecraft.world.World;
 
 /**
  * Server half of the lightsaber: the kill (a full-charge main-hand strike from {@code AttackEntityCallback}, behind
- * the living-holder gate and the SparkTraits / Vendetta / SparkFactionAPI melee gates), the innocent-kill punishment and the
- * 30 s post-kill cooldown, plus its sounds. The impact sound fires only when the main-hand lightsaber kills a player,
- * at the victim's position; the ignition and swing intents arrive from the client and are broadcast at the holder's
- * position with distance attenuation. {@code sounds.json} keeps no subtitle.
- * 光剑的服务端部分：击杀（{@code AttackEntityCallback} 中满蓄力的主手攻击，经过存活持有者门槛与 SparkTraits / 复仇者 /
- * SparkFactionAPI 近战门控）、误杀惩罚与击杀后 30 秒冷却，以及其音效。命中音只在主手光剑击杀玩家时、于被击杀者位置播放；
- * 点火与挥动意图由客户端发来，服务端在持有者位置按距离衰减广播。sounds.json 不设字幕。
+ * the living-holder gate and the trait / Vendetta / {@code SparkFactionApi.canAffectPlayer} melee gates), the
+ * innocent-kill punishment and the 30 s post-kill cooldown, plus its sounds. The impact sound fires only when the
+ * main-hand lightsaber kills a player, at the victim's position; the ignition and swing intents arrive from the client
+ * and are broadcast at the holder's position with distance attenuation. {@code sounds.json} keeps no subtitle.
+ * 光剑的服务端部分：击杀（{@code AttackEntityCallback} 中满蓄力的主手攻击，经过存活持有者门槛与词条 / 复仇者 /
+ * {@code SparkFactionApi.canAffectPlayer} 近战门控）、误杀惩罚与击杀后 30 秒冷却，以及其音效。命中音只在主手光剑击杀
+ * 玩家时、于被击杀者位置播放；点火与挥动意图由客户端发来，服务端在持有者位置按距离衰减广播。sounds.json 不设字幕。
  */
 public final class SaviorLightsaberCombatService {
     /** Spam guard: an ignition may not be requested more than once per half second on the server. / 防刷：服务端每半秒最多播放一次点火音。 */
@@ -92,13 +92,14 @@ public final class SaviorLightsaberCombatService {
                 playKillSound(killer, victim);
             }
         });
-        // Deliberately NOT SparkTraits-terminal (owner, 2026-11-16): both weapons are combat kills, so every SparkTraits
-        // trait protection (Last Escape, Last Stand, Depression, Stands Firm) answers them as it answers a Wathe gun or
-        // bat. Registering them made a Last Escape killer die to one shot. The SparkWitch-local piercing rules keyed on
-        // SaviorRules.isTerminalKill (Saint, NoellesRoles shields, Charon pardon, Hiro return) are unchanged.
-        // 有意不登记为 SparkTraits 终结死因（所有者 2026-11-16）：两把武器都是战斗击杀，因此 SparkTraits 的所有词条保护
+        // Deliberately NOT registered as trait terminal death reasons (owner, 2026-11-16): both weapons are combat
+        // kills, so every trait protection (Last Escape, Last Stand, Depression, Stands Firm) answers them as it
+        // answers a Wathe gun or bat. Registering them made a Last Escape killer die to one shot. The role-local
+        // piercing rules keyed on SaviorRules.isTerminalKill (Saint, NoellesRoles shields, Charon pardon, Hiro return)
+        // are unchanged.
+        // 有意不登记为词条终结死因（所有者 2026-11-16）：两把武器都是战斗击杀，因此所有词条保护
         // （绝处逢生、背水一战、抑郁、立场坚定）对其的反应与对 Wathe 枪/球棒相同。此前的登记让绝处逢生杀手一枪即死。
-        // 以 SaviorRules.isTerminalKill 为键的 SparkWitch 本地穿透规则（圣徒、NoellesRoles 护盾、卡戎宽恕、希罗回归）不变。
+        // 以 SaviorRules.isTerminalKill 为键的职业本地穿透规则（圣徒、NoellesRoles 护盾、卡戎宽恕、希罗回归）不变。
         // Pierce psycho armour (the Jester moment's shields) for these terminal weapon kills. Wathe's real-Jester
         // fake death only reacts to GUN/DEMON_HUNTER, so the custom reasons already skip it; this covers the shields.
         // 穿透精神护甲（小丑时刻的护盾）。Wathe 真正小丑的假死只认 GUN/恶魔猎手，所以自定义死因已绕过假死；这里补护盾。
@@ -146,16 +147,16 @@ public final class SaviorLightsaberCombatService {
     /**
      * Lightsaber kill: only a fully charged swing while the blade is off item cooldown kills, and while a game runs only
      * in a living holder's hand ({@link SaviorRules#mayUseWeapons}). Gates in order, like the Swordfish and the
-     * Ceremonial Sword: the SparkTraits weapon gate, cooldown and charge, an ordinary living survival target, the
-     * SparkFactionAPI veto, then the SparkTraits melee parry (Close Quarters / forced melee lock), and only then the
-     * innocent-kill punishment and the terminal kill. The 30 s cooldown follows only a real kill. A Black Raven crow in
-     * reach stands in for its owner; a Magician puppet or a SparkStrength Partygoer takes the strike as a kill (decoy
-     * rule D3: same 30 s cost). Every refused strike answers FAIL, so it never falls through to vanilla damage.
+     * Ceremonial Sword: the trait weapon gate, cooldown and charge, an ordinary living survival target, the
+     * {@code SparkFactionApi.canAffectPlayer} veto, then the trait melee parry (Close Quarters / forced melee lock),
+     * and only then the innocent-kill punishment and the terminal kill. The 30 s cooldown follows only a real kill. A
+     * Black Raven crow in reach stands in for its owner; a Magician puppet or a Partygoer takes the strike as a kill
+     * (decoy rule D3: same 30 s cost). Every refused strike answers FAIL, so it never falls through to vanilla damage.
      * Creative mode ignores both the cooldown gate and the post-kill cooldown.
      * 光剑击杀：只有蓄满且武器不在物品冷却时的一击才会击杀；对局进行中还必须握在存活的持有者手里
-     * （{@link SaviorRules#mayUseWeapons}）。门槛顺序与剑鱼、仪礼剑一致：SparkTraits 武器门槛、冷却与蓄力、普通存活的生存
-     * 模式目标、SparkFactionAPI 否决，然后是 SparkTraits 近战格挡（近身格斗 / 强制近战锁），最后才是误杀惩罚与终结击杀。
-     * 30 秒冷却只在真正击杀后生效。近战距离内的黑羽鸦乌鸦以其主人代入；魔术师皮套或 SparkStrength 派对客按一次击杀承受这一击
+     * （{@link SaviorRules#mayUseWeapons}）。门槛顺序与剑鱼、仪礼剑一致：词条武器门槛、冷却与蓄力、普通存活的生存
+     * 模式目标、{@code SparkFactionApi.canAffectPlayer} 否决，然后是词条近战格挡（近身格斗 / 强制近战锁），最后才是误杀惩罚与
+     * 终结击杀。30 秒冷却只在真正击杀后生效。近战距离内的黑羽鸦乌鸦以其主人代入；魔术师皮套或派对客按一次击杀承受这一击
      * （诱饵规则 D3：同样 30 秒代价）。所有被拒绝的攻击都返回 FAIL，绝不回退为原版伤害。创造模式同时忽略冷却门槛与击杀后冷却。
      */
     private static ActionResult onSwordAttack(PlayerEntity player, World world, Hand hand, Entity target,
@@ -262,10 +263,10 @@ public final class SaviorLightsaberCombatService {
     }
 
     /**
-     * SparkStrength Partygoer (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit), with the
-     * same reach and line-of-sight re-check; it is never an innocent, and SparkStrength records the kill.
-     * SparkStrength 派对客（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客），同样复查距离与视线；它永远不是好人，
-     * 由 SparkStrength 记录这次击杀。
+     * Partygoer (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit), with the same reach and
+     * line-of-sight re-check; it is never an innocent, and {@code PartygoerService} records the kill.
+     * 派对客（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客），同样复查距离与视线；它永远不是好人，
+     * 由 {@code PartygoerService} 记录这次击杀。
      */
     private static ActionResult strikePartygoer(ServerPlayerEntity attacker, Entity partygoer, ItemStack stack,
                                                 boolean creative) {
@@ -347,8 +348,8 @@ public final class SaviorLightsaberCombatService {
 
     /**
      * Broadcasts the swing sound at the player's position. Only the main hand counts, because vanilla left-click attacks
-     * use the main hand; SparkTraits weapon locks suppress it just like a real attack.
-     * 在玩家位置广播挥动音。只认主手，因为原版左键攻击使用主手；SparkTraits 封锁武器动作时同样不播放。
+     * use the main hand; trait weapon locks suppress it just like a real attack.
+     * 在玩家位置广播挥动音。只认主手，因为原版左键攻击使用主手；词条封锁武器动作时同样不播放。
      */
     private static void playSwing(ServerPlayerEntity player) {
         if (player == null || player.isSpectator()) {

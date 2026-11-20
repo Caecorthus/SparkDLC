@@ -57,10 +57,10 @@ public final class SaintEconomyService {
     /**
      * Outside a running game or once dead, the Saint answers DENY instead of no answer. Since the Saint has a shop,
      * Wathe's fallback {@code ShopUtils.canAccessShop} is true for it, which would show coins to a dead Saint and
-     * answer ALLOW while the round is STARTING (when SparkTraits rolls money-only traits). DENY keeps both answers
+     * answer ALLOW while the round is STARTING (when the money-only traits are rolled). DENY keeps both answers
      * exactly as they were before the shop existed.
      * 不在进行中的对局或已死亡时，圣徒返回 DENY 而不是不作答。圣徒有了商店后，Wathe 的回退
-     * {@code ShopUtils.canAccessShop} 对其为真，会让死亡的圣徒看到金币，并在 STARTING 阶段（SparkTraits 抽取金币词条时）
+     * {@code ShopUtils.canAccessShop} 对其为真，会让死亡的圣徒看到金币，并在 STARTING 阶段（抽取金币词条时）
      * 返回 ALLOW。DENY 让这两种结果与商店出现之前完全一致。
      */
     static CanSeeMoney.Result moneyVisibility(@Nullable Role role, boolean playingAndAlive) {

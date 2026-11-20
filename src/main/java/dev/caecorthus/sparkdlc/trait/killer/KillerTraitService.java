@@ -78,9 +78,9 @@ public final class KillerTraitService {
     }
 
     public static void register() {
-        // Downstream role shops (e.g. SparkWitch Witch Maiden) clear and rebuild entries in the default phase,
+        // Role shops (e.g. the Witch Maiden's) clear and rebuild entries in the default phase,
         // so the discount must wrap the final list; the explicit ordering is required because unlinked phases sort by id.
-        // 下游职业商店（如 SparkWitch 巫女）会在默认阶段清空并重建条目，魅力必须包装最终列表；
+        // 职业商店（如巫女）会在默认阶段清空并重建条目，魅力必须包装最终列表；
         // 未显式排序的阶段会按 id 排序，因此必须声明排在默认阶段之后。
         BuildShopEntries.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, CHARISMA_SHOP_PHASE);
         BuildShopEntries.EVENT.register(CHARISMA_SHOP_PHASE, (player, context) -> {
@@ -123,9 +123,9 @@ public final class KillerTraitService {
     }
 
     /**
-     * Master Saboteur's pool rule: Wathe's shop blackout, or SparkStrength's tablet sabotage, which replaced it (there
+     * Master Saboteur's pool rule: Wathe's shop blackout, or the tablet sabotage, which replaced it (there
      * the trait speeds up prying and hacking and makes the player's lights and engine sabotage harder to repair).
-     * 破坏大师的抽取条件：Wathe 商店关灯，或取代它的 SparkStrength 平板破坏（在那里该词条加快撬箱与入侵，并让本人发起的
+     * 破坏大师的抽取条件：Wathe 商店关灯，或取代它的平板破坏（在那里该词条加快撬箱与入侵，并让本人发起的
      * 灯光破坏和动力破坏更难修）。
      */
     public static boolean canSabotage(PlayerEntity player) {

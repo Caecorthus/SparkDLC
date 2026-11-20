@@ -132,9 +132,9 @@ public final class KokoStreamService {
     }
 
     /**
-     * Swallowed by a Taotie, stunned by a Control Expert, or role-skill-blocked by SparkTraits (Last Escape, a silenced
+     * Swallowed by a Taotie, stunned by a Control Expert, or role-skill-blocked by a trait (Last Escape, a silenced
      * effective killer). The other locks are payload or interaction guards that run before this code.
-     * 被饕餮吞下、被控场专家眩晕，或被 SparkTraits 禁用职业技能（脱险、被沉默的有效杀手）。其余锁定是先于本代码运行的数据包
+     * 被饕餮吞下、被控场专家眩晕，或被词条禁用职业技能（脱险、被沉默的有效杀手）。其余锁定是先于本代码运行的数据包
      * 或交互拦截。
      */
     private static boolean isControlled(PlayerEntity player) {

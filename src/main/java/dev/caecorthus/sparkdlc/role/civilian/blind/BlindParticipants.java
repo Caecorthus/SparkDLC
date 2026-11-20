@@ -36,9 +36,9 @@ public final class BlindParticipants {
     }
 
     /**
-     * Wathe psycho mode, which SparkTraits' Depression psycho also starts: the player holds only the bat and hears no
-     * voice (SparkTraits mutes a Depression-psycho listener), so the cane and VOICE pulses pause. Server read.
-     * Wathe 疯魔模式（SparkTraits 抑郁发疯也会开启）：玩家只持有球棒且听不到语音（SparkTraits 会屏蔽抑郁发疯者收听），
+     * Wathe psycho mode, which the Depression trait's psycho also starts: the player holds only the bat and hears no
+     * voice (the trait mutes a Depression-psycho listener), so the cane and VOICE pulses pause. Server read.
+     * Wathe 疯魔模式（抑郁词条的发疯也会开启）：玩家只持有球棒且听不到语音（该词条会屏蔽抑郁发疯者收听），
      * 因此盲杖与 VOICE 脉冲暂停。服务端读取。
      */
     public static boolean isInPsychoMode(@Nullable PlayerEntity player) {

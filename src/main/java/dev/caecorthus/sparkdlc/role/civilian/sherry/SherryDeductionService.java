@@ -157,10 +157,10 @@ public final class SherryDeductionService {
     /**
      * Shared caster gate of 推演, 巨力魔法 and the badge hand-over (the Medium/Specter {@code mayUse} set): an ACTIVE
      * round, the raw role, playing and alive, never an alive spectator (Taotie-swallowed, Rift occupant) or creative,
-     * not held by a Ninja grapple, not silenced and not role-skill blocked by SparkTraits. Refusals are silent; Grand
+     * not held by a Ninja grapple, not silenced and not role-skill blocked by a trait. Refusals are silent; Grand
      * Witch Fear is checked last by each entry because it tells the player why.
      * 推演、巨力魔法与赠送徽章共用的施放者门槛（通灵师/幽魂 {@code mayUse} 的同一组条件）：对局 ACTIVE、真实职业、参与且存活、
-     * 不是存活旁观者（被饕餮吞下、裂隙门内）或创造模式、未被忍者钩爪拉住、未被沉默、未被 SparkTraits 禁用职业技能。拒绝时不提示；
+     * 不是存活旁观者（被饕餮吞下、裂隙门内）或创造模式、未被忍者钩爪拉住、未被沉默、未被词条禁用职业技能。拒绝时不提示；
      * 大魔女恐惧由各入口最后检查，因为它会提示原因。
      */
     static boolean mayUse(ServerPlayerEntity player) {

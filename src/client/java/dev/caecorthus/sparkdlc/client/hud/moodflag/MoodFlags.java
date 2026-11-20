@@ -26,16 +26,16 @@ import java.util.Map;
  * exists (owner: the Grand Witch only, not the whole witch faction).
  * <ul>
  *     <li>Role flags ({@link #ROLE_FLAGS}) replace Wathe's icon on whichever path Wathe takes for the role.</li>
- *     <li>Conscience ({@code kindness} art) replaces the civilian icons of a killer whose SparkTraits Conscience sent
- *     it down {@code renderCivilian}; Impostor replaces the killer icon of a civilian SparkTraits sent down
+ *     <li>Conscience ({@code kindness} art) replaces the civilian icons of a killer whose Conscience trait sent
+ *     it down {@code renderCivilian}; Impostor replaces the killer icon of a civilian the Impostor trait sent down
  *     {@code renderKiller}. Role flags win over trait flags, and so do the role-owned Natsume/Noa icons (both drawn
  *     by {@code renderCivilian} only).</li>
- *     <li>No sanity ({@code MoodType.NONE}, effective after SparkTraits): Wathe draws nothing; the mixin draws
+ *     <li>No sanity ({@code MoodType.NONE}, effective after the traits): Wathe draws nothing; the mixin draws
  *     {@link #NO_SANITY} (or the role's own flag) at the killer flag's spot, without a bar.</li>
  * </ul>
- * Only Wathe's own sprites are swapped, so an icon another mod already chose (NoellesRoles' Stimulation, Natsume's
+ * Only Wathe's own sprites are swapped, so an icon another hook already chose (NoellesRoles' Stimulation, Natsume's
  * sketchbook, Noa's cyan copies) passes through in any wrap order. Display only: reads the local player's synced role
- * and owner-synced traits on a confirmed SparkWitch server, never shows a sanity value and changes no state.
+ * and owner-synced traits on a confirmed SparkDLC server, never shows a sanity value and changes no state.
  * 阵营心情旗帜（所有者 2026-11-05，“Extra faction icons”）：Wathe 左上角心情旗帜按职业与词条的重绘版，由
  * {@code mixin/moodflag/MoodFlagRendererMixin} 绘制。sprite 位于 GUI 图集
  * {@code assets/sparkdlc/textures/gui/sprites/hud/mood_flag/*.png}，14x17、无 {@code .mcmeta}，与 Wathe 的
@@ -43,14 +43,14 @@ import java.util.Map;
  * 不是整个魔女阵营）。
  * <ul>
  *     <li>职业旗帜（{@link #ROLE_FLAGS}）在 Wathe 为该职业选择的任一路径上替换图标。</li>
- *     <li>善良（{@code kindness} 美术）替换因 SparkTraits 善良而走 {@code renderCivilian} 的杀手的平民图标；内鬼替换被
- *     SparkTraits 送入 {@code renderKiller} 的平民的杀手图标。职业旗帜优先于词条旗帜，夏目安安/诺亚的职业自有图标（都只由
+ *     <li>善良（{@code kindness} 美术）替换因善良词条而走 {@code renderCivilian} 的杀手的平民图标；内鬼替换被
+ *     内鬼词条送入 {@code renderKiller} 的平民的杀手图标。职业旗帜优先于词条旗帜，夏目安安/诺亚的职业自有图标（都只由
  *     {@code renderCivilian} 绘制）也优先于词条旗帜。</li>
- *     <li>无理智（经 SparkTraits 后的有效 {@code MoodType.NONE}）：Wathe 什么都不画；mixin 在杀手旗帜的位置绘制
+ *     <li>无理智（经词条后的有效 {@code MoodType.NONE}）：Wathe 什么都不画；mixin 在杀手旗帜的位置绘制
  *     {@link #NO_SANITY}（或该职业自己的旗帜），不画理智条。</li>
  * </ul>
- * 只替换 Wathe 自己的 sprite，因此其他模组已选定的图标（NoellesRoles 亢奋、夏目安安素描本、诺亚青色版）在任意包装顺序下都会
- * 原样放行。仅用于展示：只在已确认的 SparkWitch 服务器上读取本地玩家同步的职业与仅同步给本人的词条，从不显示理智值，也不改变
+ * 只替换 Wathe 自己的 sprite，因此其他钩子已选定的图标（NoellesRoles 亢奋、夏目安安素描本、诺亚青色版）在任意包装顺序下都会
+ * 原样放行。仅用于展示：只在已确认的 SparkDLC 服务器上读取本地玩家同步的职业与仅同步给本人的词条，从不显示理智值，也不改变
  * 任何状态。
  */
 public final class MoodFlags {
@@ -198,8 +198,8 @@ public final class MoodFlags {
 
     /**
      * Client: the flag to draw after {@code renderHud} dispatched to neither icon path, else {@code null} (no role, or
-     * not a confirmed SparkWitch server).
-     * 客户端：{@code renderHud} 未进入任何图标路径时要绘制的旗帜，否则为 {@code null}（无职业，或未确认 SparkWitch 服务器）。
+     * not a confirmed SparkDLC server).
+     * 客户端：{@code renderHud} 未进入任何图标路径时要绘制的旗帜，否则为 {@code null}（无职业，或未确认 SparkDLC 服务器）。
      */
     public static @Nullable Identifier noMoodSprite(@Nullable PlayerEntity player) {
         if (player == null || !SparkDlcServerConnection.isConfirmedServer()) {

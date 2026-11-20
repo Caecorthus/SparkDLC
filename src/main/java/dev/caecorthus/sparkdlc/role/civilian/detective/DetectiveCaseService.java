@@ -47,9 +47,9 @@ import java.util.function.Supplier;
  *
  * <p>Every entry point re-checks the holder's role at use time (Wraith transitions change roles without
  * RoleAssigned). The magnifier cooldown is only ever set here, as a server-side vanilla item cooldown, so
- * SparkTraits Fast Hands shortens it without SparkStrength referencing it.
+ * the Fast Hands trait shortens it without this class referencing it.
  * 每个入口都在使用时重新校验身份（怨灵转换不会触发 RoleAssigned）。放大镜冷却只在这里以服务端原版物品冷却设置，
- * SparkTraits 快手特质会自动缩短它，SparkStrength 无需引用其内部实现。</p>
+ * 快手特质会自动缩短它，本类无需引用其内部实现。</p>
  */
 public final class DetectiveCaseService {
     // PlayerBodyEntity.getPlayerUuid() returns this Wathe sentinel while the owner is unset.
@@ -75,10 +75,10 @@ public final class DetectiveCaseService {
 
     /**
      * RoleAssigned hook. A non-detective loses the kit and the case folder contents; a detective assigned mid-round
-     * (status ACTIVE) gets the kit. Round-start detectives are handled by {@link #grantStarterKits} because SparkTraits
-     * Conscience compensation can still rewrite roles after RoleAssigned during initialization.
+     * (status ACTIVE) gets the kit. Round-start detectives are handled by {@link #grantStarterKits} because the
+     * Conscience trait's compensation can still rewrite roles after RoleAssigned during initialization.
      * RoleAssigned 钩子：非侦探收回道具并清空文件夹；局中（ACTIVE）成为侦探时发放道具。开局侦探由 grantStarterKits
-     * 发放，因为初始化期间 SparkTraits 良心补偿仍可能在 RoleAssigned 之后改写身份。
+     * 发放，因为初始化期间良心特质的补偿仍可能在 RoleAssigned 之后改写身份。
      */
     public static void assignForRole(ServerPlayerEntity player, Role role) {
         if (!DetectiveRules.isDetective(role)) {
@@ -300,10 +300,10 @@ public final class DetectiveCaseService {
     /**
      * ENTITY_LOAD fires synchronously inside {@code World.spawnEntity}, so for a Wathe kill the victim is already marked
      * dead and still stands at the death point, while the body may sit up to 1 block away (and can be dragged later).
-     * Real kills and fake bodies (SparkTraits Depression / Last Stand, NoellesRoles Jester) are snapshotted the same
+     * Real kills and fake bodies (the Depression / Last Stand traits, NoellesRoles Jester) are snapshotted the same
      * way so the magnifier never reveals a fake death. Chunk reloads re-fire the event; the first snapshot per body wins.
      * ENTITY_LOAD 在 spawnEntity 内同步触发：Wathe 击杀时受害者已被标记死亡且仍站在死亡点，尸体可能偏移至多 1 格
-     * （之后还可能被拖动）。真实击杀与假尸体（SparkTraits 抑郁/最后一搏、NoellesRoles 小丑）统一记录，放大镜不会暴露假死。
+     * （之后还可能被拖动）。真实击杀与假尸体（抑郁/最后一搏特质、NoellesRoles 小丑）统一记录，放大镜不会暴露假死。
      * 区块重载会再次触发该事件；每具尸体只保留首次快照。
      *
      * <p>A Partygoer corpse is no crime scene (owner 2026-10-21): its marker is set before it spawns, so it is skipped

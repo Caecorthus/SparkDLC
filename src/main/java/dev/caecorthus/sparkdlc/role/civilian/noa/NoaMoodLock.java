@@ -8,11 +8,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Stable contract: Noa's sanity lock (owner decision, PR #186). Only Wathe's OWN per-task passive drain and OWN +0.5
  * task-completion gain inside {@code PlayerMoodComponent} are zeroed for a Noa; every other {@code setMood} (Fear,
- * Perfumer, the gun -0.35, items, other roles, SparkTraits) still lands, and Wathe's mood &lt;= -1 breakdown still
+ * Perfumer, the gun -0.35, items, other roles, traits) still lands, and Wathe's mood &lt;= -1 breakdown still
  * kills her. The decisions are applied by {@code mixin/noa/PlayerMoodComponentNoaMoodLockMixin} on both sides; the
  * client reads the synced role map, so its local drain prediction stays locked too.
  * 稳定契约：诺亚的理智锁定（所有者决定，PR #186）。只把 {@code PlayerMoodComponent} 内 Wathe 自身的按任务被动流失与
- * 自身的完成任务 +0.5 回复对诺亚清零；其他所有 {@code setMood}（恐惧、调香师、开枪 -0.35、道具、其他职业、SparkTraits）
+ * 自身的完成任务 +0.5 回复对诺亚清零；其他所有 {@code setMood}（恐惧、调香师、开枪 -0.35、道具、其他职业、词条）
  * 照常生效，理智 &lt;= -1 时 Wathe 的精神崩溃照样杀死她。决策由 {@code mixin/noa/PlayerMoodComponentNoaMoodLockMixin}
  * 在双端执行；客户端读取已同步的职业表，因此本地流失预测同样被锁定。
  */

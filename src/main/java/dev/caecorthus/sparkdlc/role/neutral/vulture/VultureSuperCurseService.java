@@ -53,9 +53,9 @@ public final class VultureSuperCurseService {
             return;
         }
         registered = true;
-        // Wathe keeps the victim's role through KillPlayer.AFTER. SparkTraits' own AFTER listener snapshots and then
+        // Wathe keeps the victim's role through KillPlayer.AFTER. The traits' own AFTER listener snapshots and then
         // wipes the victim's traits, so the scream reads round-end trait ids, which are right on either side of it.
-        // Wathe 在 KillPlayer.AFTER 中仍保留受害者职业。SparkTraits 自己的 AFTER 监听会先快照再清空受害者词条，
+        // Wathe 在 KillPlayer.AFTER 中仍保留受害者职业。词条自己的 AFTER 监听会先快照再清空受害者词条，
         // 因此惨叫读取“本局最终词条”，无论在它之前还是之后执行都正确。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> onKilled(victim));
         GameEvents.ON_FINISH_FINALIZE.register((world, game) -> {

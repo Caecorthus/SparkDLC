@@ -78,22 +78,22 @@ public final class SaviorClient {
     }
 
     /**
-     * The revolver's own pick, the add-on gun precedent (CONTEXT "Add-on gun world hits", SparkStrength's Serial Killer
-     * pistols): {@code RevolverItem.getGunTarget} carries every client hook on the revolver ray (SparkTraits Marksman
-     * range, SparkWitch's active-Wraith pass-through, the strictly nearer Magician puppet and Raven Form crow);
-     * {@code SparkRoleApi.preferNearerGunWorldTarget} adds the strictly nearer Seeker device that SparkWitch wraps
+     * The revolver's own pick, the add-on gun precedent (CONTEXT "Add-on gun world hits", the Serial Killer
+     * pistols): {@code RevolverItem.getGunTarget} carries every client hook on the revolver ray (the Marksman trait
+     * range, the active-Wraith pass-through, the strictly nearer Magician puppet and Raven Form crow);
+     * {@code SparkRoleApi.preferNearerGunWorldTarget} adds the strictly nearer Seeker device that the Seeker wraps
      * inside {@code RevolverItem#use}; {@code RevolverItem.resolveTargetFromHitResult} turns it into the id a revolver
      * sends (the entity hit, the sleeping player on an aimed bed with the Wraith bed miss, else -1). The id may name a
      * puppet, crow, device or Partygoer ({@code PartygoerHitGeometry.preferNearer}, the strictly nearer one,
-     * as SparkStrength's Serial Killer pistols do); the server re-validates and resolves it. Not covered:
-     * SparkStrength's drone pick, which only wraps the call inside {@code RevolverItem#use} and has no public seam.
-     * 左轮自身的选靶，沿用附属枪械先例（CONTEXT「Add-on gun world hits」，SparkStrength 连环杀手手枪）：
-     * {@code RevolverItem.getGunTarget} 带有左轮射线上的全部客户端钩子（SparkTraits 神射手射程、SparkWitch 激活冤魂穿透、
-     * 严格更近的魔术师皮套与化鸦乌鸦）；{@code SparkRoleApi.preferNearerGunWorldTarget} 补上 SparkWitch 包装在
+     * as the Serial Killer pistols do); the server re-validates and resolves it. Not covered:
+     * the Bomber drone pick, which only wraps the call inside {@code RevolverItem#use} and has no public seam.
+     * 左轮自身的选靶，沿用附属枪械先例（CONTEXT「Add-on gun world hits」，连环杀手手枪）：
+     * {@code RevolverItem.getGunTarget} 带有左轮射线上的全部客户端钩子（神射手特质射程、激活冤魂穿透、
+     * 严格更近的魔术师皮套与化鸦乌鸦）；{@code SparkRoleApi.preferNearerGunWorldTarget} 补上搜寻者包装在
      * {@code RevolverItem#use} 内、严格更近的搜寻者设备；{@code RevolverItem.resolveTargetFromHitResult} 换算成左轮会发送的
      * id（命中的实体、所瞄床上的睡眠玩家并含冤魂床位未命中，否则 -1）。id 可能指向皮套、乌鸦、设备或派对客
-     * （{@code PartygoerHitGeometry.preferNearer}，严格更近者，与 SparkStrength 连环杀手手枪相同），由服务端复核并
-     * 解析。不覆盖：SparkStrength 无人机选靶，它只包装 {@code RevolverItem#use} 内的调用且没有公开接缝。
+     * （{@code PartygoerHitGeometry.preferNearer}，严格更近者，与连环杀手手枪相同），由服务端复核并
+     * 解析。不覆盖：炸弹客无人机选靶，它只包装 {@code RevolverItem#use} 内的调用且没有公开接缝。
      */
     private static int pickTargetId(PlayerEntity player) {
         HitResult aim = SparkRoleApi.preferNearerGunWorldTarget(player, RevolverItem.getGunTarget(player),

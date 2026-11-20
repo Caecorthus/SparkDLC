@@ -17,11 +17,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Extra match-record data that SparkAssist reads for its local hidden achievements (achievement record contract,
- * SparkStrength part S1-S15). Event types and field names are binding. Server only: every caller runs on the logical
+ * Extra match-record data read by the local hidden achievements (achievement record contract,
+ * role-kit part S1-S15). Event types and field names are binding. Server only: every caller runs on the logical
  * server, and Wathe's builder already drops events outside an active match. No replay formatter is registered for
  * these types, so Wathe's replay skips them. A recording failure is logged and swallowed: it never breaks gameplay.
- * SparkAssist 本地隐藏成就读取的额外对局记录数据（成就记录契约 SparkStrength 部分 S1-S15）。事件类型与字段名不可更改。
+ * 本地隐藏成就读取的额外对局记录数据（成就记录契约的职业套件部分 S1-S15）。事件类型与字段名不可更改。
  * 仅服务端：所有调用方都在逻辑服务端，且 Wathe 的构建器会丢弃对局外的事件。这些类型不注册回放格式化器，
  * Wathe 回放会跳过它们。记录失败只写日志并吞掉异常，绝不影响玩法。
  */

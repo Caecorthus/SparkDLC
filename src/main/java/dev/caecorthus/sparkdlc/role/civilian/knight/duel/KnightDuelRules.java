@@ -34,15 +34,17 @@ public final class KnightDuelRules {
     public static final Identifier MASTER_KEY_ID = Identifier.of("noellesroles", "master_key");
     public static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");
     /**
-     * SparkStrength tablet, a Knight start item in the spec and not a weapon; kept as a plain id so SparkStrength stays
-     * optional. / SparkStrength 平板：规格中骑士的开局物品，不是武器；以纯 id 保存，SparkStrength 仍为可选。
+     * The tablet, a Knight start item in the spec and not a weapon; kept as a plain id, a leftover of when the tablet
+     * lived in another jar (nothing about it is optional now).
+     * 平板：规格中骑士的开局物品，不是武器；以纯 id 保存，是平板曾位于另一个 jar 时的遗留（如今并非可选）。
      */
     public static final Identifier TABLET_ID = Identifier.of("sparkdlc", "tablet");
     public static final Identifier MANBA_SOUND_ID = SparkDLC.id("duel.manba");
     public static final Identifier SF_SOUND_ID = SparkDLC.id("duel.sf");
     /**
-     * SparkFactionAPI player-affect action asked before a challenge (the duel seals the target's items).
-     * 发起挑战前询问 SparkFactionAPI 玩家影响策略所用的行为 id（决斗会封印对手的物品）。
+     * Player-affect action asked of {@code SparkFactionApi.canAffectPlayer} before a challenge (the duel seals the
+     * target's items).
+     * 发起挑战前询问玩家影响策略（{@code SparkFactionApi.canAffectPlayer}）所用的行为 id（决斗会封印对手的物品）。
      */
     public static final Identifier DUEL_ACTION_ID = SparkDLC.id("knight_duel");
 

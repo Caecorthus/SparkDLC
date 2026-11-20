@@ -16,13 +16,15 @@ import java.util.function.IntPredicate;
 
 /**
  * Frozen contract: the single "max + exact" writer of the {@code usec_rifle} item cooldown (round-start lock and bolt
- * cycle). A longer running cooldown (round start, Saint Karma, Fiend aura) is never shortened; SparkTraits' exact write
- * bypasses Fast Hands and the vanilla set runs only when it returns false. No other USEC code writes the rifle
- * cooldown; locks from outside USEC (SparkFactionAPI forced locks such as the Shriek Gun and the AC shell, Saint Karma,
- * the Fiend aura) still can, which is why {@link Status} needs evidence for a bolt.
+ * cycle). A longer running cooldown (round start, Saint Karma, Fiend aura) is never shortened; the exact write
+ * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) bypasses Fast Hands and the vanilla set runs only when it
+ * returns false, which it does only for a null player or item (unreachable here since the fusion). No other USEC code
+ * writes the rifle cooldown; locks from outside USEC ({@code ForcedCooldowns} forced locks such as the Shriek Gun and
+ * the AC shell, Saint Karma, the Fiend aura) still can, which is why {@link Status} needs evidence for a bolt.
  * 冻结契约：{@code usec_rifle} 物品冷却（开局锁定与拉栓）“取大 + 精确”的唯一写入方。绝不缩短正在运行的更长冷却
- * （开局、圣徒业报、魔人光环）；SparkTraits 精确写入可绕过快手，仅当其返回 false 时才执行原版写入。USEC 的其他代码不写
- * 狙击枪冷却；USEC 之外的锁定（SparkFactionAPI 强制锁定如尖啸枪与 AC 炮弹、圣徒业报、魔人光环）仍可能写入，因此
+ * （开局、圣徒业报、魔人光环）；精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}）可绕过快手，仅当其返回
+ * false 时才执行原版写入，而它只在玩家或物品为空时返回 false（融合后此处不可达）。USEC 的其他代码不写狙击枪冷却；
+ * USEC 之外的锁定（{@code ForcedCooldowns} 强制锁定如尖啸枪与 AC 炮弹、圣徒业报、魔人光环）仍可能写入，因此
  * {@link Status} 需要证据才能判定拉栓。
  */
 public final class UsecCooldowns {
@@ -36,8 +38,8 @@ public final class UsecCooldowns {
 
     /**
      * Server only: the bolt cycle after a shot, a magazine change into an empty chamber, or a single round chambered.
-     * SparkTraits Fast Reload shortens it ×0.7.
-     * 仅服务端：开枪后、空膛换弹匣后或单发压膛后的拉栓。SparkTraits 快速装填使其 ×0.7。
+     * The Fast Reload trait shortens it ×0.7.
+     * 仅服务端：开枪后、空膛换弹匣后或单发压膛后的拉栓。快速装填词条使其 ×0.7。
      */
     public static boolean bolt(ServerPlayerEntity player) {
         return writeFloorExact(player, boltTicks(SparkTraitsApi.hasActiveTrait(player, TraitIds.FAST_RELOAD)));
@@ -149,12 +151,12 @@ public final class UsecCooldowns {
      * One rifle cooldown: {@code remaining} and {@code total} ticks (both 0 when none), and whether it is a bolt cycle.
      * {@code bolt} holds only with the caller's evidence and a total of at most {@link UsecRules#BOLT_TICKS} (40, Fast
      * Reload's 28 included). Everything else is another lock for its whole length: the 60 s round start, Saint Karma,
-     * the Fiend aura, and also a short SparkFactionAPI forced lock (the Shriek Gun's 40 ticks, the AC shell's up to 8),
-     * whose exact write restarts the entry, so its total can equal a bolt's.
+     * the Fiend aura, and also a short {@code ForcedCooldowns} forced lock (the Shriek Gun's 40 ticks, the AC shell's
+     * up to 8), whose exact write restarts the entry, so its total can equal a bolt's.
      * 一次步枪冷却：{@code remaining} 与 {@code total} 刻（无冷却时均为 0），以及是否为拉栓。只有调用方给出证据且总长不超过
      * {@link UsecRules#BOLT_TICKS}（40，含快速装填的 28）时 {@code bolt} 才成立。其余都是在整个时长内的其他锁定：开局 60 秒、
-     * 圣徒业报、魔人光环，以及较短的 SparkFactionAPI 强制锁定（尖啸枪的 40 刻、AC 炮弹最多 8 刻）；其精确写入会重置条目起点，
-     * 因此总长可能与拉栓相同。
+     * 圣徒业报、魔人光环，以及较短的 {@code ForcedCooldowns} 强制锁定（尖啸枪的 40 刻、AC 炮弹最多 8 刻）；其精确写入会重置
+     * 条目起点，因此总长可能与拉栓相同。
      */
     public record Status(int remaining, int total, boolean bolt) {
         public static final Status NONE = new Status(0, 0, false);

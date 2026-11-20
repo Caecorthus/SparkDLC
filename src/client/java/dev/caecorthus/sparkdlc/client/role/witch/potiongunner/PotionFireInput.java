@@ -104,11 +104,11 @@ public final class PotionFireInput {
     /**
      * True when the attack key is bound to a keyboard key that is physically down. Keyboard keys auto-repeat while held
      * and every repeat queues a press. GLFW reports the physical state, which no key lock (they hook
-     * {@code isPressed}), screen ({@code unpressAll}) or SparkTraits Last Escape ({@code setPressed(false)}) hides.
+     * {@code isPressed}), screen ({@code unpressAll}) or the Last Escape trait ({@code setPressed(false)}) hides.
      * Mouse buttons never repeat, so they answer false. GLFW cannot poll a scancode-only key, which falls back to
      * {@code isPressed()}.
      * 攻击键绑定在键盘键上且该键物理按下时为 true。键盘键按住时会自动重复，每次重复都会排入一次按键。GLFW 报告物理
-     * 状态，任何按键锁（它们钩住 {@code isPressed}）、界面（{@code unpressAll}）或 SparkTraits 最后逃亡
+     * 状态，任何按键锁（它们钩住 {@code isPressed}）、界面（{@code unpressAll}）或最后逃亡特质
      * （{@code setPressed(false)}）都无法隐藏它。鼠标键从不重复，因此返回 false。GLFW 无法查询仅有扫描码的按键，
      * 此时退回 {@code isPressed()}。
      */

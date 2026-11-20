@@ -75,8 +75,8 @@ public final class VeteranKnifeService {
         if (SparkTraitsApi.isKillerInteractionBlocked(player) || player.isSpectator()) {
             return true;
         }
-        // A SparkWitch Raven Form crow id resolves to its owner (KnifeStabTargets); the Veteran rules below apply to it.
-        // SparkWitch 化鸦乌鸦 id 解析为其主人（KnifeStabTargets）；下方老兵规则同样作用于它。
+        // A Raven Form crow id resolves to its owner (KnifeStabTargets); the Veteran rules below apply to it.
+        // 化鸦乌鸦 id 解析为其主人（KnifeStabTargets）；下方老兵规则同样作用于它。
         ServerPlayerEntity target = KnifeStabTargets.resolve(player, payload.target());
         if (target == null) {
             return true;
@@ -167,8 +167,8 @@ public final class VeteranKnifeService {
             ServerPlayerEntity attacker,
             ServerPlayerEntity target
     ) {
-        // Read before killPlayer: SparkTraits clears the victim's active traits in its KillPlayer.AFTER listener.
-        // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 监听中清空死者的生效天赋。
+        // Read before killPlayer: the trait feature clears the victim's active traits in its KillPlayer.AFTER listener.
+        // 必须在 killPlayer 之前读取：天赋功能会在 KillPlayer.AFTER 监听中清空死者的生效天赋。
         return InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(target),
                 SparkTraitsApi.hasActiveTrait(target, TraitIds.IMPOSTOR),
@@ -193,7 +193,7 @@ public final class VeteranKnifeService {
         // 需求指定“使用匕首 knife 杀到好人阵营时老兵小脑死亡”；好人阵营按 InnocentKnifeKillRules 的有效阵营判定。
         // 先确认目标已死亡，避免疯魔盾或其它 KillPlayer.BEFORE 取消死亡时误罚老兵。
         // 此服务只接管 Wathe knife 的刺杀包，所以这里天然只覆盖明确使用匕首的成功击杀。
-        // SparkTraits 对真老兵刀杀善良杀手的特判可能已在 AFTER 中先处死老兵，此时上面的存活检查会跳过，不会重复击杀。
+        // 天赋功能对真老兵刀杀善良杀手的特判可能已在 AFTER 中先处死老兵，此时上面的存活检查会跳过，不会重复击杀。
         GameFunctions.killPlayer(veteran, true, null, GameConstants.DeathReasons.SHOT_INNOCENT);
     }
 

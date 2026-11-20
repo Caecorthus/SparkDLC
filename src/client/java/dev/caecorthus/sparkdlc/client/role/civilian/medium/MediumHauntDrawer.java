@@ -40,7 +40,7 @@ import java.util.function.Consumer;
  * stays disabled until the binding syncs back or {@link #PENDING_TIMEOUT_MS} passes, so a double click can never pay
  * twice. The candidates are every online round member but the local player ({@link MediumRules#mayHaunt}), sorted by
  * name; nothing is filtered, ordered or tinted by death, so the drawer leaks no deaths. Bound faces stay listed, dimmed
- * with the teal wisp badge, and inert. The whole drawer is ONE widget: SparkFactionAPI's inventory info card treats it
+ * with the teal wisp badge, and inert. The whole drawer is ONE widget: the inventory info card treats it
  * as a blocker and lays itself out around it, and every click inside it is consumed so none reaches Wathe's slot or
  * drop handling. Presentation only; the server re-checks the gate, the price, the target and the binding.
  * Wathe 背包界面内的招魂抽屉（所有者 2026-11-13 选定：头像格，取代原先按键打开的菜单）：热栏块下方的哈比特快面板，标题带内有
@@ -48,7 +48,7 @@ import java.util.function.Consumer;
  * 它只发送一次 {@code submit_medium_haunt_target}，随后保持禁用，直到绑定同步回来或超过 {@link #PENDING_TIMEOUT_MS}，因此连点
  * 绝不会重复扣费。候选人为除本地玩家外的所有在线本局成员（{@link MediumRules#mayHaunt}），按名字排序；不按生死过滤、排序或
  * 着色，抽屉因此不会泄露谁已死亡。已招魂的头像仍然列出，压暗并带青绿鬼火角标，且不可选。整个抽屉是「一个」控件：
- * SparkFactionAPI 的背包信息卡把它当作障碍物并绕开排版，抽屉内的每次点击都会被消费，不会落到 Wathe 的物品格或丢弃逻辑上。
+ * 背包信息卡把它当作障碍物并绕开排版，抽屉内的每次点击都会被消费，不会落到 Wathe 的物品格或丢弃逻辑上。
  * 仅用于展示；服务端会重新校验门槛、价格、目标与绑定。
  */
 public final class MediumHauntDrawer extends ClickableWidget {

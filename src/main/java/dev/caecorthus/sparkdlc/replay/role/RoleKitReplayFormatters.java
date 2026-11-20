@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.replay.role;
 import net.minecraft.util.Identifier;
 
 /**
- * SparkStrength 自己的回放格式化器。
+ * 职业套件自己的回放格式化器。
  *
  * <p>Each feature declares its event ids and formatters in its own {@code *ReplayEvents} class in this package; new
  * events go there, not here. The constants below are the same instances, kept so existing callers and {@code ==}

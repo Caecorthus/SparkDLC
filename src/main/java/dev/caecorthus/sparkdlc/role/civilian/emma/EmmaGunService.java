@@ -100,7 +100,7 @@ public final class EmmaGunService {
                         EmmaGunCycle cycle) { }
     private record Attempt(UUID target, boolean wasAlive, boolean wasCarrier) { }
 
-    /** Forwards Traits' accepted-shot cycle to Emma's own service. / 把 Traits 的有效射击周期转发给 Emma 自己的服务。 */
+    /** Forwards SparkTraitsApi's accepted-shot cycle to Emma's own service. / 把 SparkTraitsApi 的有效射击周期转给 Emma 自己的服务。 */
     private static final class EmmaGunListener implements SparkTraitsApi.GunShotCycleListener {
         @Override
         public void cycleStarted(ServerPlayerEntity shooter, UUID cycleId, Item weapon) {

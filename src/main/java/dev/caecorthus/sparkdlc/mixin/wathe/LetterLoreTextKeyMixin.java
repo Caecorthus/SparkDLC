@@ -16,12 +16,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 /**
- * Points the round letter's retuned lines (the reworked Bodyguard's postscript) at SparkStrength's keys once Wathe
+ * Points the round letter's retuned lines (the reworked Bodyguard's postscript) at this mod's keys once Wathe
  * has built the lore. Wathe still picks each line by checking that the upstream key exists, which NoellesRoles
- * guarantees; only the shown text moves to the SparkStrength key. Works on the finished lore because the lines are
+ * guarantees; only the shown text moves to this mod's key. Works on the finished lore because the lines are
  * built inside a lambda whose number differs between the two Wathe 1.5.6 builds.
- * Wathe 建好信件 lore 后，把需要改写的行（重做后保镖的附言）指向 SparkStrength 的键。Wathe 仍按上游键是否存在来决定加
- * 哪一行（NoellesRoles 保证存在），只有显示的文字换成 SparkStrength 的键。在成品 lore 上改，因为这些行是在一个 lambda 里
+ * Wathe 建好信件 lore 后，把需要改写的行（重做后保镖的附言）指向本模组的键。Wathe 仍按上游键是否存在来决定加
+ * 哪一行（NoellesRoles 保证存在），只有显示的文字换成本模组的键。在成品 lore 上改，因为这些行是在一个 lambda 里
  * 构造的，两个 Wathe 1.5.6 构建的 lambda 编号不同。
  */
 @Mixin(GameFunctions.class)

@@ -21,8 +21,8 @@ import java.util.List;
 
 @Mixin(GrenadeEntity.class)
 public abstract class GrenadeExplosionMixin {
-    // Filter before Wathe's original kill call; preserve Traits' BombManiac redirect.
-    // 在 Wathe 原始击杀调用前筛选候选，保留 Traits 的 BombManiac 重定向。
+    // Filter before Wathe's original kill call; preserve the Bomb Maniac trait's redirect.
+    // 在 Wathe 原始击杀调用前筛选候选，保留 BombManiac 天赋的重定向。
     @ModifyExpressionValue(
             method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V",
             at = @At(value = "INVOKE",
@@ -36,9 +36,9 @@ public abstract class GrenadeExplosionMixin {
                 GrenadeBlastRules.WATHE_BLAST_RADIUS);
     }
 
-    // Server only: the whole collision (every mod's injections included) runs as one of our own blasts, so SparkWitch's
+    // Server only: the whole collision (every mod's injections included) runs as one of our own blasts, so the Seeker's
     // HEAD SeekerDeviceHits.onBlast call does not break drones before Wathe's kills; our TAIL hook below does it after.
-    // 仅服务端：整个碰撞流程（含所有模组的注入）作为我们的自有爆炸执行，使 SparkWitch 在 HEAD 调用的 SeekerDeviceHits.onBlast
+    // 仅服务端：整个碰撞流程（含所有模组的注入）作为我们的自有爆炸执行，使搜寻者在 HEAD 调用的 SeekerDeviceHits.onBlast
     // 不会在 Wathe 击杀之前击毁无人机；改由下方 TAIL 钩子在之后处理。
     @WrapMethod(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V")
     private void sparkdlc$guardOwnBlast(HitResult hitResult, Operation<Void> original) {

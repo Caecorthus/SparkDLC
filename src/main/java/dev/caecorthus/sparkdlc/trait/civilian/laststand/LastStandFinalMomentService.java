@@ -102,8 +102,9 @@ public final class LastStandFinalMomentService {
         boolean blockedByOrdinaryCivilian = false;
 
         for (PlayerState player : players) {
-            // The SparkWitch Fiend never affects a win (its own moment suspends wins in SparkWitch), so it is no opposing faction here.
-            // SparkWitch 魔人从不影响胜负（魔人时刻由 SparkWitch 自行暂停胜利判定），因此这里不算作对立阵营。
+            // The Fiend never affects a win (its own moment suspends wins in the Fiend's service), so it is no
+            // opposing faction here.
+            // 魔人从不影响胜负（魔人时刻由魔人自身的服务暂停胜利判定），因此这里不算作对立阵营。
             // A settlement-excluded player is neither a blocking ordinary civilian nor an opposing faction.
             // 结算排除玩家既不算阻止终局的普通好人，也不算对立阵营。
             if (!player.alive() || player.settlementExcluded() || isSparkWitchFiend(player.role())) {
@@ -298,8 +299,8 @@ public final class LastStandFinalMomentService {
         PlayerState onlyLivingPlayer = null;
         int livingPlayers = 0;
         for (PlayerState player : players) {
-            // A living SparkWitch Fiend must not delay the survivor's win (D1); neither may a settlement-excluded player.
-            // 存活的 SparkWitch 魔人不得拖延幸存者的胜利（D1）；结算排除玩家同样不得拖延。
+            // A living Fiend must not delay the survivor's win (D1); neither may a settlement-excluded player.
+            // 存活的魔人不得拖延幸存者的胜利（D1）；结算排除玩家同样不得拖延。
             if (!player.alive() || player.settlementExcluded() || isSparkWitchFiend(player.role())) {
                 continue;
             }
@@ -355,10 +356,10 @@ public final class LastStandFinalMomentService {
      * 终局时刻中 {@code viewer} 看到的 {@code target} 高亮颜色。
      *
      * <p>Clients get only the public Conscience/Impostor flags for other players, never their full trait list, so
-     * the faction flip reads those flags. {@code killerDisguiseColor} is SparkStrength's Coroner killer disguise,
-     * or null when it is absent.</p>
+     * the faction flip reads those flags. {@code killerDisguiseColor} is the Coroner's killer disguise colour,
+     * or null when there is none.</p>
      * <p>客户端只会收到其他玩家公开的善良/内鬼标记，不会收到完整天赋列表，因此阵营翻转按这两个标记判断。
-     * {@code killerDisguiseColor} 是 SparkStrength 验尸官的杀手伪装色，缺失时为 null。</p>
+     * {@code killerDisguiseColor} 是验尸官的杀手伪装色，没有伪装时为 null。</p>
      */
     public static int finalMomentHighlightColorForViewer(
             PlayerEntity viewer,
@@ -382,9 +383,9 @@ public final class LastStandFinalMomentService {
         if (viewerColor != null) {
             return viewerColor;
         }
-        // Base faction, not the full effective chain: SparkWitch maps Murderous Witch to an ability-bridge
+        // Base faction, not the full effective chain: the Murderous Witch is mapped to an ability-bridge
         // faction, but it is still a native neutral role.
-        // 使用基础阵营而非完整有效阵营链：SparkWitch 把杀意魔女映射到能力桥接阵营，但它仍是原生中立职业。
+        // 使用基础阵营而非完整有效阵营链：杀意魔女被映射到能力桥接阵营，但它仍是原生中立职业。
         Identifier faction = finalMomentHighlightFaction(
                 role,
                 lastStandFinalMomentLooseEnd,
@@ -435,8 +436,8 @@ public final class LastStandFinalMomentService {
         return traits;
     }
 
-    /** Picks the faction whose registered SparkFactionAPI color Final Moment shows.
-     *  选出终局时刻高亮所用的阵营，颜色取该阵营在 SparkFactionAPI 中登记的阵营色。 */
+    /** Picks the faction whose registered faction color Final Moment shows.
+     *  选出终局时刻高亮所用的阵营，颜色取该阵营登记的阵营色。 */
     static Identifier finalMomentHighlightFaction(
             @Nullable Role role,
             boolean lastStandFinalMomentLooseEnd,
@@ -583,8 +584,8 @@ public final class LastStandFinalMomentService {
             GameWorldComponent gameComponent,
             ServerPlayerEntity player
     ) {
-        // Tag the role change so SparkFactionAPI's replay line carries the Final Moment cause.
-        // 为身份变化打上原因标记，使 SparkFactionAPI 的回放行附带“终局时刻”原因。
+        // Tag the role change so the role-change replay line carries the Final Moment cause.
+        // 为身份变化打上原因标记，使身份转变回放行附带“终局时刻”原因。
         SparkReplayApi.withRoleChangeCause(
                 SparkDLC.id("loose_end_conversion"),
                 (UUID) null,
@@ -680,10 +681,10 @@ public final class LastStandFinalMomentService {
     }
 
     /**
-     * Settlement snapshot of one round participant. {@code settlementExcluded} is SparkFactionAPI's
+     * Settlement snapshot of one round participant. {@code settlementExcluded} is the faction core's
      * {@code SettlementExclusions.isExcluded} (raw role); every Final Moment count skips such a player as if they were
      * not in the round.
-     * 单个对局参与者的结算快照。{@code settlementExcluded} 取自 SparkFactionAPI 的
+     * 单个对局参与者的结算快照。{@code settlementExcluded} 取自阵营核心的
      * {@code SettlementExclusions.isExcluded}（按原始身份判断）；终局时刻的所有计数都跳过此类玩家，如同其不在本局。
      */
     record PlayerState(
@@ -706,8 +707,8 @@ public final class LastStandFinalMomentService {
     }
 
     /**
-     * SparkWitch mana bridge. The modules are fused in SparkDLC, so the Witch player component is used directly.
-     * SparkWitch 魔力桥接。各模块已融合进 SparkDLC，因此直接使用魔女玩家组件。
+     * Witch mana access: the Witch player component is used directly.
+     * 魔女魔力入口：直接使用魔女玩家组件。
      */
     private static final class SparkWitchManaCompatibility {
         private SparkWitchManaCompatibility() {

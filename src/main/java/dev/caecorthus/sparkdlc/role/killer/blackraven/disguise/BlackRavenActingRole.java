@@ -12,12 +12,12 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Side-split index of living disguised Black Ravens, read by the acting overlay on
- * {@code GameWorldComponent#isRole(UUID, Role)} and by SparkWitch identity questions.
+ * {@code GameWorldComponent#isRole(UUID, Role)} and by the roles' own identity questions.
  * Server: a concurrent map written only by BlackRavenDisguiseService on the server thread and read from
  * any thread (the NoellesRoles voice plugin calls isRole off-thread). Client: the local player only,
  * written by the owner-only disguise component sync. The index never answers for getRole, faction,
  * win, legality, or serialization.
- * 存活伪装黑羽鸦的分端索引，供 isRole 扮演覆盖层与 SparkWitch 身份判断读取。
+ * 存活伪装黑羽鸦的分端索引，供 isRole 扮演覆盖层与各职业自身的身份判断读取。
  * 服务端：并发表，仅由 BlackRavenDisguiseService 在服务端线程写入，任何线程均可读取（诺艾尔语音插件会在
  * 其他线程调用 isRole）。客户端：仅本地玩家，由仅拥有者可见的伪装组件同步写入。索引从不影响 getRole、
  * 阵营、胜负、合法性或序列化。

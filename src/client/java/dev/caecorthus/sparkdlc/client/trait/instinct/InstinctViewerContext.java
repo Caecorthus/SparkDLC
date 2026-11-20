@@ -21,12 +21,12 @@ import java.util.UUID;
  * Viewer-only facts read by the instinct HEAD hook. Wathe asks {@code getInstinctHighlight} for every visible entity,
  * twice per frame (outline check and team colour), so these are read once per drawn frame and shared by every target.
  * Outside a frame (see {@link ClientFrameClock}) each call reads them afresh.
- * <p>The instinct key ({@code WatheClient.isInstinctEnabled()}) is deliberately NOT one of them: SparkWitch's USEC
- * cloak and SparkStrength's blackout sight wrap that call for the target being evaluated, so it is a per-target
+ * <p>The instinct key ({@code WatheClient.isInstinctEnabled()}) is deliberately NOT one of them: the USEC
+ * cloak and the blackout sight wrap that call for the target being evaluated, so it is a per-target
  * answer and {@link #instinctEnabled()} asks Wathe every time.
  * 本能 HEAD 钩子读取的仅与观察者有关的事实。Wathe 每帧会为每个可见实体调用两次 {@code getInstinctHighlight}
  * （描边判定与队伍颜色），因此这些事实每个绘制帧只读取一次并由所有目标共享；帧外（见 {@link ClientFrameClock}）每次调用重新读取。
- * <p>本能按键（{@code WatheClient.isInstinctEnabled()}）刻意不在其中：SparkWitch 的 USEC 隐匿与 SparkStrength 的停电视野
+ * <p>本能按键（{@code WatheClient.isInstinctEnabled()}）刻意不在其中：USEC 隐匿与停电视野
  * 会针对当前被判定的目标包裹该调用，因此它是逐目标的结果，{@link #instinctEnabled()} 每次都向 Wathe 询问。
  */
 public final class InstinctViewerContext {
@@ -74,8 +74,8 @@ public final class InstinctViewerContext {
         this.bomber = game.isRole(viewer, Noellesroles.BOMBER);
         this.partyAnimal = game.isRole(viewer, Noellesroles.PARTY_ANIMAL);
         this.conscience = EffectiveTraitService.hasConscience(viewer);
-        // The delegate query is reflective, so it is only asked for Conscience viewers, as the hook did.
-        // 该委托查询依赖反射，因此与原钩子一致，只对善良观察者询问。
+        // The delegate query (once a reflective call) is only asked for Conscience viewers, as the hook did.
+        // 该委托查询（原为反射调用）与原钩子一致，只对善良观察者询问。
         this.conscienceDelegatesToNative = conscience && EffectiveInstinctService.shouldDelegateConscienceInstinctToNative(viewer);
         this.consciencePoisoner = ConsciencePoisonerService.isConsciencePoisoner(viewer, game);
         this.effectiveKiller = EffectiveTraitService.isEffectiveKiller(viewer, game);

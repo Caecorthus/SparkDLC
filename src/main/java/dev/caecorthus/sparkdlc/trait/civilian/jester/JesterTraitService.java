@@ -47,10 +47,10 @@ public final class JesterTraitService {
             return;
         }
         registered = true;
-        // The trait is the only natural source of the Jester role in a SparkTraits round. The role must stay in
+        // The trait is the only natural source of the Jester role in a round of this mod. The role must stay in
         // WatheRoles.ROLES: GameWorldComponent writes and reads role assignments by iterating that list, so removing
         // it would keep the Jester role (and Shadow Jester promotions) from ever reaching clients.
-        // 小丑词条是 SparkTraits 局内唯一的自然小丑来源。小丑身份必须保留在 WatheRoles.ROLES 中：GameWorldComponent
+        // 小丑词条是本模组对局内唯一的自然小丑来源。小丑身份必须保留在 WatheRoles.ROLES 中：GameWorldComponent
         // 按该列表读写身份分配，移除后小丑身份（以及影子小丑晋升）永远无法同步到客户端。
         Noellesroles.JESTER.setAppearanceCondition(context -> false);
         KillPlayer.BEFORE.register(JesterTraitService::beforeKill);

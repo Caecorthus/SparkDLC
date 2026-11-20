@@ -13,13 +13,13 @@ import java.util.UUID;
 
 /**
  * Read-only questions about the body identity a Coroner has borrowed, asked on both sides. A higher-priority morph
- * (NoellesRoles Morphling or the SparkStrength morph reagent) hides the disguise, so every query then answers "none".
- * 验尸官借用的尸体身份的只读查询，客户端与服务端共用。更高优先级的变形（NoellesRoles 变形怪或 SparkStrength 变形试剂）
+ * (NoellesRoles Morphling or this mod's morph reagent) hides the disguise, so every query then answers "none".
+ * 验尸官借用的尸体身份的只读查询，客户端与服务端共用。更高优先级的变形（NoellesRoles 变形怪或本模组的变形试剂）
  * 会遮住伪装，此时所有查询都回答“没有伪装”。
  *
- * <p>{@link CoronerService} keeps a one-line delegate for each query other code calls, including the ones sibling mods
- * look up by reflection on its class name.
- * {@link CoronerService} 为其它代码调用的每个查询保留一行委托，包括兄弟模组按其类名反射查找的那些。</p>
+ * <p>{@link CoronerService} keeps a one-line delegate for each query other code calls, including the ones other
+ * features used to look up by reflection on its class name and now call directly.
+ * {@link CoronerService} 为其它代码调用的每个查询保留一行委托，包括其他功能曾按其类名反射查找、如今直接调用的那些。</p>
  */
 public final class CoronerDisguises {
     private CoronerDisguises() {

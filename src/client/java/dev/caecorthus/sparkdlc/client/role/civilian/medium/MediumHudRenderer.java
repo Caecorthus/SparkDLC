@@ -32,14 +32,14 @@ import java.util.List;
 
 /**
  * The Medium's two bottom-right rows (owner pick 2026-11-13): 通灵 on the shared ability key above, 幽灵的加护 on the
- * SparkWitch skill key below, with the active-blessing chips left of the lower row. The rows follow
- * {@link MediumHudRules}; both sit in the shared SparkWitch corner slot, which {@code SaintHudLayoutRules} reserves two
+ * Role Skill 2 key below, with the active-blessing chips left of the lower row. The rows follow
+ * {@link MediumHudRules}; both sit in the shared role-HUD corner slot, which {@code SaintHudLayoutRules} reserves two
  * rows high for the Medium, and lift together above the hotbar column at narrow GUI widths. Reads only the local
  * player's raw synced role, the owner-synced cooldowns and corpse-sight set, the world vote window, the synced shop
  * balance and the local player's own status effects; the server re-validates every press. 招魂 has no row: it lives in
  * the inventory drawer.
- * 通灵师右下角两行（所有者 2026-11-13 选定）：上行为共享技能键上的通灵，下行为 SparkWitch 技能键上的幽灵的加护，生效中的
- * 加护以小图标显示在下行左侧。两行遵循 {@link MediumHudRules}，都位于 SparkWitch 共享右下角位置（{@code SaintHudLayoutRules}
+ * 通灵师右下角两行（所有者 2026-11-13 选定）：上行为共享技能键上的通灵，下行为“职业技能 2”键上的幽灵的加护，生效中的
+ * 加护以小图标显示在下行左侧。两行遵循 {@link MediumHudRules}，都位于职业 HUD 共享右下角位置（{@code SaintHudLayoutRules}
  * 为通灵师预留两行高度），GUI 较窄时一同抬升到快捷栏列之上。只读取本地玩家真实同步的身份、仅同步给本人的冷却与尸体透视集合、
  * 世界投票窗口、同步的金币余额以及本地玩家自己的状态效果；每次按键都由服务端重新校验。招魂没有角落行：它位于背包抽屉中。
  */
@@ -108,8 +108,8 @@ public final class MediumHudRenderer {
     }
 
     /**
-     * Local player is the Medium (raw synced role) on a confirmed SparkWitch server, alive, playing, not swallowed.
-     * 本地玩家在已确认的 SparkWitch 服务器上是通灵师（真实同步身份），存活、参与对局、未被吞下。
+     * Local player is the Medium (raw synced role) on a confirmed SparkDLC server, alive, playing, not swallowed.
+     * 本地玩家在已确认的 SparkDLC 服务器上是通灵师（真实同步身份），存活、参与对局、未被吞下。
      */
     static boolean isActiveMedium(@Nullable ClientPlayerEntity player) {
         return player != null

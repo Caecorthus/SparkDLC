@@ -10,16 +10,16 @@ import net.minecraft.util.Identifier;
 
 /**
  * Faction bands shared by the role pickers (the Detective's killer pick, the Assassin's guess): killers, neutrals,
- * SparkWitch's witch faction, Team Jiahao and innocents, plus each band's accent colour and the role display name.
- * 身份选择器共用的阵营分组（侦探指认凶手、刺客猜身份）：杀手、中立、SparkWitch 魔女阵营、嘉豪阵营与平民，
+ * the witch faction, Team Jiahao and innocents, plus each band's accent colour and the role display name.
+ * 身份选择器共用的阵营分组（侦探指认凶手、刺客猜身份）：杀手、中立、魔女阵营、嘉豪阵营与平民，
  * 以及各组的强调色与身份显示名。
  */
 public final class RoleFactionBands {
     private static final int KILLERS_ACCENT = 0xFFC8372D;
     private static final int NEUTRALS_ACCENT = 0xFFB08A2E;
-    // SparkWitch's witch faction colour. / SparkWitch 魔女阵营颜色。
+    // The witch faction colour. / 魔女阵营颜色。
     private static final int WITCHES_ACCENT = 0xFFE9D5F0;
-    // SparkWitch's Team Jiahao colour. / SparkWitch 嘉豪阵营颜色。
+    // The Team Jiahao colour. / 嘉豪阵营颜色。
     private static final int JIAHAO_ACCENT = 0xFFFFC125;
     private static final int INNOCENTS_ACCENT = 0xFF3E8E4E;
 

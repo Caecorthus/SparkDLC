@@ -30,8 +30,8 @@ import java.util.UUID;
 import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
- * Applies SparkTraits effective-team winners to Wathe's round-end data.
- * 将 SparkTraits 的有效阵营胜负关系写入 Wathe 回合结束数据。
+ * Applies the traits' effective-team winners to Wathe's round-end data.
+ * 将天赋的有效阵营胜负关系写入 Wathe 回合结束数据。
  */
 @Mixin(value = GameRoundEndComponent.class, remap = false)
 public abstract class GameRoundEndComponentMixin {
@@ -109,8 +109,8 @@ public abstract class GameRoundEndComponentMixin {
 
     /**
      * A triggered hidden Jester is the real NoellesRoles Jester role; NoellesRoles marks the win on its component,
-     * and that flag must survive SparkTraits' replacement of the round-end data so the player gets the Jester screen.
-     * 触发后的隐藏小丑就是真正的 NoellesRoles 小丑；NoellesRoles 会把胜利写在组件上，SparkTraits 替换回合结束数据时必须
+     * and that flag must survive the traits' replacement of the round-end data so the player gets the Jester screen.
+     * 触发后的隐藏小丑就是真正的 NoellesRoles 小丑；NoellesRoles 会把胜利写在组件上，天赋替换回合结束数据时必须
      * 保留该标志，玩家才能看到小丑结算界面。
      */
     private static boolean isWinningJester(ServerWorld world, UUID uuid, @Nullable Role role) {

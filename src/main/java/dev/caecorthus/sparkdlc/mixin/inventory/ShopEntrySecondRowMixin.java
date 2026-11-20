@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 /**
  * A default shop purchase whose hotbar is full lands in the visible second row. Only the default {@code onBuy} path is
  * widened: the static {@code insertStackInFreeSlot} stays hotbar-only because the psycho bat and other callers need the
- * hotbar. Uses {@code setStack} like Wathe, so insertStack guards (e.g. SparkTraits Impostor) keep their scope.
+ * hotbar. Uses {@code setStack} like Wathe, so insertStack guards (e.g. the Impostor trait) keep their scope.
  * 快捷栏已满时，默认商店购买放进可见的第二行。只放宽默认 {@code onBuy} 路径：静态 {@code insertStackInFreeSlot}
  * 仍只用快捷栏，因为狂暴球棒等调用方必须进快捷栏。与 Wathe 一样使用 {@code setStack}，不改变 insertStack 拦截的范围。
  */

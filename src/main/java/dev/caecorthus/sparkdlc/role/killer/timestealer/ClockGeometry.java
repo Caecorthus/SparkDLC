@@ -66,9 +66,9 @@ public final class ClockGeometry {
 
     /**
      * The same Clock ray and pick as {@link #findTarget}, over the world's other entities near the block-cut aim that
-     * pass {@code eligible} (the server passes SparkStrength's killable-Partygoer check). Server-side use only.
+     * pass {@code eligible} (the server passes the killable-Partygoer check). Server-side use only.
      * 与 {@link #findTarget} 相同的时钟射线与选取规则，候选者为方块截断后的瞄准线附近、通过 {@code eligible} 的世界中其他实体
-     * （服务端传入 SparkStrength 的可击杀派对客判定）。仅供服务端使用。
+     * （服务端传入可击杀派对客判定）。仅供服务端使用。
      */
     public static @Nullable Entity findEntity(PlayerEntity user, double range, Predicate<? super Entity> eligible) {
         if (user == null || eligible == null || !(range > 0.0D)) {

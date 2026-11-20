@@ -40,11 +40,11 @@ public final class DiscovererService {
 
     /**
      * +{@link DiscovererRules#TASK_REWARD} per finished task, every task type included. {@code addToBalance} lets income
-     * observers (SparkFactionAPI's income record, SparkTraits Snowball, SparkStrength's purse) see it as ordinary
-     * income. Never paid to a SparkTraits Impostor, whose task income SparkTraits pays itself.
+     * observers (the income record, the Snowball trait, the killer team purse) see it as ordinary
+     * income. Never paid to a holder of the Impostor trait, whose task income that trait pays itself.
      * 每完成一个任务 +{@link DiscovererRules#TASK_REWARD}，所有任务类型都算。使用 {@code addToBalance}，使收入观察者
-     * （SparkFactionAPI 收入记录、SparkTraits 滚雪球、SparkStrength 钱包）视其为普通收入。从不发给 SparkTraits 内鬼，
-     * 内鬼的任务收入由 SparkTraits 自行支付。
+     * （收入记录、滚雪球词条、杀手共享钱包）视其为普通收入。从不发给内鬼词条持有者，
+     * 内鬼的任务收入由该词条自行支付。
      */
     static void onTaskComplete(ServerPlayerEntity player) {
         if (canUsePassives(player)

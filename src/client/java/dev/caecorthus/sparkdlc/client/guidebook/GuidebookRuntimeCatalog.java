@@ -94,11 +94,11 @@ public final class GuidebookRuntimeCatalog {
     }
 
     /**
-     * Adds an entry for every value of a sibling module's registry that has no authored page. {@code modId} is the
-     * module's namespace, recorded as the entry's owner and required mod. The modules are fused in SparkDLC, so the
-     * registry values are read directly (they used to be looked up by class name behind an isModLoaded gate).
-     * 为兄弟模块注册表中每个没有人工页面的值添加条目。{@code modId} 是该模块的命名空间，记录为条目的所属模组与所需模组。
-     * 各模块已融合进 SparkDLC，因此直接读取注册表的值（原先在 isModLoaded 判断之后按类名查找）。
+     * Adds an entry for every value of one of the mod's own registries that has no authored page. {@code modId} is
+     * the registry's namespace, recorded as the entry's owner and required mod. The registry values are read directly
+     * (they used to be looked up by class name behind an isModLoaded gate, while the registries lived in other jars).
+     * 为本模组某个注册表中每个没有人工页面的值添加条目。{@code modId} 是该注册表的命名空间，记录为条目的所属模组与所需模组。
+     * 注册表的值直接读取（这些注册表还在其他 jar 中时，是在 isModLoaded 判断之后按类名查找）。
      */
     private static <T> void discoverRegistry(
             List<GuidebookEntry> entries,

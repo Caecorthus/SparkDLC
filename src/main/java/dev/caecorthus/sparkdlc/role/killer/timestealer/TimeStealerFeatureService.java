@@ -84,9 +84,9 @@ public final class TimeStealerFeatureService {
             }
         });
         // Only the dead player's own curse and bound items are dropped; curses this player cast keep settling
-        // (owner decision Q7). A SparkTraits-intercepted death leaves the player in play, so nothing is cleared.
+        // (owner decision Q7). A Last Stand-intercepted death leaves the player in play, so nothing is cleared.
         // 只清除死者自身的诅咒与绑定物品；该玩家施下的诅咒继续结算（所有者决定 Q7）。
-        // 被 SparkTraits 拦截的死亡使玩家仍留在对局中，因此不清除任何内容。
+        // 被背水一战拦截的死亡使玩家仍留在对局中，因此不清除任何内容。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
@@ -116,11 +116,11 @@ public final class TimeStealerFeatureService {
         // AFTER fires only for a committed purchase; the counter catches its own exceptions (tryBuy does not).
         // AFTER 只在购买成功后触发；计数器自行捕获异常（tryBuy 不会捕获）。
         ShopPurchase.AFTER.register(TimekeeperCounter::onPurchase);
-        // Second owner-approved exception: like the bell toll, the Clock curse kill is SparkTraits-terminal. SparkTraits
-        // reads terminal reasons from a live set at kill time, so registering on server start is early enough and
-        // idempotent across restarts; an absent or older build registers nothing (fail-closed).
-        // 第二个所有者批准的例外：与丧钟相同，时钟诅咒击杀注册为 SparkTraits 终结原因。SparkTraits 在击杀时实时读取
-        // 终结原因集合，因此服务端启动时注册即足够早，且多次启动重复注册是幂等的；缺失或旧版本不注册（失败关闭）。
+        // Second owner-approved exception: like the bell toll, the Clock curse kill is a terminal death reason. The
+        // trait feature reads terminal reasons from a live set at kill time, so registering on server start is early
+        // enough and idempotent across restarts.
+        // 第二个所有者批准的例外：与丧钟相同，时钟诅咒击杀注册为终结原因。词条功能在击杀时实时读取
+        // 终结原因集合，因此服务端启动时注册即足够早，且多次启动重复注册是幂等的。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.TIME_STOLEN));
     }

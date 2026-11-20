@@ -81,11 +81,11 @@ public final class SaintHudLayoutRules {
     }
 
     /**
-     * SparkWitch roles without a witch skill that still draw their own skill line in the shared corner slot (5 px
+     * The mod's own roles without a witch skill that still draw their own skill line in the shared corner slot (5 px
      * padding, one font row): the Ragpicker, the Dominator (always on, PR #192) and the Savior (G-skill line, PR #200);
      * the Specter (PR #207), the Charon (PR #202), 橘雪莉 (PR #206) and 二阶堂希罗 share the padding but reserve two rows
      * above ({@link #ownsTwoCornerRows}). Reserved by role so the Karma line any player can carry sits above it.
-     * 没有魔女技能、却在共享右下角位置绘制自有技能行（5 像素边距、一行字高）的 SparkWitch 职业：拾荒者、支配者（常驻显示，
+     * 没有魔女技能、却在共享右下角位置绘制自有技能行（5 像素边距、一行字高）的本模组自有职业：拾荒者、支配者（常驻显示，
      * PR #192）与救世主（G 技能行，PR #200）；幽魂（PR #207）、卡戎（PR #202）、橘雪莉（PR #206）与二阶堂希罗共用该边距，但向上
      * 预留两行（{@link #ownsTwoCornerRows}）。按职业预留，使任何玩家都可能带有的业障行位于其上方。
      */

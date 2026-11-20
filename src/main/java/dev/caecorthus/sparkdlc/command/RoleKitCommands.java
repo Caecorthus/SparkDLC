@@ -22,8 +22,8 @@ import java.util.HashSet;
 import java.util.UUID;
 
 /**
- * Registers SparkStrength administrator commands.
- * 注册 SparkStrength 管理命令。
+ * Registers the role kits' administrator commands.
+ * 注册职业套件的管理命令。
  */
 public final class RoleKitCommands {
     private static final int DEFAULT_COMMAND_LEVEL = 2;
@@ -252,7 +252,7 @@ public final class RoleKitCommands {
         }
 
         if (!alive) {
-            // SparkTraits 的准心词条显示使用死亡快照；该调用只记录词条，不触发真实死亡流程。
+            // 准心词条显示使用死亡快照；该调用只记录词条，不触发真实死亡流程。
             // 即使目标已经是非存活状态，重复执行命令也会补写快照，方便修复旧状态或重新同步。
             SparkTraitsApi.snapshotDeathTraitsForDebug(target);
         }

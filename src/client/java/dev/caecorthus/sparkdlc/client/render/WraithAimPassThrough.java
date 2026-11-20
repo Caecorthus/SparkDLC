@@ -15,11 +15,11 @@ import java.util.function.Supplier;
  * 让本地非旁观玩家的瞄准类操作在客户端选靶时穿过激活的冤魂。
  *
  * <p>Wathe's gun/knife selectors only reject spectator/creative players and the vanilla crosshair only rejects
- * spectators. An active Wraith stays in adventure mode, so it is picked first and SparkFactionAPI then cancels the
- * whole action on the server, which means the real target behind is never hit. Only the client selection changes
- * here; the server-side SparkFactionAPI affect policy stays the authority and backstop.
+ * spectators. An active Wraith stays in adventure mode, so it is picked first and the faction core's affect policy
+ * then cancels the whole action on the server, which means the real target behind is never hit. Only the client
+ * selection changes here; the server-side affect policy stays the authority and backstop.
  * Wathe 枪/刀选靶只排除旁观/创造模式玩家，原版准星只排除旁观者；冤魂保持冒险模式会先被选中，随后服务端
- * SparkFactionAPI 整次取消，后面的真实目标永远打不到。这里只改客户端选靶，服务端判定仍是权威兜底。</p>
+ * 阵营核心的影响判定整次取消，后面的真实目标永远打不到。这里只改客户端选靶，服务端判定仍是权威兜底。</p>
  *
  * <p>The synced Wraith component is the only reliable remote signal: {@code noellesroles:no_collision}
  * and invisibility also appear on living players. The bound killer keeps aiming at its own active Vendetta,
@@ -35,9 +35,9 @@ public final class WraithAimPassThrough {
     }
 
     /**
-     * Runs a target selector with the shooter's pass-through scope open, so a mod replacing the selector's
-     * raycast (e.g. SparkTraits Marksman) is covered as well.
-     * 在射手的穿透作用域内执行选靶；其他模组替换的选靶射线（如 SparkTraits 精确枪手）同样生效。
+     * Runs a target selector with the shooter's pass-through scope open, so a hook replacing the selector's
+     * raycast (e.g. the Marksman trait) is covered as well.
+     * 在射手的穿透作用域内执行选靶；其他钩子替换的选靶射线（如精确枪手词条）同样生效。
      */
     public static <T> T selectAs(PlayerEntity shooter, Supplier<T> selector) {
         PlayerEntity previous = SELECTING_SHOOTER.get();

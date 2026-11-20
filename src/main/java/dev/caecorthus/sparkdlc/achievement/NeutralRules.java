@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Neutral wins: the Pathogen (Noelle's Roles, with SparkStrength's T-Virus and Virus) and Wathe's Loose Ends mode,
+ * Neutral wins: the Pathogen (Noelle's Roles, with the role kit's T-Virus and Virus) and Wathe's Loose Ends mode,
  * where the last Loose End standing wins alone.
- * 中立胜利：病原体（Noelle's Roles，加上 SparkStrength 的 T 病毒与病毒），以及 Wathe 的亡命徒模式（最后存活的亡命徒独自获胜）。
+ * 中立胜利：病原体（Noelle's Roles，加上职业套件的 T 病毒与病毒），以及 Wathe 的亡命徒模式（最后存活的亡命徒独自获胜）。
  */
 final class NeutralRules {
     static final String PATHOGEN = "noellesroles:pathogen";
@@ -67,8 +67,8 @@ final class NeutralRules {
 
     /**
      * 大吉大利，今晚吃鸡: win a Loose Ends round of 6+ players as the last Loose End, by win status {@code LOOSE_END} (not
-     * by role: SparkTraits' Last Stand Final Moment also makes Loose Ends, but ends as a passenger win).
-     * 在 6 人及以上的亡命徒模式中，以胜利状态 {@code LOOSE_END} 成为最后的亡命徒（不按身份判断：SparkTraits 背水一战的终局时刻
+     * by role: the Last Stand trait's Final Moment also makes Loose Ends, but ends as a passenger win).
+     * 在 6 人及以上的亡命徒模式中，以胜利状态 {@code LOOSE_END} 成为最后的亡命徒（不按身份判断：背水一战词条的终局时刻
      * 也会产生亡命徒，但以乘客胜利结束）。
      */
     static boolean lastLooseEnd(AchievementContext context) {

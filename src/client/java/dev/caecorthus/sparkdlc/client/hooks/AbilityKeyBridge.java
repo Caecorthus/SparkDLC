@@ -5,8 +5,8 @@ import net.minecraft.text.Text;
 import org.agmas.noellesroles.client.NoellesrolesClient;
 
 /**
- * Reuses the shared Wathe-role ability key instead of registering a SparkWitch-only keybind.
- * 复用列车职业体系已有的技能控制键，不在 SparkWitch 里新增独立按键项。
+ * Reuses the shared Wathe-role ability key instead of registering a keybind of the mod's own.
+ * 复用列车职业体系已有的技能控制键，不为本模组新增独立按键项。
  */
 public final class AbilityKeyBridge {
     static final String SHARED_ABILITY_TRANSLATION_KEY = "key.noellesroles.ability";

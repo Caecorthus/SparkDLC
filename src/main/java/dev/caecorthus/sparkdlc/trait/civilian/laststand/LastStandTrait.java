@@ -28,11 +28,11 @@ public final class LastStandTrait implements Trait {
     private static final Set<Identifier> ADDITIONAL_THREAT_ROLE_IDS = Set.of(
             Identifier.of("sparkdlc", "grand_witch"),
             Identifier.of("sparkdlc", "accomplice"),
-            // SparkWitch special accomplices share every Accomplice rule. / SparkWitch 特殊共犯沿用共犯的全部规则。
+            // The special accomplices share every Accomplice rule. / 特殊共犯沿用共犯的全部规则。
             Identifier.of("sparkdlc", "abyss_listener"),
             Identifier.of("sparkdlc", "potion_gunner"),
             Identifier.of("sparkdlc", "riftwalker"),
-            // SparkWitch's Bewitched (魔化使) is an accomplice before promotion. / SparkWitch 魔化使是晋升前的共犯。
+            // The Bewitched (魔化使) is an accomplice before promotion. / 魔化使是晋升前的共犯。
             Identifier.of("sparkdlc", "bewitched")
     );
 
@@ -92,9 +92,9 @@ public final class LastStandTrait implements Trait {
     }
 
     /**
-     * SparkFactionAPI settlement-excluded roles (for example SparkWitch's Black Raven, owner decision 2026-10-21) never
+     * Settlement-excluded roles (for example the Black Raven, owner decision 2026-10-21) never
      * count as living for settlement, so they can never hold Last Stand; command locks reject the pairing too.
-     * SparkFactionAPI 结算排除身份（如 SparkWitch 黑羽鸦，所有者 2026-10-21 决定）不计入结算存活，
+     * 结算排除身份（如黑羽鸦，所有者 2026-10-21 决定）不计入结算存活，
      * 因此永远不能获得背水一战；命令锁定同样拒绝该组合。
      */
     public static boolean isSettlementExcludedRole(Role role) {

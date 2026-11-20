@@ -28,9 +28,9 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  * 时钟倒数，两个 60 秒的开局冷却因此可能显示不同的秒数：最好情况下相差一秒，服务端卡顿后相差数秒。</p>
  *
  * <p>{@code armed} is server-only: it marks that the current Vulture stint already got its 60 s opening cooldown, so a
- * Vulture made mid-round without a usable RoleAssigned (Wraith promotion, SparkWitch conversions) is armed by the tick.
+ * Vulture made mid-round without a usable RoleAssigned (Wraith promotion, other role conversions) is armed by the tick.
  * {@code armed} 仅存在于服务端：表示本次成为秃鹫已经领取过 60 秒开局冷却；局中未触发可依赖 RoleAssigned 而成为的秃鹫
- * （冤魂晋升、SparkWitch 转化）会由服务端 tick 补上。</p>
+ * （冤魂晋升、其他身份转化）会由服务端 tick 补上。</p>
  */
 public final class VultureSuperCursePlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<VultureSuperCursePlayerComponent> KEY = ComponentRegistry.getOrCreate(

@@ -18,9 +18,9 @@ import net.minecraft.util.Identifier;
 import java.io.IOException;
 
 /**
- * Owns the single SparkWitch desaturation processor; escape uses the strongest active effect.
+ * Owns the roles' single desaturation processor; escape uses the strongest active effect.
  * Without escape, Wraith vision retains its original priority over Perception.
- * 统一管理 SparkWitch 去饱和处理器；脱险时取最大灰阶，平时保留冤魂优先于感知的原规则。
+ * 统一管理职业侧唯一的去饱和处理器；脱险时取最大灰阶，平时保留冤魂优先于感知的原规则。
  */
 public final class BlackRavenPerceptionScreenEffects {
     private static final Identifier SHADER = SparkDLC.id("shaders/post/perception.json");
@@ -42,18 +42,18 @@ public final class BlackRavenPerceptionScreenEffects {
     }
 
     public static void render(ClientPlayerEntity player, float delta) {
-        // Off a confirmed SparkWitch server no Vendetta, Wraith or Perception state can be active (each gate asks for
+        // Off a confirmed SparkDLC server no Vendetta, Wraith or Perception state can be active (each gate asks for
         // the confirmation first), so with no processor open both branches below are no-ops: skip them. A processor
         // left open by a Last Escape pass still takes the full path, which closes it once the escape ends.
-        // 未确认 SparkWitch 服务端时，复仇者、冤魂与感知状态都不可能生效（各门禁都先检查确认状态），因此没有已打开的处理器时
+        // 未确认 SparkDLC 服务端时，复仇者、冤魂与感知状态都不可能生效（各门禁都先检查确认状态），因此没有已打开的处理器时
         // 下面两个分支都不会产生任何效果，直接跳过。脱险后处理遗留的处理器仍走完整流程，脱险结束后由其关闭。
         if (processor == null && !SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
-        // Traits renders the combined pass by calling renderLastEscape directly (the modules are fused in SparkDLC).
+        // The trait side (LastEscapeComposedPass) renders the combined pass by calling renderLastEscape directly.
         // This gate is independent of which GameRenderer mixin runs first; querying parameters never renders
         // recursively, and the neutral answer is a shared array, so nothing is allocated while no escape is active.
-        // Traits 直接调用 renderLastEscape 绘制合成后处理（各模块已融合进 SparkDLC）。此判断与哪个 GameRenderer mixin
+        // 特质侧（LastEscapeComposedPass）直接调用 renderLastEscape 绘制合成后处理。此判断与哪个 GameRenderer mixin
         // 先执行无关；参数查询不会递归渲染，中性结果是共享数组，因此没有脱险时不分配内存。
         if (DepressionScreenEffects.getLastEscapeComposition(player)[0] >= 0.5f) {
             return;
@@ -64,9 +64,10 @@ public final class BlackRavenPerceptionScreenEffects {
     /**
      * Called directly by the trait feature's {@code LastEscapeComposedPass} for the sole combined escape pass. Render thread
      * only. True means a composed pass was actually rendered, not merely supported; false (not the local player, no
-     * escape composition, shader load failure) lets Traits render its fallback. The escape parameters are read-only.
+     * escape composition, shader load failure) lets the trait side render its fallback. The escape parameters are
+     * read-only.
      * 由特质功能的 {@code LastEscapeComposedPass} 直接调用，负责唯一合成的脱险后处理。仅在渲染线程调用；成功执行合成
-     * 后处理才返回 true，返回 false（非本地玩家、无脱险参数、着色器加载失败）时由 Traits 回退渲染。脱险参数只读。
+     * 后处理才返回 true，返回 false（非本地玩家、无脱险参数、着色器加载失败）时由特质侧回退渲染。脱险参数只读。
      */
     public static boolean renderLastEscape(PlayerEntity player, float delta) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -158,11 +159,11 @@ public final class BlackRavenPerceptionScreenEffects {
      * Read-only seam for other client filters (today the Specter's Otherworld filter): whether a Wraith / Vendetta /
      * Perception / Last Escape grayscale is on screen this frame, so they can yield instead of stacking. It follows the
      * same gates as the render paths: a Last Escape frame always shows a grayscale (this compositor's pass through
-     * {@link #renderLastEscape}, or SparkTraits' own fallback when that returns false); otherwise the plain path's
+     * {@link #renderLastEscape}, or the trait side's own fallback when that returns false); otherwise the plain path's
      * unconfirmed-server skip, a shader that failed to load, and {@link #resolveVision} decide. Never renders.
      * 供其他客户端滤镜（目前是幽魂的里世界滤镜）使用的只读接缝：本帧屏幕上是否有冤魂/复仇/感知/脱险灰阶，以便让路而不是
      * 叠加。它与渲染路径使用相同的门槛：脱险帧总会显示灰阶（本合成器经 {@link #renderLastEscape} 绘制，返回 false 时由
-     * SparkTraits 自行回退绘制）；否则由普通路径的未确认服务端跳过、着色器加载失败与 {@link #resolveVision} 决定。从不渲染。
+     * 特质侧自行回退绘制）；否则由普通路径的未确认服务端跳过、着色器加载失败与 {@link #resolveVision} 决定。从不渲染。
      */
     public static boolean isActiveFor(ClientPlayerEntity player) {
         if (DepressionScreenEffects.getLastEscapeComposition(player)[0] >= 0.5f) {
@@ -177,11 +178,11 @@ public final class BlackRavenPerceptionScreenEffects {
     /**
      * Releases the processor. The play DISCONNECT event that calls this fires on the Netty thread, and closing a post
      * processor deletes framebuffers, which asserts the render thread: the throw used to leave Fabric's listener loop,
-     * so every disconnect reset registered after this module (SparkWitch's own and other mods') was skipped. Off the
+     * so every disconnect reset registered after this module (this mod's own and other mods') was skipped. Off the
      * render thread the whole close is recorded as a render call, as {@code SpecterOtherworldScreenEffects.close} and
      * {@code ScopeRuntime.reset} already do.
      * 释放后处理器。调用它的 play DISCONNECT 事件在 Netty 线程触发，而关闭后处理器会删除帧缓冲，该操作会断言渲染线程：
-     * 抛出的异常会跳出 Fabric 的监听循环，于是在本模块之后注册的所有断线重置（SparkWitch 自身的与其他模组的）都被跳过。
+     * 抛出的异常会跳出 Fabric 的监听循环，于是在本模块之后注册的所有断线重置（本模组自身的与其他模组的）都被跳过。
      * 不在渲染线程时，整个关闭操作会作为渲染调用记录下来，与 {@code SpecterOtherworldScreenEffects.close} 和
      * {@code ScopeRuntime.reset} 的做法相同。
      */

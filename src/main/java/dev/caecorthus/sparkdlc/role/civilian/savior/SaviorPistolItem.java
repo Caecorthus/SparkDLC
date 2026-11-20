@@ -60,7 +60,7 @@ public final class SaviorPistolItem extends Item {
         return TypedActionResult.consume(stack);
     }
 
-    /** Two-line role hint, matching the other SparkWitch weapon tooltips. / 两行职业提示，与其他 SparkWitch 武器提示一致。 */
+    /** Two-line role hint, matching the mod's other role weapon tooltips. / 两行职业提示，与本模组其他职业武器提示一致。 */
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("item.sparkdlc.savior_pistol.tooltip.line1")

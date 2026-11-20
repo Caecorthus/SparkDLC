@@ -26,11 +26,11 @@ public final class DroneShopService {
 
     /**
      * Called from {@code M67ShopEntriesMixin} on both sides; Wathe buys by index, so the answer may only depend on
-     * owner-synced state: the real round role and the SparkTraits Conscience flag. A Coroner's Bomber disguise never
+     * owner-synced state: the real round role and the Conscience trait flag. A Coroner's Bomber disguise never
      * qualifies. Not gated on {@code isPlayerPlayingAndAlive}, like the other appenders (round-start stock caching runs
      * before ACTIVE). The entry has no stock or cooldown, so purchases are unlimited; placement limits live in
      * {@code DroneService}.
-     * 由 M67ShopEntriesMixin 在两端调用；Wathe 按下标购买，因此结果只能依赖同步给本人的状态：真实局内身份与 SparkTraits
+     * 由 M67ShopEntriesMixin 在两端调用；Wathe 按下标购买，因此结果只能依赖同步给本人的状态：真实局内身份与
      * 善良天赋。验尸官的炸弹客伪装不计入。与其他追加器一样不检查 isPlayerPlayingAndAlive（开局库存缓存早于 ACTIVE）。
      * 条目没有库存与冷却，可无限购买；放置上限由 DroneService 负责。
      */

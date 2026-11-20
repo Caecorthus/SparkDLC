@@ -49,9 +49,9 @@ public final class LimitedInventoryArmorSlots {
     }
 
     /**
-     * True only for Wathe's player inventory screen on a confirmed SparkWitch server; other Wathe screens and
-     * non-SparkWitch servers keep Wathe's hotbar-only screen.
-     * 仅在已确认的 SparkWitch 服务器上的 Wathe 玩家背包界面为真；其他界面与非 SparkWitch 服务器保持 Wathe 原样。
+     * True only for Wathe's player inventory screen on a confirmed SparkDLC server; other Wathe screens and
+     * non-SparkDLC servers keep Wathe's hotbar-only screen.
+     * 仅在已确认的 SparkDLC 服务器上的 Wathe 玩家背包界面为真；其他界面与非 SparkDLC 服务器保持 Wathe 原样。
      */
     public static boolean applies(Screen screen, @Nullable ScreenHandler handler) {
         return screen instanceof LimitedInventoryScreen
@@ -66,8 +66,8 @@ public final class LimitedInventoryArmorSlots {
 
     /**
      * The layout anchor for Wathe's strip top {@code stripY}: the armor block centres on the inventory block, which
-     * includes SparkFactionAPI's second row when that is shown.
-     * Wathe 热栏顶边 {@code stripY} 对应的布局锚点：护甲块以物品栏块为中心，显示第二行时物品栏块包括 SparkFactionAPI 的第二行。
+     * includes the second row when that is shown.
+     * Wathe 热栏顶边 {@code stripY} 对应的布局锚点：护甲块以物品栏块为中心，显示第二行时物品栏块包括第二行。
      */
     public static int anchorY(int stripY) {
         return LimitedInventoryArmorLayout.anchorY(stripY, LimitedInventoryRows.isSecondRowShown());
@@ -169,7 +169,7 @@ public final class LimitedInventoryArmorSlots {
 
     // ---- Headset cell (BEAR WP4, E1): the real handler slot 46 under the armor block. / 耳机格：护甲块下方的真实 46 号栏位。
 
-    /** The handler's headset slot, or null (no SparkWitch slot). / 界面中的耳机栏位，没有则为 null。 */
+    /** The handler's headset slot, or null (the handler has none). / 界面中的耳机栏位，没有则为 null。 */
     public static @Nullable Slot headsetSlot(ScreenHandler handler) {
         return handler.slots.size() > HEADSET_SLOT_ID && handler.slots.get(HEADSET_SLOT_ID) instanceof HeadsetSlot slot
                 ? slot : null;
@@ -239,10 +239,11 @@ public final class LimitedInventoryArmorSlots {
     }
 
     /**
-     * A hotbar slot is free, or, with SparkFactionAPI 0.1.5.13+ (client and server versions always match), a
-     * second-row slot: where the server's close offer of a cursor stack lands before any hidden slot.
-     * 有空快捷栏格，或在 SparkFactionAPI 0.1.5.13+ 下（客户端与服务端版本总是一致）有空的第二行格：服务器在关闭界面时
-     * 放回光标物品会先落在这些位置，而不是隐藏栏位。
+     * A hotbar slot is free, or a second-row slot: where the server's close offer of a cursor stack lands before any
+     * hidden slot. The hotbar-only return (second row not shown) is unreachable since the fusion: the row is always
+     * shown.
+     * 有空快捷栏格，或有空的第二行格：服务器在关闭界面时放回光标物品会先落在这些位置，而不是隐藏栏位。
+     * “不显示第二行”时只看快捷栏的返回在融合后不可达：第二行恒显示。
      */
     private static boolean shownSlotFree(ScreenHandler handler) {
         if (firstEmptyHotbarButton(handler) >= 0) {

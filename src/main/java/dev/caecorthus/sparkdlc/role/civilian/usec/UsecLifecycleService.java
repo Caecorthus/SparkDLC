@@ -34,10 +34,10 @@ import java.util.List;
 public final class UsecLifecycleService {
     /**
      * Wathe's ON_FINISH_INITIALIZE phase for USEC, ordered after the default phase (the Seeker and Blind pattern), so
-     * every default-phase listener has run. Roles are already final here: SparkTraits Conscience compensation rewrites
+     * every default-phase listener has run. Roles are already final here: the Conscience trait's compensation rewrites
      * them during role assignment, before the roles are announced. The round is still STARTING.
      * USEC 在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后（与搜寻者、盲人相同），因此所有默认阶段监听器都已
-     * 执行。此时身份已是最终身份：SparkTraits 良心补偿在分配职业期间（公布身份之前）就已改写身份。对局仍处于 STARTING。
+     * 执行。此时身份已是最终身份：良心词条的补偿在分配职业期间（公布身份之前）就已改写身份。对局仍处于 STARTING。
      */
     static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("usec_finish_initialize");
 

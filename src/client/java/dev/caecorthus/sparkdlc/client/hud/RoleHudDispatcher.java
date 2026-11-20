@@ -309,9 +309,9 @@ public final class RoleHudDispatcher {
     }
 
     /**
-     * Was WitchManaHudMixin: SparkWitch mana without changing Wathe's money renderer, then the persistent divination
+     * Was WitchManaHudMixin: the mana row without changing Wathe's money renderer, then the persistent divination
      * snapshot and the reading slip in the same pass.
-     * 原 WitchManaHudMixin：追加 SparkWitch 魔力值且不改动 wathe 的金币渲染器，随后在同一流程绘制持久占卜快照与结果条。
+     * 原 WitchManaHudMixin：追加魔力值且不改动 wathe 的金币渲染器，随后在同一流程绘制持久占卜快照与结果条。
      */
     private static void renderWitchMana(DrawContext context) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
@@ -325,7 +325,7 @@ public final class RoleHudDispatcher {
         }
     }
 
-    /** Was WitchSkillHudMixin: the SparkWitch active skill line. / 原 WitchSkillHudMixin：SparkWitch 主动技能提示。 */
+    /** Was WitchSkillHudMixin: the active skill line. / 原 WitchSkillHudMixin：主动技能提示。 */
     private static void renderWitchSkill(DrawContext context) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;

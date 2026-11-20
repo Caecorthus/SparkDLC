@@ -14,11 +14,11 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 /**
  * Server-wide third-faction draw settings ({@link ThirdFactionDrawSettings}), saved with the scoreboard. Server-only:
  * it is not an {@code AutoSyncedComponent}, so nothing reaches clients. Written by
- * {@code /wathe:gameSettings set roleDividend third_faction} and through {@code SparkFactionApi} (SparkWitch's
+ * {@code /wathe:gameSettings set roleDividend third_faction} and through {@code SparkFactionApi} (the
  * minimum-players command); read once per round by the draw.
  * 全服第三方阵营抽取设置（{@link ThirdFactionDrawSettings}），随计分板保存。仅服务端：不是 {@code AutoSyncedComponent}，
  * 不会同步到客户端。由 {@code /wathe:gameSettings set roleDividend third_faction} 及 {@code SparkFactionApi}
- * （SparkWitch 的最低人数命令）写入；每局抽取时读取一次。
+ * （最低人数命令）写入；每局抽取时读取一次。
  */
 public final class ThirdFactionComponent implements Component {
     public static final ComponentKey<ThirdFactionComponent> KEY = ComponentRegistry.getOrCreate(

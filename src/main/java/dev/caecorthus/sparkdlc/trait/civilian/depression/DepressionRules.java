@@ -33,8 +33,8 @@ public final class DepressionRules {
     public static final int FAKE_DEATH_REWARD_DIVISOR = 2;
     public static final Identifier APPRENTICE_WITCH_ID = Identifier.of("sparkdlc", "apprentice_witch");
     /**
-     * SparkWitch's Blind: its bat-only psycho phase, fake death and voice mute fight the black-screen kit.
-     * SparkWitch 盲人：抑郁的只能持棒阶段、假死与语音静音都与黑屏道具冲突。
+     * The Blind: its bat-only psycho phase, fake death and voice mute fight the black-screen kit.
+     * 盲人：抑郁的只能持棒阶段、假死与语音静音都与黑屏道具冲突。
      */
     public static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkdlc", "blind");
 
@@ -51,7 +51,7 @@ public final class DepressionRules {
             return false;
         }
         // Police = PoliceRoleCategory, so registered police variants inherit Vigilante/Veteran's exclusion.
-        // 警职按 PoliceRoleCategory 判定，下游注册的警职沿用义警与老兵的排除。
+        // 警职按 PoliceRoleCategory 判定，已注册的警职沿用义警与老兵的排除。
         return CivilianTraitService.canSelectNonUndercoverCivilianTrait(role, selectedTraits)
                 && !PoliceRoleCategory.isPolice(role)
                 && !roleIdentifierEquals(role, Noellesroles.SURVIVAL_MASTER_ID)
@@ -209,12 +209,12 @@ public final class DepressionRules {
     }
 
     /**
-     * Direct money a real kill would pay the attacker: Wathe killer, SparkFactionAPI custom faction, or Impostor.
-     * 真实击杀会直接付给攻击者的钱：Wathe 杀手、SparkFactionAPI 自定义阵营或内鬼。
+     * Direct money a real kill would pay the attacker: Wathe killer, custom faction, or Impostor.
+     * 真实击杀会直接付给攻击者的钱：Wathe 杀手、自定义阵营或内鬼。
      */
     public static int normalDirectKillReward(boolean originalKiller, boolean customFactionKiller, int impostorReward) {
-        // SparkFactionAPI pays the same literal 100 as Wathe's MONEY_PER_KILL.
-        // SparkFactionAPI 的自定义阵营击杀奖励与 Wathe 的 MONEY_PER_KILL 同为 100。
+        // The custom-faction kill reward is the same literal 100 as Wathe's MONEY_PER_KILL.
+        // 自定义阵营击杀奖励与 Wathe 的 MONEY_PER_KILL 同为 100。
         return (originalKiller ? GameConstants.MONEY_PER_KILL : 0)
                 + (customFactionKiller ? GameConstants.MONEY_PER_KILL : 0)
                 + Math.max(0, impostorReward);

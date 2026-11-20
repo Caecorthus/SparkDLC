@@ -24,12 +24,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 
 /**
- * Draws the Tarot Reader's divination table under Wathe's money row, and under SparkStrength's killer team-wallet row
+ * Draws the Tarot Reader's divination table under Wathe's money row, and under the killer team-wallet row
  * while that row is showing (an Impostor Tarot Reader on a killer team). The counts are the server snapshot taken when
  * the reading was bought, never live counts, and the client recalculates nothing. The change arrows compare two
  * server snapshots this player already received, so they reveal nothing new. Role-owned presentation, never part of
  * the witch skill inventory panel.
- * 在 Wathe 金币行下方绘制塔罗牌师的占卜表；SparkStrength 显示杀手团队余额行时（处于杀手团队的内鬼塔罗牌师）改为绘制在该行下方。人数是购买占卜时服务端生成的快照，并非实时人数，客户端不做任何重算。
+ * 在 Wathe 金币行下方绘制塔罗牌师的占卜表；显示杀手团队余额行时（处于杀手团队的内鬼塔罗牌师）改为绘制在该行下方。人数是购买占卜时服务端生成的快照，并非实时人数，客户端不做任何重算。
  * 变化箭头只比较该玩家已收到的两次服务端快照，不会泄露新信息。属于职业自有展示，从不属于魔女技能背包面板。
  */
 public final class TarotDivinationHudRenderer {
@@ -61,14 +61,14 @@ public final class TarotDivinationHudRenderer {
 
     // Render-thread cache of the last measured table, keyed on everything measure() reads: the two snapshots, the
     // screen width, the active Language (replaced on every resource reload) and the font renderer. A table whose
-    // factions were all registered is final (SparkFactionAPI never replaces or removes a faction); one that fell back
-    // to white is re-measured every call, as before.
+    // factions were all registered is final (the faction registry never replaces or removes a faction); one that fell
+    // back to white is re-measured every call, as before.
     // 渲染线程上一次测量的表格缓存，键包含 measure() 读取的全部输入：两次快照、屏幕宽度、当前 Language（每次资源重载
-    // 都会换新）与字体渲染器。所有阵营都已注册的表格不会再变（SparkFactionAPI 从不替换或移除阵营）；回退为白色的表格
+    // 都会换新）与字体渲染器。所有阵营都已注册的表格不会再变（阵营注册表从不替换或移除阵营）；回退为白色的表格
     // 仍与以前一样每次重新测量。
     // The key also holds the font glyph options (`HudFontOptions`), which a toggle changes without a reload, and the
-    // title y, which follows SparkStrength's team-wallet row as it appears and goes.
-    // 键还包含字形选项（`HudFontOptions`，切换它们不会触发资源重载）以及随 SparkStrength 团队余额行出现与消失而变化的标题 y。
+    // title y, which follows the killer team-wallet row as it appears and goes.
+    // 键还包含字形选项（`HudFontOptions`，切换它们不会触发资源重载）以及随杀手团队余额行出现与消失而变化的标题 y。
     private static Optional<Table> cachedTable = Optional.empty();
     private static TarotDivinationSnapshotState.Snapshot cachedSnapshot;
     private static TarotDivinationSnapshotState.Snapshot cachedPrevious;
@@ -271,10 +271,10 @@ public final class TarotDivinationHudRenderer {
     }
 
     /**
-     * A faction's RGB from SparkFactionAPI, no alpha. Unregistered factions read white, except Team Jiahao, which
-     * falls back to its own tuhao gold ({@link InsiderRules#TEAM_JIAHAO_COLOR}). The HUD pips and the selector's
-     * section marks share it so a faction reads the same everywhere.
-     * 来自 SparkFactionAPI 的阵营 RGB，不含透明度。未注册的阵营为白色，嘉豪阵营除外：回退为其土豪金
+     * A faction's RGB from {@code SparkFactionApi}, no alpha. Unregistered factions read white, except Team Jiahao,
+     * which falls back to its own tuhao gold ({@link InsiderRules#TEAM_JIAHAO_COLOR}). The HUD pips and the
+     * selector's section marks share it so a faction reads the same everywhere.
+     * 来自 {@code SparkFactionApi} 的阵营 RGB，不含透明度。未注册的阵营为白色，嘉豪阵营除外：回退为其土豪金
      * （{@link InsiderRules#TEAM_JIAHAO_COLOR}）。HUD 圆点与选择界面分区标记共用，同一阵营处处同色。
      */
     public static int factionColor(Identifier factionId) {

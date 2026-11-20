@@ -26,10 +26,10 @@ public final class ConsumeRules {
 
     /**
      * Whether a returned {@code finishUsing} really consumed the item: it handed back another stack (bowl, bottle,
-     * bucket) or used some of the stack. A refusal (SparkStrength's Coroner cancelling a base spirit) returns the same,
+     * bucket) or used some of the stack. A refusal (the Coroner cancelling a base spirit) returns the same,
      * untouched stack. Creative players whose stack is not used up cannot be confirmed and are not counted.
      * 返回的 {@code finishUsing} 是否真的消耗了物品：返回了另一个物品堆（碗、瓶、桶）或物品堆数量减少。拒绝（如
-     * SparkStrength 验尸官取消基酒）会原样返回未改动的同一物品堆。物品未被消耗的创造模式玩家无法确认，不计入。
+     * 验尸官取消基酒）会原样返回未改动的同一物品堆。物品未被消耗的创造模式玩家无法确认，不计入。
      */
     public static boolean wasConsumed(boolean returnedAnotherStack, int countBefore, int countAfter) {
         return returnedAnotherStack || countAfter < countBefore;

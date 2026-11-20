@@ -6,15 +6,15 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Achievements read from the record events SparkWitch writes for them (contract W8-W17): the Ninja's parry, the
+ * Achievements read from the record events these roles write for them (contract W8-W17): the Ninja's parry, the
  * Poison Apple, the Perfumer's mark, the Prophecy, the Saint's Karma, the Judge's verdict, Bone Setting against a trap
- * and the Magician's puppet kills. Servers without that SparkWitch never write these events, so those rules simply find
+ * and the Magician's puppet kills. Older servers from before these events never write them, so those rules simply find
  * nothing. Two rules need none of them: Emma's quick revolver pair (death records) and the Seeker's broken device (an
- * older SparkWitch event). "As role X" is my real role at that event from the match record, so a Black Raven acting as
+ * older event). "As role X" is my real role at that event from the match record, so a Black Raven acting as
  * X never counts.
- * 依据 SparkWitch 专为成就写下的记录事件（契约 W8-W17）判断的成就：忍者格挡、毒苹果、调香师标记、先知预言、圣徒业障、法官判决、
- * 正骨挡下捕兽夹以及魔术师皮套击杀。没有该版本 SparkWitch 的服务器不会写这些事件，因此那些规则只是什么也找不到。另有两条规则不需要
- * 这些事件：艾玛左轮连杀（死亡记录）与搜寻者设备被打坏（较早已有的 SparkWitch 事件）。“以 X 身份”指对局记录中该事件发生时我的真实身份，
+ * 依据这些身份专为成就写下的记录事件（契约 W8-W17）判断的成就：忍者格挡、毒苹果、调香师标记、先知预言、圣徒业障、法官判决、
+ * 正骨挡下捕兽夹以及魔术师皮套击杀。早于这些事件的旧服务器不会写这些事件，因此那些规则只是什么也找不到。另有两条规则不需要
+ * 这些事件：艾玛左轮连杀（死亡记录）与搜寻者设备被打坏（较早已有的事件）。“以 X 身份”指对局记录中该事件发生时我的真实身份，
  * 因此扮演 X 的黑羽鸦永远不算。
  */
 final class SparkRoleRecordRules {
@@ -162,9 +162,9 @@ final class SparkRoleRecordRules {
 
     /**
      * 一眼丁真: as the Prophet, my first guess on a death ({@code attempt} 1) is correct and reveals a responsible
-     * player ({@code killer}) who is a 非好人 by the {@code killer_faction} SparkWitch wrote at that moment (else by
+     * player ({@code killer}) who is a 非好人 by the {@code killer_faction} written at that moment (else by
      * {@link RoleKitRecordRules#factionAround}).
-     * 以先知身份对一次死亡的第一次猜测（{@code attempt} 为 1）就猜中，并揭示出一名责任人（{@code killer}），按 SparkWitch 当时写下的
+     * 以先知身份对一次死亡的第一次猜测（{@code attempt} 为 1）就猜中，并揭示出一名责任人（{@code killer}），按当时写下的
      * {@code killer_faction}（没有时按 {@link RoleKitRecordRules#factionAround}）判断为非好人。
      */
     static boolean firstProphecyNamesNonCivilian(AchievementContext context) {
@@ -191,10 +191,10 @@ final class SparkRoleRecordRules {
 
     /**
      * 法外狂徒张三: as the Judge, sentence a player ({@code sparkdlc:judge_verdict} with {@code sentenced}), then,
-     * still the Judge, kill them myself after the verdict and less than {@code duration} ticks after it (SparkWitch
+     * still the Judge, kill them myself after the verdict and less than {@code duration} ticks after it (the server
      * lifts the sentence at verdict + {@code duration}), they being a 非好人 at that death.
      * 以法官身份判刑一名玩家（带 {@code sentenced} 的 {@code sparkdlc:judge_verdict}），之后仍以法官身份在判决之后、判决后不到
-     * {@code duration} tick 时亲手将其击杀（SparkWitch 在判决 + {@code duration} 时解除刑期），对方死亡时为非好人。
+     * {@code duration} tick 时亲手将其击杀（服务端在判决 + {@code duration} 时解除刑期），对方死亡时为非好人。
      */
     static boolean killedWhileSentenced(AchievementContext context) {
         MatchTimeline timeline = context.timeline();

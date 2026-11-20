@@ -53,7 +53,7 @@ public final class UndercoverService {
     /** Marks the blackout outfit so only our own pieces are ever taken back. / 标记熄灯黑衣，只收回我们自己发的。 */
     public static final String OUTFIT_MARKER = "sparkstrength_undercover_outfit";
     public static final int OUTFIT_COLOR = 0x1B1B1F;
-    /** SparkWitch Bell Ringer's echo skill id, vetoed on the Undercover. / SparkWitch 敲钟人回响的技能 id，对卧底否决。 */
+    /** The Bell Ringer's echo skill id, vetoed on the Undercover. / 敲钟人回响的技能 id，对卧底否决。 */
     public static final Identifier BELL_ECHO_ACTION = Identifier.of("sparkdlc", "bell_echo");
     private static final int INVISIBILITY_TICKS = 60;
     private static final int SPEED_TICKS = 60;
@@ -376,8 +376,8 @@ public final class UndercoverService {
                                 EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.forEquipmentSlot(piece.getSlotType()))
                 .build());
-        // Curse of Binding keeps it on through SparkWitch's armour slots; the glint stays hidden.
-        // 绑定诅咒让它在 SparkWitch 盔甲栏里也脱不下；附魔光效隐藏。
+        // Curse of Binding keeps it on through the limited inventory's armour slots; the glint stays hidden.
+        // 绑定诅咒让它在受限物品栏的盔甲栏里也脱不下；附魔光效隐藏。
         RegistryEntry<Enchantment> binding = player.getRegistryManager().get(RegistryKeys.ENCHANTMENT)
                 .getEntry(Enchantments.BINDING_CURSE).orElse(null);
         if (binding != null) {

@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Wathe calls {@code applyFoodPoison(target, stack)} whenever a food or drink is consumed, including by players who
- * are fed without a use animation (Noelle's Waiter, SparkStrength capsules). Observes only; poisoning is unchanged.
+ * are fed without a use animation (Noelle's Waiter, this mod's capsules). Observes only; poisoning is unchanged.
  * Wathe 在每次食物或饮品被食用时调用 {@code applyFoodPoison(target, stack)}，包括无使用动画的被喂食玩家（Noelle 服务员、
- * SparkStrength 胶囊）。仅观察，不改变下毒逻辑。
+ * 本模组的胶囊）。仅观察，不改变下毒逻辑。
  */
 @Mixin(value = PoisonUtils.class, remap = false)
 public abstract class PoisonUtilsConsumeMixin {

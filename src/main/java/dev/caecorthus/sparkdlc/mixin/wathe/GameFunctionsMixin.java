@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * 给 Wathe 玩家尸体补写验尸官需要的死亡身份快照。
  *
- * <p>这里不改 Wathe 的 PlayerBodyEntity 字段，而是把额外数据写入 SparkStrength 自己的 CCA 组件。
+ * <p>这里不改 Wathe 的 PlayerBodyEntity 字段，而是把额外数据写入本模组自己的 CCA 组件。
  * 采尸袋之后只读这份快照，避免死者在线身份发生变化时污染尸体身份。</p>
  */
 @Mixin(GameFunctions.class)

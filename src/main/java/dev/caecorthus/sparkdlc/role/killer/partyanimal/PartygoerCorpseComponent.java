@@ -24,11 +24,8 @@ import java.util.UUID;
  * 因此 ENTITY_LOAD 监听器已能看到它。标记同步给所有客户端（所有人看到的都是派对客外观与名字）；召唤者（派对狂，秃鹫吃掉
  * 这具尸体时记为下毒者）只留在服务端。
  *
- * <p>Frozen cross-module seam: SparkWitch calls {@link #isPartygoerCorpse(Entity)} (directly since the SparkDLC fusion), so the class
- * {@code dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent}, the name {@code isPartygoerCorpse}, the
- * single {@code Entity} parameter and the {@code boolean} result stay frozen. It works on both sides.
- * 冻结的跨模块接缝：SparkWitch 会调用 {@link #isPartygoerCorpse(Entity)}（融合进 SparkDLC 后为直接调用），因此类名、方法名
- * {@code isPartygoerCorpse}、唯一的 {@code Entity} 参数与 {@code boolean} 返回值保持冻结。双端可用。</p>
+ * <p>The roles that handle corpses call {@link #isPartygoerCorpse(Entity)}. It works on both sides.
+ * 处理尸体的职业会调用 {@link #isPartygoerCorpse(Entity)}。双端可用。</p>
  */
 public final class PartygoerCorpseComponent implements AutoSyncedComponent {
     public static final ComponentKey<PartygoerCorpseComponent> KEY = ComponentRegistry.getOrCreate(
@@ -45,8 +42,8 @@ public final class PartygoerCorpseComponent implements AutoSyncedComponent {
     }
 
     /**
-     * Frozen seam (see the class doc): true iff {@code entity} is a Wathe body left by a killed Partygoer.
-     * 冻结接缝（见类注释）：仅当 {@code entity} 是被打死的派对客留下的 Wathe 尸体时返回 true。
+     * Corpse seam (see the class doc): true iff {@code entity} is a Wathe body left by a killed Partygoer.
+     * 尸体接缝（见类注释）：仅当 {@code entity} 是被打死的派对客留下的 Wathe 尸体时返回 true。
      */
     public static boolean isPartygoerCorpse(@Nullable Entity entity) {
         return entity instanceof PlayerBodyEntity corpse && KEY.get(corpse).isPartygoer();

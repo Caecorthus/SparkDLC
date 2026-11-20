@@ -22,8 +22,8 @@ public final class SeekerRemoteViewRules {
     /** Simple Voice Chat's key category (push-to-talk, whisper, mute). / Simple Voice Chat 的按键分类。 */
     public static final String VOICE_CHAT_CATEGORY = "key.categories.voicechat";
     /**
-     * SparkWitch's configurable skill key 2 (N), used by the Seeker's quick connect / mode switch (WP-11).
-     * SparkWitch 可配置的技能键 2（N），供搜寻者快速连接与模式切换使用（WP-11）。
+     * The configurable Role Skill 2 key (N), used by the Seeker's quick connect / mode switch (WP-11).
+     * 可配置的“职业技能 2”键（N），供搜寻者快速连接与模式切换使用（WP-11）。
      */
     public static final String SECONDARY_SKILL_KEY = "key.sparkdlc.role_skill_2";
     /**

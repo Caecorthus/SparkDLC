@@ -64,10 +64,10 @@ public final class SherryHudRules {
     }
 
     /**
-     * The view gates: her own client on a confirmed SparkWitch server, an ACTIVE round, playing and alive, never an
+     * The view gates: her own client on a confirmed SparkDLC server, an ACTIVE round, playing and alive, never an
      * alive spectator (Rift occupant), creative or Taotie-swallowed, with Wathe's train HUD shown, F1 off and no
      * screen open (the chat box and her own 推演 panel cover this corner).
-     * 视图门槛：已确认的 SparkWitch 服务器上她自己的客户端、ACTIVE 回合、在局存活，不是存活旁观者（裂隙门内）、创造模式
+     * 视图门槛：已确认的 SparkDLC 服务器上她自己的客户端、ACTIVE 回合、在局存活，不是存活旁观者（裂隙门内）、创造模式
      * 或被饕餮吞下；Wathe 列车 HUD 显示、未按 F1，且没有打开任何界面（聊天框与她自己的推演面板会盖住这个角落）。
      */
     public static boolean showsHud(boolean activeSherry, boolean hudHidden, boolean trainHudActive,

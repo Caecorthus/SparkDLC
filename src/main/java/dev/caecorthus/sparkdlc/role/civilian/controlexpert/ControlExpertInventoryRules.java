@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Transfer rules for the drop-guard mixins: Control Expert items never leave their holder's own inventory slots.
  * Items are identified by class, so the rules stay safe before registry lookups. The slot-click rule mirrors
- * the Bell Ringer's on purpose (duplicated, not shared, so neither role module depends on the other).
+ * the Bell Ringer's on purpose (duplicated, not shared, so neither role depends on the other).
  * Creative players are exempt.
  * 防丢弃 mixin 使用的转移规则：控场专家道具不会离开持有者自身的背包栏位。按物品类识别，因此不依赖注册表；
- * 槽位点击规则刻意与敲钟人一致（复制而非共享，两个职业模块互不依赖）。创造模式玩家不受限制。
+ * 槽位点击规则刻意与敲钟人一致（复制而非共享，两个职业互不依赖）。创造模式玩家不受限制。
  */
 public final class ControlExpertInventoryRules {
     private ControlExpertInventoryRules() {

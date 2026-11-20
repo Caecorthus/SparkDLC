@@ -8,12 +8,12 @@ import dev.caecorthus.sparkdlc.util.TickTime;
 /**
  * Pure presentation rules of the Medium's two bottom-right rows (owner pick 2026-11-13): 通灵 above, 幽灵的加护
  * below, each in the first state that applies: its own window running (teal), its cooldown (grey), another window
- * blocking it (grey), short of coins (grey), ready with its key (teal). The rows sit in the shared SparkWitch corner
+ * blocking it (grey), short of coins (grey), ready with its key (teal). The rows sit in the shared role-HUD corner
  * slot that {@code SaintHudLayoutRules} reserves two rows high and lift together above the hotbar column at narrow GUI
  * widths ({@link FiendDashHudRules#rowY}, measured with 99 s). 招魂 has no corner row: it lives in the inventory.
  * 通灵师右下角两行的纯展示规则（所有者 2026-11-13 选定）：上行通灵，下行幽灵的加护，各取第一个成立的状态：自己的窗口
  * 进行中（青绿）、冷却中（灰）、被其他窗口占用（灰）、金币不足（灰）、带按键的可用（青绿）。两行位于 {@code SaintHudLayoutRules}
- * 预留两行高度的 SparkWitch 共享右下角位置，GUI 较窄时一同抬升到快捷栏列之上（{@link FiendDashHudRules#rowY}，按 99 秒测宽）。
+ * 预留两行高度的职业 HUD 共享右下角位置，GUI 较窄时一同抬升到快捷栏列之上（{@link FiendDashHudRules#rowY}，按 99 秒测宽）。
  * 招魂没有角落行：它位于背包中。
  */
 public final class MediumHudRules {

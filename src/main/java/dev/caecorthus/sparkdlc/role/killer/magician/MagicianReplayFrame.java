@@ -47,9 +47,9 @@ public record MagicianReplayFrame(
     }
     public void applyInventoryTo(PlayerEntity p) {
         PlayerInventory i = p.getInventory();
-        // SparkStrength M67 seam: SparkStrength tracks a held M67 and its charge by the stack object, so a hand M67 this
+        // M67 seam: the M67 feature tracks a held M67 and its charge by the stack object, so a hand M67 this
         // frame still shows unchanged keeps the proxy's object instead of a fresh copy; every other stack is copied.
-        // SparkStrength M67 接缝：SparkStrength 按堆叠对象追踪手中的 M67 及其蓄力，因此本帧仍显示未变化的手中 M67 保留代理原对象，
+        // M67 接缝：M67 功能按堆叠对象追踪手中的 M67 及其蓄力，因此本帧仍显示未变化的手中 M67 保留代理原对象，
         // 不换成新副本；其他堆叠照常复制。
         ItemStack keptMain = keptM67(i.main, selectedSlot, mainStacks);
         ItemStack keptOff = keptM67(i.offHand, 0, offHandStacks);

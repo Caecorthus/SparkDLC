@@ -143,13 +143,13 @@ public final class SeekerDeviceHits {
     }
 
     /**
-     * Add-on gun shot routed through {@code SparkRoleApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
+     * Add-on gun shot routed through {@code SparkRoleApi.hitGunWorldTarget} (today the Serial Killer
      * pistols, Wathe {@code RevolverItem} subclasses that fire through their own payload). The facade has already
      * checked the gun (a {@code wathe:guns} stack in hand, not cooling down); this is the revolver entry's break with
      * the caller's {@code maxDistance} (capped at Wathe's 65): live foreign device, aim and line of sight,
      * {@link SeekerDamageRules#mayBreak}. Recorded as {@link SeekerBreakSource#REVOLVER}, so the break, its replay id
      * and the owner's mark are exactly a revolver hit's. The caller finishes the shot as a miss. True = broken.
-     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：Wathe
+     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的附属枪械射击（目前为连环杀手手枪：Wathe
      * {@code RevolverItem} 子类，经自有数据包开火）。门面已校验枪械（手中的 {@code wathe:guns} 物品且未冷却）；这里按左轮入口
      * 打坏设备，距离取调用方的 {@code maxDistance}（上限为 Wathe 的 65）：存活的他人设备、瞄准与视线、
      * {@link SeekerDamageRules#mayBreak}。记录为 {@link SeekerBreakSource#REVOLVER}，因此损坏、回放 id 与对拥有者的标记都与左轮
@@ -165,11 +165,11 @@ public final class SeekerDeviceHits {
     }
 
     /**
-     * SparkWitch double-barrel shotgun (one-line Hunter hook, server branch): nearest-wins along the shooter's look ray
+     * Hunter double-barrel shotgun (one-line Hunter hook, server branch): nearest-wins along the shooter's look ray
      * of {@code range} (the fired shell's range: 8 buckshot, 15 slug). A nearer breakable device breaks and the shot
      * kills nobody (the Hunter's record then says {@code hit:false}). The Partygoer and Bomber drone steps run first
      * here and read {@code range}, so the Hunter calls this entry exactly once per shot, for the centre ray.
-     * SparkWitch 双管猎枪（Hunter 服务端分支中的一行钩子）：沿射手视线、长 {@code range}（所射弹药的射程：霰弹 8、独头弹 15）
+     * 猎人双管猎枪（Hunter 服务端分支中的一行钩子）：沿射手视线、长 {@code range}（所射弹药的射程：霰弹 8、独头弹 15）
      * 执行最近者命中；更近且可打坏的设备被打坏，这一枪不击杀任何人（Hunter 的记录随之为 {@code hit:false}）。派对客与轰炸者
      * 无人机步骤在此最先执行并读取 {@code range}，因此 Hunter 每枪只为中心射线调用本入口一次。
      */
@@ -244,10 +244,11 @@ public final class SeekerDeviceHits {
     }
 
     /**
-     * Wathe knife right-click charged stab receiver. Validates the Wathe knife in either hand, no knife cooldown, the SparkTraits
-     * weapon-action gate, reach (3 + 0.5 latency), line of sight and {@link SeekerDamageRules#mayBreak}. A device stab
-     * costs nothing, like Wathe's miss (no cooldown, no Veteran stab use); returns true when a device broke.
-     * Wathe 刀右键蓄力刺击接收器。校验任一手持 Wathe 刀、刀未冷却、SparkTraits 武器动作门槛、距离（3 + 0.5 延迟）、视线与
+     * Wathe knife right-click charged stab receiver. Validates the Wathe knife in either hand, no knife cooldown, the
+     * trait weapon-action gate ({@code SparkTraitsApi.blocksWeaponAction}), reach (3 + 0.5 latency), line of sight and
+     * {@link SeekerDamageRules#mayBreak}. A device stab costs nothing, like Wathe's miss (no cooldown, no Veteran stab
+     * use); returns true when a device broke.
+     * Wathe 刀右键蓄力刺击接收器。校验任一手持 Wathe 刀、刀未冷却、词条武器动作门槛、距离（3 + 0.5 延迟）、视线与
      * {@link SeekerDamageRules#mayBreak}。刺中设备与 Wathe 未刺中一样不产生代价（无冷却、不消耗老兵次数）；打坏设备时返回 true。
      */
     public static boolean onKnifeStabPayload(ServerPlayerEntity attacker, @Nullable Entity target) {
@@ -382,11 +383,11 @@ public final class SeekerDeviceHits {
     }
 
     /**
-     * Area weapons (Wathe grenade incl. Bomb Maniac, SparkStrength M67, Potion Gunner shell): break every device in
+     * Area weapons (Wathe grenade incl. Bomb Maniac, the M67 grenade, Potion Gunner shell): break every device in
      * the sphere with line of sight to the centre; players are still killed as before (no blocking). With an online
      * thrower each device is gated by {@link SeekerDamageRules#mayBreak} (never the thrower's own); without one the
      * break is unattributed.
-     * 范围武器（Wathe 手雷含炸弹狂人、SparkStrength M67、药炮手炮弹）：打坏球内与爆心有视线的所有设备；玩家照常死亡（不遮挡）。
+     * 范围武器（Wathe 手雷含炸弹狂人、M67 手雷、药炮手炮弹）：打坏球内与爆心有视线的所有设备；玩家照常死亡（不遮挡）。
      * 有在线投掷者时每个设备都经 {@link SeekerDamageRules#mayBreak} 校验（从不打坏投掷者自己的设备）；没有投掷者时损坏不归属任何人。
      *
      * <p>Drones in range break first. Wathe grenades (reported at their HEAD, before the kills) and M67s arrive here
@@ -842,9 +843,10 @@ public final class SeekerDeviceHits {
 
     /**
      * The Wathe knife itself, never a {@code KnifeItem} subclass: the Vendetta knife has its own payload and never sends
-     * a stab, so a forged stab while holding it must not break devices (matches the SparkTraits knife-packet gate).
+     * a stab, so a forged stab while holding it must not break devices (matches the trait knife-packet gate,
+     * {@code CloseQuartersKnifeReceiverMixin}).
      * 仅限 Wathe 刀本身，不含 {@code KnifeItem} 子类：复仇者之刀走自己的数据包、从不发送刺击，持有它时伪造的刺击不得打坏设备
-     * （与 SparkTraits 刀数据包门槛一致）。
+     * （与词条刀数据包门槛 {@code CloseQuartersKnifeReceiverMixin} 一致）。
      */
     private static ItemStack heldKnife(PlayerEntity player) {
         ItemStack main = player.getMainHandStack();

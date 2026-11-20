@@ -25,15 +25,15 @@ public final class AntiFastRoundRules {
 
     /**
      * Stable contract: C2S payloads dropped on the server while the sender is inside the safe time. Plain ids only,
-     * so no optional mod class is ever loaded: payload-fired item uses (knife, gun, add-on weapons) and every known
-     * role skill. The shop, movement, exits and UI-only payloads stay allowed. It is close to SparkStrength's
+     * so no feature class is ever loaded: payload-fired item uses (knife, gun, add-on weapons) and every known
+     * role skill. The shop, movement, exits and UI-only payloads stay allowed. It is close to
      * {@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS} but not equal: the safe time also allows Black Raven crow flight
      * and USEC attachment changes. (Since 2026-11-13 the Fisher's swordfish stab is on both lists, like the Wathe
      * knife, so it is no longer a difference.) An unregistered id never matches. A new skill payload must be classified
      * deliberately, as a complete row of the canonical table.
-     * 稳定契约：发送者处于安全时间内时在服务端丢弃的 C2S 数据包。只保存纯 id，从不加载可选模组的类：通过数据包触发的
+     * 稳定契约：发送者处于安全时间内时在服务端丢弃的 C2S 数据包。只保存纯 id，从不加载任何功能的类：通过数据包触发的
      * 物品使用（刀、枪、附属武器）以及所有已知职业技能。商店、移动、退出与仅界面用途的数据包仍然放行。它与
-     * SparkStrength 的 {@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS} 相近但并不相同：安全时间还放行黑羽鸦乌鸦飞行与
+     * {@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS} 相近但并不相同：安全时间还放行黑羽鸦乌鸦飞行与
      * USEC 配件更换。（自 2026-11-13 起钓鱼佬的剑鱼刺击与 Wathe 小刀一样同在两份名单中，不再是差异。）未注册的 id 永远不会命中。新增技能包必须作为规范表中完整的一行有意识地归类。
      */
     // Generated SAFE_TIME column of config/payload-policy/actions.tsv: edit that table and rerun

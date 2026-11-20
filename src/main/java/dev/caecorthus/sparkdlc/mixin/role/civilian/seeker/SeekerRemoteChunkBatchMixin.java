@@ -17,9 +17,9 @@ import org.spongepowered.asm.mixin.injection.At;
  * 无限遥控距离（区块批次；服务端、原版目标、默认重映射）：排队的区块按与会话焦点设备的距离由近到远发送（与
  * SeekerRemoteChunkViewMixin 一致），使拥有者正在看的区域最先到达。focusOf 返回 null 时回退为本体位置。
  *
- * <p>Coexists with SparkStrength's drone batch mixin through {@code @ModifyExpressionValue} chaining; default
+ * <p>Coexists with the Bomber drone's batch mixin through {@code @ModifyExpressionValue} chaining; default
  * {@code require} (Seeker mixin rule).
- * 通过 {@code @ModifyExpressionValue} 链式叠加与 SparkStrength 的无人机批次 mixin 共存；使用默认 {@code require}（搜寻者 mixin 规则）。</p>
+ * 通过 {@code @ModifyExpressionValue} 链式叠加与炸弹客无人机的批次 mixin 共存；使用默认 {@code require}（搜寻者 mixin 规则）。</p>
  */
 @Mixin(ChunkDataSender.class)
 public abstract class SeekerRemoteChunkBatchMixin {

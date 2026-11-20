@@ -18,18 +18,20 @@ import org.jetbrains.annotations.Nullable;
 /**
  * The single writer of the Savior's own weapon cooldowns, and the observed-kill halving. Server thread only.
  * {@link #writeCooldown} is raise-only: it never shortens a longer lock already on the weapon (Knight duel seal, Abyss
- * suppression, Saint Karma, any SparkFactionAPI forced cooldown); the natural write goes through vanilla {@code set},
- * so SparkTraits modifiers (Fast Hands, ...) shape the Savior's own cooldown, and its effective length and end tick are
- * remembered. {@link #reduceAfterObservedKill} shortens only that own part, by half of its effective length, and only
- * while the live cooldown is still the Savior's own entry (same end tick); it never goes below a forced remainder:
- * {@code ForcedCooldowns.clearItemKeepingForced} keeps what was forced, and SparkTraits' exact setter writes the rest so
- * modifiers are not applied twice. Remaining time is read from SparkFactionAPI, not SparkTraits.
+ * suppression, Saint Karma, any forced cooldown written through {@code ForcedCooldowns}); the natural write goes
+ * through vanilla {@code set}, so trait cooldown modifiers (Fast Hands, ...) shape the Savior's own cooldown, and its
+ * effective length and end tick are remembered. {@link #reduceAfterObservedKill} shortens only that own part, by half
+ * of its effective length, and only while the live cooldown is still the Savior's own entry (same end tick); it never
+ * goes below a forced remainder: {@code ForcedCooldowns.clearItemKeepingForced} keeps what was forced, and the exact
+ * setter {@code SparkTraitsApi.setExactItemCooldownRemaining} writes the rest so modifiers are not applied twice.
+ * Remaining time is read from {@code ForcedCooldowns}, not from the trait API.
  * 救世主自身武器冷却的唯一写入方，以及目击击杀后的减半。仅限服务端线程。{@link #writeCooldown} 只抬高：绝不缩短武器上已有的
- * 更长锁定（骑士决斗封印、聆渊者压制、圣徒业报、任何 SparkFactionAPI 强制冷却）；自然写入经由原版 {@code set}，使
- * SparkTraits 倍率（快手等）作用于救世主自身冷却，并记住其实际时长与结束刻。{@link #reduceAfterObservedKill} 只缩短这部分
- * 自身冷却，减去其实际时长的一半，且仅当实时冷却仍是救世主自己的条目（结束刻相同）时才缩短；绝不低于强制剩余：
- * {@code ForcedCooldowns.clearItemKeepingForced} 保留强制部分，其余由 SparkTraits 精确写入，避免重复计算倍率。剩余时间
- * 读取自 SparkFactionAPI，而非 SparkTraits。
+ * 更长锁定（骑士决斗封印、聆渊者压制、圣徒业报、任何经 {@code ForcedCooldowns} 写入的强制冷却）；自然写入经由原版
+ * {@code set}，使词条冷却倍率（快手等）作用于救世主自身冷却，并记住其实际时长与结束刻。
+ * {@link #reduceAfterObservedKill} 只缩短这部分自身冷却，减去其实际时长的一半，且仅当实时冷却仍是救世主自己的条目
+ * （结束刻相同）时才缩短；绝不低于强制剩余：{@code ForcedCooldowns.clearItemKeepingForced} 保留强制部分，其余由精确写入
+ * {@code SparkTraitsApi.setExactItemCooldownRemaining} 完成，避免重复计算倍率。剩余时间读取自
+ * {@code ForcedCooldowns}，而非词条 API。
  */
 public final class SaviorCooldowns {
     /**
@@ -45,17 +47,17 @@ public final class SaviorCooldowns {
 
     /**
      * The Savior's own cooldown on one weapon: its end tick on the player's own item-cooldown clock and its effective
-     * length (after SparkTraits modifiers). / 救世主在一把武器上的自身冷却：玩家物品冷却时钟上的结束刻，以及实际时长（经
-     * SparkTraits 倍率后）。
+     * length (after trait cooldown modifiers). / 救世主在一把武器上的自身冷却：玩家物品冷却时钟上的结束刻，以及实际时长
+     * （经词条冷却倍率后）。
      */
     record OwnCooldown(int endTick, int duration) {
     }
 
     /**
      * Raise-only write of the Savior's own cooldown, remembering its effective length. Every Savior weapon cooldown goes
-     * through this one writer; the post-use values are the SFA nominals in {@code RoleItemCooldownNominals}.
+     * through this one writer; the post-use values are the nominals in {@code RoleItemCooldownNominals}.
      * 只抬高地写入救世主自身冷却，并记住其实际时长。救世主武器冷却只经由此写入；使用后数值即
-     * {@code RoleItemCooldownNominals} 中的 SFA 标准冷却。
+     * {@code RoleItemCooldownNominals} 中的标准冷却。
      */
     public static void writeCooldown(ServerPlayerEntity player, Item item, int ticks) {
         if (player == null || item == null || ticks <= 0) {
@@ -64,7 +66,7 @@ public final class SaviorCooldowns {
         int existing = ForcedCooldowns.itemRemainingTicks(player, item);
         int own;
         if (ticks > existing) {
-            // Natural write: SparkTraits modifiers apply. / 自然写入：SparkTraits 倍率生效。
+            // Natural write: trait cooldown modifiers apply. / 自然写入：词条冷却倍率生效。
             player.getItemCooldownManager().set(item, ticks);
             own = ForcedCooldowns.itemRemainingTicks(player, item);
             if (own < existing) {
@@ -88,9 +90,9 @@ public final class SaviorCooldowns {
     /**
      * Raise-only and exact: {@code to} waits at least as long as {@code from} still does. The innocent-kill punishment
      * uses it so the revolver it hands over is not ready before the confiscated weapon would have been; the remainder
-     * already carries any SparkTraits modifier, so it is written exactly, not through the natural write.
+     * already carries any trait cooldown modifier, so it is written exactly, not through the natural write.
      * 只抬高且精确：{@code to} 至少要等到 {@code from} 的剩余冷却结束。误杀惩罚用它保证交到手上的左轮不会比被没收的武器更早
-     * 就绪；该剩余值已包含 SparkTraits 倍率，因此精确写入，而不是走自然写入。
+     * 就绪；该剩余值已包含词条冷却倍率，因此精确写入，而不是走自然写入。
      */
     static void carryOver(ServerPlayerEntity player, Item from, Item to) {
         int remaining = ForcedCooldowns.itemRemainingTicks(player, from);
@@ -167,7 +169,7 @@ public final class SaviorCooldowns {
         return liveEndTick != null && liveEndTick == ownEndTick;
     }
 
-    /** SparkTraits' exact write first (past Fast Hands), the vanilla set only when it answers false. / 先精确写入，失败才原版写入。 */
+    /** The exact trait write first (past Fast Hands), the vanilla set only when it answers false. / 先精确写入，失败才原版写入。 */
     private static void writeExact(ServerPlayerEntity player, Item item, int ticks) {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {
             player.getItemCooldownManager().set(item, ticks);

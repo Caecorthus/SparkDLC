@@ -22,9 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Builds the pages of the SparkDLC settings screen from the settings each installed mod exposes. Pages and groups
- * with nothing in them are left out, so a missing sibling mod simply hides its rows.
- * 根据各已安装模组提供的设置构建 SparkDLC 设置界面的页面。没有内容的页面与分组会被省略，缺少某个模组时其行自然隐藏。
+ * Builds the pages of the SparkDLC settings screen from the settings the mod's features, Wathe and NoellesRoles
+ * expose. Pages and groups with nothing in them are left out.
+ * 根据本模组各功能以及 Wathe、NoellesRoles 提供的设置构建 SparkDLC 设置界面的页面。没有内容的页面与分组会被省略。
  */
 public final class SparkDlcSettingsPages {
     public static final String GENERAL = "general";
@@ -56,8 +56,8 @@ public final class SparkDlcSettingsPages {
         try {
             pages.add(scope());
         } catch (IllegalArgumentException exception) {
-            // SparkWitch answered with values its own defaults are not among; leave the page out.
-            // SparkWitch 返回的取值不包含其默认值时，不显示此页。
+            // The scope settings answered with values their own defaults are not among; leave the page out.
+            // 开镜设置返回的取值不包含其默认值时，不显示此页。
             LOGGER.warn("SparkDLC scope settings are inconsistent; hiding the scope page", exception);
         }
         pages.add(display());

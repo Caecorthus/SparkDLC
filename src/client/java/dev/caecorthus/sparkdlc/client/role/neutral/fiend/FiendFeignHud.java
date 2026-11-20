@@ -19,11 +19,11 @@ import net.minecraft.util.Language;
  * Draws the dormant Fiend's owner-only feign-death line ({@link FiendFeignHudRules}) in the Dash line's row. Reads only
  * the local player's synced role and its own {@link FiendFeignComponent}, which the server syncs to that player alone
  * and the client counts down locally for display; the server alone decides when a feign starts and ends. Called by
- * {@link FiendClient} only on a confirmed SparkWitch server. Role-owned presentation: never the action bar and never
+ * {@link FiendClient} only on a confirmed SparkDLC server. Role-owned presentation: never the action bar and never
  * the {@code gui.sparkdlc.skills} panel.
  * 在疾驰行所在行绘制休眠魔人仅本人可见的假死行（{@link FiendFeignHudRules}）。只读取本地玩家同步的职业及其自身的
  * {@link FiendFeignComponent}；服务端只把该组件同步给本人，客户端在本地倒数用于展示，假死何时开始与结束只由服务端决定。
- * 仅在已确认的 SparkWitch 服务器上由 {@link FiendClient} 调用。属于职业自有展示：绝不使用动作栏，也绝不进入
+ * 仅在已确认的 SparkDLC 服务器上由 {@link FiendClient} 调用。属于职业自有展示：绝不使用动作栏，也绝不进入
  * {@code gui.sparkdlc.skills} 面板。
  */
 public final class FiendFeignHud {

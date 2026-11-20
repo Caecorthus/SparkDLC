@@ -75,7 +75,7 @@ import org.joml.Vector3f;
  */
 final class NoellesKillerScenes {
     private static final List<String> NOELLES = List.of("noellesroles");
-    /** Scenes that also use SparkStrength's items or entities. 还用到 SparkStrength 物品或实体的场景。 */
+    /** Scenes that also use this mod's items or entities. 还用到本模组物品或实体的场景。 */
     private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     private static final Random RANDOM = Random.create();
     /** Facing the camera: towards the plate's (0, 0) corner. 面向镜头：朝底板的 (0, 0) 角。 */
@@ -101,10 +101,9 @@ final class NoellesKillerScenes {
         item("noellesroles:throwing_axe", NOELLES, scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
         role("sparkdlc:roles/noellesroles/bomber", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::timedBomb));
-        // SparkStrength adds a second use, hiding the bomb in a tray or bed as a trap. The modules are fused in
-        // SparkDLC, so that scene is always appended (it used to be gated on SparkStrength being loaded).
-        // SparkStrength 新增第二种用法（把炸弹藏进托盘或床做陷阱）。各模块已融合进 SparkDLC，因此始终追加该场景
-        // （原先仅在加载 SparkStrength 时追加）。
+        // The Bomber's role kit adds a second use, hiding the bomb in a tray or bed as a trap; that scene is always
+        // appended.
+        // 炸弹客的职业套件新增第二种用法（把炸弹藏进托盘或床做陷阱）；始终追加该场景。
         item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb),
                 scene("wathe/bar", RoleKitKillerItemScenes::timedBombTrap));
         item("sparkdlc:grenade_drone", NOELLES_STRENGTH,
@@ -133,12 +132,12 @@ final class NoellesKillerScenes {
      * Swapper (Noellesroles SWAP_PACKET receiver, SwapperScreenMixin, SwapperPlayerWidget): the inventory lists the
      * living players' heads; clicking a first and then a second head swaps those two at once, position, yaw and pitch
      * alike, with portal particles (entity status 46) and the enderman teleport sound at both spots. The Swapper may
-     * pick themself; 60 s cooldown. Some players cannot be swapped (SparkTraits Last Stand, SparkWitch Wraiths and Rift
-     * gates via SparkFactionAPI). Here the Swapper waits in front of a partner's knife and swaps themself with the
+     * pick themself; 60 s cooldown. Some players cannot be swapped (the Last Stand trait, Wraiths and Rift
+     * gates via the faction core). Here the Swapper waits in front of a partner's knife and swaps themself with the
      * target.
      * 交换者：背包里列出存活玩家的头像；先后点两个头像，这两人立刻互换位置，连朝向一起互换，两处都会冒出传送粒子
-     * （实体状态 46）并响起末影人传送声。可以选自己；冷却 60 秒。少数人换不了（SparkTraits 背水一战、经 SparkFactionAPI
-     * 的 SparkWitch 冤魂与裂隙门）。演示中交换者站在同伴刀前，把自己和目标互换。
+     * （实体状态 46）并响起末影人传送声。可以选自己；冷却 60 秒。少数人换不了（背水一战词条、经阵营核心
+     * 的冤魂与裂隙门）。演示中交换者站在同伴刀前，把自己和目标互换。
      */
     private static void swapper(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_swapper", "交换者：让两个人互换位置");
@@ -255,16 +254,16 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Poison needle and catalyst (PoisonNeedleItem, CatalystItem, PoisonerShopHandler; SparkStrength
+     * Poison needle and catalyst (PoisonNeedleItem, CatalystItem, PoisonerShopHandler; SparkDLC
      * PoisonerEconomyService): the Poisoner's shop has no knife or revolver. The needle, right-clicked on a player in
      * reach, poisons for 40 s (or takes 40 s off a poison already running); reusable, 60 s opening and 45 s cooldown.
      * The catalyst, used on a poisoned player, sets the poison to 5 s; single use, it always clears the needle's
      * cooldown. Poisoned players usually carry an outline through walls on the Poisoner's screen (NoellesrolesClient;
-     * not on invisible players, a hidden Survival Master or SparkTraits' Covert players); each new poisoning pays 75
+     * not on invisible players, a hidden Survival Master or players with the Covert trait); each new poisoning pays 75
      * coins.
      * 毒针与催化剂：毒师的商店没有刀和左轮。毒针右键够得着的玩家即可下毒 40 秒（已中毒则缩短 40 秒）；可反复使用，
      * 开局冷却 60 秒，之后每次 45 秒。催化剂用在中毒的人身上，毒发时间设为 5 秒；一次性，总会刷新毒针冷却。
-     * 中毒的人在毒师屏幕上一般隔墙带轮廓（隐身的人、隐藏的生存大师和 SparkTraits 隐蔽行动的人除外）；每让一个人新中毒
+     * 中毒的人在毒师屏幕上一般隔墙带轮廓（隐身的人、隐藏的生存大师和带隐蔽行动词条的人除外）；每让一个人新中毒
      * 得 75 金币。
      */
     private static void poisonNeedle(SceneBuilder scene, SceneBuildingUtil util) {
@@ -328,12 +327,12 @@ final class NoellesKillerScenes {
      * into the doorway, so a player pressed against the door is gassed) and lasts 30 s. Every 5 s in a row spent in it
      * poisons for 20 s, or takes 20 s off a running poison, so a second dose on a fresh 20 s poison kills at once;
      * inside it a player with a sprint limit cannot sprint. The Poisoner is immune; killers are not, though
-     * SparkFactionAPI policies spare Wraiths and Rift gate occupants and a Conscience Poisoner's blue gas spares
-     * civilians.
+     * the faction core's affect policies spare Wraiths and Rift gate occupants and a Conscience Poisoner's blue gas
+     * spares civilians.
      * 毒气弹：右键扔出，碰到方块或玩家就放出毒气，每 8 tick 向外多扩散一格（起点 20 格内最多 500 格；实心方块与关着的门
      * 挡得住，但包厢门的薄门板会让毒气进到门洞里，贴着门站的人也会中毒），持续 30 秒。在毒气里每连续待满 5 秒就中毒 20 秒，
      * 已中毒则缩短 20 秒，所以刚中 20 秒毒的人再中一次会当场毒发；有疾跑上限的人身处毒气中不能疾跑。毒师免疫；杀手也会
-     * 中毒，但 SparkFactionAPI 的规则放过冤魂与裂隙门里的人，善良毒师的蓝色毒气放过平民。
+     * 中毒，但阵营核心的规则放过冤魂与裂隙门里的人，善良毒师的蓝色毒气放过平民。
      */
     private static void poisonGasBomb(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("noelles_poison_gas_bomb", "毒气弹：把毒气放进人堆");
@@ -411,14 +410,14 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Throwing axe (ThrowingAxeItem, ThrowingAxeEntity, ThrowingAxeEntityRenderer, BanditShopHandler; SparkWitch
-     * MurderousWitchShopRules): the Bandit's shop sells it for 200, single use; with SparkWitch the Murderous Witch's
+     * Throwing axe (ThrowingAxeItem, ThrowingAxeEntity, ThrowingAxeEntityRenderer, BanditShopHandler; SparkDLC
+     * MurderousWitchShopRules): the Bandit's shop sells it for 200, single use; the Murderous Witch's
      * shop also sells it, for 150. Holding right-click shows the bow pose; power peaks after 20 ticks, and under
      * a quarter of it (6 ticks or fewer) nothing is thrown. The axe flies at up to 2.4 blocks a tick, kills every
      * player whose hitbox it crosses except its thrower (unless a protection stops the kill) and keeps 90% of its
      * speed after each, then sticks in the block it hits and cannot be picked up. Throw, hit and stick play trident
      * sounds. The flight lasts about 3 game ticks here, so the demo slows it down.
-     * 飞斧：强盗商店 200 金币，一次性；装了 SparkWitch 时杀意魔女的商店也卖，150 金币。按住右键为拉弓姿势；20 tick 蓄满，不到四分之一（6 tick 及以内）就扔不出去。飞斧每 tick
+     * 飞斧：强盗商店 200 金币，一次性；杀意魔女的商店也卖，150 金币。按住右键为拉弓姿势；20 tick 蓄满，不到四分之一（6 tick 及以内）就扔不出去。飞斧每 tick
      * 最多飞 2.4 格，杀死所有被它穿过碰撞箱的玩家（扔的人除外），每穿过一人保留 90% 的速度，最后插在撞到的方块上，
      * 捡不回来。投掷、命中、插墙都有三叉戟音效。这里的飞行在游戏中只有约 3 tick，演示做了放慢。
      */
@@ -485,13 +484,13 @@ final class NoellesKillerScenes {
      * right-clicking someone (the receiver cannot pass for 3 s, a little less under cooldown-cutting effects; nobody
      * can take a second bomb). Planting and passing succeed on the server only, so no arm swing shows. At zero it
      * blows up with a big explosion, smoke and bomb fragments and usually kills only its carrier (a swallowed carrier's
-     * Taotie instead; a SparkTraits Conscience Bomber's planted or passed bomb does not kill). The Bomber's held bomb
+     * Taotie instead; a Conscience-trait Bomber's planted or passed bomb does not kill). The Bomber's held bomb
      * is hidden from other living players while he carries none himself; a carrier's is not.
      * 定时炸弹：炸弹客商店 100 金币，开局 45 秒内放不了。右键一名活人即把炸弹放到他身上，炸弹随即用掉；炸弹客能隔墙
      * 看到带炸弹的人的轮廓。前 10 秒毫无动静；之后炸弹进到携带者背包的空槽位，每 6 tick 滴一声，持续 15 秒（附近的人都听得到），
      * 携带者还能看到倒计时。滴滴响的携带者拿着炸弹右键别人即可传过去（接到的人 3 秒内传不出去，有缩短冷却的效果时略短；已带
      * 炸弹的人接不了）。放置与传递只在服务端成功，所以看不到挥手。归零时发生大爆炸，冒烟并飞出炸弹碎片，一般只炸死携带者
-     * （携带者被饕餮吞下时炸死饕餮；SparkTraits 善良炸弹客直接放出或传出的炸弹不致命）。炸弹客自己没带炸弹时，手里的炸弹对
+     * （携带者被饕餮吞下时炸死饕餮；带善良词条的炸弹客直接放出或传出的炸弹不致命）。炸弹客自己没带炸弹时，手里的炸弹对
      * 其他活人隐藏；携带者手里的不隐藏。
      */
     private static void timedBomb(SceneBuilder scene, SceneBuildingUtil util) {
@@ -568,7 +567,7 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Grenade drone (SparkStrength DroneItem, DroneEntity, DronePilotService, DroneCombatService, DroneRules,
+     * Grenade drone (SparkDLC DroneItem, DroneEntity, DronePilotService, DroneCombatService, DroneRules,
      * M67GrenadeEntity, M67Client, HiddenEquipmentHelperMixin): the Bomber starts with one; an M67 is bound onto it in
      * the inventory. Both placing and piloting wait out the 90 s opening lock. Right-clicking the floor sets it down;
      * with the tablet in the main hand the Bomber connects from the tablet's drone section and flies it (0.5 blocks a
@@ -671,7 +670,7 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Jester, fake death (NoellesRoles Jester trigger, JesterPlayerComponent; SparkStrength JesterMomentService,
+     * Jester, fake death (NoellesRoles Jester trigger, JesterPlayerComponent; SparkDLC JesterMomentService,
      * JesterMomentRules, JesterMomentClientStasisMixin): shot by an innocent role's gun (not the Demon Hunter's), the
      * Jester does not die. A body falls where it stood (spawned there, so it lies a block further back than a kill's)
      * and everyone else alive is frozen for 5 s: no moving, turning or using anything, with nothing to see. The Jester
@@ -754,7 +753,7 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Jester moment (JesterPlayerComponent.startJesterPsychoMode, registerKill; Wathe PlayerPsychoComponent; SparkStrength
+     * Jester moment (JesterPlayerComponent.startJesterPsychoMode, registerKill; Wathe PlayerPsychoComponent; SparkDLC
      * JesterMomentRules), seen by a living non-Jester: everyone wears the Jester's psycho look with a bat, so the box
      * marking the real Jester is only a guide. The Jester is in psycho mode for 60 s, plus 30 s and its shield topped
      * up per kill; a fully charged bat swing usually kills; sprint never runs out and any door that is not jammed opens.
@@ -810,7 +809,7 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Taotie (NoellesRoles swallow packet, TaotiePlayerComponent, SwallowedPlayerComponent; SparkStrength TaotieHeadService,
+     * Taotie (NoellesRoles swallow packet, TaotiePlayerComponent, SwallowedPlayerComponent; SparkDLC TaotieHeadService,
      * TaotieHeadRules, TaotieHeadEntity, TaotieHeadEntityRenderer): the ability key swallows the player under the
      * crosshair within 3 blocks and in sight, with no sound or effect and no body; they live on inside, seeing through
      * the Taotie's eyes and heard only by it and the others inside. With anyone alive inside, the second ability key
@@ -950,7 +949,7 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * Corpse mode (NoellesRoles corpse toggle packet, MorphlingPlayerComponent and the collision mixins; SparkStrength's
+     * Corpse mode (NoellesRoles corpse toggle packet, MorphlingPlayerComponent and the collision mixins; SparkDLC
      * MorphlingCorpseStandIn and MorphlingCorpseInstinctClient, 2026-11-03): the ability key toggles it, with no
      * cooldown. The Morphling is drawn as a real Wathe corpse (a block back from where it stands, face down) that keeps
      * its facing and only slides when it moves, with no name and no held item, at Slowness III, and can still act; like
@@ -1186,9 +1185,9 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * A SparkStrength drone entity ({@code kind} grenade_drone or bomb_drone), drawn by its own renderer, set down at
+     * A drone entity ({@code kind} grenade_drone or bomb_drone), drawn by its own renderer, set down at
      * {@code at} facing {@code yaw} as DroneItem.useOnBlock places it; a grenade drone carries its bound M67.
-     * 由 SparkStrength 自己的渲染器绘制的无人机实体（kind 为 grenade_drone 或 bomb_drone），像 DroneItem.useOnBlock
+     * 由自己的渲染器绘制的无人机实体（kind 为 grenade_drone 或 bomb_drone），像 DroneItem.useOnBlock
      * 那样朝 yaw 放在 at 处；投弹无人机挂着 M67。
      */
     static ElementLink<EntityElement> placeDrone(SceneBuilder scene, String kind, Vec3d at, float yaw) {
@@ -1482,10 +1481,10 @@ final class NoellesKillerScenes {
     }
 
     /**
-     * A Morphling in corpse mode as SparkStrength's Wathe corpse stand-in draws it: Wathe's body transforms at full tilt
+     * A Morphling in corpse mode as the Wathe corpse stand-in draws it: Wathe's body transforms at full tilt
      * (the scene skips the fall), so face down towards {@code yaw} with the feet a block behind where it stands, and no
      * name. Drawn by ActorElement.lying with the vanilla-baked model a fallen actor uses.
-     * 尸体伪装中的变形者，按 SparkStrength 的 Wathe 尸体替身绘制：直接套用 Wathe 尸体的变换（场景省略倒下动画），朝 yaw
+     * 尸体伪装中的变形者，按 Wathe 尸体替身绘制：直接套用 Wathe 尸体的变换（场景省略倒下动画），朝 yaw
      * 脸朝下，脚在站立处后方一格，不显示名字。由 ActorElement.lying 绘制，与倒地演员共用同一个原版烘焙模型。
      */
     private static final class Corpse extends AnimatedSceneElementBase {
@@ -1716,10 +1715,10 @@ final class NoellesKillerScenes {
      * kill whoever they hit, unless a shield or psycho armour stops them, without any of an innocent shooter's
      * penalties: no gun drop, no ban on picking guns up, no death, no backfire; the revolver's 10 s cooldown applies (2
      * s in the Corrupt Cop moment). While it lives neither the passengers nor the killers can win early; it usually
-     * wins as the last one alive and not swallowed (SparkWitch's Insider team and the Shadow Jester finale aside).
+     * wins as the last one alive and not swallowed (the Insider team and the Shadow Jester finale aside).
      * 黑警：开局自带左轮手枪（还有手持时别人看不见的中立万能钥匙）。他开枪打中谁就打死谁（护盾或疯魔护甲挡下的除外），
      * 没有好人误杀的惩罚：不掉枪、不禁止捡枪、不赔命、不走火；左轮冷却 10 秒（处决时刻 2 秒）。他活着时好人和杀手都无法
-     * 提前获胜；他一般在成为最后一名没被吞下的活人时获胜（SparkWitch 内应同伙与双影谢幕除外）。
+     * 提前获胜；他一般在成为最后一名没被吞下的活人时获胜（内应同伙与双影谢幕除外）。
      */
     private static void corruptCop(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_corrupt_cop", "黑警：打谁都不受罚的左轮");
@@ -1775,7 +1774,7 @@ final class NoellesKillerScenes {
 
     /**
      * Shadow Jester pact (NoellesRoles SHADOW_ALLY receiver and client ability key, TaskComplete listener,
-     * ShadowJesterPlayerComponent, ShadowJesterKnifeMixin, death listener; SparkStrength ShadowJesterAllianceMixin,
+     * ShadowJesterPlayerComponent, ShadowJesterKnifeMixin, death listener; SparkDLC ShadowJesterAllianceMixin,
      * ShadowJesterShowdownService.enhanceAlliance): the two Shadow Jesters always see each other outlined. Each gets a
      * knife on its 4th task, which kills only the partner. Once both have their knife, one aims at the partner within 3
      * blocks and presses the ability key; the partner presses it back: the proposer becomes the Seer (knife taken, a
@@ -1841,7 +1840,7 @@ final class NoellesKillerScenes {
 
     /**
      * Pathogen infection (NoellesRoles ability packet, PathogenPlayerComponent, InfectedPlayerComponent,
-     * NoellesrolesClient highlight; SparkStrength PathogenClientHooks): the ability key needs no aim; it infects the
+     * NoellesrolesClient highlight; SparkDLC PathogenClientHooks): the ability key needs no aim; it infects the
      * nearest living, uninfected player within 3 blocks in line of sight, with nothing to see or hear. The Pathogen
      * sees infected players it has in sight outlined in its own colour (Virus carriers darker), never through walls. 10
      * s opening cooldown, then 20, 15, 10 or 7 s by starting player count. 10-30 s after the infection the victim

@@ -26,11 +26,11 @@ public final class LimitedInventorySecondRow {
     }
 
     /**
-     * Inactive, invisible-content widget covering the row. SparkWitch/SparkTraits info cards and the SparkAssist
-     * guidebook treat visible widgets as obstacles but hard-code only the old 176x32 strip; this makes them avoid the
-     * row without changes on their side. It never takes clicks, focus or narration.
-     * 覆盖第二行的非激活、无绘制控件。SparkWitch/SparkTraits 信息卡与 SparkAssist 指南书会避开可见控件，但只写死了
-     * 旧的 176x32 条；有了它，这些模组无需改动即可避开第二行。它不接收点击、焦点或旁白。
+     * Inactive, invisible-content widget covering the row. The info cards and the guidebook treat visible widgets as
+     * obstacles but hard-code only the old 176x32 strip; this makes them avoid the row without changes on their side.
+     * It never takes clicks, focus or narration.
+     * 覆盖第二行的非激活、无绘制控件。信息卡与指南书会避开可见控件，但只写死了
+     * 旧的 176x32 条；有了它，它们无需改动即可避开第二行。它不接收点击、焦点或旁白。
      */
     public static final class Bounds extends ClickableWidget {
         public Bounds(int stripX, int stripY, int stripWidth) {

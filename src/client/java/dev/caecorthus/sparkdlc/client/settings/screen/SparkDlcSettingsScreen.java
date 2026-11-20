@@ -23,10 +23,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * The one place for every SparkDLC client setting, laid out like Sodium's options: page tabs on top, grouped rows on
  * the left, the hovered row explained on the right. Changes apply at once; "Undo" puts back everything changed since
- * the screen opened. It stays a {@link GameOptionsScreen} so SparkWitch's sessions that close gameplay screens leave
+ * the screen opened. It stays a {@link GameOptionsScreen} so the role sessions that close gameplay screens leave
  * it open, as they do every vanilla options screen.
  * 所有 SparkDLC 客户端设置的统一入口，布局参照 Sodium：顶部页签，左侧分组行，右侧解释鼠标所指的行。改动立即生效；
- * 「撤销」把这次打开后改过的全部退回。它继承 {@link GameOptionsScreen}，因此 SparkWitch 那些会关闭游戏界面的流程会像
+ * 「撤销」把这次打开后改过的全部退回。它继承 {@link GameOptionsScreen}，因此各职业那些会关闭游戏界面的流程会像
  * 对待原版设置界面一样让它保持打开。
  */
 public final class SparkDlcSettingsScreen extends GameOptionsScreen implements SettingsRowWidget.Host {

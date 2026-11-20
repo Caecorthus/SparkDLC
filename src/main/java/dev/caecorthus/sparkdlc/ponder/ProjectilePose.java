@@ -5,12 +5,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * What the demos copy from SparkWitch's 3D projectile renderers (ProjectileModels, ProjectileModelPose,
+ * What the demos copy from the mod's 3D projectile renderers (ProjectileModels, ProjectileModelPose,
  * NinjaGrapplingHeadPose, PotionShellModelPose, PotionShellEntityRenderer): the standalone model ids, the yaw and pitch
  * that turn a model's nose (authored pointing north, -Z) onto a direction, where the hook head points and where its
- * chain ties on, and the shell's spin. Copied by hand, so re-check them whenever SparkWitch changes its models.
- * 演示从 SparkWitch 的 3D 投射物渲染器照搬的内容：独立模型 id、把朝北（-Z）建模的模型头部转到某方向所需的偏航与俯仰、
- * 钩头朝向与铁链系点，以及炮弹的自旋。手工照搬，SparkWitch 修改模型时需复核。
+ * chain ties on, and the shell's spin. Copied by hand, so re-check them whenever those renderers change.
+ * 演示从本模组的 3D 投射物渲染器照搬的内容：独立模型 id、把朝北（-Z）建模的模型头部转到某方向所需的偏航与俯仰、
+ * 钩头朝向与铁链系点，以及炮弹的自旋。手工照搬，这些渲染器有改动时需复核。
  */
 public final class ProjectilePose {
     /** The Ninja's hook head model, pivot at the crown tip. 忍者钩头模型，枢轴在钩冠尖端。 */

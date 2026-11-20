@@ -29,7 +29,7 @@ public final class SaviorLightsaberItem extends Item {
                 .attributeModifiers(MiningToolItem.createAttributeModifiers(ToolMaterials.WOOD, 0.0F, -3.0F));
     }
 
-    /** Two-line role hint, matching the other SparkWitch weapon tooltips. / 两行职业提示，与其他 SparkWitch 武器提示一致。 */
+    /** Two-line role hint, matching the mod's other role weapon tooltips. / 两行职业提示，与本模组其他职业武器提示一致。 */
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("item.sparkdlc.savior_lightsaber.tooltip.line1")

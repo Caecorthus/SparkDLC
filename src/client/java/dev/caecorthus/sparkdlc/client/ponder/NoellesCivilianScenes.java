@@ -44,22 +44,22 @@ import net.minecraft.util.math.random.Random;
 
 /**
  * Demos for NoellesRoles' civilian roles, opened only from the role's guide page; each needs NoellesRoles. They
- * follow the Spark server stack, as the guide does: SparkStrength retunes the Bartender's drinks and adds the
- * Engineer's Sabotage Repair, the Toxicologist's Blue Vitriol (with SparkTraits' blue poison), the Professor's
- * serums, the Bodyguard's vest and shield, the Coroner's body bag and disguise, the Detective's magnifier and the
- * glow on a Noisemaker's killer.
+ * follow the Spark server stack, as the guide does: this mod retunes the Bartender's drinks and adds the
+ * Engineer's Sabotage Repair, the Toxicologist's Blue Vitriol (with the Conscience Poisoner's blue poison), the
+ * Professor's serums, the Bodyguard's vest and shield, the Coroner's body bag and disguise, the Detective's magnifier
+ * and the glow on a Noisemaker's killer.
  * NoellesRoles 平民阵营职业的演示，只从该职业的指南页打开；都需要 NoellesRoles。与指南书一致，按 Spark 服务器的实际规则
- * 演示：SparkStrength 调整了酒保的酒效，并加入了工程师的破坏维修、毒理学家的蓝矾（配合 SparkTraits 的蓝毒）、
+ * 演示：本模组调整了酒保的酒效，并加入了工程师的破坏维修、毒理学家的蓝矾（配合善良毒师的蓝毒）、
  * 教授的试剂、保镖的防弹衣与盾牌、验尸官的采尸袋与伪装、侦探的放大镜，以及杀死大嗓门的人身上的发光。
  */
 final class NoellesCivilianScenes {
     /** The gun of an actor standing at (5.8, 1, 1.2) and facing screen-right. 站在 (5.8, 1, 1.2) 朝屏幕右侧的演员手中枪口的位置。 */
     private static final Vec3d PISTOL_MUZZLE = new Vec3d(5.2, 2.05, 1.8);
-    /** Poison markers rise like Wathe's and SparkTraits' plate particles. 中毒标记像 Wathe 与 SparkTraits 的盘子粒子一样上升。 */
+    /** Poison markers rise like Wathe's and the blue-poison plate particles. 中毒标记像 Wathe 与蓝毒的盘子粒子一样上升。 */
     private static final Vec3d POISON_RISE = new Vec3d(0, 0.05, 0);
     /** The Professor's outline of shielded players (NoellesrolesClient: java.awt.Color.BLUE). 教授看到的护盾描边颜色。 */
     private static final int IRON_MAN_BLUE = 0x0000FF;
-    /** The Professor's outline of a door-passing drinker (SparkStrength ProfessorSerumRules). 教授看到的穿门试剂目标描边颜色。 */
+    /** The Professor's outline of a door-passing drinker (SparkDLC ProfessorSerumRules). 教授看到的穿门试剂目标描边颜色。 */
     private static final int DOORPASSING_INDIGO = 0x4B0082;
     /** A standing player's eye height. 站立玩家的眼睛高度。 */
     private static final double EYE_HEIGHT = 1.62;
@@ -197,13 +197,13 @@ final class NoellesCivilianScenes {
      * carrying another gun), first shot after 5 s. It is held levelled (Wathe's gun tag) and not hidden. Right-click
      * hits the first player within 5 blocks; every pull spends a bullet and cools down 10 s. A psycho target loses one
      * armour, then killPlayer runs, so the default single armour does not save them (extra armour, shields or a
-     * bodyguard can); a Jester (outside stasis) dies and returns a bullet; other players are unharmed (SparkStrength
-     * and SparkWitch let it break drones, devices and puppets). The pistol goes when its bullets run out or no psycho
+     * bodyguard can); a Jester (outside stasis) dies and returns a bullet; other players are unharmed (SparkDLC
+     * lets it break drones, devices and puppets). The pistol goes when its bullets run out or no psycho
      * is left. The hunter sees psychos through walls in the hunter's colour, except the Silencer and invisible players.
      * 猎魔人：每当有人开启疯魔，每个活着的猎魔人都会拿到一把装 2 发子弹的猎魔枪（已有则加 2 发；身上带着别的枪则不发），
      * 5 秒后才能开第一枪。它按 Wathe 的枪标签端平，且不会被隐藏。右键命中 5 格内的第一个玩家；每扣一次扳机消耗 1 发、
      * 冷却 10 秒。命中疯魔者会先打掉 1 层护盾再执行击杀，所以默认的 1 层护盾救不了对方（额外护甲、护盾或保镖可以）；
-     * 命中小丑（非静止状态）直接击杀并返还 1 发；打其他玩家没有效果（SparkStrength 与 SparkWitch 让它能打坏无人机、
+     * 命中小丑（非静止状态）直接击杀并返还 1 发；打其他玩家没有效果（SparkDLC 让它能打坏无人机、
      * 装置和傀儡）。子弹打光或没有人在疯魔时枪就会消失。猎魔人能隔墙看到疯魔者（猎魔人颜色），静语者和隐身者除外。
      */
     private static void demonHunter(SceneBuilder scene, SceneBuildingUtil util) {
@@ -365,7 +365,7 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Engineer's Sabotage Repair (SparkStrength EngineerShopService, EngineerSabotageRepairService, EngineerRules,
+     * Engineer's Sabotage Repair (SparkDLC EngineerShopService, EngineerSabotageRepairService, EngineerRules,
      * EngineSabotageService.repairRemotely, SabotageService.onLightsRepairedRemotely, SabotageRules): a 250-coin entry
      * in the Engineer's shop that only goes through while a sabotage is on (otherwise the purchase fails with a note).
      * It ends the current lights or engine sabotage at once from anywhere, in any phase: for the lights Wathe's
@@ -442,10 +442,10 @@ final class NoellesCivilianScenes {
 
     /**
      * Bartender (NoellesRoles BaseSpiritItem, DefenseVialApplyMixin, WhiskeyShieldEffect, Noellesroles KillPlayer
-     * handler, HiddenEquipmentHelper, CocktailItemMixin; SparkStrength BartenderRules): buy a base spirit and
+     * handler, HiddenEquipmentHelper, CocktailItemMixin; SparkDLC BartenderRules): buy a base spirit and
      * ingredients, mix them in the inventory (ingredient on the cursor, right-click the spirit; at most 3, no repeats).
      * Right-clicking a drink tray or food platter with the spirit adds it to the plate, where everyone sees it; the
-     * next empty-handed taker usually gets it first (a SparkStrength timed-bomb tray hands out something else) and it
+     * next empty-handed taker usually gets it first (a timed-bomb trap tray hands out something else) and it
      * leaves the plate. Holding right-click 2 s drinks it (ember sugar: at once): without ice, Slowness II and
      * Blindness for 3 s, then +20% sanity and the ingredient effects; whiskey gives a 30 s shield (special liqueur
      * doubles these times) that cancels one lethal kill (not a shot-innocent penalty, an assassination, voodoo, a fall
@@ -453,7 +453,7 @@ final class NoellesCivilianScenes {
      * ingredients are hidden in a Bartender's hand. Drinkers of the train's own cocktails glow green for the Bartender
      * for 40 s.
      * 酒保：买基酒和材料，在背包里调（材料拿在鼠标上右键基酒；最多 3 种，不能重复）。拿着基酒右键饮品托盘或餐盘就把它
-     * 放上去，所有人都看得到；下一个空手来拿的人一般会先拿到它（SparkStrength 的定时炸弹托盘例外），它随即离开盘子。
+     * 放上去，所有人都看得到；下一个空手来拿的人一般会先拿到它（定时炸弹陷阱托盘例外），它随即离开盘子。
      * 按住右键 2 秒喝下（加火种方糖则瞬间喝完）：没加冰块时先缓慢 II 加失明 3 秒，然后回复 20% 理智并触发材料效果；
      * 威士忌给 30 秒护盾（特调利口酒让这些时间翻倍），挡下一次致命击杀（误杀惩罚、刺客猜中、巫毒、掉出列车与强制击杀
      * 除外），并在受害者周围响起疯魔护甲声。基酒与材料在酒保手里别人看不见。喝过列车自带鸡尾酒的人会在酒保眼里亮绿框 40 秒。
@@ -540,8 +540,8 @@ final class NoellesCivilianScenes {
 
     /**
      * Toxicologist (Wathe BeveragePlateBlockEntityMixin + NoellesRoles CanSeePoison listener; NoellesRoles
-     * AntidoteItem, NoellesrolesClient highlight, HiddenEquipmentHelper; SparkStrength ToxicologistBlueVitriolService,
-     * HiddenEquipmentHelperMixin; SparkTraits BeveragePlateBluePoisonParticleMixin, ConsciencePoisonerService): the
+     * AntidoteItem, NoellesrolesClient highlight, HiddenEquipmentHelper; SparkDLC ToxicologistBlueVitriolService,
+     * HiddenEquipmentHelperMixin, BeveragePlateBluePoisonParticleMixin, ConsciencePoisonerService): the
      * Toxicologist sees the red skull over poisoned plates and beds, like killers and spectators. Poisoned players in
      * sight glow in the Toxicologist's colour (blue-poisoned ones light blue). Blue Vitriol on a poisoned plate turns
      * its native poison into the Toxicologist's blue poison: the red poisoner is cleared, a blue skull shows only to
@@ -634,14 +634,14 @@ final class NoellesCivilianScenes {
      * and starting items, NoellesrolesClient highlight, HiddenEquipmentHelper): a starting item, hidden in hand from
      * other living players. Right-clicking another living player without a shield gives them a one-time shield and
      * plays the psycho armour sound at them; there is no swing (PASS on the client, CONSUME on the server) and no use on
-     * oneself. Cooldown 5 min after each use, 3 min at the start (item cooldowns, which SparkTraits' Fast Hands
+     * oneself. Cooldown 5 min after each use, 3 min at the start (item cooldowns, which the Fast Hands trait
      * shortens). The Professor sees shielded players in sight outlined blue. The shield cancels one kill (not a
-     * shot-innocent penalty, an assassination, voodoo, a fall out of the train or a forced kill; SparkStrength's
-     * bodyguard gear is spent first) and plays the psycho armour sound at volume 5.
+     * shot-innocent penalty, an assassination, voodoo, a fall out of the train or a forced kill; the
+     * Bodyguard gear is spent first) and plays the psycho armour sound at volume 5.
      * 教授的铁人药剂：开局物品，拿在手上别的活人看不见。右键另一名没有护盾的活人，给对方一层一次性护盾，并在对方身边响起
      * 疯魔护甲声；不挥手（客户端 PASS、服务端 CONSUME），不能对自己用。每次使用后冷却 5 分钟，开局冷却 3 分钟（物品冷却，
-     * SparkTraits 的快手词条能缩短）。教授视线内带护盾的人显示蓝色描边。护盾挡下一次击杀（误杀惩罚、刺客猜中、巫毒、
-     * 掉出列车与强制击杀除外；SparkStrength 的保镖装备先结算），并以 5 倍音量响起疯魔护甲声。
+     * 快手词条能缩短）。教授视线内带护盾的人显示蓝色描边。护盾挡下一次击杀（误杀惩罚、刺客猜中、巫毒、
+     * 掉出列车与强制击杀除外；保镖装备先结算），并以 5 倍音量响起疯魔护甲声。
      */
     private static void professor(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_professor", "教授：铁人药剂给人上护盾");
@@ -708,7 +708,7 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Professor's serums (SparkStrength ProfessorSerumItem, ProfessorSerumService, ProfessorSerumRules,
+     * Professor's serums (SparkDLC ProfessorSerumItem, ProfessorSerumService, ProfessorSerumRules,
      * ProfessorSerumTargetComponent, ProfessorDoorPassingMixin, ProfessorSerumClientHooks, HiddenEquipmentHelperMixin):
      * bought in the shop (one per stack), hidden in a Professor's hand. A right-click with a living player in the
      * crosshair feeds them (useOnEntity, or within 1.5 blocks through use); with nobody there the Professor drinks it.
@@ -807,7 +807,7 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Bodyguard's vest (SparkStrength BodyguardVestItem, BodyguardVestService, BodyguardProtectionService and
+     * Bodyguard's vest (SparkDLC BodyguardVestItem, BodyguardVestService, BodyguardProtectionService and
      * ProtectionRules, BodyguardShopService, BodyguardShieldService.clearGear): 200 coins, one per round. It is chest
      * armour without defence: right-click equips it (the client swings) and everyone sees it worn. While worn it cancels
      * one lethal knife, gun, bat, throwing axe, kunai, shuriken, swordfish or Mighty Force kill from any direction,
@@ -877,7 +877,7 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Bodyguard's Democracy Shield (SparkStrength DemocracyShieldItem, BodyguardShieldService, BodyguardRules,
+     * Bodyguard's Democracy Shield (SparkDLC DemocracyShieldItem, BodyguardShieldService, BodyguardRules,
      * BodyguardProtectionService and ProtectionRules; vanilla BLOCK pose): 100 coins, raised only by a Bodyguard,
      * main-hand hold right-click for up to 10 s at 30% walking speed. After 5 ticks it stops kills from the front half
      * circle (vanilla's shield arc on the head yaw; a knife only from within 5 blocks) with the shield-block sound and
@@ -948,17 +948,17 @@ final class NoellesCivilianScenes {
 
     /**
      * Waiter (NoellesRoles WaiterPlatterMixin, WaiterFeedingMixin; Wathe FoodPlatterBlock, PlayerMoodComponent;
-     * SparkStrength WaiterFeedingRewardMixin, WaiterTaskRevealService and ClientHooks): an empty-hand right-click on a
+     * SparkDLC WaiterFeedingRewardMixin, WaiterTaskRevealService and ClientHooks): an empty-hand right-click on a
      * tray or platter takes a random serving into the hand (client swing). A Waiter already carrying one thing that
      * plate serves gets a second one, refused at two; others get none while carrying anything that plate serves.
      * Right-clicking a living player with a drink or food: if their drink/eat task is pending, it completes (sanity
      * +50%), one serving is used, plate poison carried on it applies, both get a message, the server swings the Waiter's
-     * arm and a drink or eat sound plays at the target, and SparkStrength tips the Waiter 50 coins; otherwise nothing
+     * arm and a drink or eat sound plays at the target, and the role kit tips the Waiter 50 coins; otherwise nothing
      * is used. Anyone who completes a task is outlined in the Waiter's colour for the Waiter, through walls, for 30 s.
      * 服务员：空手右键托盘或餐盘，随机拿一份到手上（客户端挥手）。身上已带着 1 份这盘所供应东西的服务员还能再拿 1 份，带着
      * 2 份时拿不了；其他人身上只要有这盘里的东西就拿不了。拿着饮品或食物右键一名活人：对方的喝/吃任务未完成时立即完成（理智
      * +50%），消耗 1 份，所带的盘子毒照样生效，双方都会收到提示，服务端让服务员挥手，对方身边响起喝或吃的声音，
-     * SparkStrength 另给服务员 50 金币小费；否则不消耗。任何人完成任务后，30 秒内在服务员眼里隔墙显示服务员颜色的描边。
+     * 职业套件另给服务员 50 金币小费；否则不消耗。任何人完成任务后，30 秒内在服务员眼里隔墙显示服务员颜色的描边。
      */
     private static void waiter(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_waiter", "服务员：多拿一份，喂给别人");
@@ -1025,7 +1025,7 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Coroner (Wathe RoleNameRenderer + NoellesrolesClient CanSeeBodyRole; SparkStrength CoronerBodyBagItem,
+     * Coroner (Wathe RoleNameRenderer + NoellesrolesClient CanSeeBodyRole; SparkDLC CoronerBodyBagItem,
      * CoronerService, CoronerRules, CoronerClientHooks, MorphlingAppearanceClientHelper): looking at a body within
      * 2 blocks, with light at the eyes and sanity at least 55%, shows its name, role, death cause and age on the
      * Coroner's HUD. Each body pays 50 coins the first time the Coroner comes within 2 blocks. The body bag (100 coins,
@@ -1094,13 +1094,13 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Detective (SparkStrength MagnifierItem, DetectiveCaseService, DetectiveCaseRules, HiddenEquipmentHelperMixin;
+     * Detective (SparkDLC MagnifierItem, DetectiveCaseService, DetectiveCaseRules, HiddenEquipmentHelperMixin;
      * NoellesRoles Noellesroles DETECTIVE_INVESTIGATE handler, KillHistoryWorldComponent, DetectivePlayerComponent,
      * NoellesrolesClient highlight and ability key): when a body appears the server notes where every living player
      * stands. The starting magnifier (hidden in a Detective's hand from other living players; no swing) files the
      * body's case for free; right-clicking anything else opens a roster of every participant (no alive/dead state), and
      * picking one records how far they stood from the victim's death point at that moment, or "not present" (15 s item
-     * cooldown per answer, 3 clues per case by default; SparkStrength feat/detective-remote-interrogation). The ability
+     * cooldown per answer, 3 clues per case by default; branch feat/detective-remote-interrogation). The ability
      * key on the player in the crosshair, within 3 blocks and in sight, checks for a kill in the last 2 minutes (not
      * poison, bomb or assassination): only the Detective sees them outlined red or green for 5 s; 90 s cooldown.
      * 侦探：尸体出现时，服务端记下每名活人当时站的位置。开局的放大镜（侦探拿着时别的活人看不见；不挥手）右键尸体免费记录
@@ -1182,7 +1182,7 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Recaller (NoellesRoles Noellesroles ability handler, RecallerPlayerComponent, RecallerHudMixin; SparkStrength
+     * Recaller (NoellesRoles Noellesroles ability handler, RecallerPlayerComponent, RecallerHudMixin; SparkDLC
      * RecallerEconomyService, RecallerShopRules): the first ability-key press stores the player's position as an
      * anchor nobody sees (only the HUD line changes), 10 s cooldown. The next press with at least 100 coins pays 100,
      * dismounts, plays entity status 46 (portal particles where they stood) and the enderman teleport sound at both
@@ -1258,14 +1258,14 @@ final class NoellesCivilianScenes {
      * curse to them, unnoticed by them, then 30 s ability cooldown. When the Voodoo dies with a killer (by default),
      * the bound player, if alive and not the Voodoo, gets an action-bar warning every second and is killed after 5 s,
      * leaving a body (none inside a Taotie); the death reason pierces psycho armour and skips the Iron Man and whiskey
-     * shields and the SparkStrength Bodyguard gear. Skipped when the Voodoo was assassinated and the bound player is an
-     * Assassin. Some targets survive it: SparkWitch's Grand Witch, Witch Maiden, Saint, a dormant Fiend and the Pig God
-     * while frozen, a Jester in stasis, and SparkTraits' Last Escape.
+     * shields and the Bodyguard gear. Skipped when the Voodoo was assassinated and the bound player is an
+     * Assassin. Some targets survive it: the Grand Witch, Witch Maiden, Saint, a dormant Fiend and the Pig God
+     * while frozen, a Jester in stasis, and the Last Escape trait.
      * 巫毒师：在背包里点一名玩家的头像就把诅咒绑在对方身上，对方不会察觉，之后技能冷却 30 秒。巫毒师被有凶手的死亡杀死时
      * （默认），被绑定的人（活着且不是巫毒师自己）每秒收到一次提示栏警告，5 秒后死亡并留下尸体（在饕餮肚子里则没有）；
-     * 这种死亡穿透疯魔护甲，也绕过铁人药剂、威士忌的护盾和 SparkStrength 的保镖装备。巫毒师被刺客猜中身份而死、且绑定的
-     * 是刺客时不触发。少数目标能活下来：SparkWitch 的大魔女、巫女、圣徒、休眠的魔人和冻结中的皮革噶的，静止中的小丑，
-     * 以及 SparkTraits 的绝处逢生。
+     * 这种死亡穿透疯魔护甲，也绕过铁人药剂、威士忌的护盾和保镖装备。巫毒师被刺客猜中身份而死、且绑定的
+     * 是刺客时不触发。少数目标能活下来：大魔女、巫女、圣徒、休眠的魔人和冻结中的皮革噶的，静止中的小丑，
+     * 以及绝处逢生词条。
      */
     private static void voodoo(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_voodoo", "巫毒师：同归于尽的诅咒");
@@ -1326,16 +1326,16 @@ final class NoellesCivilianScenes {
     }
 
     /**
-     * Noisemaker's death alarm (NoellesRoles NoisemakerKillMixin; SparkStrength NoisemakerGlowService,
+     * Noisemaker's death alarm (NoellesRoles NoisemakerKillMixin; SparkDLC NoisemakerGlowService,
      * NoisemakerGlowConstants and RoleKitEvents; vanilla Glowing): when a Noisemaker dies and leaves a body, the
      * body glows for 60 s and innocents and the dead hear an allay death sound and read a scream line. Separately, a
      * living player credited with killing a Noisemaker (or a Coroner disguised as one) glows for 15 s. Glowing is
      * vanilla's outline, white without a team (a viewer whose instinct highlights that entity sees that colour) and seen
-     * through walls unless the viewer's client vetoes it (SparkWitch's Blind, for one). While alive the Noisemaker can
+     * through walls unless the viewer's client vetoes it (the Blind, for one). While alive the Noisemaker can
      * shout (ability key, 10 s heard by everyone) and light someone up for 30 s from the inventory; both are captions.
      * 大嗓门的死亡警报：大嗓门死亡并留下尸体时，尸体发光 60 秒，好人阵营和死者会听到悦灵死亡声并看到惨叫提示。另外，被算作
      * 杀死大嗓门（或伪装成大嗓门的验尸官）的活人发光 15 秒。发光是原版的描边，没有队伍时为白色（本能高亮该实体的观察者看到
-     * 本能颜色），除非观察者的客户端否决（比如 SparkWitch 的盲人），都能隔墙看到。大嗓门活着时能大喊（技能键，10 秒内所有人
+     * 本能颜色），除非观察者的客户端否决（比如盲人），都能隔墙看到。大嗓门活着时能大喊（技能键，10 秒内所有人
      * 都听得到）并在背包里点亮一个人 30 秒；这两项只在字幕里说明。
      */
     private static void noisemaker(SceneBuilder scene, SceneBuildingUtil util) {
@@ -1390,7 +1390,7 @@ final class NoellesCivilianScenes {
      * Spiritualist's spirit projection (NoellesRoles Noellesroles SPIRIT_PROJECT_PACKET handler and role setup,
      * SpiritPlayerComponent, SpiritDamageMixin, SpiritSoundMixin, voice plugin; client SpiritCamera,
      * SpiritCameraHandler, SpiritBlockStateMixin, SpiritRenderDispatcherMixin, SpiritSkinMixin, SpiritNameMixin,
-     * SpiritVisionMixin; SparkStrength SpiritPossessionService and SpiritPossessionRules, SparkWitch secondary key; SparkTraits
+     * SpiritVisionMixin; SparkDLC SpiritPossessionService and SpiritPossessionRules, the Role Skill 2 key,
      * EffectiveTraitService): the ability key, off cooldown (60 s at the start), hands the local camera to a flying
      * SpiritCamera that has no block collision and stays within 30 blocks of the body (and the map's play area). It is a
      * client-only entity the server never hears of and the local renderer skips, so nobody sees it; the actor stands
@@ -1399,14 +1399,14 @@ final class NoellesCivilianScenes {
      * can win), sounds the server sends and proximity voice are cut, and attacks, item use and the hotbar are blocked.
      * Pressing the key again returns at once (a stun, daze, Fear or silence can drop the packet); the body being
      * damaged, moved more than about 1.4 blocks, swallowed or killed forces the return; either way 60 s cooldown.
-     * SparkStrength's Wraith possession (SparkWitch's second skill key, default N; needs both mods) has no in-world
+     * The Wraith possession (the Role Skill 2 key, default N) has no in-world
      * effect, so it is a caption.
      * 灵界行者的灵魂出窍：冷却结束时（开局 60 秒）按技能键，本地镜头交给一个会飞、没有方块碰撞的 SpiritCamera，最远离开
      * 肉身 30 格（也不出地图的游戏区域）。它只存在于本人的客户端，服务端完全不知道，本地也不渲染，所以谁也看不见；演员只是
      * 代表这个视角。肉身停在原地，杀手的本能照样能透视到它。出窍时画面变黑白，其他玩家和尸体一般显示成没有名字的史蒂夫
      * 皮肤（伪装、混乱等皮肤可能优先），服务端发来的声音和近距离语音都收不到，也不能攻击、用物品或切换快捷栏。再按一次
      * 技能键立刻回到肉身（眩晕、晕眩、恐惧或沉默可能丢弃这个数据包）；肉身受伤、被挪开约 1.4 格以上、被吞噬或被杀时强制
-     * 拉回；两种情况都冷却 60 秒。SparkStrength 的附身冤魂（SparkWitch 第二技能键，默认 N；两个模组都要装）在世界中没有
+     * 拉回；两种情况都冷却 60 秒。附身冤魂（“职业技能 2”键，默认 N）在世界中没有
      * 可见效果，所以只在字幕里说明。
      */
     private static void spiritualist(SceneBuilder scene, SceneBuildingUtil util) {

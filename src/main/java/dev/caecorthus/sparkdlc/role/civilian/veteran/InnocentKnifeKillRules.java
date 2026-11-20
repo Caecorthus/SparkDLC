@@ -5,13 +5,12 @@ package dev.caecorthus.sparkdlc.role.civilian.veteran;
  * borrowed knife (any corpse disguise) is never punished.
  * 真老兵匕首的“小脑”（死因 wathe:shot_innocent）纯规则；验尸官借刀（任何尸体伪装）都不会小脑。
  *
- * <p>It mirrors the revolver: the victim side follows SparkTraits {@code EffectiveAlignment.isEffectiveCivilian}
+ * <p>It mirrors the revolver: the victim side follows the trait {@code EffectiveAlignment.isEffectiveCivilian}
  * (Conscience counts as innocent, Impostor does not, otherwise the raw Wathe role decides), and an Impostor attacker
  * is exempt as in {@code EffectiveGunRules} / {@code EffectiveDeathConsequenceRules}. With every trait flag false the
- * result equals the raw {@code game.isInnocent(target)} check (SparkTraits itself is always present since the SparkDLC
- * fusion).
- * 与左轮一致：目标按 SparkTraits 有效阵营判定（善良算好人、内鬼不算好人，其余沿用 Wathe 原始身份），内鬼攻击者免罚。
- * 所有天赋标记为 false 时，结果等同原先的 game.isInnocent(target)（融合进 SparkDLC 后 SparkTraits 始终存在）。</p>
+ * result equals the raw {@code game.isInnocent(target)} check.
+ * 与左轮一致：目标按天赋的有效阵营判定（善良算好人、内鬼不算好人，其余沿用 Wathe 原始身份），内鬼攻击者免罚。
+ * 所有天赋标记为 false 时，结果等同原先的 game.isInnocent(target)。</p>
  *
  * <p>Only {@code java.*} may be used here so the standalone test compiles this file with plain javac.
  * 这里只能依赖 java.*，独立测试可以直接用 javac 编译，不需要 Minecraft/Wathe/Gradle。</p>
@@ -21,9 +20,9 @@ public final class InnocentKnifeKillRules {
     }
 
     /**
-     * Alignment facts that must be read BEFORE {@code GameFunctions.killPlayer}: SparkTraits clears the victim's
+     * Alignment facts that must be read BEFORE {@code GameFunctions.killPlayer}: the trait feature clears the victim's
      * active traits inside its KillPlayer.AFTER listener, so a read after the kill misjudges Impostor/Conscience.
-     * 必须在 killPlayer 之前读取的阵营事实：SparkTraits 会在 KillPlayer.AFTER 中清空死者天赋，事后读取会误判内鬼/善良。
+     * 必须在 killPlayer 之前读取的阵营事实：天赋功能会在 KillPlayer.AFTER 中清空死者天赋，事后读取会误判内鬼/善良。
      */
     public record PreKill(boolean victimEffectiveInnocent, boolean attackerImpostor) {
     }

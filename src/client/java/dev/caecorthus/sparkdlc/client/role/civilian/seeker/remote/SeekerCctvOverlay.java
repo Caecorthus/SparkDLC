@@ -34,7 +34,7 @@ import java.util.Optional;
  * label, session clock, the horizontal distance from the body ("12 m"; there is no range limit, so no bar), the car's
  * big battery bar (visual warnings at ≤20% and ≤10%; the single warning SOUND is server-side and never played here)
  * and exit/switch hints.
- * Decorations follow the usual SparkWitch HUD gates (confirmed server, not F1, Wathe HUD on). The opaque SIGNAL LOST
+ * Decorations follow the usual role HUD gates (confirmed server, not F1, Wathe HUD on). The opaque SIGNAL LOST
  * panel (body blind or in darkness, NoellesRoles Gin immunity respected) is a gameplay mask, so it ignores F1 and
  * the Wathe HUD toggle. It reads only the local owner's own synced state and never renders in the witch skill panel.
  * In camera mode the label carries the viewed camera's zero-padded number ("CAM 02"), and while the strafe keys can
@@ -42,7 +42,7 @@ import java.util.Optional;
  * 搜寻者遥控视角的纯客户端 CCTV 叠加层（{@code HudRenderCallback}）：四角框、闪烁 REC、模式标签、会话计时、
  * 与本体的水平距离（“12米”；不再有距离上限，因此没有距离条）、小车的大号电量条（≤20% 与 ≤10% 时视觉警告；
  * 唯一的警告音在服务端播放，这里绝不播放）以及退出/切换提示。
- * 装饰元素遵循 SparkWitch HUD 的常规门槛（已确认服务器、未按 F1、Wathe HUD 开启）。
+ * 装饰元素遵循职业 HUD 的常规门槛（已确认服务器、未按 F1、Wathe HUD 开启）。
  * 不透明的“信号丢失”面板（本体失明或处于黑暗，尊重 NoellesRoles 金酒免疫）属于玩法遮罩，因此不受 F1 与 Wathe HUD
  * 开关影响。只读取本地拥有者自己的同步状态，从不在魔女技能面板中渲染。
  * 摄像头模式下标签带有所看摄像头的补零编号（“摄像头 02”）；左右键还能切到其他摄像头时，退出提示上方一行显示带左右
@@ -60,9 +60,10 @@ public final class SeekerCctvOverlay {
     private static int sessionId = Integer.MIN_VALUE;
     private static int sessionStartAge;
     // Resolved on first use: the status effect registry is frozen after mod init, so the Gin entry (or its absence
-    // without NoellesRoles) never changes for the session; registry sync only remaps raw ids, not entry objects.
-    // 首次使用时解析：状态效果注册表在模组初始化后即冻结，金酒条目（或未安装 NoellesRoles 时的缺失）在整个会话中
-    // 不会改变；注册表同步只重映射数字 id，不替换条目对象。
+    // without NoellesRoles, unreachable now that NoellesRoles is a required dependency) never changes for the session;
+    // registry sync only remaps raw ids, not entry objects.
+    // 首次使用时解析：状态效果注册表在模组初始化后即冻结，金酒条目（或没有 NoellesRoles 时的缺失；NoellesRoles 现为必需依赖，
+    // 该情况不可达）在整个会话中不会改变；注册表同步只重映射数字 id，不替换条目对象。
     private static Optional<RegistryEntry.Reference<StatusEffect>> ginImmunity;
 
     private SeekerCctvOverlay() {

@@ -39,15 +39,15 @@ public final class OwnerInventoryTraitsHandshake<P, E> {
     public <T> Optional<List<T>> collect(P player, BiFunction<E, List<E>, T> copyEntry) {
         if (disabled) return Optional.empty();
         try {
-            // A false response may simply mean Traits' client initializer has not run yet.
+            // A false response may simply mean the trait client step (registerTraitClient) has not run yet.
             if (!accepted) accepted = register.test(ownership);
             if (!accepted) return Optional.empty();
             List<T> entries = new ArrayList<>();
             visit.accept(player, (tag, tooltip) -> entries.add(copyEntry.apply(tag, tooltip)));
             return Optional.of(List.copyOf(entries));
         } catch (RuntimeException failure) {
-            // Not a lookup guard: a failing collection or visitor must leave no partial snapshot, so Traits keeps its
-            // native card for this frame. / 并非查找保护：收集或访问失败时不得留下部分快照，本帧由 Traits 保留原生卡片。
+            // Not a lookup guard: a failing collection or visitor must leave no partial snapshot, so the trait card
+            // stays native for this frame. / 并非查找保护：收集或访问失败时不得留下部分快照，本帧天赋卡保留原生卡片。
             return Optional.empty();
         }
     }

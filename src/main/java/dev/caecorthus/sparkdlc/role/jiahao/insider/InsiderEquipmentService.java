@@ -15,9 +15,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Insider equipment: the neutral master key granted at round start (C6), its key doors (D6, {@link InsiderDoorService})
  * and the Corrupt Cop's revolver punishment exemption (D5). The key and any bought items are never removed when the
- * role changes, like every other SparkWitch role.
+ * role changes, like the mod's other own roles.
  * 内应装备：开局发放的中立万能钥匙（C6）、钥匙开门（D6，{@link InsiderDoorService}），以及与黑警相同的开枪惩罚豁免（D5）。
- * 与其他 SparkWitch 职业一致，身份变化时从不收回钥匙和已购买的物品。
+ * 与本模组其他自有职业一致，身份变化时从不收回钥匙和已购买的物品。
  */
 public final class InsiderEquipmentService {
     private static boolean registered;
@@ -30,9 +30,9 @@ public final class InsiderEquipmentService {
             return;
         }
         registered = true;
-        // Final roles only: fires after every RoleAssigned (including SparkTraits Conscience compensation), while the
+        // Final roles only: fires after every RoleAssigned (including the Conscience trait's compensation), while the
         // round is still STARTING. NoellesRoles' RoleAssigned kit never covers the Insider.
-        // 仅按最终身份发放：在所有 RoleAssigned（含 SparkTraits 良心补偿）之后、对局仍处于 STARTING 时触发。
+        // 仅按最终身份发放：在所有 RoleAssigned（含良心词条补偿）之后、对局仍处于 STARTING 时触发。
         // NoellesRoles 在 RoleAssigned 中发放的装备不包括内应。
         GameEvents.ON_FINISH_INITIALIZE.register((world, game) -> {
             if (world instanceof ServerWorld serverWorld) {

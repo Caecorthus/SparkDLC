@@ -18,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * 色相，无需附带纹理。
  *
  * <p>{@code @Pseudo} plus a string target keeps the mixin inert when Wathe Blood is absent: nothing here is required for
- * SparkAssist itself to work.
- * {@code @Pseudo} 加字符串目标使 Wathe Blood 缺席时本 mixin 形同不存在：SparkAssist 本身不依赖这里任何东西。</p>
+ * the mod itself to work.
+ * {@code @Pseudo} 加字符串目标使 Wathe Blood 缺席时本 mixin 形同不存在：本模组本身不依赖这里任何东西。</p>
  */
 @Pseudo
 @Mixin(targets = "wathe_blood.particle.BloodParticle")

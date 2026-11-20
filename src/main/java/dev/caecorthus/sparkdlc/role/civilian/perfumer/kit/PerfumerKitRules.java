@@ -5,11 +5,11 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure tuning and curves for the SparkStrength Perfumer kit (Cooling Oil, Aroma Orb, Zephyr Perfume).
- * The Perfumer role belongs to SparkWitch, which is optional: it is matched only by its stable id, so
- * these items never reach any shop when SparkWitch is absent.
- * SparkStrength 调香师道具（风油精、香薰、晨风香水）的纯数值与曲线。调香师属于可选模组 SparkWitch，
- * 这里只按稳定 id 匹配；未安装 SparkWitch 时这些道具不会进入任何商店。
+ * Pure tuning and curves for the Perfumer kit (Cooling Oil, Aroma Orb, Zephyr Perfume).
+ * The Perfumer role is matched only by its stable id (the kit used to live in another jar), so
+ * these items never reach any shop but the Perfumer's.
+ * 调香师道具（风油精、香薰、晨风香水）的纯数值与曲线。调香师只按稳定 id 匹配（这套道具曾在另一个 jar 中），
+ * 因此这些道具不会进入调香师以外的任何商店。
  */
 public final class PerfumerKitRules {
     public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "perfumer");

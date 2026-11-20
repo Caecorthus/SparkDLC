@@ -31,11 +31,11 @@ import net.minecraft.util.Identifier;
  * 调用 Wathe 的枪械接收器，因此绕过了 {@code wathe:gunshoot} 上所有数据包层面的拦截；这里改为就被标记者向同样的规则询问，
  * 每项拦截都复用其自身的数据包名单与状态谓词，名单变化会自动带到这里。仅服务端。失败即关闭：抛出异常的检查视为拦截。
  *
- * <p>Not reachable from SparkWitch (no existing bridge or public API at the pinned versions), reported as cross-repo
- * follow-ups: SparkStrength's Taotie head daze ({@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS}) and SparkFactionAPI's
+ * <p>Not asked yet (out of reach while this role lived in another jar; still open follow-ups): the Taotie head
+ * daze ({@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS}) and the
  * anti-fast-round safe time ({@code AntiFastRoundRules.BLOCKED_PAYLOADS}). Fear never blocks {@code wathe:gunshoot}.
- * SparkWitch 无法触及（固定版本下没有现成桥接或公共 API），作为跨仓库后续事项报告：SparkStrength 饕餮头颅眩晕与
- * SparkFactionAPI 开局安全时间。恐惧从不拦截 {@code wathe:gunshoot}。</p>
+ * 尚未询问（本职业曾在另一个 jar 中而无法触及；仍是待办后续事项）：饕餮头颅眩晕与
+ * 开局安全时间。恐惧从不拦截 {@code wathe:gunshoot}。</p>
  */
 public final class DominatorReleaseGate {
     /** The payload every guard below is asked about. / 下列每项拦截被询问的数据包。 */
@@ -67,8 +67,8 @@ public final class DominatorReleaseGate {
                 // Black Raven crow body (BlackRavenCrowBodyPayloadGuardMixin). / 黑羽鸦化鸦本体。
                 || blocked(() -> BlackRavenCrowBodyGuards.blocksPayloadInCrowForm(GUNSHOOT_ID)
                         && BlackRavenCrowForm.isInCrowForm(marked))
-                // SparkTraits Last Escape cancels the receiver at HEAD (LastEscapeGunReceiverMixin), which would
-                // otherwise spend the use on a shot that never fires. / SparkTraits 脱险会在接收器 HEAD 处取消射击，
+                // The Last Escape trait cancels the receiver at HEAD (LastEscapeGunReceiverMixin), which would
+                // otherwise spend the use on a shot that never fires. / 脱险词条会在接收器 HEAD 处取消射击，
                 // 否则次数会白白耗在一发不会射出的枪上。
                 || blocked(() -> SparkTraitsApi.isLastEscapeActive(marked))
                 // Knight duel: both duelists' revolvers are sealed (KnightDuelSeal), and the forced shot always fires a
@@ -77,11 +77,11 @@ public final class DominatorReleaseGate {
                 // Kidnapper knockout control: the victim's attack and use keys are locked on its client, so it can
                 // never fire. / 绑架者迷药控制：受害者客户端的攻击与使用键被锁定，因此永远无法开枪。
                 || blocked(() -> isKidnapped(marked))
-                // SparkStrength Partygoer carry (PartygoerCarriedPayloadGuardMixin drops the daze list, which holds
-                // wathe:gunshoot); a pure entity-type check through the existing bridge.
-                // SparkStrength 派对客扛人（其拦截丢弃包含 wathe:gunshoot 的眩晕名单）；经现有桥接做纯实体类型判断。
+                // Partygoer carry (PartygoerCarriedPayloadGuardMixin drops the daze list, which holds
+                // wathe:gunshoot); a pure entity-type check.
+                // 派对客扛人（其拦截丢弃包含 wathe:gunshoot 的眩晕名单）；纯实体类型判断。
                 || blocked(() -> PartygoerWeaponTarget.isPartygoer(marked.getVehicle()))
-                // Remote viewing through another camera (SparkStrength drone, reporter feed, ...). / 借用其他镜头远程观看。
+                // Remote viewing through another camera (drone, reporter feed, ...). / 借用其他镜头远程观看。
                 || blocked(() -> marked.getCameraEntity() != marked)
                 // Vendetta pair isolation (ServerPlayNetworkAddonFearMixin), judged on the player the shot would hit.
                 // 仇杀配对隔离，按这一枪将会命中的玩家判定。
@@ -108,7 +108,7 @@ public final class DominatorReleaseGate {
         try {
             return check.getAsBoolean();
         } catch (RuntimeException | LinkageError failure) {
-            // A broken optional seam must never let a guarded player be forced to shoot. / 损坏的可选接缝绝不能让受保护的玩家被强制开枪。
+            // A failing check must never let a guarded player be forced to shoot. / 失败的检查绝不能让受保护的玩家被强制开枪。
             if (FAILURE_LOGGED.compareAndSet(false, true)) {
                 SparkDLC.LOGGER.warn("Dominator release check failed; refusing the forced shot", failure);
             }

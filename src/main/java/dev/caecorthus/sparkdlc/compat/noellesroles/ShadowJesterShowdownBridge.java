@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  * Witch-owned boundary for the NoellesRoles Shadow Jester state read by the Witch win conditions. NoellesRoles is a
  * required, exactly pinned dependency, so its component is called directly; a provider failure still fails closed
  * exactly as the former reflective calls did.
- * 魔女胜利条件读取 NoellesRoles 双影小丑状态的 SparkWitch 自有边界。NoellesRoles 是必需且精确固定版本的依赖，
+ * 魔女胜利条件读取 NoellesRoles 双影小丑状态的魔女阵营自有边界。NoellesRoles 是必需且精确固定版本的依赖，
  * 因此直接调用其组件；提供方出错时仍与此前的反射调用一样失败即关闭。
  */
 public final class ShadowJesterShowdownBridge {

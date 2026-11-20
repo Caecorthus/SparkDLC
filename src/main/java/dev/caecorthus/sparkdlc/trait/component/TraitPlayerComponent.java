@@ -631,8 +631,8 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
             blueSanityDrainTicks = 0;
             return;
         }
-        // Downstream exemptions (SparkStrength's Toxicologist) replace only the drain; the window keeps counting down.
-        // 下游豁免（如 SparkStrength 毒理学家）只替换扣理智效果；窗口仍照常倒计时。
+        // Registered exemptions (the Toxicologist's) replace only the drain; the window keeps counting down.
+        // 已注册的豁免（如毒理学家）只替换扣理智效果；窗口仍照常倒计时。
         if (player instanceof ServerPlayerEntity serverPlayer
                 && BluePoisonInteropService.isBlueSanityDrainExempt(serverPlayer)) {
             return;
@@ -779,9 +779,9 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
         // Field 17 is a protocol tombstone: keep writing false for older clients.
         // 第 17 个字段是协议墓碑：继续写入 false 以兼容旧客户端。
         buf.writeBoolean(false);
-        // Field 18 (spirit-projection relay) is a tombstone too: no reader in any Spark mod, and a real value (or a
+        // Field 18 (spirit-projection relay) is a tombstone too: no reader anywhere in the mod, and a real value (or a
         // sync fired when it flips) reveals the Spirit Walker's out-of-body window to every tracking client.
-        // 第 18 个字段（出窍状态转发）同样是协议墓碑：所有 Spark 模组中都没有读取方，而真实值（或其变化触发的同步）
+        // 第 18 个字段（出窍状态转发）同样是协议墓碑：本模组中没有任何读取方，而真实值（或其变化触发的同步）
         // 会向所有追踪客户端暴露灵界行者的出窍时段。
         buf.writeBoolean(false);
         buf.writeBoolean(temporaryFakeDeathPending);

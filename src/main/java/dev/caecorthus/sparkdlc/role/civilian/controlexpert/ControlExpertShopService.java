@@ -35,8 +35,8 @@ public final class ControlExpertShopService {
         if (!ControlExpertRules.isControlExpert(role)) {
             return;
         }
-        // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
-        // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
+        // Trait shop entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
+        // 词条的商店条目（如内鬼左轮）可能已先加入；重建时保留它们。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(

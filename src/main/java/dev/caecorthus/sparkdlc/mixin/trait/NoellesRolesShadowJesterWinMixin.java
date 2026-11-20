@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * Makes NoellesRoles' bound Shadow Jester showdown see effective killer-team players.
- * 让 NoellesRoles 的命运绑定双影谢幕识别 SparkTraits 翻转后的有效杀手阵营。
+ * 让 NoellesRoles 的命运绑定双影谢幕识别天赋翻转后的有效杀手阵营。
  *
  * <p>NoellesRoles 的双影谢幕逻辑本身不能修改，因此这里只重定向其胜利检查
  * lambda 内唯一用于判断“杀手是否存活”的原始杀手列表调用。这样普通好人仍

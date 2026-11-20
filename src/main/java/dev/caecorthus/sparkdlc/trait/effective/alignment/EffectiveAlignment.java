@@ -29,8 +29,8 @@ public final class EffectiveAlignment {
         return role != null && role.isInnocent();
     }
 
-    /** Resolves killer-team membership after SparkTraits alignment flips.
-     *  在 SparkTraits 阵营翻转后判断是否属于杀手阵营。 */
+    /** Resolves killer-team membership after the traits' alignment flips.
+     *  在天赋阵营翻转后判断是否属于杀手阵营。 */
     public static boolean isEffectiveKiller(Role role, Collection<Identifier> traits) {
         if (hasImpostor(traits)) {
             return true;
@@ -41,8 +41,8 @@ public final class EffectiveAlignment {
         return isOriginalKiller(role);
     }
 
-    /** Resolves civilian-team membership after SparkTraits alignment flips.
-     *  在 SparkTraits 阵营翻转后判断是否属于好人阵营。 */
+    /** Resolves civilian-team membership after the traits' alignment flips.
+     *  在天赋阵营翻转后判断是否属于好人阵营。 */
     public static boolean isEffectiveCivilian(Role role, Collection<Identifier> traits) {
         if (hasConscience(traits)) {
             return true;

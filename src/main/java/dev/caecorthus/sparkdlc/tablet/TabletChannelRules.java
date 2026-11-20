@@ -32,9 +32,9 @@ public final class TabletChannelRules {
      * @param hasRole      the holder has a non-empty round role / 持有者拥有有效的局内身份
      * @param policeRole   {@link TabletShopRules#isPoliceNetworkRole} / 义警网络身份
      * @param killerRole   wathe {@code Role.canUseKiller()} / 原生杀手标记
-     * @param impostor     active SparkTraits Impostor / SparkTraits 内鬼天赋
-     * @param conscience   active SparkTraits Conscience / SparkTraits 善良天赋
-     * @param witchFaction SparkFactionAPI base faction {@code sparkdlc:witch} / 魔女阵营基础阵营
+     * @param impostor     active Impostor trait / 内鬼天赋
+     * @param conscience   active Conscience trait / 善良天赋
+     * @param witchFaction faction-core base faction {@code sparkdlc:witch} / 魔女阵营基础阵营
      * @param undercover   real NoellesRoles Undercover role {@code UndercoverRoleRules#isUndercover} / 真实身份为 NoellesRoles 卧底
      */
     public record Facts(
@@ -64,8 +64,8 @@ public final class TabletChannelRules {
 
     private static EnumSet<TabletChannel> factionNetworks(Facts facts) {
         if (facts.witchFaction()) {
-            // SparkFactionAPI's base faction wins, e.g. a recruited Accomplice that kept an Impostor trait.
-            // 以 SparkFactionAPI 基础阵营为准，例如保留内鬼天赋的被招募共犯。
+            // The faction core's base faction wins, e.g. a recruited Accomplice that kept an Impostor trait.
+            // 以阵营核心的基础阵营为准，例如保留内鬼天赋的被招募共犯。
             return EnumSet.of(TabletChannel.WITCH);
         }
         if (facts.undercover()) {

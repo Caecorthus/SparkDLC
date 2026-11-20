@@ -155,8 +155,8 @@ public final class UndercoverClient {
     }
 
     /**
-     * SparkStrength's own vetoes still win, whatever order the wrappers end up in.
-     * 无论包装器最终顺序如何，SparkStrength 自己的否决依然优先。
+     * The Cooling Oil and Corrupt Cop vetoes still win, whatever order the wrappers end up in.
+     * 无论包装器最终顺序如何，风油精与黑警的否决依然优先。
      */
     private static boolean vetoed(Entity target) {
         return PerfumerClientEffects.blocksInstinct() || CorruptCopClientHooks.shouldConcealInstinct(target);
@@ -202,8 +202,8 @@ public final class UndercoverClient {
 
     /**
      * A stage-2 Undercover is no killer's "cohort" any more. Priority 110 beats both NoellesRoles' show (0) and
-     * SparkTraits' Impostor-viewer show (100).
-     * 二阶段卧底不再是任何杀手的「同伙」。优先级 110 压过 NoellesRoles 的显示（0）与 SparkTraits 内鬼观察者的显示（100）。
+     * the Impostor trait's viewer show (100).
+     * 二阶段卧底不再是任何杀手的「同伙」。优先级 110 压过 NoellesRoles 的显示（0）与内鬼特质观察者的显示（100）。
      */
     private static ShouldShowCohort.CohortResult cohort(PlayerEntity viewer, PlayerEntity target) {
         if (viewer == null || target == null || !UndercoverRoles.isUndercover(target)

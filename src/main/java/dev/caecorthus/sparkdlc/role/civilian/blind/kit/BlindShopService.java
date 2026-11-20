@@ -21,14 +21,14 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The Blind's role-gated shop (C14): SparkTraits entries are preserved and the only own entry is the ComTac VIII,
+ * The Blind's role-gated shop (C14): trait shop entries are preserved and the only own entry is the ComTac VIII,
  * {@link BlindRules#COMTAC_PRICE} coins, stock 1, shown with the {@code shop.sparkdlc.comtac_viii} name and its
  * "one per round" description. Wathe caches stock while STARTING, so the gate is the synced role alone; stock is
  * unenforced for a role gained mid-round, so the buy gate also refuses a buyer who already owns one (inventory,
  * headset slot or cursor) or already bought one in this match (a server-only mark in {@link BlindComponent}). A bought
  * ComTac goes into the headset slot when it is empty (E1), else the first empty hotbar slot; with no room the purchase
  * fails and charges nothing.
- * 盲人的职业限定商店（C14）：保留 SparkTraits 条目，自有条目只有 ComTac VIII，{@link BlindRules#COMTAC_PRICE} 金币、
+ * 盲人的职业限定商店（C14）：保留词条商店条目，自有条目只有 ComTac VIII，{@link BlindRules#COMTAC_PRICE} 金币、
  * 库存 1，以 {@code shop.sparkdlc.comtac_viii} 名称及其“每局一件”说明显示。Wathe 在 STARTING 阶段缓存库存，因此只按
  * 同步职业筛选；中途获得的职业不受库存约束，因此购买门槛还会拒绝已持有者（背包、耳机槽或光标）以及本局已买过者
  * （{@link BlindComponent} 中仅服务端的记录）。购得的 ComTac 在耳机槽为空时直接放入（E1），否则放入第一个空快捷栏位；没有空间时

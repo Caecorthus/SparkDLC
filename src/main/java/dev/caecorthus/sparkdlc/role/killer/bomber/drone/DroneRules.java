@@ -53,7 +53,7 @@ public final class DroneRules {
 
     public static final String BOMB_DRONE_SHOP_ENTRY_ID = "sparkdlc_bomb_drone";
     public static final int BOMB_DRONE_PRICE = 400;
-    /** SparkTraits Conscience Bomber price. / SparkTraits 善良炸弹客价格。 */
+    /** Conscience-trait Bomber price. / 善良词条炸弹客价格。 */
     public static final int BOMB_DRONE_CONSCIENCE_PRICE = 200;
 
     private DroneRules() {

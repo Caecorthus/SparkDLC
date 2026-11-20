@@ -66,7 +66,7 @@ public final class SpecterSecondSkillComponent
     private int cooldownTicks;
     private int shieldLayers;
     private int syncTicks;
-    /** Server world tick until which only a SparkFactionAPI-forced knife cooldown remains; never saved. */
+    /** Server world tick until which only a forced knife cooldown remains; never saved. */
     private long knifeForcedUntilTick;
 
     public SpecterSecondSkillComponent(PlayerEntity player) {
@@ -217,10 +217,10 @@ public final class SpecterSecondSkillComponent
         if (!game.isRunning()) {
             return;
         }
-        // SparkTraits Last Stand holds the player as a spectator for a few seconds before reviving them, and the death
+        // The Last Stand trait holds the player as a spectator for a few seconds before reviving them, and the death
         // hook keeps this state through that intercepted death: nothing is cleared, and the timers keep counting so
         // the window still ends with the world window and the cast's invisibility.
-        // SparkTraits 背水一战会在复活前把玩家以旁观者身份保持数秒，死亡钩子在该被拦截的死亡中保留本状态：这里不清空任何东西，
+        // 背水一战词条会在复活前把玩家以旁观者身份保持数秒，死亡钩子在该被拦截的死亡中保留本状态：这里不清空任何东西，
         // 计时照常倒数，使窗口仍与世界窗口及施放时的隐身同时结束。
         boolean lastStandPending = SparkTraitsApi.isLastStandPending(owner);
         if (!lastStandPending
@@ -336,10 +336,10 @@ public final class SpecterSecondSkillComponent
 
     /**
      * The Otherworld keeps the Wathe knife ready: each new natural cooldown (the one Wathe's receiver writes after a
-     * stab) is dropped through SparkFactionAPI {@code clearItemKeepingForced}, which keeps any forced cooldown (Fiend
+     * stab) is dropped through {@code ForcedCooldowns.clearItemKeepingForced}, which keeps any forced cooldown (Fiend
      * aura, Abyss Listener, Knight seal, …). While only that forced part is left, nothing is rewritten.
-     * 里世界让 Wathe 小刀保持就绪：每次新的自然冷却（Wathe 接收器在刺击后写入的冷却）都经 SparkFactionAPI
-     * {@code clearItemKeepingForced} 清除，该接口保留所有强制冷却（魔人光环、聆渊者、骑士封印等）。只剩强制部分时不再重写。
+     * 里世界让 Wathe 小刀保持就绪：每次新的自然冷却（Wathe 接收器在刺击后写入的冷却）都经
+     * {@code ForcedCooldowns.clearItemKeepingForced} 清除，该接口保留所有强制冷却（魔人光环、聆渊者、骑士封印等）。只剩强制部分时不再重写。
      */
     private void keepKnifeReady(ServerPlayerEntity owner) {
         int remaining = ForcedCooldowns.itemRemainingTicks(owner, WatheItems.KNIFE);

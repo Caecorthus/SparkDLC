@@ -66,9 +66,9 @@ public final class MiniWitherTargeting {
 
     /**
      * Alive, playing, survival or adventure, not a spectator (Rift Gate occupants, Taotie prey), not an active Wraith,
-     * not in SparkTraits Last Escape, and holding a role in {@code game}, in that order; the Wraith check applies to server
-     * players only ({@link RoundParticipants#MINI_WITHER_TARGET}).
-     * 存活、在局、生存或冒险模式、非旁观（裂隙门内玩家、饕餮吞下者）、非激活冤魂、未处于 SparkTraits 最后逃脱，且在
+     * not in the Last Escape trait, and holding a role in {@code game}, in that order; the Wraith check applies to
+     * server players only ({@link RoundParticipants#MINI_WITHER_TARGET}).
+     * 存活、在局、生存或冒险模式、非旁观（裂隙门内玩家、饕餮吞下者）、非激活冤魂、未处于最后逃脱词条状态，且在
      * {@code game} 中拥有职业，按此顺序；冤魂检查只对服务端玩家生效（{@link RoundParticipants#MINI_WITHER_TARGET}）。
      */
     public static boolean isLiveParticipant(PlayerEntity player, GameWorldComponent game) {
@@ -82,8 +82,8 @@ public final class MiniWitherTargeting {
     }
 
     /**
-     * SparkFactionAPI's affect veto plus the Vendetta isolation every Witch Maiden weapon honours.
-     * SparkFactionAPI 的影响否决，加上巫女所有武器都遵守的复仇者隔离。
+     * The faction core's affect veto plus the Vendetta isolation every Witch Maiden weapon honours.
+     * 阵营核心的影响否决，加上巫女所有武器都遵守的复仇者隔离。
      */
     public static boolean mayAffect(ServerPlayerEntity owner, ServerPlayerEntity target, GameWorldComponent game) {
         if (!SparkFactionApi.canAffectPlayer(owner, target, MiniWitherRules.AFFECT_ACTION, game)) {

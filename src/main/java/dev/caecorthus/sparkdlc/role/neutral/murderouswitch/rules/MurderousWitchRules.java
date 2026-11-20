@@ -40,10 +40,10 @@ public final class MurderousWitchRules {
 
     /**
      * Murderous Witch's custom instinct follows Wathe's alive state, not the game mode: a living Rift Gate occupant
-     * (alive spectator) keeps it, so it never reaches SparkFactionAPI's role-revealing faction-colour fallback; only
+     * (alive spectator) keeps it, so it never reaches the faction core's role-revealing faction-colour fallback; only
      * dead spectators use Wathe defaults.
      * 杀意魔女的自定义本能取决于 wathe 存活状态而非游戏模式：存活的裂隙门内玩家（存活旁观者）保留该本能，
-     * 因而不会落入暴露身份的 SparkFactionAPI 阵营色兜底；只有死亡旁观者使用 wathe 默认逻辑。
+     * 因而不会落入暴露身份的阵营核心阵营色兜底；只有死亡旁观者使用 wathe 默认逻辑。
      */
     public static boolean shouldUseCustomInstinctHighlight(boolean viewerAlive) {
         return viewerAlive;

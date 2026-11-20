@@ -7,11 +7,11 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Pure Time Stealer shop plan: stamp prices per entry id and the native-list rewrite. Entry ids are frozen; the psycho
- * entry keeps Wathe's {@code psycho_mode} id because SparkStrength, SparkTraits and Wathe cooldowns key on it.
+ * entry keeps Wathe's {@code psycho_mode} id because the role kits, the traits and Wathe cooldowns key on it.
  * The rewrite depends only on the entry ids (plus a poison display flag), never on stamps, game time or psycho state:
  * Wathe resolves a purchase by list index against a list the server rebuilds, so both sides must build the same shape.
  * 纯窃时者商店规划：各商品 id 的邮票价格与原生列表改写。商品 id 已冻结；疯魔商品保留 Wathe 的 {@code psycho_mode} id，
- * 因为 SparkStrength、SparkTraits 与 Wathe 冷却都依赖它。改写只取决于商品 id（以及毒药展示标记），从不取决于邮票、
+ * 因为职业套件、词条与 Wathe 冷却都依赖它。改写只取决于商品 id（以及毒药展示标记），从不取决于邮票、
  * 对局时间或疯魔状态：Wathe 按下标解析购买，服务端会重建列表，因此两端必须构建出相同的形状。
  */
 public final class TimeStealerShopRules {

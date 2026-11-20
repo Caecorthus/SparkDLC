@@ -19,13 +19,13 @@ import java.util.List;
  * and makes no public sound. A bumped player is a player whose box touches the Blind's box stretched
  * {@link #PROBE_DISTANCE} toward the motion, with no block collision in the gap between the two boxes (the probe never
  * reaches through a thin block), and who really blocks the Blind ({@code collidesWith}, the same predicate vanilla
- * movement uses, so Wathe's solid players and every SparkFactionAPI / Wraith / NoellesRoles collision exemption apply
+ * movement uses, so Wathe's solid players and every faction-core / Wraith / NoellesRoles collision exemption apply
  * as-is: passable players never bump). It becomes perceived for {@code PLAYER_PULSE_TICKS} with a small local pulse
  * around it; otherwise a small pulse lights the contact point. A head bump needs the {@link #HEAD_PROBE_DISTANCE}
  * just above the head to be blocked. Local pulses are kind {@code SELF}.
  * 本地盲人的纯客户端碰撞（C10）。移动碰撞由客户端判定，因此碰撞无需数据包，也不发出公开声音。被撞的玩家指其碰撞箱
  * 与盲人沿移动方向拉伸 {@link #PROBE_DISTANCE} 的碰撞箱相接、两碰撞箱之间的间隙内没有方块碰撞（探测不会穿过薄方块）、
- * 且确实阻挡盲人的玩家（{@code collidesWith}，与原版移动使用的判定相同，因此 Wathe 的实体玩家与所有 SparkFactionAPI /
+ * 且确实阻挡盲人的玩家（{@code collidesWith}，与原版移动使用的判定相同，因此 Wathe 的实体玩家与所有阵营核心 /
  * 冤魂 / NoellesRoles 碰撞豁免原样生效：可穿过的玩家永远撞不到）。被撞的玩家被感知 {@code PLAYER_PULSE_TICKS}，
  * 并在其周围产生一个小的本地脉冲；否则在接触点产生一个小脉冲。撞头要求头顶 {@link #HEAD_PROBE_DISTANCE} 内确实被挡住。
  * 本地脉冲的类型为 {@code SELF}。

@@ -67,9 +67,9 @@ public final class PotionShellFlight {
 
     /**
      * Whether a player stops the shell (D-R4): only a survival/adventure, Wathe-living round participant who is not
-     * under SparkTraits Last Escape; everyone else is someone the blast could never catch, so the shell flies on.
+     * under the Last Escape trait; everyone else is someone the blast could never catch, so the shell flies on.
      * The client passes {@code lastEscape = false} (server-only state).
-     * 玩家是否挡下炮弹（D-R4）：只有生存/冒险模式、Wathe 判定存活的对局参与者，且不处于 SparkTraits 最后逃脱；
+     * 玩家是否挡下炮弹（D-R4）：只有生存/冒险模式、Wathe 判定存活的对局参与者，且不处于最后逃脱词条；
      * 其余玩家都是爆炸永远波及不到的人，炮弹继续飞行。客户端传入 {@code lastEscape = false}（仅服务端状态）。
      */
     public static boolean playerStopsShell(boolean aliveAndSurvival, boolean playingAndAlive, boolean lastEscape) {

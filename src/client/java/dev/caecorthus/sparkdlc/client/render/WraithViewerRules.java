@@ -79,9 +79,9 @@ public final class WraithViewerRules {
     }
 
     /**
-     * Only a Wathe-dead spectator bypasses Wraith privacy. A living spectator (a Rift Gate occupant, a SparkTraits
-     * Depression fake death) is an ordinary viewer, so holding instinct never shows it a Wraith's real role colour.
-     * 只有已死亡（wathe 判定）的旁观者可越过冤魂隐私。存活的旁观者（裂隙门内玩家、SparkTraits 抑郁假死）属于普通
+     * Only a Wathe-dead spectator bypasses Wraith privacy. A living spectator (a Rift Gate occupant, a Depression
+     * trait fake death) is an ordinary viewer, so holding instinct never shows it a Wraith's real role colour.
+     * 只有已死亡（wathe 判定）的旁观者可越过冤魂隐私。存活的旁观者（裂隙门内玩家、抑郁词条假死）属于普通
      * 观察者，按住本能键也看不到冤魂的真实职业颜色。
      */
     private static boolean isDeadSpectator(PlayerEntity viewer) {

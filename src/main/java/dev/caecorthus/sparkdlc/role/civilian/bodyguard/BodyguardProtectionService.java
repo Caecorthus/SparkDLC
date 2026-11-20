@@ -19,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Decides whether the Bodyguard's Democracy Shield or vest stops a kill. Runs at the head of GameFunctions.killPlayer,
  * so the shield and vest are spent before NoellesRoles' Iron Man / whiskey shield and Wathe's psycho armour
- * (owner order: shield, then vest, then everything else). Forced kills are never blocked or charged. SparkWitch's
+ * (owner order: shield, then vest, then everything else). Forced kills are never blocked or charged. The USEC's
  * AXMC (owner 2026-10-07, through {@link SparkRoleApi}, failing closed): the vest is one pierceable layer, while the
  * shield is never pierced and costs 10 points per FMJ round and 25 per AP round.
  * 判定保镖的民主盾牌或防弹衣能否挡下一次击杀。在 GameFunctions.killPlayer 开头执行，因此盾与防弹衣先于
  * NoellesRoles 的铁人药水/威士忌护盾与 Wathe 疯魔护甲结算（所有者顺序：盾 → 防弹衣 → 其他）。强制击杀从不阻挡、也不消耗。
- * SparkWitch 的 AXMC（所有者 2026-10-07，经 {@link SparkRoleApi}，失败时关闭）：防弹衣是一层可击穿的护盾，盾牌则从不被
+ * USEC 的 AXMC（所有者 2026-10-07，经 {@link SparkRoleApi}，失败时关闭）：防弹衣是一层可击穿的护盾，盾牌则从不被
  * 击穿，每发 FMJ 消耗 10 点体力，每发 AP 消耗 25 点。
  */
 public final class BodyguardProtectionService {
@@ -56,10 +56,10 @@ public final class BodyguardProtectionService {
         if (force || victim == null || !GameFunctions.isPlayerPlayingAndAlive(victim)) {
             return false;
         }
-        // SparkWitch's Savior settles one hit with up to ten killPlayer retries in the same tick (SaviorRules.settleKill,
+        // The Savior settles one hit with up to ten killPlayer retries in the same tick (SaviorRules.settleKill,
         // SparkWitch PR #200). Once the shield has blocked that hit, the retries are the same hit: blocked again with no
         // stamina, sound or record, even if that block broke the shield. Other reasons never take this path.
-        // SparkWitch 救世主在同一刻内以最多 10 次 killPlayer 重试结算一击（SaviorRules.settleKill，SparkWitch PR #200）。
+        // 救世主在同一刻内以最多 10 次 killPlayer 重试结算一击（SaviorRules.settleKill，SparkWitch PR #200）。
         // 盾挡下这一击后，这些重试仍是同一击：再次挡下，不耗体力、不响音效、不记录，即使那次格挡已经破盾。其他死因不走此路径。
         BodyguardSettlementMemo.Key settlement = BodyguardProtectionRules.settlesOncePerTick(deathReason)
                 ? new BodyguardSettlementMemo.Key(victim.getUuid(), killer == null ? null : killer.getUuid(),
@@ -78,10 +78,10 @@ public final class BodyguardProtectionService {
             return false;
         }
 
-        // SparkTraits' Second Strike re-settles a shielded attack once, but its snapshot does not know this gear, so it
+        // The Second Strike trait re-settles a shielded attack once, but its snapshot does not know this gear, so it
         // is mirrored here: two settlements, each stopped by the shield if still up, else by the vest, else the kill
         // goes on to the remaining protections.
-        // SparkTraits 二次打击会让被护盾挡下的攻击再结算一次，但它的快照不认识这套装备，所以在这里模拟：共两次结算，
+        // 二次打击特质会让被护盾挡下的攻击再结算一次，但它的快照不认识这套装备，所以在这里模拟：共两次结算，
         // 每次先由仍举着的盾挡，否则由防弹衣挡，都挡不住时击杀继续交给其余保护。
         int settlements = killer != null && killer != victim
                 && SparkTraitsApi.hasActiveTrait(killer, BodyguardRules.SECOND_STRIKE_TRAIT_ID) ? 2 : 1;
@@ -95,10 +95,10 @@ public final class BodyguardProtectionService {
                 blockWithShield(victim, killer, points, deathReason.toString());
                 shieldBlocked = true;
             } else if (protection.vest() && BodyguardVestService.isWorn(victim)) {
-                // The vest is one shield layer to SparkWitch's AXMC (owner 2026-10-07): a shot with pierce budget left
+                // The vest is one shield layer to the USEC's AXMC (owner 2026-10-07): a shot with pierce budget left
                 // spends it like a pierced whiskey layer, and this same killPlayer goes on to the remaining protections
                 // with one pierce fewer. A spent vest is never worn again, so no retry or replay re-checks it.
-                // 对 SparkWitch 的 AXMC 而言防弹衣是一层护盾（所有者 2026-10-07）：仍有穿透预算的子弹会像击穿一层威士忌
+                // 对 USEC 的 AXMC 而言防弹衣是一层护盾（所有者 2026-10-07）：仍有穿透预算的子弹会像击穿一层威士忌
                 // 那样把它报废，同一次 killPlayer 带着少一次的穿透继续交给其余保护。报废的防弹衣不会再穿上，因此任何重试或
                 // 重放都不会再检查它。
                 boolean pierced = SparkRoleApi.tryPierceShieldLayer(victim, killer, deathReason);

@@ -43,7 +43,7 @@ public final class ControlExpertRules {
 
     public static final double TASER_BASE_RANGE = 6.0;
     public static final double TASER_BOX_EXPANSION = 0.2;
-    /** Bounds for the SparkTraits Marksman multiplier. / SparkTraits 精确枪手倍率的上下限。 */
+    /** Bounds for the Marksman trait's multiplier. / 精确枪手词条倍率的上下限。 */
     public static final double MIN_RANGE_MULTIPLIER = 1.0;
     public static final double MAX_RANGE_MULTIPLIER = 1.3;
 

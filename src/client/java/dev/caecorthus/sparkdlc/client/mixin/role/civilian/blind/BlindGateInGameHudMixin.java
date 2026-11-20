@@ -17,11 +17,11 @@ import org.spongepowered.asm.mixin.Shadow;
  * {@code CrosshairRenderer} (gated by {@code BlindGateCrosshairRendererMixin}) only while its train HUD is on for a
  * living survival player; otherwise vanilla draws it, whose attack indicator flags an entity in line. While the Blind
  * view is active this outermost wrap (above Wathe's 1000 and the Seeker's 1100) draws the same plain reticle on every
- * path, so SparkTraits' Forced Melee HEAD fallback on this method never runs either.
+ * path, so the forced-melee trait's HEAD fallback on this method never runs either.
  * 原版路径上的 C6 准星闸门：Wathe 对 {@code InGameHud.renderCrosshair} 的包裹只在存活生存玩家的列车 HUD 开启时才把
  * 准星交给 {@code CrosshairRenderer}（由 {@code BlindGateCrosshairRendererMixin} 把关），否则由原版绘制，而原版的
  * 攻击指示器会标出视线上的实体。盲人视图生效期间，本最外层包裹（高于 Wathe 的 1000 与搜寻者的 1100）在所有路径上都
- * 只画同一个普通准星，SparkTraits 强制近战在此方法上的 HEAD 回退也因此不会执行。
+ * 只画同一个普通准星，强制近战词条在此方法上的 HEAD 回退也因此不会执行。
  */
 @Mixin(value = InGameHud.class, priority = 2100)
 public abstract class BlindGateInGameHudMixin {

@@ -24,7 +24,7 @@ import java.util.Locale;
  * The dead's 幽灵的加护 vote screen (owner pick 2026-11-13: 2x2 cards on the 通灵 vote screen's Harpy Express panel):
  * four blessing cards with icon, name and effect, the countdown, and the footer with the remembered pick. A click on an
  * offered card sends that blessing and closes; a card the server disabled for this window (SANITY for a caster without
- * real sanity, i.e. a SparkTraits Impostor) is a sunken slot whose effect line names the reason, and ignores the mouse.
+ * real sanity, i.e. the Impostor trait) is a sunken slot whose effect line names the reason, and ignores the mouse.
  * Esc closes without voting; the shared ability key re-opens the screen to vote or change the vote while the window is
  * live. Every other key, number keys included, is swallowed: the screen pops up by itself while a spectator may be
  * pressing 1-9 for vanilla's spectator menu, so no key may ever cast a vote. The screen belongs to one window and
@@ -32,7 +32,7 @@ import java.util.Locale;
  * every vote.
  * 死者的幽灵的加护投票界面（所有者 2026-11-13 选定：在通灵投票界面的哈比特快面板上排列 2x2 卡片）：四张带图标、名称与效果
  * 的加护卡片、倒计时，以及显示已记住选择的页脚。点击可选的卡片即发送该加护并关闭；服务端在本窗口禁用的卡片（施放者没有真实
- * 理智，即带 SparkTraits 内鬼特质时的回满理智）显示为凹槽，效果行写明原因，且不响应鼠标。Esc 关闭但不投票；窗口进行期间按共享
+ * 理智，即带内鬼特质时的回满理智）显示为凹槽，效果行写明原因，且不响应鼠标。Esc 关闭但不投票；窗口进行期间按共享
  * 技能键可重新打开以投票或改票。其余按键（包括数字键）一律被吞掉：界面会自行弹出，此时旁观者可能正按着原版旁观菜单的 1-9，
  * 因此任何按键都不能投票。界面只属于一个窗口：该窗口结束、新窗口开始或玩家不再可投票时自动关闭。每一票都由服务端重新校验。
  */

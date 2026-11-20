@@ -51,13 +51,13 @@ import java.util.UUID;
  * 5-argument {@code killPlayer}) first ends the session with {@code CROW_KILLED}, exactly the first half of
  * {@link BlackRavenCrowSessions#killOwnerVia}; the kill itself is the weapon's, and the corpse lies at the body. A
  * substitution that never reaches {@code killPlayer} (a backfire, a refused target) expires at the end of the tick.
- * Weapons without a reusable player path (the bat, sphere blasts, add-on guns) call {@code killOwnerVia} directly.
+ * Weapons without a reusable player path (the bat, sphere blasts, API-routed guns) call {@code killOwnerVia} directly.
  * 主人替身（稳定契约）：武器在选取受害者时找到乌鸦，就把乌鸦的主人交给其玩家代码（{@link #substitute}），而不另行击杀，
  * 因此该武器对玩家受害者施加的每条规则都原样作用于黑羽鸦：Wathe 误杀惩罚（小脑）、走火与理智损失，USEC、剑鱼与巨力的误杀规则，
  * 阵营否决、复仇者隔离、审判官归因、奖励与记录。替身只在本服务端刻内记住乌鸦；随后该武器对主人调用
  * {@code GameFunctions.killPlayer} 时，{@code mixin/blackraven/BlackRavenCrowKillLinkMixin}（5 参数 {@code killPlayer} 的 HEAD）
  * 先以 {@code CROW_KILLED} 结束会话，正是 {@link BlackRavenCrowSessions#killOwnerVia} 的前半段；击杀本身属于武器，尸体位于本体处。
- * 没有走到 {@code killPlayer} 的替身（走火、目标被拒）在本刻结束时失效。没有可复用玩家路径的武器（球棒、球形爆炸、附属枪械）
+ * 没有走到 {@code killPlayer} 的替身（走火、目标被拒）在本刻结束时失效。没有可复用玩家路径的武器（球棒、球形爆炸、经 API 转入的枪械）
  * 直接调用 {@code killOwnerVia}。</p>
  */
 public final class BlackRavenCrowTargets {
@@ -155,15 +155,15 @@ public final class BlackRavenCrowTargets {
     }
 
     /**
-     * External seam (SparkFactionAPI, deny wins): whether {@code attacker} may affect the crow's {@code owner} with
-     * {@code action}, exactly as SparkFactionAPI judges a hit on the owner's body ({@code PlayerAffectGuard}: no
-     * player attacker, the owner itself or a null action always pass). SparkFactionAPI's own guards resolve only player
+     * Faction-core seam (deny wins): whether {@code attacker} may affect the crow's {@code owner} with
+     * {@code action}, exactly as the faction core judges a hit on the owner's body ({@code PlayerAffectGuard}: no
+     * player attacker, the owner itself or a null action always pass). Its own guards resolve only player
      * ids (Wathe's gun/knife receivers, projectile collisions, the {@code killPlayer} HEAD veto that would cancel the
      * kill after our session end), so every entry where a crow hit becomes an owner hit asks this first, and a refused
      * hit leaves the crow and its session alone.
-     * 外部接缝（SparkFactionAPI，拒绝优先）：{@code attacker} 能否以 {@code action} 影响乌鸦的主人 {@code owner}，判定与
-     * SparkFactionAPI 对命中本体的判定完全一致（{@code PlayerAffectGuard}：非玩家攻击者、主人本人或 null 行为一律放行）。
-     * SparkFactionAPI 自身的守卫只解析玩家 id（Wathe 枪/刀接收器、投射物碰撞，以及会在会话已结束后才取消击杀的
+     * 阵营核心接缝（拒绝优先）：{@code attacker} 能否以 {@code action} 影响乌鸦的主人 {@code owner}，判定与
+     * 阵营核心对命中本体的判定完全一致（{@code PlayerAffectGuard}：非玩家攻击者、主人本人或 null 行为一律放行）。
+     * 阵营核心自身的守卫只解析玩家 id（Wathe 枪/刀接收器、投射物碰撞，以及会在会话已结束后才取消击杀的
      * {@code killPlayer} HEAD 否决），因此每个把乌鸦命中变为主人命中的入口都先询问此处，被拒的命中不触碰乌鸦及其会话。
      */
     public static boolean mayAffect(@Nullable Entity attacker, @Nullable ServerPlayerEntity owner,
@@ -239,11 +239,12 @@ public final class BlackRavenCrowTargets {
     /**
      * Kill link, from {@code BlackRavenCrowKillLinkMixin} at the HEAD of every {@code killPlayer}: a victim substituted
      * this tick loses its session first ({@code CROW_KILLED}, no Homing Feather), as {@code killOwnerVia} does, unless
-     * the kill cannot land ({@link #killCanLand}: SparkFactionAPI refuses {@code killer} on it for {@code deathReason},
-     * or the Specter's Otherworld rule voids it): that kill is cancelled by the refusing HEAD veto, so the crow and its
-     * session stay. Also records the victim of an open blast scope ({@link #recordBlastAttempts}).
+     * the kill cannot land ({@link #killCanLand}: the faction core refuses {@code killer} on it for
+     * {@code deathReason}, or the Specter's Otherworld rule voids it): that kill is cancelled by the refusing HEAD
+     * veto, so the crow and its session stay. Also records the victim of an open blast scope
+     * ({@link #recordBlastAttempts}).
      * 击杀链接，由 {@code BlackRavenCrowKillLinkMixin} 在每次 {@code killPlayer} 的 HEAD 调用：本刻被替身的受害者先结束会话
-     * （{@code CROW_KILLED}，不使用归羽），与 {@code killOwnerVia} 一致；但该击杀无法生效时（{@link #killCanLand}：SparkFactionAPI 以
+     * （{@code CROW_KILLED}，不使用归羽），与 {@code killOwnerVia} 一致；但该击杀无法生效时（{@link #killCanLand}：阵营核心以
      * {@code deathReason} 拒绝 {@code killer} 影响它，或被幽魂里世界规则作废），它会被相应的 HEAD 否决取消，乌鸦与会话保持不变。
      * 同时记录打开的爆炸作用域中的受害者（{@link #recordBlastAttempts}）。
      */
@@ -360,10 +361,10 @@ public final class BlackRavenCrowTargets {
     }
 
     /**
-     * Server confirm for a client-picked hitscan shot on a crow (revolver, derringer, add-on guns): the crow within
+     * Server confirm for a client-picked hitscan shot on a crow (revolver, derringer, API-routed guns): the crow within
      * {@code maxDistance}, and the shooter's look ray (clipped at the first block) entering its lag-compensated volumes
      * grown by {@link BlackRavenCrowHitRules#GUN_CONFIRM_GROWTH}.
-     * 客户端选中乌鸦时的服务端即时射击确认（左轮、德林加、附属枪械）：乌鸦在 {@code maxDistance} 内，且射手视线射线（在第一个
+     * 客户端选中乌鸦时的服务端即时射击确认（左轮、德林加、经 API 转入的枪械）：乌鸦在 {@code maxDistance} 内，且射手视线射线（在第一个
      * 方块处截断）进入其按 {@link BlackRavenCrowHitRules#GUN_CONFIRM_GROWTH} 扩大的延迟补偿体积。
      */
     public static boolean gunAimed(ServerPlayerEntity shooter, Target target, double maxDistance) {

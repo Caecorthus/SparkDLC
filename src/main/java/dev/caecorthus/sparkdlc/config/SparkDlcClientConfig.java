@@ -10,8 +10,8 @@ import java.util.Set;
 import net.minecraft.util.TranslatableOption;
 
 /**
- * Small client config model for SparkAssist.
- * SparkAssist 的本地客户端配置模型。
+ * Small client config model for the mod's client settings.
+ * 本模组客户端设置的本地配置模型。
  */
 public final class SparkDlcClientConfig {
     private static final String INSTINCT_KEY_MODE = "instinctKeyMode";

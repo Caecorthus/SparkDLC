@@ -21,7 +21,8 @@ public final class SpareKeyRules {
     public static final int TRAIN_DOOR_COST = 3;
     /** Wathe {@code DoorType.SMALL_DOOR} with a key name. / 设有钥匙名的 Wathe 小门。 */
     public static final int ROOM_DOOR_COST = 1;
-    /** Written after each real opening; the SparkFactionAPI nominal. / 每次真正开门后写入；也是 SparkFactionAPI 标准冷却。 */
+    /** Written after each real opening; also its nominal in {@code RoleItemCooldownNominals}.
+     *  每次真正开门后写入；也是 {@code RoleItemCooldownNominals} 中登记的标准冷却。 */
     public static final int COOLDOWN_TICKS = GameConstants.getInTicks(0, 5);
 
     private SpareKeyRules() {

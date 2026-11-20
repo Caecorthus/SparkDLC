@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * 幽灵背包隐身的服务端权威逻辑。
  *
- * <p>这条能力不修改 NoellesRoles 原幽灵按键逻辑；它只在 SparkStrength 内部维护
+ * <p>这条能力不修改 NoellesRoles 原幽灵按键逻辑；它只在本模组内部维护
  * 独立冷却和目标隐身追踪，因此原本按 G 给自己隐身的 90 秒冷却不会被背包按钮影响。</p>
  */
 public final class PhantomBackpackService {

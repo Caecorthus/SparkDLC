@@ -12,8 +12,8 @@ import net.minecraft.entity.player.PlayerEntity;
  * 特质功能自己的回退灰阶（{@code DepressionScreenEffects}）。合成器被直接调用：没有安装式渲染器槽位，也无需确认协议版本。
  */
 public final class LastEscapeComposedPass {
-    // Latched by the first failure inside the Witch pass: from then on Traits keeps rendering its own fallback.
-    // Witch 后处理第一次失败后锁存：此后 Traits 一直使用自己的回退后处理。
+    // Latched by the first failure inside the composed pass: from then on the trait feature keeps rendering its own
+    // fallback. / 合成后处理第一次失败后锁存：此后特质功能一直使用自己的回退后处理。
     private static boolean failed;
 
     private LastEscapeComposedPass() {
@@ -21,9 +21,10 @@ public final class LastEscapeComposedPass {
 
     /**
      * Render thread only. True means the composed pass was actually rendered, not merely supported; false (not the
-     * local player, no escape composition, shader load failure, or a failed pass) lets Traits render its fallback.
+     * local player, no escape composition, shader load failure, or a failed pass) lets the trait feature render its
+     * fallback.
      * 仅在渲染线程调用；成功执行合成后处理才返回 true。返回 false（非本地玩家、无脱险参数、着色器加载失败或后处理失败）
-     * 时由 Traits 回退渲染。
+     * 时由特质功能回退渲染。
      */
     public static boolean tryRender(PlayerEntity player, float delta) {
         if (failed) {
@@ -32,8 +33,8 @@ public final class LastEscapeComposedPass {
         try {
             return player != null && BlackRavenPerceptionScreenEffects.renderLastEscape(player, delta);
         } catch (RuntimeException | LinkageError ignored) {
-            // Render fault isolation: a broken Witch pass must not take the escape grayscale away.
-            // 渲染故障隔离：Witch 后处理出错时不能让脱险灰阶消失。
+            // Render fault isolation: a broken composed pass must not take the escape grayscale away.
+            // 渲染故障隔离：合成后处理出错时不能让脱险灰阶消失。
             failed = true;
             return false;
         }

@@ -101,14 +101,14 @@ public final class SpecterFeatureService {
     }
 
     /**
-     * Real-mood player at or below 25 sanity, or a cowardly player of any mood type. Client-side (SparkFactionAPI only
-     * evaluates instinct policies on the client) and only for the local viewer, whose own mood, traits and cowardice
-     * are synced to it, so it uses the side-neutral {@link SpecterRules#hasRealSanityEitherSide} rather than the
-     * server-typed {@link SpecterRules#hasRealSanity}; both apply SparkTraits Conscience/Impostor and exclude active
+     * Real-mood player at or below 25 sanity, or a cowardly player of any mood type. Client-side (the faction core
+     * only evaluates instinct policies on the client) and only for the local viewer, whose own mood, traits and
+     * cowardice are synced to it, so it uses the side-neutral {@link SpecterRules#hasRealSanityEitherSide} rather than
+     * the server-typed {@link SpecterRules#hasRealSanity}; both apply the Conscience/Impostor traits and exclude active
      * Wraiths the same way.
-     * 真实理智不高于 25，或任何理智类型的怯懦者。在客户端求值（SparkFactionAPI 只在客户端调用本能策略），且只针对本地观察者，
+     * 真实理智不高于 25，或任何理智类型的怯懦者。在客户端求值（阵营核心只在客户端调用本能策略），且只针对本地观察者，
      * 其本人的理智、词条与怯懦都会同步给本人，因此使用两端通用的 {@link SpecterRules#hasRealSanityEitherSide}，而非仅限服务端
-     * 类型的 {@link SpecterRules#hasRealSanity}；二者以相同方式计入 SparkTraits 善良/内鬼并排除激活冤魂。
+     * 类型的 {@link SpecterRules#hasRealSanity}；二者以相同方式计入善良/内鬼词条并排除激活冤魂。
      */
     private static boolean isLowSanityViewer(PlayerEntity viewer) {
         if (SpecterCowardiceComponent.KEY.get(viewer).isCoward()) {

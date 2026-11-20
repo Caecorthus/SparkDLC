@@ -10,9 +10,9 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
 /**
- * Renders the local player's mana below Wathe's money row, and below the killer team-wallet row SparkStrength stacks
+ * Renders the local player's mana below Wathe's money row, and below the killer team-wallet row stacked
  * under it while that row is showing.
- * 在 wathe 金币行下方显示本地玩家的魔力值；SparkStrength 在金币下方显示杀手团队余额行时，改为显示在该行下方。
+ * 在 wathe 金币行下方显示本地玩家的魔力值；金币下方显示杀手团队余额行时，改为显示在该行下方。
  */
 public final class WitchManaHudRenderer {
     private static final int RIGHT_PADDING = 12;
@@ -44,10 +44,10 @@ public final class WitchManaHudRenderer {
     }
 
     /**
-     * Mana row y. {@code strengthRowsBottom} is SparkStrength's exclusive band bottom (0 when no row shows); that band
-     * ends one pixel below its row's text, so the mana keeps the same {@link #ROW_GAP} under the team row as under
-     * Wathe's money.
-     * 魔力行 y。{@code strengthRowsBottom} 为 SparkStrength 叠加行的底边（不含，未显示时为 0）；该底边比其文字底部低 1 像素，
+     * Mana row y. {@code strengthRowsBottom} is the team-wallet band's exclusive bottom (0 when no row shows); that
+     * band ends one pixel below its row's text, so the mana keeps the same {@link #ROW_GAP} under the team row as
+     * under Wathe's money.
+     * 魔力行 y。{@code strengthRowsBottom} 为团队余额叠加行的底边（不含，未显示时为 0）；该底边比其文字底部低 1 像素，
      * 因此魔力行与团队余额行之间保持与 Wathe 金币行相同的 {@link #ROW_GAP} 间距。
      */
     static int rowY(int fontHeight, int strengthRowsBottom) {

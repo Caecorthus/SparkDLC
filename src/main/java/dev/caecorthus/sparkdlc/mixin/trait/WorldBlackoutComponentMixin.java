@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
- * Publishes blackout-only Going Dark state through SparkTraits' synced player component.
- * 通过 SparkTraits 的玩家同步组件发布隐蔽行动的关灯状态。
+ * Publishes blackout-only Going Dark state through the traits' synced player component.
+ * 通过天赋的玩家同步组件发布隐蔽行动的关灯状态。
  */
 @Mixin(value = WorldBlackoutComponent.class, remap = false)
 public abstract class WorldBlackoutComponentMixin {

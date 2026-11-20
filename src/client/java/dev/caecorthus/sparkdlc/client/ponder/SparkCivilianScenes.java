@@ -66,17 +66,16 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 /**
- * Demos for SparkWitch's civilian and police roles and the neutral Insider, opened only from the role's guide page;
- * each needs SparkWitch.
+ * Demos for the mod's own civilian and police roles and the neutral Insider, opened only from the role's guide page.
  * What onlookers cannot see (an outline only the role itself sees, the Taser's hit, a bullet's path) is drawn as boxes
  * or lines, and the captions call them illustrations.
- * SparkWitch 平民阵营、警职职业与中立内应的演示，只从该职业的指南页打开；都需要 SparkWitch。旁观者看不到的东西（只有本人看得到的
+ * 本模组自有的平民阵营、警职职业与中立内应的演示，只从该职业的指南页打开。旁观者看不到的东西（只有本人看得到的
  * 轮廓、电击枪的命中、子弹的弹道）用方框或线条表示，字幕注明是示意。
  */
 final class SparkCivilianScenes {
-    /** NoellesRoles' shared ability key, which SparkWitch skills reuse. SparkWitch 技能沿用的 NoellesRoles 技能键。 */
+    /** NoellesRoles' shared ability key, which this mod's role skills reuse. 本模组职业技能沿用的 NoellesRoles 技能键。 */
     private static final String ABILITY_KEY = "key.noellesroles.ability";
-    /** SparkWitch's secondary skill key (default N). SparkWitch 的第二技能键（默认 N）。 */
+    /** The Role Skill 2 key (default N). “职业技能 2”键（默认 N）。 */
     private static final String SECONDARY_KEY = "key.sparkdlc.role_skill_2";
     /** The driven Seeker car's speed, blocks a tick (SeekerRules.CAR_SPEED). 被驾驶的搜寻小车速度，格每 tick。 */
     private static final double CAR_SPEED = 0.375;
@@ -100,7 +99,7 @@ final class SparkCivilianScenes {
     private static final int BLOODY_RED = 0xC13838;
     /** A body the Perfumer smells (PerfumerRules.CORPSE_OUTLINE_COLOR). 调香师闻到的尸体的描边颜色。 */
     private static final int CORPSE_GREY = 0xD8D8D8;
-    /** Cooling Oil's mist (SparkStrength CoolingOilService.MINT_MIST). 风油精的雾气。 */
+    /** Cooling Oil's mist (SparkDLC CoolingOilService.MINT_MIST). 风油精的雾气。 */
     private static final DustParticleEffect MINT_MIST = new DustParticleEffect(new Vector3f(0.55f, 0.95f, 0.75f), 1.3f);
     /** Cooling Oil's mist core (CoolingOilService.MINT_CORE). 风油精雾气的核心。 */
     private static final DustParticleEffect MINT_CORE = new DustParticleEffect(new Vector3f(0.80f, 1.0f, 0.90f), 1.0f);
@@ -295,7 +294,7 @@ final class SparkCivilianScenes {
     }
 
     /**
-     * Angler (FisherFishingService, FisherInventory, FisherFishUse, FisherFishItem, FisherKeyFishDoors, SparkWitch's
+     * Angler (FisherFishingService, FisherInventory, FisherFishUse, FisherFishItem, FisherKeyFishDoors, the
      * NoellesHiddenEquipment list): right-clicking a Wathe drink tray with the rod spends one bait and rolls a catch:
      * a fish into a free hotbar slot, nothing (a skunk) or a pufferfish on the tray; others see one arm swing, the
      * splash sounds are the Angler's own. The demo puts each catch straight in his hand. Edible fish are eaten
@@ -1160,7 +1159,7 @@ final class SparkCivilianScenes {
 
     /**
      * Perfumer (PerfumeEssenceItem, PerfumerRules, PerfumerState, PerfumerRuntime, PerfumerFeatureService, CologneItem;
-     * SparkStrength CoolingOilItem, CoolingOilEntity, CoolingOilService, PerfumerKitService, HiddenEquipmentHelperMixin):
+     * SparkDLC CoolingOilItem, CoolingOilEntity, CoolingOilService, PerfumerKitService, HiddenEquipmentHelperMixin):
      * right-clicking another living player with Perfume Essence (a swing; the essence is used up and hidden in hand from
      * other living players) marks them for the Perfumer alone: pink while in sight within 12 blocks. After the marked
      * player kills someone (an attributed kill), the outline turns red and also shows through walls within 4 blocks.
@@ -1392,7 +1391,7 @@ final class SparkCivilianScenes {
      * does a Cautious one). The White Cane's right-click (CONSUME: no swing) sweeps 15 blocks over 0.6 s, its lines
      * fading from 2 s to 5 s, and shows every player within 5 blocks for the 5 s window, sneaking or invisible (not
      * active Wraiths or swallowed players); its tap is a public sound. Attune (ability key) multiplies the range by 5 for
-     * 10 s. The ComTac is worn in the headset slot (SparkWitch HeadsetSlots, the fifth slot beside the armour slots,
+     * 10 s. The ComTac is worn in the headset slot (HeadsetSlots, the fifth slot beside the armour slots,
      * since 2026-11-05): a bought one goes straight into an empty headset slot, a held one goes in on right-click, and
      * it is never drawn on a body; the cane and the ComTac are hidden in hand from other living players, so onlookers
      * see an empty hand. Wathe walks at about 3 blocks a second and sneaks at about 0.9. The stage is dimmed to stand
@@ -1402,7 +1401,7 @@ final class SparkCivilianScenes {
      * 声音的玩家被感知 1.5 秒，画成白色线稿（隔墙为人形轮廓和涟漪），没有名字、手持物和护甲；物体声（门、非玩家实体）只照亮
      * 环境。未被感知的玩家完全不画；在地面潜行的玩家没有脚步声（“小心翼翼”词条也一样）。盲杖右键（CONSUME：不挥手）在 0.6 秒
      * 内扫开 15 格，线条从 2 秒淡出到 5 秒，并在 5 秒窗口内显示 5 格内的所有玩家，潜行或隐身的也算（激活的冤魂与被吞者
-     * 除外）；敲击声是公开的。凝神（技能键）10 秒内感知距离 ×5。ComTac 自 2026-11-05 起戴在耳机槽（SparkWitch HeadsetSlots，
+     * 除外）；敲击声是公开的。凝神（技能键）10 秒内感知距离 ×5。ComTac 自 2026-11-05 起戴在耳机槽（HeadsetSlots，
      * 护甲栏旁的第五格）：买到时耳机槽空着就直接戴上，拿在手上右键戴上，且从不画在身上；盲杖和 ComTac 拿在手上时其他活着的
      * 玩家看不见，旁人只看到空手。Wathe 中步行约每秒 3 格，潜行约每秒 0.9 格。
      * 舞台调暗代表黑屏；白框、方块白色轮廓线和灰色圆圈代表线稿。
@@ -1623,7 +1622,7 @@ final class SparkCivilianScenes {
     }
 
     /**
-     * A Cooling Oil vial shattering (SparkStrength CoolingOilService.playBurst): 48 mint and 16 pale mist puffs filling
+     * A Cooling Oil vial shattering (SparkDLC CoolingOilService.playBurst): 48 mint and 16 pale mist puffs filling
      * the body-height space 0.9 above the floor point, and 10 glass bits where it broke.
      * 风油精药瓶碎裂：薄荷色雾气 48 团、浅色核心 16 团，充满地面点上方 0.9 处一人高的空间；碎裂处飞出 10 片玻璃碎片。
      */
@@ -1857,7 +1856,7 @@ final class SparkCivilianScenes {
             ms.pop();
         }
 
-        /** A model SparkWitch loads through ModelLoadingPlugin (SeekerModels). SparkWitch 通过插件加载的模型。 */
+        /** A model loaded through ModelLoadingPlugin (SeekerModels). 通过插件加载的模型。 */
         private static BakedModel model(Identifier id) {
             return ((FabricBakedModelManager) MinecraftClient.getInstance().getBakedModelManager()).getModel(id);
         }

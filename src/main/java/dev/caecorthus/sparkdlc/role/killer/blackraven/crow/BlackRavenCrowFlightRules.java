@@ -6,10 +6,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Pure crow flight math shared by the server validator and crow-client's prediction (no world access), modelled on
- * SparkStrength's drone ({@code DroneEntity.applyPilotStep}, {@code DroneFlight}): per-axis step caps, a refilling move
+ * the Bomber's drone ({@code DroneEntity.applyPilotStep}, {@code DroneFlight}): per-axis step caps, a refilling move
  * budget, and the play-area / world-border clamp. Block collision is the only world-dependent step and lives in
  * {@link BlackRavenCrowEntity}. Tune the speeds here.
- * 服务端校验与 crow-client 预测共用的乌鸦纯飞行计算（不访问世界），仿照 SparkStrength 无人机：分轴步长上限、按刻补充的移动预算，
+ * 服务端校验与 crow-client 预测共用的乌鸦纯飞行计算（不访问世界），仿照炸弹客无人机：分轴步长上限、按刻补充的移动预算，
  * 以及游戏区域 / 世界边界限制。方块碰撞是唯一依赖世界的步骤，位于 {@link BlackRavenCrowEntity}。速度在此调整。
  */
 public final class BlackRavenCrowFlightRules {

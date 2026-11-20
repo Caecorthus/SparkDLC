@@ -96,10 +96,10 @@ public final class SherryBadgeService {
     }
 
     /**
-     * A badge holder really died (a SparkTraits Last Stand interception is not a death): every living Sherry who gave
+     * A badge holder really died (a Last Stand trait interception is not a death): every living Sherry who gave
      * them a badge gets the note and starts tracking the killer. No killer (a fall, a breakdown) or a killer who is
      * already dead means the note only; her own kill of her own holder tracks nobody.
-     * 徽章持有者确实死亡（SparkTraits 背水一战拦截不算死亡）：每个给过其徽章的存活雪莉获得纸条并开始追踪凶手。没有凶手
+     * 徽章持有者确实死亡（背水一战词条拦截不算死亡）：每个给过其徽章的存活雪莉获得纸条并开始追踪凶手。没有凶手
      * （坠落、精神崩溃）或凶手已死时只发纸条；她自己杀死自己的持有者则不追踪任何人。
      */
     private static void afterKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer,

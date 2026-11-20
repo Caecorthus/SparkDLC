@@ -84,9 +84,10 @@ public final class TaotieHeadClientHooks {
     }
 
     /**
-     * SparkWitch registers its binding during client init, so it is already in {@code options.allKeys} by the first
-     * tick; the lookup is retried while it misses and cached once found.
-     * SparkWitch 在客户端初始化时注册该键，首个 tick 时已在 options.allKeys 中；未找到时下次重试，找到后缓存。
+     * {@code SecondaryAbilityController} registers the binding during client init, so it is already in
+     * {@code options.allKeys} by the first tick; the lookup is retried while it misses and cached once found.
+     * {@code SecondaryAbilityController} 在客户端初始化时注册该键，首个 tick 时已在 options.allKeys 中；未找到时下次重试，
+     * 找到后缓存。
      */
     private static @Nullable KeyBinding secondarySkillKey() {
         if (sharedBinding == null) {

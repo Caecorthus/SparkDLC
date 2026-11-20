@@ -19,7 +19,7 @@ import java.util.List;
  * Per-entity outline veto under an Iris shader pack (defense in depth next to the per-pixel {@code SmokeOutlineMask}):
  * an entity behind BEAR smoke gets no outline at all ({@code SmokeOutlineVetoMixin} answers {@code hasOutline} false),
  * which covers every producer that asks {@code hasOutline}: Wathe instinct and its faction colours, vanilla glowing,
- * corpses and SparkWitch highlights, including anything a pack would draw from that flag. "Behind" is decided on the
+ * corpses and the mod's highlights, including anything a pack would draw from that flag. "Behind" is decided on the
  * client thread once per client tick, from the camera to five points of the entity's box (centre, head, feet, both
  * sides across the view) with {@link SmokeVolumes#opticalDepth}; a point is hidden at
  * {@link SmokeOcclusion#HIDDEN_OPTICAL_DEPTH}. While the after-final-pass smoke works the per-pixel mask already
@@ -29,7 +29,7 @@ import java.util.List;
  * Without a pack, or without smoke, the sets are empty and nothing changes. Client-only presentation.
  * Iris 光影包下的逐实体描边否决（与逐像素 {@code SmokeOutlineMask} 互为纵深防御）：BEAR 烟后面的实体完全没有描边
  * （{@code SmokeOutlineVetoMixin} 让 {@code hasOutline} 返回 false），从而覆盖所有询问 {@code hasOutline} 的来源：Wathe 本能及其阵营
- * 颜色、原版发光、尸体与 SparkWitch 高亮，也包括光影包可能依据该标志绘制的内容。“在烟后”在客户端线程每个客户端 tick 判定
+ * 颜色、原版发光、尸体与本模组的高亮，也包括光影包可能依据该标志绘制的内容。“在烟后”在客户端线程每个客户端 tick 判定
  * 一次：用 {@link SmokeVolumes#opticalDepth} 计算相机到实体碰撞箱五个点（中心、头、脚、垂直于视线的两侧）的光学厚度，达到
  * {@link SmokeOcclusion#HIDDEN_OPTICAL_DEPTH} 的点视为被挡住。最终处理之后的烟雾正常时，逐像素遮罩已裁掉部分被挡的身体，
  * 因此只否决五点全被挡的实体；公告板兜底运行时，多数（五点中三点）即可（失败即遮挡）。结果以不可变 id 集合经 volatile 字段

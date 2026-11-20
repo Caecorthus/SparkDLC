@@ -25,8 +25,9 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Bridges Pig God's temporary chase powers through public Wathe/Fabric/SparkFactionAPI hooks.
- * 通过公开的 Wathe、Fabric 与 SparkFactionAPI 挂钩桥接皮革噶的的临时追杀能力。
+ * Wires Pig God's temporary chase powers through public Wathe/Fabric hooks and the faction contract
+ * ({@code SparkFactionApi}).
+ * 通过公开的 Wathe、Fabric 挂钩与阵营契约（{@code SparkFactionApi}）接入皮革噶的的临时追杀能力。
  */
 public final class PigGodFeatureService {
     private static final Identifier SURVIVAL_MASTER_ID = Identifier.of("noellesroles", "survival_master");

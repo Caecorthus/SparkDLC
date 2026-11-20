@@ -39,8 +39,8 @@ public final class SilencerKnifeService {
             return true;
         }
 
-        // A SparkWitch Raven Form crow id resolves to its owner; the quiet stab below runs on it unchanged.
-        // SparkWitch 化鸦乌鸦 id 解析为其主人；下方静音刺击原样作用于它。
+        // A Raven Form crow id resolves to its owner; the quiet stab below runs on it unchanged.
+        // 化鸦乌鸦 id 解析为其主人；下方静音刺击原样作用于它。
         ServerPlayerEntity target = KnifeStabTargets.resolve(player, payload.target());
         if (target == null) {
             return true;

@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
  * stab or push the marked player makes by hand during the window is judged normally.
  * <ul>
  *   <li>{@link #isFiring}: true only while {@link DominatorForcedShotService#fireNow} runs Wathe's gun receiver for
- *   this shooter. Synchronous consequences (the kill, every {@code KillPlayer.AFTER} listener such as SparkTraits
- *   Conscience) run inside it.</li>
+ *   this shooter. Synchronous consequences (the kill, every {@code KillPlayer.AFTER} listener such as the
+ *   Conscience trait) run inside it.</li>
  *   <li>{@link #coversConsequencesOf}: {@link #isFiring}, or a Wathe {@code Scheduler} task queued while firing is
  *   running ({@code SchedulerForcedShotConsequenceMixin} binds such tasks), so short-delayed consequences of the forced
  *   shot keep the shooter's protection as well.</li>
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * 单次强制开枪的服务端线程作用域（{@code mixin/dominator/} 钩子的稳定契约）。被强制开枪者的所有保护与豁免都以此作用域为准，
  * 绝不以 1 秒的序列窗口为准，因此被标记者在窗口内亲手开枪、刺击或推人时照常结算。
  * {@link #isFiring} 仅在 {@link DominatorForcedShotService#fireNow} 为该射手执行 Wathe 枪械接收器期间为真，同步后果（击杀、
- * 所有 {@code KillPlayer.AFTER} 监听器，例如 SparkTraits 良心）都在其中运行；{@link #coversConsequencesOf} 还包括开枪期间
+ * 所有 {@code KillPlayer.AFTER} 监听器，例如良心词条）都在其中运行；{@link #coversConsequencesOf} 还包括开枪期间
  * 排入 Wathe {@code Scheduler} 的任务在运行时，使强制开枪的短延迟后果同样受保护。只与服务端实体做同一性比较，
  * 客户端线程（集成服务端）调用永远不会匹配。
  */

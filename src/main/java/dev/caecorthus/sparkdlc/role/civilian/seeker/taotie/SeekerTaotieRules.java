@@ -168,10 +168,10 @@ public final class SeekerTaotieRules {
 
     /**
      * Client claim of one shared-key press. Cheap gates first: only a real press of the shared ability key on a
-     * confirmed SparkWitch server that accepts {@code seeker_car_swallow}; then the local Taotie must be ready and the
+     * confirmed SparkDLC server that accepts {@code seeker_car_swallow}; then the local Taotie must be ready and the
      * vanilla crosshair must be on a Search Car that {@linkplain #shieldsPress shields} the press. Claimed means
      * NoellesRoles sees no press this call.
-     * 客户端对一次共享键按下的认领。先做廉价判定：只有在已确认、能接收 {@code seeker_car_swallow} 的 SparkWitch
+     * 客户端对一次共享键按下的认领。先做廉价判定：只有在已确认、能接收 {@code seeker_car_swallow} 的 SparkDLC
      * 服务器上真实按下共享技能键；之后本地饕餮必须就绪，且原版准星落在遮挡本次按键的搜寻小车上。认领后
      * NoellesRoles 在这次调用中看不到按键。
      */
@@ -195,8 +195,8 @@ public final class SeekerTaotieRules {
     }
 
     /**
-     * Final death for the return poll: marked dead and not a pending SparkTraits Last Stand.
-     * 归还轮询用的最终死亡：已标记死亡且不处于 SparkTraits 最后一搏待定。
+     * Final death for the return poll: marked dead and not a pending Last Stand (the trait).
+     * 归还轮询用的最终死亡：已标记死亡且不处于最后一搏词条待定。
      */
     public static boolean isFinalDeath(boolean markedDead, boolean lastStandPending) {
         return markedDead && !lastStandPending;

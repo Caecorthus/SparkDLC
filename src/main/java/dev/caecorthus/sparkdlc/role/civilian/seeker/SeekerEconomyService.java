@@ -15,13 +15,14 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Seeker economy (Q9): starting balance 0 (written by {@link SeekerLoadoutService#grant}; the tablet the old 50 paid for
- * is now issued free by SparkStrength), +50 per completed task, money always visible. SparkStrength pays nothing to new police roles, so SparkWitch owns all of the Seeker's income.
+ * is now issued free by {@code TabletShopService}), +50 per completed task, money always visible.
+ * {@code RoleEconomyService} pays nothing to new police roles, so this service owns all of the Seeker's income.
  * No task pay for an Impostor ({@code SparkTraitsApi.hasActiveTrait} with {@code TraitIds.IMPOSTOR}; a missing player
  * never reaches the query, {@link #canEarn} refuses it first), following the Control Expert's fail-closed precedent;
  * the trait feature pays an Impostor's task income itself.
- * 搜寻者经济（Q9）：开局余额 0（由 {@link SeekerLoadoutService#grant} 写入；原先 50 所购买的平板现由 SparkStrength 免费发放），
- * 每完成一个任务 +50，金钱始终可见。
- * SparkStrength 不给新警察职业发钱，因此搜寻者的全部收入由 SparkWitch 负责。内鬼不发任务钱（以 {@code TraitIds.IMPOSTOR}
+ * 搜寻者经济（Q9）：开局余额 0（由 {@link SeekerLoadoutService#grant} 写入；原先 50 所购买的平板现由
+ * {@code TabletShopService} 免费发放），每完成一个任务 +50，金钱始终可见。
+ * {@code RoleEconomyService} 不给新警察职业发钱，因此搜寻者的全部收入由本服务负责。内鬼不发任务钱（以 {@code TraitIds.IMPOSTOR}
  * 调用 {@code SparkTraitsApi.hasActiveTrait}；玩家为空时到不了该查询，{@link #canEarn} 会先行拒绝），沿用控场专家“未知即拒绝”的先例；
  * 内鬼的任务收入由天赋功能自行支付。
  */

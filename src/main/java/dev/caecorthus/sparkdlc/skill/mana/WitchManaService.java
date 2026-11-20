@@ -12,8 +12,8 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server-side bridge between Wathe events and SparkWitch mana state.
- * 服务端事件到 SparkWitch 魔力状态的桥接层。
+ * Server-side bridge between Wathe events and the mana state.
+ * 服务端事件到魔力状态的桥接层。
  */
 public final class WitchManaService {
     private WitchManaService() {

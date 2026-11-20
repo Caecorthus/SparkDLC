@@ -22,14 +22,14 @@ import java.util.UUID;
  * Raven Form state ({@code sparkdlc:black_raven_crow}, {@code NEVER_COPY}, appended last), bound to the current Wathe
  * match. Sync contract: EVERY client receives the {@link #isActive()} bit, because other clients must hide the body
  * (name tag, model and held items, Blind echoes, instinct) and exempt it from their own local collision prediction
- * (the SparkFactionAPI exemption runs on each client); the RAW role is already public through Wathe's world sync, so the
+ * (the faction-core exemption runs on each client); the RAW role is already public through Wathe's world sync, so the
  * bit leaks nothing new. Everything else (tasks, cooldown, crow entity id, session ticks, the Homing Feather marker and
  * the landing hold reserved for crow-world) goes to the owner only. Server-only: the match binding, the body anchor,
  * the ungrounded counter and the invisibility ownership. Only tasks, cooldown and the match binding are saved; a
  * session never survives a reload.
  * 化鸦状态（{@code sparkdlc:black_raven_crow}，{@code NEVER_COPY}，追加在最后），绑定当前 Wathe 对局。同步契约：
  * 所有客户端都接收 {@link #isActive()} 标记，因为其他客户端需要隐藏本体（名牌、模型与手持物品、盲人回声、本能），并在本地碰撞预测中
- * 豁免它（SparkFactionAPI 豁免在各客户端上执行）；原始职业已通过 Wathe 世界同步公开，此标记不泄露新信息。其余字段（任务数、冷却、
+ * 豁免它（阵营核心的豁免在各客户端上执行）；原始职业已通过 Wathe 世界同步公开，此标记不泄露新信息。其余字段（任务数、冷却、
  * 乌鸦实体 id、会话刻、为 crow-world 预留的归羽标记与落地定身）只同步给本人。仅服务端：对局绑定、本体锚点、离地计数与隐身归属。
  * 只保存任务数、冷却与对局绑定；会话从不跨越重载。
  */

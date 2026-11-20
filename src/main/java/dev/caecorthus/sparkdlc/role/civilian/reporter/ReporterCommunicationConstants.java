@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.reporter;
 /**
  * 记者背包通讯加强的数值。
  *
- * <p>这些数值按自改版接线员当前配置复刻，但放在 SparkStrength 自己的常量类中，
+ * <p>这些数值按自改版接线员当前配置复刻，但放在记者加强自己的常量类中，
  * 后续如果只想调整记者加强，不会影响 NoellesRoles 原记者标记技能。</p>
  */
 public final class ReporterCommunicationConstants {

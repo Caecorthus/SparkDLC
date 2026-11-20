@@ -18,11 +18,11 @@ import java.util.function.ToLongFunction;
 
 /**
  * A forced-cooldown store for a role-skill counter that needs no {@code mayForce}, {@code raiseTo} or
- * {@code extendBy} override: SparkFactionAPI's default raise and extend both end in {@link #setRemainingTicks}. Every
+ * {@code extendBy} override: the interface's default raise and extend both end in {@link #setRemainingTicks}. Every
  * store states its round gate ({@link #anyGameStatus} or {@link #whileActive}) and its {@link Write} kind; neither has
  * a default, because the stores differ on both. The nominal is read on every call, so building a store initializes no
  * role or component class.
- * 用于职业技能计数的强制冷却存储，适用于无需覆盖 mayForce、raiseTo 或 extendBy 的计数：SparkFactionAPI 默认的抬高与延长
+ * 用于职业技能计数的强制冷却存储，适用于无需覆盖 mayForce、raiseTo 或 extendBy 的计数：接口默认的抬高与延长
  * 都落到 setRemainingTicks。每个存储都声明自己的回合门控（anyGameStatus 或 whileActive）与写入方式；二者都没有默认值，
  * 因为各存储在这两点上互不相同。标准冷却在每次调用时读取，因此构建存储不会初始化任何职业或组件类。
  */

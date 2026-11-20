@@ -7,8 +7,8 @@ import java.util.Map;
 import net.minecraft.util.Identifier;
 
 /**
- * Catalog Implementation for optional sibling-mod event sounds.
- * 可选同级 Mod 事件声音的目录实现。
+ * Catalog Implementation for the event sounds of Wathe, NoellesRoles and the mod itself.
+ * Wathe、NoellesRoles 与本模组自身事件声音的目录实现。
  *
  * Dotted event ids and slash resource ids stay separate here, while
  * EventSoundVolumeRules remains the stable caller-facing lookup Interface.
@@ -195,8 +195,9 @@ final class EventSoundCatalog {
                                 "ambient/grand_witch_ceremonial_sword_bgm"
                         )
                 ),
-                // The toll plays vanilla bell audio; only SparkWitch's event id is cataloged so ordinary bells keep their volume.
-                // 丧钟复用原版钟声音频；这里只登记 SparkWitch 的事件 id，普通钟声的音量保持不变。
+                // The toll plays vanilla bell audio; only the Bell Ringer's event id is cataloged so ordinary bells
+                // keep their volume.
+                // 丧钟复用原版钟声音频；这里只登记敲钟人的事件 id，普通钟声的音量保持不变。
                 group(EventSoundGroup.BELL_RINGER_TOLL,
                         eventIds("sparkdlc",
                                 "ambient.bell_ringer_toll"
@@ -247,10 +248,10 @@ final class EventSoundCatalog {
                                 "music/final_moment"
                         )
                 ),
-                // SparkWitch plays this 10 s clip for every client during the Sphinx Hao's 豪气冲天 (AMBIENT, not
-                // attenuated); only this id is cataloged, so other SparkWitch music keeps its volume.
-                // SparkWitch 在狮身豪「豪气冲天」期间为所有客户端播放这段 10 秒片段（AMBIENT、无距离衰减）；只登记这个 id，
-                // 其他 SparkWitch 音乐的音量不受影响。
+                // The server plays this 10 s clip for every client during the Sphinx Hao's 豪气冲天 (AMBIENT, not
+                // attenuated); only this id is cataloged, so the mod's other music keeps its volume.
+                // 服务端在狮身豪「豪气冲天」期间为所有客户端播放这段 10 秒片段（AMBIENT、无距离衰减）；只登记这个 id，
+                // 本模组其他音乐的音量不受影响。
                 group(EventSoundGroup.SPHINX_HAO_FADE,
                         eventIds("sparkdlc",
                                 "music.sphinx_hao_fade"

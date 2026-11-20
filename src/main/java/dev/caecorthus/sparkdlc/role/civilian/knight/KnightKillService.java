@@ -54,8 +54,8 @@ public final class KnightKillService {
         if (!KnightRules.isKnight(game.getRole(killer))) {
             return;
         }
-        // AFTER runs once the victim is dead; SparkTraits' death snapshot keeps Impostor/Conscience readable.
-        // AFTER 在受害者死亡后执行；SparkTraits 的死亡快照使内鬼/善良词条仍可读取。
+        // AFTER runs once the victim is dead; the traits' death snapshot keeps Impostor/Conscience readable.
+        // AFTER 在受害者死亡后执行；词条的死亡快照使内鬼/善良词条仍可读取。
         boolean good = KnightRules.isGoodForKnight(victim, game);
         if (good && GameConstants.DeathReasons.FELL_OUT_OF_TRAIN.equals(deathReason)) {
             // Non-forced, like Wathe's own SHOT_INNOCENT kill. / 非强制击杀，与 Wathe 自身的 SHOT_INNOCENT 一致。
@@ -70,11 +70,11 @@ public final class KnightKillService {
     /**
      * Seam for {@code KnightDerringerReloadMixin}: whether Wathe's kill reload skips every derringer of
      * {@code killer}, i.e. a Knight killed a good player with any weapon. Read inside {@code killPlayer} after
-     * {@code markPlayerDead}, which keeps the raw role, and before KillPlayer.AFTER clears SparkTraits traits.
+     * {@code markPlayerDead}, which keeps the raw role, and before KillPlayer.AFTER clears the victim's traits.
      * Self-kills keep Wathe's reload.
      * {@code KnightDerringerReloadMixin} 的接缝：Wathe 的击杀装填是否跳过 {@code killer} 的所有德林加，即骑士以任何武器击杀了
      * 好人。在 {@code killPlayer} 内 {@code markPlayerDead} 之后读取（原始职业不变），且早于 KillPlayer.AFTER 清除
-     * SparkTraits 词条。自杀保留 Wathe 的装填。
+     * 受害者的词条。自杀保留 Wathe 的装填。
      */
     public static boolean blocksKillReload(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer) {
         if (killer == null || killer == victim) {
@@ -100,9 +100,9 @@ public final class KnightKillService {
 
     /**
      * After the target kill of a wrong derringer shot. A derringer the shot spent stays spent even if something inside
-     * the kill call refilled it (SparkTraits' fake-death replenish for Depression / Last Stand victims), so a fake
+     * the kill call refilled it (the traits' fake-death replenish for Depression / Last Stand victims), so a fake
      * death keeps no bullet and looks like a real good kill. The sanity cost applies only when the victim really died.
-     * 德林加误射的目标击杀之后执行。本次射击已用掉的德林加保持已使用，即使击杀调用内部将其补充（SparkTraits 对抑郁/背水一战
+     * 德林加误射的目标击杀之后执行。本次射击已用掉的德林加保持已使用，即使击杀调用内部将其补充（词条对抑郁/背水一战
      * 受害者的假死补弹），使假死不返还子弹、与真实误杀无异。理智代价仅在受害者确实死亡时扣除。
      */
     public static void afterWrongDerringerShot(ServerPlayerEntity shooter, ServerPlayerEntity victim,

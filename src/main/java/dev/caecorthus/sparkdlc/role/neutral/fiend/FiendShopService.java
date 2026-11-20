@@ -16,11 +16,11 @@ import java.util.List;
 /**
  * Replaces the Fiend's shop with the single Fiend Moment entry on both sides. Purchases resolve by list index, so the
  * list depends on the synced role alone; Wathe caches stock limits during STARTING, so a running-state gate would make
- * stock(1) unlimited. The display is a vanilla item and never {@code wathe:grenade}, so SparkStrength's M67 append (it
- * requires a grenade entry) stays out. No SparkTraits Charisma discount: the price is a win condition.
- * 在两端将魔人商店替换为唯一的「魔人时刻」条目。购买按列表下标解析，因此列表只依赖已同步的职业；Wathe 在 STARTING
- * 阶段缓存库存上限，若依赖对局运行状态，stock(1) 会变成不限量。展示物品为原版物品，绝非 {@code wathe:grenade}，
- * 因此 SparkStrength 的 M67 追加（需要手雷条目）不会出现。不享受 SparkTraits 魅力折扣：该价格是胜利条件。
+ * stock(1) unlimited. The display is a vanilla item and never {@code wathe:grenade}, so the M67 append (it requires a
+ * grenade entry) stays out. No Charisma trait discount: the price is a win condition.
+ * 在两端将魔人商店替换为唯一的「魔人时刻」条目。购买按列表下标解析，因此列表只依赖已同步的职业；Wathe 在 STARTING 阶段
+ * 缓存库存上限，若依赖对局运行状态，stock(1) 会变成不限量。展示物品为原版物品，绝非 {@code wathe:grenade}，因此 M67 追
+ * 加（需要手雷条目）不会出现。不享受魅力词条折扣：该价格是胜利条件。
  */
 public final class FiendShopService {
     static final String NAME_KEY = "shop.sparkdlc.fiend.moment";
@@ -43,8 +43,8 @@ public final class FiendShopService {
         if (!FiendParticipation.isFiendRole(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
-        // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
+        // Trait shop entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
+        // 词条商店条目（如内鬼左轮）可能已先加入；重建时保留它们。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(momentEntry());

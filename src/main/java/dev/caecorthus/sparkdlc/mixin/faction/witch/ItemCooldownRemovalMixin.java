@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Server only: an explicit {@code remove} (SparkFactionAPI {@code clearCooldown}, Wathe's round reset) also releases
- * the SparkWitch timers that gate the same item. Expiry never calls {@code remove}, and a {@code remove} another mod
- * cancels at HEAD (SparkTraits' forced melee floor) never reaches TAIL, so neither releases anything.
- * 仅服务端：显式 {@code remove}（SparkFactionAPI {@code clearCooldown}、Wathe 开局重置）同时释放门控同一物品的
- * SparkWitch 计时。到期不会调用 {@code remove}；被其他模组在 HEAD 取消的 {@code remove}（SparkTraits 强制近战下限）
+ * Server only: an explicit {@code remove} (the cooldown service's {@code clearCooldown}, Wathe's round reset) also
+ * releases the role timers that gate the same item. Expiry never calls {@code remove}, and a {@code remove} another
+ * mixin cancels at HEAD (the traits' forced melee floor) never reaches TAIL, so neither releases anything.
+ * 仅服务端：显式 {@code remove}（冷却服务的 {@code clearCooldown}、Wathe 开局重置）同时释放门控同一物品的
+ * 职业计时。到期不会调用 {@code remove}；被其他 mixin 在 HEAD 取消的 {@code remove}（天赋的强制近战下限）
  * 到不了 TAIL，两者都不释放任何计时。
  */
 @Mixin(ItemCooldownManager.class)

@@ -18,10 +18,10 @@ import java.util.UUID;
  * The 5-second corpse search and the search cooldown, synced to the owner only. The search cancels the moment any gate
  * of {@link JunkerSearchRules#keepsSearching} fails (state gates, aim, range or block line of sight). The cooldown is an
  * absolute ready tick in server world time; forced cooldowns reach it only through
- * {@code compat/cooldown/RoleForcedCooldowns#ragpickerSearch}, which only moves it later.
+ * {@code cooldown/provider/RoleForcedCooldowns#ragpickerSearch}, which only moves it later.
  * 五秒搜刮与搜刮冷却，只同步给本人。{@link JunkerSearchRules#keepsSearching} 的任一门槛失败（状态门槛、瞄准、范围或
  * 方块视线）就立即取消搜刮。冷却是服务端世界时间的绝对就绪刻；其他功能的强制冷却只经
- * {@code compat/cooldown/RoleForcedCooldowns#ragpickerSearch} 作用于它，且只会把它推后。
+ * {@code cooldown/provider/RoleForcedCooldowns#ragpickerSearch} 作用于它，且只会把它推后。
  */
 public final class JunkerPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<JunkerPlayerComponent> KEY = ComponentRegistry.getOrCreate(

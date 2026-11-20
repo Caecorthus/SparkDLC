@@ -16,10 +16,10 @@ import org.spongepowered.asm.mixin.injection.At;
  * NoellesRoles Demon Hunter pistol shot at a Bomber drone (server). The seam is the receiver's single target lookup,
  * which runs after its held-pistol, cooldown and bullet checks. A broken drone resolves to null, so NoellesRoles runs
  * its own miss path (bullet spent, sounds, cooldown); every other result is returned untouched. Chains with
- * SparkWitch's Seeker wrapper on the same call.
+ * the Seeker's wrapper on the same call.
  * NoellesRoles 猎魔枪射向炸弹客无人机（服务端）。接缝是接收器唯一一次目标查找，位于其手持、冷却与子弹检查之后。
  * 被击毁的无人机解析为 null，NoellesRoles 随后走自身未命中流程（消耗子弹、音效、冷却）；其他结果原样返回。
- * 与 SparkWitch 搜寻者在同一调用上的包装可以链式共存。
+ * 与搜寻者在同一调用上的包装可以链式共存。
  *
  * <p>A Partygoer id is killed the same way ({@code PartygoerWeaponHits#onDemonHunterShot}, NoellesRoles' Demon Hunter
  * death reason): it is a monster, so no Jester / frenzy rule applies.

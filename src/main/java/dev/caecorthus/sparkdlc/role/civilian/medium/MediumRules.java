@@ -16,10 +16,10 @@ import java.util.UUID;
 /**
  * The Medium (通灵师, {@code sparkdlc:medium}) is a plain task civilian drawn by Wathe's civilian assignment,
  * never through a police slot: the plain civilian baseline (REAL mood, passenger stamina, no round clock), 通灵 on the
- * shared ability key, 幽灵的加护 (Ghost's Blessing) on the SparkWitch skill key and 招魂 from the inventory screen.
+ * shared ability key, 幽灵的加护 (Ghost's Blessing) on the Role Skill 2 key and 招魂 from the inventory screen.
  * This class owns the shared constants and the death-tier maths.
  * 通灵师（{@code sparkdlc:medium}）是由 Wathe 平民分配抽取的普通任务平民，从不占用警位：普通平民基线
- * （真实情绪、乘客体力、不可见回合时间）、共享技能键上的通灵、SparkWitch 技能键上的幽灵的加护，以及背包界面里的招魂。
+ * （真实情绪、乘客体力、不可见回合时间）、共享技能键上的通灵、职业技能 2 键上的幽灵的加护，以及背包界面里的招魂。
  * 本类持有共享常量与死亡档位算法。
  */
 public final class MediumRules {
@@ -71,9 +71,9 @@ public final class MediumRules {
     public static final int BLESSING_SPEED_TICKS = GameConstants.getInTicks(0, 40);
     /**
      * What the 回满 san blessing asks {@code PlayerMoodComponent.setMood} for: above every known cap, so the setter's
-     * own clamp lands on the true maximum (Wathe 1.0; SparkTraits Steady redirects that clamp to 1.25).
+     * own clamp lands on the true maximum (Wathe 1.0; the Steady trait redirects that clamp to 1.25).
      * 回满 san 加护传给 {@code PlayerMoodComponent.setMood} 的值：高于所有已知上限，由 setter 自身的钳制落到真正的最大值
-     * （Wathe 为 1.0；SparkTraits 沉稳把该钳制重定向为 1.25）。
+     * （Wathe 为 1.0；沉稳词条把该钳制重定向为 1.25）。
      */
     public static final float BLESSING_SANITY_REQUEST = 2.0F;
     /** Question length cap; the box simply refuses more (owner: the excess is never typed). / 提问字数上限；输入框直接不收多余字符。 */
@@ -197,15 +197,14 @@ public final class MediumRules {
 
     /**
      * The full voter gate for a player entity, used by both sides: {@link #mayVote(GameWorldComponent, UUID)}, not
-     * a Wraith and not held by a SparkTraits Last Stand. A Wraith, restricted or promoted (owner 2026-11-10: Wraiths
+     * a Wraith and not held by the Last Stand trait. A Wraith, restricted or promoted (owner 2026-11-10: Wraiths
      * are not asked), is in Wathe's dead set but is back on the train and the shared ability key belongs to its own
      * play, so it is neither asked nor interrupted by the vote screen. A Last Stand player is in the dead set only for
-     * the few seconds of the hold and then lives on, so it must never see the question or cast a vote (an absent
-     * SparkTraits reads as "not held").
-     * 针对玩家实体的完整投票门槛，两端通用：{@link #mayVote(GameWorldComponent, UUID)}、不是冤魂、且未处于 SparkTraits
-     * 背水一战的保持期。冤魂无论受限还是已晋升（所有者 2026-11-10：通灵不包括冤魂），虽在 Wathe 的死亡集合中，却已回到
+     * the few seconds of the hold and then lives on, so it must never see the question or cast a vote.
+     * 针对玩家实体的完整投票门槛，两端通用：{@link #mayVote(GameWorldComponent, UUID)}、不是冤魂、且未处于
+     * 背水一战词条的保持期。冤魂无论受限还是已晋升（所有者 2026-11-10：通灵不包括冤魂），虽在 Wathe 的死亡集合中，却已回到
      * 列车上，共享技能键归其自身使用，因此既不被提问，也不会被投票界面打断。背水一战的玩家只在保持期的几秒内位于死亡集合中，
-     * 随后继续存活，因此绝不能看到提问或投票（未安装 SparkTraits 视为「未保持」）。
+     * 随后继续存活，因此绝不能看到提问或投票。
      */
     public static boolean mayVote(@Nullable PlayerEntity player) {
         return player != null
@@ -236,10 +235,11 @@ public final class MediumRules {
     }
 
     /**
-     * Pays only on a confirmed non-Impostor: SparkTraits pays an Impostor's task income itself, so the two never stack.
-     * An absent SparkTraits reads as FALSE (pay); an unknown answer (null) never pays.
-     * 只在确认不是内鬼时发放：SparkTraits 自行支付内鬼的任务收入，两者绝不叠加。未安装 SparkTraits 视为 FALSE（发放）；
-     * 未知答案（null）从不发放。
+     * Pays only on a confirmed non-Impostor: the Impostor trait pays its own task income, so the two never stack.
+     * An unknown answer (null) never pays; that case is unreachable since the fusion, the caller passes the plain
+     * boolean of {@code SparkTraitsApi.hasActiveTrait}.
+     * 只在确认不是内鬼时发放：内鬼词条自行支付其任务收入，两者绝不叠加。未知答案（null）从不发放；该情况融合后不可达，
+     * 调用方传入的是 {@code SparkTraitsApi.hasActiveTrait} 的布尔值。
      */
     public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
         return Boolean.FALSE.equals(impostor);

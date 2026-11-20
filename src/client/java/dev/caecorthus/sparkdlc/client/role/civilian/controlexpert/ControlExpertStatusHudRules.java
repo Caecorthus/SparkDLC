@@ -35,9 +35,9 @@ public final class ControlExpertStatusHudRules {
     }
 
     /**
-     * A rising edge of the raw instinct key while disrupted but not stunned; a held key or SparkAssist toggle does not
+     * A rising edge of the raw instinct key while disrupted but not stunned; a held key or the instinct toggle does not
      * retrigger, and while stunned every key is locked anyway.
-     * 在受干扰但未眩晕时原始本能键的上升沿；按住或 SparkAssist 切换模式不会重复触发，眩晕时所有按键本就被锁。
+     * 在受干扰但未眩晕时原始本能键的上升沿；按住或本能切换模式不会重复触发，眩晕时所有按键本就被锁。
      */
     static boolean startsFlash(boolean disrupted, boolean stunned, boolean wasInstinctPressed, boolean instinctPressed) {
         return disrupted && !stunned && instinctPressed && !wasInstinctPressed;

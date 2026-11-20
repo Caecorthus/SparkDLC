@@ -169,9 +169,9 @@ public final class TabletWorldComponent implements AutoSyncedComponent {
     }
 
     /**
-     * Last allowed set seen while the holder was alive. SparkTraits clears traits at death, so dead holders must
+     * Last allowed set seen while the holder was alive. Traits are cleared at death, so dead holders must
      * read this instead of re-deriving (a dead Impostor would otherwise lose both networks).
-     * 持有者存活时最后一次的允许频道。SparkTraits 会在死亡时清除天赋，死亡持有者必须读取此值而非重新推导。
+     * 持有者存活时最后一次的允许频道。天赋会在死亡时被清除，死亡持有者必须读取此值而非重新推导。
      */
     public @Nullable EnumSet<TabletChannel> frozenAllowedChannels(UUID playerUuid) {
         EnumSet<TabletChannel> frozen = frozenAllowedChannels.get(playerUuid);

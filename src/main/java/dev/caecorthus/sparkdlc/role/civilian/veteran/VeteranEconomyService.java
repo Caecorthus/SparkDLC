@@ -23,7 +23,7 @@ public final class VeteranEconomyService {
     /**
      * 死亡前保存的老兵刀击杀上下文。
      *
-     * <p>SparkTraits 会在 KillPlayer.AFTER 中清理死者的当前词条，
+     * <p>词条功能会在 KillPlayer.AFTER 中清理死者的当前词条，
      * 所以 AFTER 阶段不能再通过 hasActiveTrait 反推有效阵营。
      * 这里按死者 UUID 暂存死亡前的有效好人判定，等确认死亡后再结算金币。</p>
      */

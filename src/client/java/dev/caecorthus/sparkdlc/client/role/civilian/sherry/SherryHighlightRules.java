@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 public final class SherryHighlightRules {
     /**
      * One above the Seeker / Dominator mark and Savior domain slot (95), so inside a Savior's domain her own colour
-     * replaces the domain's generic white instead of depending on listener order; above SparkWitch's 90 faction
+     * replaces the domain's generic white instead of depending on listener order; above the 90-level faction
      * outlines and below {@code skip()} ({@link GetInstinctHighlight.HighlightResult#PRIORITY_HIGH}, 100), the Black
      * Raven (101) and the Grand Witch suppression (102), so every hiding skip and veto still wins.
      * 比搜寻者 / 支配者标记与救世主领域所在的 95 高一级，因此在救世主领域内由她自己的颜色取代领域的通用白色，而不取决于
-     * 监听器注册顺序；高于 SparkWitch 的 90 级阵营描边，低于 {@code skip()}（100）、黑羽鸦（101）与大魔女压制（102），
+     * 监听器注册顺序；高于 90 级阵营描边，低于 {@code skip()}（100）、黑羽鸦（101）与大魔女压制（102），
      * 因此所有隐藏用的 skip 与否决仍然优先。
      */
     public static final int OUTLINE_PRIORITY = 96;

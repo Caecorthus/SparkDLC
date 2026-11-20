@@ -26,22 +26,22 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Noa's two {@code KillPlayer.AFTER} rules, server only:
  * <ul>
- *   <li>Knife innocent kill: a Noa who kills a good player (SparkFactionAPI effective faction CIVILIAN) with Wathe's
+ *   <li>Knife innocent kill: a Noa who kills a good player (SparkFactionApi effective faction CIVILIAN) with Wathe's
  *   knife dies with Wathe's own SHOT_INNOCENT ("小脑", owner 2026-11-04), exactly like the Recruit. Skipped only for a
- *   confirmed SparkTraits Impostor. Her revolver keeps Wathe's own innocent-shot punishment.</li>
+ *   confirmed Impostor-trait holder. Her revolver keeps Wathe's own innocent-shot punishment.</li>
  *   <li>Big dog portrait: anyone except a Noa who kills within {@link NoaRules#DOG_RADIUS} of a Noa carrying the
  *   portrait (any inventory slot or the off hand) is slowed IV and blinded for 5 s. The carrier must be a living
  *   participant, or the victim herself at the moment she dies. Noa herself is immune (owner 2026-11-04); a Vigilante
  *   is not.</li>
  * </ul>
  * 诺亚的两条 {@code KillPlayer.AFTER} 规则，仅服务端：
- * 用刀误杀：诺亚用 Wathe 的刀杀死好人（SparkFactionAPI 有效阵营为 CIVILIAN）时，以 Wathe 自身的 SHOT_INNOCENT 处死
- * （“小脑”，所有者 2026-11-04），与新兵完全一致；只在确认是 SparkTraits 内鬼时跳过。左轮仍按 Wathe 自身的误杀惩罚。
+ * 用刀误杀：诺亚用 Wathe 的刀杀死好人（SparkFactionApi 有效阵营为 CIVILIAN）时，以 Wathe 自身的 SHOT_INNOCENT 处死
+ * （“小脑”，所有者 2026-11-04），与新兵完全一致；只在确认持有内鬼词条时跳过。左轮仍按 Wathe 自身的误杀惩罚。
  * 大狗画像：诺亚携带画像（任意背包格或副手）时，除诺亚以外任何在她 {@link NoaRules#DOG_RADIUS} 格内杀人的人都会被缓慢 IV
  * 并失明 5 秒。携带者须是存活的参与者，或正是在这一刻死去的受害者本人。诺亚本人免疫（所有者 2026-11-04）；义警不免疫。
  */
 final class NoaKillWatch {
-    /** SparkFactionAPI skill id for the dog's punishment. / 大狗惩罚的 SparkFactionAPI 技能 id。 */
+    /** SparkFactionApi skill id for the dog's punishment. / 大狗惩罚的 SparkFactionApi 技能 id。 */
     static final Identifier DOG_SKILL_ID = SparkDLC.id("noa_dog");
 
     private NoaKillWatch() {

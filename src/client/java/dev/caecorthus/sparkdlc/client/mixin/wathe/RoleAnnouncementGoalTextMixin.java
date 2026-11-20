@@ -15,13 +15,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Function;
 
 /**
- * Gives the NoellesRoles roles SparkStrength reworks (see {@link UpstreamTextKeys#retunesGoal}) a welcome goal line
- * from SparkStrength's own keys, so the reworked text shows whatever the mod set (redefining NoellesRoles' key left it
+ * Gives the NoellesRoles roles the role kits rework (see {@link UpstreamTextKeys#retunesGoal}) a welcome goal line
+ * from this mod's own keys, so the reworked text shows whatever the mod set (redefining NoellesRoles' key left it
  * to namespace order). Replaces the goal function itself rather than redirecting {@code RoundTextRenderer}, whose
- * goal call SparkTraits already redirects; its fallbacks still call this function.
- * 让 SparkStrength 重做的 NoellesRoles 身份（见 {@link UpstreamTextKeys#retunesGoal}）的开局目标句改用 SparkStrength
+ * goal call a trait mixin already redirects; its fallbacks still call this function.
+ * 让职业套件重做的 NoellesRoles 身份（见 {@link UpstreamTextKeys#retunesGoal}）的开局目标句改用本模组
  * 自己的键，无论装了哪些模组都显示重做后的文字（重定义 NoellesRoles 的键时取决于命名空间顺序）。这里替换目标函数本身，
- * 而不是重定向 {@code RoundTextRenderer}：那里的目标调用已被 SparkTraits 重定向，它的回退分支仍会调用这个函数。
+ * 而不是重定向 {@code RoundTextRenderer}：那里的目标调用已被词条 mixin 重定向，它的回退分支仍会调用这个函数。
  */
 @Mixin(value = RoleAnnouncementTexts.RoleAnnouncementText.class, remap = false)
 public abstract class RoleAnnouncementGoalTextMixin {

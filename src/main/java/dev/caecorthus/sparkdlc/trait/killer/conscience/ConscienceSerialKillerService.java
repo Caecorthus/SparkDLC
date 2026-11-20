@@ -43,8 +43,8 @@ public final class ConscienceSerialKillerService {
         BuildShopEntries.EVENT.register(ConscienceSerialKillerService::replacePsychoModePrice);
     }
 
-    /** Uses SparkTraits effective alignment for every Serial Killer target pool.
-     *  所有连环杀手目标池都按 SparkTraits 的有效阵营判定，避免锁定内鬼好人。 */
+    /** Uses the traits' effective alignment for every Serial Killer target pool.
+     *  所有连环杀手目标池都按天赋的有效阵营判定，避免锁定内鬼好人。 */
     public static boolean canBeSerialKillerTarget(
             Role role,
             Collection<Identifier> traits,

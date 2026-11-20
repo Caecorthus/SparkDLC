@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>
  * A layer is one level of NoellesRoles' whiskey shield ({@code ModEffects.WHISKEY_SHIELD}, layers = amplifier + 1).
  * NoellesRoles' {@code KillPlayer.BEFORE} handler spends one layer per blocked non-forced kill (Wathe poison included),
- * and SparkWitch's AXMC pierce and ceremonial-sword protection read the same stack, so nothing else needs wiring. The
+ * and the AXMC pierce and ceremonial-sword protection read the same stack, so nothing else needs wiring. The
  * layer lasts the whole round, the Medium blessing's owner rule: the stack shares one duration, so it is rebuilt with
  * amplifier + 1 and an infinite duration, and layers already there become round-long too. Wathe clears status
  * effects at both round edges.
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
  * 防御药剂的服务端效果：饮用、倒入的药剂给取用者的护盾，以及对应的回放记录。
  * <p>
  * 一层即 NoellesRoles 威士忌护盾（{@code ModEffects.WHISKEY_SHIELD}，层数 = 等级 + 1）的一级。NoellesRoles 的
- * {@code KillPlayer.BEFORE} 处理器每挡下一次非强制击杀（含 Wathe 毒药）就消耗一层，SparkWitch 的 AXMC 穿盾与仪式剑保护也读取
+ * {@code KillPlayer.BEFORE} 处理器每挡下一次非强制击杀（含 Wathe 毒药）就消耗一层，AXMC 穿盾与仪式剑保护也读取
  * 同一叠护盾，因此无需额外接线。该层持续整局，沿用通灵师加护的所有者规则：整叠护盾共用一个时长，因此以等级 + 1、无限时长
  * 重建，已有的层也随之变为整局有效。Wathe 在回合两端都会清除状态效果。
  */

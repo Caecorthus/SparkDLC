@@ -11,10 +11,10 @@ import net.minecraft.text.Text;
 /**
  * Fiend Moment countdown shown to every player (alive, dead or spectating) while the synced moment is active. It reads
  * only the all-player {@link FiendMomentWorldComponent}, whose remaining ticks the client counts down locally for display;
- * the server alone decides the outcome. Called by {@link FiendClient} only on a confirmed SparkWitch server. Role-owned
+ * the server alone decides the outcome. Called by {@link FiendClient} only on a confirmed SparkDLC server. Role-owned
  * presentation: never the action bar and never the {@code gui.sparkdlc.skills} panel.
  * 时刻进行中向每位玩家（存活、死亡或旁观）显示的魔人时刻倒计时。只读取全员同步的 {@link FiendMomentWorldComponent}，
- * 其剩余 tick 由客户端在本地倒数用于展示，胜负只由服务端决定。仅在已确认的 SparkWitch 服务器上由 {@link FiendClient}
+ * 其剩余 tick 由客户端在本地倒数用于展示，胜负只由服务端决定。仅在已确认的 SparkDLC 服务器上由 {@link FiendClient}
  * 调用。属于职业自有展示：绝不使用动作栏，也绝不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class FiendMomentHud {

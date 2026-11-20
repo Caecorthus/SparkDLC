@@ -1,13 +1,13 @@
 #version 150
 
-// BEAR smoke in another mod's heat image (SmokeHeatMask, BearSmokeViewApi; SparkStrength's Undercover thermal, S4).
+// BEAR smoke in another feature's heat image (SmokeHeatMask; the Undercover thermal, S4).
 // Each heat pixel takes the eye distance of its depth (the world depth the caller copied in, nearer wherever it wrote
 // body depth; a cleared depth counts as infinitely far) and the smoke's optical depth up to there, decoded from the
 // SmokeOcclusion checkpoint texel and interpolated bilinearly in visibility space exactly like outline_mask.fsh.
 // Without HAZE the pass writes that visibility, blended as dst * src.a, so heat behind smoke fades like an outline.
 // With HAZE it writes Haze * (1 - visibility), blended with MAX, so smoke in front of the depth glows warm and is
 // limited by the world depth (it never shows through a wall).
-// 另一模组热图中的 BEAR 烟雾（SmokeHeatMask、BearSmokeViewApi；SparkStrength 卧底热成像 S4）。每个热图像素取其深度的视距
+// 另一功能热图中的 BEAR 烟雾（SmokeHeatMask；卧底热成像 S4）。每个热图像素取其深度的视距
 // （调用方拷入的世界深度，写入了人体深度之处更近；清除值视为无限远），以及到该处的烟雾光学厚度：从 SmokeOcclusion 检查点
 // 纹素解出，并与 outline_mask.fsh 完全一样在可见度空间做双线性插值。未定义 HAZE 时写出该可见度，按 dst * src.a 混合，
 // 烟后的热像描边一样变淡。定义 HAZE 时写出 Haze * (1 - 可见度)，按 MAX 混合，使深度之前的烟发出暖色，并受世界深度限制

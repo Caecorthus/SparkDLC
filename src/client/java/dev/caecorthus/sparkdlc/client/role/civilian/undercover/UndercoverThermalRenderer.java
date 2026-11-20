@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSmokeHeatCompat;
 import dev.caecorthus.sparkdlc.client.render.ClientFrame;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
@@ -171,18 +170,18 @@ public final class UndercoverThermalRenderer {
 
     /**
      * SparkWitch BEAR smoke (owner S4 "hot smoke blocks thermal", owner Q6 "一坨亮白"): after the bodies and before the bloom
-     * composite, heat behind smoke fades and the smoke itself glows bright white, through SparkWitch's frozen
-     * {@code BearSmokeViewApi} (SparkWitchSmokeHeatCompat). Without SparkWitch, or one without BEAR, nothing changes.
-     * When the mask cannot run, the area smoke may touch is cleared here instead (fail closed).
-     * SparkWitch BEAR 烟雾（所有者 S4“热烟挡住热成像”，所有者 Q6“一坨亮白”）：画完人体之后、柔光合成之前，经 SparkWitch 冻结的
-     * {@code BearSmokeViewApi}（SparkWitchSmokeHeatCompat）让烟后的热值变淡、烟本身显示为一团亮白。没有 SparkWitch 或其没有
-     * BEAR 时一切照旧。遮罩无法执行时改在此处清空烟可能触及的区域（失败即遮挡）。
+     * composite, heat behind smoke fades and the smoke itself glows bright white ({@link UndercoverThermalSmoke}).
+     * Without smoke nothing changes. When the mask cannot run, the area smoke may touch is cleared here instead (fail
+     * closed).
+     * SparkWitch BEAR 烟雾（所有者 S4“热烟挡住热成像”，所有者 Q6“一坨亮白”）：画完人体之后、柔光合成之前，
+     * 让烟后的热值变淡、烟本身显示为一团亮白（{@link UndercoverThermalSmoke}）。没有烟时一切照旧。
+     * 遮罩无法执行时改在此处清空烟可能触及的区域（失败即遮挡）。
      */
     private static void applyBearSmoke(Framebuffer heat) {
         int width = heat.textureWidth;
         int height = heat.textureHeight;
         try {
-            SparkWitchSmokeHeatCompat.applyToHeat(heat.getColorAttachment(), heat.getDepthAttachment(), width, height,
+            UndercoverThermalSmoke.applyToHeat(heat.getColorAttachment(), heat.getDepthAttachment(), width, height,
                     rect -> clearHeat(heat, rect));
         } catch (RuntimeException exception) {
             warnOnce("Undercover thermal smoke mask failed", exception);

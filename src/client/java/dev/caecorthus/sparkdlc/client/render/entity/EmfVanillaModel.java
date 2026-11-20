@@ -45,10 +45,29 @@ public final class EmfVanillaModel {
         CONDITIONS.add(Objects.requireNonNull(condition, "condition"));
         if (!installed) {
             installed = true;
-            if (FabricLoader.getInstance().isModLoaded(EMF_MOD_ID)) {
+            if (emfInstalled()) {
                 install();
             }
         }
+    }
+
+    /** Whether Entity Model Features is installed. / 是否安装了 Entity Model Features。 */
+    public static boolean emfInstalled() {
+        return FabricLoader.getInstance().isModLoaded(EMF_MOD_ID);
+    }
+
+    /**
+     * The mod's one reflective call into EMF: {@code EMFAnimationApi#registerVanillaModelCondition}. Returns whether
+     * EMF accepted the condition and throws whatever the lookup or the call throws, so each caller keeps its own
+     * failure handling and log line (the Ponder actors register their own condition through it).
+     * 本模组对 EMF 唯一的反射调用：{@code EMFAnimationApi#registerVanillaModelCondition}。返回 EMF 是否接受该条件，并原样抛出
+     * 查找或调用抛出的异常，使各调用方保留各自的失败处理与日志（Ponder 演员经由它注册自己的条件）。
+     */
+    public static boolean registerVanillaModelCondition(Function<Object, Boolean> condition)
+            throws ReflectiveOperationException {
+        Method register = Class.forName(EMF_API, true, EmfVanillaModel.class.getClassLoader())
+                .getMethod("registerVanillaModelCondition", Function.class);
+        return Boolean.TRUE.equals(register.invoke(null, condition));
     }
 
     /** EMF's callback; {@code emfEntity} is the entity being mounted. / EMF 的回调；参数为正在挂载的实体。 */
@@ -75,10 +94,7 @@ public final class EmfVanillaModel {
 
     private static void install() {
         try {
-            Method register = Class.forName(EMF_API, true, EmfVanillaModel.class.getClassLoader())
-                    .getMethod("registerVanillaModelCondition", Function.class);
-            Function<Object, Boolean> condition = EmfVanillaModel::forcesVanilla;
-            register.invoke(null, condition);
+            registerVanillaModelCondition(EmfVanillaModel::forcesVanilla);
         } catch (ReflectiveOperationException | LinkageError | RuntimeException exception) {
             SparkDLC.LOGGER.warn("Entity Model Features is loaded but its vanilla-model API is unavailable ({}); "
                     + "animation packs keep posing entities that SparkDLC draws with vanilla poses", exception.toString());

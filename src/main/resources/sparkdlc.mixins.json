@@ -438,7 +438,6 @@
     "role.neutral.fiend.TaotiePlayerComponentFiendMixin",
     "role.neutral.fiend.TaotiePlayerComponentFiendSwallowMixin",
     "role.neutral.fiend.VentHatchBlockFiendCooldownMixin",
-    "role.neutral.stowaway.FactionWinnerCollectorStowawayWinnerMixin",
     "role.neutral.stowaway.GameFunctionsStowawaySettlementMixin",
     "role.neutral.stowaway.GameRoundEndComponentStowawayWinnerMixin",
     "role.neutral.stowaway.MurderGameModeStowawayWinScopeMixin",

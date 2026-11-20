@@ -92,6 +92,7 @@ import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderEquipmentService;
 import dev.caecorthus.sparkdlc.role.jiahao.sniper.SniperFeatureService;
 import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayKillRewardService;
 import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayLoadoutService;
+import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawaySettlement;
 import dev.caecorthus.sparkdlc.role.neutral.cat.SchrodingersCatService;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.piggod.PigGodEconomyService;
@@ -248,6 +249,7 @@ public final class SparkWitchEvents {
         ApprenticeFeatureService.register();
         StowawayLoadoutService.register();
         StowawayKillRewardService.register();
+        StowawaySettlement.register();
         SchrodingersCatService.register();
         JunkerService.register();
         // BEAR smoke (spike): round-edge clears, expiry and player resyncs. / BEAR 烟雾（原型）：回合节点清除、过期与玩家重新同步。

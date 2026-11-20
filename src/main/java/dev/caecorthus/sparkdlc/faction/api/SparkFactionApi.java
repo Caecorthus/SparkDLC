@@ -16,6 +16,7 @@ import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDraw;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDrawRules;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionLineups;
 import dev.caecorthus.sparkdlc.faction.vision.FactionInstinctRules;
+import dev.caecorthus.sparkdlc.round.end.FactionWinnerCollector;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -283,6 +284,17 @@ public final class SparkFactionApi {
      */
     public static void registerPlayerAffectExemption(PlayerAffectExemption exemption) {
         PlayerAffectMixinGuard.registerExemption(exemption);
+    }
+
+    /**
+     * Register a co-winner rule during mod initialization: players who share every custom faction's win without being
+     * members of it (see {@link FactionCoWinnerRule}).
+     * 应在模组初始化期间注册共同赢家规则：不属于自定义阵营却与其共同获胜的玩家（见 {@link FactionCoWinnerRule}）。
+     *
+     * @param rule non-null rule
+     */
+    public static void registerFactionCoWinnerRule(FactionCoWinnerRule rule) {
+        FactionWinnerCollector.registerCoWinnerRule(rule);
     }
 
     public static void registerEconomyPolicy(FactionEconomyPolicy policy) {

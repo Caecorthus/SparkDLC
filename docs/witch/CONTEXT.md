@@ -4062,7 +4062,7 @@ the Insider and guessed right after it, 狮身豪 (which follows the Insider sin
   Stowaway row becomes a winner (DEAD, LEFT, LEFT_DEAD lose), and winning Stowaway rows move last so Wathe's
   "first winning row" neutral title never names the Stowaway. A Stowaway row answers `didWin` with its own flag;
   SparkFactionAPI custom faction wins also collect a living Stowaway
-  (`mixin/role/neutral/stowaway/FactionWinnerCollectorStowawayWinnerMixin`).
+  (`StowawaySettlement.register()` registers it as a `FactionCoWinnerRule`).
 - Instinct ("同生存大师"): `StowawaySensesClient` registers a `GetInstinctHighlight` listener that returns `skip()`
   (priority 100, the Survival Master's) when a living viewer has no line of sight to a living Stowaway. Nothing else is
   vetoed: spectators, vanilla Glowing and answers that outrank the skip behave as for a hidden Survival Master.

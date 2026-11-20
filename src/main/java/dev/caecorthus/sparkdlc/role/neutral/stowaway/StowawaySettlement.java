@@ -1,15 +1,20 @@
 package dev.caecorthus.sparkdlc.role.neutral.stowaway;
 
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Settlement exclusion: a Stowaway NEVER counts as a living player for win determination, so every win, block and
@@ -25,7 +30,37 @@ import java.util.List;
  * （{@link #completeRoundEndRows}），死亡的偷渡客判负。
  */
 public final class StowawaySettlement {
+    private static boolean registered;
+
     private StowawaySettlement() {
+    }
+
+    /**
+     * Registers the Stowaway as a co-winner of custom faction wins. / 把偷渡客注册为自定义阵营胜利的共同赢家。
+     */
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        SparkFactionApi.registerFactionCoWinnerRule(
+                (world, game, winningFaction, winners) -> addLivingStowaways(world, game, winners));
+    }
+
+    /**
+     * Custom faction wins (Witch, Murderous Witch and every other registered faction): a Stowaway that is still alive
+     * at that moment is added to the collected winners, so it is synced as a co-winner and both the settlement row and
+     * {@code SparkFactionRoundEndComponent.didWin} treat it as part of the winning faction. A dead Stowaway is never
+     * added.
+     * 自定义阵营胜利（魔女、杀意魔女以及其他已注册阵营）：此刻仍活着的偷渡客会被加入已收集的赢家，因此会作为共同赢家同步，
+     * 结算行与 {@code SparkFactionRoundEndComponent.didWin} 都会把它视作获胜阵营的一员；死亡的偷渡客永远不会加入。
+     */
+    static void addLivingStowaways(ServerWorld world, GameWorldComponent game, Set<UUID> winners) {
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            if (!game.isPlayerDead(player.getUuid()) && StowawayRules.isStowaway(game.getRole(player))) {
+                winners.add(player.getUuid());
+            }
+        }
     }
 
     /** Pure: only the raw Stowaway role is excluded. / 纯规则：只排除原始职业为偷渡客者。 */

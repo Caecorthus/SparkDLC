@@ -396,7 +396,6 @@
     "role.killer.blackraven.GameWorldComponentActingRoleMixin",
     "role.killer.blackraven.GameWorldComponentBlackRavenDeathIndexMixin",
     "role.killer.blackraven.KillerShopBuilderBlackRavenDisguiseMixin",
-    "role.killer.blackraven.KillerTeamEconomyBlackRavenWalletMixin",
     "role.killer.blackraven.MurderGameModeBlackRavenSettlementMixin",
     "role.killer.blackraven.MurderGameModeBlackRavenWalletMixin",
     "role.killer.blackraven.NoellesRolesPathogenBlackRavenSettlementMixin",

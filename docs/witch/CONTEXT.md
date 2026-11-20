@@ -5970,8 +5970,8 @@ or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCa
 that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
 `RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
 junction-box bridge was its last user). The exact sibling types each witch source may name are pinned by the local test
-`WitchSparkStrengthDirectCallBoundaryTest`; the one string-named target left is the `@Pseudo`
-`KillerTeamEconomyBlackRavenWalletMixin`. Still reflective by necessity: `voice/BearHearingVoiceClientBridge` and
+`WitchSparkStrengthDirectCallBoundaryTest`; no string-named target is left (the purse seam is a
+`KillerTeamEconomyService.WalletRule` the disguise registers). Still reflective by necessity: `voice/BearHearingVoiceClientBridge` and
 `voice/HolyFlashVoiceClientBridge` (common code reaching SparkWitch's own client classes) and the real optional mods
 (Iris through `SmokeShaderPackBridge` / `BlindShaderPackCheck`, EMF through `EmfVanillaModel`).
 
@@ -6155,7 +6155,7 @@ it is ever synced to another player.
       `KillPlayer.BEFORE`, so `GameFunctionsBlackRavenWalletMixin` never sees it.
 
     While disguised, none of these receipts adds to the SparkStrength killer-team purse either,
-    because `KillerTeamEconomyBlackRavenWalletMixin` rejects income that was not routed to the Raven
+    because the disguise's `KillerTeamEconomyService.WalletRule` rejects income that was not routed to the Raven
     wallet. Routing them would need a SparkTraits public-facade seam (for example a kill-income
     recipient hook on `SparkTraitsApi`) used through `SparkTraitsApi` and failing
     closed. A mixin into `sparktraits.impl` is not allowed.
@@ -6210,13 +6210,13 @@ always present, see the batch 2 fusion note):
   `ShopUtils.getShopEntriesForPlayer`, so every cross-player reader of a disguised Raven's shop
   sees only the disguise whitelist. SparkStrength `DemonHunterSniffRules` is such a consumer: it
   reads the target's entries for `psycho_mode`, which no disguise spec or fallback may emit.
-- **Killer-team purse.** The optional `@Pseudo` `mixin/role/killer/blackraven/KillerTeamEconomyBlackRavenWalletMixin`
-  (every injector `require = 0`) targets SparkStrength `KillerTeamEconomyService` by name.
-  `BlackRavenDisguiseEconomy` calls only its `recordIncome(PlayerEntity, long)` (directly since the fusion), to report
-  routed kill rewards. Without the seam, disguise purchases can draw on the killer-team purse
-  (degraded, but no money is lost).
+- **Killer-team purse.** `BlackRavenDisguiseEconomy.register()` registers a `KillerTeamEconomyService.WalletRule`
+  with the purse (until stage 3 this was the `@Pseudo` `KillerTeamEconomyBlackRavenWalletMixin` wrapping the same
+  three purse entries): while disguised, income that was not routed to the Raven wallet is not counted and purchases
+  stay on the personal balance. `BlackRavenDisguiseEconomy` also calls the purse's `recordIncome(PlayerEntity, long)`,
+  to report routed kill rewards.
 - **Where the disguise names SparkStrength.** It names SparkStrength implementation classes in
-  only the purse mixin and in the imported purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
+  only the imported purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
   seam was deleted on 2026-10-21: its SparkStrength target class no longer exists.)
   The Attendant disguise kit takes its flashlight (`sparkdlc:flashlight`) from `AttendantFlashlightService`.
 - **Rest of SparkWitch.** Elsewhere, SparkStrength implementation classes are named by

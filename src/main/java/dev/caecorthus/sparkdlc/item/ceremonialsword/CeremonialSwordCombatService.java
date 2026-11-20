@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.item.ceremonialsword;
 
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
@@ -45,6 +47,11 @@ public final class CeremonialSwordCombatService {
     }
 
     public static ActionResult tryHandleAttack(Entity attacker, World world, Hand hand, Entity target) {
+        // Guards the custom melee effect before its attack path runs (CustomMeleeAffect).
+        // 在自定义近战攻击路径运行前拦截其效果（CustomMeleeAffect）。
+        if (CustomMeleeAffect.refuses(attacker, target)) {
+            return ActionResult.SUCCESS;
+        }
         boolean holdingCeremonialSword = attacker instanceof PlayerEntity player
                 && player.getStackInHand(hand).isOf(SparkWitchItems.ceremonialSword());
         if (!holdingCeremonialSword) {
@@ -128,10 +135,14 @@ public final class CeremonialSwordCombatService {
     }
 
     /**
-     * Stable void entry point injected by SparkFactionAPI; direct and dash contacts share this gate.
-     * SparkFactionAPI 注入的稳定 void 入口；左键与冲刺接触共用此门槛。
+     * Direct and dash contacts share this gate: the player-affect guard is asked first, with the blade's death reason
+     * as the action, so a refused kill ends before the sword's own cooldown and strike state are looked at.
+     * 左键与冲刺接触共用此门槛：最先以仪礼剑死因作为行为询问玩家影响守卫，因此被拒绝的击杀在查看剑自身的冷却与斩击状态之前结束。
      */
     public static void killWithCeremonialSword(ServerPlayerEntity attacker, ServerPlayerEntity target) {
+        if (!PlayerAffectMixinGuard.allows(attacker, target, SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
+            return;
+        }
         GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(attacker);
         if (!GrandWitchRules.canAttemptCeremonialSwordKill(
                 runtime.getSwordKillCooldownTicks(), runtime.isSwordStrikeInProgress())) {

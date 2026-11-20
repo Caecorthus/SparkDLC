@@ -1,17 +1,15 @@
 package dev.caecorthus.sparkdlc.role.civilian.judge;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 
 /** Judge income has one owner; its police-network registration (which earns it a free SparkStrength tablet) must
  * never grant a second task reward.
  * 法官收入只有一个归属；其警察网络登记（因此获得 SparkStrength 免费平板）不得产生第二份任务收益。 */
 public final class JudgeEconomyService {
-    private static final Identifier IMPOSTOR = Identifier.of("sparkdlc", "impostor");
-
     private JudgeEconomyService() {
     }
 
@@ -29,6 +27,6 @@ public final class JudgeEconomyService {
      * SparkDLC, so the facade call is direct.
      * 仅向非内鬼发放（内鬼词条的任务收入由 SparkTraits 自行支付）。SparkTraits 已融合进 SparkDLC，门面为直接调用。 */
     private static boolean receivesOrdinaryTaskMoney(PlayerEntity player) {
-        return !SparkTraitsApi.hasActiveTrait(player, IMPOSTOR);
+        return !SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR);
     }
 }

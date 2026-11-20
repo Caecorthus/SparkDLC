@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoles;
 import dev.caecorthus.sparkdlc.mixin.sabotage.BlackoutDetailsAccessor;
@@ -66,7 +67,8 @@ public final class LightsSabotageService {
         // Started before Wathe's trigger: its first effect pass already runs inside triggerBlackout.
         // 在 Wathe 触发之前登记：它的第一轮效果就在 triggerBlackout 内部执行。
         sabotage.startOutage(SabotageType.LIGHTS, mode, world.getTime(), initiator.getUuid(),
-                initiator.getGameProfile().getName(), SparkTraitsApi.hasMasterSaboteur(initiator),
+                initiator.getGameProfile().getName(),
+                SparkTraitsApi.hasActiveTrait(initiator, TraitIds.MASTER_SABOTEUR),
                 UndercoverRoles.isUndercover(initiator));
         boolean started;
         try {

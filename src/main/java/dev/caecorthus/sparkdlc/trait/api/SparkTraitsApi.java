@@ -9,16 +9,13 @@ import dev.caecorthus.sparkdlc.trait.presentation.OwnerInventoryPresentation;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveInstinctService;
 import dev.caecorthus.sparkdlc.trait.lifecycle.RoundEndTraitResolver;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionTraitService;
-import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.GoingDarkRules;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
-import dev.caecorthus.sparkdlc.trait.killer.KillerTraits;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonInteropService;
-import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.item.ItemStack;
@@ -211,31 +208,6 @@ public final class SparkTraitsApi {
                         .orElse(false);
     }
 
-    /** Whether the player holds an active Impostor. Owner-synced, so it also answers for the local player on a client.
-     *  玩家是否持有生效的内鬼。该词条同步给本人，因此客户端也能回答本地玩家。 */
-    public static boolean hasImpostor(PlayerEntity player) {
-        return hasActiveTrait(player, ImpostorTrait.ID);
-    }
-
-    /** Owner-synced like Impostor, so client shop listings and server validation agree.
-     *  与内鬼一样同步给本人，保证客户端商店列表与服务端校验一致。 */
-    public static boolean hasConscience(PlayerEntity player) {
-        return hasActiveTrait(player, ConscienceTrait.ID);
-    }
-
-    /** Whether the player holds an active Team First (the killer team purse asks on every income).
-     *  玩家是否持有生效的团队至上（杀手团队钱包每次入账时查询）。 */
-    public static boolean hasTeamFirst(PlayerEntity player) {
-        return hasActiveTrait(player, KillerTraits.TEAM_FIRST);
-    }
-
-    /** Whether the player holds an active Master Saboteur (the sabotage system asks when an outage or a junction-box
-     *  channel starts).
-     *  玩家是否持有生效的破坏大师（破坏系统在停电或接线盒引导开始时查询）。 */
-    public static boolean hasMasterSaboteur(PlayerEntity player) {
-        return hasActiveTrait(player, KillerTraits.MASTER_SABOTEUR);
-    }
-
     /**
      * Killer-team membership after the alignment flips, for a caller that already holds the player's role: Impostor
      * turns an original civilian into a killer, Conscience turns an original killer into a civilian, and with both
@@ -248,10 +220,10 @@ public final class SparkTraitsApi {
         if (role == null) {
             return false;
         }
-        if (hasImpostor(player)) {
+        if (hasActiveTrait(player, TraitIds.IMPOSTOR)) {
             return true;
         }
-        if (hasConscience(player)) {
+        if (hasActiveTrait(player, TraitIds.CONSCIENCE)) {
             return false;
         }
         return role.canUseKiller();
@@ -268,10 +240,10 @@ public final class SparkTraitsApi {
         if (role == null) {
             return false;
         }
-        if (hasConscience(player)) {
+        if (hasActiveTrait(player, TraitIds.CONSCIENCE)) {
             return true;
         }
-        if (hasImpostor(player)) {
+        if (hasActiveTrait(player, TraitIds.IMPOSTOR)) {
             return false;
         }
         return role.isInnocent();

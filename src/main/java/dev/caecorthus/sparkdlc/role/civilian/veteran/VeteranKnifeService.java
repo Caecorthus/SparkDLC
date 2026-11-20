@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.api.Role;
@@ -170,9 +171,9 @@ public final class VeteranKnifeService {
         // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 监听中清空死者的生效天赋。
         return InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(target),
-                SparkTraitsApi.hasImpostor(target),
-                SparkTraitsApi.hasConscience(target),
-                SparkTraitsApi.hasImpostor(attacker)
+                SparkTraitsApi.hasActiveTrait(target, TraitIds.IMPOSTOR),
+                SparkTraitsApi.hasActiveTrait(target, TraitIds.CONSCIENCE),
+                SparkTraitsApi.hasActiveTrait(attacker, TraitIds.IMPOSTOR)
         );
     }
 

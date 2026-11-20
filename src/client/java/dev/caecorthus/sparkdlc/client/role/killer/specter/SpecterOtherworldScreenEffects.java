@@ -5,9 +5,9 @@ import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenPerceptionScreenEffects;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
-import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
 import dev.caecorthus.sparkdlc.client.trait.render.DepressionScreenEffects;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session.RiftSessionClient;
@@ -284,7 +284,7 @@ public final class SpecterOtherworldScreenEffects {
                 || RiftSessionClient.isActive()
                 || SeekerRemoteViewClient.isActive()
                 || BlindView.isActive(client)
-                || BlindShaderPackCheck.isShaderPackInUse()
+                || IrisShaderPacks.inUseOrUnknown()
                 || BlackRavenPerceptionScreenEffects.isActiveFor(player)
                 || DepressionScreenEffects.drawsDepressionGrayscale(player);
     }

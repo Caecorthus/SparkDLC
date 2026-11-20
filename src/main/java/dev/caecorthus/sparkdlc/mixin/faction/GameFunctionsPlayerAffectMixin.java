@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.faction;
 
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectGuard;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -28,7 +28,7 @@ public abstract class GameFunctionsPlayerAffectMixin {
             boolean force,
             CallbackInfo ci
     ) {
-        if (killer != null && !PlayerAffectMixinGuard.allows(killer, victim, deathReason)) {
+        if (killer != null && !PlayerAffectGuard.allows(killer, victim, deathReason)) {
             ci.cancel();
         }
     }

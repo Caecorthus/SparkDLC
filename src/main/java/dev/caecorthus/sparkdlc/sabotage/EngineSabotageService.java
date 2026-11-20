@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.sabotage;
 import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoles;
 import dev.caecorthus.sparkdlc.sabotage.net.CloseBreakerRepairS2CPacket;
@@ -90,7 +91,8 @@ public final class EngineSabotageService {
             return TriggerResult.NO_ENGINE_UNITS;
         }
         start(world, sabotage, world.getTime(), initiator.getUuid(), initiator.getGameProfile().getName(),
-                SparkTraitsApi.hasMasterSaboteur(initiator), UndercoverRoles.isUndercover(initiator));
+                SparkTraitsApi.hasActiveTrait(initiator, TraitIds.MASTER_SABOTEUR),
+                UndercoverRoles.isUndercover(initiator));
         feedback(world, sabotage);
         EngineRecorder.triggered(world, initiator);
         return TriggerResult.OK;

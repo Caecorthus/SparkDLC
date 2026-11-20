@@ -5,7 +5,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
-import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -26,8 +25,8 @@ public final class SetManaCommand {
         dispatcher.register(
                 CommandManager.literal("sparkdlc:setMana")
                         .requires(LegacyPermissions.require(
-                                RoleCommandPermissions.COMMAND_SET_MANA,
-                                RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
+                                SparkDlcPermissions.COMMAND_SET_MANA,
+                                SparkDlcPermissions.DEFAULT_COMMAND_LEVEL
                         ))
                         .then(
                                 CommandManager.argument("amount", IntegerArgumentType.integer(0))

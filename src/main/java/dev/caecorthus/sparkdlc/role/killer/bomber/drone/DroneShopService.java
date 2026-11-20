@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -56,7 +57,7 @@ public final class DroneShopService {
         ShopEntry entry = new ShopEntry.Builder(
                 DroneRules.BOMB_DRONE_SHOP_ENTRY_ID,
                 display,
-                DroneRules.bombDronePrice(SparkTraitsApi.hasConscience(player)),
+                DroneRules.bombDronePrice(SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE)),
                 ShopEntry.Type.WEAPON
         ).actualStack(bombDrone.getDefaultStack()).build();
         List<ShopEntry> result = new ArrayList<>(entries);

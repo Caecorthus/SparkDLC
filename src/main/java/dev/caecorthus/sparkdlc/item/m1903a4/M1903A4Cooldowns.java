@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.item.m1903a4;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -75,10 +75,10 @@ public final class M1903A4Cooldowns {
         if (player == null || !(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
             return 0;
         }
-        Object entry = accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.m1903a4());
+        Object entry = accessor.sparkdlc$getEntries().get(SparkDlcItems.m1903a4());
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
             return 0;
         }
-        return Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
+        return Math.max(0, cooldown.sparkdlc$getEndTick() - accessor.sparkdlc$getTick());
     }
 }

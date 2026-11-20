@@ -572,3 +572,46 @@ vanilla registry in raw-id order, 295 lines) is byte-identical, and the whole du
 `rename_classes.py translate`, equals the dump of after (2056 lines: listener order of every event, component
 factories, payload ids and receivers). 改名前后各导出一次：注册表部分（各原版注册表中本模组条目的 raw id 顺序，295 行）逐字节相同；
 改名前的完整导出经 `translate` 转换后与改名后的导出完全一致（2056 行）。
+
+## One of each / 每样只留一个
+
+Not scripted: the helpers that each former mod brought as its own copy were merged by hand, one group at a time.
+The local tests `mixin.OneAccessorPerTargetTest` and the game test `SparkDlcSharedHelpersGameTest` keep the result.
+没有脚本：每个旧 mod 各带一份的辅助类是逐组手工合并的。本地测试 `mixin.OneAccessorPerTargetTest` 与游戏测试
+`SparkDlcSharedHelpersGameTest` 守住合并结果。
+
+| Was / 原先 | Is / 现在 |
+| --- | --- |
+| accessor on `ItemCooldownManager` x4, on its `Entry` x4, on `ServerItemCooldownManager` x2 | `mixin.cooldown.ItemCooldownManagerAccessor`, `ItemCooldownEntryAccessor`, `ServerItemCooldownManagerAccessor` |
+| accessor on Wathe `GameWorldComponent` x4, `PlayerMoodComponent` x2 | `mixin.wathe.GameWorldComponentAccessor`, `PlayerMoodComponentAccessor` |
+| accessor on NoellesRoles `TaotiePlayerComponent` x3 | `mixin.compat.noellesroles.TaotiePlayerComponentAccessor` |
+| accessor on `PlayerManager` x2, `MinecraftClient` x2, sound `Source` x2 | `mixin.minecraft.PlayerManagerAccessor`, `client.mixin.minecraft.MinecraftClientAccessor`, `SoundSourceAccessor` |
+| `RaycastShapeScope` x3 and `RaycastShapeScopeMixin` x3 | `util.RaycastShapeScope`, `mixin.minecraft.RaycastShapeScopeMixin` |
+| `PlayerBodyEntityEquipmentMixin` x2 | `mixin.wathe.PlayerBodyEntityEquipmentMixin` |
+| three `@WrapOperation` mixins on the Vulture's body lookup | `mixin.role.neutral.vulture.NoellesVultureMealBodiesMixin` (rules applied in the order the wrappers nested) |
+| the listeners of `ControlExpertStunGuards`, `EngineerStunGuards`, `TaotieHeadDazeGuards` | `event.InteractionLockGuards` (phase, predicate, bare-hand block use are parameters) |
+| bound, splitter and codec of `TimedBombMarkersPayload` and `BluePoisonMarkersPayload` | `net.MarkerPositionUpdates` (two payload types and ids stay; same bytes) |
+| `BlindShaderPackCheck` and the inline Iris checks | `client.compat.iris.IrisShaderPacks` |
+| `AdminToolPermissions`, `RoleCommandPermissions` | `command.SparkDlcPermissions` |
+
+Rules that came out of it / 由此形成的规则:
+- **One accessor interface per target class**, with the union of the members; members are named for what they read,
+  never for a former mod (the `ForRoles` / `ForTraits` / `ForKits` suffixes of `mixin-member-renames.tsv` are gone).
+  每个目标类只有一个访问器接口，成员取并集；成员按读取的内容命名，绝不按旧 mod 命名。
+- **A merged helper belongs to no former module.** `file-moves.tsv` is not given a row for it (the rows of the copies
+  it replaced stay as history and point at files that no longer exist); a plain rename still updates `new_path` and
+  `new_fqcn` of its row. Where a merged class kept the path of one copy (`mixin.cooldown.ItemCooldown*Accessor`), the
+  local boundary tests list it in `sibling_stubs.SHARED_HELPERS`, and a test proves two or more former modules use it.
+  合并后的辅助类不属于任何旧模块：`file-moves.tsv` 不为它新增行（被它取代的副本的行作为历史保留，指向已不存在的文件）；单纯的
+  改名仍更新对应行的 `new_path` 与 `new_fqcn`。合并类沿用了某一份副本路径时，本地边界测试把它列入
+  `sibling_stubs.SHARED_HELPERS`，并有测试证明至少两个旧模块在使用它。
+- **Merging mixins keeps their order.** Several wrappers on one call become one handler that applies the same steps in
+  the order the wrappers nested (first applied = innermost, see `.git/unify-notes/stage1/RULE.md`); injectors that
+  differ in `require` or in what they decide stay separate.
+  合并 mixin 时保持顺序：同一调用上的多个包装合并为一个处理器，按原先包装的嵌套顺序执行相同的步骤（先应用的在最内层）；
+  `require` 不同或裁决内容不同的注入保持分开。
+- **Proof.** The start-up dump (`runGameTest -PstartupOrderDump=<dir>`) before and after differs in 15 lines only: the
+  five interaction events each list three listeners as `event.InteractionLockGuards (lambda)` where they listed
+  `ControlExpertStunGuards`, `EngineerStunGuards` and `TaotieHeadDazeGuards`, at the same positions.
+  证明：前后两次启动导出只有 15 行不同：五个交互事件各有三个监听器由原先的三个守卫类改列为
+  `event.InteractionLockGuards (lambda)`，位置不变。

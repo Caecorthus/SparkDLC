@@ -1,18 +1,11 @@
 package dev.caecorthus.sparkdlc.role.civilian.engineer;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.event.InteractionLockGuards;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.TypedActionResult;
 
 /**
  * Security guard: the interaction lock of the Engineer capture stun (and the Jester Moment freeze, which reuses its
@@ -41,26 +34,14 @@ public final class EngineerStunGuards {
             return;
         }
         registered = true;
-        UseItemCallback.EVENT.addPhaseOrdering(STUN_PHASE, Event.DEFAULT_PHASE);
-        UseItemCallback.EVENT.register(STUN_PHASE, (player, world, hand) -> {
-            ItemStack stack = player.getStackInHand(hand);
-            return isStunned(player) ? TypedActionResult.fail(stack) : TypedActionResult.pass(stack);
-        });
-        UseBlockCallback.EVENT.addPhaseOrdering(STUN_PHASE, Event.DEFAULT_PHASE);
-        UseBlockCallback.EVENT.register(STUN_PHASE, (player, world, hand, hit) -> verdict(player));
-        UseEntityCallback.EVENT.addPhaseOrdering(STUN_PHASE, Event.DEFAULT_PHASE);
-        UseEntityCallback.EVENT.register(STUN_PHASE, (player, world, hand, entity, hit) -> verdict(player));
-        AttackEntityCallback.EVENT.addPhaseOrdering(STUN_PHASE, Event.DEFAULT_PHASE);
-        AttackEntityCallback.EVENT.register(STUN_PHASE, (player, world, hand, entity, hit) -> verdict(player));
-        AttackBlockCallback.EVENT.addPhaseOrdering(STUN_PHASE, Event.DEFAULT_PHASE);
-        AttackBlockCallback.EVENT.register(STUN_PHASE, (player, world, hand, pos, direction) -> verdict(player));
+        // The five listeners are the shared InteractionLockGuards; what is this state's own is the phase, the
+        // predicate and that bare-hand block use is refused too.
+        // 五个监听器来自共用的 InteractionLockGuards；本状态自有的是阶段、判定条件以及“空手使用方块同样拒绝”。
+        InteractionLockGuards.register(STUN_PHASE, EngineerStunGuards::isStunned,
+                InteractionLockGuards.BareHandBlockUse.REFUSED);
     }
 
     private static boolean isStunned(PlayerEntity player) {
         return EngineerStunnedPlayerComponent.KEY.get(player).isStunned();
-    }
-
-    private static ActionResult verdict(PlayerEntity player) {
-        return isStunned(player) ? ActionResult.FAIL : ActionResult.PASS;
     }
 }

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.shadowjester;
 
 import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
@@ -40,9 +41,6 @@ import java.util.UUID;
  */
 public final class ShadowJesterShowdownService {
     public static final int REVOLVER_COOLDOWN_TICKS = 80; // 4 秒
-    // Plain SparkTraits trait ids for its round-end view; no SparkTraits class is loaded. / SparkTraits 词条纯 id，不加载其类。
-    private static final Identifier IMPOSTOR_TRAIT_ID = Identifier.of("sparkdlc", "impostor");
-    private static final Identifier CONSCIENCE_TRAIT_ID = Identifier.of("sparkdlc", "conscience");
     private static boolean winPriorityListenerRegistered;
 
     private ShadowJesterShowdownService() {
@@ -174,10 +172,10 @@ public final class ShadowJesterShowdownService {
             return false;
         }
         List<Identifier> atDeath = SparkTraitsApi.getRoundEndTraitIds(world, victim.getUuid());
-        if (SparkTraitsApi.hasImpostor(victim) || atDeath.contains(IMPOSTOR_TRAIT_ID)) {
+        if (SparkTraitsApi.hasActiveTrait(victim, TraitIds.IMPOSTOR) || atDeath.contains(TraitIds.IMPOSTOR)) {
             return true;
         }
-        if (SparkTraitsApi.hasConscience(victim) || atDeath.contains(CONSCIENCE_TRAIT_ID)) {
+        if (SparkTraitsApi.hasActiveTrait(victim, TraitIds.CONSCIENCE) || atDeath.contains(TraitIds.CONSCIENCE)) {
             return false;
         }
         return role.canUseKiller();

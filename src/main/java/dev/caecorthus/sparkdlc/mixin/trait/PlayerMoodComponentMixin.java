@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import dev.caecorthus.sparkdlc.mixin.wathe.PlayerMoodComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionRules;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionTraitService;
@@ -217,7 +218,7 @@ public abstract class PlayerMoodComponentMixin {
         }
         if (!TaskPacing.atTaskCap(serverPlayer, this.tasks.size())) {
             PlayerMoodComponent.TrainTask generated =
-                    ((PlayerMoodComponentInvoker) (Object) this).sparkdlc$generateTaskForTraits();
+                    ((PlayerMoodComponentAccessor) (Object) this).sparkdlc$generateTask();
             if (generated != null) {
                 // Same bookkeeping as Wathe's own countdown hand-out (seed 1, then +1), since generateTask weighs tasks
                 // by timesGotten. 与 Wathe 自身倒计时发放任务时的记账一致（先置 1 再加 1）：generateTask 按 timesGotten 降低重复任务的权重。

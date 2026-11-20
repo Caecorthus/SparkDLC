@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.compat.noellesroles;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectGuard;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -37,6 +37,6 @@ public abstract class NoellesRolesPoisonGasAffectMixin {
             return true;
         }
         ServerPlayerEntity actor = cloud.getWorld().getServer().getPlayerManager().getPlayer(ownerUuid);
-        return actor == null || PlayerAffectMixinGuard.allows(actor, target, ACTION);
+        return actor == null || PlayerAffectGuard.allows(actor, target, ACTION);
     }
 }

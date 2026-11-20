@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindPerceptionClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
@@ -125,7 +126,7 @@ public final class BlindEchoView {
         }
         bodiesSelected = false;
         MinecraftClient client = MinecraftClient.getInstance();
-        if (!BlindView.isActive(client) || !seesOwnView(client) || BlindShaderPackCheck.isShaderPackInUse()) {
+        if (!BlindView.isActive(client) || !seesOwnView(client) || IrisShaderPacks.inUseOrUnknown()) {
             BlindSilhouettePass.discardFrame();
             return;
         }
@@ -147,7 +148,7 @@ public final class BlindEchoView {
         captured = false;
         depthPending = false;
         MinecraftClient client = MinecraftClient.getInstance();
-        if (!BlindView.isActive(client) || !seesOwnView(client) || BlindShaderPackCheck.isShaderPackInUse()) {
+        if (!BlindView.isActive(client) || !seesOwnView(client) || IrisShaderPacks.inUseOrUnknown()) {
             BlindSilhouettePass.discardFrame();
             return;
         }
@@ -236,7 +237,7 @@ public final class BlindEchoView {
         depthPending = false;
         boolean active = BlindView.isActive(client);
         boolean ownView = seesOwnView(client);
-        boolean shaderPack = active && BlindShaderPackCheck.isShaderPackInUse();
+        boolean shaderPack = active && IrisShaderPacks.inUseOrUnknown();
         missedCaptures = active && ownView && !shaderPack && !failed && !wasCaptured
                 ? Math.min(missedCaptures + 1, BlindEchoMode.HINT_AFTER_MISSED_CAPTURES)
                 : 0;

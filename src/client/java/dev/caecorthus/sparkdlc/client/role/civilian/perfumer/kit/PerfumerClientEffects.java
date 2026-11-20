@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -51,7 +51,7 @@ public final class PerfumerClientEffects {
         if (scent == null || !scent.hasCoolingOil()) {
             return 0.0F;
         }
-        return PerfumerRules.coolingOilBlurRadius(
+        return PerfumerKitRules.coolingOilBlurRadius(
                 coolingOilElapsed(scent, tickDelta), remaining(scent.coolingOilTicks(), tickDelta));
     }
 
@@ -65,14 +65,14 @@ public final class PerfumerClientEffects {
         float coolingElapsed = 0.0F;
         if (scent.hasCoolingOil()) {
             coolingElapsed = coolingOilElapsed(scent, tickDelta);
-            coolingAlpha = PerfumerRules.coolingOilOverlayAlpha(
+            coolingAlpha = PerfumerKitRules.coolingOilOverlayAlpha(
                     coolingElapsed, remaining(scent.coolingOilTicks(), tickDelta));
         }
         float aromaStrength = 0.0F;
         float aromaElapsed = 0.0F;
         if (scent.hasAroma()) {
             aromaElapsed = aromaElapsed(scent, tickDelta);
-            aromaStrength = PerfumerRules.aromaStrength(aromaElapsed, remaining(scent.aromaTicks(), tickDelta));
+            aromaStrength = PerfumerKitRules.aromaStrength(aromaElapsed, remaining(scent.aromaTicks(), tickDelta));
         }
         if (coolingAlpha <= 0.0F && aromaStrength <= 0.0F) {
             return null;
@@ -94,15 +94,15 @@ public final class PerfumerClientEffects {
         }
         float tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true);
         float elapsed = aromaElapsed(scent, tickDelta);
-        float strength = PerfumerRules.aromaStrength(elapsed, remaining(scent.aromaTicks(), tickDelta));
+        float strength = PerfumerKitRules.aromaStrength(elapsed, remaining(scent.aromaTicks(), tickDelta));
         if (strength <= 0.0F) {
             return null;
         }
         long seed = scent.aromaSeed();
         double dt = Math.max(0.0D, Math.min(MAX_FRAME_SECONDS, frameSeconds));
-        double sensitivity = PerfumerRules.aromaSensitivity(seed, elapsed, strength);
-        double yawDrift = PerfumerRules.aromaYawDriftDegPerSec(seed, elapsed, strength) * dt / LOOK_DEGREES_PER_UNIT;
-        double pitchDrift = PerfumerRules.aromaPitchDriftDegPerSec(seed, elapsed, strength) * dt / LOOK_DEGREES_PER_UNIT;
+        double sensitivity = PerfumerKitRules.aromaSensitivity(seed, elapsed, strength);
+        double yawDrift = PerfumerKitRules.aromaYawDriftDegPerSec(seed, elapsed, strength) * dt / LOOK_DEGREES_PER_UNIT;
+        double pitchDrift = PerfumerKitRules.aromaPitchDriftDegPerSec(seed, elapsed, strength) * dt / LOOK_DEGREES_PER_UNIT;
         return new AromaLook(cursorDeltaX * sensitivity + yawDrift, cursorDeltaY * sensitivity + pitchDrift);
     }
 
@@ -126,7 +126,7 @@ public final class PerfumerClientEffects {
     }
 
     private static float aromaElapsed(PerfumerScentComponent scent, float tickDelta) {
-        return PerfumerRules.AROMA_DURATION_TICKS - scent.aromaTicks() + tickDelta;
+        return PerfumerKitRules.AROMA_DURATION_TICKS - scent.aromaTicks() + tickDelta;
     }
 
     private static float remaining(int ticks, float tickDelta) {

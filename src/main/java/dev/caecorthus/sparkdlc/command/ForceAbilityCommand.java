@@ -13,7 +13,6 @@ import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.skill.WitchSkillLockValidationService;
-import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -43,8 +42,8 @@ public final class ForceAbilityCommand {
         dispatcher.register(
                 CommandManager.literal("sparkdlc:forceAbility")
                         .requires(LegacyPermissions.require(
-                                RoleCommandPermissions.COMMAND_FORCE_ABILITY,
-                                RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
+                                SparkDlcPermissions.COMMAND_FORCE_ABILITY,
+                                SparkDlcPermissions.DEFAULT_COMMAND_LEVEL
                         ))
                         .then(CommandManager.argument("ability", IdentifierArgumentType.identifier())
                                 .suggests(ForceAbilityCommand::suggestSkills)

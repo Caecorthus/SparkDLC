@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelWorldComponent;
-import dev.caecorthus.sparkdlc.util.hitscan.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.util.RaycastShapeScope;
 import dev.doctor4t.wathe.block.DoorPartBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;

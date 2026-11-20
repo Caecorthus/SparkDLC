@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer.escape;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.mixin.minecraft.PlayerManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
@@ -15,7 +16,6 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import dev.caecorthus.sparkdlc.mixin.trait.LastEscapePlayerManagerAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -166,7 +166,7 @@ public final class LastEscapeService {
             // and traits. Never overwrite a replacement entity's data after death callbacks.
             // 断线存档早于本次死亡/重置，仍含旧物品与词条；死亡回调后不可覆盖重连实体。
             if (manager.getPlayer(player.getUuid()) == null) {
-                ((LastEscapePlayerManagerAccessor) manager).sparkdlc$saveLastEscapePlayerData(player);
+                ((PlayerManagerAccessor) manager).sparkdlc$savePlayerData(player);
             }
         }
     }

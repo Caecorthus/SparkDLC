@@ -147,8 +147,9 @@ SparkStrength and SparkAssist do not own SparkWitch gameplay.
 Round-start subtitles are one short sentence per role (owner, 2026-10-25): Wathe shows `announcement.goal.<role>`
 with one killer and `announcement.goals.<role>` with more, so both keys carry the same line; rules, costs and
 cooldowns go in letters, skill descriptions and the SparkAssist guidebook (`roles/RoleGoalSubtitleTest` caps them).
-Seeker availability requires the SparkStrength tablet item (`sparkdlc:tablet`), resolved by
-registry id only; SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
+The Seeker's console is the tablet (`sparkdlc:tablet`), matched by registry id only. The tablet is registered by
+this mod itself, so the former "Seeker availability requires the tablet item" draw condition and the car-as-console
+fallback are gone (they were constant in one mod); SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
 issues it free at round start to every tablet-eligible player (SparkWitch's `PoliceRoles` members and the witch
 faction included) and, through a mid-round reconciliation pass, to players who become eligible later.
 
@@ -657,7 +658,7 @@ Current build baseline:
     `PlayerEntityModel` and that modifier, so the puppet matches; older SparkTraits draws a small adult model. Its
     Depression grey psycho skin also needs Wathe psycho ticks, so the psycho mask hides it on puppets too.
   - Decoys (D2): the Prophet's Death Sense, the Kidnapper's drag and the NoellesRoles Vulture's eat
-    (`mixin/role/neutral/vulture/NoellesVultureDecoyBodyMixin` through `compat/noellesroles/NoellesVultureDecoyGuard`) ignore decoy bodies and
+    (`mixin/role/neutral/vulture/NoellesVultureMealBodiesMixin` through `compat/noellesroles/NoellesVultureDecoyGuard`) ignore decoy bodies and
     tell that player; Wraith conversion never takes a decoy for the real body. Other body readers (Perfumer, Coroner,
     SparkStrength) still treat a decoy as a body.
   - The ability cooldown is the `sparkdlc:magician` store in `cooldown/provider/RoleForcedCooldowns#magician` (appended
@@ -1016,7 +1017,7 @@ Current build baseline:
       `order = 900` attack on Hiro before every default-order HEAD guard, `changeGameMode` call `order = 1200` after
       Tofana / Last Escape / the Cat), `ServerPlayerEntityHiroFeignMixin` and
       `ServerPlayNetworkHandlerHiroFeignMixin` (camera possession, spectator teleport), `HiroFeignPayloadGuardMixin`,
-      `NoellesSwapperHiroFeignMixin`, `NoellesVultureHiroFakeBodyMixin`, `NoellesRolesHiroFeignAliveCountMixin`.
+      `NoellesSwapperHiroFeignMixin`, `vulture/NoellesVultureMealBodiesMixin` (shared body-lookup wrapper), `NoellesRolesHiroFeignAliveCountMixin`.
       Lifecycle: a role assignment or reset clears Hiro's own state; a re-roled or offline Hiro keeps her fake-dead
       victims (own timers, die credited to her, still revive when that player is attacked).
   - `witchification/` (魔女化, complete 2026-11-11): `HiroWitchificationComponent`
@@ -1829,7 +1830,7 @@ Current build baseline:
   service), and `taotie/` (NoellesRoles Taotie swallow seam). Its mixins live in `mixin/role/civilian/seeker/`
   and `client/mixin/role/civilian/seeker/`; client presentation (console screen, remote view and car driver,
   device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `SparkTraitsApi` (asked directly),
-  `compat/noellesroles/SeekerControlExpertBridge`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
+  `role/civilian/controlexpert/ControlExpertStunCounter`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
   `tablet/TabletItemLookup`, and `item/m67/M67MatchBlastHits`.
 - `role/civilian/usec/`: USEC (`sparkdlc:usec`), the fifth police variant. Its only weapon is the AXMC bolt-action
   sniper rifle (`sparkdlc:usec_rifle`; the owner named it AXMC on 2026-10-07, while ids, classes and the role name
@@ -3188,8 +3189,8 @@ Current build baseline:
     ready curve for magnification-driven profiles (smoothstep over ln m / ln 3: 0 at 1×, about 0.69 at 2×, 1 from
     `PERIPHERY_BLUR_FULL_MAGNIFICATION` 3× up), and a profile that varies it must follow its eased magnification. The
     filter is released 2 s after scoping out, and on disconnect, login, client stop and resource reload; after a failure
-    it retries after 2, 4, 8, 16, then 30 s. Under an Iris shader pack (Wathe `IrisHelper`; an Iris error counts as a
-    pack in use), or while failing, the HUD draws a semi-transparent ring instead; its dark periphery fades with the
+    it retries after 2, 4, 8, 16, then 30 s. Under an Iris shader pack (`client.compat.iris.IrisShaderPacks`; an Iris error counts as a
+    pack in use, for good), or while failing, the HUD draws a semi-transparent ring instead; its dark periphery fades with the
     same blur (below 1 it first clears over `ScopeLensGeometry.FALLBACK_RIM_FADE` past the tube rim,
     `fallbackPeripheryColor`), and at 1 it is the original single gradient.
   - Scope shadow: `ScopeShadow` is a smoothed exit-pupil offset driven by the camera's yaw/pitch rate plus a smaller
@@ -3207,7 +3208,7 @@ Current build baseline:
     projection is the main pass's (captured at `render` HEAD by `ScopeWorldRendererMixin`, so bobbing, hurt tilt and
     USEC recoil carry over) narrowed in clip space by `ScopeRules.lensClipScale`, exactly what Full-Screen Zoom shows;
     the lens zoom eases with vanilla's half-life (`easeZoom`). For the pass, `MinecraftClient.framebuffer` points at the
-    lens target (`ScopeMinecraftClientAccessor`, restored in `finally`) because vanilla re-binds
+    lens target (`MinecraftClientAccessor`, restored in `finally`) because vanilla re-binds
     `client.getFramebuffer()` mid-pass; `ScopeWorldRendererMixin` puts the viewport back on the lens after each
     `beginWrite(Z)` in `render` and shows `RenderSystem` the main projection around the `setupTerrain` INVOKE, so
     Sodium reuses its render lists (it rebuilds its graph whenever that projection changes) and nothing is rebuilt or
@@ -3592,7 +3593,7 @@ Current build baseline:
     task is held, floored at 0, and does nothing for a Noa-locked player. Not covered: the Perfumer's own corpse drain
     still scales with `tasks.size()`.
   - Next task: for a living planner in an ACTIVE round the world tick reads Wathe's private `nextTaskTimer` through
-    the existing `mixin/faction/witch/PlayerMoodComponentAccessor` (read only, never written), learns the timer's real per-tick
+    the existing `mixin/wathe/PlayerMoodComponentAccessor` (read only, never written), learns the timer's real per-tick
     decrease from consecutive readings (`PlannerRules.nextTaskTimerRate`: an exponential average of the observed
     decreases, readings that jump up when Wathe re-arms the timer ignored, kept transient in the component; SparkTraits
     Anxiety makes it about 1.8) and publishes `ceil(timer / rate / 20)` seconds (`setNextTaskSeconds`, owner sync on
@@ -3675,7 +3676,7 @@ Current build baseline:
   perceived-player memory), `BlindClientStatus` (HUD remaining-tick view),
   `BlindComTacHeadVisibility` (the in-round ComTac head hide), `render/` (the private echo post
   processor `BlindEchoView`, depth capture and fail-closed hint in `BlindRenderWiring`,
-  `BlindSilhouettePass`, the Iris check `BlindShaderPackCheck`, the fog-culling guard
+  `BlindSilhouettePass`, the Iris check (`client.compat.iris.IrisShaderPacks#inUseOrUnknown`), the fog-culling guard
   `BlindTerrainFog`, and the outline overlay `BlindSeeThroughOutlines`, whose `add` other features call), `gate/` (`BlindClientGates` and the
   pure `BlindGateRules` behind the `BlindGate*` vetoes, client-only bumps, the plain
   `BlindCrosshair`, and the Attune ducking in `BlindAttuneDucking`) and `kit/` (the owner-only HUD
@@ -4507,7 +4508,7 @@ changes, and ended on expiry, terminal death, reset, finalize, disconnect, or lo
 `mixin/role/civilian/fisher/FisherDoorPassingMixin` empties the collision shape of Wathe `DoorPartBlock` and
 vanilla `DoorBlock` doors (never trapdoors or gates) only for a glimmering player's entity context,
 so client prediction and server validation agree; it skips the exemption inside the shared
-`util/hitscan/RaycastShapeScope`, so rays (sight, aiming, weapons) still see the door;
+`util/RaycastShapeScope`, so rays (sight, aiming, weapons) still see the door;
 SparkFactionAPI's entity-collision exemption
 reads the same flag on both sides (`noellesroles:no_collision` alone is one-sided). Glimmerfish
 claims only the invisibility instance it created in an empty slot; any foreign merge gives up its
@@ -5205,7 +5206,7 @@ deliberate and kept:
    the pinned jar's bytecode, so a NoellesRoles bump that changes any write fails it.
    6. `noellesroles:taotie_swallow` (`setSwallowCooldown`; nominal = the private per-round
    `calculatedSwallowCooldown` every swallow writes, read through the cooldown-owned
-   `NoellesTaotieForcedCooldownAccessor`; non-positive means unknown), 7. `noellesroles:assassin` (`setCooldown`;
+   `TaotiePlayerComponentAccessor`; non-positive means unknown), 7. `noellesroles:assassin` (`setCooldown`;
    nominal `AssassinPlayerComponent.COOLDOWN_TICKS`). NoellesRoles gates use `isRole`, so these stores (and the
    nominal lookup) also match the acting role of a disguised Black Raven (`ForcedCooldownRoles`). All members are
    checked against the pinned NoellesRoles 1.7.6 jar.
@@ -5874,7 +5875,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   (D16), and closes through `RiftGateRegistry.close(CONSOLE)` after two clicks (`RiftGateCloseConfirm`); no close-all.
 - **Rift Gate Remover** (`sparkdlc:rift_gate_remover`, 传送门清除工具, owner 2026-10-05). An operator tool listed only
   in vanilla's Operator Utilities tab (`SparkDlcItemGroups.operatorOnlyItems`, kept out of the SparkWitch tab).
-  `gate/RiftGateRemoverService` checks `RoleCommandPermissions.ITEM_RIFT_GATE_REMOVER` (op level 2 by default), picks
+  `gate/RiftGateRemoverService` checks `SparkDlcPermissions.ITEM_RIFT_GATE_REMOVER` (op level 2 by default), picks
   the gate on the look ray within 24 blocks (stopped by block outlines), and closes it through
   `RiftGateRegistry.close(ADMIN)`: occupants are released at the gate with no re-entry cooldown, also when a blocked
   first release is retried by the tick (`RiftSessionComponent.pendingCloseReason`, server-only). Works in any round
@@ -5973,7 +5974,7 @@ junction-box bridge was its last user). The exact sibling types each witch sourc
 `WitchSparkStrengthDirectCallBoundaryTest`; no string-named target is left (the purse seam is a
 `KillerTeamEconomyService.WalletRule` the disguise registers). The client voice receivers are a loader-resolved entrypoint (`voice/ClientVoiceReceivers`, `sparkdlc_client_voice`).
 Still reflective by necessity: the real optional mods
-(Iris through `SmokeShaderPackBridge` / `BlindShaderPackCheck`, EMF through `EmfVanillaModel`).
+(Iris through `SmokeShaderPackBridge` and the one shader-pack check `client.compat.iris.IrisShaderPacks`, EMF through `EmfVanillaModel`).
 
 SparkTraits is optional and fail-closed. Reflection may target only
 `dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi`, never `sparktraits.impl` or
@@ -6254,7 +6255,7 @@ through.
 Active Wraiths pass closed Wathe doors, vanilla doors, trapdoors, and fence
 gates for movement only. `mixin/role/special/wraith/WraithDoorPassingMixin` empties their collision
 shape for the Wraith's own entity shape context, except inside
-`util/hitscan/RaycastShapeScope`. `mixin/RaycastShapeScopeMixin` is the one
+`util/RaycastShapeScope`. `mixin/minecraft/RaycastShapeScopeMixin` is the one
 `@WrapMethod` on `RaycastContext#getBlockShape` (both sides, entity context kept),
 so a Wraith's COLLIDER rays (`canSee`, `ProjectileUtil.getCollision`, explosion
 exposure) still stop at doors: the Vendetta knife and the Guardian Angel shield
@@ -6444,7 +6445,7 @@ Seeker car.
     substitution that never reaches `killPlayer` (a backfire, a refused target) expires at the end of the tick, and a
     receiver that resolves a real player id drops a pending one (`forget`). Weapons without a reusable player path
     (the bat, sphere blasts, add-on guns) call `killOwnerVia` directly.
-  - **SparkFactionAPI veto** (`BlackRavenCrowTargets.mayAffect`, as `PlayerAffectMixinGuard`: a non-player attacker,
+  - **SparkFactionAPI veto** (`BlackRavenCrowTargets.mayAffect`, as `PlayerAffectGuard`: a non-player attacker,
     the owner itself or a null action pass): SparkFactionAPI's own guards resolve only player ids, and its
     `killPlayer` HEAD veto cancels a refused kill only after a session end, so a refused crow hit must leave the crow
     and its session alone. The kill link and `killOwnerVia` end nothing when the killer is refused for the death
@@ -6623,7 +6624,7 @@ Server:
 - Specter sweeps (PR #207): `SpecterOtherworldService` (Otherworld slowness) and `SpecterPeachwoodService`
   (sword distribution) run every 10 server ticks and return at once while no world window is open (the sword sweep
   still strips swords from players who no longer qualify).
-- `util/hitscan/RaycastShapeScope` is a per-thread depth counter (`enter`/`exit` in `finally`, `query` kept); `isRaycast()` means
+- `util/RaycastShapeScope` is a per-thread depth counter (`enter`/`exit` in `finally`, `query` kept); `isRaycast()` means
   depth above zero.
 - The Wraith and Fisher door-passing mixins test the block type first. `WraithStateService` reads `getNullable`.
   `WraithCollisionRules` and `WraithPresence` cache NoellesRoles' `no_collision` RegistryEntry; absence is looked up

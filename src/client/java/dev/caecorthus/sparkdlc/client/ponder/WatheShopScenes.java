@@ -16,7 +16,6 @@ import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -52,17 +51,13 @@ final class WatheShopScenes {
         // (RoleKitKillerItemScenes::circuitBreaker).
         // 没有 wathe:blackout 的演示：SparkStrength 已把停电器从所有商店下架（SabotageShopFilter），关灯改由杀手的平板发动；
         // 灯光破坏见 sparkdlc:circuit_breaker 演示（RoleKitKillerItemScenes::circuitBreaker）。
-        // With SparkStrength a NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat.
-        // SparkStrength is fused into SparkDLC and always present, so that scene is appended whenever NoellesRoles
-        // is loaded (it used to need both mods); without NoellesRoles the bat demo stays alone.
-        // 装了 SparkStrength 时，NoellesRoles 连环杀手的疯魔模式改发两把手枪而不是球棒。SparkStrength 已融合进 SparkDLC、
-        // 始终存在，因此只要加载了 NoellesRoles 就追加该场景（原先需要两个模组都加载）；没有 NoellesRoles 时仍只有球棒演示。
-        if (FabricLoader.getInstance().isModLoaded("noellesroles")) {
-            item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode),
-                    scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
-        } else {
-            item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode));
-        }
+        // A NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat, so that scene follows
+        // the bat demo. It used to be appended only when both SparkStrength and NoellesRoles were loaded; the first
+        // is part of SparkDLC and the second is a hard dependency, so it is always appended.
+        // NoellesRoles 连环杀手的疯魔模式改发两把手枪而不是球棒，因此该场景紧随球棒演示。原先只在 SparkStrength 与
+        // NoellesRoles 都加载时才追加；前者已是 SparkDLC 的一部分，后者是硬依赖，因此始终追加。
+        item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode),
+                scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
     }
 
     /**

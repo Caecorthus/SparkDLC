@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.mixin.trait;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
@@ -75,7 +76,7 @@ public abstract class GameFunctionsMixin {
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;getAllKillerTeamPlayers()Ljava/util/List;")
     )
     private static List<UUID> sparkdlc$rewardPoolOnlyRealKillers(GameWorldComponent gameComponent) {
-        if (!(((GameWorldComponentAccessor) gameComponent).sparkdlc$getWorldForTraits() instanceof ServerWorld world)) {
+        if (!(((GameWorldComponentAccessor) gameComponent).sparkdlc$getWorld() instanceof ServerWorld world)) {
             return gameComponent.getAllKillerTeamPlayers();
         }
         return gameComponent.getAllKillerTeamPlayers().stream()

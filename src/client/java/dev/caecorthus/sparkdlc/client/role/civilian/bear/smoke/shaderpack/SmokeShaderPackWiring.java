@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeVolumes;
-import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
@@ -49,7 +49,7 @@ public final class SmokeShaderPackWiring {
         registered = true;
         WorldRenderEvents.START.register(context -> {
             if (!SecondaryWorldPass.isActive()) {
-                shaderPack = BlindShaderPackCheck.isShaderPackInUse();
+                shaderPack = IrisShaderPacks.inUseOrUnknown();
                 SmokeShaderPackBridge.onMainWorldPassStart();
                 // The billboards cannot show bullet tunnels, so outlines must not see through them either (WP5).
                 // 公告板显示不了子弹通道，描边也就不能透过通道（WP5）。

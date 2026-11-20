@@ -1100,10 +1100,13 @@ def watheCommonMixinContracts = [
                 providerDescriptor: "(Lorg/agmas/noellesroles/packet/SwapperC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
         ],
         [
-                // 二阶堂希罗 死亡回归: the Vulture never eats a fake corpse. / 二阶堂希罗死亡回归：秃鹫不会吃掉假尸体。
-                configName: "role.killer.hiro.NoellesVultureHiroFakeBodyMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/NoellesVultureHiroFakeBodyMixin.class",
-                handler: "sparkdlc\$vultureSkipsHiroFakeBodies",
+                // 二阶堂希罗 死亡回归: the Vulture never eats a fake corpse. The rule is one of the three body rules of the single
+                // wrapper on the Vulture's body lookup (Partygoer corpse, Hiro fake corpse, Magician decoy; merged from three
+                // mixins on the same call). / 二阶堂希罗死亡回归：秃鹫不会吃掉假尸体。该规则是秃鹫尸体查找上唯一包装的三条
+                // 尸体规则之一（派对客尸体、希罗假尸体、魔术师诱饵；由同一调用上的三个 mixin 合并而来）。
+                configName: "role.neutral.vulture.NoellesVultureMealBodiesMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/neutral/vulture/NoellesVultureMealBodiesMixin.class",
+                handler: "sparkdlc\$vultureMealBodies",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "lambda\$registerPackets\$2(Lorg/agmas/noellesroles/packet/VultureEatC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
                 atTarget: "Lnet/minecraft/class_1937;method_18023(Lnet/minecraft/class_5575;Lnet/minecraft/class_238;Ljava/util/function/Predicate;)Ljava/util/List;",

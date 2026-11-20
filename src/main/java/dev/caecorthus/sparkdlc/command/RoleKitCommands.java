@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.command;
 
-import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
@@ -210,7 +210,7 @@ public final class RoleKitCommands {
             return 0;
         }
 
-        HashSet<UUID> deadPlayers = ((GameWorldComponentDeadPlayersAccessor) game).sparkdlc$getDeadPlayersForKits();
+        HashSet<UUID> deadPlayers = ((GameWorldComponentAccessor) game).sparkdlc$getDeadPlayers();
         boolean currentlyAlive = !deadPlayers.contains(uuid);
 
         if (currentlyAlive == alive) {

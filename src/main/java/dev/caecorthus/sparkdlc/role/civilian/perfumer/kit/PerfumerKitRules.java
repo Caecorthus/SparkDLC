@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * SparkStrength 调香师道具（风油精、香薰、晨风香水）的纯数值与曲线。调香师属于可选模组 SparkWitch，
  * 这里只按稳定 id 匹配；未安装 SparkWitch 时这些道具不会进入任何商店。
  */
-public final class PerfumerRules {
+public final class PerfumerKitRules {
     public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "perfumer");
 
     public static final String COOLING_OIL_ENTRY_ID = "sparkdlc_cooling_oil";
@@ -76,7 +76,7 @@ public final class PerfumerRules {
     private static final long SALT_YAW = 0x5EED_0004L;
     private static final long SALT_PITCH = 0x5EED_0005L;
 
-    private PerfumerRules() {
+    private PerfumerKitRules() {
     }
 
     public static boolean isPerfumer(@Nullable Role role) {

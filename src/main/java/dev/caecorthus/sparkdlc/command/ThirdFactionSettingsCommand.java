@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
-import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -25,8 +24,8 @@ public final class ThirdFactionSettingsCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:thirdFactionMinRequirement")
                 .requires(LegacyPermissions.require(
-                        RoleCommandPermissions.COMMAND_THIRD_FACTION_MIN_REQUIREMENT,
-                        RoleCommandPermissions.DEFAULT_COMMAND_LEVEL))
+                        SparkDlcPermissions.COMMAND_THIRD_FACTION_MIN_REQUIREMENT,
+                        SparkDlcPermissions.DEFAULT_COMMAND_LEVEL))
                 .then(CommandManager.argument("players", IntegerArgumentType.integer(0))
                         .executes(context -> setMinimum(
                                 context.getSource(), IntegerArgumentType.getInteger(context, "players")))));

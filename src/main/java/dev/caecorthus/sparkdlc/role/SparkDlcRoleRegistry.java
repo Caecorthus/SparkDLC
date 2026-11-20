@@ -893,16 +893,16 @@ public final class SparkDlcRoleRegistry {
                 .nativeWatheFaction(Faction.CIVILIAN)
                 .build());
         // Appended last so existing registration order stays unchanged; Vigilante-equivalent civilian parameters.
-        // Drawn only when the SparkStrength tablet item exists (Q7); a forced Seeker still works without it.
-        // 追加在最后以保持既有注册顺序不变；参数与义警等同的平民职业。仅当 SparkStrength 平板物品存在时
-        // 才会被抽到（Q7）；被强制指定时即使没有平板也能运作。
+        // It used to be drawn only when the tablet item existed (Q7); this mod registers the tablet itself, so that
+        // condition was constant true and the role keeps Wathe's default (always).
+        // 追加在最后以保持既有注册顺序不变；参数与义警等同的平民职业。它原先仅在平板物品存在时才会被抽到（Q7）；如今平板由本模组
+        // 自己注册，该条件恒为真，职业沿用 Wathe 的默认条件（始终）。
         seeker = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SEEKER_ID, FactionIds.CIVILIAN)
                 .color(SeekerRules.COLOR)
                 .moodType(Role.MoodType.REAL)
                 .maxSprintTime(GameConstants.getInTicks(0, 10))
                 .canSeeTime(false)
                 .nativeWatheFaction(Faction.CIVILIAN)
-                .appearanceCondition(context -> SeekerRules.shouldAppear())
                 .build());
         // Appended last so existing registration order stays unchanged; the default one-player spawn group
         // keeps the Time Stealer to one killer slot and at most one per round, like the Bell Ringer.

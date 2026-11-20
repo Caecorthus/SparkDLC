@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
 import dev.caecorthus.sparkdlc.util.ItemCooldownSyncRules;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -57,20 +57,20 @@ public final class SkateboardCooldownClient {
             return;
         }
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkdlc$getEntriesForKits().get(board);
+        Object entry = access.sparkdlc$getEntries().get(board);
         if (entry == null) {
             // Lost or never received (a respawn makes a fresh manager); the client-side set sends nothing.
             // 条目丢失或从未收到（重生会换新的管理器）；客户端的 set 不发送任何数据。
             manager.set(board, remaining);
-            entry = access.sparkdlc$getEntriesForKits().get(board);
+            entry = access.sparkdlc$getEntries().get(board);
         }
         if (!(entry instanceof ItemCooldownEntryAccessor bounds)) {
             return;
         }
-        int tick = access.sparkdlc$getTickForKits();
+        int tick = access.sparkdlc$getTick();
         long elapsed = Math.max(0L, now - ride.lockStartTick());
-        bounds.sparkdlc$setStartTickForKits((int) Math.max(Integer.MIN_VALUE, tick - elapsed));
-        bounds.sparkdlc$setEndTickForKits(ItemCooldownSyncRules.endTick(tick, remaining));
+        bounds.sparkdlc$setStartTick((int) Math.max(Integer.MIN_VALUE, tick - elapsed));
+        bounds.sparkdlc$setEndTick(ItemCooldownSyncRules.endTick(tick, remaining));
         wroteEntry = true;
     }
 }

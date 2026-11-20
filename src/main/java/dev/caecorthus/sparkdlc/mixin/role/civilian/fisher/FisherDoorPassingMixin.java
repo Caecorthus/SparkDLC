@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.mixin.role.civilian.fisher;
 
 import dev.caecorthus.sparkdlc.role.civilian.fisher.spirit.FisherDoorPassingRules;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.spirit.FisherSpiritComponent;
-import dev.caecorthus.sparkdlc.util.hitscan.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.util.RaycastShapeScope;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EntityShapeContext;

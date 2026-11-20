@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.saint;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -46,8 +46,8 @@ public final class SaintKarmaCooldownService {
             WitchWorldComponent worldComponent = WitchWorldComponent.KEY.get(player.getServerWorld());
             ItemCooldownManager manager = player.getItemCooldownManager();
             ItemCooldownManagerAccessor managerAccessor = (ItemCooldownManagerAccessor) manager;
-            Map<Item, ?> entries = managerAccessor.sparkdlc$getEntriesForRoles();
-            int currentTick = managerAccessor.sparkdlc$getTickForRoles();
+            Map<Item, ?> entries = managerAccessor.sparkdlc$getEntries();
+            int currentTick = managerAccessor.sparkdlc$getTick();
             for (Item item : carriedItems) {
                 if (worldComponent.isSaintKarmaAdminCleared(player.getUuid(), Registries.ITEM.getId(item))) {
                     continue;
@@ -101,6 +101,6 @@ public final class SaintKarmaCooldownService {
         if (!(entry instanceof ItemCooldownEntryAccessor accessor)) {
             return 0;
         }
-        return Math.max(0, accessor.sparkdlc$getEndTickForRoles() - currentTick);
+        return Math.max(0, accessor.sparkdlc$getEndTick() - currentTick);
     }
 }

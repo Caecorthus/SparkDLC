@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.hit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -90,7 +90,7 @@ public final class SeekerDamageRules {
                 isSamePlayer(attacker, owner),
                 () -> SeekerTargeting.isRoundParticipant(attacker),
                 () -> isInSeekerSession(attacker),
-                () -> SeekerControlExpertBridge.isStunned(attacker),
+                () -> ControlExpertStunCounter.isCounting(attacker),
                 () -> SparkTraitsApi.isKillerInteractionBlocked(attacker),
                 () -> SparkFactionApi.canAffectPlayer(attacker, owner, SeekerRules.BREAK_ACTION_ID, game),
                 () -> vendettaAllows(attacker, owner));

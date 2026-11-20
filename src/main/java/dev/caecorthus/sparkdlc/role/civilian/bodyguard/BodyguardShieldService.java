@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.util.ItemCooldownSync;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
@@ -247,9 +247,9 @@ public final class BodyguardShieldService {
     }
 
     private static int remainingCooldown(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
-        return entry == null ? 0 : Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
-                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits());
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
+        return entry == null ? 0 : Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
+                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
     }
 
     private static void applyRaisedSpeed(ServerPlayerEntity player) {

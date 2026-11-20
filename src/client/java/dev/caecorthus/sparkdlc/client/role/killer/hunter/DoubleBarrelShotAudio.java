@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.client.mixin.role.killer.hunter.DoubleBarrelSourceAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.minecraft.SoundSourceAccessor;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.Source;
@@ -84,7 +84,7 @@ public final class DoubleBarrelShotAudio {
                     return;
                 }
             }
-            int pointer = ((DoubleBarrelSourceAccessor) source).sparkdlc$getDoubleBarrelSourcePointer();
+            int pointer = ((SoundSourceAccessor) source).sparkdlc$getSourcePointer();
             AL10.alSourcei(pointer, SOFTSourceSpatialize.AL_SOURCE_SPATIALIZE_SOFT, AL10.AL_TRUE);
         } catch (RuntimeException | LinkageError error) {
             extensionState = UNAVAILABLE;

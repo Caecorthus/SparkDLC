@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.trait.civilian.laststand;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.replay.TraitReplayEvents;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
@@ -661,7 +661,7 @@ public final class LastStandService {
         );
 
         GameWorldComponent game = GameWorldComponent.KEY.get(targetWorld);
-        ((GameWorldComponentAccessor) game).sparkdlc$getDeadPlayersForTraits().remove(player.getUuid());
+        ((GameWorldComponentAccessor) game).sparkdlc$getDeadPlayers().remove(player.getUuid());
         game.sync();
 
         restorePendingControl(player);

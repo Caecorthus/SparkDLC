@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.doctor4t.wathe.compat.IrisHelper;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;
@@ -51,7 +51,12 @@ public final class RiftGrayscaleFilter {
     private static int processorWidth = -1;
     private static int processorHeight = -1;
     private static volatile boolean failed;
-    private static volatile boolean irisCheckBroken;
+    /**
+     * A broken Iris API is treated as "shader pack in use", for good (fail closed to the HUD fallback).
+     * Iris API 异常时视为「正在使用光影包」，且此后一直如此（失败时关闭到 HUD 回退）。
+     */
+    private static final IrisShaderPacks.Check SHADER_PACK = IrisShaderPacks.failClosedForGood(
+            "Unable to query Iris; the Riftwalker grey view uses its HUD fallback");
 
     private RiftGrayscaleFilter() {
     }
@@ -185,20 +190,7 @@ public final class RiftGrayscaleFilter {
         }
     }
 
-    /**
-     * Wathe's public Iris facade; a broken Iris API is treated as "shader pack in use" (fail closed to the fallback).
-     * Wathe 的公共 Iris 门面；Iris API 异常时视为「正在使用光影包」（失败时关闭到回退）。
-     */
     private static boolean shaderPackInUse() {
-        if (irisCheckBroken) {
-            return true;
-        }
-        try {
-            return IrisHelper.isIrisShaderPackInUse();
-        } catch (LinkageError | RuntimeException exception) {
-            irisCheckBroken = true;
-            SparkDLC.LOGGER.warn("Unable to query Iris; the Riftwalker grey view uses its HUD fallback", exception);
-            return true;
-        }
+        return SHADER_PACK.inUse();
     }
 }

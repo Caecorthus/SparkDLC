@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCooldownReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -76,11 +76,11 @@ public final class SeekerCooldowns {
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)) {
             return 0;
         }
-        Object entry = accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.seekerCar());
+        Object entry = accessor.sparkdlc$getEntries().get(SparkDlcItems.seekerCar());
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
             return 0;
         }
-        return remaining(cooldown.sparkdlc$getEndTickForRoles(), accessor.sparkdlc$getTickForRoles());
+        return remaining(cooldown.sparkdlc$getEndTick(), accessor.sparkdlc$getTick());
     }
 
     static int remaining(int endTick, int currentTick) {

@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
-import dev.caecorthus.sparkdlc.trait.killer.conscience.PlayerPoisonComponentAccess;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -16,15 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.UUID;
 
 @Mixin(value = PlayerPoisonComponent.class, remap = false)
-public abstract class PlayerPoisonComponentMixin implements PlayerPoisonComponentAccess {
+public abstract class PlayerPoisonComponentMixin {
     @Shadow
     @Final
     private PlayerEntity player;
-
-    @Override
-    public PlayerEntity sparkdlc$getPlayerForTraits() {
-        return player;
-    }
 
     @Inject(method = "setPoisonTicks(ILjava/util/UUID;Lnet/minecraft/util/Identifier;Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
     private void sparkdlc$rememberPoisonSource(int ticks, UUID poisoner, Identifier source, NbtCompound recordExtra, CallbackInfo ci) {

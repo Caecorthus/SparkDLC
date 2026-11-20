@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.command.admin;
 
+import dev.caecorthus.sparkdlc.command.SparkDlcPermissions;
 import com.mojang.brigadier.CommandDispatcher;
 import dev.caecorthus.sparkdlc.cooldown.api.AdminCooldownClear;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -20,7 +21,7 @@ public final class CooldownCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:clearCooldown")
-                .requires(AdminToolPermissions.admin())
+                .requires(SparkDlcPermissions.admin())
                 .executes(context -> clearCooldown(
                         context.getSource(),
                         List.of(context.getSource().getPlayerOrThrow())

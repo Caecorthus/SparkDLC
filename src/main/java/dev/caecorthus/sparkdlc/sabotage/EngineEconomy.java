@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.mixin.wathe.ShopEntryAccessor;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -72,7 +73,7 @@ public final class EngineEconomy {
         }
         ServerWorld world = player.getServerWorld();
         return isBoosted(world) && GameWorldComponent.KEY.get(world).canUseKillerFeatures(player)
-                && !SparkTraitsApi.hasConscience(player);
+                && !SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE);
     }
 
     /**

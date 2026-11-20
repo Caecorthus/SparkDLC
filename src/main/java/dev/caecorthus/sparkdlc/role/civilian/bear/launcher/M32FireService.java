@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
@@ -131,11 +131,11 @@ public final class M32FireService {
         if (!(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
             return 0;
         }
-        Object entry = accessor.sparkdlc$getEntriesForRoles().get(item);
+        Object entry = accessor.sparkdlc$getEntries().get(item);
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
             return 0;
         }
-        return Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
+        return Math.max(0, cooldown.sparkdlc$getEndTick() - accessor.sparkdlc$getTick());
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {

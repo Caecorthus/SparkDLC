@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.trait.effective;
 
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.effective.alignment.EffectiveAlignment;
-import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BlackoutEffect;
@@ -160,7 +160,7 @@ public final class EffectiveTraitService {
         }
 
         GameWorldComponentAccessor accessor = (GameWorldComponentAccessor) (Object) gameComponent;
-        if (accessor.sparkdlc$getWorldForTraits() == null) {
+        if (accessor.sparkdlc$getWorld() == null) {
             return List.of();
         }
 
@@ -168,7 +168,7 @@ public final class EffectiveTraitService {
 
         // 先处理 Wathe 原本认定的杀手。善良杀手不能在双影谢幕中继续充当杀手对手。
         for (UUID uuid : gameComponent.getAllKillerTeamPlayers()) {
-            PlayerEntity player = accessor.sparkdlc$getWorldForTraits().getPlayerByUuid(uuid);
+            PlayerEntity player = accessor.sparkdlc$getWorld().getPlayerByUuid(uuid);
             if (player == null || !hasConscience(player)) {
                 effectiveKillers.add(uuid);
             }
@@ -177,7 +177,7 @@ public final class EffectiveTraitService {
         // 再补入被 impostor 翻转为杀手阵营的原始好人。
         for (UUID uuid : gameComponent.getAllPlayers()) {
             Role role = gameComponent.getRole(uuid);
-            PlayerEntity player = accessor.sparkdlc$getWorldForTraits().getPlayerByUuid(uuid);
+            PlayerEntity player = accessor.sparkdlc$getWorld().getPlayerByUuid(uuid);
             if (player != null
                     && isOriginalCivilian(role)
                     && hasImpostor(player)

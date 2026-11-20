@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.command.admin;
 
+import dev.caecorthus.sparkdlc.command.SparkDlcPermissions;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -18,7 +19,7 @@ public final class SanityCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:setSanity")
-                .requires(AdminToolPermissions.admin())
+                .requires(SparkDlcPermissions.admin())
                 .then(CommandManager.argument("value", FloatArgumentType.floatArg(-100.0f, 125.0f))
                         .executes(context -> setSanity(
                                 context.getSource(),

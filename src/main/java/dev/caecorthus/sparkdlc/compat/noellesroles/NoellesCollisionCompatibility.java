@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 /** Bridges NoellesRoles' status-effect capability into the shared bilateral collision contract. */
 public final class NoellesCollisionCompatibility {
-    private static final String MOD_ID = "noellesroles";
     private static final Identifier NO_COLLISION = Identifier.of("noellesroles", "no_collision");
     private static boolean registered;
     // Status effects are a static registry, so a found entry stays valid; a miss is retried on the next call
@@ -23,9 +21,7 @@ public final class NoellesCollisionCompatibility {
     }
 
     public static synchronized void register() {
-        // Without NoellesRoles the effect id is never registered, so the predicate could only return false.
-        // 未安装 NoellesRoles 时该效果永远不会注册，谓词只会返回 false，因此不注册。
-        if (registered || !FabricLoader.getInstance().isModLoaded(MOD_ID)) {
+        if (registered) {
             return;
         }
         registered = true;

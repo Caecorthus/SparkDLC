@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
@@ -16,7 +17,7 @@ import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayer
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -154,7 +155,7 @@ public final class TimekeeperWatchService {
      */
     private static List<ServerPlayerEntity> findTargets(ServerPlayerEntity timekeeper) {
         GameWorldComponent game = GameWorldComponent.KEY.get(timekeeper.getServerWorld());
-        boolean reverse = SparkTraitsApi.hasImpostor(timekeeper);
+        boolean reverse = SparkTraitsApi.hasActiveTrait(timekeeper, TraitIds.IMPOSTOR);
         List<ServerPlayerEntity> targets = new ArrayList<>();
 
         for (ServerPlayerEntity target : timekeeper.getServerWorld().getPlayers()) {
@@ -183,21 +184,21 @@ public final class TimekeeperWatchService {
      * 该规则独立于通用“有效阵营”判断，避免改动其它职业已经依赖的优先级。
      */
     private static boolean isNormalTarget(Role role, ServerPlayerEntity target) {
-        return !SparkTraitsApi.hasImpostor(target)
-                && (role.isInnocent() || SparkTraitsApi.hasConscience(target));
+        return !SparkTraitsApi.hasActiveTrait(target, TraitIds.IMPOSTOR)
+                && (role.isInnocent() || SparkTraitsApi.hasActiveTrait(target, TraitIds.CONSCIENCE));
     }
 
     /** Reversed targets of a Timekeeper who holds Impostor: killers without Conscience and the other Impostor civilians.
      *  计时员拥有 impostor 时的反转目标：非善良杀手和其它内鬼好人。 */
     private static boolean isReverseTarget(Role role, ServerPlayerEntity target) {
-        return !SparkTraitsApi.hasConscience(target)
-                && (role.canUseKiller() || SparkTraitsApi.hasImpostor(target));
+        return !SparkTraitsApi.hasActiveTrait(target, TraitIds.CONSCIENCE)
+                && (role.canUseKiller() || SparkTraitsApi.hasActiveTrait(target, TraitIds.IMPOSTOR));
     }
 
     private static void clearItemCooldowns(ServerPlayerEntity player) {
         ItemCooldownManager cooldownManager = player.getItemCooldownManager();
         List<Item> coolingItems = new ArrayList<>(
-                ((ItemCooldownManagerAccessor) (Object) cooldownManager).sparkdlc$getEntriesForKits().keySet()
+                ((ItemCooldownManagerAccessor) (Object) cooldownManager).sparkdlc$getEntries().keySet()
         );
         for (Item item : coolingItems) {
             // Serves the user and every target. Natural cooldowns (including owner timers released by remove hooks)

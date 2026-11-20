@@ -5,8 +5,8 @@ import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.item.m67.M67SoundPayload;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
@@ -304,10 +304,10 @@ public final class M67UseService {
     /** Throw, cancel and equip cooldowns: the vanilla entry is the gate, so cooldown modifiers apply. / 投掷、取消与装备冷却：原版条目即判定，冷却倍率照常生效。 */
     static void preserveCooldown(ServerPlayerEntity player, int minimumTicks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(SparkDlcItems.m67());
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(SparkDlcItems.m67());
         int remaining = entry == null ? 0 : Math.max(0,
-                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
-                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits());
+                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
+                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
         if (remaining < minimumTicks) {
             manager.set(SparkDlcItems.m67(), minimumTicks);
         }

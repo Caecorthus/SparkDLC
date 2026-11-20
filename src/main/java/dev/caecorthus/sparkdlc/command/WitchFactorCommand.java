@@ -5,7 +5,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorSettings;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorWorldComponent;
-import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import java.util.function.UnaryOperator;
 import net.minecraft.server.command.CommandManager;
@@ -19,7 +18,8 @@ public final class WitchFactorCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         var root = CommandManager.literal("sparkdlc:witchFactor")
-                .requires(LegacyPermissions.require("sparkdlc.command.witch_factor", RoleCommandPermissions.DEFAULT_COMMAND_LEVEL))
+                .requires(LegacyPermissions.require(SparkDlcPermissions.COMMAND_WITCH_FACTOR,
+                        SparkDlcPermissions.DEFAULT_COMMAND_LEVEL))
                 .executes(context -> show(context.getSource()));
         var rule = CommandManager.literal("Rule");
         for (WitchFactorSettings.Rule mode : WitchFactorSettings.Rule.values()) {

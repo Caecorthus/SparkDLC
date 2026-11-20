@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.civilian.knight;
 
-import dev.caecorthus.sparkdlc.mixin.accessor.ServerItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ServerItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.knight.KnightRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -43,7 +43,7 @@ public abstract class KnightDerringerCooldownMixin {
                 || !((Object) this instanceof ServerItemCooldownManager manager)) {
             return false;
         }
-        ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForRoles();
+        ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayer();
         return player != null && KnightRules.isKnight(
                 GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
     }

@@ -158,7 +158,7 @@ public abstract class ToxicologistAntidoteItemMixin {
         if (poisonTicks > 0) {
             return poisonTicks;
         }
-        PlayerEntity owner = ((PlayerPoisonComponentAccessor) component).sparkdlc$getPlayerForKits();
+        PlayerEntity owner = ((PlayerPoisonComponentAccessor) component).sparkdlc$getPlayer();
         return VirusCarrierComponent.isCarrier(owner) ? 1 : poisonTicks;
     }
 
@@ -179,7 +179,7 @@ public abstract class ToxicologistAntidoteItemMixin {
             @Local(argsOnly = true) LivingEntity user
     ) {
         original.call(component);
-        PlayerEntity target = ((PlayerPoisonComponentAccessor) component).sparkdlc$getPlayerForKits();
+        PlayerEntity target = ((PlayerPoisonComponentAccessor) component).sparkdlc$getPlayer();
         if (target != null && !target.getWorld().isClient()) {
             VirusService.cureCarrier(user instanceof PlayerEntity curer ? curer : null, target);
         }

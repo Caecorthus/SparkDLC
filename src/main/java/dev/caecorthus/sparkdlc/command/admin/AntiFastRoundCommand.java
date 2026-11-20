@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.command.admin;
 
+import dev.caecorthus.sparkdlc.command.SparkDlcPermissions;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -28,7 +29,7 @@ public final class AntiFastRoundCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:antifastround")
-                .requires(AdminToolPermissions.admin())
+                .requires(SparkDlcPermissions.admin())
                 .executes(context -> showStatus(context.getSource()))
                 .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                         .executes(context -> {

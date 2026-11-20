@@ -1,21 +1,23 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.console;
 
 import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
-import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
-import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
-import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarItem;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Stable contract, side-neutral: which stacks act as the Seeker console. The SparkStrength tablet always does (matched
- * by registry id). Only when SparkStrength is absent (a forced Seeker) does the car item stand in, and only when this
- * use would not deploy a car and a device is out. The whole inventory counts (main, hotbar, offhand, cursor).
- * 稳定契约，两端通用：哪些物品可充当搜寻者控制台。SparkStrength 平板始终可以（按注册 id 识别）。
- * 仅当 SparkStrength 缺失（被强制指定的搜寻者）时，小车物品才会代替，且仅在本次使用不会部署小车、并已有设备在场时。
+ * Stable contract, side-neutral: which stacks act as the Seeker console. The tablet does (matched by registry id),
+ * and nothing else. The whole inventory counts (main, hotbar, offhand, cursor).
+ * 稳定契约，两端通用：哪些物品可充当搜寻者控制台。平板可以（按注册 id 识别），除此之外没有别的。
  * 整个背包都算（主背包、快捷栏、副手、光标）。
+ *
+ * <p>While the tablet belonged to another mod, the Search Car item stood in as the console when that mod was absent
+ * (a forced Seeker without a tablet item in the game). The tablet is registered by this mod itself now
+ * ({@code SparkDlcItems.registerRoleKitItems}), so "the tablet item exists" is always true by the time anything can
+ * ask, and the car fallback with its pure rule could not run: removed.
+ * 平板还属于另一个模组时，若该模组缺失（游戏里没有平板物品、被强制指定的搜寻者），搜寻小车物品会代替充当控制台。如今平板由本模组
+ * 自己注册（{@code SparkDlcItems.registerRoleKitItems}），在任何代码能够询问之前“平板物品存在”就已恒为真，小车兜底及其纯规则
+ * 无法执行：已移除。</p>
  */
 public final class SeekerConsoleDevices {
     private SeekerConsoleDevices() {
@@ -25,30 +27,7 @@ public final class SeekerConsoleDevices {
         if (player == null || stack == null || stack.isEmpty()) {
             return false;
         }
-        if (TabletItemLookup.isTablet(stack)) {
-            return true;
-        }
-        if (TabletItemLookup.isAvailable() || !(stack.getItem() instanceof SeekerCarItem)) {
-            return false;
-        }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
-            return false;
-        }
-        boolean carReady = status.carState() == SeekerCarState.READY
-                && !player.getItemCooldownManager().isCoolingDown(stack.getItem());
-        return carFallbackActsAsConsole(carReady, status.carState() == SeekerCarState.DEPLOYED,
-                status.cameraCount() > 0);
-    }
-
-    /**
-     * Pure fallback rule for the car item without SparkStrength: never when the use would deploy (READY and off
-     * cooldown); otherwise only while the car is deployed or a camera is placed.
-     * 无 SparkStrength 时小车物品的纯兜底规则：若本次使用会部署（READY 且不在冷却）则永不充当；
-     * 否则仅在小车已部署或摄像头已放置时充当。
-     */
-    public static boolean carFallbackActsAsConsole(boolean wouldDeploy, boolean carDeployed, boolean cameraPlaced) {
-        return !wouldDeploy && (carDeployed || cameraPlaced);
+        return TabletItemLookup.isTablet(stack);
     }
 
     /** Whole-inventory scan. / 全背包扫描。 */
@@ -56,24 +35,6 @@ public final class SeekerConsoleDevices {
         if (player == null) {
             return false;
         }
-        if (TabletItemLookup.hasTabletAnywhere(player)) {
-            return true;
-        }
-        if (TabletItemLookup.isAvailable()) {
-            return false;
-        }
-        PlayerInventory inventory = player.getInventory();
-        for (ItemStack stack : inventory.main) {
-            if (stack.getItem() instanceof SeekerCarItem) {
-                return true;
-            }
-        }
-        for (ItemStack stack : inventory.offHand) {
-            if (stack.getItem() instanceof SeekerCarItem) {
-                return true;
-            }
-        }
-        return player.currentScreenHandler != null
-                && player.currentScreenHandler.getCursorStack().getItem() instanceof SeekerCarItem;
+        return TabletItemLookup.hasTabletAnywhere(player);
     }
 }

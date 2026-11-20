@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.client.scope;
 import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
-import dev.doctor4t.wathe.compat.IrisHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;
@@ -63,7 +63,12 @@ public final class ScopeLensFilter {
     private static boolean failed;
     private static int failures;
     private static long retryAtNanos;
-    private static volatile boolean irisCheckBroken;
+    /**
+     * A broken Iris API counts as a pack in use, for good, so the scope fails closed to the HUD fallback.
+     * Iris API 异常时视为正在使用光影包，且此后一直如此，开镜失败时关闭到 HUD 回退。
+     */
+    private static final IrisShaderPacks.Check SHADER_PACK =
+            IrisShaderPacks.failClosedForGood("Unable to query Iris; the scope uses its HUD fallback");
 
     private ScopeLensFilter() {
     }
@@ -125,22 +130,13 @@ public final class ScopeLensFilter {
     }
 
     /**
-     * Wathe's public Iris facade ({@code IrisApi.isShaderPackInUse()}); a broken Iris API counts as a pack in use, so
-     * the scope fails closed to the HUD fallback.
-     * Wathe 的公共 Iris 门面（{@code IrisApi.isShaderPackInUse()}）；Iris API 异常时视为正在使用光影包，开镜失败时关闭到
+     * {@code IrisApi.isShaderPackInUse()} through {@link IrisShaderPacks}; a broken Iris API counts as a pack in use,
+     * so the scope fails closed to the HUD fallback.
+     * 经由 {@link IrisShaderPacks} 的 {@code IrisApi.isShaderPackInUse()}；Iris API 异常时视为正在使用光影包，开镜失败时关闭到
      * HUD 回退。
      */
     public static boolean shaderPackInUse() {
-        if (irisCheckBroken) {
-            return true;
-        }
-        try {
-            return IrisHelper.isIrisShaderPackInUse();
-        } catch (LinkageError | RuntimeException exception) {
-            irisCheckBroken = true;
-            SparkDLC.LOGGER.warn("Unable to query Iris; the scope uses its HUD fallback", exception);
-            return true;
-        }
+        return SHADER_PACK.inUse();
     }
 
     /** Unscoped frame: close the processor once it has idled long enough. / 未开镜帧：空闲足够久后关闭处理器。 */

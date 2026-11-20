@@ -57,21 +57,21 @@ public final class SparkDlcBlocks {
 
     public static Block junctionBox() {
         if (junctionBox == null) {
-            throw new IllegalStateException("SparkStrength blocks are not registered yet");
+            throw new IllegalStateException("SparkDLC sabotage fixture blocks are not registered yet");
         }
         return junctionBox;
     }
 
     public static Block circuitBreaker() {
         if (circuitBreaker == null) {
-            throw new IllegalStateException("SparkStrength blocks are not registered yet");
+            throw new IllegalStateException("SparkDLC sabotage fixture blocks are not registered yet");
         }
         return circuitBreaker;
     }
 
     public static Block engineUnit() {
         if (engineUnit == null) {
-            throw new IllegalStateException("SparkStrength blocks are not registered yet");
+            throw new IllegalStateException("SparkDLC sabotage fixture blocks are not registered yet");
         }
         return engineUnit;
     }

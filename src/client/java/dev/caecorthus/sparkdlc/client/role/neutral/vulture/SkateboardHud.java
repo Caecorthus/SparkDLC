@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -60,9 +60,9 @@ public final class SkateboardHud {
     }
 
     private static int cooldownTicks(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
-        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
-                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits();
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
+        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
+                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick();
     }
 
     private static int seconds(int ticks) {

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.console;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
-import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCameraEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
@@ -73,7 +73,7 @@ public final class SeekerDeviceAvailability {
 
     /** A stunned body cannot use the console (server: {@code remote.denied.stunned}). / 眩晕时不能使用控制台。 */
     public static boolean blocked(@Nullable ClientPlayerEntity player) {
-        return player == null || SeekerControlExpertBridge.isStunned(player);
+        return player == null || ControlExpertStunCounter.isCounting(player);
     }
 
     /**

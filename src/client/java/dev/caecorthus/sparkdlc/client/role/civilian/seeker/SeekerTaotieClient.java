@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerCarSwallowC2SPacket;
@@ -154,7 +154,7 @@ public final class SeekerTaotieClient {
                 GameFunctions.isPlayerPlayingAndAlive(player) && !player.isSpectator() && !player.isCreative(),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 GrandWitchFearService.isPlayerFeared(player),
-                SeekerControlExpertBridge.isStunned(player),
+                ControlExpertStunCounter.isCounting(player),
                 NoellesTaotieSeekerBridge.swallowCooldown(player));
     }
 

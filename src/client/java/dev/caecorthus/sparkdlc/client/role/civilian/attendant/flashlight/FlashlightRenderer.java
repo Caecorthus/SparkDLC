@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight;
 
-import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientChunkEvents;
@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.InvalidateRenderStateCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.ShaderProgram;
@@ -22,7 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +52,14 @@ public final class FlashlightRenderer {
     /** This frame's drawable lights, filled at AFTER_ENTITIES. / 本帧可绘制的光源，在 AFTER_ENTITIES 时填充。 */
     private static final List<FlashlightLight> FRAME_LIGHTS = new ArrayList<>(FlashlightLights.MAX_LIGHTS);
 
-    private static boolean irisResolved;
-    private static Object irisApi;
-    private static Method irisShaderPackInUse;
+    /**
+     * Iris replaces the terrain pipeline with its own shader programs, so a pack's lighting would fight this pass.
+     * Fails open: when Iris cannot be asked the flashlight stays on ({@link IrisShaderPacks#failOpen}).
+     * Iris 会用自身着色器替换地形管线，光影包的光照会与本通道冲突。失败即开放：无法询问 Iris 时手电筒保持开启
+     * （{@link IrisShaderPacks#failOpen}）。
+     */
+    private static final IrisShaderPacks.Check SHADER_PACK =
+            IrisShaderPacks.failOpen("Iris is loaded but its API is unavailable; flashlight stays on");
 
     private FlashlightRenderer() {
     }
@@ -114,7 +117,7 @@ public final class FlashlightRenderer {
             return;
         }
         List<FlashlightLight> lights = FlashlightLights.collect(client, context.tickCounter().getTickDelta(true));
-        if (lights.isEmpty() || irisShaderPackInUse()) {
+        if (lights.isEmpty() || SHADER_PACK.inUse()) {
             return;
         }
         for (FlashlightLight light : lights) {
@@ -260,35 +263,6 @@ public final class FlashlightRenderer {
             task.run();
         } else {
             RenderSystem.recordRenderCall(task::run);
-        }
-    }
-
-    /**
-     * Iris replaces the terrain pipeline with its own shader programs, so a pack's lighting would fight this pass.
-     * Reflection only: Iris is not a dependency.
-     * Iris 会用自身着色器替换地形管线，光影包的光照会与本通道冲突。仅使用反射：Iris 不是依赖项。
-     */
-    private static boolean irisShaderPackInUse() {
-        if (!irisResolved) {
-            irisResolved = true;
-            if (FabricLoader.getInstance().isModLoaded("iris")) {
-                try {
-                    Class<?> api = Class.forName("net.irisshaders.iris.api.v0.IrisApi");
-                    irisApi = api.getMethod("getInstance").invoke(null);
-                    irisShaderPackInUse = api.getMethod("isShaderPackInUse");
-                } catch (ReflectiveOperationException | LinkageError exception) {
-                    SparkDLC.LOGGER.warn("Iris is loaded but its API is unavailable; flashlight stays on",
-                            exception);
-                }
-            }
-        }
-        if (irisShaderPackInUse == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(irisShaderPackInUse.invoke(irisApi));
-        } catch (ReflectiveOperationException exception) {
-            return false;
         }
     }
 }

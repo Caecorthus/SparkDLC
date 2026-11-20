@@ -12,7 +12,7 @@ public final class DronePackets {
     private DronePackets() {
     }
 
-    public static void initialize() {
+    public static void register() {
         PayloadTypeRegistry.playC2S().register(DronePilotStartC2SPacket.ID, DronePilotStartC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(DronePilotMoveC2SPacket.ID, DronePilotMoveC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(DronePilotActionC2SPacket.ID, DronePilotActionC2SPacket.CODEC);

@@ -12,7 +12,8 @@
       "dev.caecorthus.sparkdlc.gametest.LegacySavedDataGameTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcCommandTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcStartupTest",
-      "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest"
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcSharedHelpersGameTest"
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"

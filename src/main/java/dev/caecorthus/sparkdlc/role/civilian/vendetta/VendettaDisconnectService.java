@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.mixin.role.civilian.vendetta.PlayerManagerVendettaAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.PlayerManagerAccessor;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -157,7 +157,7 @@ public final class VendettaDisconnectService {
 
     /** Persists mutations made after the live connection entity has gone away. / 持久化离线实体上的结算变更。 */
     private static void persistDisconnectedPlayer(ServerPlayerEntity player) {
-        ((PlayerManagerVendettaAccessor) player.getServer().getPlayerManager())
+        ((PlayerManagerAccessor) player.getServer().getPlayerManager())
                 .sparkdlc$savePlayerData(player);
     }
 

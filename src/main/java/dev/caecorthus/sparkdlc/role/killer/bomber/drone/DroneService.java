@@ -6,8 +6,8 @@ import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.item.DroneItem;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
 import dev.caecorthus.sparkdlc.role.AbilityLocks.Lock;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
@@ -584,10 +584,10 @@ public final class DroneService {
      */
     private static void preserveCooldown(ServerPlayerEntity player, Item item, int minimumTicks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
         int remaining = entry == null ? 0 : Math.max(0,
-                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
-                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits());
+                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
+                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
         if (remaining < minimumTicks) {
             manager.set(item, minimumTicks);
         }

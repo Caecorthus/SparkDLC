@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer.combat;
 
-import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,9 +25,9 @@ public final class ExactItemCooldowns {
 
     public static int remainingTicks(ItemCooldownManager manager, Item item) {
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkdlc$getEntriesForTraits().get(item);
+        Object entry = access.sparkdlc$getEntries().get(item);
         return entry instanceof ItemCooldownEntryAccessor end
-                ? Math.max(0, end.sparkdlc$getEndTickForTraits() - access.sparkdlc$getTickForTraits()) : 0;
+                ? Math.max(0, end.sparkdlc$getEndTick() - access.sparkdlc$getTick()) : 0;
     }
 
     public static void halveCarriedCooldowns(ServerPlayerEntity player) {

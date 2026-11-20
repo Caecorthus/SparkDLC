@@ -303,7 +303,6 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
 
             [
                     "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.class",
-                    "dev/caecorthus/sparkdlc/bridge/traits/SparkWitchKillAttributionBridge.class",
                     "dev/caecorthus/sparkdlc/client/SparkTraitsClient.class",
                     "dev/caecorthus/sparkdlc/client/trait/audio/CautiousSoundDebug.class",
                     "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopController.class",

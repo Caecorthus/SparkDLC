@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -100,7 +100,7 @@ public final class UndercoverTomahawkService {
         // A SparkWitch Raven Form crow is a target too (owner 2026-10-21): the client sends the swing, the server
         // resolves it to the Black Raven. / SparkWitch 化鸦乌鸦同样是目标（所有者 2026-10-21）：客户端发送挥砍，服务端将其
         // 解析为黑羽鸦。
-        boolean crow = !(entity instanceof PlayerEntity) && SparkWitchCompat.isBlackRavenCrow(entity);
+        boolean crow = !(entity instanceof PlayerEntity) && SparkWitchApi.isBlackRavenCrow(entity);
         if (!(entity instanceof PlayerEntity) && !crow || !UndercoverRoles.isLivingStage2(player) || !charged
                 || player.getItemCooldownManager().isCoolingDown(tomahawk)) {
             return ActionResult.FAIL;
@@ -115,7 +115,7 @@ public final class UndercoverTomahawkService {
                 // SparkWitch measured the reach and line on the crow and armed its owner substitution, so the strike
                 // below (gates, kill, cooldown, 小脑) runs on the Black Raven exactly as on a direct hit.
                 // SparkWitch 已在乌鸦上量取距离与视线并装好主人替身，因此下方的劈砍（门槛、击杀、冷却、小脑）与直接命中黑羽鸦完全一致。
-                ServerPlayerEntity owner = SparkWitchCompat.crowMeleeStandIn(attacker, entity,
+                ServerPlayerEntity owner = SparkWitchApi.crowMeleeStandIn(attacker, entity,
                         UndercoverRules.TOMAHAWK_RANGE);
                 if (owner != null) {
                     strike(attacker, owner, held, tomahawk, entity.getPos());

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * What the Mini Wither appearance settings show and do, shared by {@link MiniWitherSkinScreen} and
- * {@code api.client.MiniWitherSkinSettingsApi} so both always agree: the choices ({@link MiniWitherSkinManager#DEFAULT_ID}
+ * What the Mini Wither appearance settings show and do, kept apart from {@link MiniWitherSkinScreen} so any other
+ * settings surface shows and does the same: the choices ({@link MiniWitherSkinManager#DEFAULT_ID}
  * first), their names, a listed-only selection, the translated status line and opening the skins folder. Client-only
  * presentation: nothing here is synced or sent to the server. Client thread only.
- * 小凋灵外观设置显示与执行的内容，由 {@link MiniWitherSkinScreen} 与 {@code api.client.MiniWitherSkinSettingsApi} 共用，二者始终
+ * 小凋灵外观设置显示与执行的内容，与 {@link MiniWitherSkinScreen} 分开放置，使其他设置界面显示与执行的内容始终
  * 一致：可选项（{@link MiniWitherSkinManager#DEFAULT_ID} 在首位）、名称、只接受列表内 id 的选择、已翻译的状态行，以及打开皮肤
  * 文件夹。纯客户端表现：这里的任何内容都不会同步或发送到服务器。仅限客户端线程。
  */

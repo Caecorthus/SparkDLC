@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 /**
  * Reveals an invisible Wraith only to actual spectators, and its body to viewers an add-on gate names
- * ({@code api.client.WraithViewerApi}).
- * 仅向真正的旁观者显示隐身冤魂；附属模组闸门（{@code api.client.WraithViewerApi}）指定的观察者可看到其身体。
+ * ({@code WraithViewerGates}).
+ * 仅向真正的旁观者显示隐身冤魂；其他功能的闸门（{@code WraithViewerGates}）指定的观察者可看到其身体。
  */
 @Mixin(value = Entity.class, priority = 100)
 public abstract class WraithEntityInvisibilityMixin {

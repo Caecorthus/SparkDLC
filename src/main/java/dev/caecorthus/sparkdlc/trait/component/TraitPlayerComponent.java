@@ -6,8 +6,7 @@ import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.trait.api.event.TraitEvents;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchKillAttributionBridge;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchWraithBridge;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonInteropService;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonMarkerSync;
@@ -619,7 +618,7 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
                 ? serverPoisoner : null;
         // Keep the recorded UUID even if the poisoner is offline or in another world.
         // 即使投毒者离线或已前往其他世界，也保留原始责任人 UUID。
-        SparkWitchKillAttributionBridge.runWithKillAttribution(serverPlayer.getServerWorld(), poisoner,
+        SparkWitchApi.runWithKillAttribution(serverPlayer.getServerWorld(), poisoner,
                 () -> GameFunctions.killPlayer(serverPlayer, true, killer, GameConstants.DeathReasons.POISON));
     }
 
@@ -699,7 +698,7 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
                         spectatingOrCreative,
                         GameFunctions.isPlayerPlayingAndAlive(recipient),
                         gameComponent.isPlayerDead(recipient.getUuid()),
-                        SparkWitchWraithBridge.isWraithActive(recipient),
+                        SparkWitchApi.isWraithActive(recipient),
                         // Approved-or-pending also covers syncs sent inside killPlayer before the pending state exists.
                         // “已批准或待决”同时覆盖 killPlayer 内、待决状态建立之前发出的同步。
                         LastStandService.isDeathIntercepted(recipient)

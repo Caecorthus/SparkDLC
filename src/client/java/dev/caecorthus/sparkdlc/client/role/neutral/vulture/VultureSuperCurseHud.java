@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCurseC2SPacket;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
@@ -14,7 +14,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
-import java.util.Objects;
 
 /**
  * 秃鹫“超级骂”状态行，右对齐画在右下角第三行：第一行是 NoellesRoles 的秃鹫提示，第二行是滑板状态
@@ -58,7 +57,6 @@ public final class VultureSuperCurseHud {
     }
 
     private static Text keyText() {
-        // SparkWitch's default binding if its key name cannot be read. / 无法读取按键名时显示 SparkWitch 默认键。
-        return Objects.requireNonNullElseGet(SparkWitchSecondaryKeyCompat.boundKeyText(), () -> Text.literal("N"));
+        return SecondaryAbilityController.secondaryKeyText();
     }
 }

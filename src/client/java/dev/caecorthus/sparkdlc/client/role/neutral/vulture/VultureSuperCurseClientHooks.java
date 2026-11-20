@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCurseC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
@@ -29,7 +29,7 @@ public final class VultureSuperCurseClientHooks {
         }
         registered = true;
         // SparkWitch dispatches by the raw Wathe role id. / SparkWitch 按原始 Wathe 职业 id 分发。
-        keyAvailable = SparkWitchSecondaryKeyCompat.register(
+        keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(
                 Noellesroles.VULTURE.identifier(),
                 VultureSuperCurseClientHooks::requestSuperCurse
         );

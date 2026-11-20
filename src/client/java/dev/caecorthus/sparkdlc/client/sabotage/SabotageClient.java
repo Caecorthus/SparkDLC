@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchBlindViewCompat;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindSeeThroughOutlines;
 import dev.caecorthus.sparkdlc.sabotage.net.CancelChannelC2SPacket;
 import dev.caecorthus.sparkdlc.sabotage.net.ChannelProgressS2CPacket;
 import dev.caecorthus.sparkdlc.sabotage.net.CloseBreakerRepairS2CPacket;
@@ -93,9 +93,12 @@ public final class SabotageClient {
         ClientTickEvents.END_CLIENT_TICK.register(EngineTrainMotion::tick);
         HudRenderCallback.EVENT.register(SabotageHud::render);
         SabotageOutlineRenderer.register();
-        // SparkWitch's Blind echo view paints over LAST: hand it the public outlines too (fails closed without it).
-        // SparkWitch 盲人的回声画面会盖住 LAST 阶段：把公开描边也交给它（缺失时安全失效）。
-        SparkWitchBlindViewCompat.addSeeThroughOutlines(SabotageOutlineRenderer::publicOutlines);
+        // The Blind's echo view paints over LAST: hand it the public outlines too. On the render thread, once per frame
+        // and only while the local Blind's echo view is shown, the source writes world-space boxes as
+        // (box, 0xAARRGGBB) into the sink and must not render.
+        // 盲人的回声画面会盖住 LAST 阶段：把公开描边也交给它。仅在本地盲人的回声画面显示时，来源于渲染线程每帧被调用一次，
+        // 以 (box, 0xAARRGGBB) 向接收器写入世界坐标的包围盒，不得自行渲染。
+        BlindSeeThroughOutlines.add(SabotageOutlineRenderer::publicOutlines);
         // JOIN runs on the client thread before any play packet is handled, so the first status cannot be wiped.
         // JOIN 在客户端线程上、任何游戏数据包处理之前执行，所以不会抹掉第一个状态包。
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {

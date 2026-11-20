@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.item;
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthDataComponents;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditAmmo;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditAttachment;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditAttachmentSlot;
@@ -194,7 +194,7 @@ public final class BanditRevolverItem extends RevolverItem {
             hit = BlockHitResult.createMissed(end, Direction.UP, BlockPos.ofFloored(end));
         }
         return PartygoerHitGeometry.preferNearer(user,
-                SparkWitchCompat.preferNearerGunWorldTarget(user, hit, range), range);
+                SparkWitchApi.preferNearerGunWorldTarget(user, hit, range), range);
     }
 
     @Override

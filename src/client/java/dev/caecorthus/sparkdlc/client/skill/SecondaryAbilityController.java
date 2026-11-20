@@ -57,6 +57,10 @@ public final class SecondaryAbilityController {
         }
     }
 
+    /**
+     * Localized name of the key bound to Role Skill 2 (e.g. "N"); the key's own name before it is registered. Never null.
+     * “职业技能 2”当前绑定按键的本地化名称（如 “N”）；按键注册前返回该按键本身的名称。绝不为 null。
+     */
     public static Text secondaryKeyText() {
         return keyBinding == null
                 ? Text.translatable(TRANSLATION_KEY)

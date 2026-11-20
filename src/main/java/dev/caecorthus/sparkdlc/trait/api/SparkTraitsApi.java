@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.api;
 
-import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchWraithBridge;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.trait.component.TraitIdCodec;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
@@ -592,7 +592,7 @@ public final class SparkTraitsApi {
      * 在不引入强制依赖的前提下，将冤魂活动状态委托给其 SparkWitch 所有者。
      */
     public static boolean isWraithActive(PlayerEntity player) {
-        return SparkWitchWraithBridge.isWraithActive(player);
+        return SparkWitchApi.isWraithActive(player);
     }
 
     /**

@@ -63,14 +63,13 @@ public final class BlackRavenInstinctClientHooks {
     }
 
     /**
-     * Frozen cross-module seam (a direct call since the SparkDLC fusion): SparkTraits'
-     * {@code SparkWitchBlackRavenBridge} calls this exact
-     * {@code public static Integer resolvePrioritySensedHighlight(Entity)} at its {@code getInstinctHighlight} HEAD, before
-     * its Conscience branch, and {@code BlackRavenInstinctPriorityMixin} calls it at HEAD priority 2000. {@code null}
-     * means "not answered here"; a colour is the final x-ray answer. Keep the name and signature.
-     * 冻结的跨模块接缝（融合进 SparkDLC 后为直接调用）：SparkTraits 的 {@code SparkWitchBlackRavenBridge} 在其 {@code getInstinctHighlight} HEAD、善良分支之前
-     * 调用这一精确签名，{@code BlackRavenInstinctPriorityMixin} 也在 HEAD 优先级 2000 调用。{@code null} 表示此处不作答；
-     * 返回颜色即透视的最终结果。名称与签名必须保持不变。
+     * The Black Raven's sensed-instinct answer (the 8-block raven-feather x-ray): the trait feature's instinct mixin
+     * ({@code WatheClientMixin}) calls this at its {@code getInstinctHighlight} HEAD, before its Conscience branch,
+     * for every visible entity each frame, and {@code BlackRavenInstinctPriorityMixin} calls it at HEAD priority 2000.
+     * {@code null} means "not answered here" (also for a null target); a colour is the final x-ray answer.
+     * 黑羽鸦感知本能的裁决结果（8 格鸦羽色透视）：特质功能的本能 mixin（{@code WatheClientMixin}）在其
+     * {@code getInstinctHighlight} HEAD、善良分支之前每帧为每个可见实体调用，{@code BlackRavenInstinctPriorityMixin}
+     * 也在 HEAD 优先级 2000 调用。{@code null} 表示此处不作答（目标为 null 时同样如此）；返回颜色即透视的最终结果。
      */
     public static @Nullable Integer resolvePrioritySensedHighlight(Entity target) {
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

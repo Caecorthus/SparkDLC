@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.net.SerialPistolShootC2SPayload;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerHitGeometry;
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialKillerConstants;
@@ -51,7 +51,7 @@ public final class SerialPistolItem extends RevolverItem {
             // A Partygoer strictly nearer than that pick takes the shot (the server re-validates and kills it).
             // 严格比该选择更近的派对客改为中枪（服务端复核并将其击杀）。
             HitResult aim = PartygoerHitGeometry.preferNearer(user,
-                    SparkWitchCompat.preferNearerGunWorldTarget(user, RevolverItem.getGunTarget(user),
+                    SparkWitchApi.preferNearerGunWorldTarget(user, RevolverItem.getGunTarget(user),
                             SerialKillerConstants.PISTOL_RANGE_BLOCKS),
                     SerialKillerConstants.PISTOL_RANGE_BLOCKS);
             int targetId = RevolverItem.resolveTargetFromHitResult(world, aim);

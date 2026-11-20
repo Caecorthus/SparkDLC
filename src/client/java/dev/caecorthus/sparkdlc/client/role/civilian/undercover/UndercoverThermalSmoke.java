@@ -1,41 +1,44 @@
-package dev.caecorthus.sparkdlc.client.bridge.strength;
+package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.client.api.BearSmokeViewApi;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion.SmokeHeatMask;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion.SmokeHeatMath;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
 /**
- * SparkWitch BEAR 烟雾进入卧底热成像的客户端桥（BEAR S4“热烟挡住热成像”，所有者 Q6：烟显示为一团亮白并遮住其后的人体）。
- * Client-only bridge that puts SparkWitch's BEAR smoke into the Undercover thermal heat image (owner S4 "hot
- * smoke blocks thermal", owner Q6: smoke shows as a bright white blob and hides the bodies behind it).
+ * 卧底热成像中的 BEAR 烟雾步骤（BEAR S4“热烟挡住热成像”，所有者 Q6：烟显示为一团亮白并遮住其后的人体）。
+ * The BEAR smoke step of the Undercover thermal heat image (owner S4 "hot smoke blocks thermal", owner Q6: smoke
+ * shows as a bright white blob and hides the bodies behind it).
  *
- * <p>各模块已融合进 SparkDLC，因此这里直接调用其冻结的客户端门面 {@link BearSmokeViewApi}：{@code hasSmoke()}、
- * {@code maskHeatTarget}、{@code drawHeatHaze}、{@code heatSmokeRect} 与 {@code DEFAULT_HEAT_HAZE}，不再按名称反射，
- * 也不再检测 sparkwitch 是否加载。顺序遵循门面说明：画完人体之后、柔光合成之前，先遮罩，失败时隐藏烟雾矩形，再画热雾。
- * 保留的 try/catch 是渲染故障隔离而非查找保护：有烟时任何一步失败都按失败即遮挡处理，把可能有烟的区域（未知时为整个热图）
- * 交给调用方清掉，宁可多藏不可透烟。只记录一次日志，绝不抛出。
- * The modules are fused in SparkDLC, so this calls that frozen facade directly, with no lookup by name and no
- * mod-loaded gate. Call order follows the facade: after the bodies, before the bloom composite, mask first, hide the
- * smoke rectangle when the mask fails, then the haze. The remaining try/catch blocks are render fault isolation, not
- * lookup protection: with smoke known, every failure fails closed, the area smoke may touch (the whole target when
- * unknown) goes to the caller to clear, so heat never shows through smoke. Logged once, never throws. Render thread
- * only.</p>
+ * <p>调用烟雾功能的热图入口 {@link SmokeHeatMask}（{@code maskHeatTarget}、{@code drawHeatHaze}、{@code smokeRect}），以
+ * {@link SmokeClientState#isEmpty()} 判断是否有烟，热雾热值取 {@link SmokeHeatMath#DEFAULT_HAZE}。顺序遵循
+ * {@link SmokeHeatMask} 的说明：画完人体之后、柔光合成之前，先遮罩，失败时隐藏烟雾矩形，再画热雾。这里的 try/catch 是渲染
+ * 故障隔离：有烟时任何一步失败都按失败即遮挡处理，把可能有烟的区域（未知时为整个热图）交给调用方清掉，宁可多藏不可透烟。
+ * 只记录一次日志，绝不抛出。
+ * Calls the smoke feature's heat-image entries on {@link SmokeHeatMask} ({@code maskHeatTarget}, {@code drawHeatHaze},
+ * {@code smokeRect}), asks {@link SmokeClientState#isEmpty()} whether there is smoke at all, and takes the haze heat
+ * from {@link SmokeHeatMath#DEFAULT_HAZE}. Call order follows {@link SmokeHeatMask}: after the bodies, before the
+ * bloom composite, mask first, hide the smoke rectangle when the mask fails, then the haze. The try/catch blocks are
+ * render fault isolation: with smoke known, every failure fails closed, the area smoke may touch (the whole target
+ * when unknown) goes to the caller to clear, so heat never shows through smoke. Logged once, never throws. Render
+ * thread only.</p>
  */
-public final class SparkWitchSmokeHeatCompat {
+public final class UndercoverThermalSmoke {
     /**
      * A throwing smoke query or rectangle makes every later frame hide the whole heat target while thermal is on; a
-     * throwing mask makes every later frame hide the smoke rectangle instead (fail closed, permanent like SparkWitch's
-     * own GL failure). / 烟雾查询或矩形抛出异常后，之后每帧热成像都隐藏整个热图；遮罩抛出异常后，之后每帧改为隐藏烟雾矩形
-     * （失败即遮挡，与 SparkWitch 自身的 GL 失败一样永久）。
+     * throwing mask makes every later frame hide the smoke rectangle instead (fail closed, permanent like the smoke
+     * mask's own GL failure). / 烟雾查询或矩形抛出异常后，之后每帧热成像都隐藏整个热图；遮罩抛出异常后，之后每帧改为隐藏烟雾矩形
+     * （失败即遮挡，与烟雾遮罩自身的 GL 失败一样永久）。
      */
     private static boolean smokeUnknown;
     private static boolean maskBroken;
     private static boolean hazeBroken;
     private static boolean logged;
 
-    private SparkWitchSmokeHeatCompat() {
+    private UndercoverThermalSmoke() {
     }
 
     /**
@@ -59,7 +62,7 @@ public final class SparkWitchSmokeHeatCompat {
             return;
         }
         try {
-            if (!BearSmokeViewApi.hasSmoke()) {
+            if (SmokeClientState.isEmpty()) {
                 return;
             }
         } catch (RuntimeException | LinkageError e) {
@@ -83,7 +86,7 @@ public final class SparkWitchSmokeHeatCompat {
             return false;
         }
         try {
-            return BearSmokeViewApi.maskHeatTarget(colorTexture, depthTexture, width, height);
+            return SmokeHeatMask.maskHeatTarget(colorTexture, depthTexture, width, height);
         } catch (RuntimeException | LinkageError e) {
             maskBroken = true;
             warnOnce("SparkWitch BEAR smoke heat mask failed; the thermal view hides heat inside smoke instead.", e);
@@ -92,9 +95,9 @@ public final class SparkWitchSmokeHeatCompat {
     }
 
     /**
-     * The area to clear after a failed mask: SparkWitch's smoke rectangle clamped to the target, null when smoke
-     * cannot touch it, the whole target when that is unknown or the answer is malformed.
-     * 遮罩失败后需清空的区域：SparkWitch 的烟雾矩形（裁剪到热图内）；烟不可能触及时为 null；无法得知或答案异常时为整个热图。
+     * The area to clear after a failed mask: the smoke rectangle clamped to the target, null when smoke cannot touch
+     * it, the whole target when that is unknown or the answer is malformed.
+     * 遮罩失败后需清空的区域：烟雾矩形（裁剪到热图内）；烟不可能触及时为 null；无法得知或答案异常时为整个热图。
      */
     private static @Nullable int[] hiddenRect(int width, int height) {
         int[] whole = {0, 0, width, height};
@@ -103,7 +106,7 @@ public final class SparkWitchSmokeHeatCompat {
         }
         int[] rect;
         try {
-            rect = BearSmokeViewApi.heatSmokeRect(width, height);
+            rect = SmokeHeatMask.smokeRect(width, height);
         } catch (RuntimeException | LinkageError e) {
             smokeUnknown = true;
             warnOnce("SparkWitch BEAR smoke rectangle failed; the thermal view now hides all heat while it is on.", e);
@@ -128,8 +131,8 @@ public final class SparkWitchSmokeHeatCompat {
             return;
         }
         try {
-            BearSmokeViewApi.drawHeatHaze(colorTexture, depthTexture, width, height,
-                    BearSmokeViewApi.DEFAULT_HEAT_HAZE);
+            SmokeHeatMask.drawHeatHaze(colorTexture, depthTexture, width, height,
+                    SmokeHeatMath.DEFAULT_HAZE);
         } catch (RuntimeException | LinkageError e) {
             hazeBroken = true;
             warnOnce("SparkWitch BEAR smoke heat haze failed; the thermal view shows no smoke haze.", e);

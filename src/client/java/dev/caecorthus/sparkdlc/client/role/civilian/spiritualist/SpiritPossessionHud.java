@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.spiritualist;
 
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionRules;
 import net.minecraft.client.MinecraftClient;
@@ -83,7 +83,6 @@ public final class SpiritPossessionHud {
     }
 
     private static Text keyText() {
-        Text key = SparkWitchSecondaryKeyCompat.boundKeyText();
-        return key != null ? key : Text.literal("N");
+        return SecondaryAbilityController.secondaryKeyText();
     }
 }

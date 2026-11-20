@@ -16,7 +16,7 @@ _Avoid_: server config, game settings
 
 **SparkDLC settings screen**:
 The one screen, opened from vanilla Accessibility, the pause-menu gear or the Music & Sounds shortcut, that shows every
-SparkDLC client setting: SparkAssist's own, SparkWitch's scope settings through its public `ScopeSettingsApi`, and
+SparkDLC client setting: SparkAssist's own, SparkWitch's scope settings through `client.scope.ScopeSettingsEditor`, and
 Wathe's snow settings. Laid out like Sodium's options (page tabs, grouped rows, a description panel); values apply at
 once, and each config file is written once per committed change. Server and admin settings never appear here.
 _Avoid_: config menu, mod menu, options screen (vanilla's)

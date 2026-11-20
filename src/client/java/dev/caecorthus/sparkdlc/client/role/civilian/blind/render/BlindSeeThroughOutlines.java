@@ -19,20 +19,27 @@ import org.joml.Matrix4fStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
 /**
- * Add-on see-through outlines behind {@code api.client.BlindViewApi}, drawn over the Blind's echo frame. The echo pass
- * overwrites the whole frame after world rendering, so outlines other mods draw at {@code WorldRenderEvents.LAST}
- * (SparkStrength's tripped breakers and engine units) never reach the Blind; {@link BlindEchoView} calls
- * {@link #render} right after a successful echo pass instead. All boxes are collected before any GL call. Render
- * thread only.
- * {@code api.client.BlindViewApi} 背后的附属模组透视描边，画在盲人的回声画面之上。回声 pass 会在世界渲染之后覆盖整帧，
- * 因此其他模组在 {@code WorldRenderEvents.LAST} 绘制的描边（SparkStrength 的跳闸电闸与动力装置）永远到不了盲人；
- * 改由 {@link BlindEchoView} 在回声 pass 成功后立即调用 {@link #render}。所有包围盒在任何 GL 调用之前收集完毕。
- * 仅限渲染线程。
+ * See-through world outlines other features show to the local Blind, drawn over the Blind's echo frame. The echo
+ * pass overwrites the whole frame after world rendering, so outlines drawn at {@code WorldRenderEvents.LAST} (the
+ * sabotage feature's tripped breakers and engine units) never reach the Blind; {@link BlindEchoView} calls
+ * {@link #render} right after a successful echo pass instead. Each frame in which the local Blind's echo view is
+ * actually shown (never on its black fallback, never for any other player), every source is called once on the
+ * render thread, until the per-frame cap is reached, with a sink and reports world-space boxes as
+ * {@code (box, 0xAARRGGBB)}. They are drawn over the echo frame as fog-free line boxes that walls never hide,
+ * slightly expanded and in the colour given; null boxes, non-finite coordinates and alpha 0 are skipped, and at most
+ * 512 boxes are drawn per frame. All boxes are collected before any GL call. Render thread only.
+ * 其他功能向本地盲人显示的透视世界描边，画在盲人的回声画面之上。回声 pass 会在世界渲染之后覆盖整帧，因此在
+ * {@code WorldRenderEvents.LAST} 绘制的描边（破坏功能的跳闸电闸与动力装置）永远到不了盲人；改由 {@link BlindEchoView}
+ * 在回声 pass 成功后立即调用 {@link #render}。只有本地盲人的回声画面真正显示的那一帧（黑屏兜底时不会，其他玩家永远不会），
+ * 每个来源才会在渲染线程被调用一次（达到每帧上限后不再调用），并向接收器以 {@code (box, 0xAARRGGBB)} 报告世界坐标的包围盒。
+ * 它们以无雾、不被墙遮挡、略微外扩并保留原颜色的线框画在回声画面之上；null 包围盒、非有限坐标与 alpha 为 0 的条目会被跳过，
+ * 每帧最多绘制 512 个。所有包围盒在任何 GL 调用之前收集完毕。仅限渲染线程。
  */
 public final class BlindSeeThroughOutlines {
     /** Per-frame cap across every source. / 所有来源合计的每帧上限。 */
@@ -52,8 +59,17 @@ public final class BlindSeeThroughOutlines {
     record Outline(Box box, int argb) {
     }
 
+    /**
+     * Adds {@code source}. A source only writes to the sink while it is being called and must not render, bind GL
+     * state or keep the sink (later writes are dropped). Sources are never removed, except one that throws, which is
+     * dropped after a single warning together with the boxes it reported that frame. A null source throws
+     * {@link NullPointerException}.
+     * 添加 {@code source}。来源只能在被调用期间向接收器写入，不得自行渲染、改动 GL 状态或保留接收器（之后的写入会被丢弃）。
+     * 来源不会被移除，除非它抛出异常：此时记录一次警告后丢弃它及其当帧报告的包围盒。参数为 null 时抛出
+     * {@link NullPointerException}。
+     */
     public static void add(Consumer<ObjIntConsumer<Box>> source) {
-        SOURCES.add(source);
+        SOURCES.add(Objects.requireNonNull(source, "source"));
     }
 
     /**

@@ -1451,7 +1451,9 @@ Current build baseline:
   - Reasoning (shared ability key, `request_criminal_reasoner` → S2C `open_criminal_reasoner_s2c` roster →
     `confirm_criminal_reasoner`): the roster lists only recorded, unsolved dead victims and every other round player
     as a suspect (≤ 64 each), bound to a 30 s server session. Right: +1 solved victim, +1 invisibility charge, 5 s
-    cooldown, and 5 s later everyone but him reads the anonymous "有人看穿了列车上的命案" notice. Wrong: 60 s cooldown.
+    cooldown, and 5 s later every living police role (`PoliceRoles`, `CriminalReasonerRules.receivesNotice`; owner
+    2026-11-20, before that everyone but him) reads the anonymous "有人看穿了列车上的命案" notice; with no living police
+    nobody does. Wrong: 60 s cooldown.
     The opening cooldown is 45 s. All three timers read one clock, `MinecraftServer#getTicks()`; the cooldown is a
     static per-player deadline mirrored to the owner's component in whole seconds, cleared at round start and on
     Wathe's `ResetPlayer`.

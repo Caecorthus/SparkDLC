@@ -193,7 +193,6 @@
     "trait.LastEscapeMinecartPushMixin",
     "trait.LastEscapePlayerManagerAccessor",
     "trait.LastEscapeVehicleCollisionMixin",
-    "trait.LastEscapeFactionAffectMixin",
     "trait.LastEscapeGunReceiverMixin",
     "trait.LastEscapeInteractionMixin",
     "trait.LastEscapeInvisibilityMixin",

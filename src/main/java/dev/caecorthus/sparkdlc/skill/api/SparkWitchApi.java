@@ -64,8 +64,10 @@ public final class SparkWitchApi {
     private SparkWitchApi() {
     }
 
-    /** Preserves the responsible UUID for one synchronous lethal action, including offline owners.
-     * 为一次同步致死操作保留责任 UUID，包含离线责任人；嵌套调用和异常会恢复原上下文。 */
+    /** Preserves the responsible UUID for one synchronous lethal action, including offline owners. The action runs
+     * exactly once, inside the attribution scope; whatever it throws propagates unchanged.
+     * 为一次同步致死操作保留责任 UUID，包含离线责任人；嵌套调用和异常会恢复原上下文。动作在责任归属范围内恰好执行一次，
+     * 其抛出的异常原样向上传播。 */
     public static void runWithKillAttribution(ServerWorld world, UUID responsiblePlayer, Runnable action) {
         JudgeKillAttribution.runWith(world, responsiblePlayer, action);
     }

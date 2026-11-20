@@ -2622,7 +2622,7 @@ Current build baseline:
   - Smoke (`bear/smoke/`, `client/role/civilian/bear/smoke/`): the finished volumetric smoke spike; `SmokeCloudService`
     (`spawn`, `carveHole`, `carveTunnel`, `clearAll`) is the only server entry and smoke never feeds a server rule.
   - Ricochet (WP3, `bear/ricochet/`, `client/role/civilian/bear/ricochet/`): `mixin/role/civilian/bear/RicochetKillPlayerMixin` (HEAD of Wathe's
-    5-arg `killPlayer`, priority 1050: after every default-1000 immunity guard, before the Fiend / SparkStrength vest
+    5-arg `killPlayer`, priority 1050: after every default-1000 immunity guard, before the Fiend at 1090 and the SparkStrength vest
     at 1100, the Charon's pardon guard at 1200, every `KillPlayer.BEFORE` listener, psycho armour, Tofana and the Cat)
     calls
     `BearRicochetService.interceptKill`: a non-forced kill of a living participant WEARING the Rys-T in the head slot
@@ -4553,7 +4553,8 @@ server-only, never-synced spent ledger bound to the match id. A dormant Fiend (F
 the moment Fiend, not spent) dies only to `wathe:fell_out_of_train`, `wathe:escaped`, `wathe:vanilla_death` and the
 feign-death `sparkdlc:fiend_devoured` (below):
 `mixin/role/neutral/fiend/GameFunctionsFiendImmunityMixin` is a cancellable HEAD guard on Wathe's 5-arg `killPlayer`
-(priority 1100, so SparkFactionAPI's affect veto runs first and the Charon's pardon guard at 1200 runs after it) that
+(priority 1090, so SparkFactionAPI's affect veto runs first, and the Bodyguard gear guard (Democracy Shield, vest) at 1100
+and the Charon's pardon guard at 1200 run after it: owner 2026-11-20, a hit the immunity ignores spends no gear) that
 ignores `force`, so the owner-approved piercing
 kills (bell toll, time curse, portal crush) do not reach it either. Only a kill that guard cancelled pays a hit reaction, once
 per attack: `wathe:gun_shot` (every gun; `FiendRules.classify` also counts the Demon Hunter and Savior pistols and,

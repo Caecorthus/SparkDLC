@@ -2,8 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -83,7 +82,7 @@ public final class TimeGiftWatchService {
     static void keepDisplayedCooldown(ServerPlayerEntity user) {
         Item watch = SparkDlcItems.timeStealerGiftWatch();
         long remaining = TimeStealerPlayerComponent.KEY.get(user).giftReadyAt() - user.getWorld().getTime();
-        if (TimeStealerRules.clockDisplayLags(remaining, displayedTicks(user, watch))) {
+        if (TimeStealerRules.clockDisplayLags(remaining, ExactItemCooldowns.remainingTicks(user, watch))) {
             SparkTraitsApi.setExactItemCooldownRemaining(user, watch, (int) Math.min(Integer.MAX_VALUE, remaining));
         }
     }
@@ -96,11 +95,5 @@ public final class TimeGiftWatchService {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(user, watch, ticks)) {
             user.getItemCooldownManager().set(watch, ticks);
         }
-    }
-
-    private static int displayedTicks(ServerPlayerEntity user, Item watch) {
-        ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) user.getItemCooldownManager();
-        return manager.sparkdlc$getEntries().get(watch) instanceof ItemCooldownEntryAccessor entry
-                ? Math.max(0, entry.sparkdlc$getEndTick() - manager.sparkdlc$getTick()) : 0;
     }
 }

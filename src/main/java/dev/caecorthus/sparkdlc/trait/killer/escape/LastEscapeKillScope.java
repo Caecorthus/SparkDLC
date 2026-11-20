@@ -1,14 +1,19 @@
 package dev.caecorthus.sparkdlc.trait.killer.escape;
 
-import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
+import dev.caecorthus.sparkdlc.trait.killer.combat.CombatTimingRules;
+import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /** Nested death calls must not overwrite the inventory snapshot taken before Wathe removes a bat. */
 public final class LastEscapeKillScope implements AutoCloseable {
@@ -32,12 +37,28 @@ public final class LastEscapeKillScope implements AutoCloseable {
         LastEscapeKillScope scope = SCOPES.get().peek();
         if (scope == null || scope.cooldowns == null) {
             if (scope == null) SCOPES.remove();
-            ExactItemCooldowns.halveCarriedCooldowns(player);
+            halveCarriedCooldowns(player);
             return;
         }
         scope.cooldowns.forEach((item, remaining) -> {
-            if (remaining > 0) ExactItemCooldowns.setExact(player, item, remaining / 2 + remaining % 2);
+            if (remaining > 0) ExactItemCooldowns.setPastModifiers(player, item, remaining / 2 + remaining % 2);
         });
+    }
+
+    private static void halveCarriedCooldowns(ServerPlayerEntity player) {
+        Set<Item> seen = new HashSet<>();
+        for (int slot = 0; slot < player.getInventory().size(); slot++) {
+            ItemStack stack = player.getInventory().getStack(slot);
+            if (stack.isEmpty() || stack.isOf(WatheItems.LOCKPICK) || !seen.add(stack.getItem())) {
+                continue;
+            }
+            Item item = stack.getItem();
+            int remaining = ExactItemCooldowns.remainingTicks(player, item);
+            if (remaining > 0) {
+                ExactItemCooldowns.setPastModifiers(player, item, CombatTimingRules.halfRemaining(remaining,
+                        ForcedMeleeCooldownService.remainingTicks(player, item)));
+            }
+        }
     }
 
     @Override public void close() {

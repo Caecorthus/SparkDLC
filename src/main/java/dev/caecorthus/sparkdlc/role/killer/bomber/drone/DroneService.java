@@ -6,12 +6,10 @@ import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.item.DroneItem;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
 import dev.caecorthus.sparkdlc.role.AbilityLocks.Lock;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
-import dev.caecorthus.sparkdlc.util.ItemCooldownSync;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -570,12 +568,12 @@ public final class DroneService {
 
     /**
      * Shows the server-clock opening lock on a drone slot: raise-only and exact (Fast Hands / Stimulation must not
-     * shorten it, or the per-tick sync re-sends and the slot sweep restarts every tick), see {@link ItemCooldownSync}.
+     * shorten it, or the per-tick sync re-sends and the slot sweep restarts every tick), see {@link ExactItemCooldowns}.
      * 在无人机栏位显示服务端时钟的开局锁：只提高且精确（快手/亢奋不得缩短，否则逐刻同步会每刻重发、冷却动画每刻重来），
-     * 见 {@link ItemCooldownSync}。
+     * 见 {@link ExactItemCooldowns}。
      */
     private static void preserveOpening(ServerPlayerEntity player, Item item, int lockTicks) {
-        ItemCooldownSync.raiseExact(player, item, lockTicks);
+        ExactItemCooldowns.keepRaisedInPlace(player, item, lockTicks);
     }
 
     /**
@@ -584,10 +582,7 @@ public final class DroneService {
      */
     private static void preserveCooldown(ServerPlayerEntity player, Item item, int minimumTicks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
-        int remaining = entry == null ? 0 : Math.max(0,
-                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
-                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
+        int remaining = ExactItemCooldowns.remainingTicks(manager, item);
         if (remaining < minimumTicks) {
             manager.set(item, minimumTicks);
         }

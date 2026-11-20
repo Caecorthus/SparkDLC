@@ -1,10 +1,12 @@
 package dev.caecorthus.sparkdlc.util;
 
 /**
- * Pure checks for {@link ItemCooldownSync}. No Minecraft types, so tests run them directly.
- * {@link ItemCooldownSync} 的纯判定；不含 Minecraft 类型，便于测试直接执行。
+ * Pure arithmetic for {@link ExactItemCooldowns}: the one remaining-ticks formula, the end tick an exact write
+ * installs, and the raise check of the server-clock locks. No Minecraft types, so tests run them directly.
+ * {@link ExactItemCooldowns} 的纯算术：唯一的剩余刻数公式、精确写入所装的结束刻，以及服务端时钟锁的提高判定。
+ * 不含 Minecraft 类型，便于测试直接执行。
  */
-public final class ItemCooldownSyncRules {
+public final class ExactItemCooldownRules {
     /**
      * Slack between the cooldown manager's own tick counter and world time. Both advance once per server tick, but in
      * different phases (world tick vs player tick), so a lock compared from another phase can look a tick short. Within
@@ -14,7 +16,19 @@ public final class ItemCooldownSyncRules {
      */
     public static final int PHASE_TOLERANCE_TICKS = 5;
 
-    private ItemCooldownSyncRules() {
+    private ExactItemCooldownRules() {
+    }
+
+    /**
+     * Remaining ticks of a vanilla entry, floored at zero. The difference is taken in 64 bits: an end tick that wrapped
+     * below the counter (a {@code set} whose {@code tick + duration} overflowed, which vanilla drops at its next
+     * {@code update}) reads as expired, never as a cooldown of about 2^31 ticks.
+     * 原版条目的剩余刻数，下限为 0。差值按 64 位计算：回绕到计数之下的结束刻（{@code tick + duration} 溢出的
+     * {@code set}，原版会在下一次 {@code update} 时丢弃）读作已结束，绝不读作约 2^31 刻的冷却。
+     */
+    public static int remaining(int endTick, int currentTick) {
+        long remaining = (long) endTick - currentTick;
+        return (int) Math.max(0L, Math.min(Integer.MAX_VALUE, remaining));
     }
 
     /**

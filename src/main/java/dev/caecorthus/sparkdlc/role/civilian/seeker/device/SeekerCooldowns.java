@@ -2,11 +2,9 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCooldownReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
-import net.minecraft.entity.player.ItemCooldownManager;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -73,21 +71,6 @@ public final class SeekerCooldowns {
      * 小车物品冷却的剩余刻数；无冷却时为 0。两端通用：客户端读取已同步的原版冷却（HUD、控制台），服务端读取权威冷却。
      */
     public static int remainingTicks(PlayerEntity player) {
-        if (player == null) {
-            return 0;
-        }
-        ItemCooldownManager manager = player.getItemCooldownManager();
-        if (!(manager instanceof ItemCooldownManagerAccessor accessor)) {
-            return 0;
-        }
-        Object entry = accessor.sparkdlc$getEntries().get(SparkDlcItems.seekerCar());
-        if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
-            return 0;
-        }
-        return remaining(cooldown.sparkdlc$getEndTick(), accessor.sparkdlc$getTick());
-    }
-
-    static int remaining(int endTick, int currentTick) {
-        return Math.max(0, endTick - currentTick);
+        return ExactItemCooldowns.remainingTicks(player, SparkDlcItems.seekerCar());
     }
 }

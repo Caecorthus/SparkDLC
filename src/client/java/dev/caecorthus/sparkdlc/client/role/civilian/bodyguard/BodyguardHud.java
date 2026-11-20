@@ -1,16 +1,14 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bodyguard;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardRules;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardVestService;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 
@@ -41,7 +39,7 @@ public final class BodyguardHud {
             int left = BodyguardRules.MAX_RAISE_TICKS - player.getItemUseTime();
             lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.shield_raised", Math.max(1, seconds(left))));
         } else if (player.getInventory().contains(stack -> stack.isOf(shield))) {
-            int cooldown = cooldownTicks(player.getItemCooldownManager(), shield);
+            int cooldown = ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), shield);
             lines.add(cooldown > 0
                     ? Text.translatable("tip.sparkdlc.bodyguard.hud.shield_cooldown", seconds(cooldown))
                     : Text.translatable("tip.sparkdlc.bodyguard.hud.shield_ready"));
@@ -59,12 +57,6 @@ public final class BodyguardHud {
             context.drawTextWithShadow(renderer, line,
                     context.getScaledWindowWidth() - renderer.getWidth(line) - EDGE_MARGIN, y, BODYGUARD_COLOR);
         }
-    }
-
-    private static int cooldownTicks(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
-        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
-                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick();
     }
 
     private static int seconds(int ticks) {

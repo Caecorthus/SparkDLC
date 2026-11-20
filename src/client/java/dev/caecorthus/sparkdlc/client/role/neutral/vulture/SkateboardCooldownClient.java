@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
-import dev.caecorthus.sparkdlc.util.ItemCooldownSyncRules;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldownRules;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -70,7 +70,7 @@ public final class SkateboardCooldownClient {
         int tick = access.sparkdlc$getTick();
         long elapsed = Math.max(0L, now - ride.lockStartTick());
         bounds.sparkdlc$setStartTick((int) Math.max(Integer.MIN_VALUE, tick - elapsed));
-        bounds.sparkdlc$setEndTick(ItemCooldownSyncRules.endTick(tick, remaining));
+        bounds.sparkdlc$setEndTick(ExactItemCooldownRules.endTick(tick, remaining));
         wroteEntry = true;
     }
 }

@@ -2,13 +2,11 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.item.DroneItem;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.tablet.net.TabletSnapshot;
 import dev.caecorthus.sparkdlc.tablet.TabletRules;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -48,7 +46,7 @@ public final class DroneTabletSnapshots {
                     TabletSnapshot.DroneRow.STATUS_ITEM,
                     DroneRules.percent(DroneItem.charge(stack)),
                     item.kind() == DroneKind.GRENADE && DroneItem.hasPayload(stack),
-                    TabletRules.secondsCeil(remainingCooldownTicks(cooldowns, item)),
+                    TabletRules.secondsCeil(ExactItemCooldowns.remainingTicks(cooldowns, item)),
                     -1
             ));
         }
@@ -88,18 +86,5 @@ public final class DroneTabletSnapshots {
             case FLYING -> TabletSnapshot.DroneRow.STATUS_FLYING;
             case FALLING -> TabletSnapshot.DroneRow.STATUS_FALLING;
         };
-    }
-
-    /**
-     * Exact remaining item cooldown (opening lock or loss cooldown); vanilla exposes only a progress fraction.
-     * 精确的物品剩余冷却（开局锁或损毁冷却）；原版只公开进度比例。
-     */
-    private static int remainingCooldownTicks(ItemCooldownManager cooldowns, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getEntries().get(item);
-        if (entry == null) {
-            return 0;
-        }
-        return Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
-                - ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getTick());
     }
 }

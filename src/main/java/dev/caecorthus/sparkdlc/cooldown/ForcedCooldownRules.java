@@ -41,12 +41,6 @@ final class ForcedCooldownRules {
         return (int) Math.max(Integer.MIN_VALUE, Math.min(Integer.MAX_VALUE, sum));
     }
 
-    /** Remaining ticks of a vanilla entry, floored at zero. / 原版条目的剩余 tick，下限为 0。 */
-    static int remaining(int endTick, int currentTick) {
-        long remaining = (long) endTick - currentTick;
-        return (int) Math.max(0L, Math.min(Integer.MAX_VALUE, remaining));
-    }
-
     /**
      * Distinct, non-exempt items over the inventory sections in the given order (main, offhand, armor), skipping
      * empty stacks. Items whose cooldown is ready are kept: readiness is not a filter.

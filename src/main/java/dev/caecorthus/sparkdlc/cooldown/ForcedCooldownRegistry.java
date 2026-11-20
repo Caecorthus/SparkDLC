@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.cooldown.api.CooldownSlot;
 import dev.caecorthus.sparkdlc.cooldown.api.ItemCooldownNominalProvider;
 import dev.caecorthus.sparkdlc.cooldown.api.RoleSkillCooldownStore;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerInventory;
@@ -100,7 +101,7 @@ public final class ForcedCooldownRegistry {
 
     public static int itemRemainingTicks(ServerPlayerEntity player, Item item) {
         requireServerThread(player);
-        return item == null ? 0 : ExactItemCooldownWriter.remainingTicks(player.getItemCooldownManager(), item);
+        return item == null ? 0 : ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), item);
     }
 
     private static List<CooldownSlot> collect(ServerPlayerEntity player, CooldownKind kind) {
@@ -113,7 +114,7 @@ public final class ForcedCooldownRegistry {
                 slots.add(new CooldownSlot(
                         CooldownKind.ITEM,
                         Registries.ITEM.getId(item),
-                        ExactItemCooldownWriter.remainingTicks(player.getItemCooldownManager(), item),
+                        ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), item),
                         ITEMS.nominalTicks(item)
                 ));
             }
@@ -136,23 +137,23 @@ public final class ForcedCooldownRegistry {
             return false;
         }
         ItemCooldownManager manager = player.getItemCooldownManager();
-        int current = ExactItemCooldownWriter.remainingTicks(manager, item);
+        int current = ExactItemCooldowns.remainingTicks(manager, item);
         OptionalInt target = extend
                 ? ForcedCooldownRules.extendTarget(current, ticks)
                 : ForcedCooldownRules.raiseTarget(current, ticks);
-        if (target.isPresent() && !ExactItemCooldownWriter.writeExact(player, item, target.getAsInt())) {
+        if (target.isPresent() && !ExactItemCooldowns.overwriteInPlace(player, item, target.getAsInt())) {
             return false;
         }
         // Record the forced part on the live entry for clearItemKeepingForced: a raise is a floor from now (recorded
         // even when a longer natural cooldown covers it), an extend is appended after the `current` ticks.
         // 在实时条目上记录强制部分，供 clearItemKeepingForced 使用：raise 是自此刻起的下限（即使更长的自然冷却已覆盖
         // 也会记录），extend 追加在原有 `current` tick 之后。
-        ItemCooldownEntryAccessor entry = ExactItemCooldownWriter.liveEntry(manager, item);
+        ItemCooldownEntryAccessor entry = ExactItemCooldowns.liveEntry(manager, item);
         if (entry != null) {
             if (extend) {
                 FORCED_ITEMS.extended(entry, current, ticks);
             } else {
-                FORCED_ITEMS.raised(entry, ExactItemCooldownWriter.tick(manager), ticks);
+                FORCED_ITEMS.raised(entry, ExactItemCooldowns.tick(manager), ticks);
             }
         }
         return target.isPresent();
@@ -168,23 +169,23 @@ public final class ForcedCooldownRegistry {
         requireServerThread(player);
         Objects.requireNonNull(item, "item");
         ItemCooldownManager manager = player.getItemCooldownManager();
-        ItemCooldownEntryAccessor before = ExactItemCooldownWriter.liveEntry(manager, item);
+        ItemCooldownEntryAccessor before = ExactItemCooldowns.liveEntry(manager, item);
         int kept = before == null ? 0 : FORCED_ITEMS.keptTicks(
-                before, before.sparkdlc$getEndTick(), ExactItemCooldownWriter.tick(manager));
+                before, before.sparkdlc$getEndTick(), ExactItemCooldowns.tick(manager));
         manager.remove(item);
         if (kept <= 0) {
             return 0;
         }
-        int current = ExactItemCooldownWriter.remainingTicks(manager, item);
+        int current = ExactItemCooldowns.remainingTicks(manager, item);
         if (ForcedCooldownRules.raiseTarget(current, kept).isPresent()
-                && !ExactItemCooldownWriter.writeExact(player, item, kept)) {
+                && !ExactItemCooldowns.overwriteInPlace(player, item, kept)) {
             return 0;
         }
-        ItemCooldownEntryAccessor after = ExactItemCooldownWriter.liveEntry(manager, item);
+        ItemCooldownEntryAccessor after = ExactItemCooldowns.liveEntry(manager, item);
         if (after == null) {
             return 0;
         }
-        FORCED_ITEMS.raised(after, ExactItemCooldownWriter.tick(manager), kept);
+        FORCED_ITEMS.raised(after, ExactItemCooldowns.tick(manager), kept);
         return kept;
     }
 

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.mixin.cooldown.ServerItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns;
-import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerItemCooldownManager;
@@ -27,7 +27,7 @@ public abstract class ExactItemCooldownMixin {
                 ? ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayer() : null;
         int start = args.get(0);
         int end = args.get(1);
-        args.set(1, start + ExactItemCooldowns.durationForWrite(manager, item, end - start, owner));
+        args.set(1, start + ForcedMeleeCooldownService.durationForWrite(manager, item, end - start, owner));
     }
 
     @ModifyArg(method = "set", at = @At(value = "INVOKE",
@@ -52,7 +52,7 @@ public abstract class ExactItemCooldownMixin {
             ServerPlayerEntity owner = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayer();
             int floor = ForcedMeleeCooldownService.remainingTicks(owner, item);
             if (floor > 0) {
-                ExactItemCooldowns.setExact(owner, item,
+                ExactItemCooldowns.setPastModifiers(owner, item,
                         Math.max(floor, ExactItemCooldowns.remainingTicks(manager, item)));
                 ci.cancel();
             }

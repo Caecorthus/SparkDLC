@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.cooldown;
 
 import com.google.common.collect.MapMaker;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldownRules;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
@@ -71,10 +72,10 @@ final class ForcedItemLedger {
         if (part == null) {
             return 0;
         }
-        int left = ForcedCooldownRules.remaining(entryEndTick, tick);
+        int left = ExactItemCooldownRules.remaining(entryEndTick, tick);
         // The trailing part is the entry's last ticks, so floor + trailing > left means they overlap: all is forced.
         // 尾部即条目最后的若干 tick，因此下限 + 尾部 > 剩余 时二者重叠：全部为强制。
-        long sum = (long) Math.min(left, ForcedCooldownRules.remaining(part.floorEnd(), tick))
+        long sum = (long) Math.min(left, ExactItemCooldownRules.remaining(part.floorEnd(), tick))
                 + Math.min(left, part.trailingTicks());
         return (int) Math.min(left, sum);
     }

@@ -7,11 +7,10 @@ import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
 import dev.caecorthus.sparkdlc.role.civilian.blind.kit.BlindInventoryRules;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Language;
@@ -81,7 +79,7 @@ final class BlindKitHud {
         }
         BlindClientStatus status = BlindClientStatus.of(player);
         List<BlindKitHudRules.Line> lines = BlindKitHudRules.lines(
-                Math.max(status.caneCooldownTicks(), caneItemCooldown(player)),
+                Math.max(status.caneCooldownTicks(), ExactItemCooldowns.remainingTicks(player, SparkDlcItems.whiteCane())),
                 status.caneActiveTicks(),
                 status.attuneCooldownTicks(),
                 status.attuneActiveTicks(),
@@ -165,16 +163,6 @@ final class BlindKitHud {
             }
         }
         return BlindKitHudRules.ComTac.NONE;
-    }
-
-    private static int caneItemCooldown(ClientPlayerEntity player) {
-        ItemCooldownManager manager = player.getItemCooldownManager();
-        if (!(manager instanceof ItemCooldownManagerAccessor accessor)
-                || !(accessor.sparkdlc$getEntries().get(SparkDlcItems.whiteCane())
-                        instanceof ItemCooldownEntryAccessor entry)) {
-            return 0;
-        }
-        return Math.max(0, entry.sparkdlc$getEndTick() - accessor.sparkdlc$getTick());
     }
 
     /** One built line: its Text, drawn width and lift-measuring width. / 一行构建结果：文本、绘制宽度与抬升测量宽度。 */

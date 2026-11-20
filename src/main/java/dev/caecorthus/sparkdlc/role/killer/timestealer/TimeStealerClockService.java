@@ -4,9 +4,8 @@ import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -167,15 +166,9 @@ public final class TimeStealerClockService {
     static void keepDisplayedCooldown(ServerPlayerEntity user) {
         Item clock = SparkDlcItems.timeStealerClock();
         long remaining = TimeStealerPlayerComponent.KEY.get(user).clockReadyAt() - user.getWorld().getTime();
-        if (TimeStealerRules.clockDisplayLags(remaining, displayedTicks(user, clock))) {
+        if (TimeStealerRules.clockDisplayLags(remaining, ExactItemCooldowns.remainingTicks(user, clock))) {
             SparkTraitsApi.setExactItemCooldownRemaining(user, clock, (int) Math.min(Integer.MAX_VALUE, remaining));
         }
-    }
-
-    private static int displayedTicks(ServerPlayerEntity user, Item clock) {
-        ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) user.getItemCooldownManager();
-        return manager.sparkdlc$getEntries().get(clock) instanceof ItemCooldownEntryAccessor entry
-                ? Math.max(0, entry.sparkdlc$getEndTick() - manager.sparkdlc$getTick()) : 0;
     }
 
     /**

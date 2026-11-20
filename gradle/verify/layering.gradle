@@ -86,7 +86,9 @@ def sharedCoreSupport = [
         "mixin/wathe/"                       : "accessor interfaces on Wathe classes (one accessor per target for the whole mod)",
         "replay/RoleChangeRecorder"          : "the faction mixin on Wathe's GameWorldComponent reports role changes to the replay",
         "replay/ReplayPresentation"          : "the faction mixin on Wathe's replay generator hands its lines to the replay presentation",
-        "replay/ReplayRenderContext"         : "the same mixin opens the render context of that presentation"
+        "replay/ReplayRenderContext"         : "the same mixin opens the render context of that presentation",
+        "util/ExactItemCooldowns"            : "the one exact item-cooldown reader and writer; ForcedCooldowns reads and overwrites the vanilla entry through it",
+        "util/ExactItemCooldownRules"        : "its remaining-ticks formula, which the forced-cooldown ledger shares"
 ]
 
 // The role features: roles, traits, witch skills, role items, entities and blocks, sabotage, the tablet, the headset,

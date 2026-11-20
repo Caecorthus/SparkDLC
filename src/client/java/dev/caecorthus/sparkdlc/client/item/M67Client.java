@@ -7,8 +7,7 @@ import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import dev.caecorthus.sparkdlc.item.m67.M67CancelPayload;
 import dev.caecorthus.sparkdlc.item.m67.M67SoundPayload;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -81,14 +80,7 @@ public final class M67Client {
         refreshEquipment();
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         return player != null && player.getStackInHand(hand).isOf(SparkDlcItems.m67())
-                && remainingCooldown(player) <= M67Rules.CANCEL_COOLDOWN_TICKS;
-    }
-
-    private static int remainingCooldown(ClientPlayerEntity player) {
-        var accessor = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = accessor.sparkdlc$getEntries().get(SparkDlcItems.m67());
-        return entry instanceof ItemCooldownEntryAccessor value
-                ? value.sparkdlc$getEndTick() - accessor.sparkdlc$getTick() : 0;
+                && ExactItemCooldowns.remainingTicks(player, SparkDlcItems.m67()) <= M67Rules.CANCEL_COOLDOWN_TICKS;
     }
 
     /** Predict before vanilla's interactItem cooldown check; the server remains authoritative.
@@ -127,7 +119,7 @@ public final class M67Client {
         if (nowEquipped) {
             // Count is deliberately absent: consuming one grenade isn't a new equip.
             // 特意不比较数量：投掷消耗一枚不属于重新装备。
-            if (remainingCooldown(player) < M67Rules.EQUIP_COOLDOWN_TICKS) {
+            if (ExactItemCooldowns.remainingTicks(player, SparkDlcItems.m67()) < M67Rules.EQUIP_COOLDOWN_TICKS) {
                 player.getItemCooldownManager().set(SparkDlcItems.m67(), M67Rules.EQUIP_COOLDOWN_TICKS);
             }
             M67SoundClient.playLocal(M67SoundPayload.START_EQUIP);

@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkFactionApiEffectiveFactionBridge;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveFactionFlip;
 import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
 import dev.caecorthus.sparkdlc.SparkTraitsSounds;
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
@@ -451,7 +451,7 @@ public final class LastStandFinalMomentService {
         }
         // Impostor/Conscience flips keep flipped players from leaking their base-role faction.
         // 内鬼/善良的阵营翻转避免泄露原职业阵营。
-        Identifier flipped = SparkFactionApiEffectiveFactionBridge.resolveEffectiveFaction(traits, baseFaction);
+        Identifier flipped = EffectiveFactionFlip.resolveEffectiveFaction(traits, baseFaction);
         return flipped == null ? baseFaction : flipped;
     }
 

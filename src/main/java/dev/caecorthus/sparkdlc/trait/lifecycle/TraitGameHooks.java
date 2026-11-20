@@ -15,7 +15,7 @@ import net.minecraft.server.world.ServerWorld;
 import java.util.ArrayList;
 import java.util.UUID;
 import dev.caecorthus.sparkdlc.trait.compat.noellesroles.SilencedKillerRestrictionService;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkFactionApiEffectiveFactionBridge;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveFactionFlip;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
 import dev.caecorthus.sparkdlc.trait.effective.death.EffectiveDeathConsequenceRules;
@@ -54,7 +54,7 @@ public final class TraitGameHooks {
 
     public static void register() {
         EffectiveTraitService.register();
-        SparkFactionApiEffectiveFactionBridge.register();
+        EffectiveFactionFlip.register();
         GlobalTraitService.register();
         CivilianTraitService.register();
         KillerTraitService.register();

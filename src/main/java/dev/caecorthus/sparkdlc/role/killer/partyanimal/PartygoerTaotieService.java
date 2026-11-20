@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
+import dev.caecorthus.sparkdlc.mixin.compat.noellesroles.TaotiePlayerComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
-import dev.caecorthus.sparkdlc.mixin.role.killer.partyanimal.PartygoerTaotieCooldownAccessor;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerSwallowC2SPacket;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
@@ -123,7 +123,7 @@ public final class PartygoerTaotieService {
      */
     private static void consumeSwallowCooldown(ServerPlayerEntity taotie) {
         TaotiePlayerComponent component = TaotiePlayerComponent.KEY.get(taotie);
-        int calculated = ((PartygoerTaotieCooldownAccessor) (Object) component).sparkdlc$getCalculatedSwallowCooldownForPartygoer();
+        int calculated = ((TaotiePlayerComponentAccessor) (Object) component).sparkdlc$getCalculatedSwallowCooldown();
         component.setSwallowCooldown(PartygoerTaotieRules.swallowCostTicks(calculated,
                 TaotiePlayerComponent.SWALLOW_COOLDOWN));
     }

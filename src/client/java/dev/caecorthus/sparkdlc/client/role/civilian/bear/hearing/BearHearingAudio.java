@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.hearing;
 
-import dev.caecorthus.sparkdlc.client.mixin.role.civilian.bear.HearingSourceAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.minecraft.SoundSourceAccessor;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.Source;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +68,7 @@ public final class BearHearingAudio {
             return;
         }
         try {
-            applyMaxGain(((HearingSourceAccessor) source).sparkdlc$getHearingSourcePointer());
+            applyMaxGain(((SoundSourceAccessor) source).sparkdlc$getSourcePointer());
         } catch (RuntimeException | LinkageError error) {
             unavailable = true;
             LOGGER.warn("Could not raise the OpenAL max gain; BEAR earplugs stay capped at normal volume", error);

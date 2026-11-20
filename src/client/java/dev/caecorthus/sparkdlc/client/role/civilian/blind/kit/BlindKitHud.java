@@ -7,8 +7,8 @@ import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
 import dev.caecorthus.sparkdlc.role.civilian.blind.kit.BlindInventoryRules;
@@ -170,11 +170,11 @@ final class BlindKitHud {
     private static int caneItemCooldown(ClientPlayerEntity player) {
         ItemCooldownManager manager = player.getItemCooldownManager();
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)
-                || !(accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.whiteCane())
+                || !(accessor.sparkdlc$getEntries().get(SparkDlcItems.whiteCane())
                         instanceof ItemCooldownEntryAccessor entry)) {
             return 0;
         }
-        return Math.max(0, entry.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
+        return Math.max(0, entry.sparkdlc$getEndTick() - accessor.sparkdlc$getTick());
     }
 
     /** One built line: its Text, drawn width and lift-measuring width. / 一行构建结果：文本、绘制宽度与抬升测量宽度。 */

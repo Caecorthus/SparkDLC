@@ -5,8 +5,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.systems.VertexSorter;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.minecraft.MinecraftClientAccessor;
 import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
-import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeMinecraftClientAccessor;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -332,7 +332,7 @@ public final class ScopePictureInPicture {
     private static void renderLensWorld(MinecraftClient client, RenderTickCounter tickCounter, Camera camera,
                                         Framebuffer main, Framebuffer lens, Matrix4f viewRotation,
                                         Matrix4f lensProjection) {
-        ScopeMinecraftClientAccessor framebufferField = (ScopeMinecraftClientAccessor) client;
+        MinecraftClientAccessor framebufferField = (MinecraftClientAccessor) client;
         Matrix4fStack modelView = RenderSystem.getModelViewStack();
         RenderSystem.backupProjectionMatrix();
         modelView.pushMatrix();

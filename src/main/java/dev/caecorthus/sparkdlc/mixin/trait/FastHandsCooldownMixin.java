@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
+import dev.caecorthus.sparkdlc.mixin.cooldown.ServerItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.global.FastHandsTrait;
 import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.VigilanteVeteranTraitService;
@@ -20,7 +21,7 @@ public abstract class FastHandsCooldownMixin {
     @ModifyVariable(method = "set", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private int sparkdlc$reduceFastHandsCooldown(int duration, Item item) {
         if ((Object) this instanceof ServerItemCooldownManager serverCooldownManager) {
-            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayerForTraits();
+            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayer();
             if (VigilanteVeteranTraitService.shouldPreserveNikoRevolverCooldown(item, duration, player)) {
                 return duration;
             }

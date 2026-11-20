@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.item.DroneItem;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.tablet.net.TabletSnapshot;
 import dev.caecorthus.sparkdlc.tablet.TabletRules;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -95,11 +95,11 @@ public final class DroneTabletSnapshots {
      * 精确的物品剩余冷却（开局锁或损毁冷却）；原版只公开进度比例。
      */
     private static int remainingCooldownTicks(ItemCooldownManager cooldowns, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getEntriesForKits().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getEntries().get(item);
         if (entry == null) {
             return 0;
         }
-        return Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
-                - ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getTickForKits());
+        return Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
+                - ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getTick());
     }
 }

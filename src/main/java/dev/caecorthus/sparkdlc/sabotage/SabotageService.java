@@ -4,9 +4,9 @@ import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
-import dev.caecorthus.sparkdlc.mixin.sabotage.GameWorldComponentResetAccessor;
 import dev.caecorthus.sparkdlc.sabotage.net.SabotageStatusS2CPacket;
 import dev.caecorthus.sparkdlc.tablet.TabletAccess;
 import dev.caecorthus.sparkdlc.tablet.TabletStateService;
@@ -269,7 +269,7 @@ public final class SabotageService {
 
     /** Wathe's counter is positive while a copy is queued or retrying. / Wathe 的计数在复制排队或重试中为正数。 */
     private static boolean trainCopyPending(GameWorldComponent game) {
-        return ((GameWorldComponentResetAccessor) game).sparkdlc$getTicksUntilNextResetAttempt() > 0;
+        return ((GameWorldComponentAccessor) game).sparkdlc$getTicksUntilNextResetAttempt() > 0;
     }
 
     /** A partial scan of unloaded chunks would miss junction boxes. / 扫描未加载的区块会漏掉接线箱。 */

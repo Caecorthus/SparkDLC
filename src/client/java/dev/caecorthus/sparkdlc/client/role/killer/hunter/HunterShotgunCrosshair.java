@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.killer.hunter.DoubleBarrelShotgunItem;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
@@ -85,8 +85,8 @@ public final class HunterShotgunCrosshair {
             return true;
         }
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        return manager.sparkdlc$getEntriesForRoles().get(shotgun) instanceof ItemCooldownEntryAccessor cooldown
-                && cooldown.sparkdlc$getEndTickForRoles() - cooldown.sparkdlc$getStartTickForRoles()
+        return manager.sparkdlc$getEntries().get(shotgun) instanceof ItemCooldownEntryAccessor cooldown
+                && cooldown.sparkdlc$getEndTick() - cooldown.sparkdlc$getStartTick()
                 <= HunterRules.FOLLOW_UP_COOLDOWN_TICKS;
     }
 

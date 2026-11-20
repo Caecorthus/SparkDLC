@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
+import dev.caecorthus.sparkdlc.mixin.cooldown.ServerItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
@@ -23,7 +24,7 @@ public abstract class ExactItemCooldownMixin {
     private void sparkdlc$exactEntryDuration(Args args, Item item, int duration) {
         ItemCooldownManager manager = (ItemCooldownManager) (Object) this;
         ServerPlayerEntity owner = manager instanceof ServerItemCooldownManager
-                ? ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForTraits() : null;
+                ? ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayer() : null;
         int start = args.get(0);
         int end = args.get(1);
         args.set(1, start + ExactItemCooldowns.durationForWrite(manager, item, end - start, owner));
@@ -41,14 +42,14 @@ public abstract class ExactItemCooldownMixin {
     private void sparkdlc$recordFakeKillWeaponWrite(Item item, int duration, CallbackInfo ci) {
         if ((Object) this instanceof ServerItemCooldownManager manager
                 && !ExactItemCooldowns.isExactWrite(manager, item)) {
-            DepressionFakeKillCooldowns.recordWrite(((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForTraits(), item);
+            DepressionFakeKillCooldowns.recordWrite(((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayer(), item);
         }
     }
 
     @Inject(method = "remove", at = @At("HEAD"), cancellable = true)
     private void sparkdlc$preserveForcedFloor(Item item, CallbackInfo ci) {
         if ((Object) this instanceof ServerItemCooldownManager manager) {
-            ServerPlayerEntity owner = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForTraits();
+            ServerPlayerEntity owner = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayer();
             int floor = ForcedMeleeCooldownService.remainingTicks(owner, item);
             if (floor > 0) {
                 ExactItemCooldowns.setExact(owner, item,

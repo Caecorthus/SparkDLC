@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
@@ -141,14 +141,14 @@ public final class DominatorForcedShotService {
             } else {
                 entries.put(item, entry);
                 remaining = Math.max(0, ((ItemCooldownEntryAccessor) entry)
-                        .sparkdlc$getEndTickForRoles() - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForRoles());
+                        .sparkdlc$getEndTick() - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
             }
             player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(item, remaining));
         }
 
         @SuppressWarnings("unchecked")
         private static Map<Item, Object> entries(ItemCooldownManager manager) {
-            return (Map<Item, Object>) ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForRoles();
+            return (Map<Item, Object>) ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries();
         }
     }
 

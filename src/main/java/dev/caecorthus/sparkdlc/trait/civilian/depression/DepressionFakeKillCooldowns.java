@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.trait.civilian.depression;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.effective.death.EffectiveDeathConsequenceRules;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
-import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -177,9 +177,9 @@ public final class DepressionFakeKillCooldowns {
      */
     public static void recordWrite(ServerPlayerEntity owner, Item item) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) owner.getItemCooldownManager();
-        if (manager.sparkdlc$getEntriesForTraits().get(item) instanceof ItemCooldownEntryAccessor cooldown) {
-            int start = cooldown.sparkdlc$getStartTickForTraits();
-            int end = cooldown.sparkdlc$getEndTickForTraits();
+        if (manager.sparkdlc$getEntries().get(item) instanceof ItemCooldownEntryAccessor cooldown) {
+            int start = cooldown.sparkdlc$getStartTick();
+            int end = cooldown.sparkdlc$getEndTick();
             Map<Item, OriginalCooldown> originals = originalCooldowns.computeIfAbsent(owner.getUuid(), uuid -> new HashMap<>());
             OriginalCooldown previous = originals.get(item);
             // A write that only shortens the running cooldown (e.g. NoellesRoles vodka) keeps its original length.
@@ -284,13 +284,13 @@ public final class DepressionFakeKillCooldowns {
         Registries.ITEM.getOrEmpty(CEREMONIAL_SWORD).ifPresent(killTicks::remove);
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) attacker.getItemCooldownManager();
         Map<Item, OriginalCooldown> originals = originalCooldowns.getOrDefault(attacker.getUuid(), Map.of());
-        int now = manager.sparkdlc$getTickForTraits();
+        int now = manager.sparkdlc$getTick();
         for (Map.Entry<Item, Integer> weapon : killTicks.entrySet()) {
-            if (!(manager.sparkdlc$getEntriesForTraits().get(weapon.getKey()) instanceof ItemCooldownEntryAccessor cooldown)) {
+            if (!(manager.sparkdlc$getEntries().get(weapon.getKey()) instanceof ItemCooldownEntryAccessor cooldown)) {
                 continue;
             }
-            int startTick = cooldown.sparkdlc$getStartTickForTraits();
-            int endTick = cooldown.sparkdlc$getEndTickForTraits();
+            int startTick = cooldown.sparkdlc$getStartTick();
+            int endTick = cooldown.sparkdlc$getEndTick();
             OriginalCooldown original = originals.get(weapon.getKey());
             int originalTicks = original == null
                     ? endTick - startTick
@@ -326,7 +326,7 @@ public final class DepressionFakeKillCooldowns {
     }
 
     private static int managerTick(ServerPlayerEntity player) {
-        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getTickForTraits();
+        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getTick();
     }
 
     /** One attacker's fake deaths within a single phase. 同一攻击者在同一阶段内造成的假死。 */

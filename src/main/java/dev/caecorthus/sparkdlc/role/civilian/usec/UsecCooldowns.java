@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -103,12 +103,12 @@ public final class UsecCooldowns {
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)) {
             return null;
         }
-        Object entry = accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.usecRifle());
+        Object entry = accessor.sparkdlc$getEntries().get(SparkDlcItems.usecRifle());
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
-            return new Reading(accessor.sparkdlc$getTickForRoles(), Reading.NO_ENTRY, Reading.NO_ENTRY);
+            return new Reading(accessor.sparkdlc$getTick(), Reading.NO_ENTRY, Reading.NO_ENTRY);
         }
-        return new Reading(accessor.sparkdlc$getTickForRoles(), cooldown.sparkdlc$getStartTickForRoles(),
-                cooldown.sparkdlc$getEndTickForRoles());
+        return new Reading(accessor.sparkdlc$getTick(), cooldown.sparkdlc$getStartTick(),
+                cooldown.sparkdlc$getEndTick());
     }
 
     /**

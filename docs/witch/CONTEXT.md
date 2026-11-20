@@ -3207,7 +3207,7 @@ Current build baseline:
     projection is the main pass's (captured at `render` HEAD by `ScopeWorldRendererMixin`, so bobbing, hurt tilt and
     USEC recoil carry over) narrowed in clip space by `ScopeRules.lensClipScale`, exactly what Full-Screen Zoom shows;
     the lens zoom eases with vanilla's half-life (`easeZoom`). For the pass, `MinecraftClient.framebuffer` points at the
-    lens target (`ScopeMinecraftClientAccessor`, restored in `finally`) because vanilla re-binds
+    lens target (`MinecraftClientAccessor`, restored in `finally`) because vanilla re-binds
     `client.getFramebuffer()` mid-pass; `ScopeWorldRendererMixin` puts the viewport back on the lens after each
     `beginWrite(Z)` in `render` and shows `RenderSystem` the main projection around the `setupTerrain` INVOKE, so
     Sodium reuses its render lists (it rebuilds its graph whenever that projection changes) and nothing is rebuilt or
@@ -3592,7 +3592,7 @@ Current build baseline:
     task is held, floored at 0, and does nothing for a Noa-locked player. Not covered: the Perfumer's own corpse drain
     still scales with `tasks.size()`.
   - Next task: for a living planner in an ACTIVE round the world tick reads Wathe's private `nextTaskTimer` through
-    the existing `mixin/faction/witch/PlayerMoodComponentAccessor` (read only, never written), learns the timer's real per-tick
+    the existing `mixin/wathe/PlayerMoodComponentAccessor` (read only, never written), learns the timer's real per-tick
     decrease from consecutive readings (`PlannerRules.nextTaskTimerRate`: an exponential average of the observed
     decreases, readings that jump up when Wathe re-arms the timer ignored, kept transient in the component; SparkTraits
     Anxiety makes it about 1.8) and publishes `ceil(timer / rate / 20)` seconds (`setNextTaskSeconds`, owner sync on
@@ -5205,7 +5205,7 @@ deliberate and kept:
    the pinned jar's bytecode, so a NoellesRoles bump that changes any write fails it.
    6. `noellesroles:taotie_swallow` (`setSwallowCooldown`; nominal = the private per-round
    `calculatedSwallowCooldown` every swallow writes, read through the cooldown-owned
-   `NoellesTaotieForcedCooldownAccessor`; non-positive means unknown), 7. `noellesroles:assassin` (`setCooldown`;
+   `TaotiePlayerComponentAccessor`; non-positive means unknown), 7. `noellesroles:assassin` (`setCooldown`;
    nominal `AssassinPlayerComponent.COOLDOWN_TICKS`). NoellesRoles gates use `isRole`, so these stores (and the
    nominal lookup) also match the acting role of a disguised Black Raven (`ForcedCooldownRoles`). All members are
    checked against the pinned NoellesRoles 1.7.6 jar.

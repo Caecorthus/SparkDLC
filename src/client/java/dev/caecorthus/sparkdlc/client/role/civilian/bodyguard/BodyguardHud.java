@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bodyguard;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardRules;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardVestService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -62,9 +62,9 @@ public final class BodyguardHud {
     }
 
     private static int cooldownTicks(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
-        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
-                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits();
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
+        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
+                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick();
     }
 
     private static int seconds(int ticks) {

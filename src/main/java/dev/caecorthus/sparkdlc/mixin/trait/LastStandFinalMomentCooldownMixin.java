@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
+import dev.caecorthus.sparkdlc.mixin.cooldown.ServerItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -18,7 +19,7 @@ public abstract class LastStandFinalMomentCooldownMixin {
     @ModifyVariable(method = "set", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private int sparkdlc$clearLastStandFinalMomentKnifeCooldown(int duration, Item item) {
         if ((Object) this instanceof ServerItemCooldownManager serverCooldownManager) {
-            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayerForTraits();
+            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayer();
             return LastStandFinalMomentService.finalMomentKnifeCooldown(player, item, duration);
         }
         return duration;

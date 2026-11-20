@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.spiritualist;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.mixin.minecraft.MinecraftClientAccessor;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerGates;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
-import dev.caecorthus.sparkdlc.client.mixin.role.civilian.spiritualist.SpiritPossessionCameraAccessor;
 import dev.caecorthus.sparkdlc.client.viewpoint.BodySettleHold;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
@@ -404,7 +404,7 @@ public final class SpiritPossessionClient {
      */
     private static void swapCamera(MinecraftClient client, Entity camera) {
         if (SpiritCameraHandler.isActive()) {
-            ((SpiritPossessionCameraAccessor) client).sparkdlc$setCameraEntityField(camera);
+            ((MinecraftClientAccessor) client).sparkdlc$setCameraEntityField(camera);
         } else {
             client.setCameraEntity(camera);
         }

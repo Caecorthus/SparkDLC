@@ -281,7 +281,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   answer and only for a holder of exactly that raw role, so no other role's
   players ever reach a condition; `containsRole` and `isExcludedRole` stay
   unconditional-only. The player is resolved from the component's own world
-  (`mixin/round/settlement/GameWorldComponentWorldAccessor`) and only on a
+  (`mixin/wathe/GameWorldComponentAccessor`) and only on a
   `ServerWorld`; a client world, an offline holder and a throwing condition
   (`RuntimeException` or `LinkageError`, logged once per role) all answer "not
   excluded". With no conditional role registered the query is exactly the old

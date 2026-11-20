@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.compat.noellesroles.HiddenBodiesWorldComponentAccessor;
-import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
@@ -97,7 +97,7 @@ public final class PathogenReviveService {
         float yaw = body.getYaw();
 
         // Alive again, exactly like Last Stand. / 与背水一战一样恢复存活。
-        ((GameWorldComponentDeadPlayersAccessor) game).sparkdlc$getDeadPlayersForKits().remove(ownerId);
+        ((GameWorldComponentAccessor) game).sparkdlc$getDeadPlayers().remove(ownerId);
         game.sync();
         owner.setCameraEntity(owner);
         owner.changeGameMode(GameMode.ADVENTURE);

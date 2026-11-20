@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.util;
 
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket;
@@ -33,9 +33,9 @@ public final class ItemCooldownSync {
     /** Remaining ticks of the vanilla entry, 0 when none. / 原版条目的剩余刻数，无条目时为 0。 */
     public static int remainingTicks(ItemCooldownManager manager, Item item) {
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkdlc$getEntriesForKits().get(item);
+        Object entry = access.sparkdlc$getEntries().get(item);
         return entry instanceof ItemCooldownEntryAccessor bounds
-                ? Math.max(0, bounds.sparkdlc$getEndTickForKits() - access.sparkdlc$getTickForKits())
+                ? Math.max(0, bounds.sparkdlc$getEndTick() - access.sparkdlc$getTick())
                 : 0;
     }
 
@@ -62,25 +62,25 @@ public final class ItemCooldownSync {
         }
         ItemCooldownManager manager = player.getItemCooldownManager();
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkdlc$getEntriesForKits().get(item);
+        Object entry = access.sparkdlc$getEntries().get(item);
         if (entry == null) {
             // Vanilla path only creates the entry (and runs set hooks); a modified length is corrected below.
             // 仅借原版路径创建条目（并触发 set 钩子）；被倍率修改的时长在下方校正。
             manager.set(item, ticks);
-            entry = access.sparkdlc$getEntriesForKits().get(item);
+            entry = access.sparkdlc$getEntries().get(item);
         }
         if (!(entry instanceof ItemCooldownEntryAccessor bounds)) {
             return false;
         }
-        int tick = access.sparkdlc$getTickForKits();
+        int tick = access.sparkdlc$getTick();
         int end = ItemCooldownSyncRules.endTick(tick, ticks);
-        if (bounds.sparkdlc$getEndTickForKits() >= end) {
+        if (bounds.sparkdlc$getEndTick() >= end) {
             // Already long enough: set wrote it unmodified (and sent it), or a hook lengthened it.
             // 已足够长：set 以原值写入（并已发送），或被钩子延长。
             return true;
         }
-        bounds.sparkdlc$setStartTickForKits(tick);
-        bounds.sparkdlc$setEndTickForKits(end);
+        bounds.sparkdlc$setStartTick(tick);
+        bounds.sparkdlc$setEndTick(end);
         if (player.networkHandler != null) {
             player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(item, end - tick));
         }

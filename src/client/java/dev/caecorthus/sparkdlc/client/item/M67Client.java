@@ -7,8 +7,8 @@ import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import dev.caecorthus.sparkdlc.item.m67.M67CancelPayload;
 import dev.caecorthus.sparkdlc.item.m67.M67SoundPayload;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -86,9 +86,9 @@ public final class M67Client {
 
     private static int remainingCooldown(ClientPlayerEntity player) {
         var accessor = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = accessor.sparkdlc$getEntriesForKits().get(SparkDlcItems.m67());
+        Object entry = accessor.sparkdlc$getEntries().get(SparkDlcItems.m67());
         return entry instanceof ItemCooldownEntryAccessor value
-                ? value.sparkdlc$getEndTickForKits() - accessor.sparkdlc$getTickForKits() : 0;
+                ? value.sparkdlc$getEndTick() - accessor.sparkdlc$getTick() : 0;
     }
 
     /** Predict before vanilla's interactItem cooldown check; the server remains authoritative.

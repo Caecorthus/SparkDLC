@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.progression;
 
-import dev.caecorthus.sparkdlc.mixin.faction.witch.PlayerMoodComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.wathe.PlayerMoodComponentAccessor;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;

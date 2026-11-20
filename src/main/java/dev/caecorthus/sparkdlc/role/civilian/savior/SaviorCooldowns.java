@@ -5,8 +5,8 @@ import dev.caecorthus.sparkdlc.cooldown.api.CooldownSlot;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -177,7 +177,7 @@ public final class SaviorCooldowns {
     /** The player's own item-cooldown clock, or null when unreadable. / 玩家自身物品冷却时钟；无法读取时为 null。 */
     private static @Nullable Integer cooldownTick(ServerPlayerEntity player) {
         return player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor
-                ? accessor.sparkdlc$getTickForRoles()
+                ? accessor.sparkdlc$getTick()
                 : null;
     }
 
@@ -186,8 +186,8 @@ public final class SaviorCooldowns {
         if (!(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
             return null;
         }
-        return accessor.sparkdlc$getEntriesForRoles().get(item) instanceof ItemCooldownEntryAccessor entry
-                ? entry.sparkdlc$getEndTickForRoles()
+        return accessor.sparkdlc$getEntries().get(item) instanceof ItemCooldownEntryAccessor entry
+                ? entry.sparkdlc$getEndTick()
                 : null;
     }
 

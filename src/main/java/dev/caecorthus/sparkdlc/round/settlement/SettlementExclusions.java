@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.round.settlement;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.mixin.round.settlement.GameWorldComponentWorldAccessor;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -143,7 +143,7 @@ public final class SettlementExclusions {
     /** The online player on a server world, else null. / 服务端世界中的在线玩家，否则为 null。 */
     @Nullable
     private static PlayerEntity serverPlayer(GameWorldComponent game, UUID player) {
-        World world = ((GameWorldComponentWorldAccessor) game).sparkdlc$getWorld();
+        World world = ((GameWorldComponentAccessor) game).sparkdlc$getWorld();
         return world instanceof ServerWorld ? world.getPlayerByUuid(player) : null;
     }
 }

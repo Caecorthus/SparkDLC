@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.trait.civilian.police;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi.GunShotCycleListener;
-import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -48,9 +48,9 @@ public final class GunShotCycles {
     public static void finishNative(Cycle cycle) {
         if (cycle == null || cycle.closed) return;
         var access = (ItemCooldownManagerAccessor) cycle.shooter.getItemCooldownManager();
-        int tick = access.sparkdlc$getTickForTraits();
-        Object entry = access.sparkdlc$getEntriesForTraits().get(cycle.weapon);
-        int end = entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getEndTickForTraits() : tick;
+        int tick = access.sparkdlc$getTick();
+        Object entry = access.sparkdlc$getEntries().get(cycle.weapon);
+        int end = entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getEndTick() : tick;
         for (GunShotCycleListener listener : cycle.listeners) safely(() -> listener.initialCooldownEstablished(
                 cycle.shooter, cycle.id, cycle.weapon, cycle.startTick, end, tick));
         cycle.nativeFinished = true;
@@ -108,7 +108,7 @@ public final class GunShotCycles {
         private boolean closed;
         private Cycle(ServerPlayerEntity shooter, Item weapon, List<GunShotCycleListener> listeners) {
             this.shooter = shooter; this.weapon = weapon; this.listeners = listeners;
-            this.startTick = ((ItemCooldownManagerAccessor) shooter.getItemCooldownManager()).sparkdlc$getTickForTraits();
+            this.startTick = ((ItemCooldownManagerAccessor) shooter.getItemCooldownManager()).sparkdlc$getTick();
         }
     }
 }

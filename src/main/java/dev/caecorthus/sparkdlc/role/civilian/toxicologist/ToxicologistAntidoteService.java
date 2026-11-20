@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
 import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistAntidoteComponent;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.PoisonOnset;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
@@ -127,13 +127,13 @@ public final class ToxicologistAntidoteService {
     }
 
     private static int remainingCooldownTicks(ItemCooldownManager cooldownManager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getEntriesForKits().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getEntries().get(item);
         if (entry == null) {
             return 0;
         }
 
-        int endTick = ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits();
-        int currentTick = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getTickForKits();
+        int endTick = ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick();
+        int currentTick = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getTick();
         return Math.max(0, endTick - currentTick);
     }
 }

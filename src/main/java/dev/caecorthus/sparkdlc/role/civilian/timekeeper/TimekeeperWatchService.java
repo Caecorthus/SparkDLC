@@ -16,7 +16,7 @@ import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayer
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
-import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -197,7 +197,7 @@ public final class TimekeeperWatchService {
     private static void clearItemCooldowns(ServerPlayerEntity player) {
         ItemCooldownManager cooldownManager = player.getItemCooldownManager();
         List<Item> coolingItems = new ArrayList<>(
-                ((ItemCooldownManagerAccessor) (Object) cooldownManager).sparkdlc$getEntriesForKits().keySet()
+                ((ItemCooldownManagerAccessor) (Object) cooldownManager).sparkdlc$getEntries().keySet()
         );
         for (Item item : coolingItems) {
             // Serves the user and every target. Natural cooldowns (including owner timers released by remove hooks)

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.progression;
 
-import dev.caecorthus.sparkdlc.mixin.faction.witch.PlayerMoodComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.wathe.PlayerMoodComponentAccessor;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -97,7 +97,7 @@ final class WraithTaskRuntime {
     }
 
     private static boolean addGeneratedTask(PlayerMoodComponent component, PlayerMoodComponentAccessor accessor) {
-        PlayerMoodComponent.TrainTask task = accessor.sparkdlc$generateTaskForRoles();
+        PlayerMoodComponent.TrainTask task = accessor.sparkdlc$generateTask();
         if (task == null) {
             return false;
         }

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -19,17 +19,17 @@ public final class EmmaCooldowns {
     private EmmaCooldowns() { }
 
     public static int tick(ServerPlayerEntity player) {
-        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getTickForRoles();
+        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getTick();
     }
 
     public static int start(ServerPlayerEntity player, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getEntriesForRoles().get(item);
-        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getStartTickForRoles() : tick(player);
+        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getEntries().get(item);
+        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getStartTick() : tick(player);
     }
 
     public static int end(ServerPlayerEntity player, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getEntriesForRoles().get(item);
-        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getEndTickForRoles() : tick(player);
+        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getEntries().get(item);
+        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getEndTick() : tick(player);
     }
 
     public static void setExact(ServerPlayerEntity player, Item item, int ticks) {

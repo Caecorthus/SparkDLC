@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -97,7 +97,7 @@ public final class TimeGiftWatchService {
 
     private static int displayedTicks(ServerPlayerEntity user, Item watch) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) user.getItemCooldownManager();
-        return manager.sparkdlc$getEntriesForRoles().get(watch) instanceof ItemCooldownEntryAccessor entry
-                ? Math.max(0, entry.sparkdlc$getEndTickForRoles() - manager.sparkdlc$getTickForRoles()) : 0;
+        return manager.sparkdlc$getEntries().get(watch) instanceof ItemCooldownEntryAccessor entry
+                ? Math.max(0, entry.sparkdlc$getEndTick() - manager.sparkdlc$getTick()) : 0;
     }
 }

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ServerItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -28,7 +29,7 @@ public abstract class BloodthirstyCooldownMixin {
     private int sparkdlc$reduceBloodthirstyWeaponCooldown(int duration, Item item) {
         if (Registries.ITEM.getEntry(item).isIn(BLOODTHIRSTY_WEAPONS)
                 && (Object) this instanceof ServerItemCooldownManager serverCooldownManager) {
-            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayerForTraits();
+            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayer();
             return KillerTraitService.bloodthirstyCooldown(player, duration);
         }
         return duration;

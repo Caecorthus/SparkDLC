@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.mixin.role.civilian.seeker.SeekerTaotieCooldownAccessor;
+import dev.caecorthus.sparkdlc.mixin.compat.noellesroles.TaotiePlayerComponentAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.taotie.SeekerTaotieRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -81,7 +81,7 @@ public final class NoellesTaotieSeekerBridge {
         if (component == null) {
             return;
         }
-        int calculated = ((SeekerTaotieCooldownAccessor) (Object) component).sparkdlc$getCalculatedSwallowCooldownForSeeker();
+        int calculated = ((TaotiePlayerComponentAccessor) (Object) component).sparkdlc$getCalculatedSwallowCooldown();
         component.setSwallowCooldown(SeekerTaotieRules.swallowCostTicks(calculated,
                 TaotiePlayerComponent.SWALLOW_COOLDOWN));
     }

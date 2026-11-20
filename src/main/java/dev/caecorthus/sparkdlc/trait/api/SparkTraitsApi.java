@@ -106,8 +106,8 @@ public final class SparkTraitsApi {
     }
 
     public static int getItemCooldownTick(PlayerEntity player) {
-        return player == null ? 0 : ((dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor)
-                player.getItemCooldownManager()).sparkdlc$getTickForTraits();
+        return player == null ? 0 : ((dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor)
+                player.getItemCooldownManager()).sparkdlc$getTick();
     }
 
     public static int getItemCooldownRemaining(PlayerEntity player, net.minecraft.item.Item item) {

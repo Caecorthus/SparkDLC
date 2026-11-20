@@ -98,16 +98,16 @@ public final class AthleteDashService {
      * 绑架者控制、控场专家眩晕、搜寻者会话、镜头被占用或被猎人陷阱定身。传送会把身体带出这些控制。
      */
     static boolean isHeld(ServerPlayerEntity player) {
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
-        HunterPlayerComponent hunter = HunterPlayerComponent.KEY.getNullable(player);
+        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.get(player);
+        HunterPlayerComponent hunter = HunterPlayerComponent.KEY.get(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
                 || SparkTraitsApi.isLastStandPending(player)
                 || SparkTraitsApi.isLastEscapeActive(player)
-                || kidnap != null && kidnap.isControlled()
+                || kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)
                 || SeekerRemoteSessionService.isLocked(player)
                 || player.getCameraEntity() != player
-                || hunter != null && hunter.isRooted();
+                || hunter.isRooted();
     }
 
     /**

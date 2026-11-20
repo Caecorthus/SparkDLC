@@ -138,7 +138,6 @@ public final class M32FireService {
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player).map(KidnapperControlComponent::isControlled)
-                .orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 }

@@ -21,10 +21,7 @@ public final class BlackRavenCrowLandingHold {
         if (player == null) {
             return false;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        if (component == null) {
-            return false;
-        }
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(player);
         if (player.getWorld().isClient()) {
             return component.getLandingHoldUntilTick() > 0L;
         }

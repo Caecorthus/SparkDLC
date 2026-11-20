@@ -141,13 +141,12 @@ public final class HannaSilence {
         return mutes(false, false, isFloating(actor), distanceSquared) ? actor : null;
     }
 
-    /** Never reads the component of a removed player; a missing component reads as not floating. / 不读取已移除玩家的组件。 */
+    /** Never reads the component of a removed player. / 不读取已移除玩家的组件。 */
     private static boolean isFloating(PlayerEntity player) {
         if (player.isRemoved()) {
             return false;
         }
-        HannaComponent component = HannaComponent.KEY.getNullable(player);
-        return component != null && component.isFloating();
+        return HannaComponent.KEY.get(player).isFloating();
     }
 
     /**

@@ -32,7 +32,6 @@ public final class RopeStrangleHold {
         if (!player.getWorld().isClient()) {
             return RopeStrangleService.serverSide(player);
         }
-        RopeHoldComponent component = RopeHoldComponent.KEY.getNullable(player);
-        return component == null ? RopeHoldComponent.Side.NONE : component.side();
+        return RopeHoldComponent.KEY.get(player).side();
     }
 }

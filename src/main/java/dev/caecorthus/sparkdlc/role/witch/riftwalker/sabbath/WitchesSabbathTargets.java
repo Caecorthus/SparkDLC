@@ -111,7 +111,7 @@ final class WitchesSabbathTargets {
             @Override
             public boolean glimmering() {
                 // A glimmering (Angler spirit) caster may stand inside a door. / 灵光状态的施放者可能站在门里。
-                return FisherSpiritComponent.KEY.maybeGet(caster).map(FisherSpiritComponent::isActive).orElse(false);
+                return FisherSpiritComponent.KEY.get(caster).isActive();
             }
         };
     }
@@ -194,6 +194,6 @@ final class WitchesSabbathTargets {
     }
 
     private static boolean isKidnapperControlled(PlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player).map(KidnapperControlComponent::isControlled).orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 }

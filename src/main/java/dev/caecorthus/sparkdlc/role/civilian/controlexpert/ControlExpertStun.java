@@ -48,8 +48,8 @@ public final class ControlExpertStun {
         if (RopeStrangleHold.isHeld(player)) {
             return true;
         }
-        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.getNullable(player);
-        return status != null && status.isStunned() && ControlExpertTargeting.isParticipant(player);
+        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.get(player);
+        return status.isStunned() && ControlExpertTargeting.isParticipant(player);
     }
 
     /**
@@ -87,10 +87,7 @@ public final class ControlExpertStun {
         if (player == null) {
             return;
         }
-        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.getNullable(player);
-        if (status != null) {
-            status.clear();
-        }
+        ControlExpertStatusComponent.KEY.get(player).clear();
         for (RegistryEntry<StatusEffect> type : OWNED.release(player.getUuid(), player::getStatusEffect)) {
             player.removeStatusEffect(type);
         }

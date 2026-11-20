@@ -65,10 +65,7 @@ public final class BlackRavenStashedDeathDrops {
      */
     public static List<ItemStack> takeFromStashes(ServerPlayerEntity player, Predicate<ItemStack> matches) {
         List<ItemStack> taken = new ArrayList<>();
-        BlackRavenDisguiseComponent component = BlackRavenDisguiseComponent.KEY.getNullable(player);
-        if (component == null) {
-            return taken;
-        }
+        BlackRavenDisguiseComponent component = BlackRavenDisguiseComponent.KEY.get(player);
         for (BlackRavenIdentityStash stash : component.state().stashes().values()) {
             taken.addAll(takeMatching(stash, matches));
         }

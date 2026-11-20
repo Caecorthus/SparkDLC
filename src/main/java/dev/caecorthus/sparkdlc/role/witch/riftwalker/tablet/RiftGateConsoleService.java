@@ -233,15 +233,11 @@ public final class RiftGateConsoleService {
     }
 
     private static boolean isStunned(ServerPlayerEntity player) {
-        return ControlExpertStatusComponent.KEY.maybeGet(player)
-                .map(ControlExpertStatusComponent::isStunned)
-                .orElse(false);
+        return ControlExpertStatusComponent.KEY.get(player).isStunned();
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player)
-                .map(KidnapperControlComponent::isControlled)
-                .orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 
     /** Server tick counter: one clock for every world. / 服务器刻计数：所有世界共用一个时钟。 */

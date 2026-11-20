@@ -85,8 +85,6 @@ public final class KnightDuelSkillLock {
      * 仅限服务端主线程：发送者是否为进行中决斗的任一方。服务端权威：世界组件是决斗的唯一状态，修改过的客户端无法逃脱该锁。
      */
     public static boolean isLocked(@Nullable ServerPlayerEntity player) {
-        return player != null && KnightDuelWorldComponent.KEY.maybeGet(player.getWorld())
-                .map(duel -> duel.isDuelist(player.getUuid()))
-                .orElse(false);
+        return player != null && KnightDuelWorldComponent.KEY.get(player.getWorld()).isDuelist(player.getUuid());
     }
 }

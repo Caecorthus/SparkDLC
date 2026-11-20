@@ -78,7 +78,7 @@ public final class BlackRavenCrowFeatherService {
         UUID ownerId = feather.ownerUuid();
         ServerPlayerEntity owner = ownerId == null ? null : world.getServer().getPlayerManager().getPlayer(ownerId);
         BlackRavenCrowPlayerComponent component = owner == null
-                ? null : BlackRavenCrowPlayerComponent.KEY.getNullable(owner);
+                ? null : BlackRavenCrowPlayerComponent.KEY.get(owner);
         boolean keep = BlackRavenCrowFeatherRules.keepsMarker(
                 owner != null && owner.getServerWorld() == world,
                 component != null && component.isActive(),
@@ -97,8 +97,8 @@ public final class BlackRavenCrowFeatherService {
     /** END_WORLD_TICK: refresh the ticket of every live session's feather. / 刷新每个有效会话的归羽区块票据。 */
     static void tickWorld(ServerWorld world) {
         for (ServerPlayerEntity player : world.getPlayers()) {
-            BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-            if (component != null && component.isActive() && component.hasFeather()
+            BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(player);
+            if (component.isActive() && component.hasFeather()
                     && component.getFeatherEntityId() >= 0) {
                 addTicket(world, component.getFeatherPos(), component.getFeatherEntityId());
             }

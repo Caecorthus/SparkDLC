@@ -69,18 +69,18 @@ public final class KidnapperControlGuards {
     }
 
     /**
-     * Side-neutral lock read for the acting player; a player without the component (or not controlled) is never
-     * locked. The O(1) control flag goes first, as in the client key mixin, so every other player pays one component
-     * lookup per interaction.
-     * 对行动玩家的两端通用锁读取；没有该组件（或未被控制）的玩家从不被锁定。与客户端按键 mixin 一样先做 O(1) 的受控判断，
+     * Side-neutral lock read for the acting player; a null (or not controlled) player is never locked. The O(1)
+     * control flag goes first, as in the client key mixin, so every other player pays one component lookup per
+     * interaction.
+     * 对行动玩家的两端通用锁读取；null（或未被控制）的玩家从不被锁定。与客户端按键 mixin 一样先做 O(1) 的受控判断，
      * 因此其他玩家每次交互只多一次组件查找。
      */
     public static boolean isLocked(@Nullable PlayerEntity player) {
         if (player == null) {
             return false;
         }
-        KidnapperControlComponent control = KidnapperControlComponent.KEY.getNullable(player);
-        return control != null && control.isControlled() && GameFunctions.isPlayerAliveAndSurvival(player);
+        return KidnapperControlComponent.KEY.get(player).isControlled()
+                && GameFunctions.isPlayerAliveAndSurvival(player);
     }
 
     /**

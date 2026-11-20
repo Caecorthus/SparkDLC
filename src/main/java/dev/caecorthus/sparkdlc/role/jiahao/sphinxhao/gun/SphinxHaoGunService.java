@@ -91,8 +91,7 @@ public final class SphinxHaoGunService {
         return ControlExpertStun.isStunned(player)
                 || SeekerRemoteSessionService.isLocked(player)
                 || WraithStateService.isActive(player)
-                || KidnapperControlComponent.KEY.maybeGet(player).map(KidnapperControlComponent::isControlled)
-                .orElse(false);
+                || KidnapperControlComponent.KEY.get(player).isControlled();
     }
 
     /**

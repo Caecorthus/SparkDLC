@@ -63,10 +63,11 @@ public final class DominatorForcedShotComponent implements ServerTickingComponen
 
     /** True while {@code player}'s 1 s sequence runs. / {@code player} 的 1 秒序列进行中时为真。 */
     public static boolean isSequenceActive(@Nullable PlayerEntity player) {
-        return player != null
-                && KEY.maybeGet(player)
-                .map(component -> component.active && component.remainingTicks > 0)
-                .orElse(false);
+        if (player == null) {
+            return false;
+        }
+        DominatorForcedShotComponent component = KEY.get(player);
+        return component.active && component.remainingTicks > 0;
     }
 
     /**

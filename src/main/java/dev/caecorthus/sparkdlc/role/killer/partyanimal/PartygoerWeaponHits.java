@@ -673,10 +673,9 @@ public final class PartygoerWeaponHits {
     /**
      * A sword kill on a Partygoer, gated and paid like the sword's own (no sword kill cooldown, no strike in progress,
      * the trait weapon gate; then the 30 s sword kill cooldown and the trident hit sound). The Grand Witch runtime
-     * is read through its own CCA key; the branch for an attacker without the component (the kill still happens,
-     * uncharged) is unreachable since the fusion.
+     * is read through its own CCA key.
      * 对派对客的一次剑杀，门槛与代价同仪礼剑自身（无剑杀冷却、无进行中的攻击、词条武器门槛；之后 30 秒剑杀冷却与三叉戟
-     * 命中声）。大魔女运行时经其自身的 CCA key 读取；玩家没有该组件的分支（仍然击杀，但不计冷却）融合后不可达。
+     * 命中声）。大魔女运行时经其自身的 CCA key 读取。
      */
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, PartygoerEntity partygoer) {
         Item sword = heldItem(attacker, SparkDlcItems.ceremonialSword());
@@ -794,25 +793,21 @@ public final class PartygoerWeaponHits {
 
     /**
      * The Grand Witch runtime component ({@code getSwordKillCooldownTicks}, {@code isSwordStrikeInProgress},
-     * {@code setSwordKillCooldownTicks}), read through its own CCA key. The fail-open branches for a player without
-     * the component are unreachable since the fusion.
-     * 大魔女运行时组件，经其自身的 CCA key 读取。玩家没有该组件时放行的分支融合后不可达。
+     * {@code setSwordKillCooldownTicks}), read through its own CCA key, which is registered for every player.
+     * 大魔女运行时组件，经其自身的 CCA key 读取；该组件为每名玩家注册。
      */
     private static final class GrandWitchSword {
         private GrandWitchSword() {
         }
 
         static boolean mayStrike(ServerPlayerEntity player) {
-            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.getNullable(player);
-            return runtime == null
-                    || runtime.getSwordKillCooldownTicks() <= 0 && !runtime.isSwordStrikeInProgress();
+            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(player);
+            return runtime.getSwordKillCooldownTicks() <= 0 && !runtime.isSwordStrikeInProgress();
         }
 
         static void startKillCooldown(ServerPlayerEntity player) {
-            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.getNullable(player);
-            if (runtime != null) {
-                runtime.setSwordKillCooldownTicks(PartygoerWeaponRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS);
-            }
+            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(player);
+            runtime.setSwordKillCooldownTicks(PartygoerWeaponRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS);
         }
     }
 }

@@ -32,7 +32,7 @@ public final class HeadsetSlots {
         if (player == null) {
             return ItemStack.EMPTY;
         }
-        return HeadsetComponent.KEY.maybeGet(player).map(HeadsetComponent::getStack).orElse(ItemStack.EMPTY);
+        return HeadsetComponent.KEY.get(player).getStack();
     }
 
     /**
@@ -41,7 +41,7 @@ public final class HeadsetSlots {
      */
     public static void set(@Nullable PlayerEntity player, @Nullable ItemStack stack) {
         if (player != null) {
-            HeadsetComponent.KEY.maybeGet(player).ifPresent(component -> component.setStack(stack));
+            HeadsetComponent.KEY.get(player).setStack(stack);
         }
     }
 

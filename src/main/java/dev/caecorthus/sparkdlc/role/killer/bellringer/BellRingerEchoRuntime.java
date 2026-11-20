@@ -65,10 +65,7 @@ public final class BellRingerEchoRuntime {
 
     /** Silently drops the player's Echo (marker and task), hint and toll flag (no penalty). / 静默清除该玩家的回响（标记与任务）、提示与敲钟标记（无惩罚）。 */
     public static void clearPlayer(ServerPlayerEntity player) {
-        BellEchoPlayerComponent component = BellEchoPlayerComponent.KEY.getNullable(player);
-        if (component == null) {
-            return;
-        }
+        BellEchoPlayerComponent component = BellEchoPlayerComponent.KEY.get(player);
         dropEchoSilently(player, component);
         component.clearHeard();
         component.setTollReady(false);
@@ -102,8 +99,7 @@ public final class BellRingerEchoRuntime {
      * Mixin 接口（服务端）：为 true 时暂停该玩家的 Wathe 常规任务生成。
      */
     public static boolean holdsNormalTasks(PlayerEntity player) {
-        BellEchoPlayerComponent component = BellEchoPlayerComponent.KEY.getNullable(player);
-        return component != null && component.hasEchoTask();
+        return BellEchoPlayerComponent.KEY.get(player).hasEchoTask();
     }
 
     /**
@@ -127,8 +123,8 @@ public final class BellRingerEchoRuntime {
         if (completed == null || player.getWorld().isClient) {
             return false;
         }
-        BellEchoPlayerComponent component = BellEchoPlayerComponent.KEY.getNullable(player);
-        if (component == null || !component.isEchoTask(completed.getType())) {
+        BellEchoPlayerComponent component = BellEchoPlayerComponent.KEY.get(player);
+        if (!component.isEchoTask(completed.getType())) {
             return false;
         }
         component.clearEcho();

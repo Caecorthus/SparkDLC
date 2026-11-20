@@ -52,7 +52,6 @@ public abstract class KnightDuelDoorPassingMixin {
     }
 
     private static boolean isDuelist(PlayerEntity player) {
-        KnightDuelWorldComponent duel = KnightDuelWorldComponent.KEY.getNullable(player.getWorld());
-        return duel != null && duel.isDuelist(player.getUuid());
+        return KnightDuelWorldComponent.KEY.get(player.getWorld()).isDuelist(player.getUuid());
     }
 }

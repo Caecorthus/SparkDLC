@@ -116,7 +116,7 @@ final class WraithParticipation {
 
     private static void registerGunPunishmentProtection() {
         SparkFactionApi.registerGunPunishmentPolicy((player, subject, gameComponent) -> {
-            WraithPlayerComponent component = WraithPlayerComponent.KEY.maybeGet(player).orElse(null);
+            WraithPlayerComponent component = player == null ? null : WraithPlayerComponent.KEY.get(player);
             if (component == null || !shouldCancelGunPunishment(
                     component.isActive(),
                     component.isPromoted(),
@@ -184,7 +184,7 @@ final class WraithParticipation {
             GameWorldComponent gameComponent,
             Identifier currentFaction
     ) {
-        WraithPlayerComponent wraith = WraithPlayerComponent.KEY.maybeGet(player).orElse(null);
+        WraithPlayerComponent wraith = player == null ? null : WraithPlayerComponent.KEY.get(player);
         return wraith == null ? null : restrictedFaction(wraith.isRestricted(), wraith.getAlignment());
     }
 }

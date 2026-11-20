@@ -23,20 +23,20 @@ public final class RiftwalkerStatusProbes {
 
     /**
      * The Hunter trap root ({@code HunterPlayerComponent#isRooted}, the predicate the movement mixin
-     * uses). A missing component reads as "not rooted".
-     * 猎人捕兽夹定身（{@code HunterPlayerComponent#isRooted}，与移动 mixin 使用的判定相同）。缺少组件时视为未定身。
+     * uses). A null player reads as "not rooted".
+     * 猎人捕兽夹定身（{@code HunterPlayerComponent#isRooted}，与移动 mixin 使用的判定相同）。玩家为 null 时视为未定身。
      */
     public static boolean isHunterRooted(@Nullable PlayerEntity player) {
         return player != null
-                && HunterPlayerComponent.KEY.maybeGet(player).map(HunterPlayerComponent::isRooted).orElse(false);
+                && HunterPlayerComponent.KEY.get(player).isRooted();
     }
 
     /**
      * Reads the Engineer's CCA component {@code sparkdlc:engineer_stunned} ({@link EngineerStunnedPlayerComponent})
-     * through its own key and asks its {@code isStunned()}. A null player or a player without the component reads as
-     * "not stunned". Server and client safe.
+     * through its own key and asks its {@code isStunned()}. A null player reads as "not stunned". Server and client
+     * safe.
      * 经工程师的 CCA 组件 {@code sparkdlc:engineer_stunned}（{@link EngineerStunnedPlayerComponent}）自身的键读取，并询
-     * 问其 {@code isStunned()}。玩家为 null 或没有该组件时视为「未眩晕」。服务端与客户端均安全。
+     * 问其 {@code isStunned()}。玩家为 null 时视为「未眩晕」。服务端与客户端均安全。
      */
     public static boolean isCaptureStunned(@Nullable PlayerEntity player) {
         EngineerStunnedPlayerComponent component = captureComponent(player);
@@ -59,8 +59,8 @@ public final class RiftwalkerStatusProbes {
         }
     }
 
-    /** The capture-stun component, or null (null player, or none attached). / 捕捉眩晕组件；玩家为 null 或未挂载时为 null。 */
+    /** The capture-stun component, or null for a null player. / 捕捉眩晕组件；玩家为 null 时为 null。 */
     private static @Nullable EngineerStunnedPlayerComponent captureComponent(@Nullable PlayerEntity player) {
-        return player == null ? null : EngineerStunnedPlayerComponent.KEY.getNullable(player);
+        return player == null ? null : EngineerStunnedPlayerComponent.KEY.get(player);
     }
 }

@@ -23,7 +23,8 @@ import java.util.Set;
  * and Wraith possession, the Seeker's remote devices, the Black Raven crow view) are therefore not applied when
  * Sodium is loaded; Sodium's renderer already centres terrain on the camera, so far terrain still draws.</li>
  * <li><b>The Scavenger anchor.</b> {@code NoellesScavengerBodyHideNeutralPerkMixin} is an empty anchor on Wathe's
- * {@code PlayerBodyEntityRenderer}: it is skipped without NoellesRoles, and after all mixins were applied to that
+ * {@code PlayerBodyEntityRenderer}: it is always applied (NoellesRoles is a hard dependency, so the former
+ * "skipped without NoellesRoles" query is gone), and after all mixins were applied to that
  * class its {@code postApply} rewrites NoellesRoles' merged Scavenger body-hide handler
  * ({@link NoellesScavengerBodyHideRewrite}).</li>
  * </ul>
@@ -40,7 +41,7 @@ import java.util.Set;
  * 游戏启动即崩溃。故 Sodium 存在时不应用只向 {@code setupTerrain} 注入的三个 mixin（{@link #SODIUM_SKIPPED_MIXINS}：
  * 无人机驾驶与附身冤魂的远程视角、搜寻者的遥控设备、黑羽鸦乌鸦视角）；Sodium 的渲染器本就以镜头为中心渲染地形，远处地形仍会绘制。</li>
  * <li><b>清道夫锚点。</b>{@code NoellesScavengerBodyHideNeutralPerkMixin} 是 Wathe {@code PlayerBodyEntityRenderer} 上的空锚点：
- * 未安装 NoellesRoles 时跳过它；在该类应用完所有 mixin 之后，于其 {@code postApply} 改写 NoellesRoles 合并后的清道夫尸体隐藏处理器
+ * 它始终应用（NoellesRoles 是硬依赖，原先“未安装 NoellesRoles 时跳过”的查询已移除）；在该类应用完所有 mixin 之后，于其 {@code postApply} 改写 NoellesRoles 合并后的清道夫尸体隐藏处理器
  * （{@link NoellesScavengerBodyHideRewrite}）。</li>
  * </ul>
  *
@@ -63,7 +64,6 @@ public final class SparkDlcClientMixinPlugin implements IMixinConfigPlugin {
     /** {@code WorldRenderer.setupTerrain} injectors (camera-centred render grid). / setupTerrain 注入（以镜头为中心的渲染网格）。 */
     static final Set<String> SODIUM_SKIPPED_MIXINS = Set.of(
             REMOTE_VIEWPOINT_TERRAIN_GRID_MIXIN, TERRAIN_GRID_MIXIN, CROW_TERRAIN_GRID_MIXIN);
-    private static final String NOELLES_ROLES = "noellesroles";
     /** Logger name kept from before the fusion so existing log filters still match. / 保留融合前的日志名，已有的日志过滤规则仍然有效。 */
     private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/ClientMixinPlugin");
 
@@ -82,17 +82,15 @@ public final class SparkDlcClientMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        // NoellesRoles is only looked up for the anchor itself, as before. / 与此前一样，只在判定锚点本身时才查询 NoellesRoles。
-        return applies(mixinClassName, sodiumLoaded,
-                !SCAVENGER_BODY_HIDE_ANCHOR.equals(mixinClassName)
-                        || FabricLoader.getInstance().isModLoaded(NOELLES_ROLES));
+        return applies(mixinClassName, sodiumLoaded);
     }
 
-    /** Pure decision, unit-tested without a loader. / 纯判定，可脱离加载器做单元测试。 */
-    static boolean applies(String mixinClassName, boolean sodiumLoaded, boolean noellesRolesLoaded) {
-        if (SCAVENGER_BODY_HIDE_ANCHOR.equals(mixinClassName)) {
-            return noellesRolesLoaded;
-        }
+    /**
+     * Pure decision, unit-tested without a loader. The Scavenger anchor is not in {@link #SODIUM_SKIPPED_MIXINS}, so
+     * it applies with and without Sodium.
+     * 纯判定，可脱离加载器做单元测试。清道夫锚点不在 {@link #SODIUM_SKIPPED_MIXINS} 中，因此无论有无 Sodium 都会应用。
+     */
+    static boolean applies(String mixinClassName, boolean sodiumLoaded) {
         return !(sodiumLoaded && SODIUM_SKIPPED_MIXINS.contains(mixinClassName));
     }
 

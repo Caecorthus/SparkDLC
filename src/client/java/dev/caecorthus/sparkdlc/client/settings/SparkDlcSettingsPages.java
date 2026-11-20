@@ -283,11 +283,10 @@ public final class SparkDlcSettingsPages {
                 List.of(snowMode, snowflakes)));
         groups.add(new SettingsPage.Group("combat", Text.translatable("screen.sparkdlc.settings.group.combat"),
                 List.of(charge)));
-        // The row only does something with NoellesRoles installed. 只有装了 NoellesRoles 这一行才有作用。
-        if (FabricLoader.getInstance().isModLoaded("noellesroles")) {
-            groups.add(new SettingsPage.Group("creative",
-                    Text.translatable("screen.sparkdlc.settings.group.creative"), List.of(creative)));
-        }
+        // The row files NoellesRoles' items into the creative tabs; NoellesRoles is a hard dependency, so it is always
+        // shown. 这一行把 NoellesRoles 的物品收进创造模式标签页；NoellesRoles 是硬依赖，因此始终显示。
+        groups.add(new SettingsPage.Group("creative",
+                Text.translatable("screen.sparkdlc.settings.group.creative"), List.of(creative)));
         groups.add(new SettingsPage.Group("blood", Text.translatable("screen.sparkdlc.settings.group.blood"),
                 List.of(blood, scavenger)));
         return new SettingsPage(DISPLAY, Text.translatable("screen.sparkdlc.settings.page.display"), groups);

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -39,8 +40,14 @@ import java.util.UUID;
  *  只把善良毒师创建的毒气云替换为蓝毒气逻辑。 */
 @Mixin(PoisonGasCloudEntity.class)
 public abstract class PoisonGasCloudEntityMixin extends Entity {
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); data saved under the old name is still
+     * read (current name first) and written back under this one (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；旧名字下保存的数据仍可读取（先读当前名字），并以本名字写回
+     * （legacy.LegacyDataNames）。
+     */
     @Unique
-    private static final String CONSCIENCE_GAS_KEY = "sparktraitsConscienceGas";
+    private static final String CONSCIENCE_GAS_KEY = "sparkdlcConscienceGas";
     @Unique
     private static final int MAX_GAS_BLOCKS = 500;
     @Unique
@@ -131,7 +138,7 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void sparkdlc$readConscienceGas(NbtCompound nbt, CallbackInfo ci) {
-        sparkdlc$conscienceGas = nbt.getBoolean(CONSCIENCE_GAS_KEY);
+        sparkdlc$conscienceGas = nbt.getBoolean(LegacyDataNames.keyIn(nbt, CONSCIENCE_GAS_KEY));
     }
 
     @Unique

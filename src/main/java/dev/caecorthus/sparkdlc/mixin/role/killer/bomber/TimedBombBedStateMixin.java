@@ -78,9 +78,7 @@ public abstract class TimedBombBedStateMixin extends BlockEntity implements Time
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        this.sparkdlc$timedBombTrapOwner = nbt.containsUuid(BomberTrapService.TRAP_OWNER_NBT_KEY)
-                ? nbt.getUuid(BomberTrapService.TRAP_OWNER_NBT_KEY)
-                : null;
+        this.sparkdlc$timedBombTrapOwner = BomberTrapService.readTrapOwner(nbt);
         // NBT applied to a block entity already in a server world (a structure-placed train reset, /data) changes the
         // trap without the setter; during chunk loading the world is still null and the chunk-send path covers it.
         // 写入已在服务端世界中的方块实体的 NBT（结构放置的列车重置、/data）会不经设置方法改变陷阱；区块加载期间世界仍为 null，

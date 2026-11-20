@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.caecorthus.sparkdlc.mixin.role.killer.bomber.BomberPlayerComponentAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -35,12 +36,27 @@ import java.util.UUID;
  * 所以在这里集中实现“能不能安置、如何挂到玩家身上、如何记录回放、如何清局”。</p>
  */
 public final class BomberTrapService {
-    public static final String TRAP_OWNER_NBT_KEY = "SparkStrengthTimedBombOwner";
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); data saved under the old name is still
+     * read (current name first) and written back under this one (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；旧名字下保存的数据仍可读取（先读当前名字），并以本名字写回
+     * （legacy.LegacyDataNames）。
+     */
+    public static final String TRAP_OWNER_NBT_KEY = "SparkDlcTimedBombOwner";
 
     public static final Identifier TIMED_BOMB_TRAY_EMBEDDED = SparkDLC.id("timed_bomb_tray_embedded");
     public static final Identifier TIMED_BOMB_BED_EMBEDDED = SparkDLC.id("timed_bomb_bed_embedded");
     public static final Identifier TIMED_BOMB_TRAY_TRIGGERED = SparkDLC.id("timed_bomb_tray_triggered");
     public static final Identifier TIMED_BOMB_BED_TRIGGERED = SparkDLC.id("timed_bomb_bed_triggered");
+
+    /**
+     * The trap owner saved in a tray or bed block entity (the current key first, then the old one), or null.
+     * 托盘或床方块实体中保存的埋设者（先当前键再旧键），没有时为 null。
+     */
+    public static @Nullable UUID readTrapOwner(NbtCompound nbt) {
+        String key = LegacyDataNames.keyIn(nbt, TRAP_OWNER_NBT_KEY);
+        return nbt.containsUuid(key) ? nbt.getUuid(key) : null;
+    }
 
     private static final Map<net.minecraft.registry.RegistryKey<World>, Set<BlockPos>> TRACKED_TRAPS = new HashMap<>();
     private static boolean registered;

@@ -28,8 +28,14 @@ public final class KnightDuelRules {
     public static final int TITLE_FADE_OUT = 40;
     public static final Formatting KNIGHT_COLOR = Formatting.AQUA;
     public static final Formatting TARGET_COLOR = Formatting.RED;
-    public static final String KNIGHT_TEAM = "sparkwitch_duel_knight";
-    public static final String TARGET_TEAM = "sparkwitch_duel_target";
+    /**
+     * The duel's scoreboard teams (saved in the world's scoreboard). Renamed from the former mod's name on 2026-11-20
+     * (owner: "就数据可以改"); the old teams are removed whenever the duel teams are reset (server start, round start).
+     * 决斗的计分板队伍（保存在世界计分板中）。2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；每次重置决斗队伍
+     * （服务端启动、回合开始）时都会移除旧队伍。
+     */
+    public static final String KNIGHT_TEAM = "sparkdlc_duel_knight";
+    public static final String TARGET_TEAM = "sparkdlc_duel_target";
     public static final Identifier SURVIVAL_MASTER_ID = Identifier.of("noellesroles", "survival_master");
     public static final Identifier MASTER_KEY_ID = Identifier.of("noellesroles", "master_key");
     public static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");

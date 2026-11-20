@@ -7,7 +7,12 @@ import net.minecraft.nbt.NbtCompound;
 
 /** Namespaced custom-data marker used only to bridge Wathe's missing cocktail poison call. */
 public final class PoisonAppleDrinkMarker {
-    private static final String MARKER_KEY = "sparkwitch:poison_apple_drink";
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); a stack saved with the old name is
+     * renamed on load (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；以旧名字保存的物品堆在载入时改名（legacy.LegacyDataNames）。
+     */
+    private static final String MARKER_KEY = "sparkdlc:poison_apple_drink";
 
     private PoisonAppleDrinkMarker() {
     }

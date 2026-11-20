@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonMarkerSync;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceScorpionBed;
 import dev.doctor4t.wathe.block_entity.TrimmedBedBlockEntity;
@@ -19,10 +20,16 @@ import java.util.UUID;
 
 @Mixin(TrimmedBedBlockEntity.class)
 public abstract class TrimmedBedBlockEntityMixin implements ConscienceScorpionBed {
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); data saved under the old name is still
+     * read (current name first) and written back under this one (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；旧名字下保存的数据仍可读取（先读当前名字），并以本名字写回
+     * （legacy.LegacyDataNames）。
+     */
     @Unique
-    private static final String CONSCIENCE_SCORPION_KEY = "sparktraitsConscienceScorpion";
+    private static final String CONSCIENCE_SCORPION_KEY = "sparkdlcConscienceScorpion";
     @Unique
-    private static final String CONSCIENCE_SCORPION_POISONER_KEY = "sparktraitsConscienceScorpionPoisoner";
+    private static final String CONSCIENCE_SCORPION_POISONER_KEY = "sparkdlcConscienceScorpionPoisoner";
 
     @Unique
     private boolean sparkdlc$conscienceScorpion;
@@ -64,9 +71,10 @@ public abstract class TrimmedBedBlockEntityMixin implements ConscienceScorpionBe
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        sparkdlc$conscienceScorpion = nbt.getBoolean(CONSCIENCE_SCORPION_KEY);
-        sparkdlc$conscienceScorpionPoisoner = nbt.containsUuid(CONSCIENCE_SCORPION_POISONER_KEY)
-                ? nbt.getUuid(CONSCIENCE_SCORPION_POISONER_KEY)
+        sparkdlc$conscienceScorpion = nbt.getBoolean(LegacyDataNames.keyIn(nbt, CONSCIENCE_SCORPION_KEY));
+        String poisonerKey = LegacyDataNames.keyIn(nbt, CONSCIENCE_SCORPION_POISONER_KEY);
+        sparkdlc$conscienceScorpionPoisoner = nbt.containsUuid(poisonerKey)
+                ? nbt.getUuid(poisonerKey)
                 : null;
         // NBT applied to a live server block entity (train reset, /data) can change the blue layer without the
         // setter; during chunk loading the world is still null and the chunk-send path covers it.

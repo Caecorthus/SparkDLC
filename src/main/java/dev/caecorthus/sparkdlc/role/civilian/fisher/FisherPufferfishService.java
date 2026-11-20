@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -27,7 +28,14 @@ import java.util.UUID;
 
 /** Tracked pufferfish at the tray: sanity sting, lifetime, sweeps. / 托盘河豚：扣理智、寿命、清扫。 */
 public final class FisherPufferfishService {
-    static final String TAG = "sparkwitch_fisher_pufferfish";
+    /**
+     * Command tag of a tray pufferfish. Renamed from the former mod's name on 2026-11-20 (owner: "就数据可以改"); a
+     * fish saved with the old tag is still recognised, so the load-time orphan check and the round sweeps discard it
+     * as before.
+     * 托盘河豚的命令标签。2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；带旧标签保存的河豚仍能被识别，载入时的孤儿检查与
+     * 回合清扫照旧清除它。
+     */
+    static final String TAG = "sparkdlc_fisher_pufferfish";
     private static final Identifier STING_ACTION = SparkDLC.id("fisher_pufferfish_sting");
     private static final Map<UUID, TrackedFish> FISH = new HashMap<>();
     private static final Map<UUID, Long> LAST_STING = new HashMap<>();
@@ -164,7 +172,7 @@ public final class FisherPufferfishService {
     }
 
     private static boolean isTagged(Entity entity) {
-        return entity instanceof PufferfishEntity && entity.getCommandTags().contains(TAG);
+        return entity instanceof PufferfishEntity && LegacyDataNames.containsEither(entity.getCommandTags(), TAG);
     }
 
     private static long now(MinecraftServer server) {

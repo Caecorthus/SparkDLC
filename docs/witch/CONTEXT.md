@@ -174,7 +174,7 @@ Current build baseline:
 ## Current Ownership
 
 - `api/`: the only public downstream SparkWitch Interface.
-  - `client/api/SecondarySkillKeyApi` (client source set, 2026-10-07) is the stable cross-mod seam onto Role Skill 2
+  - The former `client/api/SecondarySkillKeyApi` facade (2026-10-07; dissolved in stage 3, its callers use `client/skill/SecondaryAbilityRegistry.tryRegisterAction` and `SecondaryAbilityController.secondaryKeyText`) was the cross-mod seam onto Role Skill 2
     (key N): `static boolean register(Identifier roleId, Runnable onPressed)` (false, no throw, when the role already
     has a handler; null arguments throw NPE) and `static Text boundKeyText()`. It adapts the Runnable into
     `client/skill/SecondaryAbilityRegistry.tryRegister`, so a press fires on the client thread only while the local
@@ -186,14 +186,14 @@ Current build baseline:
     Spiritualist's Wraith possession (灵界行者附身冤魂) is its second consumer: its start id
     `sparkdlc:spirit_possess` sits on the same four deny-lists, while `sparkdlc:spirit_possess_exit` stays
     allowed everywhere.
-  - `client/api/WraithViewerApi` (client source set, 2026-10-07) is the stable cross-mod seam that reveals Wraiths to
+  - The former `client/api/WraithViewerApi` facade (2026-10-07; dissolved in stage 3, its caller uses `client/render/WraithViewerGates.add`) was the cross-mod seam that reveals Wraiths to
     add-on viewers: `static void addViewerGate(BiPredicate<PlayerEntity, PlayerEntity>)` (gates are OR'd, a throwing
     gate is dropped, null throws NPE). `client/render/WraithViewerGates.revealsBody` asks the gates only for an active
     Wraith (promoted ones included) other than the viewer itself, and `WraithEntityInvisibilityMixin` then draws that
     body translucent like a spectator's view. It reveals the body only: held items, outlines, instinct colour, name
     tags and aim pass-through keep the ordinary-viewer rules. SparkStrength reaches it by reflection (FQCN and the
     JDK-only signature are frozen) so a living NoellesRoles Spiritualist sees every active Wraith.
-  - `client/api/BlindViewApi` (client source set, 2026-10-18) is the stable cross-mod seam for see-through outlines
+  - The former `client/api/BlindViewApi` facade (2026-10-18; dissolved in stage 3, its caller uses `BlindSeeThroughOutlines.add`) was the cross-mod seam for see-through outlines
     the Blind should see: `static void addSeeThroughOutlines(Consumer<ObjIntConsumer<Box>>)` (null throws NPE;
     sources are never removed, except one that throws, which is dropped with that frame's boxes after one warning).
     `client/role/civilian/blind/render/BlindSeeThroughOutlines` calls every source once per frame (until the cap is reached) on the
@@ -204,7 +204,7 @@ Current build baseline:
     SparkStrength reaches it by reflection (FQCN and the erased JDK-only signature are frozen) for its repair-mode
     tripped breakers and engine-sabotage units, which it otherwise draws at `WorldRenderEvents.LAST`, under the echo
     pass; it never reports the saboteur junction boxes or the admin configurator view.
-  - `client/api/ScopeSettingsApi` (client source set, 2026-10-19) is the stable cross-mod seam for SparkAssist's
+  - `client/scope/ScopeSettingsEditor` (2026-10-19; the former `client/api/ScopeSettingsApi`, moved into the scope feature in stage 3 with the same members) is the seam for SparkAssist's
     SparkDLC settings screen, which draws the three scope settings with its own widgets. JDK-only, all static: mode
     (`scopeMode()`, `setScopeMode(String)`, `scopeModes()`, `defaultScopeMode()`, serialized names), lens resolution
     (`lensResolutionPercent()`, `setLensResolutionPercent(int)`, `int[] lensResolutionChoices()`,
@@ -215,7 +215,7 @@ Current build baseline:
     (`ScopeSettingsStore.apply*`), clamp and snap like the file, and ignore an unknown mode or lens step; only `save()`
     writes the file. The first call loads the file, so it is safe before `ScopeClient.register()`. SparkAssist reaches
     it by reflection (FQCN and signatures are frozen).
-  - `client/api/MiniWitherSkinSettingsApi` (client source set, 2026-11-02) is the stable cross-mod seam for a later
+  - The former `client/api/MiniWitherSkinSettingsApi` facade (2026-11-02; never called, removed in stage 3: use `MiniWitherSkinUi` / `MiniWitherSkinScreen`) was the cross-mod seam for a later
     SparkAssist SparkDLC page over the Mini Wither skins (not wired in SparkAssist yet). JDK-only, all static:
     `skinIds()` (first `""` = vanilla), `skinDisplayName(String)`, `selectedSkin()`, `selectSkin(String)` (applies and
     saves at once; only `""` or a listed id), `reloadSkins()`, `openSkinsFolder()`, `statusText()` (translated) and
@@ -441,7 +441,7 @@ Current build baseline:
       own window (`BlackRavenInstinctGateMixin` closes the instinct gates) and whenever the key gate reads false
       (Grand Witch Fear, the USEC cloak). Wiring: `BlackRavenInstinctPriorityMixin` (HEAD, priority 2000) and
       `BlackRavenInstinctResolverMixin` (RETURN, priority 400). SparkTraits' reflective
-      `SparkWitchBlackRavenBridge` still calls the frozen `public static Integer
+      the trait instinct mixin (`WatheClientMixin`) calls the `public static Integer
       resolvePrioritySensedHighlight(Entity)` before its Conscience branch (`null` = not answered). The Judge
       sentence and factor/Emma RETURN fallbacks hide for the Raven only during Perception's window; the x-ray is
       per-target and only fills perceived players, so it needs no viewer-wide hide there.
@@ -574,7 +574,7 @@ Current build baseline:
       `skin/screen/MiniWitherSkinScreen` (owner pick 2026-11-02: mockup A "暗夜面板", own flat `ClickableWidget`s in
       SparkAssist's palette with Witch Maiden magenta as the only accent over the vanilla translucent background; skin
       list, status pill, drag-to-rotate preview at in-game size, sound preview grid, open folder, reload), opened from vanilla Options → Skin Customization (`MiniWitherSkinOptionsMixin`) and later from
-      SparkAssist through `client/api/MiniWitherSkinSettingsApi`.
+      SparkAssist through the former `client/api/MiniWitherSkinSettingsApi` (never called, removed in stage 3).
 - `role/killer/magician/`: Magician (`sparkdlc:magician`, 魔术师), an ordinary killer merged from main (#99,
   collaborator Huankings, who may keep editing these files upstream: keep v2-side edits minimal). It records 30 s of
   its own actions, then a puppet disguised as a chosen player replays them; the 2026-10-07 audit fix applies owner
@@ -1129,7 +1129,7 @@ Current build baseline:
   frame's extra rotation/position/scale per bone; `BedrockBounds` is a render-frame box.
 - `client/skill/`: generic configurable skill-key-2 registration and role-id
   dispatch only; concrete roles own their handlers. `register` throws on a duplicate role; `tryRegister` (used only
-  by `client/api/SecondarySkillKeyApi`) returns false and keeps the first handler.
+  by `SecondaryAbilityRegistry.tryRegisterAction`) returns false and keeps the first handler.
 - `client/input/` (2026-10-09): neutral pure client input rules only, no state and no Minecraft types.
   `MacControlClickRules.keepsLeftPress` is vanilla's macOS Ctrl-click remap rule (a left press with Ctrl becomes a
   counted right press; sprint is Left Ctrl), shared by all three left-click weapons: the AXMC
@@ -2563,7 +2563,7 @@ Current build baseline:
     `call`/`run`/`current`, null or non-finite = unknown origin; WP3 pushes at the sources; since 2026-11-13 every scope
     is also one attack source, `currentSource()`, fresh per scope or the `source` passed to `call`/`run`),
     `SmokeCloudService.carveTunnel` (no-op until WP5), `SparkWitchApi.carveSmoke(ServerWorld, Vec3d, double)` and the
-    client facade `client.api.BearSmokeViewApi` (`opticalDepth`, `hasSmoke`; render thread).
+    client reads `SmokeVolumes.opticalDepth` and `SmokeClientState.isEmpty` (render thread; the former `client.api.BearSmokeViewApi` facade is dissolved).
   - Economy (`BearEconomyService`, USEC model): balance 0 in its own `ON_FINISH_INITIALIZE` phase, +50 per task
     (never for a SparkTraits Impostor, `SparkTraitsApi`), +5 every 200 world ticks with no cap, both through
     `addToBalance`; `CanSeeMoney` ALLOW for a living BEAR, DENY for a dead one (Insider model, 2026-11-10; no answer
@@ -2861,7 +2861,7 @@ Current build baseline:
     1100, after the puppet widening. Presentation only: never ask it from a selector a shot, stab or packet is built
     from. SparkStrength's own HEAD-cancelled crosshairs (Serial Killer pistol, Morphling reagent, Professor serum) are
     not covered.
-  - Thermal heat mask (WP5, for SparkStrength's Undercover thermal, S4/Q6): `client.api.BearSmokeViewApi`
+  - Thermal heat mask (WP5, for SparkStrength's Undercover thermal, S4/Q6): `SmokeHeatMask` (the entries of the dissolved `client.api.BearSmokeViewApi`; called by `UndercoverThermalSmoke`)
     `maskHeatTarget(color, depth, w, h)`, `drawHeatHaze(color, depth, w, h, heat)` (`DEFAULT_HEAT_HAZE` 1.0: owner Q6 "一坨亮白", smoke as hot as a body) and
     `heatSmokeRect(w, h)`, called right after SS draws its bodies (body depth makes it exact, world depth fails
     closed). `occlusion/SmokeHeatMask` marches the whole smoke rectangle of the pass once (the outline mask only marches
@@ -3163,7 +3163,7 @@ Current build baseline:
     `getOptions` hook is left untouched). The rows are left out while SparkAssist's SparkDLC settings screen hosts them
     (`client/bridge/witch/SparkDlcSettingsBridge`: SparkAssist's public
     `dev.caecorthus.sparkdlc.client.settings.SparkDlcSettingsApi.hostsScopeSettings()` answers true, a direct
-    call since the fusion, asked at every screen init; false means the rows stay); that screen edits them through `client/api/ScopeSettingsApi`. Lens Resolution (owner,
+    call since the fusion, asked at every screen init; false means the rows stay); that screen edits them through `client/scope/ScopeSettingsEditor`. Lens Resolution (owner,
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
@@ -3676,7 +3676,7 @@ Current build baseline:
   `BlindComTacHeadVisibility` (the in-round ComTac head hide), `render/` (the private echo post
   processor `BlindEchoView`, depth capture and fail-closed hint in `BlindRenderWiring`,
   `BlindSilhouettePass`, the Iris check `BlindShaderPackCheck`, the fog-culling guard
-  `BlindTerrainFog`, and the add-on outline overlay `BlindSeeThroughOutlines` behind `client/api/BlindViewApi`), `gate/` (`BlindClientGates` and the
+  `BlindTerrainFog`, and the outline overlay `BlindSeeThroughOutlines`, whose `add` other features call), `gate/` (`BlindClientGates` and the
   pure `BlindGateRules` behind the `BlindGate*` vetoes, client-only bumps, the plain
   `BlindCrosshair`, and the Attune ducking in `BlindAttuneDucking`) and `kit/` (the owner-only HUD
   and the Attune key handler). Its client mixins live in `client/mixin/role/civilian/blind/`: the eleven
@@ -4818,7 +4818,7 @@ consumer drops every write once the frame ends, because PatPat 1.3 keeps the pro
 frame's `AFTER_ENTITIES`. `client/mixin/role/civilian/blind/BlindGameRendererMixin` runs the pass after
 `GameRenderer#render`'s `Framebuffer#beginWrite(Z)` with `shift = AFTER`, so it draws over the
 Seeker and Black Raven filters injected at the same call, and the HUD is drawn on top. Outlines other mods draw at
-`WorldRenderEvents.LAST` are consumed by the echo pass; add-ons register them through `client/api/BlindViewApi`
+`WorldRenderEvents.LAST` are consumed by the echo pass; other features register them through `BlindSeeThroughOutlines.add`
 instead, and right after a successful echo pass (never the black fallback) `BlindSeeThroughOutlines.render` draws
 them with the frame's captured projection, view rotation and camera, see-through (depth test off), fog-free, line
 width 3.5, in the source's colours, restoring every RenderSystem matrix and state it changes before the HUD. Wave

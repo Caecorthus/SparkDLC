@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Client seam over Fabric's {@code UseItemCallback} (default phase, so the Control Expert stun lock, the Seeker and Rift
  * session locks and the Wraith checks decide first). A Riftwalker-owned copy of the Seeker console opener — never an
- * edit or generalisation of it: a live Riftwalker (RAW role) using the tablet item (registry id only) from the
+ * edit or generalisation of it: a live Riftwalker (RAW role) using the tablet item from the
  * hotbar asks the server to open the Rift Gate console ({@code rift_gate_console_request(OPEN)}) and returns CONSUME.
  * CONSUME cancels vanilla use without sending the use packet or swinging, so the tablet's server {@code use()} never
  * runs; the screen opens when the server's snapshot arrives. Everyone else, the offhand and an armed bypass PASS to
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * {@link #bypassOnce(Hand)}. The integrated server shares this JVM, so the listener passes on every server world.
  * 基于 Fabric {@code UseItemCallback} 的客户端接缝（默认阶段，让控场专家眩晕锁、搜寻者与裂隙会话锁以及冤魂检查先决定）。
  * 这是搜寻者控制台拦截器的隙行者自有副本——绝不修改或泛化原拦截器：存活的隙行者（原始职业）从快捷栏使用平板物品
- * （仅按注册 id）时，请求服务端打开裂隙门控制台（{@code rift_gate_console_request(OPEN)}）并返回 CONSUME。CONSUME
+ * 时，请求服务端打开裂隙门控制台（{@code rift_gate_console_request(OPEN)}）并返回 CONSUME。CONSUME
  * 取消原版使用、不发使用包也不挥手，因此平板服务端的 {@code use()} 不会执行；界面在服务端快照到达时打开。
  * 其他玩家、副手使用与已设置的旁路一律 PASS，交给平板的正常行为。「魔女网络」按钮通过 {@link #bypassOnce(Hand)}
  * 重发一次原版使用。集成服务端与客户端同处一个 JVM，因此监听器对所有服务端世界一律放行。
@@ -132,8 +132,8 @@ public final class RiftGateConsoleOpener {
 
     /**
      * The tablet opens its screen only from hotbar slots 0–8: the used stack must be the main-hand (selected hotbar)
-     * tablet, matched by registry id.
-     * 平板只从快捷栏 0–8 格打开自己的界面：使用的物品必须是主手（当前选中的快捷栏格）上的平板，按注册 id 识别。
+     * tablet.
+     * 平板只从快捷栏 0–8 格打开自己的界面：使用的物品必须是主手（当前选中的快捷栏格）上的平板。
      */
     static boolean isHotbarTabletUse(PlayerEntity player, Hand hand, ItemStack stack) {
         return hand == Hand.MAIN_HAND

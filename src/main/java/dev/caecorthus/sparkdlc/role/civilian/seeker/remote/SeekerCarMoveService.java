@@ -37,10 +37,7 @@ public final class SeekerCarMoveService {
         if (player == null || packet == null) {
             return;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
-            return;
-        }
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
         SeekerSessionState session = status.sessionState();
         if (session == null || status.sessionMode() != SeekerSessionMode.CAR) {
             return;
@@ -120,8 +117,8 @@ public final class SeekerCarMoveService {
     private static void countRejection(ServerPlayerEntity player, SeekerSessionState session, long now) {
         if (SeekerCarMoveRules.isCheatSuspect(session.rejects.record(now))) {
             SeekerCarEntity car = SeekerDeviceService.findCar(player);
-            SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-            if (car != null && status != null) {
+            SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
+            if (car != null) {
                 correct(player, status, car);
             }
             SeekerRemoteSessionService.end(player, SeekerExitReason.CHEAT_SUSPECT);

@@ -1,8 +1,10 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
+import dev.caecorthus.sparkdlc.item.ninja.NinjaKnifeItem;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunGuards;
@@ -24,7 +26,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.MinecraftServer;
@@ -258,12 +259,11 @@ public final class DroneWeaponHits {
         if (world.isClient() || !(player instanceof ServerPlayerEntity user) || stack.isEmpty()) {
             return TypedActionResult.pass(stack);
         }
-        String id = Registries.ITEM.getId(stack.getItem()).toString();
-        if (DroneWeaponRules.NINJA_KNIFE_ID.equals(id)) {
+        if (stack.isOf(SparkDlcItems.ninjaKnife())) {
             return PartygoerWeaponHits.onKunai(user, hand, stack) || onKunai(user, hand, stack)
                     ? TypedActionResult.consume(stack) : TypedActionResult.pass(stack);
         }
-        if (DroneWeaponRules.CEREMONIAL_SWORD_ID.equals(id) && mayBreak(user)
+        if (stack.isOf(SparkDlcItems.ceremonialSword()) && mayBreak(user)
                 && !user.getItemCooldownManager().isCoolingDown(stack.getItem())
                 && !SparkTraitsApi.blocksWeaponAction(user, stack)) {
             DASH_WATCHES.put(user.getUuid(), new DashWatch(user.getPos(), DroneWeaponRules.SWORD_DASH_WATCH_TICKS));
@@ -276,7 +276,7 @@ public final class DroneWeaponHits {
                 || SparkTraitsApi.blocksWeaponAction(user, kunai)) {
             return false;
         }
-        double range = DroneWeaponRules.NINJA_KNIFE_RANGE;
+        double range = NinjaKnifeItem.MAX_RANGE;
         // The kunai's own pick (players only), to know whom the drone would shield. / 苦无自身的玩家选择。
         HitResult aimed = ProjectileUtil.getCollision(user, entity -> entity instanceof ServerPlayerEntity victim
                 && victim != user && GameFunctions.isPlayerAliveAndSurvival(victim), range);
@@ -293,7 +293,7 @@ public final class DroneWeaponHits {
         }
         DroneCombatService.destroy(hit.drone(), user);
         user.swingHand(hand, true);
-        user.getItemCooldownManager().set(kunai.getItem(), DroneWeaponRules.NINJA_KNIFE_COOLDOWN_TICKS);
+        user.getItemCooldownManager().set(kunai.getItem(), NinjaKnifeItem.KNIFE_COOLDOWN_TICKS);
         return true;
     }
 

@@ -76,11 +76,7 @@ public final class PlannerHud {
                 NoellesTaotieSeekerBridge.isSwallowed(player))) {
             return;
         }
-        // Fail closed: no synced component, no rows. / 失败即关闭：没有同步组件就不画。
-        PlannerComponent state = PlannerComponent.KEY.getNullable(player);
-        if (state == null) {
-            return;
-        }
+        PlannerComponent state = PlannerComponent.KEY.get(player);
         int cooldownTicks = state.skillCooldownRemaining(client.world.getTime());
         int balance = PlayerShopComponent.KEY.get(player).getBalance();
         // The crosshair pick runs only while a press could go through. / 只在按下可能生效时才计算准星目标。

@@ -126,16 +126,16 @@ public final class NinjaGrappleService {
      * 因此拉拽绝不会把被持有的身体拉出控制，铁链也不会指向脱险中隐身的玩家。
      */
     public static boolean isHeld(ServerPlayerEntity player) {
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
-        HunterPlayerComponent hunter = HunterPlayerComponent.KEY.getNullable(player);
+        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.get(player);
+        HunterPlayerComponent hunter = HunterPlayerComponent.KEY.get(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
                 || SparkTraitsApi.isLastStandPending(player)
                 || SparkTraitsApi.isLastEscapeActive(player)
-                || kidnap != null && kidnap.isControlled()
+                || kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)
                 || SeekerRemoteSessionService.isLocked(player)
                 || player.getCameraEntity() != player
-                || hunter != null && hunter.isRooted();
+                || hunter.isRooted();
     }
 
     public static boolean holdsHook(PlayerEntity player) {

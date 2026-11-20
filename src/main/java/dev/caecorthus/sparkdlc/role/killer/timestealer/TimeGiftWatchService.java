@@ -89,13 +89,11 @@ public final class TimeGiftWatchService {
     }
 
     /**
-     * The trait API's exact write first; the vanilla fallback (never both) is unreachable since the fusion.
-     * 优先词条 API 精确写入；原版回退（二者不会同时执行）融合后不可达。
+     * The trait API's exact write, which performs the vanilla set itself.
+     * 词条 API 的精确写入，由它自行完成原版写入。
      */
     static void showCooldown(ServerPlayerEntity user, Item watch, int ticks) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(user, watch, ticks)) {
-            user.getItemCooldownManager().set(watch, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(user, watch, ticks);
     }
 
     private static int displayedTicks(ServerPlayerEntity user, Item watch) {

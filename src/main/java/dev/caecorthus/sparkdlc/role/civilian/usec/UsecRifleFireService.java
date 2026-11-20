@@ -184,8 +184,7 @@ public final class UsecRifleFireService {
 
     /** The server-owned scope flag ({@link UsecScopeService}) at fire time. / 开火时服务端持有的开镜标记。 */
     private static boolean isScoped(ServerPlayerEntity player) {
-        UsecPlayerComponent component = UsecPlayerComponent.KEY.getNullable(player);
-        return component != null && component.isScoped();
+        return UsecPlayerComponent.KEY.get(player).isScoped();
     }
 
     private static int penetratedBefore(UsecTracer.Trace trace, double stop) {
@@ -294,7 +293,6 @@ public final class UsecRifleFireService {
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player).map(KidnapperControlComponent::isControlled)
-                .orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 }

@@ -153,6 +153,6 @@ public final class UsecScopeService {
     }
 
     private static UsecPlayerComponent component(ServerPlayerEntity player) {
-        return player == null ? null : UsecPlayerComponent.KEY.getNullable(player);
+        return player == null ? null : UsecPlayerComponent.KEY.get(player);
     }
 }

@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.witchification;
 
-import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.killer.hiro.HiroRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
@@ -289,8 +288,7 @@ public final class HiroWitchificationService {
      */
     private static boolean deliverDerringer(ServerPlayerEntity hiro) {
         PlayerInventory inventory = hiro.getInventory();
-        int slot = HiroWitchificationRules.shownEmptySlot(LimitedInventoryRows.isSecondRowShown(),
-                index -> inventory.getStack(index).isEmpty());
+        int slot = HiroWitchificationRules.shownEmptySlot(index -> inventory.getStack(index).isEmpty());
         if (slot < 0) {
             return false;
         }

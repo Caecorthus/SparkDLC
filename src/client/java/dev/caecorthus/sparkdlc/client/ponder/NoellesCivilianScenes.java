@@ -43,12 +43,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 
 /**
- * Demos for NoellesRoles' civilian roles, opened only from the role's guide page; each needs NoellesRoles. They
- * follow the Spark server stack, as the guide does: this mod retunes the Bartender's drinks and adds the
- * Engineer's Sabotage Repair, the Toxicologist's Blue Vitriol (with the Conscience Poisoner's blue poison), the
- * Professor's serums, the Bodyguard's vest and shield, the Coroner's body bag and disguise, the Detective's magnifier
- * and the glow on a Noisemaker's killer.
- * NoellesRoles 平民阵营职业的演示，只从该职业的指南页打开；都需要 NoellesRoles。与指南书一致，按 Spark 服务器的实际规则
+ * Demos for NoellesRoles' civilian roles, opened only from the role's guide page. They follow the Spark server stack,
+ * as the guide does: this mod retunes the Bartender's drinks and adds the Engineer's Sabotage Repair, the
+ * Toxicologist's Blue Vitriol (with the Conscience Poisoner's blue poison), the Professor's serums, the Bodyguard's
+ * vest and shield, the Coroner's body bag and disguise, the Detective's magnifier and the glow on a Noisemaker's
+ * killer.
+ * NoellesRoles 平民阵营职业的演示，只从该职业的指南页打开。与指南书一致，按 Spark 服务器的实际规则
  * 演示：本模组调整了酒保的酒效，并加入了工程师的破坏维修、毒理学家的蓝矾（配合善良毒师的蓝毒）、
  * 教授的试剂、保镖的防弹衣与盾牌、验尸官的采尸袋与伪装、侦探的放大镜，以及杀死大嗓门的人身上的发光。
  */
@@ -77,69 +77,42 @@ final class NoellesCivilianScenes {
     }
 
     static void register() {
-        role("sparkdlc:roles/noellesroles/conductor", List.of("noellesroles"),
-                scene("wathe/cabin", NoellesCivilianScenes::conductor));
-        role("sparkdlc:roles/noellesroles/demon_hunter", List.of("noellesroles"),
-                scene("wathe/aisle", NoellesCivilianScenes::demonHunter));
-        role("sparkdlc:roles/noellesroles/engineer", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/cabin", NoellesCivilianScenes::engineer),
+        role("sparkdlc:roles/noellesroles/conductor", scene("wathe/cabin", NoellesCivilianScenes::conductor));
+        role("sparkdlc:roles/noellesroles/demon_hunter", scene("wathe/aisle", NoellesCivilianScenes::demonHunter));
+        role("sparkdlc:roles/noellesroles/engineer", scene("wathe/cabin", NoellesCivilianScenes::engineer),
                 scene("wathe/lit_carriage", NoellesCivilianScenes::engineerPower));
-        role("sparkdlc:roles/noellesroles/bartender", List.of("noellesroles"),
-                scene("wathe/bar", NoellesCivilianScenes::bartender));
-        role("sparkdlc:roles/noellesroles/toxicologist", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/bar", NoellesCivilianScenes::toxicologist));
-        role("sparkdlc:roles/noellesroles/professor", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::professor),
+        role("sparkdlc:roles/noellesroles/bartender", scene("wathe/bar", NoellesCivilianScenes::bartender));
+        role("sparkdlc:roles/noellesroles/toxicologist", scene("wathe/bar", NoellesCivilianScenes::toxicologist));
+        role("sparkdlc:roles/noellesroles/professor", scene("wathe/aisle", NoellesCivilianScenes::professor),
                 scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
-        role("sparkdlc:roles/noellesroles/bodyguard", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::bodyguard),
+        role("sparkdlc:roles/noellesroles/bodyguard", scene("wathe/aisle", NoellesCivilianScenes::bodyguard),
                 scene("wathe/aisle", NoellesCivilianScenes::bodyguardShield));
-        role("sparkdlc:roles/noellesroles/waiter", List.of("noellesroles"),
-                scene("wathe/bar", NoellesCivilianScenes::waiter));
-        role("sparkdlc:roles/noellesroles/coroner", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::coroner));
-        role("sparkdlc:roles/noellesroles/detective", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::detective));
-        role("sparkdlc:roles/noellesroles/recaller", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::recaller));
-        role("sparkdlc:roles/noellesroles/voodoo", List.of("noellesroles"),
-                scene("wathe/aisle", NoellesCivilianScenes::voodoo));
-        role("sparkdlc:roles/noellesroles/noisemaker", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/cabin", NoellesCivilianScenes::noisemaker));
-        role("sparkdlc:roles/noellesroles/spiritualist", List.of("noellesroles"),
-                scene("wathe/cabin", NoellesCivilianScenes::spiritualist));
+        role("sparkdlc:roles/noellesroles/waiter", scene("wathe/bar", NoellesCivilianScenes::waiter));
+        role("sparkdlc:roles/noellesroles/coroner", scene("wathe/aisle", NoellesCivilianScenes::coroner));
+        role("sparkdlc:roles/noellesroles/detective", scene("wathe/aisle", NoellesCivilianScenes::detective));
+        role("sparkdlc:roles/noellesroles/recaller", scene("wathe/aisle", NoellesCivilianScenes::recaller));
+        role("sparkdlc:roles/noellesroles/voodoo", scene("wathe/aisle", NoellesCivilianScenes::voodoo));
+        role("sparkdlc:roles/noellesroles/noisemaker", scene("wathe/cabin", NoellesCivilianScenes::noisemaker));
+        role("sparkdlc:roles/noellesroles/spiritualist", scene("wathe/cabin", NoellesCivilianScenes::spiritualist));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
-        item("noellesroles:master_key", List.of("noellesroles"),
-                scene("wathe/cabin", NoellesCivilianScenes::conductor));
-        item("noellesroles:demon_hunter_pistol", List.of("noellesroles"),
-                scene("wathe/aisle", NoellesCivilianScenes::demonHunter));
-        item("noellesroles:repair_tool", List.of("noellesroles"),
-                scene("wathe/cabin", NoellesCivilianScenes::engineer));
-        item("sparkdlc:power_restoration", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/lit_carriage", NoellesCivilianScenes::engineerPower));
+        item("noellesroles:master_key", scene("wathe/cabin", NoellesCivilianScenes::conductor));
+        item("noellesroles:demon_hunter_pistol", scene("wathe/aisle", NoellesCivilianScenes::demonHunter));
+        item("noellesroles:repair_tool", scene("wathe/cabin", NoellesCivilianScenes::engineer));
+        item("sparkdlc:power_restoration", scene("wathe/lit_carriage", NoellesCivilianScenes::engineerPower));
         for (String ingredient : List.of("noellesroles:base_spirit", "noellesroles:whiskey")) {
-            item(ingredient, List.of("noellesroles"), scene("wathe/bar", NoellesCivilianScenes::bartender));
+            item(ingredient, scene("wathe/bar", NoellesCivilianScenes::bartender));
         }
-        item("noellesroles:antidote", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/bar", NoellesCivilianScenes::toxicologist));
-        item("sparkdlc:blue_vitriol", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/bar", NoellesCivilianScenes::toxicologist));
-        item("noellesroles:iron_man_vial", List.of("noellesroles"),
-                scene("wathe/aisle", NoellesCivilianScenes::professor));
-        item("sparkdlc:invisibility_serum", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
-        item("sparkdlc:doorpassing_potion", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
-        item("sparkdlc:bodyguard_vest", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::bodyguard));
-        item("sparkdlc:democracy_shield", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::bodyguardShield));
-        item("sparkdlc:coroner_body_bag", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::coroner));
-        item("sparkdlc:magnifier", List.of("noellesroles", "sparkdlc"),
-                scene("wathe/aisle", NoellesCivilianScenes::detective));
+        item("noellesroles:antidote", scene("wathe/bar", NoellesCivilianScenes::toxicologist));
+        item("sparkdlc:blue_vitriol", scene("wathe/bar", NoellesCivilianScenes::toxicologist));
+        item("noellesroles:iron_man_vial", scene("wathe/aisle", NoellesCivilianScenes::professor));
+        item("sparkdlc:invisibility_serum", scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
+        item("sparkdlc:doorpassing_potion", scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
+        item("sparkdlc:bodyguard_vest", scene("wathe/aisle", NoellesCivilianScenes::bodyguard));
+        item("sparkdlc:democracy_shield", scene("wathe/aisle", NoellesCivilianScenes::bodyguardShield));
+        item("sparkdlc:coroner_body_bag", scene("wathe/aisle", NoellesCivilianScenes::coroner));
+        item("sparkdlc:magnifier", scene("wathe/aisle", NoellesCivilianScenes::detective));
     }
 
     /**

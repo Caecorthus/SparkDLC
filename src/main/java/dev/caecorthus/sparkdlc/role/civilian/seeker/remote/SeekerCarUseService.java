@@ -89,10 +89,7 @@ public final class SeekerCarUseService {
         if (player == null || packet == null || packet.hit() == null) {
             return;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
-            return;
-        }
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
         SeekerCarEntity car = SeekerDeviceService.findCar(player);
         if (!admits(player, status, car, packet.sessionId())) {
             return;

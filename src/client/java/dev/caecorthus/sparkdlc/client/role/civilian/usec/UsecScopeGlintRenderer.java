@@ -86,8 +86,7 @@ public final class UsecScopeGlintRenderer {
         Entity cameraEntity = client.getCameraEntity();
         BufferBuilder buffer = null;
         for (AbstractClientPlayerEntity player : world.getPlayers()) {
-            UsecPlayerComponent component = UsecPlayerComponent.KEY.getNullable(player);
-            boolean scoped = component != null && component.isScoped();
+            boolean scoped = UsecPlayerComponent.KEY.get(player).isScoped();
             if (!scoped || !UsecGlintRules.draws(true, blindView, true, player == client.player,
                     player == cameraEntity, player.isInvisibleTo(client.player) || WraithClientState.isActive(player),
                     player.isSpectator()) || BlindClientGates.hidesEntity(player)) {

@@ -199,26 +199,21 @@ public final class BlindKitRules {
 
     /**
      * Where the displaced hotbar item goes, given the slot a removed misplaced cane {@code vacated} (or
-     * {@link #NO_SLOT}): with the second row shown, the vacated slot when it is in that row, else its first empty slot,
-     * so the item stays visible; then the vacated slot; then main slots 9-35; then an empty offhand; {@link #NO_SLOT}
-     * with no room. Without the second row this is the old order (vacated slot, 9-35, offhand), unreachable since the
-     * fusion: {@code LimitedInventoryRows.isSecondRowShown()} is always true. Time Stealer rule, duplicated rather
-     * than shared.
+     * {@link #NO_SLOT}): the vacated slot when it is in the shown second row, else that row's first empty slot, so the
+     * item stays visible; then the vacated slot; then main slots 9-35; then an empty offhand; {@link #NO_SLOT} with no
+     * room. Time Stealer rule, duplicated rather than shared.
      * 被移出的快捷栏物品的去处（{@code vacated} 为被移除的错放盲杖腾出的栏位，或 {@link #NO_SLOT}）：
-     * 显示第二行时，若腾出的栏位在该行则用它，否则用该行第一个空栏位，使物品仍可见；然后是腾出的栏位；然后是主背包 9-35；
-     * 然后是空副手；没有空间时为 {@link #NO_SLOT}。没有第二行时即旧顺序（腾出的栏位、9-35、副手），融合后不可达：
-     * {@code LimitedInventoryRows.isSecondRowShown()} 恒为 true。复制而非共享窃时者规则。
+     * 若腾出的栏位在显示的第二行则用它，否则用该行第一个空栏位，使物品仍可见；然后是腾出的栏位；然后是主背包 9-35；
+     * 然后是空副手；没有空间时为 {@link #NO_SLOT}。复制而非共享窃时者规则。
      */
-    public static int displacementSlot(boolean secondRowShown, int vacated, IntPredicate emptySlot) {
-        if (secondRowShown) {
-            if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
-                return vacated;
-            }
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (emptySlot.test(slot)) {
-                    return slot;
-                }
+    public static int displacementSlot(int vacated, IntPredicate emptySlot) {
+        if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
+            return vacated;
+        }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (emptySlot.test(slot)) {
+                return slot;
             }
         }
         if (vacated != NO_SLOT) {
@@ -256,22 +251,17 @@ public final class BlindKitRules {
 
     /**
      * Raise-only cooldown write: nothing unless {@code requested} is longer than what already runs (a forced cooldown,
-     * e.g. the Fiend aura, is never shortened); then exactly one writer runs, the exact write or, only when it reports
-     * false, the vanilla set. The real exact writer ({@code SparkTraitsApi.setExactItemCooldownRemaining}) reports
-     * false only for a null player or item, so the vanilla branch is unreachable since the fusion.
-     * 只增不减的冷却写入：仅当 requested 长于当前剩余时才写入（强制冷却如魔人光环永不被缩短）；随后恰好执行一个写入方：
-     * 精确写入，或仅当其返回 false 时的原版写入。实际的精确写入方（{@code SparkTraitsApi.setExactItemCooldownRemaining}）
-     * 只在玩家或物品为 null 时返回 false，因此原版分支融合后不可达。
+     * e.g. the Fiend aura, is never shortened); then the exact writer runs once. The real exact writer
+     * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) performs the vanilla set itself.
+     * 只增不减的冷却写入：仅当 requested 长于当前剩余时才写入（强制冷却如魔人光环永不被缩短）；随后精确写入执行一次。
+     * 实际的精确写入方（{@code SparkTraitsApi.setExactItemCooldownRemaining}）会自行完成原版写入。
      */
-    public static boolean writeRaisedCooldown(int existingTicks, int requestedTicks, IntPredicate exactWriter,
-                                              IntConsumer vanillaWriter) {
+    public static boolean writeRaisedCooldown(int existingTicks, int requestedTicks, IntConsumer exactWriter) {
         int existing = Math.max(0, existingTicks);
         if (requestedTicks <= existing) {
             return false;
         }
-        if (!exactWriter.test(requestedTicks)) {
-            vanillaWriter.accept(requestedTicks);
-        }
+        exactWriter.accept(requestedTicks);
         return true;
     }
 

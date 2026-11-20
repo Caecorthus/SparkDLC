@@ -274,16 +274,13 @@ public final class SparkRoleApi {
         }
         try {
             SmokeCloudService.carveHole(world, center, (float) radius);
-        } catch (RuntimeException | LinkageError ignored) {
+        } catch (RuntimeException ignored) {
             // Visual only: the blast itself is unaffected. / 仅视觉：爆炸本身不受影响。
         }
     }
 
     public static boolean isWraithActive(PlayerEntity player) {
-        return player != null
-                && WraithPlayerComponent.KEY.maybeGet(player)
-                .map(WraithPlayerComponent::isActive)
-                .orElse(false);
+        return player != null && WraithPlayerComponent.KEY.get(player).isActive();
     }
 
     /**
@@ -291,10 +288,11 @@ public final class SparkRoleApi {
      * Redacted client records and invalid persisted state fail closed rather than leaking an alignment guess.
      */
     public static boolean isKillerAlignedWraith(PlayerEntity player) {
-        return player != null
-                && WraithPlayerComponent.KEY.maybeGet(player)
-                .map(wraith -> isKillerAlignedWraith(wraith.isActive(), wraith.getAlignment()))
-                .orElse(false);
+        if (player == null) {
+            return false;
+        }
+        WraithPlayerComponent wraith = WraithPlayerComponent.KEY.get(player);
+        return isKillerAlignedWraith(wraith.isActive(), wraith.getAlignment());
     }
 
     static boolean isKillerAlignedWraith(boolean active, WraithState.Alignment alignment) {
@@ -302,16 +300,10 @@ public final class SparkRoleApi {
     }
 
     public static boolean isWraithRestricted(PlayerEntity player) {
-        return player != null
-                && WraithPlayerComponent.KEY.maybeGet(player)
-                .map(WraithPlayerComponent::isRestricted)
-                .orElse(false);
+        return player != null && WraithPlayerComponent.KEY.get(player).isRestricted();
     }
 
     public static boolean isWraithPromoted(PlayerEntity player) {
-        return player != null
-                && WraithPlayerComponent.KEY.maybeGet(player)
-                .map(WraithPlayerComponent::isPromoted)
-                .orElse(false);
+        return player != null && WraithPlayerComponent.KEY.get(player).isPromoted();
     }
 }

@@ -54,7 +54,7 @@ public final class WitherGoheiLoadoutService {
         }
         boolean cursorKept = keeper == NO_SLOT && WitherGoheiInventoryRules.isGohei(handler.getCursorStack());
         if (keeper != NO_SLOT && !isShown(keeper)) {
-            int moved = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
+            int moved = placementSlot(slot -> inventory.getStack(slot).isEmpty());
             if (moved != NO_SLOT && isShown(moved)) {
                 inventory.setStack(moved, inventory.getStack(keeper));
                 inventory.setStack(keeper, ItemStack.EMPTY);
@@ -62,7 +62,7 @@ public final class WitherGoheiLoadoutService {
                 changed = true;
             }
         } else if (keeper == NO_SLOT && !cursorKept) {
-            int target = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
+            int target = placementSlot(slot -> inventory.getStack(slot).isEmpty());
             if (target != NO_SLOT) {
                 inventory.setStack(target, new ItemStack(SparkDlcItems.witherGohei()));
                 keeper = target;
@@ -130,8 +130,7 @@ public final class WitherGoheiLoadoutService {
             if (serverPlayer.isAlive()
                     && (mayHold(serverPlayer) || !OffMatchUse.isMatchParticipant(serverPlayer))) {
                 PlayerInventory inventory = serverPlayer.getInventory();
-                int slot = placementSlot(LimitedInventoryRows.isSecondRowShown(),
-                        index -> inventory.getStack(index).isEmpty());
+                int slot = placementSlot(index -> inventory.getStack(index).isEmpty());
                 if (slot != NO_SLOT) {
                     inventory.setStack(slot, copy);
                 } else {
@@ -144,22 +143,20 @@ public final class WitherGoheiLoadoutService {
     }
 
     /**
-     * The leftmost empty hotbar slot, else (when shown) the first empty second-row slot, else the first empty hidden
-     * main slot; never the offhand or armor.
-     * 最左侧空快捷栏位，否则（显示时）第二行第一个空栏位，否则第一个空的隐藏主背包栏位；从不放入副手或盔甲栏。
+     * The leftmost empty hotbar slot, else the first empty second-row slot, else the first empty hidden main slot;
+     * never the offhand or armor.
+     * 最左侧空快捷栏位，否则第二行第一个空栏位，否则第一个空的隐藏主背包栏位；从不放入副手或盔甲栏。
      */
-    static int placementSlot(boolean secondRowShown, IntPredicate emptySlot) {
+    static int placementSlot(IntPredicate emptySlot) {
         for (int slot = 0; slot < PlayerInventory.getHotbarSize(); slot++) {
             if (emptySlot.test(slot)) {
                 return slot;
             }
         }
-        if (secondRowShown) {
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (emptySlot.test(slot)) {
-                    return slot;
-                }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (emptySlot.test(slot)) {
+                return slot;
             }
         }
         for (int slot = PlayerInventory.getHotbarSize(); slot < PlayerInventory.MAIN_SIZE; slot++) {
@@ -172,7 +169,7 @@ public final class WitherGoheiLoadoutService {
 
     private static boolean isShown(int slot) {
         return PlayerInventory.isValidHotbarIndex(slot)
-                || LimitedInventoryRows.isSecondRowShown() && LimitedInventoryRows.isSecondRowIndex(slot);
+                || LimitedInventoryRows.isSecondRowIndex(slot);
     }
 
     private static void finish(ServerPlayerEntity player, boolean changed) {

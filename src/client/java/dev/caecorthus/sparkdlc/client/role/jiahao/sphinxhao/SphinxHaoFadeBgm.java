@@ -58,10 +58,7 @@ public final class SphinxHaoFadeBgm {
         if (world == null) {
             return SphinxHaoFadeBgmRules.NO_WINDOW;
         }
-        SphinxHaoWorldComponent window = SphinxHaoWorldComponent.KEY.getNullable(world);
-        if (window == null) {
-            return SphinxHaoFadeBgmRules.NO_WINDOW;
-        }
+        SphinxHaoWorldComponent window = SphinxHaoWorldComponent.KEY.get(world);
         return SphinxHaoFadeBgmRules.activeWindow(SparkDlcServerConnection.isConfirmedServer(),
                 GameWorldComponent.KEY.get(world).isRunning(), window.isRoarActive(world.getTime()),
                 window.roarEndTick());

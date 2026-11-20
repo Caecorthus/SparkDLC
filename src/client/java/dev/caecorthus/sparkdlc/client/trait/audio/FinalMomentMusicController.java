@@ -28,10 +28,9 @@ public final class FinalMomentMusicController {
     public static void tick(MinecraftClient client) {
         boolean active = false;
         if (client.world != null && SparkDlcServerConnection.isConfirmedServer()) {
-            TraitWorldComponent traitWorld = TraitWorldComponent.KEY.maybeGet(client.world).orElse(null);
+            TraitWorldComponent traitWorld = TraitWorldComponent.KEY.get(client.world);
             GameWorldComponent game = GameWorldComponent.KEY.maybeGet(client.world).orElse(null);
-            active = traitWorld != null
-                    && traitWorld.isFinalMomentActive()
+            active = traitWorld.isFinalMomentActive()
                     && game != null
                     && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
                     && hasLivingLooseEnd(traitWorld, game);

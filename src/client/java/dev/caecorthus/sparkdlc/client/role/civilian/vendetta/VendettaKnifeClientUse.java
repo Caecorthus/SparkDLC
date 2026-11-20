@@ -32,8 +32,8 @@ public final class VendettaKnifeClientUse {
                 || maxUseTicks - remainingUseTicks < VendettaKnifeRules.MINIMUM_HOLD_TICKS) {
             return;
         }
-        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.maybeGet(attacker).orElse(null);
-        UUID killerUuid = component == null ? null : component.getBoundKillerUuid();
+        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.get(attacker);
+        UUID killerUuid = component.getBoundKillerUuid();
         if (killerUuid == null || !component.isActive() || !component.isKnifeAvailable()) {
             return;
         }

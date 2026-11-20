@@ -23,37 +23,24 @@ public final class RiftwalkerStatusProbes {
 
     /**
      * The Hunter trap root ({@code HunterPlayerComponent#isRooted}, the predicate the movement mixin
-     * uses). A missing component reads as "not rooted".
-     * 猎人捕兽夹定身（{@code HunterPlayerComponent#isRooted}，与移动 mixin 使用的判定相同）。缺少组件时视为未定身。
+     * uses). A null player reads as "not rooted".
+     * 猎人捕兽夹定身（{@code HunterPlayerComponent#isRooted}，与移动 mixin 使用的判定相同）。玩家为 null 时视为未定身。
      */
     public static boolean isHunterRooted(@Nullable PlayerEntity player) {
         return player != null
-                && HunterPlayerComponent.KEY.maybeGet(player).map(HunterPlayerComponent::isRooted).orElse(false);
+                && HunterPlayerComponent.KEY.get(player).isRooted();
     }
 
     /**
      * Reads the Engineer's CCA component {@code sparkdlc:engineer_stunned} ({@link EngineerStunnedPlayerComponent})
-     * through its own key and asks its {@code isStunned()}. A null player or a player without the component reads as
-     * "not stunned". Server and client safe.
+     * through its own key and asks its {@code isStunned()}. A null player reads as "not stunned". Server and client
+     * safe.
      * 经工程师的 CCA 组件 {@code sparkdlc:engineer_stunned}（{@link EngineerStunnedPlayerComponent}）自身的键读取，并询
-     * 问其 {@code isStunned()}。玩家为 null 或没有该组件时视为「未眩晕」。服务端与客户端均安全。
+     * 问其 {@code isStunned()}。玩家为 null 时视为「未眩晕」。服务端与客户端均安全。
      */
     public static boolean isCaptureStunned(@Nullable PlayerEntity player) {
         EngineerStunnedPlayerComponent component = captureComponent(player);
         return component != null && component.isStunned();
-    }
-
-    /**
-     * D19 fail-closed guard for Witches' Sabbath: capture-stunned while {@link #relockCaptureStun} cannot move the lock
-     * point. Always false: the re-lock is a direct call, so it is always available (it could fail only while
-     * {@code stun(int)} was looked up reflectively); the Sabbath's skip branch for it is unreachable since the fusion.
-     * Kept so the skip rule and its caller stay as they are.
-     * D19 魔女集会的失败即关闭防护：处于捕捉眩晕，且 {@link #relockCaptureStun} 无法移动锁定点。恒为 false：重新锁定是
-     * 直接调用，始终可用（只有在 {@code stun(int)} 仍靠反射查找时才可能失败）；魔女集会为此设的跳过分支融合后不可达。保
-     * 留本方法，使跳过规则及其调用方保持不变。
-     */
-    public static boolean isCaptureStunPinned(@Nullable PlayerEntity player) {
-        return false;
     }
 
     /**
@@ -72,8 +59,8 @@ public final class RiftwalkerStatusProbes {
         }
     }
 
-    /** The capture-stun component, or null (null player, or none attached). / 捕捉眩晕组件；玩家为 null 或未挂载时为 null。 */
+    /** The capture-stun component, or null for a null player. / 捕捉眩晕组件；玩家为 null 时为 null。 */
     private static @Nullable EngineerStunnedPlayerComponent captureComponent(@Nullable PlayerEntity player) {
-        return player == null ? null : EngineerStunnedPlayerComponent.KEY.getNullable(player);
+        return player == null ? null : EngineerStunnedPlayerComponent.KEY.get(player);
     }
 }

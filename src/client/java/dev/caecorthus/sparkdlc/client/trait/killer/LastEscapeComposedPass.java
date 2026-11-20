@@ -32,7 +32,7 @@ public final class LastEscapeComposedPass {
         }
         try {
             return player != null && BlackRavenPerceptionScreenEffects.renderLastEscape(player, delta);
-        } catch (RuntimeException | LinkageError ignored) {
+        } catch (RuntimeException ignored) {
             // Render fault isolation: a broken composed pass must not take the escape grayscale away.
             // 渲染故障隔离：合成后处理出错时不能让脱险灰阶消失。
             failed = true;

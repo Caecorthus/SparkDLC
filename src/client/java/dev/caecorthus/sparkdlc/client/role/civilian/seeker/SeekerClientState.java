@@ -32,7 +32,7 @@ public final class SeekerClientState {
     @Nullable
     public static SeekerStatusComponent own() {
         ClientPlayerEntity player = player();
-        return player == null ? null : SeekerStatusComponent.KEY.getNullable(player);
+        return player == null ? null : SeekerStatusComponent.KEY.get(player);
     }
 
     /** The local player's current Wathe role is exactly the Seeker. / 本地玩家当前的 Wathe 职业恰为搜寻者。 */

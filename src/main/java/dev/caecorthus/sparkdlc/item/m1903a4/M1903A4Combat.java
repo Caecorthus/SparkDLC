@@ -98,8 +98,7 @@ public final class M1903A4Combat {
     private static boolean isHeld(ServerPlayerEntity shooter) {
         return ControlExpertStun.isStunned(shooter)
                 || SeekerRemoteSessionService.isLocked(shooter)
-                || KidnapperControlComponent.KEY.maybeGet(shooter).map(KidnapperControlComponent::isControlled)
-                .orElse(false)
+                || KidnapperControlComponent.KEY.get(shooter).isControlled()
                 || WraithStateService.isActive(shooter)
                 || DominatorForcedShotGuns.refusesHandShot(shooter);
     }

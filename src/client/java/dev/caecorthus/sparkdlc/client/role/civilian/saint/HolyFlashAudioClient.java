@@ -104,8 +104,8 @@ public final class HolyFlashAudioClient {
                 || !HolyFlashRules.isActivePhase(client.world)) {
             return null;
         }
-        HolyFlashComponent flash = HolyFlashComponent.KEY.getNullable(player);
-        return flash != null && flash.isActive() ? flash : null;
+        HolyFlashComponent flash = HolyFlashComponent.KEY.get(player);
+        return flash.isActive() ? flash : null;
     }
 
     /**

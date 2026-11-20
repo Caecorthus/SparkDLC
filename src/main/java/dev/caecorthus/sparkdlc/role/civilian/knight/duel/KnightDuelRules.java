@@ -33,12 +33,6 @@ public final class KnightDuelRules {
     public static final Identifier SURVIVAL_MASTER_ID = Identifier.of("noellesroles", "survival_master");
     public static final Identifier MASTER_KEY_ID = Identifier.of("noellesroles", "master_key");
     public static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");
-    /**
-     * The tablet, a Knight start item in the spec and not a weapon; kept as a plain id, a leftover of when the tablet
-     * lived in another jar (nothing about it is optional now).
-     * 平板：规格中骑士的开局物品，不是武器；以纯 id 保存，是平板曾位于另一个 jar 时的遗留（如今并非可选）。
-     */
-    public static final Identifier TABLET_ID = Identifier.of("sparkdlc", "tablet");
     public static final Identifier MANBA_SOUND_ID = SparkDLC.id("duel.manba");
     public static final Identifier SF_SOUND_ID = SparkDLC.id("duel.sf");
     /**

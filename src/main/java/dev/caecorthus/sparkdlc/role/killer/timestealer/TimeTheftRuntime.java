@@ -157,8 +157,8 @@ public final class TimeTheftRuntime {
         Set<UUID> stealers = new LinkedHashSet<>();
         for (ServerPlayerEntity player : List.copyOf(world.getPlayers())) {
             try {
-                TimeTheftPlayerComponent state = TimeTheftPlayerComponent.KEY.getNullable(player);
-                if (state == null || !state.isStolen()) {
+                TimeTheftPlayerComponent state = TimeTheftPlayerComponent.KEY.get(player);
+                if (!state.isStolen()) {
                     continue;
                 }
                 UUID stealerUuid = state.stealer();
@@ -206,8 +206,8 @@ public final class TimeTheftRuntime {
         if (player == null) {
             return;
         }
-        TimeTheftPlayerComponent state = TimeTheftPlayerComponent.KEY.getNullable(player);
-        if (state != null && state.isStolen()) {
+        TimeTheftPlayerComponent state = TimeTheftPlayerComponent.KEY.get(player);
+        if (state.isStolen()) {
             clear(player, state);
         }
     }

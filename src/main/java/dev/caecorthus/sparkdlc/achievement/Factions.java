@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.achievement;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.doctor4t.wathe.api.Faction;
 import java.util.Locale;
-import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -27,15 +26,6 @@ public final class Factions {
      * 嘉豪阵营：内应与 Noelle's Roles 的黑警，自 2026-11-04 起是 Wathe 原生阵营（{@code JIAHAO}）；此前两者都读作 {@link #NEUTRAL}。
      */
     public static final String JIAHAO = "sparkdlc:jiahao";
-
-    /**
-     * The mod's own native custom Wathe constants ({@code sparkdlc:native_wathe_factions}), a fallback for when the
-     * API cannot name them (this side's {@code Faction} enum lacks the constant, so there is nothing to ask the API
-     * about); unreachable since the fusion, because this jar always declares both.
-     * 本模组自己声明的 Wathe 原生自定义常量（{@code sparkdlc:native_wathe_factions}）；API 无法给出 id 时（本端的
-     * {@code Faction} 枚举没有该常量，无从向 API 查询）的回退。融合后不可达：本 jar 总会声明这两个常量。
-     */
-    private static final Map<String, String> NATIVE_FALLBACK = Map.of("WITCH", WITCH, "JIAHAO", JIAHAO);
 
     private Factions() {
     }
@@ -68,12 +58,11 @@ public final class Factions {
      * The id for a Wathe {@code Faction} constant name as written in {@code role_assigned} ({@code CIVILIAN} →
      * {@code wathe:civilian}), or null. The faction core appends native custom constants ({@code WITCH},
      * {@code JIAHAO}) and names their ids through {@code factionIdOf(Faction.valueOf(name))}; when it has no id for
-     * the name (a constant this side lacks) the built-ins keep the {@code wathe:} form and the known natives use
-     * their {@code sparkdlc:} ids.
+     * the name (a constant this side lacks) the name keeps the {@code wathe:} form.
      * {@code role_assigned} 中 Wathe {@code Faction} 常量名对应的 id（{@code CIVILIAN} → {@code wathe:civilian}），没有则为
      * null。阵营核心会追加原生自定义常量（{@code WITCH}、{@code JIAHAO}），并通过
-     * {@code factionIdOf(Faction.valueOf(name))} 给出其 id；API 对该名称没有 id（本端没有这个常量）时，内置阵营沿用
-     * {@code wathe:} 形式，已知的原生阵营使用其 {@code sparkdlc:} id。
+     * {@code factionIdOf(Faction.valueOf(name))} 给出其 id；API 对该名称没有 id（本端没有这个常量）时沿用
+     * {@code wathe:} 形式。
      */
     public static String fromWatheName(String name) {
         return fromWatheName(name, Factions::sparkFactionId);
@@ -95,8 +84,7 @@ public final class Factions {
         if (id != null && !id.isBlank()) {
             return id;
         }
-        String known = NATIVE_FALLBACK.get(constant.toUpperCase(Locale.ROOT));
-        return known != null ? known : "wathe:" + constant.toLowerCase(Locale.ROOT);
+        return "wathe:" + constant.toLowerCase(Locale.ROOT);
     }
 
     /**

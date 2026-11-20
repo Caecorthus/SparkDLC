@@ -66,10 +66,7 @@ final class RiftSessionLifecycle {
             return;
         }
         if (!RiftSessionService.forceExit(player, RiftExitReason.ROUND_END)) {
-            RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-            if (session != null) {
-                session.clear();
-            }
+            RiftSessionComponent.KEY.get(player).clear();
         }
     }
 

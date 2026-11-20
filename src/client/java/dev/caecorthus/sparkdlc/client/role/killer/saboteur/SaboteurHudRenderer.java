@@ -18,10 +18,7 @@ public final class SaboteurHudRenderer {
     }
 
     public static void render(DrawContext context, ClientPlayerEntity player) {
-        SaboteurPlayerComponent component = SaboteurPlayerComponent.KEY.maybeGet(player).orElse(null);
-        if (component == null) {
-            return;
-        }
+        SaboteurPlayerComponent component = SaboteurPlayerComponent.KEY.get(player);
 
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         Text line = stateText(component.getCooldownTicks());

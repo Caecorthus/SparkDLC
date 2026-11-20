@@ -46,8 +46,8 @@ public final class BlackRavenCrowLandingService {
 
     /** {@link BlackRavenCrowEvents#ENDED} listener. / 会话结束监听器。 */
     static void onEnded(ServerPlayerEntity owner, BlackRavenCrowEndReason reason, Vec3d crowPos) {
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(owner);
-        if (component == null || reason == null) {
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(owner);
+        if (reason == null) {
             return;
         }
         Vec3d feather = BlackRavenCrowFeatherService.takeFeather(owner, component);
@@ -91,7 +91,7 @@ public final class BlackRavenCrowLandingService {
             Map.Entry<UUID, Vec3d> entry = iterator.next();
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(entry.getKey());
             BlackRavenCrowPlayerComponent component = player == null
-                    ? null : BlackRavenCrowPlayerComponent.KEY.getNullable(player);
+                    ? null : BlackRavenCrowPlayerComponent.KEY.get(player);
             // Cleared elsewhere (death, reset, role change, round end) or gone. / 已在别处清除或玩家已离开。
             if (component == null || component.getLandingHoldUntilTick() <= 0L) {
                 iterator.remove();

@@ -81,11 +81,9 @@ public final class AbyssSuppression {
 
     /**
      * Whether the target's sanity is effectively REAL, mirroring the traits' effective mood type: Conscience makes it
-     * REAL, Impostor makes it FAKE, otherwise the base role decides; an active Wraith never has real sanity. An unknown
-     * trait answer (null, which {@code SparkTraitsApi} never returns; unreachable since the fusion) fails closed (no
-     * real sanity).
+     * REAL, Impostor makes it FAKE, otherwise the base role decides; an active Wraith never has real sanity.
      * 目标理智是否实际为真实理智，与词条的有效情绪类型一致：良知使其为真实，内鬼使其为伪装，否则由基础职业决定；激活冤魂永远
-     * 没有真实理智。词条查询结果未知（null，{@code SparkTraitsApi} 从不返回；融合后不可达）时失败关闭（视为无真实理智）。
+     * 没有真实理智。
      */
     public static boolean hasRealSanity(ServerPlayerEntity player) {
         if (player == null) {
@@ -155,20 +153,17 @@ public final class AbyssSuppression {
     }
 
     /**
-     * Pure effective-REAL rule: an active Wraith never; Conscience (TRUE) always; otherwise a REAL base role that is
-     * proven not Impostor (FALSE). {@code null} means the trait answer is unknown and never grants real sanity
-     * (unreachable since the fusion: the caller always passes a value).
-     * 纯判定：激活冤魂永不；良知（TRUE）总是；否则需基础职业为真实理智且确认非内鬼（FALSE）。{@code null} 表示词条结果
-     * 未知，从不据此认定真实理智（融合后不可达：调用方总会传入确定值）。
+     * Pure effective-REAL rule: an active Wraith never; Conscience always; otherwise a REAL base role without
+     * Impostor.
+     * 纯判定：激活冤魂永不；良知总是；否则需基础职业为真实理智且不是内鬼。
      */
-    static boolean effectiveRealSanity(boolean baseReal, @Nullable Boolean conscience, @Nullable Boolean impostor,
-                                       boolean activeWraith) {
+    static boolean effectiveRealSanity(boolean baseReal, boolean conscience, boolean impostor, boolean activeWraith) {
         if (activeWraith) {
             return false;
         }
-        if (Boolean.TRUE.equals(conscience)) {
+        if (conscience) {
             return true;
         }
-        return baseReal && Boolean.FALSE.equals(impostor);
+        return baseReal && !impostor;
     }
 }

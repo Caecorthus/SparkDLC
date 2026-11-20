@@ -143,11 +143,8 @@ public final class SeekerRules {
      */
     public static final LockScope LOCK_SCOPE = LockScope.SESSION;
     /**
-     * Owner decision Q5-b: an Impostor (or unknown) Seeker may not use devices or earn pay. ("Unknown" was a failed
-     * trait lookup while traits were another jar; the direct {@code SparkTraitsApi.hasActiveTrait} query never
-     * yields it now.)
-     * 所有者决定 Q5-b：内鬼（或无法判定）的搜寻者不能使用设备，也不获得报酬。（“无法判定”原指词条还在另一个 jar 时查询失败；
-     * 如今直接调用 {@code SparkTraitsApi.hasActiveTrait}，不会再出现。）
+     * Owner decision Q5-b: an Impostor Seeker ({@code SparkTraitsApi.hasActiveTrait}) may not use devices or earn pay.
+     * 所有者决定 Q5-b：内鬼搜寻者（{@code SparkTraitsApi.hasActiveTrait}）不能使用设备，也不获得报酬。
      */
     public static final boolean DENY_IMPOSTOR_DEVICES = true;
 
@@ -274,8 +271,8 @@ public final class SeekerRules {
         return LOCK_SCOPE == LockScope.DEPLOYED && carState == SeekerCarState.DEPLOYED;
     }
 
-    /** Q5-b fail-closed gate. / Q5-b 失败即关闭的门槛。 */
-    public static boolean devicesDenied(boolean impostorOrUnknown) {
-        return DENY_IMPOSTOR_DEVICES && impostorOrUnknown;
+    /** Q5-b gate: an Impostor Seeker's devices are denied. / Q5-b 门槛：内鬼搜寻者不能使用设备。 */
+    public static boolean devicesDenied(boolean impostor) {
+        return DENY_IMPOSTOR_DEVICES && impostor;
     }
 }

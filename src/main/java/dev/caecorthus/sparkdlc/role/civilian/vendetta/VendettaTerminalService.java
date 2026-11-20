@@ -52,11 +52,10 @@ public final class VendettaTerminalService {
         VendettaReplayService.recordTerminal(victim, killer, deathReason);
         PlayerShopComponent.KEY.maybeGet(killer).ifPresent(shop ->
                 shop.addToBalance(VendettaRules.TERMINAL_MONEY_REWARD));
-        WitchPlayerComponent.KEY.maybeGet(killer).ifPresent(mana -> {
-            if (mana.hasManaSystem()) {
-                mana.addMana(VendettaRules.TERMINAL_MANA_REWARD);
-            }
-        });
+        WitchPlayerComponent mana = WitchPlayerComponent.KEY.get(killer);
+        if (mana.hasManaSystem()) {
+            mana.addMana(VendettaRules.TERMINAL_MANA_REWARD);
+        }
         spawnVultureParticles(victim);
         WraithLifecycle.terminatePromotedPlayer(victim);
         return true;

@@ -129,9 +129,7 @@ public final class BluePoisonInteropService {
         if (player == null || player.getWorld() == null || player.getWorld().isClient) {
             return 0;
         }
-        return TraitPlayerComponent.KEY.maybeGet(player)
-                .map(TraitPlayerComponent::getBlueSanityDrainTicks)
-                .orElse(0);
+        return TraitPlayerComponent.KEY.get(player).getBlueSanityDrainTicks();
     }
 
     public static void registerBlueSanityDrainExemption(@Nullable Predicate<ServerPlayerEntity> exemption) {

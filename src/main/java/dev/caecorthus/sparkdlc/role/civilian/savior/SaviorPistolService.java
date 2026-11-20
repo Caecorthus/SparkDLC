@@ -195,8 +195,7 @@ public final class SaviorPistolService {
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player).map(KidnapperControlComponent::isControlled)
-                .orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 
     /**

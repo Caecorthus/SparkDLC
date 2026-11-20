@@ -40,8 +40,7 @@ public final class ControlExpertEconomyService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        // Traits are part of this mod: always loaded. / 词条属于本模组：恒为已加载。
-        if (canEarn(player) && receivesTaskMoney(true, SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
+        if (canEarn(player) && receivesTaskMoney(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(ControlExpertRules.TASK_MONEY_REWARD);
         }
     }
@@ -64,13 +63,11 @@ public final class ControlExpertEconomyService {
     }
 
     /**
-     * {@code traitsLoaded} false → pay, the branch for a jar without traits, unreachable since the fusion (the caller
-     * always passes true); true → pay only on a confirmed non-Impostor (unknown fails closed, Judge semantics).
-     * {@code traitsLoaded} 为 false → 发放，这是为没有词条的 jar 准备的分支，融合后不可达（调用方恒传入 true）；
-     * 为 true → 仅在确认不是内鬼时发放（无法确认时不发放，与法官一致）。
+     * Pays only a non-Impostor (Judge semantics).
+     * 仅向非内鬼发放（与法官一致）。
      */
-    static boolean receivesTaskMoney(boolean traitsLoaded, @Nullable Boolean impostor) {
-        return !traitsLoaded || Boolean.FALSE.equals(impostor);
+    static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     static @Nullable CanSeeMoney.Result moneyVisibilityResult(@Nullable Role role) {

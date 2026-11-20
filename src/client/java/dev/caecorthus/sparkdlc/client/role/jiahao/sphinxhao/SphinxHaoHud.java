@@ -63,12 +63,8 @@ final class SphinxHaoHud {
                 sphinxHao, GameFunctions.isPlayerPlayingAndAlive(player), NoellesTaotieSeekerBridge.isSwallowed(player))) {
             return;
         }
-        // Fail closed: no synced component, no rows. / 失败即关闭：没有同步组件就不画。
-        SphinxHaoPlayerComponent state = SphinxHaoPlayerComponent.KEY.getNullable(player);
-        SphinxHaoWorldComponent world = SphinxHaoWorldComponent.KEY.getNullable(client.world);
-        if (state == null || world == null) {
-            return;
-        }
+        SphinxHaoPlayerComponent state = SphinxHaoPlayerComponent.KEY.get(player);
+        SphinxHaoWorldComponent world = SphinxHaoWorldComponent.KEY.get(client.world);
         long now = client.world.getTime();
         int crawlTicks = world.isCrawling(player.getUuid(), now) ? world.roarRemaining(now) : 0;
         SphinxHaoHudRules.Line infect = SphinxHaoHudRules.infectLine(world.isRoarActive(now),

@@ -90,9 +90,8 @@ public final class RiftGateProjectileService {
     }
 
     /**
-     * Server tick of each gate: catch projectiles that skip entity collision (the M67) on their last segment. The
-     * fail-closed path for an absent M67 id is unreachable since the fusion.
-     * 每扇门的服务端 tick：在最后一段轨迹上捕获不走实体碰撞的投掷物（M67）。M67 id 缺失时不生效的路径融合后不可达。
+     * Server tick of each gate: catch projectiles that skip entity collision (the M67) on their last segment.
+     * 每扇门的服务端 tick：在最后一段轨迹上捕获不走实体碰撞的投掷物（M67）。
      */
     public static void sweepUncollidable(RiftGateEntity gate) {
         RiftGateM67Sweep.sweep(gate);

@@ -196,13 +196,7 @@ public final class HunterFeatureService {
         if (role == null) {
             return false;
         }
-        boolean registeredPolice;
-        try {
-            registeredPolice = PoliceRoles.contains(role);
-        } catch (RuntimeException | LinkageError ignored) {
-            registeredPolice = false;
-        }
-        return HunterRules.isTrapPolice(role.identifier(), registeredPolice)
+        return HunterRules.isTrapPolice(role.identifier(), PoliceRoles.contains(role))
                 || SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR);
     }
 

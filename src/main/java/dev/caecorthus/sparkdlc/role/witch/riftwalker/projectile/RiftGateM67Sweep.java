@@ -4,11 +4,9 @@ import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,15 +15,13 @@ import java.util.Optional;
  * M67 seam: the M67 skips entity collision and runs its own block-swept motion, so the deflection seam never sees it.
  * Each gate's server tick tests the M67's last movement (previous to current position) against its volume; the nearest
  * gate on that segment acts, teleporting the grenade in place to another gate's front or reflecting it, with the shared
- * pass cap. The type is still resolved by registry id ({@code sparkdlc:m67}, {@code SparkDlcEntities.M67_ID}) without
- * naming the grenade class, as when the M67 lived in another jar; the inert path for an absent id is unreachable since
- * the fusion. Whichever of gate and grenade ticks first, every movement segment is tested exactly once, and a moved
- * grenade's segment collapses (previous = current).
+ * pass cap. The grenade is matched by its registered entity type ({@code SparkDlcEntities.m67()}). Whichever of gate
+ * and grenade ticks first, every movement segment is tested exactly once, and a moved grenade's segment collapses
+ * (previous = current).
  * M67 接缝：M67 不走实体碰撞、自行做方块扫掠运动，偏转接缝无法捕获它。每扇门的服务端 tick 用 M67 的上一段位移（上一位置
- * 到当前位置）检测自身体积；线段上最近的门负责处理，按共享的穿门上限把手雷原地传送到另一扇门正面或反弹。类型仍只以注册
- * id（{@code sparkdlc:m67}，即 {@code SparkDlcEntities.M67_ID}）解析、不引用手雷类本身，沿用 M67 位于另一个 jar 时的写
- * 法；该 id 缺失时不生效的路径融合后不可达。无论门和手雷谁先 tick，每段位移都恰好检测一次；被移动的手雷其线段随即收缩
- * （上一位置 = 当前位置）。
+ * 到当前位置）检测自身体积；线段上最近的门负责处理，按共享的穿门上限把手雷原地传送到另一扇门正面或反弹。手雷按其已注册的
+ * 实体类型（{@code SparkDlcEntities.m67()}）匹配。无论门和手雷谁先 tick，每段位移都恰好检测一次；被移动的手雷其线段随即
+ * 收缩（上一位置 = 当前位置）。
  * Accepted edge: the M67 is interpolated on clients, so a long jump is drawn as a short slide.
  * 已接受的边角情况：M67 在客户端做插值，长距离跳转会显示为一段短暂滑动。
  */
@@ -35,10 +31,6 @@ final class RiftGateM67Sweep {
     /** Gate lookup padding around a segment. / 线段周围的门搜索外扩量。 */
     private static final double GATE_SEARCH_PADDING = 1.0;
 
-    private static boolean resolved;
-    @Nullable
-    private static EntityType<?> m67Type;
-
     private RiftGateM67Sweep() {
     }
 
@@ -46,10 +38,7 @@ final class RiftGateM67Sweep {
         if (gate == null || gate.isRemoved() || !(gate.getWorld() instanceof ServerWorld world)) {
             return;
         }
-        EntityType<?> type = m67Type();
-        if (type == null) {
-            return;
-        }
+        EntityType<?> type = SparkDlcEntities.m67();
         Box volume = RiftGateProjectileService.gateVolume(gate);
         List<ProjectileEntity> grenades = world.getEntitiesByClass(ProjectileEntity.class,
                 volume.expand(SEARCH_RADIUS), entity -> entity.getType() == type && entity.isAlive());
@@ -100,16 +89,5 @@ final class RiftGateM67Sweep {
             }
         }
         return false;
-    }
-
-    /** Resolved once by id, on the first sweep; null (inert) when the id is absent, unreachable since the fusion.
-     * 在第一次扫掠时按 id 解析一次；id 缺失时为 null（不生效），融合后不可达。 */
-    @Nullable
-    private static EntityType<?> m67Type() {
-        if (!resolved) {
-            resolved = true;
-            m67Type = Registries.ENTITY_TYPE.getOrEmpty(SparkDlcEntities.M67_ID).orElse(null);
-        }
-        return m67Type;
     }
 }

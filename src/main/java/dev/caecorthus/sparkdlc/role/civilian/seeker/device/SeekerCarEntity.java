@@ -116,8 +116,8 @@ public class SeekerCarEntity extends SeekerDeviceEntity {
         if (owner == null) {
             return false;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        return status != null && status.sessionMode() == SeekerSessionMode.CAR && status.carEntityId() == getId();
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        return status.sessionMode() == SeekerSessionMode.CAR && status.carEntityId() == getId();
     }
 
     /** Keeps an idle car from covering a corpse (body bag, inspection). / 防止空闲小车挡住尸体（装袋、检查）。 */
@@ -146,8 +146,8 @@ public class SeekerCarEntity extends SeekerDeviceEntity {
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (getWorld().isClient()) {
-            SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-            return status != null && status.carEntityId() == getId()
+            SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
+            return status.carEntityId() == getId()
                     && status.sessionMode() == SeekerSessionMode.NONE ? ActionResult.SUCCESS : ActionResult.PASS;
         }
         if (player instanceof ServerPlayerEntity owner && isOwnedBy(owner.getUuid())) {

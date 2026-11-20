@@ -66,17 +66,14 @@ import org.joml.Vector3f;
 
 /**
  * Demos for NoellesRoles' killer and neutral roles, opened from the role's guide page (and, for their shop items, by
- * holding W over the item); each needs NoellesRoles. Effects the server triggers (the swap's portal particles, a body
- * eaten, the poison gas) never run in Ponder's world, so they are scripted with the game's own particles and counts,
- * and the captions say who sees what. The axe's flight, faster than the eye can follow, is slowed and captioned so.
- * NoellesRoles 杀手与中立阵营职业的演示，从该职业的指南页打开（其商店物品也可在物品上按住 W 播放）；都需要
- * NoellesRoles。由服务端触发的效果（交换的传送粒子、尸体被吃、毒气）不会在 Ponder 的世界里运行，所以按游戏自己的粒子
- * 与数量用脚本补上，并在字幕里说明谁能看到。飞斧的飞行快得看不清，做了放慢，字幕会注明。
+ * holding W over the item). Effects the server triggers (the swap's portal particles, a body eaten, the poison gas)
+ * never run in Ponder's world, so they are scripted with the game's own particles and counts, and the captions say
+ * who sees what. The axe's flight, faster than the eye can follow, is slowed and captioned so.
+ * NoellesRoles 杀手与中立阵营职业的演示，从该职业的指南页打开（其商店物品也可在物品上按住 W 播放）。由服务端触发的
+ * 效果（交换的传送粒子、尸体被吃、毒气）不会在 Ponder 的世界里运行，所以按游戏自己的粒子与数量用脚本补上，并在
+ * 字幕里说明谁能看到。飞斧的飞行快得看不清，做了放慢，字幕会注明。
  */
 final class NoellesKillerScenes {
-    private static final List<String> NOELLES = List.of("noellesroles");
-    /** Scenes that also use this mod's items or entities. 还用到本模组物品或实体的场景。 */
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     private static final Random RANDOM = Random.create();
     /** Facing the camera: towards the plate's (0, 0) corner. 面向镜头：朝底板的 (0, 0) 角。 */
     private static final float FACING_CAMERA = 135;
@@ -87,45 +84,31 @@ final class NoellesKillerScenes {
     }
 
     static void register() {
-        role("sparkdlc:roles/noellesroles/swapper", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::swapper));
-        role("sparkdlc:roles/noellesroles/vulture", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::vulture));
-        role("sparkdlc:roles/noellesroles/poisoner", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
-        item("noellesroles:poison_needle", NOELLES, scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
-        item("noellesroles:catalyst", NOELLES, scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
-        item("noellesroles:poison_gas_bomb", NOELLES, scene("wathe/cabin", NoellesKillerScenes::poisonGasBomb));
-        role("sparkdlc:roles/noellesroles/bandit", NOELLES,
-                scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
-        item("noellesroles:throwing_axe", NOELLES, scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
-        role("sparkdlc:roles/noellesroles/bomber", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::timedBomb));
+        role("sparkdlc:roles/noellesroles/swapper", scene("wathe/aisle", NoellesKillerScenes::swapper));
+        role("sparkdlc:roles/noellesroles/vulture", scene("wathe/aisle", NoellesKillerScenes::vulture));
+        role("sparkdlc:roles/noellesroles/poisoner", scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
+        item("noellesroles:poison_needle", scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
+        item("noellesroles:catalyst", scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
+        item("noellesroles:poison_gas_bomb", scene("wathe/cabin", NoellesKillerScenes::poisonGasBomb));
+        role("sparkdlc:roles/noellesroles/bandit", scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
+        item("noellesroles:throwing_axe", scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
+        role("sparkdlc:roles/noellesroles/bomber", scene("wathe/aisle", NoellesKillerScenes::timedBomb));
         // The Bomber's role kit adds a second use, hiding the bomb in a tray or bed as a trap; that scene is always
         // appended.
         // 炸弹客的职业套件新增第二种用法（把炸弹藏进托盘或床做陷阱）；始终追加该场景。
-        item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb),
+        item("noellesroles:timed_bomb", scene("wathe/aisle", NoellesKillerScenes::timedBomb),
                 scene("wathe/bar", RoleKitKillerItemScenes::timedBombTrap));
-        item("sparkdlc:grenade_drone", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", NoellesKillerScenes::grenadeDrone));
-        role("sparkdlc:roles/noellesroles/jester", NOELLES_STRENGTH,
-                scene("wathe/aisle", NoellesKillerScenes::jesterFakeDeath),
+        item("sparkdlc:grenade_drone", scene("noellesroles/wide_aisle", NoellesKillerScenes::grenadeDrone));
+        role("sparkdlc:roles/noellesroles/jester", scene("wathe/aisle", NoellesKillerScenes::jesterFakeDeath),
                 scene("wathe/aisle", NoellesKillerScenes::jesterMoment));
-        role("sparkdlc:roles/noellesroles/taotie", NOELLES_STRENGTH,
-                scene("wathe/aisle", NoellesKillerScenes::taotie));
-        role("sparkdlc:roles/noellesroles/morphling", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::morph),
+        role("sparkdlc:roles/noellesroles/taotie", scene("wathe/aisle", NoellesKillerScenes::taotie));
+        role("sparkdlc:roles/noellesroles/morphling", scene("wathe/aisle", NoellesKillerScenes::morph),
                 scene("wathe/aisle", NoellesKillerScenes::corpseMode));
-        role("sparkdlc:roles/noellesroles/phantom", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::phantom));
-        role("sparkdlc:roles/noellesroles/scavenger", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::scavenger));
-        role("sparkdlc:roles/noellesroles/corrupt_cop", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::corruptCop));
-        role("sparkdlc:roles/noellesroles/shadow_jester", NOELLES_STRENGTH,
-                scene("wathe/aisle", NoellesKillerScenes::shadowJester));
-        role("sparkdlc:roles/noellesroles/pathogen", NOELLES,
-                scene("wathe/aisle", NoellesKillerScenes::pathogen));
+        role("sparkdlc:roles/noellesroles/phantom", scene("wathe/aisle", NoellesKillerScenes::phantom));
+        role("sparkdlc:roles/noellesroles/scavenger", scene("wathe/aisle", NoellesKillerScenes::scavenger));
+        role("sparkdlc:roles/noellesroles/corrupt_cop", scene("wathe/aisle", NoellesKillerScenes::corruptCop));
+        role("sparkdlc:roles/noellesroles/shadow_jester", scene("wathe/aisle", NoellesKillerScenes::shadowJester));
+        role("sparkdlc:roles/noellesroles/pathogen", scene("wathe/aisle", NoellesKillerScenes::pathogen));
     }
 
     /**

@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -19,7 +18,6 @@ import java.util.UUID;
  * policies run only for players actually inside the gas.
  * {@code isInGas} 是每 tick 对每名玩家执行的纯几何判定，因此只对确实处于毒气中的玩家查询施放者并评估影响策略。
  */
-@Pseudo
 @Mixin(targets = "org.agmas.noellesroles.entity.PoisonGasCloudEntity", remap = false)
 public abstract class NoellesRolesPoisonGasAffectMixin {
     private static final Identifier ACTION = Identifier.of("noellesroles", "poison_gas");

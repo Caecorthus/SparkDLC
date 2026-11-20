@@ -56,8 +56,7 @@ final class AchievementFactions {
      * {@code FactionRoundEndComponent} 记录的上一局自定义获胜阵营；普通 Wathe 胜利时为 null。
      */
     static String customWinningFaction(Scoreboard scoreboard) {
-        FactionRoundEndComponent component = FactionRoundEndComponent.KEY.getNullable(scoreboard);
-        return component == null ? null : idOrNull(component.getWinningFaction());
+        return idOrNull(FactionRoundEndComponent.KEY.get(scoreboard).getWinningFaction());
     }
 
     /**

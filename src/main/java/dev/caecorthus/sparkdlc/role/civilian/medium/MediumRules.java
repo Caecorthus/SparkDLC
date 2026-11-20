@@ -235,14 +235,12 @@ public final class MediumRules {
     }
 
     /**
-     * Pays only on a confirmed non-Impostor: the Impostor trait pays its own task income, so the two never stack.
-     * An unknown answer (null) never pays; that case is unreachable since the fusion, the caller passes the plain
-     * boolean of {@code SparkTraitsApi.hasActiveTrait}.
-     * 只在确认不是内鬼时发放：内鬼词条自行支付其任务收入，两者绝不叠加。未知答案（null）从不发放；该情况融合后不可达，
-     * 调用方传入的是 {@code SparkTraitsApi.hasActiveTrait} 的布尔值。
+     * Pays only a non-Impostor: the Impostor trait pays its own task income, so the two never stack. The caller passes
+     * the answer of {@code SparkTraitsApi.hasActiveTrait}.
+     * 只向非内鬼发放：内鬼词条自行支付其任务收入，两者绝不叠加。调用方传入 {@code SparkTraitsApi.hasActiveTrait} 的结果。
      */
-    public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
-        return Boolean.FALSE.equals(impostor);
+    public static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     /**

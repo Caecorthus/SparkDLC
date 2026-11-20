@@ -36,7 +36,7 @@ public final class GuidebookCardDecor implements InventoryInfoCard.Decor {
         }
         try {
             GuidebookDecorApi.cardChrome(context, x, y, width, height);
-        } catch (Throwable failure) {
+        } catch (RuntimeException failure) {
             disable(failure);
         }
     }
@@ -49,7 +49,7 @@ public final class GuidebookCardDecor implements InventoryInfoCard.Decor {
         }
         try {
             GuidebookDecorApi.cardOverlay(context, x, y, width, height);
-        } catch (Throwable failure) {
+        } catch (RuntimeException failure) {
             disable(failure);
         }
     }

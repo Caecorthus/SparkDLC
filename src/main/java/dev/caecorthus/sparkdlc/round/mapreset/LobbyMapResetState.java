@@ -18,8 +18,7 @@ public final class LobbyMapResetState {
     }
 
     public static boolean isResetting(World world) {
-        LobbyMapResetComponent progress = LobbyMapResetComponent.KEY.getNullable(world.getScoreboard());
-        return progress != null && progress.isResetting();
+        return LobbyMapResetComponent.KEY.get(world.getScoreboard()).isResetting();
     }
 
     /** Wathe {@code AutoStartComponent.tick}: true when this tick must be skipped. / 为 true 时跳过本次 tick。 */

@@ -134,23 +134,21 @@ public final class TimeStealerLoadoutService {
 
     /**
      * Where the displaced hotbar item goes, given the slot a removed misplaced Clock {@code vacated} (or
-     * {@link #NO_SLOT}): with the second row shown, the vacated slot when it is in that row, else its first empty slot,
-     * so the item stays visible; then the vacated slot; then main slots 9-35; then an empty offhand; {@link #NO_SLOT}
-     * with no room. Without the second row this is the old order (vacated slot, 9-35, offhand).
+     * {@link #NO_SLOT}): the vacated slot when it is in the shown second row, else that row's first empty slot, so the
+     * item stays visible; then the vacated slot; then main slots 9-35; then an empty offhand; {@link #NO_SLOT} with no
+     * room.
      * 被移出的快捷栏物品的去处（{@code vacated} 为被移除的错放时钟腾出的栏位，或 {@link #NO_SLOT}）：
-     * 显示第二行时，若腾出的栏位在该行则用它，否则用该行第一个空栏位，使物品仍可见；然后是腾出的栏位；然后是主背包 9-35；
-     * 然后是空副手；没有空间时为 {@link #NO_SLOT}。没有第二行时即旧顺序（腾出的栏位、9-35、副手）。
+     * 若腾出的栏位在显示的第二行则用它，否则用该行第一个空栏位，使物品仍可见；然后是腾出的栏位；然后是主背包 9-35；
+     * 然后是空副手；没有空间时为 {@link #NO_SLOT}。
      */
-    static int displacementSlot(boolean secondRowShown, int vacated, IntPredicate emptySlot) {
-        if (secondRowShown) {
-            if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
-                return vacated;
-            }
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (emptySlot.test(slot)) {
-                    return slot;
-                }
+    static int displacementSlot(int vacated, IntPredicate emptySlot) {
+        if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
+            return vacated;
+        }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (emptySlot.test(slot)) {
+                return slot;
             }
         }
         if (vacated != NO_SLOT) {
@@ -270,7 +268,7 @@ public final class TimeStealerLoadoutService {
         int target = hotbarTarget(inventory.selectedSlot, slot -> inventory.getStack(slot).isEmpty());
         if (target == NO_SLOT) {
             target = displacedHotbarSlot(inventory.selectedSlot);
-            int destination = displacementSlot(LimitedInventoryRows.isSecondRowShown(), vacated,
+            int destination = displacementSlot(vacated,
                     slot -> inventory.getStack(slot).isEmpty());
             if (destination == NO_SLOT) {
                 return false;
@@ -289,18 +287,16 @@ public final class TimeStealerLoadoutService {
 
     /**
      * Round-start cooldown: the authoritative {@code ClockReadyAt} plus the matching display cooldown, written exactly
-     * through the trait API (past the trait cooldown modifiers); the vanilla fallback for a refused exact write is
-     * unreachable since the fusion; never both, so only one cooldown packet is sent.
+     * through the trait API (past the trait cooldown modifiers), which performs the vanilla set itself, so only one
+     * cooldown packet is sent.
      * 开局冷却：写入权威的 {@code ClockReadyAt} 及对应的显示冷却；显示冷却经词条 API 精确写入（越过词条冷却倍率），
-     * 精确写入被拒时回退到原版写入的分支融合后不可达；二者不会同时执行，因此只发送一次冷却数据包。
+     * 由它自行完成原版写入，因此只发送一次冷却数据包。
      */
     private static void writeInitialCooldown(ServerPlayerEntity player, TimeStealerPlayerComponent state) {
         int ticks = TimeStealerRules.CLOCK_INITIAL_COOLDOWN_TICKS;
         state.setClockReadyAt(player.getServerWorld().getTime() + ticks);
         Item clock = SparkDlcItems.timeStealerClock();
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, clock, ticks)) {
-            player.getItemCooldownManager().set(clock, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, clock, ticks);
     }
 
     /** Removes every Clock from inventory 0..40, the cursor and open handler slots. / 从背包 0..40、光标与已打开界面栏位移除所有时钟。 */

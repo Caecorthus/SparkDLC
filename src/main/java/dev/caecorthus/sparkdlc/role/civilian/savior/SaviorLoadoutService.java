@@ -24,8 +24,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -173,8 +171,7 @@ public final class SaviorLoadoutService {
         // At the round start the tablet is already there; mid-round the tablet reconciliation hands it out later, so
         // retry briefly.
         // 开局时平板已在身上；局中由平板对账稍后发放，因此短暂重试。
-        Item tablet = tabletItem();
-        if (tablet != null && !moveExistingToHotbar(player, TABLET_SLOT, tablet)) {
+        if (!moveExistingToHotbar(player, TABLET_SLOT, SparkDlcItems.tablet())) {
             scheduleTabletMove(player, 0);
         }
         putSlot(player, PISTOL_SLOT, new ItemStack(SparkDlcItems.saviorPistol()), false);
@@ -223,11 +220,6 @@ public final class SaviorLoadoutService {
         return true;
     }
 
-    private static @Nullable Item tabletItem() {
-        Item item = Registries.ITEM.get(Identifier.of("sparkdlc", "tablet"));
-        return item == Items.AIR ? null : item;
-    }
-
     /**
      * Retries the tablet move each tick for a short while; stops once the player left, died or was forgotten.
      * 每刻短暂重试平板移动；玩家离开、死亡或被忘记后停止。
@@ -237,11 +229,10 @@ public final class SaviorLoadoutService {
             return;
         }
         Scheduler.schedule(() -> {
-            Item tablet = tabletItem();
-            if (tablet == null || player.isRemoved() || !isGranted(player)) {
+            if (player.isRemoved() || !isGranted(player)) {
                 return;
             }
-            if (!moveExistingToHotbar(player, TABLET_SLOT, tablet)) {
+            if (!moveExistingToHotbar(player, TABLET_SLOT, SparkDlcItems.tablet())) {
                 scheduleTabletMove(player, attempt + 1);
             } else {
                 player.currentScreenHandler.sendContentUpdates();

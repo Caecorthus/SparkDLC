@@ -36,8 +36,8 @@ public final class PerfumerClientEffects {
         if (player == null) {
             return false;
         }
-        PerfumerScentComponent scent = PerfumerScentComponent.KEY.getNullable(player);
-        return scent != null && scent.hasCoolingOil() && GameFunctions.isPlayerPlayingAndAlive(player);
+        PerfumerScentComponent scent = PerfumerScentComponent.KEY.get(player);
+        return scent.hasCoolingOil() && GameFunctions.isPlayerPlayingAndAlive(player);
     }
 
     /** Cheap identity check first: KeyBinding queries run for every key every tick. / 先做廉价的身份比较：每个按键每 tick 都会查询。 */
@@ -111,8 +111,8 @@ public final class PerfumerClientEffects {
         if (player == null) {
             return null;
         }
-        PerfumerScentComponent scent = PerfumerScentComponent.KEY.getNullable(player);
-        if (scent == null || (!scent.hasCoolingOil() && !scent.hasAroma())) {
+        PerfumerScentComponent scent = PerfumerScentComponent.KEY.get(player);
+        if (!scent.hasCoolingOil() && !scent.hasAroma()) {
             return null;
         }
         // Checked last: it reads the world game component. / 最后检查：需要读取世界游戏组件。

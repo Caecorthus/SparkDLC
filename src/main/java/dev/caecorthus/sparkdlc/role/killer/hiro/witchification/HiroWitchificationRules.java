@@ -87,24 +87,21 @@ public final class HiroWitchificationRules {
     }
 
     /**
-     * First empty slot Wathe's limited inventory shows: hotbar 0-8, then 27-35 only while its second
-     * row is shown; never the hidden 9-26, where {@code PlayerInventory#insertStack} would otherwise bury the item.
+     * First empty slot Wathe's limited inventory shows: hotbar 0-8, then its second row 27-35; never the hidden 9-26, where {@code PlayerInventory#insertStack} would otherwise bury the item.
      * Returns -1 when every shown slot is taken.
-     * Wathe 受限物品栏显示的第一个空栏位：快捷栏 0-8，然后仅在其第二行显示时为 27-35；绝不使用隐藏的 9-26
+     * Wathe 受限物品栏显示的第一个空栏位：快捷栏 0-8，然后是其第二行 27-35；绝不使用隐藏的 9-26
      * （{@code PlayerInventory#insertStack} 否则会把物品埋进那里）。可见栏位全满时返回 -1。
      */
-    public static int shownEmptySlot(boolean secondRowShown, IntPredicate emptySlot) {
+    public static int shownEmptySlot(IntPredicate emptySlot) {
         for (int slot = 0; slot < PlayerInventory.getHotbarSize(); slot++) {
             if (emptySlot.test(slot)) {
                 return slot;
             }
         }
-        if (secondRowShown) {
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (emptySlot.test(slot)) {
-                    return slot;
-                }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (emptySlot.test(slot)) {
+                return slot;
             }
         }
         return -1;

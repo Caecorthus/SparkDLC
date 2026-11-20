@@ -203,9 +203,8 @@ _Avoid_: broad audio suppression, role rebalance, talent patch
 
 - **SparkAssist client settings** store one **Wathe instinct toggle** mode and
   one **Event sound volume** per **Event sound group**.
-- The **SparkDLC settings screen** is the only UI for **SparkAssist client settings**; it owns no values itself, and
-  a sibling mod's rows appear only while that mod answers through its public API (`SparkDlcSettingsApi` tells
-  SparkWitch to stop adding its own Accessibility rows).
+- The **SparkDLC settings screen** is the only UI for **SparkAssist client settings** and for the scope settings; it
+  owns no values itself (each page edits its feature's store).
 - Each **Event sound group** owns one or more identifiers in the
   **Event sound catalog**.
 - The **Client sound runtime** consults the **Event sound catalog** before

@@ -67,8 +67,8 @@ public final class TraitRoleChangeRevalidation {
         if (role == null) {
             return;
         }
-        TraitPlayerComponent traits = TraitPlayerComponent.KEY.maybeGet(player).orElse(null);
-        if (traits == null || ownsLiveTraitTransition(player, traits)) {
+        TraitPlayerComponent traits = TraitPlayerComponent.KEY.get(player);
+        if (ownsLiveTraitTransition(player, traits)) {
             return;
         }
 

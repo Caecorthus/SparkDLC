@@ -85,13 +85,11 @@ public final class AccountantRules {
     }
 
     /**
-     * Pays only on a confirmed non-Impostor: the Impostor trait pays its holder's task income itself, so the two never
-     * stack. An unknown answer (null) never pays; unreachable since the fusion, the caller passes a plain boolean.
-     * 只在确认不是内鬼时发放：内鬼词条自行支付持有者的任务收入，两者绝不叠加。未知答案（null）从不发放；
-     * 融合后不可达，调用方传入的是普通 boolean。
+     * Pays only a non-Impostor: the Impostor trait pays its holder's task income itself, so the two never stack.
+     * 只向非内鬼发放：内鬼词条自行支付持有者的任务收入，两者绝不叠加。
      */
-    public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
-        return Boolean.FALSE.equals(impostor);
+    public static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     /**

@@ -10,6 +10,8 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SOUTH;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.doctor4t.wathe.index.WatheParticles;
 import java.util.Comparator;
 import java.util.List;
@@ -24,12 +26,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -47,7 +46,6 @@ import net.minecraft.util.math.Vec3d;
  * 效果（标记、带毒者轮廓、陷阱冒烟）由这里用脚本补上，并在字幕里说明谁能看到；游戏里耗时更长的过程做了缩短，字幕会注明。
  */
 final class RoleKitKillerItemScenes {
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     /** PathogenRules.CARRIER_COLOR_FOR_PATHOGEN: a carrier as the Pathogen sees it. 病原体眼中带毒者的颜色。 */
     private static final int CARRIER_DARK_GREEN = 0x1E8C1E;
     /** PathogenRules.TEAMMATE_COLOR: a fellow Pathogen, through walls. 病原体同伴（隔墙可见）的颜色。 */
@@ -76,28 +74,18 @@ final class RoleKitKillerItemScenes {
     }
 
     static void register() {
-        item("sparkdlc:morph_reagent", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
-        item("sparkdlc:morph_device", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
-        item("sparkdlc:m67", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::m67));
-        item("sparkdlc:bomb_drone", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::bombDrone));
-        item("sparkdlc:skateboard", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::skateboard));
-        item("sparkdlc:virus", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::virus));
-        item("sparkdlc:t_virus", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::tVirus));
-        item("sparkdlc:serial_pistol", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
-        item("sparkdlc:serial_left_pistol", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
+        item("sparkdlc:morph_reagent", scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
+        item("sparkdlc:morph_device", scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
+        item("sparkdlc:m67", scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::m67));
+        item("sparkdlc:bomb_drone", scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::bombDrone));
+        item("sparkdlc:skateboard", scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::skateboard));
+        item("sparkdlc:virus", scene("wathe/aisle", RoleKitKillerItemScenes::virus));
+        item("sparkdlc:t_virus", scene("wathe/aisle", RoleKitKillerItemScenes::tVirus));
+        item("sparkdlc:serial_pistol", scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
+        item("sparkdlc:serial_left_pistol", scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
         // The lights sabotage is triggered from the tablet, so its demo hangs on the breaker everyone repairs.
         // 灯光破坏从平板发动，所以演示挂在大家都要去修的电闸上。
-        item("sparkdlc:circuit_breaker", NOELLES_STRENGTH,
-                scene("wathe/lit_carriage", RoleKitKillerItemScenes::circuitBreaker));
+        item("sparkdlc:circuit_breaker", scene("wathe/lit_carriage", RoleKitKillerItemScenes::circuitBreaker));
         // timedBombTrap and serialPistols also join the noellesroles:timed_bomb and wathe:psycho_mode demos
         // (NoellesKillerScenes / WatheShopScenes.register). 两者也分别加入定时炸弹与疯魔模式的演示。
     }
@@ -888,25 +876,18 @@ final class RoleKitKillerItemScenes {
         return elapsed;
     }
 
-    /**
-     * The circuit breaker facing north, not tripped. The block is still looked up by id because this class used to be
-     * in a jar that could not see it. 电闸，朝北、未跳闸；仍按 id 取方块，因为本类原先所在的 jar 看不到它。
-     */
+    /** The circuit breaker facing north, not tripped. 电闸，朝北、未跳闸。 */
     private static BlockState breaker() {
-        BlockState state = Registries.BLOCK.get(Identifier.of("sparkdlc", "circuit_breaker")).getDefaultState();
-        if (state.contains(Properties.HORIZONTAL_FACING)) {
-            state = state.with(Properties.HORIZONTAL_FACING, Direction.NORTH);
-        }
-        return tripped(state, false);
+        return tripped(SparkDlcBlocks.circuitBreaker().getDefaultState()
+                .with(Properties.HORIZONTAL_FACING, Direction.NORTH), false);
     }
 
     /**
-     * CircuitBreakerBlock.TRIPPED, found by name on the block's own state manager: a lights sabotage drops the lever,
-     * a repair puts it back. 按名字从方块自己的状态管理器取得 CircuitBreakerBlock.TRIPPED：灯光破坏让拉杆落下，修好后复位。
+     * {@link CircuitBreakerBlock#TRIPPED}: a lights sabotage drops the lever, a repair puts it back; a state without it
+     * is left as it is. {@link CircuitBreakerBlock#TRIPPED}：灯光破坏让拉杆落下，修好后复位；没有该属性的状态保持原样。
      */
     private static BlockState tripped(BlockState state, boolean tripped) {
-        return state.getBlock().getStateManager().getProperty("tripped") instanceof BooleanProperty property
-                ? state.with(property, tripped) : state;
+        return state.contains(CircuitBreakerBlock.TRIPPED) ? state.with(CircuitBreakerBlock.TRIPPED, tripped) : state;
     }
 
     /** The point {@code distance} blocks from {@code from} along {@code yaw}. 从 from 沿 yaw 方向 distance 格处的点。 */

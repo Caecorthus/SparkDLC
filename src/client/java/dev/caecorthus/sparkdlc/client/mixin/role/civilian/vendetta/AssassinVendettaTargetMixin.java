@@ -33,8 +33,7 @@ public abstract class AssassinVendettaTargetMixin {
             return targets;
         }
         for (AbstractClientPlayerEntity player : client.world.getPlayers()) {
-            VendettaPlayerComponent component = VendettaPlayerComponent.KEY.maybeGet(player).orElse(null);
-            if (component != null && component.isBoundViewer() && !targets.contains(player.getUuid())) {
+            if (VendettaPlayerComponent.KEY.get(player).isBoundViewer() && !targets.contains(player.getUuid())) {
                 targets.add(player.getUuid());
             }
         }

@@ -1,16 +1,21 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.item.ninja.NinjaKnifeItem;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneHitGeometry;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
+import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionShellType;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -25,7 +30,6 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -262,7 +266,7 @@ public final class PartygoerWeaponHits {
                 || SparkTraitsApi.blocksWeaponAction(user, kunai)) {
             return false;
         }
-        double range = PartygoerWeaponRules.NINJA_KNIFE_RANGE;
+        double range = NinjaKnifeItem.MAX_RANGE;
         HitResult aimed = ProjectileUtil.getCollision(user, entity -> entity instanceof ServerPlayerEntity victim
                 && victim != user && GameFunctions.isPlayerAliveAndSurvival(victim), range);
         if (!killNearestOnLook(user, range, aimed instanceof EntityHitResult hit ? hit.getEntity() : null,
@@ -270,7 +274,7 @@ public final class PartygoerWeaponHits {
             return false;
         }
         user.swingHand(hand, true);
-        user.getItemCooldownManager().set(kunai.getItem(), PartygoerWeaponRules.NINJA_KNIFE_COOLDOWN_TICKS);
+        user.getItemCooldownManager().set(kunai.getItem(), NinjaKnifeItem.KNIFE_COOLDOWN_TICKS);
         return true;
     }
 
@@ -287,8 +291,7 @@ public final class PartygoerWeaponHits {
                 || !PartygoerHitGeometry.targetableBy(owner, partygoer)) {
             return false;
         }
-        String type = Registries.ENTITY_TYPE.getId(projectile.getType()).toString();
-        Identifier reason = PartygoerWeaponRules.SHURIKEN_ENTITY_ID.equals(type)
+        Identifier reason = projectile.getType() == SparkDlcEntities.ninjaShuriken()
                 ? SparkDlcDeathReasons.NINJA_SHURIKEN_KILL
                 : GameConstants.DeathReasons.GENERIC;
         if (!PartygoerService.killByWeapon(owner instanceof ServerPlayerEntity player ? player : null, partygoer,
@@ -472,14 +475,14 @@ public final class PartygoerWeaponHits {
      */
     public static boolean onSparkWitchFeatherBlade(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                                    double range) {
-        if (user == null || !mayKill(user) || !hasRole(user, PartygoerWeaponRules.BLACK_RAVEN_ROLE_ID)) {
+        if (user == null || !mayKill(user) || !hasRole(user, BlackRavenRules.ROLE_ID)) {
             return false;
         }
-        Item blade = heldItem(user, PartygoerWeaponRules.FEATHER_BLADE_ID);
+        Item blade = heldItem(user, SparkDlcItems.featherBlade());
         if (blade == null || !killNearestOnLook(user, range, target, GameConstants.DeathReasons.KNIFE, true)) {
             return false;
         }
-        user.getItemCooldownManager().set(blade, PartygoerWeaponRules.FEATHER_COOLDOWN_TICKS);
+        user.getItemCooldownManager().set(blade, BlackRavenRules.FEATHER_COOLDOWN_TICKS);
         return true;
     }
 
@@ -627,8 +630,7 @@ public final class PartygoerWeaponHits {
      */
     public static boolean onCeremonialSwordStrike(@Nullable ServerPlayerEntity attacker, @Nullable Entity target) {
         if (attacker == null || attacker.getWorld().isClient() || !(target instanceof PartygoerEntity partygoer)
-                || !PartygoerWeaponRules.CEREMONIAL_SWORD_ID.equals(
-                Registries.ITEM.getId(attacker.getMainHandStack().getItem()).toString())
+                || !attacker.getMainHandStack().isOf(SparkDlcItems.ceremonialSword())
                 || !mayKill(attacker) || partygoer.getWorld() != attacker.getWorld()
                 || !PartygoerHitGeometry.isTargetable(partygoer)
                 || !PartygoerHitGeometry.inMeleeReach(attacker, partygoer, PartygoerWeaponRules.MELEE_REACH)) {
@@ -671,13 +673,12 @@ public final class PartygoerWeaponHits {
     /**
      * A sword kill on a Partygoer, gated and paid like the sword's own (no sword kill cooldown, no strike in progress,
      * the trait weapon gate; then the 30 s sword kill cooldown and the trident hit sound). The Grand Witch runtime
-     * is read through its own CCA key; the branch for an attacker without the component (the kill still happens,
-     * uncharged) is unreachable since the fusion.
+     * is read through its own CCA key.
      * 对派对客的一次剑杀，门槛与代价同仪礼剑自身（无剑杀冷却、无进行中的攻击、词条武器门槛；之后 30 秒剑杀冷却与三叉戟
-     * 命中声）。大魔女运行时经其自身的 CCA key 读取；玩家没有该组件的分支（仍然击杀，但不计冷却）融合后不可达。
+     * 命中声）。大魔女运行时经其自身的 CCA key 读取。
      */
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, PartygoerEntity partygoer) {
-        Item sword = heldItem(attacker, PartygoerWeaponRules.CEREMONIAL_SWORD_ID);
+        Item sword = heldItem(attacker, SparkDlcItems.ceremonialSword());
         if (!GrandWitchSword.mayStrike(attacker)
                 || sword != null && SparkTraitsApi.blocksWeaponAction(attacker, new ItemStack(sword))) {
             return false;
@@ -706,7 +707,7 @@ public final class PartygoerWeaponHits {
     public static void onPotionShellBlast(@Nullable ServerWorld world, @Nullable Vec3d center,
                                           @Nullable ServerPlayerEntity gunner, @Nullable ItemStack shell) {
         if (world == null || center == null || shell == null || shell.isEmpty()
-                || !PartygoerWeaponRules.TR_SHELL_ID.equals(Registries.ITEM.getId(shell.getItem()).toString())
+                || !shell.isOf(SparkDlcItems.potionShell(PotionShellType.TR))
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
         }
@@ -714,7 +715,7 @@ public final class PartygoerWeaponHits {
         for (PartygoerEntity partygoer : PartygoerService.live(world)) {
             Box box = partygoer.getBoundingBox();
             if (!PartygoerHitGeometry.isTargetable(partygoer)
-                    || !PartygoerWeaponRules.inShellCube(PartygoerWeaponRules.TR_SHELL_SIZE,
+                    || !PartygoerWeaponRules.inShellCube(PotionShellType.TR.size(),
                     partygoer.getX() - center.x, partygoer.getZ() - center.z, box.minY - center.y,
                     box.maxY - center.y)) {
                 continue;
@@ -775,16 +776,15 @@ public final class PartygoerWeaponHits {
                 && PartygoerService.killByWeapon(user, hit.partygoer(), deathReason);
     }
 
-    private static boolean hasRole(ServerPlayerEntity player, String roleId) {
+    private static boolean hasRole(ServerPlayerEntity player, Identifier roleId) {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        return role != null && role.identifier() != null && roleId.equals(role.identifier().toString());
+        return role != null && roleId.equals(role.identifier());
     }
 
-    /** The held item (main hand first) with this registry id, or null. / 手持（先主手）的该 id 物品，或 null。 */
-    private static @Nullable Item heldItem(PlayerEntity player, String id) {
+    /** The item when either hand (main hand first) holds it, or null. / 任一手（先主手）持有该物品时返回它，否则为 null。 */
+    private static @Nullable Item heldItem(PlayerEntity player, Item item) {
         for (Hand hand : Hand.values()) {
-            Item item = player.getStackInHand(hand).getItem();
-            if (id.equals(Registries.ITEM.getId(item).toString())) {
+            if (player.getStackInHand(hand).isOf(item)) {
                 return item;
             }
         }
@@ -793,25 +793,21 @@ public final class PartygoerWeaponHits {
 
     /**
      * The Grand Witch runtime component ({@code getSwordKillCooldownTicks}, {@code isSwordStrikeInProgress},
-     * {@code setSwordKillCooldownTicks}), read through its own CCA key. The fail-open branches for a player without
-     * the component are unreachable since the fusion.
-     * 大魔女运行时组件，经其自身的 CCA key 读取。玩家没有该组件时放行的分支融合后不可达。
+     * {@code setSwordKillCooldownTicks}), read through its own CCA key, which is registered for every player.
+     * 大魔女运行时组件，经其自身的 CCA key 读取；该组件为每名玩家注册。
      */
     private static final class GrandWitchSword {
         private GrandWitchSword() {
         }
 
         static boolean mayStrike(ServerPlayerEntity player) {
-            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.getNullable(player);
-            return runtime == null
-                    || runtime.getSwordKillCooldownTicks() <= 0 && !runtime.isSwordStrikeInProgress();
+            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(player);
+            return runtime.getSwordKillCooldownTicks() <= 0 && !runtime.isSwordStrikeInProgress();
         }
 
         static void startKillCooldown(ServerPlayerEntity player) {
-            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.getNullable(player);
-            if (runtime != null) {
-                runtime.setSwordKillCooldownTicks(PartygoerWeaponRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS);
-            }
+            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(player);
+            runtime.setSwordKillCooldownTicks(PartygoerWeaponRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS);
         }
     }
 }

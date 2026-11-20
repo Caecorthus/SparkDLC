@@ -16,18 +16,14 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
+import org.agmas.noellesroles.ModEffects;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Client-only CCTV overlay for the Seeker's remote view ({@code HudRenderCallback}): frame corners, blinking REC, mode
@@ -49,8 +45,6 @@ import java.util.Optional;
  * 移动键与“2/3”位置的摄像头切换提示。
  */
 public final class SeekerCctvOverlay {
-    /** NoellesRoles Gin immunity, looked up by registry id only (optional dependency). / 仅按注册 id 查找的 NR 金酒免疫（可选依赖）。 */
-    static final Identifier GIN_IMMUNITY_ID = Identifier.of("noellesroles", "gin_immunity");
     private static final int INSET = 8;
     private static final int CORNER = 18;
     private static final int BATTERY_BAR_WIDTH = 92;
@@ -59,12 +53,6 @@ public final class SeekerCctvOverlay {
     private static boolean registered;
     private static int sessionId = Integer.MIN_VALUE;
     private static int sessionStartAge;
-    // Resolved on first use: the status effect registry is frozen after mod init, so the Gin entry (or its absence
-    // without NoellesRoles, unreachable now that NoellesRoles is a required dependency) never changes for the session;
-    // registry sync only remaps raw ids, not entry objects.
-    // 首次使用时解析：状态效果注册表在模组初始化后即冻结，金酒条目（或没有 NoellesRoles 时的缺失；NoellesRoles 现为必需依赖，
-    // 该情况不可达）在整个会话中不会改变；注册表同步只重映射数字 id，不替换条目对象。
-    private static Optional<RegistryEntry.Reference<StatusEffect>> ginImmunity;
 
     private SeekerCctvOverlay() {
     }
@@ -119,12 +107,7 @@ public final class SeekerCctvOverlay {
      * 本体失明或处于黑暗且没有金酒免疫；与 {@link SeekerViewFilter} 共用，使着色器同样黑屏。
      */
     public static boolean isSignalLost(ClientPlayerEntity player) {
-        Optional<RegistryEntry.Reference<StatusEffect>> gin = ginImmunity;
-        if (gin == null) {
-            gin = Registries.STATUS_EFFECT.getEntry(GIN_IMMUNITY_ID);
-            ginImmunity = gin;
-        }
-        boolean ginImmune = gin.isPresent() && player.hasStatusEffect(gin.get());
+        boolean ginImmune = player.hasStatusEffect(ModEffects.GIN_IMMUNITY);
         return SeekerCctvRules.signalLost(player.hasStatusEffect(StatusEffects.BLINDNESS),
                 player.hasStatusEffect(StatusEffects.DARKNESS), ginImmune);
     }

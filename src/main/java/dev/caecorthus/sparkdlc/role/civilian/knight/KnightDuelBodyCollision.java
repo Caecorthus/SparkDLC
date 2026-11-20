@@ -25,16 +25,15 @@ public final class KnightDuelBodyCollision {
     }
 
     /**
-     * Hot path (every entity collision query): type checks, then the duel flag, then the two UUID compares. A world
-     * without the component fails closed (normal collision).
-     * 热路径（每次实体碰撞查询）：先判类型，再判决斗标志，最后两次 UUID 比较。没有该组件的世界按正常碰撞处理。
+     * Hot path (every entity collision query): type checks, then the duel flag, then the two UUID compares.
+     * 热路径（每次实体碰撞查询）：先判类型，再判决斗标志，最后两次 UUID 比较。
      */
     public static boolean ignoresPlayerBody(Entity self, Entity other) {
         if (!(self instanceof PlayerEntity selfPlayer) || !(other instanceof PlayerEntity otherPlayer)) {
             return false;
         }
-        KnightDuelWorldComponent duel = KnightDuelWorldComponent.KEY.getNullable(selfPlayer.getWorld());
-        return duel != null && duel.active()
+        KnightDuelWorldComponent duel = KnightDuelWorldComponent.KEY.get(selfPlayer.getWorld());
+        return duel.active()
                 && (duel.isDuelist(selfPlayer.getUuid()) || duel.isDuelist(otherPlayer.getUuid()));
     }
 }

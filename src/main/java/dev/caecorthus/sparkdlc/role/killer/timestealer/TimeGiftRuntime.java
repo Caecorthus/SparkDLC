@@ -123,10 +123,7 @@ public final class TimeGiftRuntime {
         if (player == null) {
             return;
         }
-        TimeGiftPlayerComponent state = TimeGiftPlayerComponent.KEY.getNullable(player);
-        if (state != null) {
-            state.clear();
-        }
+        TimeGiftPlayerComponent.KEY.get(player).clear();
     }
 
     /** Private chime pitch, rising stage by stage above the curse's. / 私有钟声音高，逐阶升高且高于诅咒。 */

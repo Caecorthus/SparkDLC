@@ -22,8 +22,8 @@ import net.minecraft.text.Text;
  * row two the skateboard line (granted at round start, so usually present). A fixed row keeps this line still when the
  * board line comes and goes.
  *
- * <p>只渲染服务端同步的冷却；按键不可用（该职业已被其他处理器占用，或服务端不收此包）时整行隐藏。
- * Renders only the server-synced cooldown; hidden entirely when the key cannot reach the skill.</p>
+ * <p>只渲染服务端同步的冷却；服务端不收此包时整行隐藏。
+ * Renders only the server-synced cooldown; hidden entirely when the server does not take the request.</p>
  */
 public final class VultureSuperCurseHud {
     /** Rows counted from the bottom: NoellesRoles tip, skateboard, this. / 自底向上：NoellesRoles 提示、滑板、本行。 */
@@ -33,8 +33,7 @@ public final class VultureSuperCurseHud {
     }
 
     public static void render(TextRenderer renderer, ClientPlayerEntity player, DrawContext context) {
-        if (!VultureSuperCurseClientHooks.isKeyAvailable()
-                || !ClientPlayNetworking.canSend(VultureSuperCurseC2SPacket.ID)
+        if (!ClientPlayNetworking.canSend(VultureSuperCurseC2SPacket.ID)
                 || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return;
         }

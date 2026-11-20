@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
 
 public final class OwnerInventoryClientAdapter implements OwnerInventoryPresentation.Adapter {
     private static final OwnerInventoryClientAdapter INSTANCE = new OwnerInventoryClientAdapter();
@@ -37,7 +36,6 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
     // Last visible trait ids and their detached entries (render thread). 上次的可见天赋 id 与其独立条目（渲染线程）。
     private static List<Identifier> cachedIds;
     private static List<InventoryInfoCard.Entry> cachedEntries = List.of();
-    private BooleanSupplier presenter;
     private OwnerInventoryClientAdapter() {}
     public static void install() { OwnerInventoryPresentation.install(INSTANCE); }
 
@@ -77,18 +75,6 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
         cachedIds = List.copyOf(visible);
         cachedEntries = List.copyOf(entries);
         return cachedEntries;
-    }
-
-    @Override
-    public boolean register(BooleanSupplier candidate) {
-        if (presenter != null && presenter != candidate) return false;
-        presenter = candidate;
-        return true;
-    }
-
-    public static boolean externallyPresented() {
-        try { return INSTANCE.presenter != null && INSTANCE.presenter.getAsBoolean(); }
-        catch (RuntimeException | LinkageError ignored) { return false; }
     }
 
     /**

@@ -191,8 +191,6 @@ public final class SeekerTargeting {
     }
 
     private static boolean isKidnapped(PlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player)
-                .map(KidnapperControlComponent::isControlled)
-                .orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 }

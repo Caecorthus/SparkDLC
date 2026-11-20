@@ -100,8 +100,7 @@ public final class DominatorReleaseGate {
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {
-        KidnapperControlComponent control = KidnapperControlComponent.KEY.getNullable(player);
-        return control != null && control.isControlled();
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 
     private static boolean blocked(BooleanSupplier check) {

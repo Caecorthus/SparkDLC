@@ -103,7 +103,7 @@ public final class SeekerCarMovement {
         if (owner == null) {
             return false;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        return status != null && status.sessionMode() == SeekerSessionMode.CAR && status.carEntityId() == car.getId();
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        return status.sessionMode() == SeekerSessionMode.CAR && status.carEntityId() == car.getId();
     }
 }

@@ -98,8 +98,8 @@ public final class SeekerTaotieService {
         UUID victimId = victim.getUuid();
         List<ServerPlayerEntity> holders = new ArrayList<>();
         for (ServerPlayerEntity owner : server.getPlayerManager().getPlayerList()) {
-            SeekerStatusComponent component = SeekerStatusComponent.KEY.getNullable(owner);
-            if (component != null && SeekerTaotieRules.killReturnsCar(component.carState(), component.carLostTo(),
+            SeekerStatusComponent component = SeekerStatusComponent.KEY.get(owner);
+            if (SeekerTaotieRules.killReturnsCar(component.carState(), component.carLostTo(),
                     victimId, false)) {
                 holders.add(owner);
             }
@@ -194,7 +194,7 @@ public final class SeekerTaotieService {
 
         @Override
         public boolean carDeployed() {
-            SeekerStatusComponent component = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+            SeekerStatusComponent component = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
             return component != null
                     && car != null
                     && component.carState() == SeekerCarState.DEPLOYED

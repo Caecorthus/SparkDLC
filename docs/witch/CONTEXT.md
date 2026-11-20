@@ -3161,9 +3161,9 @@ Current build baseline:
     Sensitivity (10–200 % in 5 % steps, default 100 %) are appended at the end of vanilla Options → Accessibility by
     `ScopeAccessibilityOptionsMixin` (`addOptions` TAIL calls `ScopeOptions.addTo(body)`, one `addAll`; SparkAssist's
     `getOptions` hook is left untouched). The rows are left out while SparkAssist's SparkDLC settings screen hosts them
-    (`client/bridge/witch/SparkDlcSettingsBridge`: SparkAssist's public
-    `dev.caecorthus.sparkdlc.client.settings.SparkDlcSettingsApi.hostsScopeSettings()` answers true, a direct
-    call since the fusion, asked at every screen init; false means the rows stay); that screen edits them through `client/scope/ScopeSettingsEditor`. Lens Resolution (owner,
+    (the mixin asks the settings screen's
+    `dev.caecorthus.sparkdlc.client.settings.SparkDlcSettingsApi.hostsScopeSettings()`, which answers true, a direct
+    call, asked at every screen init; false means the rows stay); that screen edits them through `client/scope/ScopeSettingsEditor`. Lens Resolution (owner,
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
@@ -5963,7 +5963,7 @@ and `PartygoerHitGeometry` are asked directly), `SparkStrengthBlastOrigin` (`Att
 (`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
 `stun`), and on the client the mana row, Tarot table and inventory cards (`KillerTeamEconomyClientHooks.topRightHudBottom`),
 `client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`) and
-`client/bridge/witch/SparkDlcSettingsBridge` (`SparkDlcSettingsApi.hostsScopeSettings`). The registry-id-only seams
+`client/mixin/scope/ScopeAccessibilityOptionsMixin` (`SparkDlcSettingsApi.hostsScopeSettings`, asked without the former `SparkDlcSettingsBridge`). The registry-id-only seams
 (`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) keep their id lookups
 and only lost the mod gate. Where the role sections below and above describe an absent, older or failing SparkStrength
 or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCaptureStunPinned` skipping a teammate),

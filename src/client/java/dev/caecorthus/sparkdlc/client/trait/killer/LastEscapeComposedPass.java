@@ -4,18 +4,19 @@ import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenPerceptio
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * Delegates the single Last Escape pass to SparkWitch's compositor; a pass that was not rendered, or that failed,
- * retains the Traits fallback. The modules are fused in SparkDLC, so the compositor is always present and is called
- * directly: there is no installed renderer slot and no protocol version to confirm any more.
- * 将唯一的脱险后处理委托给 SparkWitch 合成器；未执行或失败时保留 Traits 的回退后处理。各模块已融合进 SparkDLC，
- * 合成器始终存在并被直接调用：不再有安装式渲染器槽位，也无需确认协议版本。
+ * The single composed Last Escape pass: hands it to the perception compositor
+ * ({@link BlackRavenPerceptionScreenEffects#renderLastEscape}); a pass that was not rendered, or that failed, keeps the
+ * trait feature's own fallback grayscale ({@code DepressionScreenEffects}). The compositor is called directly: there
+ * is no installed renderer slot and no protocol version to confirm.
+ * 唯一的脱险合成后处理：交给感知合成器（{@link BlackRavenPerceptionScreenEffects#renderLastEscape}）；未执行或失败时保留
+ * 特质功能自己的回退灰阶（{@code DepressionScreenEffects}）。合成器被直接调用：没有安装式渲染器槽位，也无需确认协议版本。
  */
-public final class LastEscapeWitchBridge {
+public final class LastEscapeComposedPass {
     // Latched by the first failure inside the Witch pass: from then on Traits keeps rendering its own fallback.
     // Witch 后处理第一次失败后锁存：此后 Traits 一直使用自己的回退后处理。
     private static boolean failed;
 
-    private LastEscapeWitchBridge() {
+    private LastEscapeComposedPass() {
     }
 
     /**

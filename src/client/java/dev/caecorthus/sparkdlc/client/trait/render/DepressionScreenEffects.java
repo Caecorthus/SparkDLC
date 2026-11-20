@@ -15,7 +15,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.network.ClientPlayerEntity;
-import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeWitchBridge;
+import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeComposedPass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -59,7 +59,7 @@ public final class DepressionScreenEffects {
         // getLastEscapeComposition.
         // 委托在此刻执行后处理，因此 mixin 顺序不会造成第二次后处理。各模块已融合进 SparkDLC，这里直接调用 SparkWitch
         // 合成器；它通过 getLastEscapeComposition 取回参数。
-        if (SparkTraitsApi.hasLastEscapeGrayscale(player) && LastEscapeWitchBridge.tryRender(player, delta)) {
+        if (SparkTraitsApi.hasLastEscapeGrayscale(player) && LastEscapeComposedPass.tryRender(player, delta)) {
             releaseIfIdle(player);
             return;
         }

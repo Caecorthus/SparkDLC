@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.corruptcop;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
@@ -46,7 +46,7 @@ public final class CorruptCopFeatureService {
          */
         DoorInteraction.DoorInteractionResult result = CorruptCopRules.neutralMasterKeyDoorResult(
                 handItemId,
-                CorruptCopRules.isNeutralKeyRole(playerRole, SparkFactionCompat::isNeutralAligned)
+                CorruptCopRules.isNeutralKeyRole(playerRole, SparkFactionApi::isNeutralAligned)
                         || CoronerService.hasNeutralDisguise(player),
                 CorruptCopRules.isCorruptCop(playerRole) || CoronerService.hasCorruptCopDisguise(player),
                 context.getDoorType(),

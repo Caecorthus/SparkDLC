@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.silencer;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.KnifeStabTargets;
 import dev.doctor4t.wathe.api.WatheGameModes;
@@ -50,7 +50,7 @@ public final class SilencerKnifeService {
             return true;
         }
 
-        if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
+        if (!SparkFactionApi.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
                 || SparkTraitsApi.blocksOrCancelsMeleeAttack(player, target, player.getStackInHand(heldKnifeHand(player)))) {
             return true;
         }

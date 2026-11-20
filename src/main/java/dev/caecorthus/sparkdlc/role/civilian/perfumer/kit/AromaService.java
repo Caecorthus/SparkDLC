@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.entity.AromaOrbEntity;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
@@ -56,7 +56,7 @@ public final class AromaService {
             return;
         }
         ServerPlayerEntity owner = orb.getOwner() instanceof ServerPlayerEntity player ? player : null;
-        if (owner != null && !SparkFactionCompat.canAffectPlayer(owner, target, PerfumerRules.AROMA_ACTION_ID)) {
+        if (owner != null && !SparkFactionApi.canAffectPlayer(owner, target, PerfumerRules.AROMA_ACTION_ID)) {
             return;
         }
         PerfumerScentComponent.KEY.get(target).applyAroma(world.getRandom().nextLong());

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyBalloonMarkComponent;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
@@ -46,7 +46,7 @@ public final class PartyBalloonService {
                 SwallowedPlayerComponent.isPlayerSwallowed(user),
                 target != user && SparkPlayers.isLivingParticipant(target),
                 SwallowedPlayerComponent.isPlayerSwallowed(target),
-                SparkFactionCompat.canAffectPlayer(user, target, BALLOON_ACTION_ID),
+                SparkFactionApi.canAffectPlayer(user, target, BALLOON_ACTION_ID),
                 PartyBalloonMarkComponent.isMarked(target),
                 target.getBoundingBox().squaredMagnitude(user.getEyePos()),
                 user.canSee(target)

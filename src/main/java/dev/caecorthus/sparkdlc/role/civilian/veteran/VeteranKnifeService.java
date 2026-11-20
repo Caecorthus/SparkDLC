@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
@@ -81,7 +81,7 @@ public final class VeteranKnifeService {
         }
 
         Hand usedHand = heldKnifeHand(player);
-        if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
+        if (!SparkFactionApi.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
                 || SparkTraitsApi.blocksOrCancelsMeleeAttack(player, target, player.getStackInHand(usedHand))) {
             return true;
         }
@@ -128,7 +128,7 @@ public final class VeteranKnifeService {
          * for a borrowed-knife innocent kill.
          */
         Hand usedHand = heldKnifeHand(player);
-        if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
+        if (!SparkFactionApi.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
                 || SparkTraitsApi.blocksOrCancelsMeleeAttack(player, target, player.getStackInHand(usedHand))) {
             return true;
         }

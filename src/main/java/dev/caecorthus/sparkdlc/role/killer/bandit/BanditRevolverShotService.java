@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bandit;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
@@ -72,7 +72,7 @@ public final class BanditRevolverShotService {
         ServerPlayerEntity candidate = claimedTarget(shooter, targetId, range);
         // SparkFactionAPI drops a revolver shot at a protected player outright: no sound, record, cooldown or round.
         // SparkFactionAPI 对受保护玩家的左轮射击整包丢弃：无声音、无记录、无冷却，也不消耗子弹。
-        if (candidate != null && !SparkFactionCompat.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
+        if (candidate != null && !SparkFactionApi.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
             return;
         }
         ServerWorld world = shooter.getServerWorld();

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCooldownCompat;
+import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -104,8 +104,8 @@ public final class SerialKillerCooldownService {
         // Only the natural knife/revolver cooldowns reset: penalties other features forced through SparkFactionAPI keep
         // running. / 只重置刀与左轮的自然冷却：其他功能经 SparkFactionAPI 强制施加的惩罚继续生效。
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            SparkFactionCooldownCompat.clearItemCooldownKeepingForced(serverPlayer, WatheItems.KNIFE);
-            SparkFactionCooldownCompat.clearItemCooldownKeepingForced(serverPlayer, WatheItems.REVOLVER);
+            ForcedCooldowns.clearItemKeepingForced(serverPlayer, WatheItems.KNIFE);
+            ForcedCooldowns.clearItemKeepingForced(serverPlayer, WatheItems.REVOLVER);
             return;
         }
         player.getItemCooldownManager().remove(WatheItems.KNIFE);

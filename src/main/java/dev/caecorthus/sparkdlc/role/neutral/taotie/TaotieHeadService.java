@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
@@ -261,7 +261,7 @@ public final class TaotieHeadService {
                     || !GameFunctions.isPlayerPlayingAndAlive(candidate)
                     || !GameFunctions.isPlayerAliveAndSurvival(candidate)
                     || SwallowedPlayerComponent.isPlayerSwallowed(candidate)
-                    || !SparkFactionCompat.canAffectPlayer(shooter, candidate, TaotieHeadRules.HEAD_ACTION_ID)) {
+                    || !SparkFactionApi.canAffectPlayer(shooter, candidate, TaotieHeadRules.HEAD_ACTION_ID)) {
                 continue;
             }
             valid.add(candidate);

@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.AttendantRules;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneService;
@@ -36,7 +35,7 @@ public final class TabletShopService {
         registered = true;
         // Corrupt Cop joins SparkFactionAPI PoliceRoles, i.e. the police network (TabletShopRules#isPoliceNetworkRole).
         // 黑警注册进 SparkFactionAPI PoliceRoles，即加入义警平板网络。
-        SparkFactionCompat.registerCorruptCopPoliceRole();
+        TabletShopRules.registerCorruptCopPoliceRole();
     }
 
     /**

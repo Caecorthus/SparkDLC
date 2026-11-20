@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.spiritualist;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCooldownCompat;
+import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
+import dev.caecorthus.sparkdlc.cooldown.api.FunctionRoleSkillCooldownStore;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -75,12 +76,12 @@ public final class SpiritPossessionService {
         VIEWS.registerCleanup();
         // Optional SFA seam: forced-cooldown features may floor/extend the possession cooldown (nominal 45 s).
         // 可选 SFA 接缝：强制冷却功能可为附身冷却设下限或延长（标称 45 秒）。
-        SparkFactionCooldownCompat.registerRoleSkillStore(
+        ForcedCooldowns.registerRoleSkillStore(new FunctionRoleSkillCooldownStore(
                 SpiritPossessionRules.COOLDOWN_STORE_ID,
                 SpiritPossessionService::isSpiritualist,
                 player -> SpiritPossessionPlayerComponent.KEY.get(player).getCooldownTicks(),
                 player -> OptionalInt.of(SpiritPossessionRules.COOLDOWN_TICKS),
-                (player, ticks) -> SpiritPossessionPlayerComponent.KEY.get(player).setCooldownTicks(ticks));
+                (player, ticks) -> SpiritPossessionPlayerComponent.KEY.get(player).setCooldownTicks(ticks)));
         // Wathe fires ResetPlayer before RoleAssigned at round start, so the opening cooldown survives the reset.
         // 开局时 Wathe 先触发 ResetPlayer 再触发 RoleAssigned，因此开局冷却不会被重置清掉。
         RoleAssigned.EVENT.register((player, role) -> {

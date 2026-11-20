@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopRules;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoleRules;
 import dev.doctor4t.wathe.api.Faction;
@@ -192,7 +192,7 @@ public final class CoronerRules {
     public static boolean grantsNeutralMasterKey(@Nullable Role role) {
         // 用户确认：中立万能钥匙给所有中立身份的尸体。原生 Wathe 阵营后按“与中立对齐”判断，魔女阵营与嘉豪阵营仍给（D3）。
         // Neutral-aligned corpses (native witch faction and Team Jiahao included, D3) and the Corrupt Cop lend the key.
-        return CorruptCopRules.isNeutralKeyRole(role, SparkFactionCompat::isNeutralAligned);
+        return CorruptCopRules.isNeutralKeyRole(role, SparkFactionApi::isNeutralAligned);
     }
 
     public static boolean grantsWaiterDoublePickup(@Nullable Role role) {

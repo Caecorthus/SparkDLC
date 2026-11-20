@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.killer.silencer;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -39,7 +39,7 @@ public abstract class SilencerBatAttackMixin {
                 && getAttackCooldownProgress(0.5F) >= 1.0F) {
             if (serverPlayer.isSpectator() || playerTarget.isSpectator()
                     || playerTarget == serverPlayer || playerTarget.distanceTo(serverPlayer) > 3.0D
-                    || !SparkFactionCompat.canAffectPlayer(serverPlayer, playerTarget, GameConstants.DeathReasons.BAT)
+                    || !SparkFactionApi.canAffectPlayer(serverPlayer, playerTarget, GameConstants.DeathReasons.BAT)
                     || SparkTraitsApi.blocksOrCancelsMeleeAttack(serverPlayer, playerTarget, self.getMainHandStack())) {
                 return;
             }

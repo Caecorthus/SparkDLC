@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.gui.widget;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.SparkWitchFactions;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules.RolePickerBand;
 import dev.doctor4t.wathe.api.Role;
@@ -33,12 +34,12 @@ public final class RoleFactionBands {
      * 否则会落入平民组。没有 SparkFactionAPI 时沿用原划分（与中立对齐回退为 isNeutral()）。
      */
     public static RolePickerBand bandOf(Role role) {
-        Identifier faction = SparkFactionCompat.baseFaction(role);
+        Identifier faction = SparkFactionApi.resolveBaseFaction(role);
         return DetectiveCaseRules.rolePickerBand(
                 role.canUseKiller(),
-                SparkFactionCompat.WITCH_FACTION_ID.equals(faction),
-                SparkFactionCompat.JIAHAO_FACTION_ID.equals(faction),
-                SparkFactionCompat.isNeutralAligned(role));
+                SparkWitchFactions.WITCH.equals(faction),
+                SparkWitchFactions.JIAHAO.equals(faction),
+                SparkFactionApi.isNeutralAligned(role));
     }
 
     /** Opaque ARGB accent of a band. / 分组的不透明 ARGB 强调色。 */

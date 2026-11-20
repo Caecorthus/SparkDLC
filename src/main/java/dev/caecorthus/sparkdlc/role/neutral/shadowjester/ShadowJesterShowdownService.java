@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.shadowjester;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
@@ -417,7 +417,7 @@ public final class ShadowJesterShowdownService {
             // Settlement-excluded roles (SparkWitch's Black Raven, via SparkFactionAPI) never count as alive here, so
             // they cannot hold up the clearing win; nobody is skipped without that API.
             // 结算排除的身份（经 SparkFactionAPI，例如 SparkWitch 的黑羽鸦）在此不算存活，不会拖住清场胜利；没有该 API 时不跳过任何人。
-            if (SparkFactionCompat.isSettlementExcluded(game, player.getUuid())) {
+            if (SettlementExclusions.isExcluded(game, player.getUuid())) {
                 continue;
             }
             livingOthers.add(player);

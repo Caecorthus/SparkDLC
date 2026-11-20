@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
@@ -79,7 +79,11 @@ public final class PartygoerInstinctClientHooks {
                 SparkTraitsApi.isEffectiveKiller(role, viewer),
                 GameFunctions.isPlayerPlayingAndAlive(viewer),
                 WatheClient.isInstinctEnabledAndIsKiller(),
-                SparkFactionCompat.canUseInstinct(viewer, game),
+                // The viewer's effective faction declares an instinct key (Wathe killers, the witch faction and the
+                // Murderous Witch today). Per faction only: role-specific keys are hasRoleInstinctKey below.
+                // 观察者的有效阵营声明了本能键（目前为 Wathe 杀手、魔女阵营与杀意魔女）。只按阵营判断：职业专属按键见下方的
+                // hasRoleInstinctKey。
+                SparkFactionApi.capabilities(SparkFactionApi.resolveEffectiveFaction(viewer, game)).canUseInstinct(),
                 hasRoleInstinctKey(viewer, game, role));
         int color = PartygoerVisibilityRules.color(kind, Noellesroles.PARTY_ANIMAL.color());
         return color == -1 ? null

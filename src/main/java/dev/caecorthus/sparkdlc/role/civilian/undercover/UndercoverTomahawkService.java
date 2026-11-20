@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
@@ -135,7 +135,7 @@ public final class UndercoverTomahawkService {
         if (!GameFunctions.isPlayerPlayingAndAlive(victim) || crowPos == null && !inReach(attacker, victim)
                 || SabotageActionLocks.isLocked(attacker)
                 || SparkTraitsApi.blocksWeaponAction(attacker, held)
-                || !SparkFactionCompat.canAffectPlayer(attacker, victim, DEATH_REASON)
+                || !SparkFactionApi.canAffectPlayer(attacker, victim, DEATH_REASON)
                 || SparkTraitsApi.blocksOrCancelsMeleeAttack(attacker, victim, held)) {
             return;
         }

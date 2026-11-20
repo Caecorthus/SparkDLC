@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.event;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.faction.api.DenyActionPolicy;
 import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -138,7 +139,8 @@ public final class SparkStrengthEvents {
         UndercoverTomahawkService.register();
         DoorBreachService.register();
         ServerTickEvents.END_WORLD_TICK.register(UndercoverService::tick);
-        SparkFactionCompat.denyAction(UndercoverService.BELL_ECHO_ACTION, UndercoverRoles::isUndercover);
+        SparkFactionApi.registerPlayerAffectPolicy(
+                new DenyActionPolicy(UndercoverService.BELL_ECHO_ACTION, UndercoverRoles::isUndercover));
         VeteranShopService.register();
         VultureSkateboardService.register();
         // Super Curse death scream / curse stop on KillPlayer.AFTER and round end; registered after the skateboard.

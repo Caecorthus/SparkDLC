@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.PoliceRoles;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopRules;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranRules;
 import dev.doctor4t.wathe.api.Role;
@@ -45,12 +45,19 @@ public final class TabletShopRules {
         if (role == null || VeteranRules.isVeteran(role)) {
             return false;
         }
-        Boolean police = SparkFactionCompat.isPoliceRole(role);
-        // The police registry decides (the bridge calls it directly since the SparkDLC fusion and never answers null
-        // for a role); the original whitelist stays only as the null-safe default. Never infer police from gear/faction.
-        // 由警职注册表决定（融合进 SparkDLC 后桥接直接调用它，对非 null 身份不再返回 null）；原白名单仅作为 null 安全的默认值保留。
-        // 绝不通过装备或阵营推断警职。
-        return police != null ? police : isVigilante(role) || CorruptCopRules.isCorruptCop(role);
+        // Idempotent: Corrupt Cop is registered before the first classification, whatever the initialization order.
+        // 幂等：无论初始化顺序如何，黑警都会在首次分类前完成注册。
+        registerCorruptCopPoliceRole();
+        // The police registry decides, and it is read on every call so registrations made later remain visible.
+        // Never infer police from gear/faction.
+        // 由警职注册表决定；每次调用都读取注册表，确保稍后注册的身份立即可见。绝不通过装备或阵营推断警职。
+        return PoliceRoles.contains(role.identifier());
+    }
+
+    /** Police tablet-network classification only: this does not change NoellesRoles allocation or faction.
+     *  仅注册义警平板网络分类，不改变 NoellesRoles 的身份分配或阵营。 */
+    static void registerCorruptCopPoliceRole() {
+        PoliceRoles.register(CorruptCopRules.CORRUPT_COP_ID);
     }
 
     public static boolean isVigilante(@Nullable Role role) {

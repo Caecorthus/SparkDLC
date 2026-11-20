@@ -239,6 +239,16 @@ public final class SparkFactionApi {
         return PlayerAffectRules.canAffectPlayer(actor, target, actionId, gameComponent);
     }
 
+    /**
+     * {@link #canAffectPlayer(PlayerEntity, PlayerEntity, Identifier, GameWorldComponent)} for a caller that holds no
+     * game component: it is read from the actor's world, so the actor must not be null.
+     * 供手头没有游戏组件的调用方使用的 {@link #canAffectPlayer(PlayerEntity, PlayerEntity, Identifier, GameWorldComponent)}：
+     * 游戏组件取自执行者所在的世界，因此执行者不得为 null。
+     */
+    public static boolean canAffectPlayer(PlayerEntity actor, PlayerEntity target, Identifier actionId) {
+        return canAffectPlayer(actor, target, actionId, GameWorldComponent.KEY.get(actor.getWorld()));
+    }
+
     public static FactionCapabilities capabilities(Identifier factionId) {
         return FactionCatalog.capabilities(factionId);
     }

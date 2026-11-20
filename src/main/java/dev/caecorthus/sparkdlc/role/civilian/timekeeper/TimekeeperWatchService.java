@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.timekeeper;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCooldownCompat;
+import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
@@ -203,7 +203,7 @@ public final class TimekeeperWatchService {
             // clear; penalties forced through SparkFactionAPI keep running.
             // 同时用于使用者自己与所有目标。清除自然冷却（含 remove 钩子释放的所属模组计时）；经 SparkFactionAPI
             // 强制施加的惩罚继续生效。
-            SparkFactionCooldownCompat.clearItemCooldownKeepingForced(player, item);
+            ForcedCooldowns.clearItemKeepingForced(player, item);
         }
     }
 

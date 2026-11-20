@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.noisemaker;
 
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowUserComponent;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -45,8 +45,9 @@ public final class NoisemakerGlowService {
         // Guards Noisemaker's selected target before its cooldown is consumed: a target the player-affect policies
         // protect ends the request here, before any other check, so it costs nothing.
         // 在消耗冷却前拦截噪音制造者选中的目标：受玩家影响策略保护的目标让请求在其他检查之前就此结束，不产生任何代价。
-        ServerPlayerEntity guardedTarget = PlayerAffectMixinGuard.onlineTarget(user, targetUuid);
-        if (guardedTarget != null && !PlayerAffectMixinGuard.allows(user, guardedTarget, GLOW_ACTION)) {
+        ServerPlayerEntity guardedTarget =
+                targetUuid == null ? null : user.getServer().getPlayerManager().getPlayer(targetUuid);
+        if (guardedTarget != null && !SparkFactionApi.allowsPlayerAction(user, guardedTarget, GLOW_ACTION)) {
             return;
         }
         if (targetUuid == null) {

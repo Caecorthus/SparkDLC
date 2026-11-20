@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.ceremonialsword;
 
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -140,7 +140,7 @@ public final class CeremonialSwordCombatService {
      * 左键与冲刺接触共用此门槛：最先以仪礼剑死因作为行为询问玩家影响守卫，因此被拒绝的击杀在查看剑自身的冷却与斩击状态之前结束。
      */
     public static void killWithCeremonialSword(ServerPlayerEntity attacker, ServerPlayerEntity target) {
-        if (!PlayerAffectMixinGuard.allows(attacker, target, SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
+        if (!SparkFactionApi.allowsPlayerAction(attacker, target, SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
             return;
         }
         GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(attacker);

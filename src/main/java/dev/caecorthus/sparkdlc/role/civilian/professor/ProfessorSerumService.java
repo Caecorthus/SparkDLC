@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.professor;
 
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumUserComponent;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -55,7 +55,7 @@ public final class ProfessorSerumService {
         if (guardedTarget == null) {
             guardedTarget = professor;
         }
-        if (!PlayerAffectMixinGuard.allows(professor, guardedTarget, SERUM_ACTION)) {
+        if (!SparkFactionApi.allowsPlayerAction(professor, guardedTarget, SERUM_ACTION)) {
             return false;
         }
         if (!canUseSerum(professor)) {
@@ -80,7 +80,7 @@ public final class ProfessorSerumService {
             ItemStack stack,
             ProfessorSerumType type
     ) {
-        if (!PlayerAffectMixinGuard.allows(professor, target, SERUM_ACTION)) {
+        if (!SparkFactionApi.allowsPlayerAction(professor, target, SERUM_ACTION)) {
             return false;
         }
         if (!canUseSerum(professor) || !isValidFeedTarget(target)) {
@@ -105,8 +105,9 @@ public final class ProfessorSerumService {
     public static void tryRemoteFeed(ServerPlayerEntity professor, UUID targetUuid, ProfessorSerumType type) {
         // Before the cooldown check and the failure cooldown: a protected online target costs nothing.
         // 在冷却检查与失败冷却之前：受保护的在线目标不产生任何代价。
-        ServerPlayerEntity guardedTarget = PlayerAffectMixinGuard.onlineTarget(professor, targetUuid);
-        if (guardedTarget != null && !PlayerAffectMixinGuard.allows(professor, guardedTarget, SERUM_ACTION)) {
+        ServerPlayerEntity guardedTarget =
+                targetUuid == null ? null : professor.getServer().getPlayerManager().getPlayer(targetUuid);
+        if (guardedTarget != null && !SparkFactionApi.allowsPlayerAction(professor, guardedTarget, SERUM_ACTION)) {
             return;
         }
         if (targetUuid == null || type == null) {

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
@@ -58,9 +58,8 @@ public final class VeteranKnifeService {
         // 返回，因此 Wathe 自身的刀逻辑也被取消。此处的目标是数据包原始实体 id 对应的玩家；下方的距离、旁观与乌鸦规则不作用于
         // 这第一道检查。
         ServerPlayerEntity player = context.player();
-        ServerPlayerEntity guardedTarget = PlayerAffectMixinGuard.entityTarget(player, payload.target());
-        if (guardedTarget != null
-                && !PlayerAffectMixinGuard.allows(player, guardedTarget, GameConstants.DeathReasons.KNIFE)) {
+        if (player.getServerWorld().getEntityById(payload.target()) instanceof ServerPlayerEntity guardedTarget
+                && !SparkFactionApi.allowsPlayerAction(player, guardedTarget, GameConstants.DeathReasons.KNIFE)) {
             return true;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());

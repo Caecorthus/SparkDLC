@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -28,6 +28,6 @@ public final class CustomMeleeAffect {
     public static boolean refuses(Entity attacker, Entity target) {
         return attacker instanceof ServerPlayerEntity actor
                 && target instanceof ServerPlayerEntity playerTarget
-                && !PlayerAffectMixinGuard.allows(actor, playerTarget, ACTION);
+                && !SparkFactionApi.allowsPlayerAction(actor, playerTarget, ACTION);
     }
 }

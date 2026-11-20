@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.skill;
 
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
@@ -35,9 +35,9 @@ public final class WitchSkillUseService {
         // player-affect policies protect ends the use here, silently and at no cost.
         // 在目标型魔女技能主体与冷却策略运行前拦截使用：受玩家影响策略保护的在线目标让这次使用就此结束，没有提示也没有代价。
         ServerPlayerEntity guardedTarget = targetUuid
-                .map(uuid -> PlayerAffectMixinGuard.onlineTarget(player, uuid))
+                .map(uuid -> player.getServer().getPlayerManager().getPlayer(uuid))
                 .orElse(null);
-        if (guardedTarget != null && !PlayerAffectMixinGuard.allows(player, guardedTarget, SKILL_ACTION)) {
+        if (guardedTarget != null && !SparkFactionApi.allowsPlayerAction(player, guardedTarget, SKILL_ACTION)) {
             return false;
         }
         ServerWorld world = player.getServerWorld();

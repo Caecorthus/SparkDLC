@@ -658,7 +658,7 @@ Current build baseline:
     `PlayerEntityModel` and that modifier, so the puppet matches; older SparkTraits draws a small adult model. Its
     Depression grey psycho skin also needs Wathe psycho ticks, so the psycho mask hides it on puppets too.
   - Decoys (D2): the Prophet's Death Sense, the Kidnapper's drag and the NoellesRoles Vulture's eat
-    (`mixin/role/neutral/vulture/NoellesVultureDecoyBodyMixin` through `compat/noellesroles/NoellesVultureDecoyGuard`) ignore decoy bodies and
+    (`mixin/role/neutral/vulture/NoellesVultureMealBodiesMixin` through `compat/noellesroles/NoellesVultureDecoyGuard`) ignore decoy bodies and
     tell that player; Wraith conversion never takes a decoy for the real body. Other body readers (Perfumer, Coroner,
     SparkStrength) still treat a decoy as a body.
   - The ability cooldown is the `sparkdlc:magician` store in `cooldown/provider/RoleForcedCooldowns#magician` (appended
@@ -1017,7 +1017,7 @@ Current build baseline:
       `order = 900` attack on Hiro before every default-order HEAD guard, `changeGameMode` call `order = 1200` after
       Tofana / Last Escape / the Cat), `ServerPlayerEntityHiroFeignMixin` and
       `ServerPlayNetworkHandlerHiroFeignMixin` (camera possession, spectator teleport), `HiroFeignPayloadGuardMixin`,
-      `NoellesSwapperHiroFeignMixin`, `NoellesVultureHiroFakeBodyMixin`, `NoellesRolesHiroFeignAliveCountMixin`.
+      `NoellesSwapperHiroFeignMixin`, `vulture/NoellesVultureMealBodiesMixin` (shared body-lookup wrapper), `NoellesRolesHiroFeignAliveCountMixin`.
       Lifecycle: a role assignment or reset clears Hiro's own state; a re-roled or offline Hiro keeps her fake-dead
       victims (own timers, die credited to her, still revive when that player is attacked).
   - `witchification/` (魔女化, complete 2026-11-11): `HiroWitchificationComponent`
@@ -4508,7 +4508,7 @@ changes, and ended on expiry, terminal death, reset, finalize, disconnect, or lo
 `mixin/role/civilian/fisher/FisherDoorPassingMixin` empties the collision shape of Wathe `DoorPartBlock` and
 vanilla `DoorBlock` doors (never trapdoors or gates) only for a glimmering player's entity context,
 so client prediction and server validation agree; it skips the exemption inside the shared
-`util/hitscan/RaycastShapeScope`, so rays (sight, aiming, weapons) still see the door;
+`util/RaycastShapeScope`, so rays (sight, aiming, weapons) still see the door;
 SparkFactionAPI's entity-collision exemption
 reads the same flag on both sides (`noellesroles:no_collision` alone is one-sided). Glimmerfish
 claims only the invisibility instance it created in an empty slot; any foreign merge gives up its
@@ -6255,7 +6255,7 @@ through.
 Active Wraiths pass closed Wathe doors, vanilla doors, trapdoors, and fence
 gates for movement only. `mixin/role/special/wraith/WraithDoorPassingMixin` empties their collision
 shape for the Wraith's own entity shape context, except inside
-`util/hitscan/RaycastShapeScope`. `mixin/RaycastShapeScopeMixin` is the one
+`util/RaycastShapeScope`. `mixin/minecraft/RaycastShapeScopeMixin` is the one
 `@WrapMethod` on `RaycastContext#getBlockShape` (both sides, entity context kept),
 so a Wraith's COLLIDER rays (`canSee`, `ProjectileUtil.getCollision`, explosion
 exposure) still stop at doors: the Vendetta knife and the Guardian Angel shield
@@ -6624,7 +6624,7 @@ Server:
 - Specter sweeps (PR #207): `SpecterOtherworldService` (Otherworld slowness) and `SpecterPeachwoodService`
   (sword distribution) run every 10 server ticks and return at once while no world window is open (the sword sweep
   still strips swords from players who no longer qualify).
-- `util/hitscan/RaycastShapeScope` is a per-thread depth counter (`enter`/`exit` in `finally`, `query` kept); `isRaycast()` means
+- `util/RaycastShapeScope` is a per-thread depth counter (`enter`/`exit` in `finally`, `query` kept); `isRaycast()` means
   depth above zero.
 - The Wraith and Fisher door-passing mixins test the block type first. `WraithStateService` reads `getNullable`.
   `WraithCollisionRules` and `WraithPresence` cache NoellesRoles' `no_collision` RegistryEntry; absence is looked up

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
-import dev.caecorthus.sparkdlc.trait.killer.escape.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.util.RaycastShapeScope;
 import dev.doctor4t.wathe.block.DoorPartBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EntityShapeContext;

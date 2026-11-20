@@ -5,9 +5,17 @@ import java.util.function.Supplier;
 /**
  * Marks block-shape queries made for a {@code RaycastContext} so door-passing collision exemptions stay movement-only.
  * A COLLIDER ray takes its shape context from the casting entity, so an exemption keyed on that entity would otherwise
- * also let its sight and aim rays through closed doors.
+ * also let its sight and aim rays (canSee, ProjectileUtil.getCollision) through closed doors.
  * 标记为 RaycastContext 发起的方块形状查询，使穿门碰撞豁免只作用于移动。COLLIDER 射线沿用施放实体的形状上下文，
- * 否则按实体生效的豁免也会让其视线与瞄准射线穿过关闭的门。
+ * 否则按实体生效的豁免也会让其视线与瞄准射线（canSee、ProjectileUtil.getCollision）穿过关闭的门。
+ *
+ * <p>The mod's one scope: {@code mixin.minecraft.RaycastShapeScopeMixin} is the only code that enters it, and every
+ * door-passing exemption (Professor, Knight duel, Fisher spirit, Wraith, the trait Last Escape) reads
+ * {@link #isRaycast()}. It used to be three scopes with three wrappers around the same vanilla method, one per former
+ * mod, each read by its own exemptions; all three were entered and left together, so one counter answers the same.
+ * 本 mod 唯一的作用域：只有 {@code mixin.minecraft.RaycastShapeScopeMixin} 会进入它，所有穿门豁免（教授、骑士决斗、渔夫灵体、
+ * 冤魂、特质“最后的逃脱”）都读取 {@link #isRaycast()}。此前是三个作用域、三层包装同一个原版方法（每个旧 mod 一套，各自的豁免
+ * 读各自的作用域）；三者总是一同进入、一同退出，因此一个计数器给出的答案完全相同。</p>
  */
 public final class RaycastShapeScope {
     /**

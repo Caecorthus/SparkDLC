@@ -483,7 +483,7 @@ Current build baseline:
     `BlackRavenDisguiseInstinctClientHooks`, and the disguise HUD line in `BlackRavenHudRenderer`.
   - Its packets are `net/OpenBlackRavenDisguiseS2CPacket` and `net/SelectBlackRavenDisguiseC2SPacket`.
   - Its cross-mod seams go through `SparkTraitsApi` and
-    `bridge/witch/SparkStrengthDisguiseCompat`.
+    `role/civilian/attendant/AttendantFlashlightService` (the Attendant kit's flashlight).
   - `crow/`: Raven Form (化鸦, plan `docs/plans/2026-10-21-black-raven-police.md` §3.6), the Black Raven's
     key-2 skill. This package is the server core and the shared contract; see the "Black Raven Raven Form" paragraph
     under Runtime Invariants. Its streaming mixins are
@@ -616,7 +616,7 @@ Current build baseline:
     sight, refuses the Magician's own puppet and spectators, and costs the attacker what a real hit costs without the
     innocent-shot punishment or mood loss (D3). All entries end in `MagicianPlaybackManager.endPuppet`, which leaves
     a decoy body stamped with the Civilian cover role through the Wraith death-role seam and SparkStrength's Coroner
-    snapshot (`bridge/witch/SparkStrengthCoronerCompat.recordBodyRole`, 2026-10-16) (D1), registers it in the
+    snapshot (`CoronerService.recordBodyRole`, 2026-10-16) (D1), registers it in the
     server-only `MagicianDecoyBodies` (D2) and pays the Magician 50 coins when anyone other than the Magician ended
     it, blasts included (D4).
   - Other weapons (D5) end a puppet through their own `MagicianPuppetHits` entry, placed next to each weapon's Seeker
@@ -2189,7 +2189,7 @@ Current build baseline:
     65-block server tolerance, 10 s after every shot) with the USEC shooter gates (SparkTraits weapon action, stun,
     Seeker lock, Kidnapper control, Wraith, Dominator hand-shot refusal) and an SFA `canAffectPlayer` pre-veto for
     both `wathe:gun` and its death reason; crows resolve through `BlackRavenCrowHits.onGunTargetLookup`, puppets and
-    Seeker devices through their `onAddonGunShot`, Partygoers through `SparkStrengthPartygoerCompat`. SparkTraits
+    Seeker devices through their `onAddonGunShot`, Partygoers through `PartygoerWeaponTarget`. SparkTraits
     Niko covers the pistol like the revolver, without the burst (owner 2026-11-09): a sneaking Niko holder of another
     police role picks at 300 blocks on the client (`RevolverItem.getGunTarget`), so the player-target tolerance comes
     from `SparkTraitsApi.getServerGunTargetRange` (widen-only: the base 65, or 300 for a sneaking Niko holder),
@@ -4324,7 +4324,7 @@ Kidnapper and Magician layers have no confirmed-server check, as before); a new 
 `InGameHud` TAIL mixin. The Holy Flash overlay (priority 1100) stays its own mixin and draws after them. The mana
 row and the Tarot divination table sit under Wathe's money, and move under SparkStrength's killer team-wallet row
 while that row shows (a Witch Maiden on a killer team, or a Tarot Reader with the Impostor trait) through
-`client/compat/SparkStrengthHudBridge.topRightHudBottom`, the seam the inventory card already uses. The table's title
+`KillerTeamEconomyClientHooks.topRightHudBottom`, the seam the inventory card already uses. The table's title
 y comes from `TarotDivinationHudLayout.headerY` and is part of the renderer's measure cache key, so
 `backingBounds` (the selector's HUD nudge) follows the moved table.
 
@@ -4617,7 +4617,7 @@ Mighty Force knocks back, then kills) lets the push play out: its 20 s feign sta
 `PlayerBodyEntity` at the anchor: exactly where the Fiend stands (the Jester placement, so the spectating Fiend, which
 vanilla moves onto its camera entity, is never carried through a wall), or on the floor right below it when it is
 mid-air (floor within 3 blocks), with the Fiend as owner and a Civilian cover role (the Wraith body-role seam plus
-SparkStrength's Coroner snapshot through `bridge/witch/SparkStrengthCoronerCompat.recordBodyRole`, Magician decoy precedent:
+SparkStrength's Coroner snapshot through `CoronerService.recordBodyRole`, Magician decoy precedent:
 a real dormant Fiend leaves no corpse, so its live role would name the living Fiend), showing a random reason from
 `FiendFeignRules.PERIODIC_REASONS` (Wathe knife, gun, poison, bat; owner pick) or the blocked kill's own reason, and
 marks it in the server-only `FiendFakeBodies` (body entity UUIDs, never synced, cleared at round boundaries). The
@@ -4992,8 +4992,8 @@ centre ray off the box), a Raven Form crow, a Magician puppet or a breakable See
 breaks). A claimed eligible player the server cannot confirm also stops it: the ray misses that player and reaches
 nothing behind, as the aim claim's "never passed through" rule. A SparkStrength Bomber drone absorbs inside
 `onShotgunFired` without a signal when no player was aimed, so a drone between the Hunter and a box lets that shot hit
-the box too (accepted). `bridge/witch/SparkStrengthJunctionBoxCompat` calls
-`JunctionBoxService#damageByWeapon(ServerPlayerEntity, BlockPos, int)` (directly since the fusion) only after the block id matches;
+the box too (accepted). `DoubleBarrelShotgunItem` calls
+`JunctionBoxService#damageByWeapon(ServerPlayerEntity, BlockPos, int)` (directly, no bridge) only after the block id matches;
 SparkStrength owns every sabotage gate and opens a box that reaches 0 like a pry finished by the shooter. The cooldown
 is unchanged; the record and sound changed with the shells (2026-10-29, see the aim-claim entry).
 Sword piercing
@@ -5954,17 +5954,17 @@ vision bridges are gone as well: both reads are direct calls into the trait feat
 
 SparkDLC fusion note, batch 2 (2026-11-19): SparkStrength and SparkAssist also always ship in the same jar, so the
 SparkWitch seams into them are compiled calls on the same members the reflection used to resolve, with no
-`sparkstrength` / `sparkassist` mod gate: `bridge/witch/SparkStrengthCoronerCompat` (`CoronerService.hasKidnapperDisguise`,
-`CoronerBodySnapshotComponent.KEY` + `setRoleId`), `bridge/witch/SparkStrengthJunctionBoxCompat`
+`sparkstrength` / `sparkassist` mod gate: the Kidnapper and the feign / decoy corpses (`CoronerService.hasKidnapperDisguise`,
+`CoronerService.recordBodyRole` over `CoronerBodySnapshotComponent.KEY` + `setRoleId`), `DoubleBarrelShotgunItem`
 (`JunctionBoxService.damageByWeapon`), `item/m67/M67MatchBlastHits` (`M67GrenadeEntity.getDetonateAt` /
 `getThrowerUuid`), `role/killer/magician/MagicianM67Replay` (`M67UseService.refreshEquipment` /
-`withReleaseAuthorization`), `bridge/witch/SparkStrengthPartygoerCompat` (`PartygoerService`, `PartygoerCorpseComponent`,
-`PartygoerHitGeometry`), `SparkStrengthBlastOrigin` (`AttackOriginScope.currentBlast`), `BlackRavenDisguiseEconomy`
+`withReleaseAuthorization`), `role/killer/partyanimal/PartygoerWeaponTarget` (`PartygoerService`; `PartygoerCorpseComponent`
+and `PartygoerHitGeometry` are asked directly), `SparkStrengthBlastOrigin` (`AttackOriginScope.currentBlast`), `BlackRavenDisguiseEconomy`
 (`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
-`stun`), and on the client `client/compat/SparkStrengthHudBridge` (`KillerTeamEconomyClientHooks.topRightHudBottom`),
+`stun`), and on the client the mana row, Tarot table and inventory cards (`KillerTeamEconomyClientHooks.topRightHudBottom`),
 `client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`) and
 `client/bridge/witch/SparkDlcSettingsBridge` (`SparkDlcSettingsApi.hostsScopeSettings`). The registry-id-only seams
-(`bridge/witch/SparkStrengthTabletCompat`, `bridge/witch/SparkStrengthDisguiseCompat`, `RiftGateM67Sweep`) keep their id lookups
+(`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) keep their id lookups
 and only lost the mod gate. Where the role sections below and above describe an absent, older or failing SparkStrength
 or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCaptureStunPinned` skipping a teammate),
 that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
@@ -6218,11 +6218,11 @@ always present, see the batch 2 fusion note):
 - **Where the disguise names SparkStrength.** It names SparkStrength implementation classes in
   only the purse mixin and in the imported purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
   seam was deleted on 2026-10-21: its SparkStrength target class no longer exists.)
-  `bridge/witch/SparkStrengthDisguiseCompat` touches only the `sparkdlc:flashlight` registry id.
+  The Attendant disguise kit takes its flashlight (`sparkdlc:flashlight`) from `AttendantFlashlightService`.
 - **Rest of SparkWitch.** Elsewhere, SparkStrength implementation classes are named by
-  `item/m67/M67MatchBlastHits`, `bridge/witch/SparkStrengthCoronerCompat`,
-  `bridge/witch/SparkStrengthJunctionBoxCompat` (the Hunter shotgun's junction-box hit),
-  `bridge/witch/SparkStrengthPartygoerCompat` (the Party Animal's Partygoer, below), and the client
+  `item/m67/M67MatchBlastHits`, the callers of `CoronerService` (kidnapper disguise, body role),
+  `DoubleBarrelShotgunItem` (the Hunter shotgun's junction-box hit), the users of `PartygoerWeaponTarget`,
+  `PartygoerCorpseComponent` and `PartygoerHitGeometry` (the Party Animal's Partygoer, below), and the client
   `client/role/civilian/emma/EmmaVisibleName`.
 - **SparkStrength Partygoer (2026-10-21).** The Party Animal's summoned zombie (`sparkdlc:partygoer`) dies in one
   hit to anything that can kill a player (owner rule). SparkStrength already answers the weapons it reaches through
@@ -6233,9 +6233,9 @@ always present, see the batch 2 fusion note):
   the player-behind case, so the cooldown starts once). Its corpse is no passenger's: the Prophet's Necrology skips it,
   the Perfumer neither outlines it nor drains sanity near it, and the Kidnapper can't drag it. The Fear, Control Expert,
   Rift-session and Seeker-remote lists block `sparkdlc:partygoer_summon` and `partygoer_swallow`; the room picker
-  request `partygoer_menu` stays allowed. `bridge/witch/SparkStrengthPartygoerCompat` calls the frozen
-  `PartygoerService#killByWeapon(ServerPlayerEntity, Entity, Identifier)` / `#isKillable(Entity)` and
-  `PartygoerCorpseComponent#isPartygoerCorpse(Entity)` (directly since the fusion).
+  request `partygoer_menu` stays allowed. `role/killer/partyanimal/PartygoerWeaponTarget` calls the frozen
+  `PartygoerService#killByWeapon(ServerPlayerEntity, Entity, Identifier)` / `#isKillable(Entity)`;
+  `PartygoerCorpseComponent#isPartygoerCorpse(Entity)` is asked directly.
 
 Active Wraiths do not absorb another player's aimed action in the client
 selectors listed below. `client/render/WraithAimPassThrough` owns the rule: a player whose synced
@@ -6636,8 +6636,8 @@ Server:
   to 1 s (drops stay blocked by the mixins).
 - `PlayerHitboxHistory` keeps recording every tick everywhere: off-match shells and early-round rewinds read across
   round edges. `SparkTraitsApi.isLastEscapeActive` is a plain static call.
-- `SparkStrengthCoronerCompat` and `SparkStrengthJunctionBoxCompat` are direct calls since the fusion (before, each
-  resolved its reflection once); `ShadowJesterShowdownBridge` calls the pinned NoellesRoles component
+- The Coroner queries (`CoronerService`) and the junction-box weapon hit are direct calls since the fusion (before, each
+  bridge resolved its reflection once); `ShadowJesterShowdownBridge` calls the pinned NoellesRoles component
   directly. `CeremonialSwordDashService.DASHES` is cleared on SERVER_STOPPING.
 - The Charon owns three per-tick sweeps, all no-ops for an idle round: `FerrymanPardonService.tick` walks the live
   player list once, reads each player's raw role and counts down a Charon's pardon and ferry cooldowns (syncing only
@@ -6801,7 +6801,7 @@ manual checks:
   including calls whose role argument is not a constant, and every `getRole` equality on an
   allowed disguise role. Classify each one as a self gate (widened) or an inspection (raw).
 - **SparkStrength floor bump:**
-  - Re-check the `sparkdlc:flashlight` id used by `SparkStrengthDisguiseCompat`.
+  - Re-check the `sparkdlc:flashlight` id used by the Attendant disguise kit (`AttendantFlashlightService`).
   - Re-check the `@Pseudo` target `KillerTeamEconomyService` (`recordIncome`,
     `availableForPurchase`, `personalBalanceAfterPurchase`).
   - The seam uses `require = 0`, so a rename silently degrades to the live wallet.

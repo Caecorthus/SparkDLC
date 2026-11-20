@@ -10,7 +10,7 @@ import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.role.civilian.apprentice.ApprenticeClientPresentation;
-import dev.caecorthus.sparkdlc.client.bridge.witch.SparkStrengthHudBridge;
+import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.client.text.WitchSkillClientTexts;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
@@ -66,7 +66,7 @@ public final class OwnerInventoryPresenter {
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
                 () -> SparkFactionSecondRowCompat.isShown() ? 22 : 0,
-                SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
+                KillerTeamEconomyClientHooks::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
     // The V1 handshake calls the trait contract directly through these two method references.

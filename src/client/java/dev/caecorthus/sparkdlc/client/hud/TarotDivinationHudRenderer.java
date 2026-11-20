@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.SparkWitchFactions;
-import dev.caecorthus.sparkdlc.client.bridge.witch.SparkStrengthHudBridge;
+import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationHudLayout;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationSnapshotState;
@@ -186,7 +186,7 @@ public final class TarotDivinationHudRenderer {
         TarotDivinationSnapshotState.Snapshot previous = state.previous().orElse(null);
         Language language = Language.getInstance();
         int fontOptions = HudFontOptions.current();
-        int headerY = TarotDivinationHudLayout.headerY(SparkStrengthHudBridge.topRightHudBottom());
+        int headerY = TarotDivinationHudLayout.headerY(KillerTeamEconomyClientHooks.topRightHudBottom());
         if (cachedTable.isPresent() && snapshot.equals(cachedSnapshot) && Objects.equals(previous, cachedPrevious)
                 && screenWidth == cachedScreenWidth && language == cachedLanguage && renderer == cachedRenderer
                 && fontOptions == cachedFontOptions && headerY == cachedHeaderY) {

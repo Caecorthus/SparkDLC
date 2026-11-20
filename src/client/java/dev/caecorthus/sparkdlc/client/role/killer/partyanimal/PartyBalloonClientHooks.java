@@ -24,8 +24,21 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class PartyBalloonClientHooks {
     private static boolean registered;
+    // Boxed once: the trait instinct hook asks per visible player each frame. / 只装箱一次：词条本能钩子每帧为每个可见玩家查询。
+    private static final Integer MARK_HIGHLIGHT_COLOR = PartyBalloonRules.HIGHLIGHT_COLOR;
 
     private PartyBalloonClientHooks() {
+    }
+
+    /**
+     * The balloon outline colour when {@code target} carries a balloon, or {@code null} when it does not. The mark only
+     * syncs to Party Animals; the trait feature's Conscience branch answers before Wathe's event and asks this so the
+     * yellow outline survives there.
+     * 目标带着气球时返回气球描边颜色；未带气球时返回 null。该标记只同步给派对狂；词条功能的善良分支先于 Wathe 事件作答，
+     * 因此在那里查询本方法以保留黄色描边。
+     */
+    public static @Nullable Integer highlightColor(PlayerEntity target) {
+        return PartyBalloonMarkComponent.isMarked(target) ? MARK_HIGHLIGHT_COLOR : null;
     }
 
     public static synchronized void register() {

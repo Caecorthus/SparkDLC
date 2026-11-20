@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.bridge.witch.SparkStrengthHudBridge;
+import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import net.minecraft.client.MinecraftClient;
@@ -39,7 +39,7 @@ public final class WitchManaHudRenderer {
         TextRenderer renderer = client.textRenderer;
         Text text = Text.translatable("gui.sparkdlc.mana", component.getMana());
         int x = context.getScaledWindowWidth() - RIGHT_PADDING - renderer.getWidth(text);
-        int y = rowY(renderer.fontHeight, SparkStrengthHudBridge.topRightHudBottom());
+        int y = rowY(renderer.fontHeight, KillerTeamEconomyClientHooks.topRightHudBottom());
         context.drawTextWithShadow(renderer, text, x, y, MANA_COLOR);
     }
 

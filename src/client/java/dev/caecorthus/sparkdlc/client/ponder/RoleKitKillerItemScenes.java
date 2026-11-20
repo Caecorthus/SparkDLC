@@ -10,6 +10,8 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SOUTH;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.doctor4t.wathe.index.WatheParticles;
 import java.util.Comparator;
 import java.util.List;
@@ -24,12 +26,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -888,25 +887,18 @@ final class RoleKitKillerItemScenes {
         return elapsed;
     }
 
-    /**
-     * The circuit breaker facing north, not tripped. The block is still looked up by id because this class used to be
-     * in a jar that could not see it. 电闸，朝北、未跳闸；仍按 id 取方块，因为本类原先所在的 jar 看不到它。
-     */
+    /** The circuit breaker facing north, not tripped. 电闸，朝北、未跳闸。 */
     private static BlockState breaker() {
-        BlockState state = Registries.BLOCK.get(Identifier.of("sparkdlc", "circuit_breaker")).getDefaultState();
-        if (state.contains(Properties.HORIZONTAL_FACING)) {
-            state = state.with(Properties.HORIZONTAL_FACING, Direction.NORTH);
-        }
-        return tripped(state, false);
+        return tripped(SparkDlcBlocks.circuitBreaker().getDefaultState()
+                .with(Properties.HORIZONTAL_FACING, Direction.NORTH), false);
     }
 
     /**
-     * CircuitBreakerBlock.TRIPPED, found by name on the block's own state manager: a lights sabotage drops the lever,
-     * a repair puts it back. 按名字从方块自己的状态管理器取得 CircuitBreakerBlock.TRIPPED：灯光破坏让拉杆落下，修好后复位。
+     * {@link CircuitBreakerBlock#TRIPPED}: a lights sabotage drops the lever, a repair puts it back; a state without it
+     * is left as it is. {@link CircuitBreakerBlock#TRIPPED}：灯光破坏让拉杆落下，修好后复位；没有该属性的状态保持原样。
      */
     private static BlockState tripped(BlockState state, boolean tripped) {
-        return state.getBlock().getStateManager().getProperty("tripped") instanceof BooleanProperty property
-                ? state.with(property, tripped) : state;
+        return state.contains(CircuitBreakerBlock.TRIPPED) ? state.with(CircuitBreakerBlock.TRIPPED, tripped) : state;
     }
 
     /** The point {@code distance} blocks from {@code from} along {@code yaw}. 从 from 沿 yaw 方向 distance 格处的点。 */

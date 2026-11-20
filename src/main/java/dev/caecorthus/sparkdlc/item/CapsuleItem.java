@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.item;
 
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.CapsuleEntity;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
@@ -7,7 +8,6 @@ import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistCapsuleRul
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.index.WatheDataComponentTypes;
 import dev.doctor4t.wathe.util.PoisonUtils;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -282,13 +281,7 @@ public final class CapsuleItem extends Item {
     }
 
     private static boolean hasBluePoison(ItemStack stack) {
-        if (!Registries.DATA_COMPONENT_TYPE.containsId(ToxicologistCapsuleRules.BLUE_POISON_COMPONENT_ID)) {
-            return false;
-        }
-        ComponentType<?> componentType = Registries.DATA_COMPONENT_TYPE.get(
-                ToxicologistCapsuleRules.BLUE_POISON_COMPONENT_ID
-        );
-        return componentType != null && stack.contains(componentType);
+        return stack.contains(SparkDlcDataComponents.CONSCIENCE_POISONER);
     }
 
     static MutableText filledNameText(String name, boolean normalPoisoned, boolean bluePoisoned) {

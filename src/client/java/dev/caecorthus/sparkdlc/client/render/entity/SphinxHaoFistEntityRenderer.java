@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
-import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Frustum;
@@ -19,8 +19,6 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
@@ -230,8 +228,8 @@ public final class SphinxHaoFistEntityRenderer extends EntityRenderer<SphinxHaoF
      */
     private static int gunSide(PlayerEntity owner) {
         int side = owner.getMainArm() == Arm.RIGHT ? 1 : -1;
-        Item gun = Registries.ITEM.get(SphinxHaoRules.HAND_GUN_ID);
-        if (gun != Items.AIR && !owner.getMainHandStack().isOf(gun) && owner.getOffHandStack().isOf(gun)) {
+        Item gun = SparkDlcItems.sphinxHaoHandGun();
+        if (!owner.getMainHandStack().isOf(gun) && owner.getOffHandStack().isOf(gun)) {
             side = -side;
         }
         return side;

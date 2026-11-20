@@ -11,6 +11,7 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SOUTH;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerState;
 import dev.caecorthus.sparkdlc.ponder.ActorMovement;
@@ -36,7 +37,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -408,18 +408,15 @@ final class PartyAnimalScenes {
      * keeps the player standing rather than seated, and PartygoerModel lowers and spreads the arms around them. Killed,
      * it becomes the Wathe body PartygoerCorpseService spawns where it stood: Partygoer skin, falling face down along
      * its facing with the feet a block behind (Wathe's body renderer), as the Jester's fake body does. The entity
-     * still comes from the registry by id (this class used to be in a jar that could not see PartygoerEntity); the
-     * "nothing is drawn but the body" path for a missing entity type is unreachable since the fusion.
+     * is created from its registered type ({@code SparkDlcEntities.partygoer()}).
      * 派对客：由 PartygoerEntityRenderer 绘制的 PartygoerEntity，宽手臂玩家模型配派对客皮肤，像僵尸那样
      * 伸着双臂，走路时双腿摆动。它从不加入世界：与 ActorPlayer 一样每 tick 在这里摆好姿态。被抱的人是骑在它身上的
      * ActorPlayer，画在 PartygoerEntity 安放乘客的位置，于是会像对局中一样画出抱人的样子：
      * PartygoerCarriedPoseMixin 让他站着而不是坐着，PartygoerModel 把双臂放低并张开抱住他。
      * 被打死后变成 PartygoerCorpseService 在原地生成的 Wathe 尸体：派对客皮肤，沿朝向脸朝下倒下，脚在后方一格（Wathe 尸体
-     * 渲染器），与小丑的假尸体相同。实体仍按 id 从注册表取得（本类原先所在的 jar 看不到 PartygoerEntity）；
-     * 实体类型缺失时“只画尸体”的路径在融合后不可达。
+     * 渲染器），与小丑的假尸体相同。实体由其已注册的类型（{@code SparkDlcEntities.partygoer()}）创建。
      */
     private static final class Partygoer extends AnimatedSceneElementBase {
-        private static final Identifier TYPE = Identifier.of("sparkdlc", "partygoer");
         private static final Identifier SKIN = Identifier.of("sparkdlc", "textures/entity/partygoer.png");
         private static final PartygoerState HUNT = PartygoerState.HUNT;
         private static final PartygoerState CARRY = PartygoerState.CARRY;
@@ -612,9 +609,8 @@ final class PartyAnimalScenes {
         }
 
         /**
-         * Set the Partygoer's synced state as the brain does, so the model poses for it; an entity of another type
-         * (the registry answered something else) keeps its default pose.
-         * 像大脑那样设置派对客的同步状态，让模型摆出对应姿势；若实体不是派对客（注册表给出了别的类型）则保持默认姿势。
+         * Set the Partygoer's synced state as the brain does, so the model poses for it.
+         * 像大脑那样设置派对客的同步状态，让模型摆出对应姿势。
          */
         private static void setState(Entity goer, PartygoerState state) {
             if (goer instanceof PartygoerEntity partygoer) {
@@ -631,11 +627,7 @@ final class PartyAnimalScenes {
             }
             if (entity == null || entityWorld != world) {
                 dropRider();
-                entity = Registries.ENTITY_TYPE.getOrEmpty(TYPE)
-                        .map(type -> type.create(world))
-                        .filter(LivingEntity.class::isInstance)
-                        .map(LivingEntity.class::cast)
-                        .orElse(null);
+                entity = SparkDlcEntities.partygoer().create(world);
                 entityWorld = world;
             }
             return entity;

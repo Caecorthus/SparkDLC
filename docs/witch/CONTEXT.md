@@ -251,9 +251,9 @@ Current build baseline:
     Vec3d, double radius, ServerPlayerEntity killer, Identifier deathReason)` kills the owner of every crow in the
     closed sphere with a clear line from the centre (`BlackRavenCrowHits.onBlast`, the M67 measure, the reason passed
     through as the same instance; an owner SparkFactionAPI shields from `killer` for that reason is skipped) and
-    returns the count. Not an API: SparkStrength's `@Pseudo`
-    `DroneSparkWitchCrowTargetsMixin` lowers `BlackRavenCrowTargets.deviceSquared(ServerPlayerEntity, Vec3d, Vec3d)` at
-    RETURN to its nearest Bomber drone, so keep that name and signature.
+    returns the count. Not an API: `BlackRavenCrowTargets.deviceSquared(ServerPlayerEntity, Vec3d, Vec3d)` lowers its
+    own device distance to the nearest Bomber drone (`DroneWeaponHits.nearestDroneSquared`; a direct call since stage 3,
+    before that SparkStrength's `@Pseudo` `DroneSparkWitchCrowTargetsMixin` at RETURN).
 - `role/civilian/apprentice/`: Apprentice instinct and ability runtime, plus the 2026-10-06 buff (owner decisions
   D1–D10, numbers in each ability class):
   - Dealing (owner, 2026-11-11): no 24-player minimum and no 1-per-8 quota. Her appearance condition is always false,
@@ -1651,8 +1651,8 @@ Current build baseline:
     the subtitle, item and entity names and tooltips, and the replay keys.
   - Cross-mod seams: SparkStrength (id-only) adds `CorruptCopRules.SPHINX_HAO_ID` / `isSparkWitchJiahaoMember` (Insider
     or 狮身豪) to the Arrogant ASF concealment pairing, the blackout sabotage team x-ray and the Partygoer role instinct
-    key; `BodyguardProtectionRules` maps the fist to PHYSICAL (vest + 5-point shield); `DroneSparkWitchHitsMixin`
-    injects at `SeekerDeviceHits.onSphinxHaoFistFired` HEAD by name (`require = 0`: a nearer Partygoer dies through
+    key; `BodyguardProtectionRules` maps the fist to PHYSICAL (vest + 5-point shield);
+    `SeekerDeviceHits.onSphinxHaoFistFired` first asks the Partygoer and the drone (a nearer Partygoer dies through
     `PartygoerWeaponHits.onSparkWitchSphinxHaoFist`, else a nearer drone breaks; then null); its key rule opens train
     doors for any neutral-aligned role and its free round-start tablet reaches only the public channel. SparkTraits:
     see the Insider paragraph under its optional seams. SparkAssist: guide page
@@ -1697,7 +1697,7 @@ Current build baseline:
     (`PlayerHitboxHistory`, margin 0.1), then nearest wins against a Raven Form crow
     (`BlackRavenCrowHits.onM1903A4Fired`, owner substituted), a Magician puppet (`m1903a4PuppetOnRay` /
     `endM1903A4Puppet`, Wathe gun reason, the shot is no kill) and the frozen Seeker seam
-    `SeekerDeviceHits.onM1903A4Fired(shooter, picked, 50.0)` (SparkStrength hooks it by name for Partygoers and Bomber
+    `SeekerDeviceHits.onM1903A4Fired(shooter, picked, 50.0)` (which first asks Partygoers and Bomber
     drones; `m1903a4Absorber` is the read-only preview). `RangedSmokeCarve.ray` cuts a BEAR smoke tunnel and white
     smoke marks the path. One non-forced `killPlayer(victim, true, shooter, GameConstants.DeathReasons.GUN)`, so BEAR
     ricochet, the Bodyguard vest, Knight duel rules and every killPlayer veto apply. No aim payload: the shot uses the
@@ -2080,7 +2080,7 @@ Current build baseline:
     (owner, 2026-10-07): a fixed `SCOPE_SOUND_RANGE` (8-block) broadcast at volume 0.8, so the shooter and nearby
     players hear it and the Blind perceives it as an ordinary sound; at most once per `SCOPE_SOUND_MIN_INTERVAL_TICKS`
     per player, and scoping out is silent.
-  - Cross-mod seams: SparkStrength hooks `SeekerDeviceHits.onUsecRifleFired` at HEAD (a `@Pseudo` mixin) so Bomber
+  - Cross-mod seams: `SeekerDeviceHits.onUsecRifleFired` first asks the Partygoer and the drone entries, so Bomber
     drones absorb the shot like a device, and mirrors `sparkdlc:fire_usec_rifle` and `sparkdlc:usec_attachment` in
     its Taotie daze list. SparkTraits excludes USEC from Niko by role id (`PoliceRoleCategory.canReceiveNikoTrait`). Its
     Heavy Artillery repeat-kill hooks only Wathe's revolver receiver; the AXMC instead asks the public
@@ -4062,7 +4062,7 @@ the Insider and guessed right after it, 狮身豪 (which follows the Insider sin
   Stowaway row becomes a winner (DEAD, LEFT, LEFT_DEAD lose), and winning Stowaway rows move last so Wathe's
   "first winning row" neutral title never names the Stowaway. A Stowaway row answers `didWin` with its own flag;
   SparkFactionAPI custom faction wins also collect a living Stowaway
-  (`mixin/role/neutral/stowaway/FactionWinnerCollectorStowawayWinnerMixin`).
+  (`StowawaySettlement.register()` registers it as a `FactionCoWinnerRule`).
 - Instinct ("同生存大师"): `StowawaySensesClient` registers a `GetInstinctHighlight` listener that returns `skip()`
   (priority 100, the Survival Master's) when a living viewer has no line of sight to a living Stowaway. Nothing else is
   vetoed: spectators, vanilla Glowing and answers that outrank the skip behave as for a hidden Survival Master.
@@ -5970,8 +5970,8 @@ or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCa
 that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
 `RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
 junction-box bridge was its last user). The exact sibling types each witch source may name are pinned by the local test
-`WitchSparkStrengthDirectCallBoundaryTest`; the one string-named target left is the `@Pseudo`
-`KillerTeamEconomyBlackRavenWalletMixin`. Still reflective by necessity: `voice/BearHearingVoiceClientBridge` and
+`WitchSparkStrengthDirectCallBoundaryTest`; no string-named target is left (the purse seam is a
+`KillerTeamEconomyService.WalletRule` the disguise registers). Still reflective by necessity: `voice/BearHearingVoiceClientBridge` and
 `voice/HolyFlashVoiceClientBridge` (common code reaching SparkWitch's own client classes) and the real optional mods
 (Iris through `SmokeShaderPackBridge` / `BlindShaderPackCheck`, EMF through `EmfVanillaModel`).
 
@@ -6155,7 +6155,7 @@ it is ever synced to another player.
       `KillPlayer.BEFORE`, so `GameFunctionsBlackRavenWalletMixin` never sees it.
 
     While disguised, none of these receipts adds to the SparkStrength killer-team purse either,
-    because `KillerTeamEconomyBlackRavenWalletMixin` rejects income that was not routed to the Raven
+    because the disguise's `KillerTeamEconomyService.WalletRule` rejects income that was not routed to the Raven
     wallet. Routing them would need a SparkTraits public-facade seam (for example a kill-income
     recipient hook on `SparkTraitsApi`) used through `SparkTraitsApi` and failing
     closed. A mixin into `sparktraits.impl` is not allowed.
@@ -6210,13 +6210,13 @@ always present, see the batch 2 fusion note):
   `ShopUtils.getShopEntriesForPlayer`, so every cross-player reader of a disguised Raven's shop
   sees only the disguise whitelist. SparkStrength `DemonHunterSniffRules` is such a consumer: it
   reads the target's entries for `psycho_mode`, which no disguise spec or fallback may emit.
-- **Killer-team purse.** The optional `@Pseudo` `mixin/role/killer/blackraven/KillerTeamEconomyBlackRavenWalletMixin`
-  (every injector `require = 0`) targets SparkStrength `KillerTeamEconomyService` by name.
-  `BlackRavenDisguiseEconomy` calls only its `recordIncome(PlayerEntity, long)` (directly since the fusion), to report
-  routed kill rewards. Without the seam, disguise purchases can draw on the killer-team purse
-  (degraded, but no money is lost).
+- **Killer-team purse.** `BlackRavenDisguiseEconomy.register()` registers a `KillerTeamEconomyService.WalletRule`
+  with the purse (until stage 3 this was the `@Pseudo` `KillerTeamEconomyBlackRavenWalletMixin` wrapping the same
+  three purse entries): while disguised, income that was not routed to the Raven wallet is not counted and purchases
+  stay on the personal balance. `BlackRavenDisguiseEconomy` also calls the purse's `recordIncome(PlayerEntity, long)`,
+  to report routed kill rewards.
 - **Where the disguise names SparkStrength.** It names SparkStrength implementation classes in
-  only the purse mixin and in the imported purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
+  only the imported purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
   seam was deleted on 2026-10-21: its SparkStrength target class no longer exists.)
   The Attendant disguise kit takes its flashlight (`sparkdlc:flashlight`) from `AttendantFlashlightService`.
 - **Rest of SparkWitch.** Elsewhere, SparkStrength implementation classes are named by
@@ -6802,8 +6802,7 @@ manual checks:
   allowed disguise role. Classify each one as a self gate (widened) or an inspection (raw).
 - **SparkStrength floor bump:**
   - Re-check the `sparkdlc:flashlight` id used by the Attendant disguise kit (`AttendantFlashlightService`).
-  - Re-check the `@Pseudo` target `KillerTeamEconomyService` (`recordIncome`,
-    `availableForPurchase`, `personalBalanceAfterPurchase`).
-  - The seam uses `require = 0`, so a rename silently degrades to the live wallet.
+  - Re-check the three `KillerTeamEconomyService` entries that ask the disguise's `WalletRule` first (`recordIncome`,
+    `availableForPurchase`, `personalBalanceAfterPurchase`): a new purse entry must ask it too.
   - Re-check `DemonHunterSniffRules`, which reads the shop through M2 and must never see
     `psycho_mode`.

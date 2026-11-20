@@ -807,13 +807,37 @@ tasks.register("verifyStrengthSiblingSeams") {
                                         .join("; ")
                 )
             }
-            // The string scan must keep working: SparkStrength still has string @Mixin targets into SparkWitch and
-            // SparkFactionAPI, so an empty result means the scan broke, not that the seams are gone.
-            // 字符串扫描必须保持有效：SparkStrength 仍有指向 SparkWitch 与 SparkFactionAPI 的字符串 @Mixin 目标，
-            // 因此结果为空意味着扫描失效，而不是接缝消失。
-            if (seams.isEmpty()) {
+            // The string scan must keep working. Its result may be empty now: the string @Mixin targets into SparkWitch
+            // and SparkFactionAPI are being turned into direct calls (a mod does not mix into itself), so "no seam"
+            // can no longer be told from "the scan broke" by the result alone. The scan is checked itself instead:
+            // it must have read string constants from the SparkStrength classes, and both name forms must still be
+            // recognised and attributed to their module (a sibling class as an internal name, the form Loom writes a
+            // string @Mixin target in, and inside a longer descriptor; a SparkStrength class as no seam).
+            // 字符串扫描必须保持有效。其结果现在可以为空：指向 SparkWitch 与 SparkFactionAPI 的字符串 @Mixin 目标正在改为直接
+            // 调用（模组不向自身注入），因此仅凭结果已无法区分“没有接缝”与“扫描失效”。改为检查扫描本身：它必须从 SparkStrength
+            // 的类中读到字符串常量，且两种名称形式仍能被识别并归属到其模块（兄弟模块的类：内部名形式，即 Loom 写出字符串 @Mixin
+            // 目标的形式，以及较长描述符中的形式；SparkStrength 自己的类不算接缝）。
+            def scannedConstants = strengthEntries.sum { entry -> classStringConstants(readClassNode(zipFile, entry.name)).size() }
+            if (scannedConstants == 0) {
                 throw new GradleException(
-                        "Sibling seam scan found no string-named sibling class in ${jarFile.name}; the scan no longer sees SparkStrength's string @Mixin targets"
+                        "Sibling seam scan read no string constant from the ${strengthEntries.size()} SparkStrength classes of ${jarFile.name}; the scan no longer works"
+                )
+            }
+            def siblingSample = legacyModules.classNames("witch").find { zipFile.getEntry(it.replace('.', '/') + ".class") != null }
+            def ownSample = legacyModules.classNames("strength").find { zipFile.getEntry(it.replace('.', '/') + ".class") != null }
+            if (siblingSample == null || ownSample == null) {
+                throw new GradleException("Sibling seam scan found no witch or no strength class of the move manifest in ${jarFile.name} to check itself with")
+            }
+            def siblingInternal = siblingSample.replace('.', '/')
+            def recognised = { String constant ->
+                namedSparkDlcClasses(constant).findAll { siblingModules.contains(legacyModules.moduleOfClass(it)) }
+            }
+            if (recognised(siblingInternal) != [siblingInternal] ||
+                    recognised("(L${siblingInternal};I)V".toString()) != [siblingInternal] ||
+                    !dottedClassName.matcher(siblingSample).matches() ||
+                    !recognised(ownSample.replace('.', '/')).isEmpty()) {
+                throw new GradleException(
+                        "Sibling seam scan no longer recognises a sibling class name (${siblingSample}) or takes a SparkStrength class (${ownSample}) for one"
                 )
             }
             logger.lifecycle("verifyStrengthSiblingSeams: ${strengthEntries.size()} SparkStrength classes scanned; ${seams.size()} sibling classes named as strings by SparkStrength resolve in ${jarFile.name}; no by-name lookup, no legacy-id gate")

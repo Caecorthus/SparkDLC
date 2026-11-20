@@ -86,6 +86,17 @@ public final class BlackRavenCrowHitRules {
     }
 
     /**
+     * The device competitor distance once a second competitor on the same segment is known: {@code otherSquared} only
+     * when it is strictly smaller, else {@code deviceSquared} unchanged (so +inf, a tie or NaN on the other side leaves
+     * the device distance as it was).
+     * 已知同一线段上的第二个竞争对象后的设备竞争距离：仅当 {@code otherSquared} 严格更小时取它，否则原样保留
+     * {@code deviceSquared}（因此另一侧为正无穷、相等或 NaN 时设备距离不变）。
+     */
+    public static double nearerCompetitor(double deviceSquared, double otherSquared) {
+        return otherSquared < deviceSquared ? otherSquared : deviceSquared;
+    }
+
+    /**
      * Squared distance from {@code start} to the earliest entry into any volume along {@code start -> end}; 0 inside
      * one, -1 on a miss ({@code HitscanLagRules.entryDistanceSquared}, restated so the rule stays pure here).
      * 沿线段最早进入任一体积处的平方距离；起点在内为 0，未命中为 -1。

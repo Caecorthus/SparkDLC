@@ -18,17 +18,70 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * All earning, spending and visibility decisions are made on the server from current membership.
  * 收入、支付及可见性均由服务端按当前真实阵营决定。
  */
 public final class KillerTeamEconomyService {
+    /**
+     * A feature's say on whether a member's wallet is, right now, the wallet the purse works with. The purse names no
+     * role: a role that gives a member a second wallet registers a rule from its own registration code, before a round
+     * can run. Rules are order-independent: income raises the purse only when every rule counts it, and a purchase
+     * draws on the purse only when no rule keeps it personal. A rule is asked before the purse's own access checks,
+     * for every caller of the three entries, with the player exactly as the caller passed it.
+     * 某个功能对“成员的钱包此刻是否就是团队资金所对应的钱包”的意见。团队资金不点名任何职业：给成员第二个钱包的职业在自己的注册
+     * 代码中、任何对局运行之前注册一条规则。规则与顺序无关：只有所有规则都认可时收入才计入团队资金；只要有一条规则要求仅用
+     * 个人余额，购买就不动用团队资金。规则先于团队资金自身的访问检查询问，对三个入口的所有调用方生效，玩家参数原样传入。
+     */
+    public interface WalletRule {
+        /**
+         * False when income landing in this player's wallet now is not killer income and must not raise the purse.
+         * 此刻进入该玩家钱包的收入不是杀手收入、不得计入团队资金时返回 false。
+         */
+        boolean countsIncome(PlayerEntity player);
+
+        /**
+         * True when this player's purchases now neither draw on the purse nor are debited from it.
+         * 该玩家此刻的购买既不动用团队资金、也不从中扣款时返回 true。
+         */
+        boolean keepsPurchasesPersonal(PlayerEntity player);
+    }
+
     private static final Map<ServerPlayNetworkHandler, Snapshot> VISIBLE_SNAPSHOTS = new HashMap<>();
+    // Copy-on-write: a check iterates a snapshot. / 写时复制：检查遍历快照。
+    private static final List<WalletRule> WALLET_RULES = new CopyOnWriteArrayList<>();
     private static boolean registered;
 
     private KillerTeamEconomyService() {
+    }
+
+    public static void registerWalletRule(WalletRule rule) {
+        WALLET_RULES.add(Objects.requireNonNull(rule, "rule"));
+    }
+
+    /** True when every rule counts income of {@code player}. / 所有规则都认可 {@code player} 的收入时为 true。 */
+    static boolean countsIncome(Iterable<? extends WalletRule> rules, PlayerEntity player) {
+        for (WalletRule rule : rules) {
+            if (!rule.countsIncome(player)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** True when a rule keeps purchases of {@code player} personal. / 有规则要求 {@code player} 的购买仅用个人余额时为 true。 */
+    static boolean keepsPurchasesPersonal(Iterable<? extends WalletRule> rules, PlayerEntity player) {
+        for (WalletRule rule : rules) {
+            if (rule.keepsPurchasesPersonal(player)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static synchronized void register() {
@@ -93,6 +146,9 @@ public final class KillerTeamEconomyService {
     }
 
     public static void recordIncome(PlayerEntity player, long actualIncome) {
+        if (!countsIncome(WALLET_RULES, player)) {
+            return;
+        }
         if (actualIncome <= 0 || !(player instanceof ServerPlayerEntity serverPlayer) || !canAccess(serverPlayer)) {
             return;
         }
@@ -108,6 +164,9 @@ public final class KillerTeamEconomyService {
     }
 
     public static int availableForPurchase(PlayerEntity player, int personalBalance) {
+        if (keepsPurchasesPersonal(WALLET_RULES, player)) {
+            return personalBalance;
+        }
         if (!(player instanceof ServerPlayerEntity serverPlayer) || !canAccess(serverPlayer)) {
             return personalBalance;
         }
@@ -119,6 +178,9 @@ public final class KillerTeamEconomyService {
     // Called only at the existing successful purchase debit; the personal wallet never contains team funds.
     // 仅在原有购买成功扣款点调用，个人钱包从不临时写入团队余额。
     public static int personalBalanceAfterPurchase(PlayerEntity player, int personalBalance, int price) {
+        if (keepsPurchasesPersonal(WALLET_RULES, player)) {
+            return personalBalance - price;
+        }
         int shortfall = KillerTeamEconomyRules.sharedShortfall(personalBalance, price);
         if (shortfall == 0 || !(player instanceof ServerPlayerEntity serverPlayer) || !canAccess(serverPlayer)) {
             return personalBalance - price;

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.blind.gate;
 
+import dev.caecorthus.sparkdlc.client.ponder.ActorPlayer;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindPerceptionClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindSilhouettePass;
@@ -74,15 +75,17 @@ public final class BlindClientGates {
 
     /**
      * No held item, armor, cape or mod feature on other players, and only the empty arm pose (no gun, bat or knife
-     * stance).
-     * 其他玩家不画手持物、护甲、披风与模组附加层，手臂只用空手姿势（无持枪、持棒或持刀姿势）。
+     * stance). The guidebook's demo actors are not other players, so a Blind reader still sees their knives, vests and
+     * gun stances. This gate is asked for every feature layer of every living entity and only reads state.
+     * 其他玩家不画手持物、护甲、披风与模组附加层，手臂只用空手姿势（无持枪、持棒或持刀姿势）。指南的演示演员不是其他玩家，
+     * 因此盲人读者仍能看到它们的刀、背心与持枪姿势。每个生物的每个附加层都会询问该闸门，且它只读取状态。
      */
     public static boolean suppressesFeatures(@Nullable Entity entity) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (!isOtherPlayer(client, entity)) {
             return false;
         }
-        return BlindGateRules.suppressesFeatures(BlindView.isActive(client), true);
+        return BlindGateRules.suppressesFeatures(BlindView.isActive(client), true) && !(entity instanceof ActorPlayer);
     }
 
     /**

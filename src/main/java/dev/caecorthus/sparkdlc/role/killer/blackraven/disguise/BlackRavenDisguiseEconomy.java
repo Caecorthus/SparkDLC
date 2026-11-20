@@ -43,13 +43,32 @@ public final class BlackRavenDisguiseEconomy {
         @Nullable PlayerEntity sparkwitch$blackRavenShopOwner();
     }
 
-    /** Registers the single TaskComplete listener. / 注册唯一的 TaskComplete 监听器。 */
+    /**
+     * Registers the single TaskComplete listener and the disguise's rule for the killer-team purse.
+     * 注册唯一的 TaskComplete 监听器，以及伪装对杀手团队资金的规则。
+     */
     public static synchronized void register() {
         if (registered) {
             return;
         }
         registered = true;
         TaskComplete.EVENT.register((player, task) -> onTaskComplete(player));
+        // Keeps the killer-team purse on the stashed Black Raven wallet's side of a disguised Raven. While disguised
+        // the purse neither funds nor is debited by disguise purchases, and income landing in the disguise wallet is
+        // not reported as killer income; routed Raven-wallet kill rewards are reported by recordPurseReceipt instead.
+        // 让杀手团队资金只与伪装黑羽鸦存档中的黑羽鸦钱包相关。伪装期间团队资金既不资助也不承担伪装购买，进入伪装钱包的收入
+        // 也不作为杀手收入上报；转入黑羽鸦钱包的击杀奖励改由 recordPurseReceipt 上报。
+        KillerTeamEconomyService.registerWalletRule(new KillerTeamEconomyService.WalletRule() {
+            @Override
+            public boolean countsIncome(PlayerEntity player) {
+                return acceptsKillerTeamContribution(player);
+            }
+
+            @Override
+            public boolean keepsPurchasesPersonal(PlayerEntity player) {
+                return BlackRavenDisguiseService.routesKillerIncome(player);
+            }
+        });
     }
 
     /** TRUE/FALSE for a disguised player; null means "no opinion" (not disguised). / 伪装玩家返回 TRUE/FALSE；未伪装返回 null。 */

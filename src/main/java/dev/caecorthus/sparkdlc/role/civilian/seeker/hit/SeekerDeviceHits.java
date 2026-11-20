@@ -6,6 +6,8 @@ import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -44,6 +46,22 @@ import java.util.function.Predicate;
  * 客户端调用时均为空操作；不涉及设备时原样返回输入。所有入口都以 {@link SeekerDamageRules#mayBreak}（拥有者为代理目标）
  * 校验；攻击者不能打坏的设备对其服务端射线与扫掠透明（既不损坏也不挡枪）。由客户端选择目标的入口（左轮、德林加、猎魔枪、
  * 刀刺）从客户端收到设备 id，被拒绝时按未命中处理（见 {@link SeekerDamageRules}）。爆炸属于范围效果，从不遮挡。
+ *
+ * <p>Bomber drones join the same nearest-wins contract at the head of the server hitscan and blast entries: a drone
+ * nearer than the target absorbs the shot (null target / true / shortened ray / burst point), and blasts break drones
+ * in range. When a drone absorbs a ray, the device check of that call is skipped (a Seeker device and a drone on one
+ * ray is an accepted edge case). Partygoers join the lethal entries too ({@code PartygoerWeaponHits}): shotgun, feather
+ * blade, Sphinx Hao fist, Sniper M1903A4, death ray, backblast and USEC rifle ask the Partygoer first, which wins only
+ * when strictly nearer than the target AND every drone on the ray, so the drone step runs exactly as it would without
+ * Partygoers otherwise. The taser and shriek gun are not lethal and the shell sweep / blast are handled elsewhere (TR
+ * blast through {@code MagicianPuppetHits}), so those stay drone-only. The Time Stealer clock asks Partygoers only
+ * (drones never stop the clock).
+ * 轰炸者无人机在服务端即时射线与爆炸入口的开头加入同一“最近者命中”契约：比目标更近的无人机吸收这一击（返回 null 目标 / true /
+ * 截短射线 / 爆点），爆炸则击毁范围内的无人机。无人机吸收射线时本次调用跳过设备判定（同一射线上同时有搜寻者设备与无人机属于
+ * 可接受的边界情况）。派对客也加入致命入口（{@code PartygoerWeaponHits}）：猎枪、羽刃、狮身豪铁拳、狙击手 M1903A4、死光、尾焰与
+ * USEC 步枪先询问派对客，只有它严格近于目标且近于射线上所有无人机时才获胜，否则无人机步骤与没有派对客时完全一致。电击枪与啸音铳
+ * 不致命，炮弹飞行与爆炸在别处处理（TR 爆炸经 {@code MagicianPuppetHits}），因此仍只处理无人机。窃时者时钟只询问派对客
+ * （无人机从不挡下时钟）。</p>
  */
 public final class SeekerDeviceHits {
     /** NoellesRoles Demon Hunter pistol, matched by registry id only. / 仅按注册 id 匹配的 NoellesRoles 猎魔枪。 */
@@ -149,16 +167,18 @@ public final class SeekerDeviceHits {
     /**
      * SparkWitch double-barrel shotgun (one-line Hunter hook, server branch): nearest-wins along the shooter's look ray
      * of {@code range} (the fired shell's range: 8 buckshot, 15 slug). A nearer breakable device breaks and the shot
-     * kills nobody (the Hunter's record then says {@code hit:false}). Frozen external seam: SparkStrength injects its
-     * Bomber drone and Partygoer steps at this method's HEAD by name and reads {@code range}, so the Hunter calls it
-     * exactly once per shot, for the centre ray, and this entry must keep a unique name and this signature.
+     * kills nobody (the Hunter's record then says {@code hit:false}). The Partygoer and Bomber drone steps run first
+     * here and read {@code range}, so the Hunter calls this entry exactly once per shot, for the centre ray.
      * SparkWitch 双管猎枪（Hunter 服务端分支中的一行钩子）：沿射手视线、长 {@code range}（所射弹药的射程：霰弹 8、独头弹 15）
-     * 执行最近者命中；更近且可打坏的设备被打坏，这一枪不击杀任何人（Hunter 的记录随之为 {@code hit:false}）。冻结的外部接缝：
-     * SparkStrength 按方法名在其 HEAD 注入轰炸者无人机与派对客步骤并读取 {@code range}，因此 Hunter 每枪只为中心射线调用一次，
-     * 本入口必须保持唯一的方法名与此签名。
+     * 执行最近者命中；更近且可打坏的设备被打坏，这一枪不击杀任何人（Hunter 的记录随之为 {@code hit:false}）。派对客与轰炸者
+     * 无人机步骤在此最先执行并读取 {@code range}，因此 Hunter 每枪只为中心射线调用本入口一次。
      */
     @Nullable
     public static <T extends PlayerEntity> T onShotgunFired(PlayerEntity shooter, @Nullable T target, double range) {
+        if (PartygoerWeaponHits.onSparkWitchShotgun(shooter, target, range)
+                || DroneWeaponHits.onSparkWitchRay(shooter, target, range)) {
+            return null;
+        }
         if (!(shooter instanceof ServerPlayerEntity serverShooter) || shooter.getWorld().isClient()) {
             return target;
         }
@@ -169,12 +189,12 @@ public final class SeekerDeviceHits {
      * Read-only device step for one Hunter pellet ray ({@code start → end}): the breakable device {@code rayBlocks}
      * would break on that segment for {@code target} (the same {@link SeekerDamageRules#mayBreak} filter), else null.
      * Breaks, marks and records nothing, so the buckshot asks every ray before breaking anything and a device broken
-     * by one pellet still absorbs the others that reached it first. Null on the client. SparkStrength's Bomber drones,
-     * which absorb inside {@link #onShotgunFired} itself, are not seen here.
+     * by one pellet still absorbs the others that reached it first. Null on the client. Bomber drones, which absorb
+     * inside {@link #onShotgunFired} itself, are not seen here.
      * 猎人单条弹丸射线（{@code start → end}）的只读设备步骤：{@code rayBlocks} 在该线段上针对 {@code target} 会打坏的
      * 可打坏设备（相同的 {@link SeekerDamageRules#mayBreak} 过滤），否则为 null。不打坏、不标记、不记录任何内容，因此霰弹
-     * 先询问每条射线再打坏任何设备，被某颗弹丸打坏的设备仍会吸收其他先到达它的弹丸。客户端恒为 null。SparkStrength 轰炸者
-     * 无人机在 {@link #onShotgunFired} 内部吸收，此处看不到。
+     * 先询问每条射线再打坏任何设备，被某颗弹丸打坏的设备仍会吸收其他先到达它的弹丸。客户端恒为 null。轰炸者无人机在
+     * {@link #onShotgunFired} 内部吸收，此处看不到。
      */
     @Nullable
     public static SeekerDeviceEntity shotgunDeviceOnRay(PlayerEntity shooter, @Nullable PlayerEntity target,
@@ -273,6 +293,9 @@ public final class SeekerDeviceHits {
     /** Control Expert taser server targeting; a device hit stuns nobody. / 控场专家电击枪；命中设备时不眩晕任何人。 */
     @Nullable
     public static <T extends PlayerEntity> T onTaserFired(ServerPlayerEntity user, @Nullable T target, double range) {
+        if (DroneWeaponHits.onSparkWitchRay(user, target, range)) {
+            return null;
+        }
         if (user == null || user.getWorld().isClient()) {
             return target;
         }
@@ -285,11 +308,16 @@ public final class SeekerDeviceHits {
      * behind it are not); returns {@code visibleDistance} unchanged when no device lies on the ray. One-line hook:
      * {@code double visibleDistance = SeekerDeviceHits.onDeathRayFired(caster, start, direction,
      * visibleRayDistance(world, caster, start, direction));}
+     * The visible distance is first cut at the nearest drone, before the device check runs on the shortened ray.
      * 杀意魔女死光：穿透多目标射线，因此“最近者命中”即“在最近的设备处截断射线”。打坏该设备并返回缩短后的可见距离
      * （设备前的玩家照常命中，其后的玩家不受影响）；射线上没有设备时原样返回 {@code visibleDistance}。
+     * 可见距离先在最近的无人机处截断，之后才在缩短后的射线上执行设备判定。
      */
     public static double onDeathRayFired(ServerPlayerEntity user, Vec3d start, Vec3d direction,
                                          double visibleDistance) {
+        visibleDistance = DroneWeaponHits.onSparkWitchDeathRay(user, start, direction, visibleDistance);
+        // Piercing: Partygoers before the cut die and do not shorten the ray. / 穿透：截断点之前的派对客死亡，且不缩短射线。
+        PartygoerWeaponHits.onSparkWitchDeathRay(user, start, direction, visibleDistance);
         if (user == null || user.getWorld().isClient() || start == null || direction == null
                 || !(visibleDistance > 0.0) || direction.lengthSquared() == 0.0) {
             return visibleDistance;
@@ -313,6 +341,10 @@ public final class SeekerDeviceHits {
     @Nullable
     public static <T extends PlayerEntity> T onFeatherBladeFired(ServerPlayerEntity user, @Nullable T target,
                                                                  double range) {
+        if (PartygoerWeaponHits.onSparkWitchFeatherBlade(user, target, range)
+                || DroneWeaponHits.onSparkWitchRay(user, target, range)) {
+            return null;
+        }
         if (user == null || user.getWorld().isClient()) {
             return target;
         }
@@ -356,9 +388,16 @@ public final class SeekerDeviceHits {
      * break is unattributed.
      * 范围武器（Wathe 手雷含炸弹狂人、SparkStrength M67、药炮手炮弹）：打坏球内与爆心有视线的所有设备；玩家照常死亡（不遮挡）。
      * 有在线投掷者时每个设备都经 {@link SeekerDamageRules#mayBreak} 校验（从不打坏投掷者自己的设备）；没有投掷者时损坏不归属任何人。
+     *
+     * <p>Drones in range break first. Wathe grenades (reported at their HEAD, before the kills) and M67s arrive here
+     * too; the drone step ignores those reports while {@code DroneCombatService.runOwnBlast} runs, since their own hooks
+     * break drones after the kills.
+     * 范围内的无人机最先被击毁。Wathe 手雷（在其 HEAD、击杀之前上报）与 M67 也会到达这里；{@code DroneCombatService.runOwnBlast}
+     * 执行期间无人机步骤忽略这些上报，因为它们自身的钩子会在击杀之后击毁无人机。</p>
      */
     public static void onBlast(ServerWorld world, Vec3d center, double radius, @Nullable ServerPlayerEntity owner,
                                SeekerBreakSource source) {
+        DroneWeaponHits.onSparkWitchBlast(world, center, radius, owner);
         if (world == null || center == null || source == null || !(radius > 0.0)
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
@@ -395,9 +434,20 @@ public final class SeekerDeviceHits {
      * 返回 {@code null}：调用方不窃取任何人，但照常开始时钟冷却（如同电击枪被吸收时照样进入冷却）。电击枪与黑鸦羽刃未命中时
      * 仍会打坏射程内最近的设备，时钟则不同：目标为 {@code null} 时不打坏任何设备，因为时钟未命中是免费的，
      * 绝不能变成免费的拆设备手段。损坏来源记录为 {@code CLOCK}。
+     *
+     * <p>The curse kills, so a Partygoer strictly nearer than the aimed player takes it first and dies at once
+     * ({@code sparkdlc:time_stolen}); the {@code null} returned then makes the caller start the clock cooldown and steal
+     * nothing. The caller only reaches this entry when a player was aimed, so a clock fired at a Partygoer with nobody
+     * behind it is out of reach from here.
+     * 诅咒会致死，因此严格比被瞄准玩家更近的派对客先承受诅咒并立即死亡（{@code sparkdlc:time_stolen}）；随后返回的
+     * {@code null} 让调用方开始时钟冷却且不窃取任何人。调用方只在瞄准到玩家时才进入本入口，因此身后没有玩家时对派对客使用时钟
+     * 无法从这里处理。</p>
      */
     @Nullable
     public static <T extends PlayerEntity> T onClockFired(ServerPlayerEntity user, @Nullable T target, double range) {
+        if (PartygoerWeaponHits.onSparkWitchClock(user, target, range)) {
+            return null;
+        }
         if (user == null || target == null || user.getWorld().isClient()) {
             return target;
         }
@@ -414,6 +464,9 @@ public final class SeekerDeviceHits {
     @Nullable
     public static <T extends PlayerEntity> T onShriekGunFired(ServerPlayerEntity user, @Nullable T target,
                                                               double range) {
+        if (DroneWeaponHits.onSparkWitchRay(user, target, range)) {
+            return null;
+        }
         if (user == null || user.getWorld().isClient()) {
             return target;
         }
@@ -422,17 +475,20 @@ public final class SeekerDeviceHits {
 
     /**
      * Sphinx Hao "手"枪 server targeting, mirroring the Taser: a nearer breakable device absorbs the fist and breaks, so
-     * nobody is hit (the shooter then gets the no-kill branch). Frozen external seam: SparkStrength may inject at this
-     * method's HEAD by name (Partygoer / Bomber drone parity, cut at the first block) and return null when one of them
-     * takes the fist, so the gun calls it exactly once per shot with the full range, and this entry must keep its unique
-     * name and this signature.
+     * nobody is hit (the shooter then gets the no-kill branch). A lethal straight hitscan with the USEC rifle's parity,
+     * cut at the first block: a nearer Partygoer dies, else a nearer drone breaks, and either way null is returned and
+     * nobody else is hit; so the gun calls this entry exactly once per shot with the full range.
      * 狮身豪“手”枪的服务端目标选择，与电击枪一致：更近且可打坏的设备吸收拳头并被打坏，不命中任何人（射手随后走未击杀分支）。
-     * 冻结的外部接缝：SparkStrength 可按方法名在其 HEAD 注入（派对客 / 轰炸者无人机一致处理，在第一个方块处截断），在它们吃下
-     * 拳头时返回 null；因此手枪每发只以满射程调用一次，本入口必须保持唯一的方法名与此签名。
+     * 与 USEC 步枪同等对待的致命直线即时射线，在第一个方块处截断：更近的派对客死亡，否则更近的无人机被击毁，两种情况都返回 null、
+     * 不再命中任何人；因此手枪每发只以满射程调用本入口一次。
      */
     @Nullable
     public static <T extends PlayerEntity> T onSphinxHaoFistFired(ServerPlayerEntity shooter, @Nullable T target,
                                                                   double range) {
+        if (PartygoerWeaponHits.onSparkWitchSphinxHaoFist(shooter, target, range)
+                || DroneWeaponHits.onSparkWitchRay(shooter, target, range)) {
+            return null;
+        }
         if (shooter == null || shooter.getWorld().isClient()) {
             return target;
         }
@@ -442,10 +498,10 @@ public final class SeekerDeviceHits {
     /**
      * Read-only preview of {@link #onSphinxHaoFistFired} for the fist visual: the device that call would absorb and break
      * for the same arguments, else null. Breaks, marks and records nothing; call it first, since the break removes the
-     * device. A SparkStrength Partygoer or drone (hooked into {@link #onSphinxHaoFistFired} only) is not seen here.
+     * device. A Partygoer or drone (asked in {@link #onSphinxHaoFistFired} only) is not seen here.
      * {@link #onSphinxHaoFistFired} 的只读预览，供拳头表现使用：对相同参数该调用会吸收并打坏的设备，否则为 null。不打坏、不标记、
-     * 不记录任何内容；须先调用，因为打坏会移除该设备。SparkStrength 的派对客或无人机（只挂接在 {@link #onSphinxHaoFistFired}
-     * 上）在这里看不到。
+     * 不记录任何内容；须先调用，因为打坏会移除该设备。派对客或无人机（只在 {@link #onSphinxHaoFistFired} 中询问）在这里
+     * 看不到。
      */
     @Nullable
     public static SeekerDeviceEntity sphinxHaoFistAbsorber(ServerPlayerEntity user, @Nullable PlayerEntity target,
@@ -460,18 +516,21 @@ public final class SeekerDeviceHits {
     /**
      * Sniper M1903A4 server targeting on bow release, mirroring the Sphinx Hao fist: a nearer breakable device absorbs
      * the round and breaks, so nobody is hit; like the Taser a miss still breaks the nearest device in reach, because
-     * every shot spends a round and the rifle's cooldown. Frozen external seam: SparkStrength may inject at this
-     * method's HEAD by name (Partygoer / Bomber drone parity, cut at the first block) and return null when one of them
-     * takes the round, so the rifle calls it exactly once per shot with the full range, and this entry must keep its
-     * unique name and this signature.
+     * every shot spends a round and the rifle's cooldown. A lethal straight hitscan with the fist's parity (the ray
+     * stops at the first block): a nearer Partygoer dies, else a nearer drone breaks, and either way null is returned
+     * and nobody else is hit; so the rifle calls this entry exactly once per shot with the full 50-block range.
      * 狙击手 M1903A4 松开蓄力时的服务端目标选择，与狮身豪拳头一致：更近且可打坏的设备吸收子弹并被打坏，不命中任何人；与电击枪
-     * 相同，未命中时仍会打坏射程内最近的设备，因为每一发都要消耗子弹与步枪冷却。冻结的外部接缝：SparkStrength 可按方法名在其
-     * HEAD 注入（派对客 / 轰炸者无人机一致处理，在第一个方块处截断），在它们吃下子弹时返回 null；因此步枪每发只以满射程调用
-     * 一次，本入口必须保持唯一的方法名与此签名。
+     * 相同，未命中时仍会打坏射程内最近的设备，因为每一发都要消耗子弹与步枪冷却。与铁拳同等对待的致命直线即时射线（射线止于
+     * 第一个方块）：更近的派对客死亡，否则更近的无人机被击毁，两种情况都返回 null、不再命中任何人；因此步枪每发只以完整的 50 格
+     * 射程调用本入口一次。
      */
     @Nullable
     public static <T extends PlayerEntity> T onM1903A4Fired(ServerPlayerEntity shooter, @Nullable T target,
                                                             double range) {
+        if (PartygoerWeaponHits.onSparkWitchM1903A4(shooter, target, range)
+                || DroneWeaponHits.onSparkWitchRay(shooter, target, range)) {
+            return null;
+        }
         if (shooter == null || shooter.getWorld().isClient()) {
             return target;
         }
@@ -481,11 +540,9 @@ public final class SeekerDeviceHits {
     /**
      * Read-only preview of {@link #onM1903A4Fired} for the smoke trail's stop point: the device that call would absorb
      * and break for the same arguments, else null. Breaks, marks and records nothing; call it first, since the break
-     * removes the device. A SparkStrength Partygoer or drone (hooked into {@link #onM1903A4Fired} only) is not seen
-     * here.
+     * removes the device. A Partygoer or drone (asked in {@link #onM1903A4Fired} only) is not seen here.
      * {@link #onM1903A4Fired} 的只读预览，供烟迹终点使用：对相同参数该调用会吸收并打坏的设备，否则为 null。不打坏、不标记、
-     * 不记录任何内容；须先调用，因为打坏会移除该设备。SparkStrength 的派对客或无人机（只挂接在 {@link #onM1903A4Fired} 上）
-     * 在这里看不到。
+     * 不记录任何内容；须先调用，因为打坏会移除该设备。派对客或无人机（只在 {@link #onM1903A4Fired} 中询问）在这里看不到。
      */
     @Nullable
     public static SeekerDeviceEntity m1903a4Absorber(ServerPlayerEntity user, @Nullable PlayerEntity target,
@@ -545,6 +602,11 @@ public final class SeekerDeviceHits {
      */
     @Nullable
     public static Vec3d onPotionShellSweep(Entity shell, @Nullable Entity thrower, Vec3d from, Vec3d to) {
+        // A drone on this tick's path bursts the shell at its own point first. / 本刻路径上的无人机先在其位置引爆炮弹。
+        Vec3d droneBurst = DroneWeaponHits.onSparkWitchShellSweep(shell, thrower, from, to);
+        if (droneBurst != null) {
+            return droneBurst;
+        }
         SeekerDeviceRaycast.DeviceHit hit = sweepHit(shell, thrower, from, to, true, SeekerBreakSource.POTION_SHELL);
         return hit == null ? null : hit.point();
     }
@@ -561,6 +623,10 @@ public final class SeekerDeviceHits {
      * 距离相同时命中玩家。返回 true 表示已被吸收，不再命中任何人。
      */
     public static boolean onPotionBackblast(ServerPlayerEntity gunner, Vec3d start, Vec3d direction, double reach) {
+        if (PartygoerWeaponHits.onSparkWitchBackblast(gunner, start, direction, reach)
+                || DroneWeaponHits.onSparkWitchBackblast(gunner, start, direction, reach)) {
+            return true;
+        }
         if (gunner == null || gunner.getWorld().isClient() || start == null || direction == null
                 || !(reach > 0.0) || direction.lengthSquared() == 0.0
                 || !GameWorldComponent.KEY.get(gunner.getWorld()).isRunning()) {
@@ -586,16 +652,15 @@ public final class SeekerDeviceHits {
      * caller calls this for match shots only). The caller (one call per shot, after the Magician puppet check) passes
      * the polyline from the shooter's eye to where the bullet ended against blocks or ran out of energy (at least two
      * points), and {@code reach}: the path distance to the first player it would hit, or the whole path length.
-     * Optional SparkStrength may {@code @Inject}/{@code @ModifyVariable} at HEAD on these three arguments to let its
-     * drones absorb the shot the same way (return or pass a shorter distance), as it does for {@link #onDeathRayFired}.
+     * Before the devices, a Partygoer and then a drone that the polyline enters strictly before {@code reach} takes
+     * the shot the same way: its shorter path distance is returned, which skips the device check and the player hit.
      * 稳定接缝：USEC 狙击步枪的对局射击（服务端即时射线，无投射物实体）。AP 子弹会穿透方块并下坠，因此子弹的服务端路径是折线，
      * 最近者命中按路径距离（沿 {@code path} 自第一个点累加的长度）量取。按飞行顺序逐段检查，路径在 {@code reach} 之前（严格早于）
      * 进入其扩大余量箱体、且射手可打坏（{@link SeekerDamageRules#mayBreak}，从不打坏自己的设备）的第一个设备被打坏（记录为
      * {@code USEC_RIFLE}）并吸收这一枪。被穿透墙壁后方的设备也在路径上，因此 AP 能打到；FMJ 路径止于其第一个方块。只有进行中的
      * 对局才会打坏设备（调用方只为对局射击调用）。调用方（每发一次，在魔术师皮套检查之后）传入从射手眼睛到子弹撞上方块或能量耗尽处的
-     * 折线（至少两个点），以及 {@code reach}：到其本会命中的第一名玩家的路径距离，没有玩家时为整条路径长度。可选的 SparkStrength
-     * 可在 HEAD 对这三个参数 {@code @Inject}/{@code @ModifyVariable}，让其无人机以同样方式吸收这一枪（返回或传入更短的距离），
-     * 与其对 {@link #onDeathRayFired} 的做法相同。
+     * 折线（至少两个点），以及 {@code reach}：到其本会命中的第一名玩家的路径距离，没有玩家时为整条路径长度。在设备之前，折线在
+     * {@code reach} 之前严格先进入的派对客、其次是无人机，以同样方式吃下这一枪：返回其更短的路径距离，即跳过设备判定与玩家命中。
      *
      * @param shooter the USEC shooter / 射手
      * @param path    the bullet's polyline from the eye, in flight order / 子弹自眼睛起、按飞行顺序的折线
@@ -605,6 +670,14 @@ public final class SeekerDeviceHits {
      *         打坏设备的路径距离（严格小于 {@code reach}，调用方随后不命中任何人）
      */
     public static double onUsecRifleFired(ServerPlayerEntity shooter, List<Vec3d> path, double reach) {
+        double partygoer = PartygoerWeaponHits.onSparkWitchUsecRifle(shooter, path, reach);
+        if (partygoer < reach) {
+            return partygoer;
+        }
+        double absorbed = DroneWeaponHits.onSparkWitchUsecRifle(shooter, path, reach);
+        if (absorbed < reach) {
+            return absorbed;
+        }
         if (shooter == null || shooter.getWorld().isClient() || path == null || path.size() < 2 || !(reach > 0.0)
                 || !GameWorldComponent.KEY.get(shooter.getWorld()).isRunning()) {
             return reach;

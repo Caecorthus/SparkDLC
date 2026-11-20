@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
@@ -569,6 +570,13 @@ public final class MagicianPuppetHits {
      * （{@code crimson_wither_skull}），与玩家被击杀一致；返回 true 时由调用方移除头颅。
      */
     public static boolean onCrimsonSkullHit(Entity skull, @Nullable Entity owner, EntityHitResult hit) {
+        // This entry takes every lethal NON-player entity hit of the skull, so a Partygoer is asked first: it dies like
+        // a player would (PartygoerWeaponHits) and the skull is spent there; everything else goes on to the puppets.
+        // 本入口承接头颅对“非玩家”实体的每次致命命中，因此先询问派对客：它与玩家一样死亡（PartygoerWeaponHits），头颅就此消耗；
+        // 其余情况继续交给皮套。
+        if (PartygoerWeaponHits.onCrimsonSkullHit(skull, owner, hit)) {
+            return true;
+        }
         if (skull == null || hit == null || !(skull.getWorld() instanceof ServerWorld)
                 || !(hit.getEntity() instanceof MagicianPlaybackEntity puppet)
                 || !(owner instanceof ServerPlayerEntity attacker) || !hittableBy(attacker, puppet)) {
@@ -650,6 +658,10 @@ public final class MagicianPuppetHits {
      */
     public static void onPotionShellBlast(ServerWorld world, Vec3d center, @Nullable PotionShellType type,
                                           @Nullable ServerPlayerEntity gunner, ItemStack shell) {
+        // Partygoers first, for every shell: only a TR shell kills them, and that rule reads the type from the shell
+        // item itself. The puppets below are judged as before either way.
+        // 每种炮弹都先处理派对客：只有 TR 炮弹会杀死它们，该规则自行从炮弹物品读取类型。无论结果如何，下方皮套的判定照旧。
+        PartygoerWeaponHits.onPotionShellBlast(world, center, gunner, shell);
         if (world == null || center == null || type != PotionShellType.TR
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
@@ -804,6 +816,10 @@ public final class MagicianPuppetHits {
      * 他人活皮套按一次剑杀承受这一击（{@link #ceremonialSwordKill}）。返回 true 表示已结束。
      */
     public static boolean onCeremonialSwordStrike(ServerPlayerEntity attacker, @Nullable Entity target) {
+        // A Partygoer target is asked first and dies as a sword kill. / 先询问派对客目标，它按一次剑杀死亡。
+        if (PartygoerWeaponHits.onCeremonialSwordStrike(attacker, target)) {
+            return true;
+        }
         if (attacker == null || attacker.getWorld().isClient() || attacker.isSpectator()
                 || !(target instanceof MagicianPlaybackEntity puppet)
                 || !attacker.getMainHandStack().isOf(SparkWitchItems.ceremonialSword())
@@ -823,6 +839,10 @@ public final class MagicianPuppetHits {
      * 与遇到玩家时相同）。选择离冲刺者最近的此类皮套。
      */
     public static boolean onCeremonialSwordDash(ServerPlayerEntity attacker, Box sweptBox) {
+        // A Partygoer contact is asked first; true = the dash stops at it. / 先询问派对客接触；返回 true 表示冲刺停在它面前。
+        if (PartygoerWeaponHits.onCeremonialSwordDash(attacker, sweptBox)) {
+            return true;
+        }
         if (attacker == null || sweptBox == null || !(attacker.getWorld() instanceof ServerWorld world)) {
             return false;
         }

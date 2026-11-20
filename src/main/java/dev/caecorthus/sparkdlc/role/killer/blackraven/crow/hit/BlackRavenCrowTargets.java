@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEndReason;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowSessions;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackManager;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
@@ -402,19 +403,36 @@ public final class BlackRavenCrowTargets {
     }
 
     /**
-     * Squared entry of the segment into the nearest live Seeker device {@code attacker} may break (margin-grown box,
-     * the device hooks' own measure); +inf when none. A device the attacker may not break is transparent, as in the
-     * device hooks. External seam: SparkStrength's {@code @Pseudo} {@code DroneSparkWitchCrowTargetsMixin} lowers
-     * the result at RETURN to its nearest live Bomber drone on the block-clipped segment, so a nearer drone beats the
-     * crow wherever the crow skips the device step (shotgun, Feather Blade, projectile and axe sweeps) and then absorbs
-     * in that device step; keep the name and the {@code (ServerPlayerEntity, Vec3d, Vec3d)} signature.
-     * 线段进入 {@code attacker} 可打坏的最近存活搜寻者设备（按瞄准余量扩大，即设备钩子自身的量法）处的平方距离；没有时为
-     * 正无穷。攻击者不能打坏的设备是透明的，与设备钩子一致。外部接缝：SparkStrength 的 {@code @Pseudo}
-     * {@code DroneSparkWitchCrowTargetsMixin} 在 RETURN 处把结果压低到按方块截断的线段上最近的存活炸弹客无人机，因此在乌鸦会
-     * 跳过设备步骤之处（猎枪、羽刃、投射物与飞斧扫掠），更近的无人机胜过乌鸦，随后在该设备步骤中吸收；保持方法名与
-     * {@code (ServerPlayerEntity, Vec3d, Vec3d)} 签名不变。
+     * The device competitor of the crow step: the squared entry of the segment into the nearest live Seeker device
+     * {@code attacker} may break ({@link #breakableDeviceSquared}), lowered to the nearest live Bomber drone on the
+     * block-clipped segment when that drone is strictly nearer (read-only, {@code DroneWeaponHits.nearestDroneSquared});
+     * +inf when neither is there. Nearest wins between drones and the crow: the crow step runs before the Seeker device
+     * step and skips that step when the crow is strictly nearer than every competitor it measures here (the Hunter
+     * shotgun, the Feather Blade, the shuriken / skull / potion shell tick sweeps and the throwing axe pierce cut), and
+     * a drone absorbs only inside that device step, so without this a drone never got the chance to beat a farther crow.
+     * With it the crow loses to a nearer drone and the device step then breaks the drone as before. The USEC rifle and
+     * the backblast already let a drone win (their crow step shrinks the reach the device step uses), so they do not
+     * ask this.
+     * 乌鸦步骤的设备竞争对象：线段进入 {@code attacker} 可打坏的最近存活搜寻者设备处的平方距离（{@link #breakableDeviceSquared}），
+     * 当按方块截断的线段上最近的存活炸弹客无人机严格更近时压低到该无人机（只读，{@code DroneWeaponHits.nearestDroneSquared}）；
+     * 两者都没有时为正无穷。无人机与乌鸦之间最近者命中：乌鸦步骤在搜寻者设备步骤之前执行，乌鸦严格近于此处量取的所有竞争对象
+     * （猎人猎枪、羽刃、手里剑 / 凋灵之首 / 药炮弹的逐刻扫掠、飞斧贯穿截断）时跳过设备步骤，而无人机只在该设备步骤内吸收，
+     * 因此若没有这一步，无人机从来没有机会胜过更远的乌鸦。有了它，乌鸦输给更近的无人机，随后设备步骤照旧将其击毁。USEC 步枪与
+     * 尾焰已能让无人机胜出（其乌鸦步骤缩短了设备步骤使用的距离），因此不询问这里。
      */
     public static double deviceSquared(ServerPlayerEntity attacker, Vec3d start, Vec3d end) {
+        double device = breakableDeviceSquared(attacker, start, end);
+        return BlackRavenCrowHitRules.nearerCompetitor(device, DroneWeaponHits.nearestDroneSquared(attacker, start, end));
+    }
+
+    /**
+     * Squared entry of the segment into the nearest live Seeker device {@code attacker} may break (margin-grown box,
+     * the device hooks' own measure); +inf when none. A device the attacker may not break is transparent, as in the
+     * device hooks.
+     * 线段进入 {@code attacker} 可打坏的最近存活搜寻者设备（按瞄准余量扩大，即设备钩子自身的量法）处的平方距离；没有时为
+     * 正无穷。攻击者不能打坏的设备是透明的，与设备钩子一致。
+     */
+    private static double breakableDeviceSquared(ServerPlayerEntity attacker, Vec3d start, Vec3d end) {
         World world = attacker.getWorld();
         List<SeekerDeviceEntity> devices = world.getEntitiesByClass(SeekerDeviceEntity.class,
                 new Box(start, end).expand(SEARCH_PADDING), device -> device.isAlive() && !device.isRemoved());

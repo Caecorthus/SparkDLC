@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.noisemaker;
 
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowUserComponent;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -12,6 +13,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +27,9 @@ import java.util.UUID;
  * 后续调数值或调整判定时更不容易漏改。</p>
  */
 public final class NoisemakerGlowService {
+    /** Player-affect action id of the backpack glow. / 背包点亮的玩家影响行为 id。 */
+    private static final Identifier GLOW_ACTION = Identifier.of("sparkdlc", "noisemaker_glow");
+
     private NoisemakerGlowService() {
     }
 
@@ -37,6 +42,14 @@ public final class NoisemakerGlowService {
      * 回放只会在目标确实存活并被点亮时记录。</p>
      */
     public static void tryUseBackpackGlow(ServerPlayerEntity user, UUID targetUuid) {
+        // Guards Noisemaker's selected target before its cooldown is consumed: a target the player-affect policies
+        // protect ends the request here, before any other check, so it costs nothing.
+        // 在消耗冷却前拦截噪音制造者选中的目标：受玩家影响策略保护的目标让请求在其他检查之前就此结束，不产生任何代价。
+        ServerPlayerEntity guardedTarget =
+                targetUuid == null ? null : user.getServer().getPlayerManager().getPlayer(targetUuid);
+        if (guardedTarget != null && !SparkFactionApi.allowsPlayerAction(user, guardedTarget, GLOW_ACTION)) {
+            return;
+        }
         if (targetUuid == null) {
             return;
         }

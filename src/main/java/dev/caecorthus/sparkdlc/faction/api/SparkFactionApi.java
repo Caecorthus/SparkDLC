@@ -10,11 +10,13 @@ import dev.caecorthus.sparkdlc.faction.registry.EffectiveFactionResolvers;
 import dev.caecorthus.sparkdlc.faction.registry.FactionCatalog;
 import dev.caecorthus.sparkdlc.faction.registry.FactionRegistryBootstrap;
 import dev.caecorthus.sparkdlc.faction.registry.FactionRoleCatalog;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import dev.caecorthus.sparkdlc.faction.target.PlayerAffectRules;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDraw;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDrawRules;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionLineups;
 import dev.caecorthus.sparkdlc.faction.vision.FactionInstinctRules;
+import dev.caecorthus.sparkdlc.round.end.FactionWinnerCollector;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -263,6 +265,46 @@ public final class SparkFactionApi {
 
     public static void registerPlayerAffectPolicy(PlayerAffectPolicy policy) {
         PlayerAffectRules.register(policy);
+    }
+
+    /**
+     * The guarded form of {@link #canAffectPlayer} that an action's entry point asks before it does anything: the
+     * registered {@link PlayerAffectExemption}s answer first, a missing player or acting on oneself is always allowed,
+     * and only then are the policies asked, with the game of the actor's world. The mixin adapters into Wathe, vanilla
+     * and NoellesRoles and the mod's own services share this one check.
+     * {@link #canAffectPlayer} 的带守卫形式，供行为入口在做任何事之前询问：已注册的 {@link PlayerAffectExemption} 最先回答；
+     * 玩家缺失或作用于自身时一律放行；之后才以行为者所在世界的对局询问策略。注入 Wathe、原版与 NoellesRoles 的 mixin 适配器
+     * 与模组自有服务共用这一项检查。
+     */
+    public static boolean allowsPlayerAction(
+            @Nullable PlayerEntity actor,
+            @Nullable PlayerEntity target,
+            Identifier actionId
+    ) {
+        return PlayerAffectMixinGuard.allows(actor, target, actionId);
+    }
+
+    /**
+     * Register an exemption during mod initialization, before a round can run. It applies to
+     * {@link #allowsPlayerAction} only; {@link #canAffectPlayer} asked directly does not see it.
+     * 应在模组初始化期间、任何对局运行之前注册豁免。它只作用于 {@link #allowsPlayerAction}；直接询问
+     * {@link #canAffectPlayer} 时看不到它。
+     *
+     * @param exemption non-null exemption predicate
+     */
+    public static void registerPlayerAffectExemption(PlayerAffectExemption exemption) {
+        PlayerAffectMixinGuard.registerExemption(exemption);
+    }
+
+    /**
+     * Register a co-winner rule during mod initialization: players who share every custom faction's win without being
+     * members of it (see {@link FactionCoWinnerRule}).
+     * 应在模组初始化期间注册共同赢家规则：不属于自定义阵营却与其共同获胜的玩家（见 {@link FactionCoWinnerRule}）。
+     *
+     * @param rule non-null rule
+     */
+    public static void registerFactionCoWinnerRule(FactionCoWinnerRule rule) {
+        FactionWinnerCollector.registerCoWinnerRule(rule);
     }
 
     public static void registerEconomyPolicy(FactionEconomyPolicy policy) {

@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
+import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -50,6 +51,11 @@ public final class MightyForceCombatService {
     }
 
     public static ActionResult tryHandleAttack(Entity attacker, World world, Hand hand, Entity attacked) {
+        // Guards the custom melee effect before its attack path runs (CustomMeleeAffect).
+        // 在自定义近战攻击路径运行前拦截其效果（CustomMeleeAffect）。
+        if (CustomMeleeAffect.refuses(attacker, attacked)) {
+            return ActionResult.SUCCESS;
+        }
         if (world.isClient
                 || !(attacker instanceof ServerPlayerEntity serverAttacker)
                 || !serverAttacker.getStackInHand(hand).isEmpty()) {

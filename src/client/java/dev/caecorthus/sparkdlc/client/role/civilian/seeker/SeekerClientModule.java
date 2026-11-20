@@ -15,10 +15,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 /**
- * Seeker client registration hub: the only Seeker lines in SparkWitchClient call {@link #register()},
+ * Seeker client registration hub: the only Seeker lines in SparkDLCClient call {@link #register()},
  * {@link #registerEntityRenderers()} and {@link #reset()}. Each client work package owns its own {@code register()}.
  * The Seeker never renders in the witch skill panel and does not touch the shared G-key chain.
- * 搜寻者客户端注册中心：SparkWitchClient 中搜寻者相关的行只调用 {@link #register()}、{@link #registerEntityRenderers()}
+ * 搜寻者客户端注册中心：SparkDLCClient 中搜寻者相关的行只调用 {@link #register()}、{@link #registerEntityRenderers()}
  * 与 {@link #reset()}。各客户端工作包拥有自己的 {@code register()}。搜寻者从不在魔女技能
  * 面板中渲染，也不改动共享 G 键分发链。
  */

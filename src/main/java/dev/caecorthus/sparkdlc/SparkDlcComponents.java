@@ -1,87 +1,269 @@
 package dev.caecorthus.sparkdlc;
 
+import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceWorldComponent;
+import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
+import dev.caecorthus.sparkdlc.component.SparkFactionAntiFastRoundComponent;
+import dev.caecorthus.sparkdlc.component.SparkFactionMapResetComponent;
+import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.SparkFactionThirdFactionComponent;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
+import dev.caecorthus.sparkdlc.component.WraithRoundComponent;
+import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyWorldComponent;
+import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.item.rope.RopeHoldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteComponent;
-import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherPlayerComponent;
-import dev.caecorthus.sparkdlc.item.rope.RopeHoldComponent;
-import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.usec.UsecPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStatusComponent;
-import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaComponent;
-import dev.caecorthus.sparkdlc.role.civilian.noa.NoaComponent;
-import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashComponent;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerBodySnapshotComponent;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCasePlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.spirit.FisherSpiritComponent;
-import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaComponent;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerLootWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
-import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumSeanceComponent;
+import dev.caecorthus.sparkdlc.role.civilian.noa.NoaComponent;
+import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowTargetComponent;
+import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowUserComponent;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationComponent;
+import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashComponent;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
+import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistAntidoteComponent;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.RemovedDoorsWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeComponent;
+import dev.caecorthus.sparkdlc.role.civilian.waiter.WaiterTaskRevealComponent;
+import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityComponent;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoPlayerComponent;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
+import dev.caecorthus.sparkdlc.role.killer.assassin.AssassinMisfireComponent;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.BellEchoPlayerComponent;
-import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
-import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenPerceptionPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseComponent;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotComponent;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroReturnComponent;
 import dev.caecorthus.sparkdlc.role.killer.hiro.witchification.HiroWitchificationComponent;
-import dev.caecorthus.sparkdlc.role.neutral.koko.KokoComponent;
-import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoPlayerComponent;
-import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
-import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerComponent;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
+import dev.caecorthus.sparkdlc.role.killer.morphling.MorphMarkPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyBalloonMarkComponent;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerOwnerComponent;
+import dev.caecorthus.sparkdlc.role.killer.phantom.PhantomBackpackTargetComponent;
+import dev.caecorthus.sparkdlc.role.killer.phantom.PhantomBackpackUserComponent;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterCowardiceComponent;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterFearComponent;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterOtherworldComponent;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterSecondSkillComponent;
-import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeGiftPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeTheftPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherPlayerComponent;
+import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignComponent;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanInstinctVeilComponent;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanMomentWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignComponent;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendMomentWorldComponent;
+import dev.caecorthus.sparkdlc.role.neutral.koko.KokoComponent;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
+import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDazeComponent;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
+import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
+import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.AbyssZoneExposureComponent;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.variant.AccompliceVariantRoundComponent;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPlayerComponent;
-import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorWorldComponent;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateRegistryComponent;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionComponent;
+import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
+import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
+import dev.caecorthus.sparkdlc.trait.component.PreparefullComponent;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
+import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
-import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
+import org.ladysnake.cca.api.v3.scoreboard.ScoreboardComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.scoreboard.ScoreboardComponentInitializer;
 import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
-import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
-import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
-import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
-import dev.caecorthus.sparkdlc.component.WraithRoundComponent;
 
-public final class SparkWitchComponents implements EntityComponentInitializer, WorldComponentInitializer {
+/**
+ * The one Cardinal Components entrypoint of the mod ({@code cardinal-components} in {@code fabric.mod.json}). It
+ * registers every component factory; the ids are declared once, under {@code custom.cardinal-components} in
+ * {@code fabric.mod.json}, and the game test {@code SparkDlcStartupTest} compares that list with what is registered
+ * here.
+ *
+ * <p>Order is kept from the four entrypoint classes this replaces: Cardinal Components asked each of them in turn
+ * for its entity factories, then for its world factories, then for its scoreboard factories, so every method below
+ * lists the former blocks in that same order (role kits, traits, the mod's own roles). A new component is appended
+ * to the block of its feature.</p>
+ *
+ * <p>Player components all use NEVER_COPY: a new round, a respawn or a player reset must not inherit old state, so
+ * that a cooldown, a glow countdown or a Detective folder case of the previous round cannot leak into the next.</p>
+ *
+ * 本模组唯一的 Cardinal Components 入口（{@code fabric.mod.json} 的 {@code cardinal-components}）。它注册全部组件工厂；
+ * 组件 id 只在 {@code fabric.mod.json} 的 {@code custom.cardinal-components} 下声明一次，game test
+ * {@code SparkDlcStartupTest} 会把该列表与此处实际注册的内容进行比对。
+ *
+ * <p>顺序沿用它所取代的四个入口类：Cardinal Components 依次向它们索取实体工厂、世界工厂、计分板工厂，因此下面每个方法都按
+ * 同样的顺序列出原先的各段（职业套件、词条、本模组自有职业）。新增组件追加到所属功能的那一段。</p>
+ *
+ * <p>玩家组件都使用 NEVER_COPY：新一轮、死亡重生或玩家重置时不继承旧状态，
+ * 防止上一局的大嗓门冷却、发光倒计时或侦探文件夹案件残留到下一局。</p>
+ */
+public final class SparkDlcComponents
+        implements EntityComponentInitializer, WorldComponentInitializer, ScoreboardComponentInitializer {
     @Override
     public void registerEntityComponentFactories(@NotNull EntityComponentFactoryRegistry registry) {
+        // Kits of the Wathe and NoellesRoles roles. / Wathe 与 NoellesRoles 职业的套件。
+        registry.beginRegistration(PlayerEntity.class, CorruptCopAbilityComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(CorruptCopAbilityComponent::new);
+        registry.beginRegistration(PlayerEntity.class, UndercoverPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(UndercoverPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, NoisemakerGlowUserComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(NoisemakerGlowUserComponent::new);
+        registry.beginRegistration(PlayerEntity.class, NoisemakerGlowTargetComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(NoisemakerGlowTargetComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PhantomBackpackUserComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PhantomBackpackUserComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PhantomBackpackTargetComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PhantomBackpackTargetComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ProfessorSerumUserComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ProfessorSerumUserComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ProfessorSerumTargetComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ProfessorSerumTargetComponent::new);
+        // Replaces the retired sparkdlc:criminologist_player; CCA skips saved NBT for unregistered ids
+        // (logs a warning, then drops it on the next save), so old worlds load without migration.
+        // 取代已移除的 criminologist_player；CCA 会跳过未注册 ID 的旧存档 NBT（仅记录警告，下次保存时丢弃），旧世界无需迁移。
+        registry.beginRegistration(PlayerEntity.class, DetectiveCasePlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(DetectiveCasePlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, CoronerPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(CoronerPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, VeteranKnifeComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(VeteranKnifeComponent::new);
+        registry.beginRegistration(PlayerEntity.class, EngineerStunnedPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(EngineerStunnedPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, DemonHunterSniffPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(DemonHunterSniffPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, MorphMarkPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(MorphMarkPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ToxicologistAntidoteComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ToxicologistAntidoteComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PerfumerScentComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PerfumerScentComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BodyguardGearComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BodyguardGearComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SkateboardRideComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SkateboardRideComponent::new);
+        registry.beginRegistration(PlayerEntity.class, VultureSuperCursePlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(VultureSuperCursePlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PartyAnimalSkillComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PartyAnimalSkillComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PathogenStrainComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PathogenStrainComponent::new);
+        registry.beginRegistration(PlayerEntity.class, VirusCarrierComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(VirusCarrierComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PartyBalloonMarkComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PartyBalloonMarkComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ReporterCommunicationComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ReporterCommunicationComponent::new);
+        registry.beginRegistration(PlayerEntity.class, WaiterTaskRevealComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(WaiterTaskRevealComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TimekeeperWatchComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TimekeeperWatchComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SpiritPossessionPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SpiritPossessionPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TaotieHeadPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TaotieHeadPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TaotieHeadDazeComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TaotieHeadDazeComponent::new);
+        registry.beginRegistration(PlayerEntity.class, AssassinMisfireComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(AssassinMisfireComponent::new);
+        registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
+        registry.registerFor(PlayerBodyEntity.class, PartygoerCorpseComponent.KEY, PartygoerCorpseComponent::new);
+        registry.registerFor(PartygoerEntity.class, PartygoerOwnerComponent.KEY, PartygoerOwnerComponent::new);
+        // Traits. / 词条。
+        registry.beginRegistration(PlayerEntity.class, TraitPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TraitPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PreparefullComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PreparefullComponent::new);
+        // The mod's own roles and factions. / 本模组自有的职业与阵营。
         registry.beginRegistration(PlayerEntity.class, WitchPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(WitchPlayerComponent::new);
@@ -337,6 +519,23 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
 
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
+        // Kits of the Wathe and NoellesRoles roles. / Wathe 与 NoellesRoles 职业的套件。
+        registry.register(KillerTeamEconomyWorldComponent.KEY, KillerTeamEconomyWorldComponent::new);
+        // Replaces the retired sparkdlc:criminologist_world; its saved NBT is likewise ignored by CCA.
+        // 取代已移除的 criminologist_world；其旧存档 NBT 同样会被 CCA 忽略。
+        registry.register(DetectiveCaseWorldComponent.KEY, DetectiveCaseWorldComponent::new);
+        registry.register(PlayerCollisionGraceWorldComponent.KEY, PlayerCollisionGraceWorldComponent::new);
+        registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
+        registry.register(SabotageWorldComponent.KEY, SabotageWorldComponent::new);
+        registry.register(RemovedDoorsWorldComponent.KEY, RemovedDoorsWorldComponent::new);
+        registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
+        registry.register(
+                ShadowJesterShowdownWorldComponent.KEY,
+                ShadowJesterShowdownWorldComponent::new
+        );
+        // Traits. / 词条。
+        registry.register(TraitWorldComponent.KEY, TraitWorldComponent::new);
+        // The mod's own roles and factions. / 本模组自有的职业与阵营。
         registry.register(JudgeWorldComponent.KEY, JudgeWorldComponent::new);
         registry.register(WitchWorldComponent.KEY, WitchWorldComponent::new);
         registry.register(WitchFactorWorldComponent.KEY, WitchFactorWorldComponent::new);
@@ -356,5 +555,21 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         // 狮身豪 Sphinx Hao (2026-11-17) infections and 豪气冲天 window, appended last, after the Charon's Soul Moment.
         // 狮身豪（2026-11-17）的感染与豪气冲天窗口，追加在最后，位于卡戎亡魂时刻之后。
         registry.register(SphinxHaoWorldComponent.KEY, SphinxHaoWorldComponent::new);
+    }
+
+    @Override
+    public void registerScoreboardComponentFactories(@NotNull ScoreboardComponentFactoryRegistry registry) {
+        // Round services: round end, anti-fast-round, lobby map reset, third-faction draw.
+        // 对局服务：回合结束、防速通、大厅地图重置、第三阵营抽取。
+        registry.registerScoreboardComponent(SparkFactionRoundEndComponent.KEY, SparkFactionRoundEndComponent::new);
+        registry.registerScoreboardComponent(
+                SparkFactionAntiFastRoundComponent.KEY,
+                SparkFactionAntiFastRoundComponent::new
+        );
+        registry.registerScoreboardComponent(SparkFactionMapResetComponent.KEY, SparkFactionMapResetComponent::new);
+        registry.registerScoreboardComponent(
+                SparkFactionThirdFactionComponent.KEY,
+                SparkFactionThirdFactionComponent::new
+        );
     }
 }

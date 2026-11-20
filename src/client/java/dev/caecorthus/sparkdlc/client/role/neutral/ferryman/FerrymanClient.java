@@ -51,7 +51,7 @@ public final class FerrymanClient {
         });
     }
 
-    /** Shared ability key press, dispatched by {@code SparkWitchClient} for the exact role only. / 共享技能键按下，由主入口按精确职业分发。 */
+    /** Shared ability key press, dispatched by {@code SparkDLCClient} for the exact role only. / 共享技能键按下，由主入口按精确职业分发。 */
     public static void onAbilityKey(MinecraftClient client) {
         if (client.player == null || !ClientPlayNetworking.canSend(FerrymanPardonC2SPayload.ID)) {
             return;

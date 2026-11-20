@@ -20,10 +20,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Client wiring of the 「“手”枪」 (GUN work package), called once from {@code SparkWitchClient#registerEntityRenderers}:
+ * Client wiring of the 「“手”枪」 (GUN work package), called once from {@code SparkDLCClient#registerEntityRenderers}:
  * the two model predicates the gun's overrides read, the local fire-pending window, the standalone fist model and the
  * spring-fist renderer. The arm pose and the no-re-equip rule live in {@code client/mixin/sphinxhao/}.
- * 「“手”枪」的客户端接线（GUN 工作包），由 {@code SparkWitchClient#registerEntityRenderers} 调用一次：手枪模型覆盖读取的两个
+ * 「“手”枪」的客户端接线（GUN 工作包），由 {@code SparkDLCClient#registerEntityRenderers} 调用一次：手枪模型覆盖读取的两个
  * 模型谓词、本地开火待定窗口、独立的拳头模型与弹簧拳头渲染器。持枪姿势与不重播换手动画规则在 {@code client/mixin/sphinxhao/} 中。
  */
 public final class SphinxHaoGunClient {

@@ -26,9 +26,9 @@ public final class BlindKitClientWiring {
     }
 
     /**
-     * Called by the shared G-key dispatcher in {@code SparkWitchClient} when the local player's real role is the Blind.
+     * Called by the shared G-key dispatcher in {@code SparkDLCClient} when the local player's real role is the Blind.
      * Sends the empty Attune request while the Blind view is active; the server validates everything.
-     * 当本地玩家真实职业为盲人时，由 {@code SparkWitchClient} 的共享 G 键分发调用。盲人视图激活时发送空的凝神请求；
+     * 当本地玩家真实职业为盲人时，由 {@code SparkDLCClient} 的共享 G 键分发调用。盲人视图激活时发送空的凝神请求；
      * 全部校验在服务端完成。
      */
     public static void onAbilityKey(MinecraftClient client) {

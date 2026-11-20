@@ -298,3 +298,49 @@ mapped through this table (16,229 rows, no difference).
 同一组件更早的第二个旧名字（冤魂系的 `sparktraits:` id 与组件键），读取时排在对应的 `role` / `component` 行之后。资源路径和仅替换命名空间段的约 4100 个语言键
 不逐条列出；文件见 `resource-moves.tsv`。注册表、标签、数据包、组件、职业、阵营、天赋、技能、回放格式化器和命令的行来自改名前
 无界面服务器的运行时导出；改名后的同一导出与经本表映射的旧导出完全一致（16,229 行，无差异）。
+
+# Stage 3: one mod inside / 第三阶段：内部也是一个模组
+
+## One entry / 单一入口
+
+The five initializers, four Cardinal Components entrypoints, three voice chat plugins and three client mixin plugins
+became one class each: `SparkDLC`, `client.SparkDLCClient`, `SparkDlcComponents`, `voice.SparkDlcVoiceChatPlugin`,
+`client.SparkDlcClientMixinPlugin`. Nothing was reordered: the bodies of the former classes are the named steps of
+the new ones, in the sequence the fused entrypoints used to call them.
+
+- **Proof of order.** `./gradlew runGameTest -PstartupOrderDump=<dir>` (and `runClientAudit` with the same property)
+  writes `startup-order-<side>.txt`: the mod's entries of every vanilla registry in raw-id order, the handlers of
+  every Fabric event that has one of ours in dispatch order (other mods' handlers included, each named by its host
+  class), the component factories in registration order, the payload ids and global receivers, and on a client the
+  modded key bindings (gametest class `StartupOrderDump`, reflection only, so the same file runs on any revision).
+  A dump run switches off Fabric Loader's development-only mod shuffle, which otherwise moves other mods' listeners
+  around ours from run to run. For this change the server dump before and after differs only in the host class of
+  the three listeners the common initializer registers itself (`SparkWitch` became `SparkDLC`).
+- **`file-moves.tsv` keeps the rows of the classes that were merged away** (it is the record of which former module
+  a file came from). A consumer takes only the rows whose file still exists, as `legacyModules.sources` in
+  `gradle/verify/legacy-modules.gradle` does. The merged classes belong to no former module and are not listed, so a
+  per-module rule no longer scans the start-up code; a rule that must keep covering it names the merged class.
+- **Transitional holders.** `SparkFactionApiMod`, `SparkStrength`, `SparkTraits`, `SparkWitch`, `SparkAssist` keep
+  `MOD_ID`, `LOGGER` and `id(...)`, and `client.SparkAssistClient`, `client.SparkTraitsClient`,
+  `client.SparkWitchClient` forward `configManager()`, `runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` and
+  `abilityKeyText()` to `SparkDLCClient`, for the roughly one thousand call sites that still name them. A scripted
+  pass points those at `SparkDLC` / `SparkDLCClient` and deletes the holders.
+
+五个初始化器、四个 Cardinal Components 入口、三个语音插件和三个客户端 mixin 插件各自合并为一个类：`SparkDLC`、
+`client.SparkDLCClient`、`SparkDlcComponents`、`voice.SparkDlcVoiceChatPlugin`、`client.SparkDlcClientMixinPlugin`。
+没有调整任何顺序：原有各类的方法体成为新类中具名的步骤，顺序与融合入口原先调用它们的顺序一致。
+
+- **顺序的证明。**`./gradlew runGameTest -PstartupOrderDump=<目录>`（`runClientAudit` 同样支持该属性）会写出
+  `startup-order-<side>.txt`：每个原版注册表中本模组条目的 raw id 顺序、每个含有本模组处理器的 Fabric 事件的处理器分发顺序
+  （包含其他模组的处理器，以所在类命名）、组件工厂的注册顺序、数据包 id 与全局接收器，以及客户端上的模组按键绑定
+  （gametest 类 `StartupOrderDump`，只用反射，因此同一个文件可在任意版本上运行）。导出时会关闭 Fabric Loader 仅在开发环境启用的
+  模组顺序打乱，否则其他模组的监听器每次运行都会出现在我们监听器的不同位置。本次改动前后的服务端导出只有一处差异：
+  通用初始化器自己注册的三个监听器所在的类（`SparkWitch` 变为 `SparkDLC`）。
+- **`file-moves.tsv` 保留被合并掉的类所在的行**（它记录的是文件来自哪个旧模块）。使用方只取文件仍然存在的行，与
+  `gradle/verify/legacy-modules.gradle` 中 `legacyModules.sources` 的做法一致。合并后的类不属于任何旧模块，也不在清单中，
+  因此按模块的规则不再扫描启动代码；需要继续覆盖它的规则要直接点名合并后的类。
+- **过渡期的持有类。**`SparkFactionApiMod`、`SparkStrength`、`SparkTraits`、`SparkWitch`、`SparkAssist` 保留 `MOD_ID`、
+  `LOGGER` 与 `id(...)`；`client.SparkAssistClient`、`client.SparkTraitsClient`、`client.SparkWitchClient` 把
+  `configManager()`、`runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` 与 `abilityKeyText()` 转发给
+  `SparkDLCClient`，供仍然引用它们的约一千处调用使用。之后的脚本化改名会把这些调用点指向 `SparkDLC` / `SparkDLCClient`
+  并删除这些持有类。

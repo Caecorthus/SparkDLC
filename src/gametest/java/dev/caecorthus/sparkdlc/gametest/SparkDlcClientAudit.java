@@ -39,6 +39,15 @@ public final class SparkDlcClientAudit implements ClientModInitializer {
             // Files and key bindings planted under the old names before launch (LegacyClientNamesFixture).
             // 启动前以旧名字布置的文件与按键绑定（LegacyClientNamesFixture）。
             LegacyClientNamesCheck.run(client);
+            // Only when the run asked for it (-PstartupOrderDump=<directory>). / 仅在运行要求时（-PstartupOrderDump=<目录>）。
+            try {
+                java.nio.file.Path dump = StartupOrderDump.writeIfRequested();
+                if (dump != null) {
+                    LOGGER.info("[SparkDLC start-up order] wrote {}", dump.toAbsolutePath());
+                }
+            } catch (ReflectiveOperationException | java.io.IOException exception) {
+                LOGGER.error("[SparkDLC start-up order] could not write the dump", exception);
+            }
             client.scheduleStop();
         });
     }

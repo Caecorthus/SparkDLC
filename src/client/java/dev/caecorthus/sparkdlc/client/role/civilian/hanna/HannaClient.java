@@ -39,10 +39,10 @@ public final class HannaClient {
     }
 
     /**
-     * Called by the shared ability-key dispatcher in {@code SparkWitchClient} when the local player's real role is
+     * Called by the shared ability-key dispatcher in {@code SparkDLCClient} when the local player's real role is
      * Hanna. Checks nothing locally (no cooldown, mana or liveness test) and skips the send only when the server has no
      * receiver for the request (fail closed).
-     * 当本地玩家的真实职业为汉娜时，由 {@code SparkWitchClient} 的共享技能键分发调用。本地不做任何检查（不查冷却、魔力或
+     * 当本地玩家的真实职业为汉娜时，由 {@code SparkDLCClient} 的共享技能键分发调用。本地不做任何检查（不查冷却、魔力或
      * 存活），仅在服务端没有该请求的接收器时跳过发送（失败即关闭）。
      */
     public static void onAbilityKey(MinecraftClient client) {

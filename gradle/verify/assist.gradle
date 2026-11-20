@@ -264,22 +264,28 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
                 throw new GradleException("Mod id drift in ${jarFile.name}: expected sparkdlc, found ${metadata.id}")
             }
 
-            // The fused client entrypoint replaces the listed SparkAssistClient and must still start it.
-            // 融合后的客户端入口取代了原先列出的 SparkAssistClient，且必须仍然启动它。
+            // The fused client entrypoint replaces the listed SparkAssistClient and must still start it. Since
+            // stage 3 ("one entry") SparkAssistClient is no initializer any more; the client start-up is
+            // SparkDLCClient itself, split into private steps, so "starts it" reads: some method of the entrypoint
+            // class still loads the settings file, the first thing the assist client did.
+            // 融合后的客户端入口取代了原先列出的 SparkAssistClient，且必须仍然启动它。第三阶段（“单一入口”）之后
+            // SparkAssistClient 不再是初始化器；客户端启动流程就是拆成若干私有步骤的 SparkDLCClient 本身，
+            // 因此“启动它”即：入口类的某个方法仍然加载设置文件，这是 assist 客户端原先做的第一件事。
             def fusedClientEntrypoint = "dev.caecorthus.sparkdlc.client.SparkDLCClient"
-            def assistClientInitializer = "dev/caecorthus/sparkdlc/client/SparkAssistClient"
+            def assistClientInitializer = "dev/caecorthus/sparkdlc/client/config/SparkAssistConfigManager"
             if (!(metadata.entrypoints?.client ?: []).contains(fusedClientEntrypoint)) {
                 throw new GradleException("Missing client entrypoint ${fusedClientEntrypoint} in ${jarFile.name}")
             }
             def clientNode = readClassNode(zipFile, fusedClientEntrypoint.replace('.', '/') + ".class")
-            def clientInitializer = clientNode.methods.find { it.name == "onInitializeClient" && it.desc == "()V" }
-            def startsAssist = clientInitializer != null && clientInitializer.instructions.toArray().any {
-                it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == assistClientInitializer &&
-                        it.name == "onInitializeClient" && it.desc == "()V"
+            def startsAssist = clientNode.methods.any { method ->
+                method.instructions.toArray().any {
+                    it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == assistClientInitializer &&
+                            it.name == "load"
+                }
             }
             if (!startsAssist) {
                 throw new GradleException(
-                        "${fusedClientEntrypoint}#onInitializeClient no longer starts ${assistClientInitializer} in ${jarFile.name}"
+                        "${fusedClientEntrypoint} no longer calls ${assistClientInitializer}#load in ${jarFile.name}"
                 )
             }
 
@@ -317,9 +323,10 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
                     }
                 }
             }
-            // The entrypoint starts the four common module initializers, so a scan that sees no SparkDLC class is
-            // broken, not clean.
-            // 该入口会启动四个通用模块初始化器，因此扫描不到任何 SparkDLC 类意味着扫描失效，而不是结果干净。
+            // The entrypoint is the whole common start-up and names every registry and service it starts, so a scan
+            // that sees no SparkDLC class is broken, not clean.
+            // 该入口就是完整的通用端启动流程，会引用它启动的每个注册表与服务，因此扫描不到任何 SparkDLC 类意味着扫描失效，
+            // 而不是结果干净。
             if ((scannedClassNames - [fusedMainEntrypoint.replace('.', '/')]).isEmpty()) {
                 throw new GradleException("The constant pool scan of ${fusedMainEntrypoint} found no SparkDLC class in ${jarFile.name}")
             }

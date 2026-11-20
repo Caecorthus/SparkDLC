@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Client half of the 拾荒者: loot vision through walls, the owner-only HUD, and the shared ability key (G, routed by
- * role in {@code SparkWitchClient}) that asks to search the corpse under the crosshair. All three are presentation
+ * role in {@code SparkDLCClient}) that asks to search the corpse under the crosshair. All three are presentation
  * behind one gate, {@link #isActiveRagpicker}; the server alone validates and runs a search.
- * 拾荒者的客户端：透墙看见掉落物、仅本人可见的 HUD，以及共享技能键（G，由 {@code SparkWitchClient} 按职业分发）
+ * 拾荒者的客户端：透墙看见掉落物、仅本人可见的 HUD，以及共享技能键（G，由 {@code SparkDLCClient} 按职业分发）
  * 请求搜刮准星下的尸体。三者都是展示，共用同一门槛 {@link #isActiveRagpicker}；搜刮的校验与执行只由服务端决定。
  */
 public final class JunkerClientModule {

@@ -250,7 +250,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   `ScavengerBodyHideMixin.hideScavengerBodies` is merged into Wathe's
   `PlayerBodyEntityRenderer` under a per-session unique name that no selector or
   injection point can reach, so the client config's
-  `SparkFactionClientMixinPlugin` rewrites its two `getFaction()` calls to
+  `SparkDlcClientMixinPlugin` rewrites its two `getFaction()` calls to
   `NoellesNeutralPerkRules.neutralPerkFactionOf(Role)` in `postApply` of the
   empty anchor `NoellesScavengerBodyHideNeutralPerkMixin` (skipped without
   NoellesRoles), after every mixin has been applied. The handler is found by

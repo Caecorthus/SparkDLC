@@ -29,10 +29,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Knight duel client wiring: the shared ability-key branch, the duel HUD and the stop-track receiver. The Knight never
  * registers a key of its own: G is NoellesRoles' shared {@code abilityBind}, captured by {@code WitchAbilityKeyBridge}
- * and routed by role in {@code SparkWitchClient} (a second binding on the same key would shadow it for every role).
+ * and routed by role in {@code SparkDLCClient} (a second binding on the same key would shadow it for every role).
  * Duel state is read only from the synced {@link KnightDuelWorldComponent}; the server decides everything.
  * 骑士决斗客户端接线：共享技能键分支、决斗 HUD 与停止音乐接收器。骑士从不注册自有按键：G 是 NoellesRoles 共享的
- * {@code abilityBind}，由 {@code WitchAbilityKeyBridge} 捕获并在 {@code SparkWitchClient} 中按职业分发（同一按键上的第二个
+ * {@code abilityBind}，由 {@code WitchAbilityKeyBridge} 捕获并在 {@code SparkDLCClient} 中按职业分发（同一按键上的第二个
  * 绑定会让所有职业的该键失效）。决斗状态只读取已同步的 {@link KnightDuelWorldComponent}；一切由服务端裁决。
  */
 public final class KnightDuelClient {

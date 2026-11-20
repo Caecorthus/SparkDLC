@@ -11,7 +11,8 @@ import dev.caecorthus.sparkdlc.achievement.RoundObservation;
 import dev.caecorthus.sparkdlc.achievement.RoundOutcome;
 import dev.caecorthus.sparkdlc.achievement.RoundStatsRecorder;
 import dev.caecorthus.sparkdlc.achievement.RoundTracker;
-import dev.caecorthus.sparkdlc.client.guidebook.SparkTraitsGuideBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
@@ -91,13 +92,13 @@ public final class AchievementClientState {
             if (dead) {
                 traits = Set.of();
             } else if (!player.isSpectator()) {
-                traits = SparkTraitsGuideBridge.ownerVisibleActiveTraitIds(player);
+                traits = SparkTraitsApi.getRegisteredActiveTraitIdStrings(player);
             }
             // A living spectator is in a fake death (e.g. Depression): keep the last traits rather than read what
             // spectators are sent. 存活的旁观者处于假死（例如抑郁）：沿用上次的词条，不读取发给旁观者的数据。
         }
         if (!dead) {
-            TRACKER.onDepressionAttacker(SparkTraitsAchievementBridge.depressionPsychoAttacker(player));
+            TRACKER.onDepressionAttacker(depressionPsychoAttacker(player));
         }
         long worldTime = client.world.getTime();
         TRACKER.observe(new RoundObservation(
@@ -142,6 +143,18 @@ public final class AchievementClientState {
      * 玩家 {@link RoundObservation#EXPLOSIVE_RANGE_BLOCKS} 格内是否有未爆的爆炸物（{@link RoundObservation#EXPLOSIVE_ENTITY_IDS}）：
      * 先按方框查询玩家周围的实体，再检查距离。
      */
+    /**
+     * The player who sent the local player into Depression psycho, or null when they are not in it. The trait
+     * contract does not offer this; the trait component holds it and the server syncs it to its owner only, so it is
+     * only meaningful for the local player.
+     * 让本地玩家进入抑郁疯魔的玩家；不在抑郁疯魔中时为 null。词条契约不提供该信息；它保存在词条组件中，服务端只同步给本人，
+     * 因此只对本地玩家有意义。
+     */
+    private static UUID depressionPsychoAttacker(ClientPlayerEntity player) {
+        TraitPlayerComponent component = TraitPlayerComponent.KEY.getNullable(player);
+        return component == null ? null : component.getDepressionPsychoAttacker();
+    }
+
     private static boolean explosiveNearby(ClientWorld world, ClientPlayerEntity player) {
         Set<EntityType<?>> types = explosiveTypes();
         double range = RoundObservation.EXPLOSIVE_RANGE_BLOCKS;

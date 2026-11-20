@@ -42,6 +42,7 @@ import org.ladysnake.cca.api.v3.component.ComponentProvider;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
@@ -404,6 +405,28 @@ public final class SparkTraitsApi {
                 : TraitPlayerComponent.KEY.maybeGet(player)
                         .map(TraitPlayerComponent::getActiveTraitIds)
                         .orElseGet(List::of);
+    }
+
+    /**
+     * Immutable set of the player's active trait ids, as strings, limited to the traits this side's
+     * {@link TraitRegistry} knows (an id from a newer server is skipped). A client is only sent a player's own
+     * traits, so for the local player this is what the guide book and the achievement tracker may show. Cheap enough
+     * for a per-tick poll: it reads the player's few active ids instead of asking about every registered trait.
+     * 玩家生效天赋 id（字符串形式）的不可变集合，仅包含本端 {@link TraitRegistry} 认识的天赋（来自更新服务端的 id 会被跳过）。
+     * 客户端只会收到玩家本人的天赋，因此对本地玩家而言，这正是指南与成就追踪可以展示的内容。开销足够小，可每 tick 轮询：
+     * 直接读取玩家仅有的几个生效天赋，而不是逐个询问全部已注册天赋。
+     */
+    public static Set<String> getRegisteredActiveTraitIdStrings(PlayerEntity player) {
+        if (player == null) {
+            return Set.of();
+        }
+        Set<String> activeIds = new LinkedHashSet<>();
+        for (Identifier id : getActiveTraitIds(player)) {
+            if (TraitRegistry.contains(id)) {
+                activeIds.add(id.toString());
+            }
+        }
+        return Set.copyOf(activeIds);
     }
 
     /**

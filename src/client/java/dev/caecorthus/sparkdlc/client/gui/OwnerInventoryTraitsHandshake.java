@@ -9,23 +9,27 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
 /**
- * V1 owner-inventory handshake with SparkTraits. The two facade calls ({@code registerExternalInventoryPresenterV1}
- * and {@code visitOwnerInventoryTraits}) are handed in as method references, so they are direct, compiled calls
- * (SparkTraits is fused into SparkDLC) while this class names no Traits type. {@code P} is the player type, {@code E}
- * the text type of a trait name and of its tooltip lines.
- * 与 SparkTraits 的 V1 本人物品栏握手。两个门面调用（{@code registerExternalInventoryPresenterV1} 与
- * {@code visitOwnerInventoryTraits}）以方法引用传入，因此是直接的编译期调用（SparkTraits 已融合进 SparkDLC），而本类不引用
- * 任何 Traits 类型。{@code P} 为玩家类型，{@code E} 为词条名及其提示行的文本类型。
+ * The owner inventory card's side of the V1 handshake with the trait feature: it offers itself as the presenter of
+ * the owner's traits until the trait feature accepts (the first registrant wins, and a rejection may only mean that
+ * the trait feature's client side is not initialised yet, so every frame retries), then collects the traits of each
+ * frame as one complete snapshot or none at all. The two calls of the trait contract
+ * ({@code SparkTraitsApi.registerExternalInventoryPresenterV1} and {@code visitOwnerInventoryTraits}) are handed in as
+ * method references, which keeps this protocol testable without Minecraft types. {@code P} is the player type,
+ * {@code E} the text type of a trait name and of its tooltip lines.
+ * 本人物品栏卡片在与词条功能的 V1 握手中的一侧：它持续申请成为本人词条的展示方，直到词条功能接受（先注册者胜出；被拒绝可能
+ * 只是词条功能的客户端尚未初始化，因此每帧重试），随后把每一帧的词条收集为一份完整快照，否则一份也不留。词条契约的两个调用
+ * （{@code SparkTraitsApi.registerExternalInventoryPresenterV1} 与 {@code visitOwnerInventoryTraits}）以方法引用传入，
+ * 使该协议无需 Minecraft 类型即可测试。{@code P} 为玩家类型，{@code E} 为词条名及其提示行的文本类型。
  */
-public final class TraitsInventoryBridge<P, E> {
+public final class OwnerInventoryTraitsHandshake<P, E> {
     private final Predicate<BooleanSupplier> register;
     private final BiConsumer<P, BiConsumer<E, List<E>>> visit;
     private final BooleanSupplier ownership;
     private boolean accepted;
     private boolean disabled;
 
-    public TraitsInventoryBridge(Predicate<BooleanSupplier> register, BiConsumer<P, BiConsumer<E, List<E>>> visit,
-                                 BooleanSupplier ownership) {
+    public OwnerInventoryTraitsHandshake(Predicate<BooleanSupplier> register, BiConsumer<P, BiConsumer<E, List<E>>> visit,
+                                         BooleanSupplier ownership) {
         this.register = register;
         this.visit = visit;
         this.ownership = ownership;

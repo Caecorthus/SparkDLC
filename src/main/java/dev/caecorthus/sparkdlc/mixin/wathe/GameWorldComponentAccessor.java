@@ -28,10 +28,10 @@ public interface GameWorldComponentAccessor {
 
     /**
      * Exact Adapter for Wathe's private {@code deadPlayers}: Wathe has no "un-dead" method, and a revive must take a
-     * player back out of the dead set. Writers: the Pathogen's T-Virus revive, the traits' Last Stand, and the admin
-     * {@code setPlayerAlive}/{@code setPlayerDead} debug commands.
+     * player back out of the dead set. Writers: the Pathogen's T-Virus revive, the traits' Last Stand, the Ferryman's
+     * moment (Lost Soul revival), and the admin {@code setPlayerAlive}/{@code setPlayerDead} debug commands.
      * Wathe 私有 {@code deadPlayers} 的精确 Adapter：Wathe 没有“复活”方法，复活需要把玩家移出死亡名单。写入方：病原体的
-     * T病毒复活、特质的背水一战，以及管理员调试命令 setPlayerAlive / setPlayerDead。
+     * T病毒复活、特质的背水一战、摆渡人的亡魂时刻（迷失的灵魂复活），以及管理员调试命令 setPlayerAlive / setPlayerDead。
      */
     @Accessor("deadPlayers")
     HashSet<UUID> sparkdlc$getDeadPlayers();

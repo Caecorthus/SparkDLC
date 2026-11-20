@@ -1,0 +1,822 @@
+// The built jar and its metadata: fabric.mod.json at its three stages (the source template, the processed resource,
+// the entry packaged in the remapped jar), the classes that must or must not be in the jar, the two mixin configs and
+// where every mixin sits, and the licence notices of the jar and the sources jar. The root build owns plugins,
+// repositories, dependencies, resources and the jar; this script only verifies.
+//
+// The five former mods each checked "their" share of this one jar; a fact that several of them asserted (the provided
+// legacy ids, the pinned dependency versions, the listed mixin configs, the entrypoints) is asserted once here, in its
+// strictest form.
+//
+// 构建出的 jar 及其元数据：三个阶段的 fabric.mod.json（源模板、处理后的资源、重映射 jar 中打包的条目）、jar 中必须存在或不得
+// 存在的类、两份 mixin 配置及每个 mixin 的位置，以及 jar 与源码 jar 的许可声明。插件、仓库、依赖、资源与 jar 由根构建负责，
+// 本脚本只做校验。
+// 五个旧 mod 原先各自校验这同一个 jar 中“自己的”部分；其中多个脚本都断言过的事实（提供的旧 id、固定的依赖版本、列出的 mixin
+// 配置、入口）在这里只断言一次，取最严格的形式。
+
+// See gradle/verify/support.gradle: this block must stay identical to the one there.
+// 见 gradle/verify/support.gradle：这一段必须与那里的保持完全一致。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ow2.asm:asm-tree:9.9"
+        classpath "org.ow2.asm:asm-analysis:9.9"
+    }
+}
+verifySupport.requireSharedAsm(org.objectweb.asm.tree.ClassNode)
+
+def remappedModJar = verifySupport.remappedModJar
+def sourceArchive = verifySupport.sourcesJar
+def readClassNode = verifySupport.readClassNode
+def jsonEntry = verifySupport.jsonEntry
+def rootPackage = verifySupport.rootPackage
+
+// The ids of the five former mods. The one mod answers them through `provides`: CaecorthusTeamSync reads the
+// `sparkfactionapi` mod container, external mods and packs ask FabricLoader#isModLoaded for any of them, and old
+// namespaces resolve through the legacy layer. Inside the mod nothing gates on them any more (verifyNoLookupByName),
+// and none may come back as a dependency predicate of the mod on itself.
+// 五个旧 mod 的 id。合一后的模组通过 `provides` 应答它们：CaecorthusTeamSync 读取 `sparkfactionapi` 的 mod 容器，外部模组与
+// 整合包会以 FabricLoader#isModLoaded 查询其中任意一个，旧命名空间则经由 legacy 层解析。模组内部已不再以它们为门控
+// （verifyNoLookupByName），它们也不得再作为本模组针对自身的依赖谓词出现。
+def providedLegacyIds = ["sparkfactionapi", "sparkstrength", "sparktraits", "sparkwitch", "sparkassist"]
+def commonMixinConfig = "sparkdlc.mixins.json"
+def clientMixinConfig = "sparkdlc.client.mixins.json"
+def commonMixinPackage = "${rootPackage}.mixin".toString()
+def clientMixinPackage = "${rootPackage}.client.mixin".toString()
+
+// Entrypoint classes fabric.mod.json must list, by key. The voice chat plugin and the component initializer are the one
+// plugin and the one component entrypoint of the whole mod; the dynamic-lights initializer is listed under the
+// LambDynamicLights key and the legacy `dynamiclights` key.
+// fabric.mod.json 必须按键列出的入口类。语音插件与组件初始化器是全模组唯一的语音插件与唯一的组件入口；动态光源初始化器同时列在
+// LambDynamicLights 的键与旧的 `dynamiclights` 键下。
+def requiredEntrypoints = [
+        "main"                     : "dev.caecorthus.sparkdlc.SparkDLC",
+        "client"                   : "dev.caecorthus.sparkdlc.client.SparkDLCClient",
+        "cardinal-components"      : "dev.caecorthus.sparkdlc.SparkDlcComponents",
+        "voicechat"                : "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin",
+        "lambdynlights:initializer": "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer",
+        "dynamiclights"            : "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
+]
+// Entrypoint keys that only a client ever loads; every other key also loads on a dedicated server.
+// 只有客户端才会加载的入口键；其余的键在专用服务器上也会加载。
+def clientOnlyEntrypointKeys = ["client", "sparkdlc_client_voice", "lambdynlights:initializer", "dynamiclights"]
+// The common-side packages of the client helpers (guidebook, achievements, settings, Ponder, their sounds and input
+// rules): pure logic kept in the common source set, used by client code only. gradle/verify/layering.gradle holds the
+// rule ("client-helpers"); the entrypoint half of it is checked here, on the metadata.
+// 客户端辅助功能（指南、成就、设置、Ponder 及其音效与输入规则）位于公共端的包：放在公共源码集的纯逻辑，只被客户端代码使用。
+// 规则本身在 gradle/verify/layering.gradle（"client-helpers"）；其中关于入口的一半在这里针对元数据校验。
+def clientHelperPackages = ["achievement", "guidebook", "config", "input", "ponder", "sound"]
+
+// What is wrong with one fabric.mod.json, given the version and dependency predicates expected at its stage (the
+// `${...}` placeholders in the source template, the resolved values after processResources and in the jar).
+// 一份 fabric.mod.json 的问题清单；传入该阶段应有的版本与依赖谓词（源模板中是 `${...}` 占位符，processResources 之后以及 jar
+// 中是解析后的值）。
+def modMetadataProblems = { metadata, String expectedVersion, Map<String, String> expectedDepends ->
+    def problems = []
+    if (metadata.id?.toString() != "sparkdlc" || metadata.name?.toString() != "SparkDLC") {
+        problems.add("must identify sparkdlc (SparkDLC); found ${metadata.id} (${metadata.name})".toString())
+    }
+    if (metadata.version?.toString() != expectedVersion) {
+        problems.add("version must be ${expectedVersion}; found ${metadata.version}".toString())
+    }
+    if (metadata.license != ["AGPL-3.0-only", "LicenseRef-Textures-ARR"]) {
+        problems.add("must declare AGPL-3.0-only code and ARR textures; found license ${metadata.license}".toString())
+    }
+
+    // Wathe, NoellesRoles and Ratatouille are hard dependencies pinned through gradle.properties; a hard dependency is
+    // never also an optional suggestion.
+    // Wathe、NoellesRoles 与 Ratatouille 是通过 gradle.properties 固定的硬依赖；硬依赖不得同时声明为可选的 suggests。
+    expectedDepends.each { modId, predicate ->
+        if (metadata.depends?.get(modId)?.toString() != predicate) {
+            problems.add("dependency ${modId} must be ${predicate}; found ${metadata.depends?.get(modId)}".toString())
+        }
+        if (metadata.suggests?.containsKey(modId)) {
+            problems.add("${modId} is a hard dependency and cannot also be an optional suggestion".toString())
+        }
+    }
+    // Ponder is optional: the pack ships it, and its scenes load only when it is present.
+    // Ponder 为可选：整合包自带它，演示场景只在它存在时加载。
+    if (metadata.depends?.containsKey("ponder") || metadata.suggests?.get("ponder") != "*") {
+        problems.add("Ponder must stay an optional suggestion, never a hard dependency")
+    }
+
+    def provides = (metadata.provides ?: []).collect { it.toString() }
+    providedLegacyIds.each { modId ->
+        if (!provides.contains(modId)) {
+            problems.add("legacy mod id ${modId} must be listed under provides; found ${provides}".toString())
+        }
+        ["depends", "recommends", "suggests", "conflicts", "breaks"].each { relation ->
+            if (metadata.get(relation)?.containsKey(modId)) {
+                problems.add("stale ${relation} entry for ${modId}, an id this mod provides itself".toString())
+            }
+        }
+    }
+
+    def listedEntrypoints = { String key ->
+        (metadata.entrypoints?.get(key) ?: []).collect { (it instanceof Map ? it.value : it)?.toString() }
+    }
+    requiredEntrypoints.each { key, className ->
+        if (!listedEntrypoints(key).contains(className)) {
+            problems.add("entrypoint ${key} must list ${className}; found ${listedEntrypoints(key)}".toString())
+        }
+    }
+    // An entrypoint that also loads on a dedicated server names no client class and nothing of the client helpers:
+    // the helpers are started by the client entrypoint alone. (The former SparkAssist was a client-only mod; this is
+    // what `"environment": "client"` and "no main entrypoint" mean inside one mod that loads on both sides.)
+    // 在专用服务器上也会加载的入口不得指向客户端类，也不得指向客户端辅助功能的任何内容：这些辅助功能只由客户端入口启动。
+    // （原 SparkAssist 是仅客户端 mod；在两端都会加载的同一个模组里，这就是 `"environment": "client"` 与“没有 main 入口”的含义。）
+    (metadata.entrypoints ?: [:]).keySet().findAll { !clientOnlyEntrypointKeys.contains(it) }.each { key ->
+        listedEntrypoints(key).findAll { it != null }.each { className ->
+            def clientSide = className.startsWith("${rootPackage}.client.") ||
+                    clientHelperPackages.any { className.startsWith("${rootPackage}.${it}.") }
+            if (clientSide) {
+                problems.add(("entrypoint '${key}' also loads on a dedicated server and must not list the client-side " +
+                        "class ${className}").toString())
+            }
+        }
+    }
+
+    // One namespace: every Cardinal Components key the mod declares is `sparkdlc:<path>`; a key in one of the five
+    // retired namespaces (`sparkassist:` was the one a former check named) must not come back.
+    // 唯一的命名空间：本模组声明的每个 Cardinal Components 键都是 `sparkdlc:<path>`；五个已退役命名空间中的键
+    // （原校验点名的是 `sparkassist:`）不得回归。
+    def components = (metadata.custom?.get("cardinal-components") ?: []).collect { it.toString() }
+    def foreignComponents = components.findAll { !it.startsWith("sparkdlc:") }
+    if (!foreignComponents.isEmpty()) {
+        problems.add("cardinal components outside the sparkdlc namespace are declared: ${foreignComponents}".toString())
+    }
+    // The Engineer's stun is saved data: its component key must stay declared.
+    // 工程师的眩晕属于存档数据：其组件键必须保持声明。
+    if (!components.contains("sparkdlc:engineer_stunned")) {
+        problems.add("must declare the component sparkdlc:engineer_stunned")
+    }
+
+    // Exactly the two merged mixin configs: the common one for both sides, the client one for the client environment
+    // only. No third config (none of the nine former ones) may come back.
+    // 恰好是合并后的两份 mixin 配置：公共配置两端都加载，客户端配置仅限客户端环境。不得再出现第三份配置（九份旧配置之一）。
+    def listedMixins = (metadata.mixins ?: []).collect { entry ->
+        entry instanceof Map ? [entry.config?.toString(), entry.environment?.toString()] : [entry?.toString(), null]
+    }
+    if (listedMixins.size() != 2 || (listedMixins as Set) != ([[commonMixinConfig, null], [clientMixinConfig, "client"]] as Set)) {
+        problems.add(("mixins must list exactly ${commonMixinConfig} (both sides) and ${clientMixinConfig} " +
+                "(environment client); found ${metadata.mixins}").toString())
+    }
+    problems
+}
+
+tasks.register("verifyModMetadata") {
+    group = "verification"
+    description = "Checks fabric.mod.json as source template, as processed resource and as packaged in the remapped jar: identity, version, provided legacy ids, dependency pins, entrypoints, components and mixin configs."
+    dependsOn tasks.named("processResources")
+    dependsOn remappedModJar
+    inputs.file("src/main/resources/fabric.mod.json")
+    inputs.files(tasks.named("processResources").map { it.destinationDir })
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    ["mod_version", "wathe_version", "noellesroles_version", "ratatouille_version"].each {
+        inputs.property(it, project.property(it))
+    }
+
+    doLast {
+        def slurper = new groovy.json.JsonSlurper()
+        def pinnedDepends = [
+                wathe       : project.wathe_version.toString(),
+                noellesroles: project.noellesroles_version.toString(),
+                ratatouille : project.ratatouille_version.toString()
+        ]
+        def fail = { String label, List problems ->
+            if (!problems.isEmpty()) {
+                throw new GradleException("${label}: ${problems.join('; ')}")
+            }
+        }
+
+        // The source template keeps every version a placeholder, so a release cannot ship a stale literal.
+        // 源模板中的每个版本都保持为占位符，发布时不可能带出过期的字面量。
+        fail("src/main/resources/fabric.mod.json", modMetadataProblems(
+                slurper.parse(file("src/main/resources/fabric.mod.json")), '${version}',
+                [wathe: '${wathe_version}', noellesroles: '${noellesroles_version}', ratatouille: '${ratatouille_version}']))
+
+        def processedFile = new File(tasks.named("processResources").get().destinationDir, "fabric.mod.json")
+        if (!processedFile.isFile()) {
+            throw new GradleException("Missing processed fabric.mod.json: ${processedFile}")
+        }
+        fail("processed fabric.mod.json", modMetadataProblems(
+                slurper.parse(processedFile), project.mod_version.toString(), pinnedDepends))
+
+        // Keep the loader-visible mod version tied to the shipped jar filename.
+        // 将加载器可见版本绑定到发布 jar 文件名，避免软件里显示旧版本。
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def archiveName = remappedModJar.get().archiveBaseName.get()
+        def suffix = ".jar"
+        if (!jarFile.name.startsWith("${archiveName}-") || !jarFile.name.endsWith(suffix)) {
+            throw new GradleException("Cannot read version from jar filename: ${jarFile.name}")
+        }
+        def expectedJarName = "${project.archives_base_name}-${project.mod_version}.jar"
+        if (jarFile.name != expectedJarName) {
+            throw new GradleException("Remapped jar must be named ${expectedJarName}; found ${jarFile.name}")
+        }
+        def jarVersion = jarFile.name.substring(archiveName.length() + 1, jarFile.name.length() - suffix.length())
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def metadata = jsonEntry(zipFile, "fabric.mod.json")
+            if (metadata.version?.toString() != jarVersion) {
+                throw new GradleException("Jar version mismatch: ${jarFile.name} says ${jarVersion}, but fabric.mod.json says ${metadata.version}")
+            }
+            fail("fabric.mod.json of ${jarFile.name}", modMetadataProblems(metadata, project.mod_version.toString(), pinnedDepends))
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+// Classes the jar must ship. Runtime compatibility depends on them, not just successful compilation: adapters other
+// mods and the pack reach, the two halves of the version handshake (the client display gates need both the login and
+// the play-stage Spark server confirmation), the public facades, the optional voice plugin, the replay and match-record
+// classes a saved replay names.
+// jar 必须携带的类。运行时兼容依赖它们，而不只是编译成功：其他模组与整合包会访问的适配类、版本握手的两端（客户端显示开关需要
+// 登录阶段与 play 阶段的 Spark 服务端确认）、公共门面、可选的语音插件，以及已保存回放所点名的回放与对局记录类。
+def requiredRuntimeClasses = ([
+        "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
+        "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheck.class",
+        "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
+        "dev/caecorthus/sparkdlc/client/net/SparkDlcClientPackets.class",
+        "dev/caecorthus/sparkdlc/net/policy/GeneratedPayloadPolicy.class",
+        "dev/caecorthus/sparkdlc/faction/api/PlayerAffectPolicy.class",
+        "dev/caecorthus/sparkdlc/faction/api/PoliceRoles.class",
+        "dev/caecorthus/sparkdlc/round/settlement/SettlementExclusions.class",
+        "dev/caecorthus/sparkdlc/faction/api/EntityCollisionExemption.class",
+        "dev/caecorthus/sparkdlc/faction/collision/EntityCollisionExemptions.class",
+        "dev/caecorthus/sparkdlc/faction/gun/FactionGunPunishmentAdapter.class",
+        "dev/caecorthus/sparkdlc/faction/economy/FactionPassiveMoneyAdapter.class",
+        "dev/caecorthus/sparkdlc/faction/target/PlayerAffectRules.class",
+        "dev/caecorthus/sparkdlc/faction/target/PlayerAffectGuard.class",
+        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipment.class",
+        "dev/caecorthus/sparkdlc/cooldown/api/ForcedCooldowns.class",
+        "dev/caecorthus/sparkdlc/cooldown/ForcedCooldownRegistry.class",
+        "dev/caecorthus/sparkdlc/mixin/cooldown/ItemCooldownEntryAccessor.class",
+        "dev/caecorthus/sparkdlc/mixin/cooldown/ItemCooldownManagerAccessor.class",
+        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesCollisionCompatibility.class",
+        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipmentRegistry.class",
+        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesNeutralPerkRules.class",
+        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesScavengerBodyHideRewrite.class",
+        "dev/caecorthus/sparkdlc/client/SparkDlcClientMixinPlugin.class",
+        "dev/caecorthus/sparkdlc/client/mixin/compat/noellesroles/NoellesScavengerBodyHideNeutralPerkMixin.class",
+        "dev/caecorthus/sparkdlc/client/mixin/compat/noellesroles/NoellesScavengerBodyTargetNeutralPerkMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesHiddenEquipmentHelperMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesRolesDemonHunterAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesRolesPacketAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesRolesPoisonGasAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/EntityAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/EntityCollisionMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/GameFunctionsPlayerAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/GameSettingsCommandMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/GunShootPayloadReceiverMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/KnifeStabPayloadReceiverMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/LivingEntityCollisionMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/MurderGameModeMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/FactionMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/RoleMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/nativefaction/FactionEnumAccessor.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/nativefaction/FactionEnumExtensionMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/nativefaction/ScoreboardRoleSelectorNeutralPoolMixin.class",
+        "dev/caecorthus/sparkdlc/faction/nativefaction/NativeWatheFactions.class",
+        "dev/caecorthus/sparkdlc/faction/nativefaction/NativeWatheFactionDeclarations.class",
+        "dev/caecorthus/sparkdlc/faction/nativefaction/NativeFactionRules.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/MurderGameModePassiveMoneyMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/PlayerEntityAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/ServerPlayerEntityAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/WorldProjectileAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/GameRoundEndComponentMixin.class",
+        "dev/caecorthus/sparkdlc/client/mixin/faction/RoundTextRendererMixin.class",
+        "dev/caecorthus/sparkdlc/replay/api/SparkReplayApi.class",
+        "dev/caecorthus/sparkdlc/replay/api/ReplayTooltipContributor.class",
+        "dev/caecorthus/sparkdlc/replay/api/ReplayPlayerView.class",
+        "dev/caecorthus/sparkdlc/replay/SparkReplayBootstrap.class",
+        "dev/caecorthus/sparkdlc/replay/RoleChangeRecorder.class",
+        "dev/caecorthus/sparkdlc/replay/RoleChangeRecordRules.class",
+        "dev/caecorthus/sparkdlc/replay/RoleChangedReplayFormatter.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayPresentation.class",
+        "dev/caecorthus/sparkdlc/replay/ReplaySession.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayRenderContext.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayArchive.class",
+        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesShadowTransformReplayCompat.class",
+        "dev/caecorthus/sparkdlc/command/replay/ReplayCommand.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/GameWorldComponentReplayMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/ReplayGeneratorMixin.class",
+        "dev/caecorthus/sparkdlc/replay/api/ReplayBadge.class",
+        "dev/caecorthus/sparkdlc/replay/api/ReplayBadgeContributor.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayContributors.class",
+        "dev/caecorthus/sparkdlc/replay/ReplaySnapshotBuilder.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayTextRewriter.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayLineCategories.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayInvolvedPlayers.class",
+        "dev/caecorthus/sparkdlc/replay/ReplaySnapshotTrimRules.class",
+        "dev/caecorthus/sparkdlc/replay/ReplaySummary.class",
+        "dev/caecorthus/sparkdlc/replay/ReplayOutcomeRules.class",
+        "dev/caecorthus/sparkdlc/replay/net/ReplaySnapshot.class",
+        "dev/caecorthus/sparkdlc/replay/net/ReplaySnapshotPayload.class",
+        "dev/caecorthus/sparkdlc/replay/net/ReplayTextTags.class",
+        "dev/caecorthus/sparkdlc/replay/net/ReplayNetworking.class",
+        "dev/caecorthus/sparkdlc/client/replay/ReplayClient.class",
+        "dev/caecorthus/sparkdlc/client/replay/ReplayScreen.class",
+        "dev/caecorthus/sparkdlc/inventory/LimitedInventoryRows.class",
+        "dev/caecorthus/sparkdlc/inventory/LimitedInventoryScope.class",
+        "dev/caecorthus/sparkdlc/mixin/inventory/PlayerInventoryRowOrderMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/inventory/ShopEntrySecondRowMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/inventory/ScreenHandlerPsychoSecondRowMixin.class",
+        "dev/caecorthus/sparkdlc/client/inventory/LimitedInventorySecondRow.class",
+        "dev/caecorthus/sparkdlc/client/inventory/LimitedInventorySecondRow\$Bounds.class",
+        "dev/caecorthus/sparkdlc/client/inventory/SecondRowPalette.class",
+        "dev/caecorthus/sparkdlc/client/inventory/SecondRowTexture.class",
+        "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedHandledScreenSecondRowMixin.class",
+        "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryScreenSecondRowMixin.class",
+        "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRound.class",
+        "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundRules.class",
+        "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundGuards.class",
+        "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundBootstrap.class",
+        "dev/caecorthus/sparkdlc/component/AntiFastRoundComponent.class",
+        "dev/caecorthus/sparkdlc/command/admin/AntiFastRoundCommand.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/AntiFastRoundPayloadGuardMixin.class",
+        "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapReset.class",
+        "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetBootstrap.class",
+        "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetRules.class",
+        "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetState.class",
+        "dev/caecorthus/sparkdlc/round/mapreset/MapResetJob.class",
+        "dev/caecorthus/sparkdlc/component/LobbyMapResetComponent.class",
+        "dev/caecorthus/sparkdlc/mixin/round/mapreset/AutoStartComponentMapResetMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/round/mapreset/CommandManagerMapResetMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/round/mapreset/GameFunctionsMapResetMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/round/mapreset/MapVotingComponentMapResetMixin.class",
+        "dev/caecorthus/sparkdlc/client/round/mapreset/MapResetHud.class",
+        "dev/caecorthus/sparkdlc/client/gui/card/InventoryCardLayout.class",
+        "dev/caecorthus/sparkdlc/client/gui/card/InventoryCardPaint.class",
+        "dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard.class",
+        "dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard\$Decor.class",
+        "dev/caecorthus/sparkdlc/client/guidebook/ui/decor/GuidebookCardDecor.class",
+        "dev/caecorthus/sparkdlc/faction/api/FactionCategory.class",
+        "dev/caecorthus/sparkdlc/faction/api/ThirdFactionLineup.class",
+        "dev/caecorthus/sparkdlc/faction/api/ThirdFactionDrawContext.class",
+        "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDraw.class",
+        "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDrawRules.class",
+        "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDrawSettings.class",
+        "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionLineups.class",
+        "dev/caecorthus/sparkdlc/component/ThirdFactionComponent.class",
+        "dev/caecorthus/sparkdlc/command/settings/ThirdFactionDividendCommand.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/thirdfaction/GameSettingsCommandThirdFactionMixin.class"
+] + [
+        "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.class",
+        "dev/caecorthus/sparkdlc/client/trait/audio/CautiousSoundDebug.class",
+        "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopController.class",
+        "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopSoundInstance.class",
+        "dev/caecorthus/sparkdlc/client/mixin/trait/CautiousClientWorldSoundMixin.class",
+        "dev/caecorthus/sparkdlc/client/mixin/trait/CautiousPresenceFootstepsVolumeMixin.class",
+        "dev/caecorthus/sparkdlc/trait/global/CautiousSoundRules.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConnection.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConfirmS2CPacket.class",
+        "dev/caecorthus/sparkdlc/voice/SparkDlcVoiceChatPlugin.class"
+]).unique()
+
+// Classes the jar must NOT ship: seams that were retired on purpose. Stale incremental class outputs must not
+// resurrect them in a release jar. A class retired before the stage-1 package move is listed twice: at the path the
+// move maps it to, and in the former mod's package, which is where a class output from before the move would be.
+// jar 不得携带的类：有意退役的接缝。旧的增量编译 class 不允许把它们重新带进发布 jar。第一阶段包搬迁之前退役的类列出两处：
+// 搬迁映射到的路径，以及原 mod 的包（搬迁前遗留的陈旧 class 输出会出现在那里）。
+def retiredClasses = [
+        "dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionTrackedState.class",
+        "dev/caecorthus/sparkdlc/factionapi/mixin/EntityCollisionStateMixin.class",
+        "dev/caecorthus/sparkdlc/factionapi/mixin/ServerEntityHandlerCollisionMixin.class",
+        "dev/caecorthus/sparkdlc/factionapi/mixin/compat/PlayerAffectMixinGuard.class",
+        "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/CriminologistAffectMixin.class",
+        // The three handshakes of the former modules, merged into net.version.SparkDlcVersionHandshake
+        // (stage 3, "one wire"). / 原三个模块各自的握手，已并入 net.version.SparkDlcVersionHandshake（第三阶段“一条线”）。
+        "dev/caecorthus/sparkdlc/client/net/version/ClientVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/client/net/version/SparkTraitsClientVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/client/net/version/SparkWitchClientVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/version/ServerVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/version/VersionProtocol.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkTraitsVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkTraitsVersionCheck.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConfirmS2CPacket.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConnection.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionCheck.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
+        "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
+        // The three packet hubs (now net.SparkDlcPackets) and the three generated payload policy classes
+        // (now net.policy.GeneratedPayloadPolicy). / 三个数据包注册中心（现为 net.SparkDlcPackets）与三个生成的
+        // 数据包策略类（现为 net.policy.GeneratedPayloadPolicy）。
+        "dev/caecorthus/sparkdlc/net/SparkStrengthPackets.class",
+        "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
+        "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
+        "dev/caecorthus/sparkdlc/net/policy/strength/GeneratedPayloadPolicy.class",
+        "dev/caecorthus/sparkdlc/net/policy/witch/GeneratedPayloadPolicy.class",
+        "dev/caecorthus/sparkdlc/round/antifastround/GeneratedPayloadPolicy.class",
+        "dev/caecorthus/sparkdlc/factionapi/client/net/SparkFactionClientVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionCheck.class",
+        "dev/caecorthus/sparkdlc/factionapi/impl/FactionCapabilityBridge.class",
+        "dev/caecorthus/sparkdlc/factionapi/impl/FactionAssignmentService.class",
+        "dev/caecorthus/sparkdlc/factionapi/impl/FactionSlotAllocator.class",
+        "dev/caecorthus/sparkdlc/factionapi/impl/FactionRoundEndTextRules.class",
+        "dev/caecorthus/sparkdlc/factionapi/impl/GameSettingsCommandRules.class",
+        "dev/caecorthus/sparkdlc/factionapi/command/SparkFactionAdminCommands.class",
+        "dev/caecorthus/sparkdlc/factionapi/util/SparkFactionPermissions.class",
+        "dev/caecorthus/sparkdlc/faction/collision/EntityCollisionTrackedState.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/EntityCollisionStateMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/ServerEntityHandlerCollisionMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/compat/PlayerAffectMixinGuard.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/affect/CriminologistAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/affect/NoisemakerAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/affect/VeteranKnifeAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/affect/ProfessorSerumAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/affect/SparkWitchCombatAffectMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/faction/affect/WitchSkillUseAffectMixin.class",
+        "dev/caecorthus/sparkdlc/client/net/SparkFactionClientVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/SparkFactionVersionHandshake.class",
+        "dev/caecorthus/sparkdlc/net/SparkFactionVersionCheck.class",
+        "dev/caecorthus/sparkdlc/faction/FactionCapabilityBridge.class",
+        "dev/caecorthus/sparkdlc/faction/FactionAssignmentService.class",
+        "dev/caecorthus/sparkdlc/faction/FactionSlotAllocator.class",
+        "dev/caecorthus/sparkdlc/faction/FactionRoundEndTextRules.class",
+        "dev/caecorthus/sparkdlc/faction/GameSettingsCommandRules.class",
+        "dev/caecorthus/sparkdlc/command/SparkFactionAdminCommands.class",
+        "dev/caecorthus/sparkdlc/util/SparkFactionPermissions.class"
+]
+
+// What the start-up must still do. SparkDLC / SparkDLCClient are the whole start-up, split into private steps (stage 3,
+// "one entry"); each row is one characteristic call some method of the entrypoint class must still make, so that a step
+// lost in a refactor fails here instead of silently leaving a feature unregistered.
+// 启动流程必须仍然执行的内容。SparkDLC / SparkDLCClient 就是完整的启动流程，拆成若干私有步骤（第三阶段“单一入口”）；每一行是
+// 入口类的某个方法必须仍然发出的一个特征调用，这样重构中丢失的步骤会在这里失败，而不是悄悄漏掉某个功能的注册。
+def requiredStartupCalls = [
+        // factions and the shared round services / 阵营与共用的对局服务
+        ["dev.caecorthus.sparkdlc.SparkDLC", "dev/caecorthus/sparkdlc/faction/api/SparkFactionApi", "bootstrap"],
+        // role kits for the Wathe and NoellesRoles roles / Wathe 与 NoellesRoles 职业的套件
+        ["dev.caecorthus.sparkdlc.SparkDLC", "dev/caecorthus/sparkdlc/event/RoleKitEvents", "register"],
+        // traits / 词条
+        ["dev.caecorthus.sparkdlc.SparkDLC", "dev/caecorthus/sparkdlc/trait/registry/BuiltInTraits", "register"],
+        // the mod's own roles / 本模组自有职业
+        ["dev.caecorthus.sparkdlc.SparkDLC", "dev/caecorthus/sparkdlc/event/RoleEvents", "register"],
+        // replay screen / 回放界面
+        ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "dev/caecorthus/sparkdlc/client/replay/ReplayClient", "register"],
+        // sabotage client / 破坏系统客户端
+        ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "dev/caecorthus/sparkdlc/client/sabotage/SabotageClient", "register"],
+        // trait client / 词条客户端
+        ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "dev/caecorthus/sparkdlc/client/trait/killer/NewKillerTraitsClient", "initialize"],
+        // own-role client modules / 自有职业的客户端模块
+        ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "dev/caecorthus/sparkdlc/client/role/civilian/usec/UsecClientModule", "register"],
+        // the settings file, the first thing the client helpers need / 设置文件，客户端辅助功能首先需要的东西
+        ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "dev/caecorthus/sparkdlc/client/config/SparkDlcConfigManager", "load"]
+]
+
+tasks.register("verifyJarContents") {
+    group = "verification"
+    description = "Checks the remapped jar's classes: entrypoint classes and the start-up calls they make, required runtime classes, retired classes, and that no upstream binary is bundled."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            requiredEntrypoints.each { key, className ->
+                if (zipFile.getEntry(className.replace('.', '/') + ".class") == null) {
+                    throw new GradleException("Entrypoint class ${className} (${key}) is missing from ${jarFile.name}")
+                }
+            }
+            requiredStartupCalls.each { String entrypointClass, String startOwner, String startCall ->
+                def entrypointNode = readClassNode(zipFile, entrypointClass.replace('.', '/') + ".class")
+                def makesCall = entrypointNode.methods.any { method ->
+                    method.instructions.toArray().any {
+                        it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == startOwner
+                                && it.name == startCall
+                    }
+                }
+                if (!makesCall) {
+                    throw new GradleException(
+                            "${entrypointClass} no longer calls ${startOwner}#${startCall} in ${jarFile.name}"
+                    )
+                }
+            }
+
+            requiredRuntimeClasses.each { requiredEntry ->
+                if (zipFile.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing required runtime class ${requiredEntry} in ${jarFile.name}")
+                }
+            }
+            retiredClasses.each { forbiddenEntry ->
+                if (zipFile.getEntry(forbiddenEntry) != null) {
+                    throw new GradleException("Forbidden retired class ${forbiddenEntry} is still packaged in ${jarFile.name}")
+                }
+            }
+
+            // Wathe, NoellesRoles, Ponder, Flywheel and the upstream mod the guidebook was reimplemented from are
+            // dependencies or references, never contents: no class of theirs and no nested jar ships in ours.
+            // Wathe、NoellesRoles、Ponder、Flywheel 以及指南所参照重写的上游模组只是依赖或参照，绝不是本 jar 的内容：
+            // 它们的类与任何内嵌 jar 都不得随本 jar 发布。
+            def bundledUpstream = zipFile.entries().find { entry ->
+                def entryName = entry.name.toLowerCase(Locale.ROOT)
+                (entryName.endsWith(".jar") && (entryName.contains("wathe") || entryName.contains("noellesroles"))) ||
+                        entry.name.startsWith("cat/rezelyn/") || entry.name.startsWith("dev/doctor4t/") ||
+                        entry.name.startsWith("org/agmas/noellesroles/") ||
+                        entry.name.startsWith("net/createmod/") || entry.name.startsWith("dev/engine_room/") ||
+                        entry.name.startsWith("META-INF/jars/")
+            }
+            if (bundledUpstream != null) {
+                throw new GradleException("Upstream binary unexpectedly bundled in ${jarFile.name}: ${bundledUpstream.name}")
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+// Mixins that must stay listed: deleting one of them (or dropping it from its config) silently removes a rule other
+// code relies on. Names are relative to the config's package.
+// 必须保持列出的 mixin：删除其中任何一个（或把它从配置中拿掉）都会悄悄去掉其他代码所依赖的规则。名称相对于配置的 package。
+def requiredMixins = [
+        (commonMixinConfig): [
+                // The Corrupt Cop's ability packet seam (see verifyNoellesRolesLambdaSelectors).
+                // 黑警技能数据包接缝（见 verifyNoellesRolesLambdaSelectors）。
+                "role.jiahao.corruptcop.CorruptCopAbilityPacketMixin",
+                "compat.noellesroles.NoellesHiddenEquipmentHelperMixin",
+                "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
+                "compat.noellesroles.NoellesRolesPacketAffectMixin",
+                "compat.noellesroles.NoellesRolesPoisonGasAffectMixin",
+                "cooldown.ItemCooldownEntryAccessor",
+                "cooldown.ItemCooldownManagerAccessor",
+                "faction.EntityAffectMixin",
+                "faction.EntityCollisionMixin",
+                "faction.GameFunctionsPlayerAffectMixin",
+                "faction.GameSettingsCommandMixin",
+                "faction.GunShootPayloadReceiverMixin",
+                "faction.KnifeStabPayloadReceiverMixin",
+                "faction.LivingEntityCollisionMixin",
+                "faction.MurderGameModeMixin",
+                "faction.MurderGameModePassiveMoneyMixin",
+                "faction.FactionMixin",
+                "faction.RoleMixin",
+                "faction.nativefaction.FactionEnumAccessor",
+                "faction.nativefaction.FactionEnumExtensionMixin",
+                "faction.nativefaction.ScoreboardRoleSelectorNeutralPoolMixin",
+                "faction.PlayerEntityAffectMixin",
+                "faction.ServerPlayerEntityAffectMixin",
+                "faction.WorldProjectileAffectMixin",
+                "faction.GameRoundEndComponentMixin",
+                "faction.GameWorldComponentReplayMixin",
+                "faction.ReplayGeneratorMixin",
+                "record.GameFunctionsKillSnapshotMixin",
+                "record.GameRecordManagerDeathMixin",
+                "record.GameRecordManagerIncomeMixin",
+                "record.ItemStackConsumeMixin",
+                "record.PlayerShopComponentIncomeMixin",
+                "record.PoisonUtilsConsumeMixin",
+                "round.mapreset.AutoStartComponentMapResetMixin",
+                "round.mapreset.CommandManagerMapResetMixin",
+                "round.mapreset.GameFunctionsMapResetMixin",
+                "round.mapreset.MapVotingComponentMapResetMixin",
+                "inventory.PlayerInventoryRowOrderMixin",
+                "inventory.ScreenHandlerPsychoSecondRowMixin",
+                "inventory.ShopEntrySecondRowMixin",
+                "faction.AntiFastRoundPayloadGuardMixin",
+                "team.GameFunctionsLetterNameMixin",
+                "team.PlayerEntityTeamTagMixin",
+                "faction.thirdfaction.GameSettingsCommandThirdFactionMixin"
+        ],
+        (clientMixinConfig): [
+                // The merged main-HUD dispatcher: the HUD lines consolidated into one hook hang on it.
+                // 合并后的主 HUD 分发器：合并到同一个钩子的 HUD 绘制都挂在它上面。
+                "hud.MainHudDispatchMixin",
+                "trait.CautiousClientWorldSoundMixin",
+                "trait.CautiousPresenceFootstepsVolumeMixin",
+                "faction.RoundTextRendererMixin",
+                "compat.noellesroles.NoellesScavengerBodyHideNeutralPerkMixin",
+                "compat.noellesroles.NoellesScavengerBodyTargetNeutralPerkMixin",
+                "inventory.LimitedHandledScreenSecondRowMixin",
+                "inventory.LimitedInventoryScreenSecondRowMixin",
+                "team.NoellesPuppetNameTeamTagMixin",
+                "team.PlayerListHudTeamTagMixin",
+                "team.RoleNameRendererTeamTagMixin"
+        ]
+]
+// The one plugin of the client config. It rewrites NoellesRoles' merged Scavenger handler in postApply; without that
+// rewrite the neutral perk (D3) silently breaks.
+// 客户端配置唯一的插件。它在 postApply 中改写 NoellesRoles 合并的清道夫处理器；缺少该改写，中立特权（D3）会静默失效。
+def clientMixinPlugin = "dev.caecorthus.sparkdlc.client.SparkDlcClientMixinPlugin"
+def scavengerRewrite = "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesScavengerBodyHideRewrite"
+
+tasks.register("verifyMixinConfigs") {
+    group = "verification"
+    description = "Checks the two mixin configs in the remapped jar: identical to their sources, required, one list each, and exactly the mixin classes of their source set (common mixins in the common config, client mixins in the client config)."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    inputs.files("src/main/resources/${commonMixinConfig}", "src/client/resources/${clientMixinConfig}")
+    inputs.files(fileTree("src/main/resources") { include "*.mixins.json" },
+            fileTree("src/client/resources") { include "*.mixins.json" })
+
+    doLast {
+        // No mixin config besides the two, in the resource roots or in the jar: the nine configs of the former mods
+        // were merged, and none (a former check named sparkassist.mixins.json, a common config for client helpers)
+        // may come back.
+        // 除这两份之外，资源根目录与 jar 中都不得有其他 mixin 配置：旧 mod 的九份配置已经合并，其中任何一份（原校验点名的是
+        // sparkassist.mixins.json，即客户端辅助功能的公共配置）都不得回归。
+        def sourceConfigs = (fileTree("src/main/resources") { include "*.mixins.json" }.files.collect { "src/main/resources/${it.name}".toString() } +
+                fileTree("src/client/resources") { include "*.mixins.json" }.files.collect { "src/client/resources/${it.name}".toString() }).sort()
+        def expectedSourceConfigs = ["src/client/resources/${clientMixinConfig}".toString(), "src/main/resources/${commonMixinConfig}".toString()]
+        if (sourceConfigs != expectedSourceConfigs) {
+            throw new GradleException("The mixin configs must be exactly ${expectedSourceConfigs}; found ${sourceConfigs}")
+        }
+
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def packagedConfigs = zipFile.entries().collect { it.name }.findAll { !it.contains("/") && it.endsWith(".mixins.json") }.sort()
+            if (packagedConfigs != [clientMixinConfig, commonMixinConfig]) {
+                throw new GradleException("${jarFile.name} must ship exactly ${commonMixinConfig} and ${clientMixinConfig}; found ${packagedConfigs}")
+            }
+
+            [
+                    [name: commonMixinConfig, source: "src/main/resources/${commonMixinConfig}", mixinPackage: commonMixinPackage, list: "mixins"],
+                    [name: clientMixinConfig, source: "src/client/resources/${clientMixinConfig}", mixinPackage: clientMixinPackage, list: "client"]
+            ].each { expected ->
+                def packagedBytes = zipFile.getInputStream(zipFile.getEntry(expected.name)).bytes
+                if (!java.util.Arrays.equals(packagedBytes, file(expected.source).bytes)) {
+                    throw new GradleException("Packaged ${expected.name} differs from ${expected.source}")
+                }
+                def config = new groovy.json.JsonSlurper().parseText(new String(packagedBytes, "UTF-8"))
+                // A missed injection must fail the start instead of silently dropping a rule.
+                // 注入未命中时必须让启动失败，而不是悄悄丢掉一条规则。
+                if (config.required != true) {
+                    throw new GradleException("${expected.name} must remain required in ${jarFile.name}")
+                }
+                if (config.injectors?.defaultRequire?.toString() != "1") {
+                    throw new GradleException("${expected.name} defaultRequire drift: expected 1, found ${config.injectors?.defaultRequire}")
+                }
+                if (config.package?.toString() != expected.mixinPackage) {
+                    throw new GradleException("${expected.name} must keep its mixins in ${expected.mixinPackage}; found ${config.package}")
+                }
+                // One list per config: common mixins under `mixins` of the common config, client mixins under `client`
+                // of the client config, which is loaded for the client environment only (verifyModMetadata). A client
+                // mixin anywhere else would be applied on a dedicated server.
+                // 每份配置只有一个列表：公共 mixin 在公共配置的 `mixins` 下，客户端 mixin 在客户端配置的 `client` 下，而客户端
+                // 配置只在客户端环境加载（见 verifyModMetadata）。出现在其他位置的客户端 mixin 会在专用服务器上被应用。
+                def otherLists = ["mixins", "client", "server"].findAll { it != expected.list && config.get(it) }
+                if (!otherLists.isEmpty() || !config.get(expected.list)) {
+                    throw new GradleException("${expected.name} must declare its mixins under '${expected.list}' only; found ${otherLists} as well, or no '${expected.list}' entry")
+                }
+                def listed = config.get(expected.list).collect { it.toString() }
+                if (listed.size() != (listed as Set).size()) {
+                    throw new GradleException("${expected.name} lists a mixin twice: ${listed.findAll { name -> listed.count(name) > 1 }.unique()}")
+                }
+
+                // The config and the mixin package are the same set, in both directions: every listed mixin is a
+                // class of the jar that carries @Mixin (a mixin that was dissolved must leave the config), and every
+                // class in the mixin package is listed (a mixin added tomorrow cannot be forgotten, and a mixin of the
+                // client source set cannot end up in the common config, whose package it is not in).
+                // 配置与 mixin 包是同一个集合，双向成立：列出的每个 mixin 都是 jar 中带有 @Mixin 的类（已拆除的 mixin 必须从配置
+                // 中移除），mixin 包中的每个类也都被列出（以后新增的 mixin 不会被遗漏，客户端源码集的 mixin 也不可能进入公共配置，
+                // 因为它不在公共配置的包里）。
+                def packagePath = expected.mixinPackage.replace('.', '/') + "/"
+                listed.each { mixinName ->
+                    def entryName = packagePath + mixinName.replace('.', '/') + ".class"
+                    def node = readClassNode(zipFile, entryName)
+                    if (!verifySupport.annotationsOf(node).any { it.desc == "Lorg/spongepowered/asm/mixin/Mixin;" }) {
+                        throw new GradleException("${expected.name} lists ${mixinName}, which is not a @Mixin class")
+                    }
+                }
+                def classesInPackage = zipFile.entries().collect { it.name }.findAll {
+                    it.startsWith(packagePath) && it.endsWith(".class") && !it.contains("\$")
+                }.collect { it.substring(packagePath.length(), it.length() - ".class".length()).replace('/', '.') } as Set
+                if (classesInPackage.isEmpty()) {
+                    throw new GradleException("No class below ${packagePath} in ${jarFile.name}; the check would look at nothing")
+                }
+                def unlisted = (classesInPackage - listed).sort()
+                if (!unlisted.isEmpty()) {
+                    throw new GradleException("${expected.name} does not list ${unlisted.size()} classes of ${expected.mixinPackage}: ${unlisted}")
+                }
+
+                requiredMixins[expected.name].each { requiredMixin ->
+                    if (!listed.contains(requiredMixin)) {
+                        throw new GradleException("Missing mixin ${requiredMixin} in ${expected.name} inside ${jarFile.name}")
+                    }
+                }
+
+                def requiredPlugin = expected.name == clientMixinConfig ? clientMixinPlugin : null
+                if (config.plugin?.toString() != requiredPlugin) {
+                    throw new GradleException("${expected.name} must name the mixin plugin ${requiredPlugin}; found ${config.plugin}")
+                }
+                if (requiredPlugin != null) {
+                    def pluginNode = readClassNode(zipFile, requiredPlugin.replace('.', '/') + ".class")
+                    def runsScavengerRewrite = pluginNode.methods.any { method ->
+                        method.name == "postApply" && method.instructions.toArray().any {
+                            it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == scavengerRewrite
+                                    && it.name == "rewrite"
+                        }
+                    }
+                    if (!runsScavengerRewrite) {
+                        throw new GradleException(
+                                "${requiredPlugin}#postApply no longer runs ${scavengerRewrite} in ${jarFile.name}"
+                        )
+                    }
+                }
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+// The jar and the sources jar carry one set of notices for the whole mod: SparkDLC's own licenses, the merged
+// THIRD_PARTY_NOTICES.md and the Wathe Extended license text (the guidebook is a clean reimplementation of that mod's
+// feature; the notice records the upstream commit it was written against).
+// jar 与源码 jar 为整个 mod 携带同一套声明：SparkDLC 自身的许可证、合并后的 THIRD_PARTY_NOTICES.md 以及 Wathe Extended
+// 许可证文本（指南是对该模组功能的全新重写；声明中记录了所参照的上游提交）。
+def watheExtendedCommit = "cf3c5c51f3dbc173778597bfb628a7b8e09ccadc"
+def requiredWatheNotice = "Selected Wathe visual assets are © 2024 doctor4t. Wathe source code is\nnot copied or modified."
+def watheExtendedLicense = "src/main/resources/META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt"
+def distributionNotices = [
+        "META-INF/LICENSE_SPARKDLC",
+        "META-INF/LICENSE-TEXTURES_SPARKDLC.md",
+        "META-INF/THIRD_PARTY_NOTICES.md",
+        "META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt"
+]
+
+tasks.register("verifyNotices") {
+    group = "verification"
+    description = "Checks the third-party notice and the vendored license text, and that the jar and the sources jar ship the licence and notice entries."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    dependsOn sourceArchive
+    inputs.file(sourceArchive.flatMap { it.archiveFile })
+    inputs.files("THIRD_PARTY_NOTICES.md", watheExtendedLicense)
+
+    doLast {
+        ["THIRD_PARTY_NOTICES.md", watheExtendedLicense].each { requiredPath ->
+            if (!file(requiredPath).isFile()) {
+                throw new GradleException("Missing notice file: ${requiredPath}")
+            }
+        }
+        def notices = file("THIRD_PARTY_NOTICES.md").getText("UTF-8")
+        if (!notices.replace("\r\n", "\n").contains(requiredWatheNotice)) {
+            throw new GradleException("THIRD_PARTY_NOTICES.md is missing the required Wathe asset notice")
+        }
+        if (!notices.contains(watheExtendedCommit)
+                || !notices.contains("clean reimplementation")
+                || !notices.contains("No upstream source code was copied.")) {
+            throw new GradleException("THIRD_PARTY_NOTICES.md is missing the Guidebook reimplementation provenance")
+        }
+
+        def upstreamLicense = file(watheExtendedLicense).getText("UTF-8")
+        if (!upstreamLicense.contains("GNU GENERAL PUBLIC LICENSE")
+                || !upstreamLicense.contains("Version 3, 29 June 2007")) {
+            throw new GradleException("Vendored Wathe Extended license must contain the verbatim GPLv3 text")
+        }
+
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            distributionNotices.each { requiredEntry ->
+                if (zipFile.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing distribution notice ${requiredEntry} in ${jarFile.name}")
+                }
+            }
+
+            def packagedNotices = zipFile.getInputStream(zipFile.getEntry("META-INF/THIRD_PARTY_NOTICES.md")).getText("UTF-8")
+            if (!packagedNotices.replace("\r\n", "\n").contains(requiredWatheNotice)
+                    || !packagedNotices.contains(watheExtendedCommit)
+                    || !packagedNotices.contains("No upstream source code was copied.")) {
+                throw new GradleException("Packaged third-party notice is incomplete in ${jarFile.name}")
+            }
+
+            def packagedUpstreamLicense = zipFile.getInputStream(zipFile.getEntry("META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt")).getText("UTF-8")
+            if (!packagedUpstreamLicense.contains("GNU GENERAL PUBLIC LICENSE")
+                    || !packagedUpstreamLicense.contains("Version 3, 29 June 2007")) {
+                throw new GradleException("Packaged Wathe Extended license is not GPLv3")
+            }
+        } finally {
+            zipFile.close()
+        }
+
+        def sourcesFile = sourceArchive.get().archiveFile.get().asFile
+        def sourcesZip = new java.util.zip.ZipFile(sourcesFile)
+        try {
+            distributionNotices.each { requiredEntry ->
+                if (sourcesZip.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing source-distribution notice ${requiredEntry} in ${sourcesFile.name}")
+                }
+            }
+            def sourceNotices = sourcesZip.getInputStream(
+                    sourcesZip.getEntry("META-INF/THIRD_PARTY_NOTICES.md")
+            ).getText("UTF-8")
+            if (!sourceNotices.replace("\r\n", "\n").contains(requiredWatheNotice)
+                    || !sourceNotices.contains(watheExtendedCommit)
+                    || !sourceNotices.contains("No upstream source code was copied.")) {
+                throw new GradleException("Source-distribution third-party notice is incomplete in ${sourcesFile.name}")
+            }
+        } finally {
+            sourcesZip.close()
+        }
+    }
+}

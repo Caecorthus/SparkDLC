@@ -1,0 +1,531 @@
+// Dependency rules inside the one mod, checked on the classes of the remapped jar.
+//
+// SparkDLC used to be five mods, and the old scripts kept them apart ("module X may name only these types of module
+// Y", with the module of a file read from the move manifest). The mods are dissolved on purpose: code calls code. What
+// is left here are the layers the ONE mod still wants, stated over packages of the current layout, so a class added
+// tomorrow is covered the day it is added:
+//
+//   core-closed     The shared core names, of the mod, only itself and the support classes listed below. In
+//                   particular it names no role feature: a role hooks the core by registering into its listener and
+//                   rule lists, never the other way round.
+//   core-contract   A role feature reaches the shared core only through the core's contract.
+//   trait-api       Outside the trait feature, a class reaches it only through `trait.api`.
+//   client-helpers  The common-side logic of the client helpers (guidebook, achievements, settings, Ponder) is named
+//                   by client code only, and has no common mixin.
+//
+// plus verifyNoLookupByName: nothing of the mod's own is looked up by name, and nothing gates on a mod id the mod
+// provides itself.
+//
+// "Names" means: the class file refers to the type at all (call, field, superclass, cast, parameter or field type,
+// generic signature, annotation); see `namedModClasses` in support.gradle. That is stricter than the source scans of
+// the old scripts in what counts (same-package uses and wildcard imports cannot hide) and deliberately does not count
+// comments. Every exception is listed with its reason, an exception nobody uses any more fails the task, and so does a
+// package that no longer holds a class: a rule must never pass because it looked at nothing.
+//
+// 合一后的模组内部的依赖规则，针对重映射 jar 中的类校验。
+// SparkDLC 原先是五个 mod，旧脚本负责把它们隔开（“模块 X 只能引用模块 Y 的这些类型”，文件属于哪个模块读自搬迁清单）。这些 mod
+// 是有意拆除的：代码直接调用代码。这里留下的是“一个”模组仍然需要的分层，按当前布局的包来表述，因此以后新增的类从加入那天起
+// 就在规则之内：
+//   core-closed     共享核心在本模组内只引用它自身以及下方列出的支撑类。特别是它不引用任何职业功能：职业通过向核心的监听器与
+//                   规则列表注册来接入核心，绝不反过来。
+//   core-contract   职业功能只能通过核心的契约访问共享核心。
+//   trait-api       词条功能之外的类只能通过 `trait.api` 访问它。
+//   client-helpers  客户端辅助功能（指南、成就、设置、Ponder）位于公共端的逻辑只被客户端代码引用，且没有公共 mixin。
+// 另有 verifyNoLookupByName：本模组自己的东西一律不按名称查找，也不以本模组自己提供的 mod id 作为门控。
+// “引用”指类文件以任何方式提到该类型（调用、字段、父类、强转、参数或字段类型、泛型签名、注解），见 support.gradle 的
+// `namedModClasses`。在“算不算引用”上它比旧脚本的源码扫描更严（同包使用与通配 import 无处可藏），并且有意不把注释算在内。
+// 每个例外都连同原因列出；不再有人使用的例外会让任务失败，不再含有任何类的包也一样：规则绝不能因为什么都没看而通过。
+
+// See gradle/verify/support.gradle: this block must stay identical to the one there.
+// 见 gradle/verify/support.gradle：这一段必须与那里的保持完全一致。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ow2.asm:asm-tree:9.9"
+        classpath "org.ow2.asm:asm-analysis:9.9"
+    }
+}
+verifySupport.requireSharedAsm(org.objectweb.asm.tree.ClassNode)
+
+def remappedModJar = verifySupport.remappedModJar
+def readClassNode = verifySupport.readClassNode
+def classStringConstants = verifySupport.classStringConstants
+def rootPath = verifySupport.rootPath
+
+// Package sets are lists of prefixes relative to dev/caecorthus/sparkdlc/, with "/" as the separator: "faction/" is
+// the package `faction` and everything below it, a name without a trailing slash is one top-level class and its
+// nested classes. `except` carves sub-packages out again.
+// 包集合以相对 dev/caecorthus/sparkdlc/ 的前缀列表给出，分隔符为 "/"："faction/" 表示包 `faction` 及其全部子包，不带结尾斜杠的
+// 名称表示一个顶层类及其嵌套类。`except` 再把子包排除出去。
+
+// The shared core: factions, rounds, cooldowns and the admin commands, with their mixins and client halves. The
+// Witch faction (`faction.witch`) and the per-role cooldown providers (`cooldown.provider`) are role features that
+// plug INTO the core and are not part of it.
+// 共享核心：阵营、对局、冷却与管理命令，以及它们的 mixin 与客户端部分。魔女阵营（`faction.witch`）与各职业的冷却提供方
+// （`cooldown.provider`）是接入核心的职业功能，不属于核心。
+def sharedCore = [
+        include: ["faction/", "round/", "cooldown/", "command/admin/",
+                  "mixin/faction/", "mixin/round/", "mixin/cooldown/",
+                  "client/round/", "client/mixin/faction/"],
+        except : ["faction/witch/", "cooldown/provider/", "mixin/faction/witch/", "client/mixin/faction/witch/"]
+]
+// What the core may name outside itself, with the reason. Everything else of the mod is off limits to it.
+// 核心在自身之外可以引用的内容及原因。本模组的其余一切对它都是禁区。
+def sharedCoreSupport = [
+        "SparkDLC"                           : "the mod id, the logger and id(...)",
+        "command/SparkDlcPermissions"        : "the one permission table every command asks",
+        "command/settings/GameSettingsCommandRules"  : "the rules the core's mixin on Wathe's game-settings command applies",
+        "command/settings/ThirdFactionDividendCommand": "the third-faction dividend setting the core's mixin adds to that command",
+        "component/AntiFastRoundComponent"   : "the core's own Cardinal Component; components live in the shared `component` package",
+        "component/FactionRoundEndComponent" : "the core's own Cardinal Component",
+        "component/LobbyMapResetComponent"   : "the core's own Cardinal Component",
+        "component/ThirdFactionComponent"    : "the core's own Cardinal Component",
+        "net/policy/GeneratedPayloadPolicy"  : "the generated locked-player payload sets; the anti-fast-round rules alias one",
+        "mixin/wathe/"                       : "accessor interfaces on Wathe classes (one accessor per target for the whole mod)",
+        "replay/RoleChangeRecorder"          : "the faction mixin on Wathe's GameWorldComponent reports role changes to the replay",
+        "replay/ReplayPresentation"          : "the faction mixin on Wathe's replay generator hands its lines to the replay presentation",
+        "replay/ReplayRenderContext"         : "the same mixin opens the render context of that presentation"
+]
+
+// The role features: roles, traits, witch skills, role items, entities and blocks, sabotage, the tablet, the headset,
+// the killer team economy, remote viewpoints, the Witch faction and the per-role cooldown providers, each with its
+// client and mixin halves.
+// 职业功能：职业、词条、魔女技能、职业物品、实体与方块、破坏、平板电脑、耳机、杀手团队经济、远程视角、魔女阵营以及各职业的
+// 冷却提供方，各自连同其客户端与 mixin 部分。
+def roleFeatureNames = ["role", "trait", "skill", "item", "entity", "block", "sabotage", "tablet", "headset", "economy",
+                        "viewpoint", "faction/witch", "cooldown/provider"]
+def roleFeatures = [
+        // A half that does not exist yet (say `mixin/skill/`) simply matches nothing until someone creates it.
+        // 尚不存在的部分（例如 `mixin/skill/`）在有人创建之前不会匹配到任何类。
+        include: roleFeatureNames.collectMany { name ->
+            [name + "/", "client/" + name + "/", "mixin/" + name + "/", "client/mixin/" + name + "/"]
+        },
+        except : []
+]
+// The core's contract: what a role feature may name of the core. `faction.api` and `cooldown.api` are the contract
+// packages; SettlementExclusions is the settlement rule list roles and traits register into; the cooldown accessors
+// are the mod-wide accessor interfaces on ItemCooldownManager.
+// 核心的契约：职业功能可以引用的核心内容。`faction.api` 与 `cooldown.api` 是契约包；SettlementExclusions 是职业与词条向其注册的
+// 结算规则列表；冷却访问器是全模组共用的 ItemCooldownManager 访问器接口。
+def sharedCoreContract = ["faction/api/", "cooldown/api/", "round/settlement/SettlementExclusions", "mixin/cooldown/"]
+// Role-feature classes that name a core class outside the contract, each with the classes it may name and why.
+// 引用了契约之外核心类的职业功能类，各自列出允许引用的类及原因。
+def sharedCoreContractExceptions = [
+        "trait/civilian/depression/DepressionTraitService": [
+                names : ["faction/economy/FactionEconomyRules"],
+                reason: "the Depression payout asks the core's passive-money rules which faction is paid; the contract has no member for it yet"
+        ]
+]
+
+// The trait feature and its contract package.
+// 词条功能及其契约包。
+def traitFeature = [
+        include: ["trait/", "client/trait/", "mixin/trait/", "client/mixin/trait/", "command/trait/"],
+        except : []
+]
+def traitContract = ["trait/api/"]
+// Classes outside the trait feature that name a trait class outside `trait.api`. `names` are the prefixes they may
+// name; the start-up wiring registers the feature's steps, components and client hooks and may name all of it.
+// 词条功能之外、引用了 `trait.api` 以外词条类的类。`names` 是允许引用的前缀；启动装配负责注册该功能的各步骤、组件与客户端钩子，
+// 可以引用其全部内容。
+def traitInternalsExceptions = [
+        "SparkDLC"                             : [
+                names : ["trait/"],
+                reason: "start-up wiring: registers the built-in traits, their hooks and replay events"
+        ],
+        "SparkDlcComponents"                   : [
+                names : ["trait/component/"],
+                reason: "start-up wiring: the one Cardinal Components entrypoint registers the trait components"
+        ],
+        "client/SparkDLCClient"                : [
+                names : ["trait/", "client/trait/"],
+                reason: "start-up wiring: registers the trait feature's client hooks"
+        ],
+        "command/SparkDlcCommands"             : [
+                names : ["command/trait/TraitCommands"],
+                reason: "command wiring: every command is registered from the one command class"
+        ],
+        "client/net/SparkDlcClientPackets"     : [
+                names : ["trait/net/BluePoisonMarkersPayload", "client/trait/killer/BluePoisonMarkerClientStore"],
+                reason: "packet wiring: registers the receiver of the blue-poison marker payload"
+        ],
+        "voice/SparkDlcVoiceChatPlugin"        : [
+                names : ["trait/civilian/depression/DepressionTraitService"],
+                reason: "the one voice chat plugin carries the Depression mute"
+        ],
+        "client/achievement/AchievementClientState": [
+                names : ["trait/component/TraitPlayerComponent"],
+                reason: "the achievement tick reads the owner-synced Depression attacker from the trait component"
+        ],
+        "client/role/killer/blackraven/BlackRavenPerceptionScreenEffects": [
+                names : ["client/trait/render/DepressionScreenEffects"],
+                reason: "the Black Raven's compositor must draw before or after the Depression screen effect and asks it directly"
+        ],
+        "client/role/killer/specter/SpecterOtherworldScreenEffects"      : [
+                names : ["client/trait/render/DepressionScreenEffects"],
+                reason: "the Specter's otherworld compositor orders itself against the Depression screen effect the same way"
+        ]
+]
+
+// The client helpers' common-side logic: pure rules and catalogs of the guidebook, the achievements, the settings
+// file, the instinct key, Ponder and the event sounds. They sit in the common source set (so that plain unit tests
+// reach them) but belong to client-only features: the former SparkAssist was a client-only mod, and a dedicated server
+// must never run any of it. Client code may name them freely; common code outside these packages may not.
+// 客户端辅助功能位于公共端的逻辑：指南、成就、设置文件、直觉键、Ponder 与事件音效的纯规则和目录。它们放在公共源码集（便于普通
+// 单元测试访问），但属于仅客户端的功能：原 SparkAssist 是仅客户端 mod，专用服务器绝不能运行其中任何内容。客户端代码可以随意
+// 引用它们；这些包之外的公共代码不可以。
+def clientHelperLogic = [
+        include: ["achievement/", "guidebook/", "config/", "input/", "ponder/", "sound/"],
+        except : []
+]
+def clientHelperLogicExceptions = [:]
+// Features of the client helpers by the first package segment of a mixin: none of them may have a common mixin (all
+// their mixins are client mixins, in the client config).
+// 客户端辅助功能按 mixin 包名首段列出：它们都不得拥有公共 mixin（其 mixin 全部是客户端 mixin，位于客户端配置）。
+def clientHelperMixinFeatures = ["achievement", "guidebook", "config", "input", "ponder", "sound", "settings", "blood",
+                                 "creative"]
+
+def inSet = { String name, Map set ->
+    def matches = { String prefix ->
+        prefix.endsWith("/") ? name.startsWith(prefix) : (name == prefix || name.startsWith(prefix + "\$"))
+    }
+    set.include.any(matches) && !set.except.any(matches)
+}
+def matchesAny = { String name, Collection<String> prefixes ->
+    prefixes.any { prefix ->
+        prefix.endsWith("/") ? name.startsWith(prefix) : (name == prefix || name.startsWith(prefix + "\$"))
+    }
+}
+def topLevel = { String name -> name.contains("\$") ? name.substring(0, name.indexOf("\$")) : name }
+
+tasks.register("verifyLayering") {
+    group = "verification"
+    description = "Checks the dependency rules inside the mod on the remapped jar: the shared core names no role feature, role features reach the core through its contract, traits are reached through trait.api, the client helpers' logic is named by client code only."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            // Class -> the mod classes it names, both relative to the root package. / 类 -> 它引用的本模组类（均相对根包）。
+            def modClasses = verifySupport.modClasses(zipFile).collect { it.substring(rootPath.length()) } as Set
+            def names = new TreeMap<String, Set<String>>()
+            modClasses.each { className ->
+                def bytes = zipFile.getInputStream(zipFile.getEntry(rootPath + className + ".class")).bytes
+                names[className] = verifySupport.namedModClasses(bytes).collect { it.substring(rootPath.length()) }
+                        .findAll { modClasses.contains(it) } as Set
+            }
+            // The scan itself must work: the common entrypoint names the registries and services it starts.
+            // 扫描本身必须有效：公共入口会引用它启动的注册表与服务。
+            if ((names["SparkDLC"] ?: []).size() < 10) {
+                throw new GradleException("The class reference scan of ${jarFile.name} found almost nothing in SparkDLC (${names['SparkDLC']}); it no longer works")
+            }
+            // Every prefix of every package set must still denote at least one class: after a package is renamed the
+            // rule would otherwise silently stop covering it.
+            // 每个包集合的每个前缀都必须仍然对应至少一个类：否则包改名之后规则会悄悄失去对它的覆盖。
+            def problems = []
+            def requireLive = { String label, Collection<String> prefixes ->
+                prefixes.each { prefix ->
+                    if (!modClasses.any { matchesAny(it, [prefix]) }) {
+                        problems.add("${label}: no class of ${jarFile.name} is in ${prefix} any more; rename or remove the prefix".toString())
+                    }
+                }
+            }
+            requireLive("shared core", sharedCore.include + sharedCore.except)
+            requireLive("shared core support", sharedCoreSupport.keySet())
+            requireLive("role features", roleFeatureNames.collect { it + "/" })
+            requireLive("shared core contract", sharedCoreContract)
+            requireLive("trait feature", traitFeature.include + traitContract)
+            requireLive("client helpers", clientHelperLogic.include)
+
+            def describe = { Map<String, Set<String>> violations ->
+                violations.collect { className, named -> "${className} -> ${named.sort().join(', ')}" }.join("; ")
+            }
+            // An exception table must be exact: every listed class still makes use of it, with every listed name.
+            // 例外表必须精确：列出的每个类仍然用到它，且用到其中列出的每个名称。
+            def requireUsed = { String rule, Map exceptions, Map<String, Set<String>> used ->
+                exceptions.each { className, exception ->
+                    exception.names.each { prefix ->
+                        if (!(used[className] ?: []).any { matchesAny(it, [prefix]) }) {
+                            problems.add("${rule}: the exception ${className} -> ${prefix} is no longer used; remove it".toString())
+                        }
+                    }
+                }
+            }
+
+            // core-closed
+            def coreClasses = modClasses.findAll { inSet(it, sharedCore) }
+            def coreViolations = new TreeMap<String, Set<String>>()
+            def usedSupport = [] as Set
+            coreClasses.each { className ->
+                names[className].each { named ->
+                    if (inSet(named, sharedCore)) {
+                        return
+                    }
+                    def support = sharedCoreSupport.keySet().find { matchesAny(named, [it]) }
+                    if (support != null) {
+                        usedSupport.add(support)
+                    } else {
+                        coreViolations.computeIfAbsent(className) { new TreeSet<String>() }.add(named)
+                    }
+                }
+            }
+            if (!coreViolations.isEmpty()) {
+                problems.add(("core-closed: the shared core must name only itself and its listed support " +
+                        "(a role feature hooks the core through its listener and rule lists): ${describe(coreViolations)}").toString())
+            }
+            (sharedCoreSupport.keySet() - usedSupport).each {
+                problems.add("core-closed: the support entry ${it} is no longer used by the shared core; remove it".toString())
+            }
+
+            // core-contract
+            def contractViolations = new TreeMap<String, Set<String>>()
+            def usedContractExceptions = new TreeMap<String, Set<String>>()
+            def roleFeatureClasses = modClasses.findAll { inSet(it, roleFeatures) }
+            roleFeatureClasses.each { className ->
+                names[className].each { named ->
+                    if (!inSet(named, sharedCore) || matchesAny(named, sharedCoreContract)) {
+                        return
+                    }
+                    def exception = sharedCoreContractExceptions[topLevel(className)]
+                    if (exception != null && matchesAny(named, exception.names)) {
+                        usedContractExceptions.computeIfAbsent(topLevel(className)) { new TreeSet<String>() }.add(named)
+                    } else {
+                        contractViolations.computeIfAbsent(className) { new TreeSet<String>() }.add(named)
+                    }
+                }
+            }
+            if (!contractViolations.isEmpty()) {
+                problems.add(("core-contract: a role feature must reach the shared core only through " +
+                        "${sharedCoreContract}: ${describe(contractViolations)}").toString())
+            }
+            requireUsed("core-contract", sharedCoreContractExceptions, usedContractExceptions)
+
+            // trait-api
+            def traitViolations = new TreeMap<String, Set<String>>()
+            def usedTraitExceptions = new TreeMap<String, Set<String>>()
+            modClasses.findAll { !inSet(it, traitFeature) }.each { className ->
+                names[className].each { named ->
+                    if (!inSet(named, traitFeature) || matchesAny(named, traitContract)) {
+                        return
+                    }
+                    def exception = traitInternalsExceptions[topLevel(className)]
+                    if (exception != null && matchesAny(named, exception.names)) {
+                        usedTraitExceptions.computeIfAbsent(topLevel(className)) { new TreeSet<String>() }.add(named)
+                    } else {
+                        traitViolations.computeIfAbsent(className) { new TreeSet<String>() }.add(named)
+                    }
+                }
+            }
+            if (!traitViolations.isEmpty()) {
+                problems.add(("trait-api: outside the trait feature a class must reach it only through trait.api: " +
+                        describe(traitViolations)).toString())
+            }
+            requireUsed("trait-api", traitInternalsExceptions, usedTraitExceptions)
+
+            // client-helpers
+            def helperViolations = new TreeMap<String, Set<String>>()
+            def usedHelperExceptions = new TreeMap<String, Set<String>>()
+            modClasses.findAll { !it.startsWith("client/") && !inSet(it, clientHelperLogic) }.each { className ->
+                names[className].each { named ->
+                    if (!inSet(named, clientHelperLogic)) {
+                        return
+                    }
+                    def exception = clientHelperLogicExceptions[topLevel(className)]
+                    if (exception != null && matchesAny(named, exception.names)) {
+                        usedHelperExceptions.computeIfAbsent(topLevel(className)) { new TreeSet<String>() }.add(named)
+                    } else {
+                        helperViolations.computeIfAbsent(className) { new TreeSet<String>() }.add(named)
+                    }
+                }
+            }
+            if (!helperViolations.isEmpty()) {
+                problems.add(("client-helpers: common code outside ${clientHelperLogic.include} must not name the client " +
+                        "helpers' logic (a dedicated server never runs it): ${describe(helperViolations)}").toString())
+            }
+            requireUsed("client-helpers", clientHelperLogicExceptions, usedHelperExceptions)
+            def commonConfig = verifySupport.jsonEntry(zipFile, "sparkdlc.mixins.json")
+            def commonMixins = ["mixins", "client", "server"].collectMany { (commonConfig.get(it) ?: []).collect { it.toString() } }
+            if (commonMixins.isEmpty()) {
+                throw new GradleException("sparkdlc.mixins.json of ${jarFile.name} lists no mixin; the client-helpers check would look at nothing")
+            }
+            def helperCommonMixins = commonMixins.findAll { mixin -> clientHelperMixinFeatures.any { mixin.startsWith(it + ".") } }
+            if (!helperCommonMixins.isEmpty()) {
+                problems.add("client-helpers: the client helpers must have no common mixin, but sparkdlc.mixins.json lists ${helperCommonMixins}".toString())
+            }
+
+            if (!problems.isEmpty()) {
+                throw new GradleException("Layering rules of gradle/verify/layering.gradle are broken in ${jarFile.name}:\n  " + problems.join("\n  "))
+            }
+            logger.lifecycle("verifyLayering: ${modClasses.size()} classes; shared core ${coreClasses.size()} (closed), " +
+                    "role features ${roleFeatureClasses.size()} (core contract only), trait internals named by " +
+                    "${usedTraitExceptions.size()} listed classes outside the feature, client-helper logic named by no common class")
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+// Nothing of the mod's own is looked up by name, and nothing gates on an id the mod provides itself.
+//
+// While the mods were separate jars they reached each other by name only (reflection, string @Mixin targets), each
+// behind FabricLoader#isModLoaded(<mod id>), and no build could check those names. Inside one mod such a seam is a
+// direct, compiled call, which the compiler checks. What the compiler cannot see is checked here, over EVERY class of
+// the remapped jar:
+// - a string constant that names one of the mod's classes (as an internal name, the form Loom writes a string @Mixin
+//   target in; inside a descriptor, e.g. an @At target; or dotted) must name a class that is in the jar: a renamed or
+//   moved class must fail here instead of silently skipping a mixin at runtime;
+// - a whole constant that is a dotted class name of the mod is what Class.forName takes. It is allowed only in the
+//   classes listed below, each with its reason;
+// - no class asks isModLoaded for one of the five ids the mod provides: the answer is always true, so the gate is dead
+//   code that hides a hard dependency.
+// The local FusedModSourceRulesTest states the same on the sources, together with the pinned list of the reflection
+// that remains toward OTHER mods; this task is the tracked half that also runs on a fresh clone.
+//
+// 本模组自己的东西一律不按名称查找，也不以本模组自己提供的 id 作为门控。
+// 各 mod 还是独立 jar 时只能按名称互相访问（反射、字符串形式的 @Mixin 目标），且都以 FabricLoader#isModLoaded(<mod id>) 为前提，
+// 没有任何构建能校验这些名称。在同一个模组内，这样的接缝就是直接的编译期调用，由编译器校验。编译器看不到的部分在这里针对重映射
+// jar 中的“每一个”类校验：
+// - 点名本模组某个类的字符串常量（内部名形式，即 Loom 写出字符串 @Mixin 目标的形式；描述符内，如 @At 目标；或点分形式）所指的
+//   类必须在 jar 中：类被改名或移动时必须在这里失败，而不是在运行时悄悄跳过 mixin；
+// - 整个常量就是本模组点分类名的情况正是 Class.forName 的参数，只允许出现在下方列出的类中，各附原因；
+// - 任何类都不得对本模组提供的五个 id 之一调用 isModLoaded：结果恒为真，这样的门控是掩盖硬依赖的死代码。
+// 本地的 FusedModSourceRulesTest 在源码层面表述了同样的规则，并固定了仍然存在的、指向“其他”模组的反射清单；本任务是其中被
+// git 跟踪、在全新克隆上也会运行的那一半。
+def providedLegacyIds = ["sparkfactionapi", "sparkstrength", "sparktraits", "sparkwitch", "sparkassist"]
+// Classes that hold a dotted name of one of the mod's classes as a whole string constant.
+// 以整个字符串常量保存本模组某个类的点分名的类。
+def dottedOwnNameHolders = [
+        "client/SparkDlcClientMixinPlugin": "the client mixin plugin compares mixinClassName with the four mixins it switches; it loads nothing by name"
+]
+
+tasks.register("verifyNoLookupByName") {
+    group = "verification"
+    description = "Checks every class of the remapped jar: own classes named in string constants exist, dotted own class names appear only in the listed classes, and nothing gates on a mod id the mod provides."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        // A whole constant that is a class name of the mod, dotted (Class.forName) or with slashes (Loom writes a
+        // string @Mixin target that way), and any type descriptor of the mod inside a longer constant (an @At target).
+        // 整个常量就是本模组类名的情况：点分形式（Class.forName）或斜杠形式（Loom 会这样写出字符串 @Mixin 目标）；
+        // 以及较长常量中出现的本模组类型描述符（@At 目标）。
+        def identifier = "[A-Za-z_\$][A-Za-z0-9_\$]*"
+        def dottedClassName = java.util.regex.Pattern.compile(
+                "dev\\.caecorthus\\.sparkdlc(?:\\.${identifier})+")
+        def internalClassName = java.util.regex.Pattern.compile(
+                "dev/caecorthus/sparkdlc(?:/${identifier})+")
+        def embeddedDescriptor = java.util.regex.Pattern.compile(
+                "L(dev/caecorthus/sparkdlc(?:/${identifier})+);")
+        def namedSparkDlcClasses = { String constant ->
+            if (internalClassName.matcher(constant).matches()) {
+                return [constant]
+            }
+            def named = []
+            def matcher = embeddedDescriptor.matcher(constant)
+            while (matcher.find()) {
+                named.add(matcher.group(1))
+            }
+            named
+        }
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def modClasses = verifySupport.modClasses(zipFile)
+            def seams = new TreeMap<String, Set<String>>()
+            def dottedNames = new TreeMap<String, Set<String>>()
+            def legacyGates = new TreeSet<String>()
+            int scannedConstants = 0
+            modClasses.each { className ->
+                def classNode = readClassNode(zipFile, className + ".class")
+                def holder = className.substring(rootPath.length())
+                def constants = classStringConstants(classNode)
+                scannedConstants += constants.size()
+                constants.each { constant ->
+                    if (dottedClassName.matcher(constant).matches()) {
+                        dottedNames.computeIfAbsent(constant) { new TreeSet<String>() }.add(holder)
+                    }
+                    namedSparkDlcClasses(constant).each { named ->
+                        seams.computeIfAbsent(named) { new TreeSet<String>() }.add(holder)
+                    }
+                }
+                classNode.methods.each { method ->
+                    def lastConstant = null
+                    method.instructions.toArray().each { instruction ->
+                        if (instruction instanceof org.objectweb.asm.tree.LdcInsnNode) {
+                            lastConstant = instruction.cst
+                        } else if (instruction instanceof org.objectweb.asm.tree.MethodInsnNode) {
+                            if (instruction.owner == "net/fabricmc/loader/api/FabricLoader" &&
+                                    instruction.name == "isModLoaded" && providedLegacyIds.contains(lastConstant)) {
+                                legacyGates.add("${holder}#${method.name} isModLoaded(\"${lastConstant}\")".toString())
+                            }
+                            lastConstant = null
+                        } else if (instruction.getOpcode() >= 0) {
+                            // Any other real instruction separates a constant from a later call.
+                            // 其他任何真实指令都会把常量与之后的调用隔开。
+                            lastConstant = null
+                        }
+                    }
+                }
+            }
+            def namedBy = { Map<String, Set<String>> found ->
+                found.collect { name, holders -> "${name} (named by ${holders.join(', ')})" }.join("; ")
+            }
+
+            // The string scan must keep working. Its result may be empty (a mod does not mix into itself, so no string
+            // @Mixin target names an own class any more), which means "no seam" cannot be told from "the scan broke"
+            // by the result alone. The scan is checked itself instead: it must have read string constants, and every
+            // name form must still be recognised on a class that is in the jar.
+            // 字符串扫描必须保持有效。其结果可以为空（模组不向自身注入，已没有字符串 @Mixin 目标点名自有类），因此仅凭结果无法区分
+            // “没有接缝”与“扫描失效”。改为检查扫描本身：它必须读到了字符串常量，且每种名称形式都仍能在 jar 中确有的类上被识别。
+            if (scannedConstants == 0) {
+                throw new GradleException(
+                        "The string constant scan read nothing from the ${modClasses.size()} classes of ${jarFile.name}; it no longer works"
+                )
+            }
+            def sample = modClasses.first()
+            if (namedSparkDlcClasses(sample) != [sample] ||
+                    namedSparkDlcClasses("(L${sample};I)V".toString()) != [sample] ||
+                    !dottedClassName.matcher(sample.replace('/', '.')).matches() ||
+                    !namedSparkDlcClasses("net/minecraft/class_1657").isEmpty()) {
+                throw new GradleException("The string constant scan no longer recognises a class name of the mod (${sample})")
+            }
+
+            def problems = []
+            def unresolved = seams.findAll { name, holders -> !modClasses.contains(name) }
+            if (!unresolved.isEmpty()) {
+                problems.add("string constants name classes of the mod that are missing from ${jarFile.name}: ${namedBy(unresolved)}".toString())
+            }
+            def unresolvedDotted = dottedNames.findAll { name, holders -> !modClasses.contains(name.replace('.', '/')) }
+            if (!unresolvedDotted.isEmpty()) {
+                problems.add("string constants name classes of the mod that are missing from ${jarFile.name}: ${namedBy(unresolvedDotted)}".toString())
+            }
+            def unexpectedDotted = dottedNames.collectEntries { name, holders ->
+                [(name): holders.findAll { !dottedOwnNameHolders.containsKey(it) } as TreeSet]
+            }.findAll { name, holders -> !holders.isEmpty() }
+            if (!unexpectedDotted.isEmpty()) {
+                problems.add(("the mod must call its own classes directly, not look them up by name; dotted class names " +
+                        "outside ${dottedOwnNameHolders.keySet()}: ${namedBy(unexpectedDotted)}").toString())
+            }
+            def usedHolders = dottedNames.values().flatten() as Set
+            (dottedOwnNameHolders.keySet() - usedHolders).each {
+                problems.add("the listed holder ${it} no longer holds a dotted class name of the mod; remove it".toString())
+            }
+            if (!legacyGates.isEmpty()) {
+                problems.add(("nothing may gate on a mod id the mod provides itself (always present): " +
+                        legacyGates.join("; ")).toString())
+            }
+            if (!problems.isEmpty()) {
+                throw new GradleException("By-name seams inside the mod in ${jarFile.name}:\n  " + problems.join("\n  "))
+            }
+            logger.lifecycle("verifyNoLookupByName: ${modClasses.size()} classes, ${scannedConstants} string constants; " +
+                    "${seams.size()} own classes named in constants resolve, ${dottedNames.size()} dotted names in " +
+                    "${dottedOwnNameHolders.size()} listed holder(s), no gate on a provided mod id")
+        } finally {
+            zipFile.close()
+        }
+    }
+}

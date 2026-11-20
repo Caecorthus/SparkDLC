@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 
 public final class TaskCommand {
     private static final DynamicCommandExceptionType INVALID_TASK =
-            new DynamicCommandExceptionType(task -> Text.literal("Unknown SparkFactionAPI task: " + task));
+            new DynamicCommandExceptionType(task -> Text.literal("Unknown task: " + task));
     private static final List<String> TASK_SUGGESTIONS = List.of("Sleep", "Eat", "Drink", "Breathe_Air", "outside", "All");
 
     private TaskCommand() {

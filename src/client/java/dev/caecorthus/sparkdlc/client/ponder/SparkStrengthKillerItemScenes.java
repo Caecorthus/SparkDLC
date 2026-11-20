@@ -622,7 +622,7 @@ final class SparkStrengthKillerItemScenes {
                 Direction.DOWN);
         scene.idle(15);
         scene.overlay().showControls(spot.add(0, 2.6, 0), Pointing.DOWN, 60).withItem(stack("wathe:psycho_mode"));
-        SceneCaptions.keyframeCaption(scene, 90, "装了 SparkStrength 时，连环杀手开疯魔模式不拿球棒，改拿两把手枪");
+        SceneCaptions.keyframeCaption(scene, 90, "连环杀手开疯魔模式不拿球棒，改拿两把手枪");
         scene.idle(100);
         Actors.psycho(scene, killer, true);
         Actors.hold(scene, killer, pistol);
@@ -688,7 +688,7 @@ final class SparkStrengthKillerItemScenes {
                 Direction.DOWN);
         Actors.hold(scene, bomber, bomb);
         scene.idle(15);
-        SceneCaptions.keyframeCaption(scene, 90, "装了 SparkStrength 时，定时炸弹还能藏进餐盘、饮品托盘或床里当陷阱");
+        SceneCaptions.keyframeCaption(scene, 90, "定时炸弹还能藏进餐盘、饮品托盘或床里当陷阱");
         Vec3d atTray = new Vec3d(4.4, 1, 2.6);
         Actors.walk(scene, bomber, atTray.subtract(start), 25);
         scene.idle(27);

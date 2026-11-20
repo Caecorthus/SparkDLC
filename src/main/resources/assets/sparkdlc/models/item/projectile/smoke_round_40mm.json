@@ -1,5 +1,5 @@
 {
-  "credit": "SparkWitch BEAR 40 mm smoke round projectile (generated, bear-full/art/scripts/smoke_round.py)",
+  "credit": "BEAR 40 mm smoke round projectile (generated, bear-full/art/scripts/smoke_round.py); first made for SparkWitch",
   "texture_size": [32, 32],
   "textures": {"0": "sparkdlc:item/projectile/smoke_round_40mm", "particle": "sparkdlc:item/projectile/smoke_round_40mm"},
   "elements": [

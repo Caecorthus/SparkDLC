@@ -1209,6 +1209,8 @@ sound_event	sparkwitch:seeker_car_swallow	sparkdlc:seeker_car_swallow
 sound_event	sparkwitch:skill.holy_flash_tinnitus	sparkdlc:skill.holy_flash_tinnitus	
 sound_event	sparkwitch:skill.pig_chase	sparkdlc:skill.pig_chase	
 sound_namespace	sparkwitch_skin	sparkdlc_skin	private runtime namespace of Mini Wither skin sounds, never in a pack
+system_property	sparkassist.decorDebug	sparkdlc.decorDebug	-D developer switch: guidebook decoration no-go zones (DecorSettings); old name still read (LegacySystemProperties)
+system_property	sparktraits.debugCautiousSound	sparkdlc.debugCautiousSound	-D developer switch: Cautious sound adapter trace (CautiousSoundDebug); old name still read (LegacySystemProperties)
 tag/block	sparkwitch:sculk_conversion_immune	sparkdlc:sculk_conversion_immune	
 tag/entity_type	sparkstrength:drone_breaking_projectiles	sparkdlc:drone_breaking_projectiles	
 tag/entity_type	sparkstrength:partygoer_killing_projectiles	sparkdlc:partygoer_killing_projectiles	

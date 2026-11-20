@@ -1,5 +1,5 @@
 {
-  "credit": "SparkWitch USEC AXMC .338 rifle with 1-6x24 LPVO (generated, usec-art/rifle-axmc-lpvo/scripts/rifle_def.py)",
+  "credit": "USEC AXMC .338 rifle with 1-6x24 LPVO (generated, usec-art/rifle-axmc-lpvo/scripts/rifle_def.py); first made for SparkWitch",
   "texture_size": [64, 64],
   "gui_light": "side",
   "textures": {"0": "sparkdlc:item/usec_rifle", "particle": "sparkdlc:item/usec_rifle"},

@@ -1,8 +1,8 @@
 #version 150
 
 // Adapted from catmoon-train/StarRailExpress insanity.fsh, commit f8d84137e36e08349a10542438944ef2f010ec37.
-// License: GPL-3.0-only. Modified for SparkTraits depression grayscale.
-// 来源：StarRailExpress 的 insanity.fsh；用于 SparkTraits 抑郁低理智灰白视角。
+// License: GPL-3.0-only. Modified for the Depression trait's grayscale view (first written for SparkTraits).
+// 来源：StarRailExpress 的 insanity.fsh；用于抑郁词条的低理智灰白视角（最初为 SparkTraits 修改）。
 
 uniform sampler2D DiffuseSampler;
 uniform float DesaturateFactor;

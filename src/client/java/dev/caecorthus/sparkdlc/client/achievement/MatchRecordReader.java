@@ -70,7 +70,7 @@ final class MatchRecordReader {
     }
 
     private static void disable(Exception exception) {
-        LOGGER.warn("Reading the SparkFactionAPI match record failed; ignoring it from now on", exception);
+        LOGGER.warn("Reading the match record failed; ignoring it from now on", exception);
         disabled = true;
     }
 }

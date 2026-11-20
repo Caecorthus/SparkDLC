@@ -1,5 +1,5 @@
 {
-  "credit": "SparkWitch Potion Gunner shell nozzle glow (generated), drawn additive",
+  "credit": "Potion Gunner shell nozzle glow (generated), drawn additive; first made for SparkWitch",
   "textures": {"flare": "sparkdlc:item/projectile/potion_shell_flare", "particle": "sparkdlc:item/projectile/potion_shell_flare"},
   "elements": [
     {

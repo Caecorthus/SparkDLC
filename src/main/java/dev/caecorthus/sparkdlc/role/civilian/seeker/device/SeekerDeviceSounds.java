@@ -78,8 +78,8 @@ public final class SeekerDeviceSounds {
      * 拥有者客户端的收听位置：会话中为聚焦的小车或正在观看的那台摄像头（会话焦点），否则为本体。
      */
     static Entity sessionListener(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        SeekerSessionMode mode = status == null ? SeekerSessionMode.NONE : status.sessionMode();
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        SeekerSessionMode mode = status.sessionMode();
         Entity focus = switch (mode) {
             case CAR -> SeekerDeviceService.findCar(owner);
             case CAMERA -> SeekerDeviceService.findCamera(owner, status.state().sessionFocusEntityId());

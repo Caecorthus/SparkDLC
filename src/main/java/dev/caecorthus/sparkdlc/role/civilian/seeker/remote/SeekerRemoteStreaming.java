@@ -127,8 +127,8 @@ public final class SeekerRemoteStreaming {
         for (ServerPlayerEntity player : world.getPlayers()) {
             // Non-Seekers hold no state and leave after two field reads; a live session is never idle.
             // 非搜寻者不持有状态，读取两个字段后即跳过；存活的会话绝不处于空闲状态。
-            SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-            boolean holdsState = status != null && !status.state().isIdle();
+            SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
+            boolean holdsState = !status.state().isIdle();
             if (holdsState) {
                 keepDevicesLoaded(player, status);
             }
@@ -149,10 +149,7 @@ public final class SeekerRemoteStreaming {
         if (owner.isRemoved() || !owner.isAlive() || owner.isSpectator() || owner.getCameraEntity() != owner) {
             return null;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null) {
-            return null;
-        }
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
         SeekerSessionState session = status.sessionState();
         SeekerDeviceKind kind = SeekerRemoteStreamingRules.focusKind(status.sessionMode());
         int focusId = SeekerRemoteStreamingRules.expectedFocusId(status.state());

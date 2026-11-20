@@ -35,13 +35,11 @@ public final class SeekerInventoryRules {
     }
 
     /**
-     * The server's synced session mode; a player without the component is never in a session.
-     * 服务端同步的会话模式；没有该组件的玩家永远不在会话中。
+     * The server's synced session mode; a null player is never in a session.
+     * 服务端同步的会话模式；null 玩家永远不在会话中。
      */
     public static boolean isInSession(@Nullable PlayerEntity player) {
-        return player != null && SeekerStatusComponent.KEY.maybeGet(player)
-                .map(component -> component.sessionMode() != SeekerSessionMode.NONE)
-                .orElse(false);
+        return player != null && SeekerStatusComponent.KEY.get(player).sessionMode() != SeekerSessionMode.NONE;
     }
 
     /** Blocks dropping the selected stack into an item entity. / 阻止把选中的物品丢成掉落物。 */

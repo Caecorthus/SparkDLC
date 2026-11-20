@@ -85,10 +85,7 @@ public final class SeekerRemoteSessionService {
         if (player == null || packet == null) {
             return;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
-            return;
-        }
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
         long now = serverTick(player);
         SeekerSessionMode requested = packet.sessionMode();
         String commonDeny = SeekerTargeting.commonDenyReason(player);
@@ -123,8 +120,8 @@ public final class SeekerRemoteSessionService {
         if (player == null || packet == null) {
             return;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null || status.sessionMode() == SeekerSessionMode.NONE
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
+        if (status.sessionMode() == SeekerSessionMode.NONE
                 || packet.sessionId() != status.sessionId()) {
             return;
         }
@@ -143,10 +140,7 @@ public final class SeekerRemoteSessionService {
         if (player == null || reason == null) {
             return;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
-            return;
-        }
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
         status.setSessionState(null);
         SeekerSessionMode mode = status.sessionMode();
         if (mode == SeekerSessionMode.NONE) {
@@ -172,8 +166,8 @@ public final class SeekerRemoteSessionService {
         if (player == null) {
             return false;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        return status != null && SeekerRules.isLocked(status.carState(), status.sessionMode());
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
+        return SeekerRules.isLocked(status.carState(), status.sessionMode());
     }
 
     /**
@@ -274,8 +268,7 @@ public final class SeekerRemoteSessionService {
         if (ControlExpertStunCounter.isCounting(player)) {
             return SeekerExitReason.STUNNED;
         }
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
-        if (kidnap != null && kidnap.isControlled()) {
+        if (KidnapperControlComponent.KEY.get(player).isControlled()) {
             return SeekerExitReason.KIDNAPPED;
         }
         if (GrandWitchFearService.isPlayerFeared(player)) {
@@ -381,8 +374,7 @@ public final class SeekerRemoteSessionService {
     }
 
     private static boolean isInSession(PlayerEntity player) {
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        return status != null && status.sessionMode() != SeekerSessionMode.NONE;
+        return SeekerStatusComponent.KEY.get(player).sessionMode() != SeekerSessionMode.NONE;
     }
 
     /** Stops the car's driven motion so the idle server tick resumes cleanly. / 停止驾驶运动，使服务端空闲刻平稳接管。 */

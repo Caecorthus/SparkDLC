@@ -45,8 +45,7 @@ public class SeekerCarItem extends Item {
         if (!(user instanceof ServerPlayerEntity owner)) {
             return TypedActionResult.fail(stack);
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        SeekerCarState state = status == null ? SeekerCarState.NONE : status.carState();
+        SeekerCarState state = SeekerStatusComponent.KEY.get(owner).carState();
         return switch (state) {
             case READY -> SeekerDeviceService.deployCar(owner, hand);
             case DEPLOYED -> SeekerDeviceService.useDeployedCarItem(owner, hand);

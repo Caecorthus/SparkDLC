@@ -104,8 +104,8 @@ public final class SeekerDeviceService {
         if (!(stack.getItem() instanceof SeekerCarItem)) {
             return TypedActionResult.pass(stack);
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || status.carState() != SeekerCarState.READY
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (status.carState() != SeekerCarState.READY
                 || status.sessionMode() != SeekerSessionMode.NONE
                 || owner.getItemCooldownManager().isCoolingDown(stack.getItem())
                 || !SeekerTargeting.canUseDevice(owner, stack)) {
@@ -157,8 +157,8 @@ public final class SeekerDeviceService {
         if (car.isRemoved() || !car.isOwnedBy(owner.getUuid())) {
             return ActionResult.PASS;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || !isReferenced(status, car)) {
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (!isReferenced(status, car)) {
             return ActionResult.PASS;
         }
         if (status.sessionMode() != SeekerSessionMode.NONE || !SeekerTargeting.isActiveParticipant(owner)) {
@@ -187,8 +187,8 @@ public final class SeekerDeviceService {
             actionBar(owner, REMOTE_DENIED_NO_TABLET);
             return false;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || status.carState() != SeekerCarState.DEPLOYED) {
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (status.carState() != SeekerCarState.DEPLOYED) {
             actionBar(owner, CAR_NOT_DEPLOYED);
             return false;
         }
@@ -213,7 +213,7 @@ public final class SeekerDeviceService {
      * 电量归零：结束小车会话（BATTERY_DEPLETED）、移除小车、写入 180 秒 DEPLETED 冷却、播放断电音；不标记、回放无损坏者。
      */
     public static boolean depleteCar(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || status.carState() != SeekerCarState.DEPLOYED) {
             return false;
         }
@@ -237,8 +237,8 @@ public final class SeekerDeviceService {
         if (!(stack.getItem() instanceof SeekerCameraItem)) {
             return ActionResult.PASS;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || status.sessionMode() != SeekerSessionMode.NONE
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (status.sessionMode() != SeekerSessionMode.NONE
                 || !SeekerTargeting.canUseDevice(owner, stack)) {
             actionBar(owner, DEVICE_BLOCKED);
             return ActionResult.FAIL;
@@ -339,7 +339,7 @@ public final class SeekerDeviceService {
         }
         SeekerDeviceKind kind = device.kind();
         ServerPlayerEntity owner = findOwner(device);
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         boolean referenced = status != null && isReferenced(status, device);
         if (referenced) {
             endSessionShowing(owner, status, kind, device.getId(), breakExitReason(kind));
@@ -370,7 +370,7 @@ public final class SeekerDeviceService {
             return false;
         }
         ServerPlayerEntity owner = findOwner(car);
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || !isReferenced(status, car)) {
             return false;
         }
@@ -402,7 +402,7 @@ public final class SeekerDeviceService {
      * 没有空位时保持被吞并设置 PendingReturn（只提示一次），由 WP-06 的刻重试。
      */
     public static boolean returnSwallowedCar(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || (status.carState() != SeekerCarState.SWALLOWED && !status.pendingReturn())) {
             return false;
         }
@@ -501,7 +501,7 @@ public final class SeekerDeviceService {
 
     @Nullable
     public static SeekerCarEntity findCar(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || status.carEntityId() < 0) {
             return null;
         }
@@ -515,7 +515,7 @@ public final class SeekerDeviceService {
      */
     @Nullable
     public static SeekerCameraEntity findCamera(ServerPlayerEntity owner, int entityId) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || entityId < 0 || !status.hasCamera(entityId)) {
             return null;
         }

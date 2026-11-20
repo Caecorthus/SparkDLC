@@ -175,11 +175,10 @@ public class SeekerCameraEntity extends SeekerDeviceEntity {
     private boolean isViewedByOwner(ServerWorld world) {
         UUID owner = ownerUuid();
         ServerPlayerEntity player = owner == null ? null : world.getServer().getPlayerManager().getPlayer(owner);
-        SeekerStatusComponent status = player == null ? null : SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
+        if (player == null) {
             return false;
         }
-        SeekerState state = status.state();
+        SeekerState state = SeekerStatusComponent.KEY.get(player).state();
         return state.sessionMode() == SeekerSessionMode.CAMERA && state.sessionFocusEntityId() == getId();
     }
 

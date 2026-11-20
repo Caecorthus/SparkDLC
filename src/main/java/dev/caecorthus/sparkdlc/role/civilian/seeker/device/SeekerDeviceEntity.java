@@ -109,8 +109,7 @@ public abstract class SeekerDeviceEntity extends Entity {
         if (owner == null || !SeekerTargeting.isOwnerOfRecord(owner)) {
             return false;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        return status != null && SeekerDeviceService.isReferenced(status, this);
+        return SeekerDeviceService.isReferenced(SeekerStatusComponent.KEY.get(owner), this);
     }
 
     // ---- Hit geometry: ray-targetable with a small margin, never a projectile or collision obstacle ----

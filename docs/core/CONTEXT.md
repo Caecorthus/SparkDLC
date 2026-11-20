@@ -1,4 +1,4 @@
-# SparkFactionAPI Context
+# SparkDLC Core Context: Factions, Rounds, Cooldowns and Shared Services
 
 This glossary describes the runtime contract vocabulary used by code and tests.
 

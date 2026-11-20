@@ -37,16 +37,16 @@ the module map and points at each module's own `docs/<module>/CONTEXT.md`.
   gathers plugin events before client initializers run. Classes under `compat.noellesroles` and the facades toward
   Wathe and optional mods are real compatibility code. Reflection on real optional mods (Iris, EMF, ETF, Ponder,
   voicechat) and on Wathe internals stays.
-- Local boundary tests pin which sibling types each module may name (`*DirectCallBoundaryTest`,
-  `TraitsSiblingDirectCallSourceTest`, `test_sibling_direct_calls.py`); a new cross-module dependency is added to
-  their allow-lists deliberately.
+- `./gradlew verifyLayering verifyNoLookupByName` (`gradle/verify/layering.gradle`) checks which packages may name
+  which (the shared core, the role features, `trait.api`, the client helpers) and that nothing of the mod is looked
+  up by name; every exception is listed there with its reason, and a new one is added deliberately.
 - Prove that unrelated roles, factions, and traits remain outside the changed predicate and behavior path.
 - Keep gameplay, wire formats and saved data unchanged unless the owner asks for the change.
 - Use Java 21 for tests, verify tasks, and builds. Never add production-only test hooks.
 
 ### Verification
 - `./gradlew build` compiles and packages; it runs neither tests nor verify tasks.
-- `./gradlew verifyAll` runs every module's ported verify tasks (`gradle/verify/<module>.gradle`).
+- `./gradlew verifyAll` runs every verify task (`gradle/verify/*.gradle`, one script per kind of check).
 - `./gradlew runGameTest` boots a headless server with all modules and audits every common mixin;
   `./gradlew runClientAudit` does the same for client mixins (opens a client window for about half a minute).
 - `./gradlew test` runs the local-only unit and contract tests in `src/test` when they are present.

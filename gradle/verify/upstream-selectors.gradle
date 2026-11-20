@@ -1,13 +1,27 @@
-// Verification tasks of the witch module (formerly the SparkWitch build script), applied by the root build.gradle.
-// Every task carries the `Witch` infix; `verifyWitch` at the bottom runs them all. The root build owns plugins,
-// repositories, dependencies, resources and the jar; this script only verifies.
-// witch 模块的校验任务（原 SparkWitch 构建脚本），由根 build.gradle 应用。所有任务名都带 `Witch` 中缀，文件末尾的
-// `verifyWitch` 汇总运行全部任务。插件、仓库、依赖、资源与 jar 由根构建负责，本脚本只做校验。
+// Selectors and descriptors the mod's mixins name in the classes of the pinned upstream jars (Wathe, NoellesRoles;
+// see gradle/verify/upstream.gradle for the jars themselves). The source selectors are Yarn names; what ships is the
+// remapped jar, so these tasks compare what remapJar actually produced with the intermediary upstream jars. A renamed
+// or renumbered upstream member must fail here instead of silently skipping an injection at runtime.
+//
+// Two tasks:
+// - verifyUpstreamMixinSelectors: the table of required injections (one row per handler: config entry, annotation,
+//   selector, optional @At target and @Mixin priority, the upstream member it must resolve to);
+// - verifyNoellesRolesLambdaSelectors: the injections bound to a javac-numbered lambda of NoellesRoles, which use
+//   `require = 0` on purpose and therefore need the pinned jar to prove they still hit.
+// Vanilla targets stay pinned by the local tests.
+//
+// 本模组的 mixin 在固定上游 jar（Wathe、NoellesRoles；jar 本身见 gradle/verify/upstream.gradle）的类中点名的选择器与描述符。
+// 源码选择器为 Yarn 名称；实际发布的是重映射后的 jar，因此这些任务把 remapJar 的真实产物与 intermediary 的上游 jar 相比较。
+// 上游成员被改名或重新编号时必须在这里失败，而不是在运行时悄悄跳过注入。
+// 两个任务：
+// - verifyUpstreamMixinSelectors：必需注入的表（每个处理方法一行：配置条目、注解、选择器、可选的 @At 目标与 @Mixin 优先级，
+//   以及它必须解析到的上游成员）；
+// - verifyNoellesRolesLambdaSelectors：绑定到 NoellesRoles 由 javac 编号的 lambda 的注入，它们有意使用 `require = 0`，
+//   因此需要固定的 jar 来证明仍然命中。
+// 原版目标仍由本地测试固定。
 
-// A script applied with `apply from:` does not see the root build's plugin classpath, so the ASM classes the bytecode
-// checks use (Loom brought them along while this was the SparkWitch build script) are declared here.
-// 通过 `apply from:` 应用的脚本看不到根构建的插件类路径，因此字节码校验用到的 ASM 类（本脚本还是 SparkWitch 构建脚本时
-// 由 Loom 附带）在此显式声明。
+// See gradle/verify/support.gradle: this block must stay identical to the one there.
+// 见 gradle/verify/support.gradle：这一段必须与那里的保持完全一致。
 buildscript {
     repositories {
         mavenCentral()
@@ -17,65 +31,42 @@ buildscript {
         classpath "org.ow2.asm:asm-analysis:9.9"
     }
 }
+verifySupport.requireSharedAsm(org.objectweb.asm.tree.ClassNode)
 
-// `legacyModules`: which sources and local tests belonged to the witch module before the stage-1 package move, read
-// from the move manifests (tools/unify/file-moves.tsv, src/test/.unify-file-moves.tsv). The module no longer has
-// source or test directories of its own.
-// `legacyModules`：第一阶段包搬迁之前属于 witch 模块的源码与本地测试，读取自搬迁清单（tools/unify/file-moves.tsv、
-// src/test/.unify-file-moves.tsv）。该模块不再有自己的源码目录或测试目录。
-apply from: rootProject.file("gradle/verify/legacy-modules.gradle")
+def remappedModJar = verifySupport.remappedModJar
+def readClassNode = verifySupport.readClassNode
+def annotationValue = verifySupport.annotationValue
 
-def remappedModJar = tasks.named("remapJar")
-def compatibilityReleaseVersion = "2.0.0"
-// The Wathe / NoellesRoles versions the witch mixin contracts below were audited against. The checksums are pinned
-// once for the whole mod in gradle.properties (`wathe_sha256`, `noellesroles_sha256`). SparkFactionAPI is no longer a
-// provider jar: it is the factionapi module of this same source tree, so its baseline row is gone.
-// 下方 witch mixin 契约所审计的 Wathe / NoellesRoles 版本。校验和在 gradle.properties 中为整个 mod 统一固定
-// （`wathe_sha256`、`noellesroles_sha256`）。SparkFactionAPI 不再是提供方 jar：它是同一源码树中的 factionapi 模块，
-// 因此其基线条目已移除。
-def compatibilityBaselines = [
-        wathe: [
-                property: "wathe_version",
-                version: "1.5.6-spark-1.21.1",
-                sha256Property: "wathe_sha256",
-                depends: [:]
-        ],
-        noellesroles: [
-                property: "noellesroles_version",
-                version: "1.7.6-h1.5.6-spark",
-                sha256Property: "noellesroles_sha256",
-                depends: [wathe: "1.5.6-spark-1.21.1"]
-        ]
-]
-def compatibilityProviderFiles = fileTree("libs") {
-    compatibilityBaselines.keySet().each { modId ->
-        include "${modId}-*.jar"
-    }
-}
-// Sibling Spark mod ids the witch module needs at runtime. As separate mods these were `depends sparkfactionapi`,
-// `suggests`/`breaks sparktraits` (version floor) and `suggests sparkstrength`. The witch compat bridges call the
-// sibling modules directly now and no longer gate on FabricLoader#isModLoaded for these ids, but the ids stay a stable
-// contract of the fusion (namespaces, the version handshake and the smoke shader loaders resolve the `sparkwitch`
-// container, external packs and mods may ask for any of them), so the fused mod must keep answering them through
-// `provides`.
-// witch 模块运行时需要的兄弟 Spark mod id。独立 mod 时期它们是 `depends sparkfactionapi`、对 sparktraits 的
-// `suggests`/`breaks`（版本下限）以及 `suggests sparkstrength`。witch 的兼容桥现在直接调用兄弟模块，不再以
-// FabricLoader#isModLoaded 判断这些 id；但这些 id 仍是融合的稳定契约（命名空间、版本握手与烟雾着色器加载会解析 `sparkwitch`
-// 容器，外部资源包与模组也可能查询其中任意一个），因此融合后的 mod 必须继续通过 `provides` 提供它们。
-def witchProvidedModIds = ["sparkwitch", "sparkfactionapi", "sparktraits", "sparkstrength"]
-// Public SparkTraits facade the witch bridges call (directly since the fusion; the two vision bridges still reflect
-// it by name); it ships in this same jar.
-// witch 兼容桥调用的 SparkTraits 公共门面（融合后为直接调用；两个视觉桥仍按名称反射）；随同一个 jar 发布。
-def sparkTraitsApiEntry = "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.class"
-
-def sha256 = { File input ->
-    java.security.MessageDigest.getInstance("SHA-256")
-            .digest(input.bytes)
-            .encodeHex()
-            .toString()
-}
-
+// Client mixins on Wathe/NoellesRoles members, checked against the shipped client config (`sparkdlc.client.mixins.json`
+// `client`). A row may name `provider: "noellesroles"`; the default provider is Wathe.
+// Wathe/NoellesRoles 成员上的客户端 mixin，按发布的客户端配置（`sparkdlc.client.mixins.json` 的 `client`）校验。
+// 行内可写 `provider: "noellesroles"`；默认的提供方是 Wathe。
 def watheClientMixinContracts = [
+        [
+                // The Assassin's role-guess panel is paginated at the screen's init; the injection is required.
+                // 刺客的职业猜测面板在界面 init 处分页；该注入为必需。
+                configName: "trait.AssassinScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.class",
+                handler: "sparkdlc\$paginateRoleGuessPanel",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "method_25426()V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/client/screen/AssassinScreen.class",
+                providerMethod: "method_25426",
+                providerDescriptor: "()V"
+        ],
+        [
+                // The owner's traits are drawn in Wathe's limited inventory screen, at its render.
+                // 本人的词条绘制在 Wathe 受限物品栏界面的 render 处。
+                configName: "trait.TraitInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/trait/TraitInventoryScreenMixin.class",
+                handler: "sparkdlc\$renderOwnerTraits",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "method_25394(Lnet/minecraft/class_332;IIF)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/screen/ingame/LimitedInventoryScreen.class",
+                providerMethod: "method_25394",
+                providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
+        ],
         [
                 configName: "faction.witch.WitchSkillInventoryScreenMixin",
                 mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/WitchSkillInventoryScreenMixin.class",
@@ -1160,34 +1151,9 @@ def watheCommonMixinContracts = [
         ]
 ]
 
-def readClassNode = { java.util.zip.ZipFile archive, String entryName ->
-    def entry = archive.getEntry(entryName)
-    if (entry == null) {
-        throw new GradleException("Missing class ${entryName} in ${archive.name}")
-    }
-    def node = new org.objectweb.asm.tree.ClassNode()
-    archive.getInputStream(entry).withCloseable { input ->
-        new org.objectweb.asm.ClassReader(input).accept(
-                node,
-                org.objectweb.asm.ClassReader.SKIP_DEBUG | org.objectweb.asm.ClassReader.SKIP_FRAMES
-        )
-    }
-    node
-}
-
-def annotationValue = { annotation, String key ->
-    def values = annotation?.values ?: []
-    for (int index = 0; index < values.size(); index += 2) {
-        if (values[index] == key) {
-            return values[index + 1]
-        }
-    }
-    null
-}
-
-def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSelectors") {
+tasks.register("verifyUpstreamMixinSelectors") {
     group = "verification"
-    description = "Checks the witch client and common mixin selectors shipped in the remapped jar against the pinned Wathe/NoellesRoles jars."
+    description = "Checks the client and common mixin selectors shipped in the remapped jar against the pinned Wathe/NoellesRoles jars."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.file("libs/wathe-${project.wathe_version}.jar")
@@ -1325,761 +1291,177 @@ def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSele
     }
 }
 
-// ADAPT: the Wathe / NoellesRoles baselines stay; the SparkFactionAPI provider jar row, the `depends sparkfactionapi`
-// placeholder and the SparkTraits suggests/breaks floor are gone with the sibling jars (see verifyWitchModJar for
-// what replaces them inside the fused jar).
-// 调整：Wathe / NoellesRoles 基线保留；SparkFactionAPI 提供方 jar 条目、`depends sparkfactionapi` 占位符以及 SparkTraits
-// 的 suggests/breaks 下限随兄弟 jar 一并移除（融合 jar 内的替代校验见 verifyWitchModJar）。
-def verifyWitchCompatibilityBaselines = tasks.register("verifyWitchCompatibilityBaselines") {
+// The javac lambda numbers of NoellesRoles' packet handlers in the pinned jar (`noellesroles_sha256`). Its
+// AbilityC2SPacket handler is $5; the historical Windows build of the same sources numbers it $36. Moving the pin
+// means reading these numbers again from the new jar.
+// 固定 jar（`noellesroles_sha256`）中 NoellesRoles 数据包处理函数的 javac lambda 编号。其 AbilityC2SPacket 处理函数为 $5；
+// 同一源码的旧 Windows 构建编号为 $36。改动该钉值时必须从新 jar 重新确认这些编号。
+def noellesRolesLambdas = [
+        abilityHandler : "lambda\$registerPackets\$5",
+        // The Assassin guess and Swapper swap handlers, where the stage-2 Undercover's immunities cancel them.
+        // 刺客猜测与交换者交换的处理函数，二阶段卧底的免疫在此取消它们。
+        assassinHandler: "lambda\$registerPackets\$6",
+        swapperHandler : "lambda\$registerPackets\$4"
+]
+
+tasks.register("verifyNoellesRolesLambdaSelectors") {
     group = "verification"
-    description = "Checks the Wathe/NoellesRoles provider jars against the witch module's audited baseline and the gradle.properties pins."
-    inputs.file("gradle.properties")
-    inputs.file("src/main/resources/fabric.mod.json")
-    inputs.files(compatibilityBaselines.collect { modId, baseline ->
-        file("libs/${modId}-${baseline.version}.jar")
-    })
-    inputs.files(compatibilityProviderFiles)
-
-    doLast {
-        // The baseline is confirmed per release; the release is now SparkDLC's own version.
-        // 基线按发布版本确认；发布版本现在是 SparkDLC 自身的版本。
-        if (project.mod_version.toString() != compatibilityReleaseVersion) {
-            throw new GradleException(
-                    "Compatibility release drift: expected ${compatibilityReleaseVersion}, found ${project.mod_version}"
-            )
-        }
-
-        def expectedProviderNames = compatibilityBaselines.collect { modId, baseline ->
-            "${modId}-${baseline.version}.jar"
-        }.sort()
-        def actualProviderNames = compatibilityProviderFiles.files.collect { it.name }.sort()
-        if (actualProviderNames != expectedProviderNames) {
-            throw new GradleException(
-                    "Provider jar set drift: expected ${expectedProviderNames}, found ${actualProviderNames}"
-            )
-        }
-
-        compatibilityBaselines.each { modId, baseline ->
-            def actualVersion = project.property(baseline.property).toString()
-            if (actualVersion != baseline.version) {
-                throw new GradleException(
-                        "Provider baseline drift for ${modId}: expected ${baseline.version}, found ${actualVersion}"
-                )
-            }
-
-            def providerJar = file("libs/${modId}-${baseline.version}.jar")
-            if (!providerJar.isFile()) {
-                throw new GradleException("Missing provider baseline jar: ${providerJar}")
-            }
-            // The checksum pin lives in gradle.properties, shared by every module's verify script.
-            // 校验和固定在 gradle.properties 中，由所有模块的校验脚本共用。
-            def expectedHash = project.findProperty(baseline.sha256Property)?.toString()
-            if (!(expectedHash ==~ /[0-9a-f]{64}/)) {
-                throw new GradleException(
-                        "Missing or malformed ${baseline.sha256Property} pin in gradle.properties: ${expectedHash}"
-                )
-            }
-            def actualHash = sha256(providerJar)
-            if (actualHash != expectedHash) {
-                throw new GradleException(
-                        "Provider baseline checksum drift for ${providerJar.name}: expected ${expectedHash}, found ${actualHash}"
-                )
-            }
-
-            def providerZip = new java.util.zip.ZipFile(providerJar)
-            try {
-                def metadataEntry = providerZip.getEntry("fabric.mod.json")
-                if (metadataEntry == null) {
-                    throw new GradleException("Missing fabric.mod.json in ${providerJar.name}")
-                }
-                def providerMetadata = new groovy.json.JsonSlurper().parse(providerZip.getInputStream(metadataEntry))
-                if (providerMetadata.id?.toString() != modId) {
-                    throw new GradleException(
-                            "Provider id drift in ${providerJar.name}: expected ${modId}, found ${providerMetadata.id}"
-                    )
-                }
-                if (providerMetadata.version?.toString() != baseline.version) {
-                    throw new GradleException(
-                            "Provider metadata version drift in ${providerJar.name}: expected ${baseline.version}, found ${providerMetadata.version}"
-                    )
-                }
-                baseline.depends.each { dependencyId, expectedPredicate ->
-                    def actualPredicate = providerMetadata.depends?.get(dependencyId)?.toString()
-                    if (actualPredicate != expectedPredicate) {
-                        throw new GradleException(
-                                "Provider dependency drift in ${providerJar.name}: ${dependencyId} expected ${expectedPredicate}, found ${actualPredicate}"
-                        )
-                    }
-                }
-            } finally {
-                providerZip.close()
-            }
-        }
-
-        def metadata = new groovy.json.JsonSlurper().parse(file("src/main/resources/fabric.mod.json"))
-        if (metadata.version?.toString() != '${version}') {
-            throw new GradleException(
-                    "Source metadata version placeholder drift: expected \${version}, found ${metadata.version}"
-            )
-        }
-        [
-                wathe: '${wathe_version}',
-                noellesroles: '${noellesroles_version}'
-        ].each { modId, expectedPredicate ->
-            def actualPredicate = metadata.depends?.get(modId)?.toString()
-            if (actualPredicate != expectedPredicate) {
-                throw new GradleException(
-                        "Source metadata dependency drift for ${modId}: expected ${expectedPredicate}, found ${actualPredicate}"
-                )
-            }
-        }
-    }
-}
-
-// ADAPT: SparkWitch is no longer its own jar. The fused jar is checked for what the witch module still needs from it:
-// the jar/metadata version, the fused client entrypoint starting SparkWitchClient, the witch entrypoints and mixin
-// configs, the Wathe/NoellesRoles/Ratatouille pins, and the sibling ids and SparkTraits facade the witch bridges look up.
-// 调整：SparkWitch 不再是独立 jar。此处校验融合 jar 中 witch 模块仍然依赖的内容：jar 与元数据版本、融合后的客户端入口
-// 会启动 SparkWitchClient、witch 的各入口与 mixin 配置、Wathe/NoellesRoles/Ratatouille 版本固定，以及 witch 兼容桥查找的
-// 兄弟 mod id 与 SparkTraits 门面。
-def verifyWitchModJar = tasks.register("verifyWitchModJar") {
-    group = "verification"
-    description = "Checks the witch module's entrypoints, mixin configs, dependency pins and required classes in the remapped SparkDLC jar."
+    description = "Checks the mixins bound to a numbered NoellesRoles packet lambda (Corrupt Cop ability, Undercover immunities, Assassin guess) against the pinned NoellesRoles jar."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
+    inputs.file(verifySupport.noellesRolesJar)
 
     doLast {
         def jarFile = remappedModJar.get().archiveFile.get().asFile
-        def archiveName = remappedModJar.get().archiveBaseName.get()
-        def suffix = ".jar"
-        if (!jarFile.name.startsWith("${archiveName}-") || !jarFile.name.endsWith(suffix)) {
-            throw new GradleException("Cannot read version from jar filename: ${jarFile.name}")
-        }
-
-        // Keep the loader-visible mod version tied to the shipped jar filename.
-        // 将加载器可见版本绑定到发布 jar 文件名，避免软件里显示旧版本。
-        def jarVersion = jarFile.name.substring(archiveName.length() + 1, jarFile.name.length() - suffix.length())
         def zipFile = new java.util.zip.ZipFile(jarFile)
         try {
-            def entry = zipFile.getEntry("fabric.mod.json")
-            if (entry == null) {
-                throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
-            }
-
-            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(entry))
-            def metadataVersion = metadata.version?.toString()
-            if (metadataVersion != jarVersion) {
-                throw new GradleException("Jar version mismatch: ${jarFile.name} says ${jarVersion}, but fabric.mod.json says ${metadataVersion}")
-            }
-
-            if (metadata.id?.toString() != "sparkdlc") {
-                throw new GradleException("Mod id drift in ${jarFile.name}: expected sparkdlc, found ${metadata.id}")
-            }
-
-            // The fused client entrypoint replaces the listed SparkWitchClient and must still start it. The common
-            // SparkWitch initializer is started the same way by the fused main entrypoint.
-            // 融合后的客户端入口取代了原先列出的 SparkWitchClient，且必须仍然启动它；通用端的 SparkWitch 初始化同样由
-            // 融合后的 main 入口启动。
-            // Stage 3 ("one entry"): the per-module initializer classes are gone; SparkDLC / SparkDLCClient are the
-            // whole start-up, split into private steps. "The fused entrypoint still starts this module" therefore
-            // reads: some method of the entrypoint class still makes the module's characteristic start-up call.
-            // 第三阶段（“单一入口”）：各模块的初始化类已不存在；SparkDLC / SparkDLCClient 就是完整的启动流程，拆成若干私有步骤。
-            // 因此“融合后的入口仍然启动本模块”即：入口类的某个方法仍然发出本模块特有的启动调用。
-            [
-                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC",
-                     startOwner: "dev/caecorthus/sparkdlc/event/RoleEvents", startCall: "register"],
-                    [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
-                     startOwner: "dev/caecorthus/sparkdlc/client/role/civilian/usec/UsecClientModule", startCall: "register"]
-            ].each { fused ->
-                if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
-                    throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
+            def corruptCopMixinEntry = "dev/caecorthus/sparkdlc/mixin/role/jiahao/corruptcop/CorruptCopAbilityPacketMixin.class"
+            def corruptCopMixin = readClassNode(zipFile, corruptCopMixinEntry)
+            def packetDescriptor = "(Lorg/agmas/noellesroles/packet/AbilityC2SPacket;" +
+                    "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+            def binarySelectors = [
+                    "sparkdlc\$toggleCorruptCopAbilityHistorical" : "lambda\$registerPackets\$36${packetDescriptor}",
+                    "sparkdlc\$toggleCorruptCopAbilityShared"     : "lambda\$registerPackets\$5${packetDescriptor}"
+            ]
+            binarySelectors.each { handlerName, expectedSelector ->
+                def handler = corruptCopMixin.methods.find { it.name == handlerName }
+                if (handler == null) {
+                    throw new GradleException("Missing remapped CorruptCop handler ${handlerName}")
                 }
-                def entrypointNode = readClassNode(zipFile, fused.entrypoint.replace('.', '/') + ".class")
-                def startsModule = entrypointNode.methods.any { method ->
-                    method.instructions.toArray().any {
-                        it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.startOwner
-                                && it.name == fused.startCall
-                    }
+                def annotations = []
+                annotations.addAll(handler.visibleAnnotations ?: [])
+                annotations.addAll(handler.invisibleAnnotations ?: [])
+                def injection = annotations.find {
+                    it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;"
                 }
-                if (!startsModule) {
+                def group = annotations.find {
+                    it.desc == "Lorg/spongepowered/asm/mixin/injection/Group;"
+                }
+                if (injection == null || group == null) {
+                    throw new GradleException("Missing @Inject/@Group on CorruptCop handler ${handlerName}")
+                }
+                def selectorValue = annotationValue(injection, "method")
+                def selectors = selectorValue instanceof Collection
+                        ? selectorValue.collect { it.toString() }
+                        : [selectorValue?.toString()].findAll { it != null }
+                if (selectors != [expectedSelector]) {
                     throw new GradleException(
-                            "${fused.entrypoint} no longer calls ${fused.startOwner}#${fused.startCall} in ${jarFile.name}"
+                            "Packaged CorruptCop selector drift for ${handlerName}: expected ${expectedSelector}, found ${selectors}"
+                    )
+                }
+                if (annotationValue(injection, "require")?.toString() != "0") {
+                    throw new GradleException("Binary-specific CorruptCop injection must use require=0 within its group")
+                }
+                if (annotationValue(group, "name")?.toString() != "sparkdlc\$corruptCopAbility" ||
+                        annotationValue(group, "min")?.toString() != "1" ||
+                        annotationValue(group, "max")?.toString() != "1") {
+                    throw new GradleException(
+                            "CorruptCop compatibility group must require exactly one injection: ${handlerName}"
                     )
                 }
             }
 
-            [
-                    "cardinal-components"      : "dev.caecorthus.sparkdlc.SparkDlcComponents",
-                    "voicechat"                : "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin",
-                    "lambdynlights:initializer": "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer",
-                    "dynamiclights"            : "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
-            ].each { key, entrypoint ->
-                if (!(metadata.entrypoints?.get(key) ?: []).contains(entrypoint)) {
-                    throw new GradleException("Missing ${key} entrypoint ${entrypoint} in ${jarFile.name}")
-                }
-                if (zipFile.getEntry(entrypoint.replace('.', '/') + ".class") == null) {
-                    throw new GradleException("Missing ${key} entrypoint class ${entrypoint} in ${jarFile.name}")
-                }
-            }
-
-            // The two merged mixin configs, which carry the witch mixins since the stage-1 package move, must stay
-            // listed, the client one for the client environment only.
-            // 两份合并后的 mixin 配置（第一阶段包搬迁之后由它们承载 witch 的 mixin）都必须保持列出，其中客户端配置仅限
-            // 客户端环境。
-            def listedMixins = metadata.mixins ?: []
-            if (!listedMixins.contains("sparkdlc.mixins.json")) {
-                throw new GradleException("sparkdlc.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
-            }
-            if (!listedMixins.any {
-                it instanceof Map && it.config == "sparkdlc.client.mixins.json" && it.environment == "client"
-            }) {
-                throw new GradleException(
-                        "sparkdlc.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
-                )
-            }
-
-            [
-                    "wathe"           : project.wathe_version,
-                    "ratatouille"     : project.ratatouille_version,
-                    "noellesroles"    : project.noellesroles_version
-            ].each { modId, versionPredicate ->
-                def actualPredicate = metadata.depends?.get(modId)?.toString()
-                if (actualPredicate != versionPredicate) {
-                    throw new GradleException("Dependency ${modId} mismatch in ${jarFile.name}: expected ${versionPredicate}, found ${actualPredicate}")
-                }
-            }
-
-            // Replaces `depends sparkfactionapi`, the SparkTraits suggests/breaks floor and the bundled
-            // SparkFactionAPI jar floor: the sibling modules ship in this jar, so the ids must be provided (a stable
-            // contract of the fusion; the witch bridges themselves call the siblings directly and no longer gate on
-            // isModLoaded) and must not come back as dependency predicates on this mod itself.
-            // 取代 `depends sparkfactionapi`、SparkTraits 的 suggests/breaks 下限以及内置 SparkFactionAPI jar 的版本下限：
-            // 兄弟模块随本 jar 发布，因此这些 id 必须由 provides 提供（融合的稳定契约；witch 兼容桥自身已直接调用兄弟模块，
-            // 不再以 isModLoaded 判断），且不得再作为
-            // 针对本 mod 自身的依赖谓词出现。
-            def provides = metadata.provides ?: []
-            witchProvidedModIds.each { modId ->
-                if (!provides.contains(modId)) {
-                    throw new GradleException("Missing provided mod id ${modId} in ${jarFile.name}")
-                }
-                ["depends", "recommends", "suggests", "conflicts", "breaks"].each { relation ->
-                    if (metadata.get(relation)?.containsKey(modId)) {
+            // Like the mixin's @Group(min = 1, max = 1): of both selectors, only the pinned jar's handler may resolve.
+            // 与 mixin 的 @Group(min = 1, max = 1) 一致：两个入口中只能命中锁定 jar 的那一个。
+            def verifyProviderSeam = { File providerJar, String handlerName ->
+                def providerZip = new java.util.zip.ZipFile(providerJar)
+                try {
+                    def noellesRoles = readClassNode(providerZip, "org/agmas/noellesroles/Noellesroles.class")
+                    def expectedSelector = "${handlerName}${packetDescriptor}".toString()
+                    def resolvedSelectors = binarySelectors.values().collect { it.toString() }.findAll { selector ->
+                        noellesRoles.methods.any { it.name + it.desc == selector }
+                    }
+                    if (resolvedSelectors != [expectedSelector]) {
                         throw new GradleException(
-                                "Stale ${relation} entry for the fused module id ${modId} in ${jarFile.name}"
+                                "${providerJar.name} must resolve exactly ${expectedSelector} among the CorruptCop " +
+                                        "selectors; found ${resolvedSelectors}"
                         )
                     }
+                } finally {
+                    providerZip.close()
                 }
             }
-            if (zipFile.getEntry(sparkTraitsApiEntry) == null) {
-                throw new GradleException("Missing SparkTraits facade ${sparkTraitsApiEntry} in ${jarFile.name}")
-            }
+            verifyProviderSeam(
+                    verifySupport.noellesRolesJar,
+                    noellesRolesLambdas.abilityHandler
+            )
 
+            // The Undercover's Assassin and swap immunities each bind one exact lambda with require = 0: a renumbered
+            // NoellesRoles build must fail here instead of silently losing the immunity.
+            // 卧底的刺杀免疫与交换免疫各以 require = 0 绑定一个确切的 lambda：NoellesRoles 编号变化必须在这里失败，
+            // 而不是悄悄失去免疫。
+            def verifyUndercoverImmunity = { label, mixinName, handlerMethod, providerHandler, packet ->
+                def expectedSelector = ("${providerHandler}(Lorg/agmas/noellesroles/packet/${packet};" +
+                        "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
+                def mixinNode = readClassNode(zipFile, "dev/caecorthus/sparkdlc/mixin/role/civilian/undercover/${mixinName}.class")
+                def handlerNode = mixinNode.methods.find { it.name == handlerMethod }
+                if (handlerNode == null) {
+                    throw new GradleException("Missing remapped Undercover ${label} immunity handler")
+                }
+                def injection = ((handlerNode.visibleAnnotations ?: []) +
+                        (handlerNode.invisibleAnnotations ?: [])).find {
+                    it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;"
+                }
+                def selectors = annotationValue(injection, "method")
+                selectors = selectors instanceof Collection
+                        ? selectors.collect { it.toString() }
+                        : [selectors?.toString()].findAll { it != null }
+                if (selectors != [expectedSelector]) {
+                    throw new GradleException(
+                            "Undercover ${label} selector drift: expected ${expectedSelector}, found ${selectors}")
+                }
+                def provider = new java.util.zip.ZipFile(verifySupport.noellesRolesJar)
+                try {
+                    def noellesRoles = readClassNode(provider, "org/agmas/noellesroles/Noellesroles.class")
+                    if (!noellesRoles.methods.any { it.name + it.desc == expectedSelector }) {
+                        throw new GradleException(
+                                "${provider.name} has no ${expectedSelector} for the Undercover ${label} immunity")
+                    }
+                } finally {
+                    provider.close()
+                }
+            }
+            verifyUndercoverImmunity("Assassin", "UndercoverAssassinImmunityMixin",
+                    "sparkdlc\$stage2UndercoverCannotBeAssassinated",
+                    noellesRolesLambdas.assassinHandler, "AssassinGuessRoleC2SPacket")
+            verifyUndercoverImmunity("Swapper", "UndercoverSwapImmunityMixin",
+                    "sparkdlc\$stage2UndercoverCannotBeSwapped",
+                    noellesRolesLambdas.swapperHandler, "SwapperC2SPacket")
+
+            // The Assassin buff (silent, forgiven first miss; 3 s cooldown after a correct guess) binds the same guess
+            // lambda with require = 0, through @WrapOperation and @Inject: every selector must still name the pinned
+            // handler.
+            // 刺客加强（首次猜错无声免死、猜对后 3 秒冷却）同样以 require = 0 绑定这个猜测 lambda（@WrapOperation 与 @Inject）：
+            // 每个选择器都必须仍指向锁定的处理函数。
+            def assassinGuessSelector = ("${noellesRolesLambdas.assassinHandler}" +
+                    "(Lorg/agmas/noellesroles/packet/AssassinGuessRoleC2SPacket;" +
+                    "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
+            def assassinGuessMixin = readClassNode(
+                    zipFile, "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/AssassinGuessOutcomeMixin.class")
             [
-                    "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConnection.class",
-                    "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConfirmS2CPacket.class",
-                    "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class"
-            ].each { requiredEntry ->
-                // Client display gates need both login and play-stage Spark server confirmation.
-                // 客户端显示开关需要登录阶段和 play 阶段的 Spark 服务端确认。
-                if (zipFile.getEntry(requiredEntry) == null) {
-                    throw new GradleException("Missing required client confirmation class ${requiredEntry} in ${jarFile.name}")
+                    "sparkdlc\$forgivenMissIsSilent"      :
+                            "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                    "sparkdlc\$firstMissIsForgiven"        :
+                            "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                    "sparkdlc\$correctGuessCoolsDownFast" : "Lorg/spongepowered/asm/mixin/injection/Inject;"
+            ].each { handlerMethod, annotationDesc ->
+                def handlerNode = assassinGuessMixin.methods.find { it.name == handlerMethod }
+                if (handlerNode == null) {
+                    throw new GradleException("Missing remapped Assassin guess handler ${handlerMethod}")
+                }
+                def injection = ((handlerNode.visibleAnnotations ?: []) +
+                        (handlerNode.invisibleAnnotations ?: [])).find { it.desc == annotationDesc }
+                def selectors = annotationValue(injection, "method")
+                selectors = selectors instanceof Collection
+                        ? selectors.collect { it.toString() }
+                        : [selectors?.toString()].findAll { it != null }
+                if (selectors != [assassinGuessSelector]) {
+                    throw new GradleException("Assassin guess selector drift on ${handlerMethod}: expected " +
+                            "${assassinGuessSelector}, found ${selectors}")
                 }
             }
         } finally {
             zipFile.close()
         }
     }
-}
-
-// Black Raven acting overlay drift guard. The overlay widens GameWorldComponent#isRole(UUID, Role) for the
-// allowed disguise roles, so every allowed-role gate in the pinned Wathe/NoellesRoles jars must be classified in
-// config/blackraven/acting_role_seams.txt, and no isRole call may take a non-constant role. The list is tracked
-// (outside src/main/resources, so it never ships in the jar) so the guard also runs on a fresh clone.
-// 黑羽鸦扮演覆盖层漂移守卫：覆盖层会为可伪装职业放宽 GameWorldComponent#isRole(UUID, Role)，因此固定版本
-// Wathe/NoellesRoles jar 中每个可伪装职业判定点都必须在 config/blackraven/acting_role_seams.txt 中归类，且任何 isRole
-// 调用都不得使用非常量职业。该清单已纳入版本控制（不在 src/main/resources 下，不会打进 jar），因此全新克隆也会执行此守卫。
-def blackRavenRoleDescriptor = "Ldev/doctor4t/wathe/api/Role;"
-def blackRavenIdentifierDescriptor = "Lnet/minecraft/class_2960;"
-def blackRavenGameWorldOwner = "dev/doctor4t/wathe/cca/GameWorldComponent"
-// Allowed NoellesRoles role constants (the witch-module-owned allowed roles are not in the provider jars).
-// Each *_ID twin is checked too; the mapping itself is re-proven from Noellesroles.<clinit>.
-// 可伪装的 NoellesRoles 职业常量（SparkWitch 自有的可伪装职业不在提供方 jar 中）；同名 *_ID 常量一并检查，
-// 映射关系本身会从 Noellesroles.<clinit> 重新验证。
-def blackRavenActingRoleFields = [
-        "org/agmas/noellesroles/Noellesroles.CONDUCTOR"      : "noellesroles:conductor",
-        "org/agmas/noellesroles/Noellesroles.ATTENDANT"      : "noellesroles:attendant",
-        "org/agmas/noellesroles/Noellesroles.AWESOME_BINGLUS": "noellesroles:awesome_binglus",
-        "org/agmas/noellesroles/Noellesroles.MERMAID"        : "noellesroles:mermaid",
-        "org/agmas/noellesroles/Noellesroles.TIMEKEEPER"     : "noellesroles:time_keeper",
-        "org/agmas/noellesroles/Noellesroles.WAITER"         : "noellesroles:waiter",
-        "org/agmas/noellesroles/Noellesroles.REPORTER"       : "noellesroles:reporter",
-        "org/agmas/noellesroles/Noellesroles.BARTENDER"      : "noellesroles:bartender",
-        "org/agmas/noellesroles/Noellesroles.RECALLER"       : "noellesroles:recaller",
-        "org/agmas/noellesroles/Noellesroles.NOISEMAKER"     : "noellesroles:noisemaker",
-        "org/agmas/noellesroles/Noellesroles.SPIRIT_WALKER"  : "noellesroles:spiritualist",
-        "org/agmas/noellesroles/Noellesroles.TOXICOLOGIST"   : "noellesroles:toxicologist",
-        "org/agmas/noellesroles/Noellesroles.ENGINEER"       : "noellesroles:engineer",
-        "org/agmas/noellesroles/Noellesroles.DETECTIVE"      : "noellesroles:detective",
-        "org/agmas/noellesroles/Noellesroles.PROFESSOR"      : "noellesroles:professor"
-]
-// isRole sites are reached by the overlay; every other kind stays raw and is a gap an adapter must cover.
-// isRole 调用点由覆盖层覆盖；其他类型均保持真实判定，属于必须由适配器补齐的缺口。
-def blackRavenOverlayTags = ["SELF", "RECIPIENT", "LOCAL", "DEATH", "BEFORE", "TARGET_SERVER_ONLY"]
-def blackRavenGapTags = ["GAP_KIT", "GAP_TASK_MONEY", "GAP_DOOR_NOTICE"]
-def blackRavenSeamKinds = ["isRole", "getAllWithRole", "equals", "idEquals", "acmp"]
-
-def verifyWitchBlackRavenActingRoleSeams = tasks.register("verifyWitchBlackRavenActingRoleSeams") {
-    group = "verification"
-    description = "Checks every Black Raven acting-role gate in the pinned Wathe/NoellesRoles jars against config/blackraven/acting_role_seams.txt."
-    def seamsFile = file("config/blackraven/acting_role_seams.txt")
-    inputs.file("libs/wathe-${project.wathe_version}.jar")
-    inputs.file("libs/noellesroles-${project.noellesroles_version}.jar")
-    inputs.file(seamsFile)
-
-    doLast {
-        if (!seamsFile.isFile()) {
-            throw new GradleException("Missing Black Raven acting-role seam list: ${seamsFile}")
-        }
-        def watheZip = new java.util.zip.ZipFile(file("libs/wathe-${project.wathe_version}.jar"))
-        def noellesRolesZip = new java.util.zip.ZipFile(file("libs/noellesroles-${project.noellesroles_version}.jar"))
-        try {
-            // 1. Re-prove field -> role id from Noellesroles.<clinit>: `ID = Identifier.of(MOD_ID, "<path>")`
-            //    and `ROLE = ...(ID, ...)`, with exactly one *_ID read between two Role stores.
-            // 1. 从 Noellesroles.<clinit> 重新验证字段与职业 id 的映射。
-            def fieldIds = [:]
-            def ownerNodes = [:]
-            blackRavenActingRoleFields.each { key, roleId ->
-                def separator = key.lastIndexOf(".")
-                def owner = key.substring(0, separator)
-                def name = key.substring(separator + 1)
-                def path = roleId.substring(roleId.indexOf(":") + 1)
-                def node = ownerNodes.computeIfAbsent(owner) { readClassNode(noellesRolesZip, "${owner}.class") }
-                if (!node.fields.any { it.name == name && it.desc == blackRavenRoleDescriptor }) {
-                    throw new GradleException("NoellesRoles is missing Role field ${key}")
-                }
-                if (!node.fields.any { it.name == "${name}_ID" && it.desc == blackRavenIdentifierDescriptor }) {
-                    throw new GradleException("NoellesRoles is missing Identifier field ${key}_ID")
-                }
-                def clinit = node.methods.find { it.name == "<clinit>" }
-                if (clinit == null) {
-                    throw new GradleException("Missing <clinit> in ${owner}")
-                }
-                def insns = clinit.instructions.toArray().findAll { it.opcode >= 0 }
-                def idStores = insns.findIndexValues {
-                    it.opcode == org.objectweb.asm.Opcodes.PUTSTATIC && it.owner == owner && it.name == "${name}_ID"
-                }
-                def roleStores = insns.findIndexValues {
-                    it.opcode == org.objectweb.asm.Opcodes.PUTSTATIC && it.owner == owner && it.name == name
-                }
-                if (idStores.size() != 1 || roleStores.size() != 1) {
-                    throw new GradleException("${key} must be stored exactly once in <clinit> (id ${idStores.size()}, role ${roleStores.size()})")
-                }
-                def ldc = insns.subList(0, idStores[0] as int).reverse().find {
-                    it instanceof org.objectweb.asm.tree.LdcInsnNode && it.cst instanceof String
-                }
-                if (ldc?.cst != path) {
-                    throw new GradleException("${key}_ID is built from '${ldc?.cst}', expected '${path}' (${roleId})")
-                }
-                int roleStore = roleStores[0] as int
-                int previousRoleStore = -1
-                for (int index = roleStore - 1; index >= 0; index--) {
-                    def candidate = insns[index]
-                    if (candidate.opcode == org.objectweb.asm.Opcodes.PUTSTATIC && candidate.desc == blackRavenRoleDescriptor) {
-                        previousRoleStore = index
-                        break
-                    }
-                }
-                def idReads = insns.subList(previousRoleStore + 1, roleStore).findAll {
-                    it.opcode == org.objectweb.asm.Opcodes.GETSTATIC && it.owner == owner
-                            && it.desc == blackRavenIdentifierDescriptor && it.name.endsWith("_ID")
-                }.collect { it.name }
-                if (idReads != ["${name}_ID".toString()]) {
-                    throw new GradleException("${key} is constructed from ${idReads}, expected [${name}_ID]")
-                }
-                fieldIds[key] = [id: roleId, desc: blackRavenRoleDescriptor]
-                fieldIds["${key}_ID".toString()] = [id: roleId, desc: blackRavenIdentifierDescriptor]
-            }
-
-            // 2. Scan every method of both jars with a source-tracking analyzer, so both operand orders and any
-            //    intervening instruction are handled.
-            // 2. 使用可追踪来源的分析器扫描两个 jar 的每个方法，因此能处理两种操作数顺序以及中间插入的指令。
-            def allowedSource = { value ->
-                if (value == null || value.insns.size() != 1) {
-                    return null
-                }
-                def source = value.insns.iterator().next()
-                if (source.opcode != org.objectweb.asm.Opcodes.GETSTATIC) {
-                    return null
-                }
-                def field = fieldIds["${source.owner}.${source.name}".toString()]
-                field != null && field.desc == source.desc ? field : null
-            }
-            def isEqualsInvoke = { insn ->
-                insn instanceof org.objectweb.asm.tree.MethodInsnNode && (
-                        (insn.opcode != org.objectweb.asm.Opcodes.INVOKESTATIC
-                                && insn.name == "equals" && insn.desc == "(Ljava/lang/Object;)Z")
-                        || (insn.opcode == org.objectweb.asm.Opcodes.INVOKESTATIC && insn.owner == "java/util/Objects"
-                                && insn.name == "equals" && insn.desc == "(Ljava/lang/Object;Ljava/lang/Object;)Z"))
-            }
-            def isAcmp = { insn ->
-                insn.opcode == org.objectweb.asm.Opcodes.IF_ACMPEQ || insn.opcode == org.objectweb.asm.Opcodes.IF_ACMPNE
-            }
-            def isGameWorldInvoke = { insn, String name ->
-                insn instanceof org.objectweb.asm.tree.MethodInsnNode && insn.owner == blackRavenGameWorldOwner && insn.name == name
-            }
-            def found = new TreeMap()
-            def dynamicIsRole = new TreeSet()
-            [watheZip, noellesRolesZip].each { archive ->
-                archive.entries().findAll { it.name.endsWith(".class") }.each { entry ->
-                    def node = readClassNode(archive, entry.name)
-                    node.methods.each { method ->
-                        def insns = method.instructions.toArray()
-                        boolean hasIsRole = insns.any { isGameWorldInvoke(it, "isRole") }
-                        boolean hasAllowedRead = insns.any {
-                            it.opcode == org.objectweb.asm.Opcodes.GETSTATIC
-                                    && fieldIds.containsKey("${it.owner}.${it.name}".toString())
-                        }
-                        if (!hasIsRole && !hasAllowedRead) {
-                            return
-                        }
-                        def frames
-                        try {
-                            frames = new org.objectweb.asm.tree.analysis.Analyzer(
-                                    new org.objectweb.asm.tree.analysis.SourceInterpreter()
-                            ).analyze(node.name, method)
-                        } catch (Exception exception) {
-                            throw new GradleException("Cannot analyze ${node.name}#${method.name}${method.desc}: ${exception.message}")
-                        }
-                        def site = "${node.name}#${method.name}".toString()
-                        def record = { String kind, field ->
-                            def key = "${kind} ${field.id} ${site}".toString()
-                            found[key] = (found[key] ?: 0) + 1
-                        }
-                        insns.eachWithIndex { insn, index ->
-                            def frame = frames[index]
-                            if (frame == null) {
-                                return
-                            }
-                            int top = frame.getStackSize() - 1
-                            if (isGameWorldInvoke(insn, "isRole")) {
-                                def roleValue = frame.getStack(top)
-                                def source = roleValue.insns.size() == 1 ? roleValue.insns.iterator().next() : null
-                                def previous = insn.previous
-                                while (previous != null && previous.opcode < 0) {
-                                    previous = previous.previous
-                                }
-                                boolean constantRole = source != null && source.is(previous)
-                                        && source.opcode == org.objectweb.asm.Opcodes.GETSTATIC
-                                        && source.desc == blackRavenRoleDescriptor
-                                // Wathe's own isRole(PlayerEntity, Role) -> isRole(UUID, Role) delegation is the
-                                // wrapped callee itself. / Wathe 自身的重载委托就是被包装的被调用方。
-                                boolean overloadDelegation = node.name == blackRavenGameWorldOwner
-                                        && method.name == "isRole"
-                                        && method.desc == "(Lnet/minecraft/class_1657;${blackRavenRoleDescriptor})Z"
-                                        && insn.desc == "(Ljava/util/UUID;${blackRavenRoleDescriptor})Z"
-                                if (!constantRole && !overloadDelegation) {
-                                    dynamicIsRole << "${site}${method.desc}".toString()
-                                }
-                                def field = allowedSource(roleValue)
-                                if (field != null) {
-                                    record("isRole", field)
-                                }
-                            } else if (isGameWorldInvoke(insn, "getAllWithRole")) {
-                                def field = allowedSource(frame.getStack(top))
-                                if (field != null) {
-                                    record("getAllWithRole", field)
-                                }
-                            } else if (isEqualsInvoke(insn) || isAcmp(insn)) {
-                                [frame.getStack(top - 1), frame.getStack(top)].each { operand ->
-                                    def field = allowedSource(operand)
-                                    if (field != null) {
-                                        def kind = isAcmp(insn) ? "acmp"
-                                                : (field.desc == blackRavenRoleDescriptor ? "equals" : "idEquals")
-                                        record(kind, field)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // 3. Compare against the checked-in classification. / 3. 与已提交的分类清单比对。
-            def expected = [:]
-            def problems = []
-            def allowedIds = blackRavenActingRoleFields.values() as Set
-            seamsFile.readLines("UTF-8").eachWithIndex { rawLine, lineIndex ->
-                def line = rawLine.trim()
-                if (line.isEmpty() || line.startsWith("#")) {
-                    return
-                }
-                def columns = line.split(/\s+/)
-                def where = "${seamsFile.name}:${lineIndex + 1}"
-                if (columns.length != 5) {
-                    problems << "${where}: expected '<TAG> <kind> <role> <owner#method> <count>', found '${line}'"
-                    return
-                }
-                def (tag, kind, roleId, site, count) = columns.toList()
-                if (!(kind in blackRavenSeamKinds)) {
-                    problems << "${where}: unknown kind ${kind}"
-                }
-                def validTags = kind == "isRole" ? blackRavenOverlayTags : blackRavenGapTags
-                if (!(tag in validTags)) {
-                    problems << "${where}: tag ${tag} is not valid for ${kind} (expected one of ${validTags})"
-                }
-                if (!(roleId in allowedIds)) {
-                    problems << "${where}: ${roleId} is not an audited allowed role"
-                }
-                if (!(count ==~ /[1-9][0-9]*/)) {
-                    problems << "${where}: count must be a positive integer, found ${count}"
-                }
-                def key = "${kind} ${roleId} ${site}".toString()
-                if (expected.containsKey(key)) {
-                    problems << "${where}: duplicate entry ${key}"
-                }
-                expected[key] = count ==~ /[1-9][0-9]*/ ? (count as int) : -1
-            }
-            found.each { key, count ->
-                if (!expected.containsKey(key)) {
-                    problems << "Unclassified acting-role seam (add '<TAG> ${key} ${count}'): ${key}"
-                } else if (expected[key] != count) {
-                    problems << "Seam count drift for ${key}: listed ${expected[key]}, found ${count}"
-                }
-            }
-            expected.keySet().findAll { !found.containsKey(it) }.each { key ->
-                problems << "Listed acting-role seam no longer exists: ${key}"
-            }
-            dynamicIsRole.each { site ->
-                problems << "isRole with a non-constant role operand (the overlay cannot be audited there): ${site}"
-            }
-            if (!problems.isEmpty()) {
-                throw new GradleException("Black Raven acting-role seam drift:\n  " + problems.join("\n  "))
-            }
-            logger.lifecycle("Black Raven acting-role seams verified: ${found.size()} classified sites, no dynamic isRole.")
-        } finally {
-            noellesRolesZip.close()
-            watheZip.close()
-        }
-    }
-}
-
-// The module docs moved from the SparkWitch repository root to docs/witch/.
-// 模块文档已从 SparkWitch 仓库根目录移到 docs/witch/。
-def requiredArchitectureDocs = [
-        "docs/witch/CONTEXT.md",
-        "docs/witch/DOWNSTREAM_MIGRATION_NOTES.md"
-]
-def requiredArchitectureSources = [
-        "src/main/java/dev/caecorthus/sparkdlc/skill/api/SparkRoleApi.java",
-        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/ApprenticeInstinctRules.java",
-        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityRuntime.java",
-        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/piggod/PigGodChaseRuntime.java",
-        "src/main/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchRules.java",
-        "src/main/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchWorldRuntime.java",
-        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityRedraw.java",
-        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityModelCapture.java",
-        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/SecondaryWorldPass.java"
-]
-// Contract tests for the API and rule classes above. src/test/ is gitignored and local-only, so they are required
-// only in a checkout that has the local test tree; a fresh clone skips them. In SparkDLC src/test/ itself exists on a
-// fresh clone (a few assist tests are tracked), so the condition is the witch module's own local tests
-// (legacyModules.localTestsPresent; before the stage-1 package move: its own test package).
-// 上述 API 与规则类的契约测试。src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求它们；全新克隆会跳过。
-// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 witch 模块自己的本地测试是否存在为条件
-// （legacyModules.localTestsPresent；第一阶段包搬迁之前是它自己的测试包）。
-def localArchitectureTests = [
-        "src/test/java/dev/caecorthus/sparkdlc/skill/api/SparkWitchApiTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityWindowRulesTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchRulesTest.java"
-]
-// Entity render protocol (EMF/ETF and animation-pack compatibility, 2026-10-25; docs/witch/CONTEXT.md "Entity render protocol"):
-// an entity is drawn outside the world's own entity loop only through EntityRedraw, and a second world render runs
-// only inside SecondaryWorldPass.run. Returns the violations in one source file, comments stripped.
-// 实体渲染协议（EMF/ETF 与动画包兼容，2026-10-25；见 docs/witch/CONTEXT.md「Entity render protocol」）：在世界自身的实体循环之外
-// 只能经由 EntityRedraw 绘制实体，第二次世界渲染只能在 SecondaryWorldPass.run 内执行。返回单个源文件（已去掉注释）的违规项。
-def entityRenderRedrawOwner = "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityRedraw.java"
-def entityRenderProtocolViolations = { String source, boolean redrawOwner ->
-    def code = source.replaceAll(/(?s)\/\*.*?\*\//, " ").replaceAll(/(?m)\/\/.*$/, " ")
-    def found = []
-    if (!redrawOwner) {
-        if (code =~ /getRenderer\([^;]*?\)\s*\.render\(/) {
-            found << "EntityRenderer#render on a getRenderer(...) result"
-        }
-        if (code =~ /getEntityRenderDispatcher\(\)\s*\.render\(/) {
-            found << "EntityRenderDispatcher#render"
-        }
-        def names = [] as Set
-        (code =~ /(\w+)\s*=\s*[^;=]*?\bgetRenderer\(/).each { names << it[1] }
-        (code =~ /(\w+)\s*=\s*[^;=]*?\bgetEntityRenderDispatcher\(\)/).each { names << it[1] }
-        (code =~ /\bEntityRenderDispatcher\s+(\w+)/).each { names << it[1] }
-        (code =~ /\bEntityRenderer\s*(?:<[^;{]*?>)?\s+(\w+)/).each { names << it[1] }
-        names.each { name ->
-            if (code =~ /\b${java.util.regex.Pattern.quote(name)}\s*\.render\(/) {
-                found << "${name}.render(...) on an entity renderer or dispatcher"
-            }
-        }
-    }
-    // A hand-posed model built from EntityModelLoader is replaced and animated by EMF with whatever entity is mounted.
-    // 由 EntityModelLoader 构建的手动摆姿模型会被 EMF 替换，并以当前挂载的实体驱动动画。
-    if (code =~ /\bgetEntityModelLoader\s*\(/) {
-        found << "EntityModelLoader model (build a hand-posed model from its TexturedModelData)"
-    }
-    def worldRender = code =~ /\bworldRenderer\s*\.render\(/
-    while (worldRender.find()) {
-        def before = code.substring(Math.max(0, worldRender.start() - 160), worldRender.start())
-        if (!before.contains("SecondaryWorldPass.run(")) {
-            found << "WorldRenderer#render outside SecondaryWorldPass.run"
-        }
-    }
-    return found
-}
-
-// Minecraft decodes a sound file's FIRST Ogg logical stream with stb_vorbis, so a file whose first stream is not
-// Vorbis (e.g. cover art that ffmpeg re-muxed into a Theora stream) plays silence with no error. Every shipped .ogg
-// must be exactly one Vorbis stream. Runs on a fresh clone (CI). The asset tree is now shared, so "every shipped .ogg"
-// includes the strength and traits modules' sounds as well.
-// Minecraft 用 stb_vorbis 解码声音文件的第一个 Ogg 逻辑流；若第一个流不是 Vorbis（例如 ffmpeg 把封面重封装成
-// Theora 流），播放时静音且不报错。每个发布的 .ogg 必须恰好是一个 Vorbis 流。全新克隆（CI）上也会运行。
-// 资源树现在是共用的，因此「每个发布的 .ogg」也包含 strength 与 traits 模块的声音。
-def verifyWitchSoundAssets = tasks.register("verifyWitchSoundAssets") {
-    group = "verification"
-    description = "Checks that every shipped .ogg is exactly one Vorbis stream."
-    def soundTree = fileTree("src/main/resources/assets") { include "**/*.ogg" }
-    inputs.files(soundTree)
-
-    doLast {
-        def problems = []
-        soundTree.files.sort { it.path }.each { ogg ->
-            byte[] data = ogg.bytes
-            def name = project.relativePath(ogg)
-            def serials = [] as LinkedHashSet
-            int offset = 0
-            boolean firstPage = true
-            while (offset < data.length) {
-                if (offset + 27 > data.length || new String(data, offset, 4, "US-ASCII") != "OggS") {
-                    problems << "${name}: broken Ogg page at byte ${offset}"
-                    break
-                }
-                int serial = (data[offset + 14] & 0xFF) | ((data[offset + 15] & 0xFF) << 8) |
-                        ((data[offset + 16] & 0xFF) << 16) | ((data[offset + 17] & 0xFF) << 24)
-                serials << serial
-                int segments = data[offset + 26] & 0xFF
-                int body = 0
-                for (int i = 0; i < segments; i++) {
-                    body += data[offset + 27 + i] & 0xFF
-                }
-                int bodyStart = offset + 27 + segments
-                if (firstPage) {
-                    boolean vorbis = body >= 7 && data[bodyStart] == 1 &&
-                            new String(data, bodyStart + 1, 6, "US-ASCII") == "vorbis"
-                    if (!vorbis) {
-                        problems << "${name}: first Ogg stream is not Vorbis (Minecraft would play silence)"
-                    }
-                    firstPage = false
-                }
-                offset = bodyStart + body
-            }
-            if (serials.size() > 1) {
-                problems << "${name}: ${serials.size()} Ogg streams; ship exactly one Vorbis stream (strip cover art)"
-            }
-        }
-        if (!problems.isEmpty()) {
-            throw new GradleException("Sound asset check failed:\n  " + problems.join("\n  "))
-        }
-        logger.lifecycle("Sound assets verified: ${soundTree.files.size()} single-stream Vorbis files.")
-    }
-}
-
-// The source scans below cover the witch module's own sources only: the rules are SparkWitch's, and the other
-// modules' sources now share src/main/java and src/client/java (the traits module legitimately holds the very
-// classes the first scan forbids witch code from naming). Since the stage-1 package move the module has no source
-// directory, so its sources are the main and client files tools/unify/file-moves.tsv lists under the witch module;
-// the lookup fails when it finds none.
-// 下方的源码扫描只覆盖 witch 模块自己的源码：这些规则属于 SparkWitch，而其他模块的源码现在共用 src/main/java 与
-// src/client/java（第一项扫描禁止 witch 代码引用的类本就属于 traits 模块）。第一阶段包搬迁之后该模块没有源码目录，
-// 因此其源码即 tools/unify/file-moves.tsv 归在 witch 模块下的 main 与 client 文件；找不到任何文件时该查询会失败。
-def witchSources = { legacyModules.sources("witch") }
-
-def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
-    group = "verification"
-    description = "Checks the witch module's required docs and sources, SparkTraits facade-only rule and entity render protocol."
-    dependsOn verifyWitchBlackRavenActingRoleSeams
-    dependsOn verifyWitchSoundAssets
-    inputs.files(requiredArchitectureDocs.collect { file(it) })
-    inputs.files(requiredArchitectureSources.collect { file(it) })
-    inputs.files(localArchitectureTests.collect { file(it) })
-    // The witch sources are picked from these two trees by the move manifest when the task runs; reading the manifest
-    // here would abort the whole build, not just this task, when it is missing.
-    // witch 的源码在任务运行时由搬迁清单从这两棵树中选出；若在此处读取清单，清单缺失时中断的将是整个构建而不只是本任务。
-    inputs.files("tools/unify/file-moves.tsv")
-    inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
-
-    doLast {
-        def requiredPaths = requiredArchitectureDocs + requiredArchitectureSources
-        if (legacyModules.localTestsPresent("witch")) {
-            requiredPaths += localArchitectureTests
-        } else {
-            logger.lifecycle("No local witch tests under src/test: skipped ${localArchitectureTests.size()} local-only architecture contract tests.")
-        }
-        requiredPaths.each { path ->
-            if (!file(path).isFile()) {
-                throw new GradleException("Missing required architecture contract file: ${path}")
-            }
-        }
-
-        // SparkTraits integration may use only its public facade (called directly since the fusion, or reflected by
-        // the bridges not yet converted), never internal implementation packages. The traits module is in the same
-        // source tree, so this scan is what keeps witch code from importing or naming them.
-        // SparkTraits 集成只能使用公共门面（融合后直接调用，尚未转换的桥仍为反射），不能触及内部实现包。traits 模块位于
-        // 同一源码树，因此正是这项扫描阻止 witch 代码 import 或引用这些包。
-        // The two packages are named as they were before the stage-1 package move; the rule is evaluated on the
-        // classes that used to be under them (tools/unify/file-moves.tsv), wherever they live now.
-        // 这两个包按第一阶段包搬迁之前的名字列出；规则针对原先位于其下的类执行（tools/unify/file-moves.tsv），无论它们
-        // 现在位于何处。
-        def forbiddenSparkTraitsTargets = [
-                "dev.caecorthus.sparkdlc.traits.impl",
-                "dev.caecorthus.sparkdlc.traits.component"
-        ]
-        def forbiddenSparkTraitsClasses = legacyModules.classesFormerlyUnder(forbiddenSparkTraitsTargets.collect { it + "." })
-        def witchSourceFiles = witchSources()
-        def internalTraitReferences = legacyModules.forbiddenReferences(witchSourceFiles, forbiddenSparkTraitsClasses)
-        if (!internalTraitReferences.isEmpty()) {
-            throw new GradleException(
-                    "Forbidden SparkTraits internal targets (formerly under ${forbiddenSparkTraitsTargets}): " +
-                            internalTraitReferences.join("; ")
-            )
-        }
-
-        // Entity render protocol: see entityRenderProtocolViolations above.
-        // 实体渲染协议：见上方 entityRenderProtocolViolations。
-        witchSourceFiles.each { sourceFile ->
-            def relative = project.relativePath(sourceFile).replace(File.separatorChar, '/' as char)
-            def violations = entityRenderProtocolViolations(sourceFile.getText("UTF-8"),
-                    relative == entityRenderRedrawOwner)
-            if (!violations.isEmpty()) {
-                throw new GradleException("Entity render protocol violation in ${relative}: "
-                        + violations.join("; ") + ". Draw entities again only through "
-                        + "client/render/entity/EntityRedraw (or reuse EntityModelCapture geometry), run a "
-                        + "second world render inside SecondaryWorldPass.run, and build hand-posed models from "
-                        + "their TexturedModelData; see docs/witch/CONTEXT.md.")
-            }
-        }
-        logger.lifecycle("verifyWitchArchitecture: ${witchSourceFiles.size()} SparkWitch sources follow the entity render " +
-                "protocol and name none of the ${forbiddenSparkTraitsClasses.size()} SparkTraits internal classes")
-    }
-}
-
-// Aggregate for the witch module; the root build's verifyAll depends on it.
-// witch 模块的汇总任务；根构建的 verifyAll 依赖它。
-tasks.register("verifyWitch") {
-    group = "verification"
-    description = "Runs every witch-module verify task."
-    dependsOn verifyWitchClientMixinSelectors
-    dependsOn verifyWitchCompatibilityBaselines
-    dependsOn verifyWitchModJar
-    dependsOn verifyWitchBlackRavenActingRoleSeams
-    dependsOn verifyWitchSoundAssets
-    dependsOn verifyWitchArchitecture
 }

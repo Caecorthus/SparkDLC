@@ -1,4 +1,4 @@
-# Downstream Migration Notes
+# Downstream Migration Notes: Core (Faction API, Rounds, Cooldowns, Replay)
 
 ## 2026-11-16 Third-Faction Draw (2.0.0)
 

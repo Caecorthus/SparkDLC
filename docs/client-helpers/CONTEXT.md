@@ -1,4 +1,4 @@
-# SparkAssist Domain Context
+# SparkDLC Client Helpers Context: Guidebook, Achievements, Settings and Ponder
 
 SparkAssist is a client-only assist mod for Spark Wathe sessions. This glossary
 keeps architecture discussion tied to assist behavior instead of sibling role or

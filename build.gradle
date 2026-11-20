@@ -307,19 +307,40 @@ tasks.withType(JavaExec).configureEach {
     }
 }
 
-// Per-module verification tasks, ported from the five legacy build scripts. Each script registers its own
-// verify<Module>* tasks plus one aggregate named verify<Module>; verifyAll runs every module's aggregate.
-// 各模块的校验任务，由五份旧构建脚本迁移而来。每个脚本注册自己的 verify<Module>* 任务和一个名为
-// verify<Module> 的汇总任务；verifyAll 运行所有模块的汇总任务。
-def verifyModules = ["factionapi": "FactionApi", "strength": "Strength", "traits": "Traits", "witch": "Witch", "assist": "Assist"]
-verifyModules.each { module, taskInfix ->
-    def script = file("gradle/verify/${module}.gradle")
-    if (script.isFile()) {
-        apply from: script
-    }
+// Verification tasks live in gradle/verify, one script per kind of check (what is checked, not which of the five former
+// mods a check came from); support.gradle holds the closures they share and is applied first. `verifyAll` is THE entry
+// point: it runs every task listed here, and the guard below fails the build when a `verify*` task exists that
+// `verifyAll` does not reach (or a listed one is gone), so a new check cannot be registered and then forgotten.
+// 校验任务位于 gradle/verify，每类校验一个脚本（按“校验什么”划分，而不是按校验来自五个旧 mod 中的哪一个）；support.gradle 存放
+// 它们共用的闭包，最先应用。`verifyAll` 是唯一的入口：它运行这里列出的每个任务；一旦存在 `verifyAll` 到达不了的 `verify*` 任务
+// （或列出的任务已不存在），下方的守卫会让构建失败，因此新的校验不可能注册之后被遗忘。
+def verifyScripts = [
+        "support"           : [],
+        "jar"               : ["verifyModMetadata", "verifyJarContents", "verifyMixinConfigs", "verifyNotices"],
+        "upstream"          : ["verifyUpstreamJars"],
+        "upstream-selectors": ["verifyUpstreamMixinSelectors", "verifyNoellesRolesLambdaSelectors"],
+        "layering"          : ["verifyLayering", "verifyNoLookupByName"],
+        "contracts"         : ["verifyContractFiles", "verifySourceContracts"],
+        "payload-policy"    : ["verifyPayloadPolicy"],
+        "black-raven"       : ["verifyBlackRavenSeams"],
+        "entity-render"     : ["verifyEntityRenderProtocol"],
+        "assets"            : ["verifySoundAssets"]
+]
+verifyScripts.keySet().each { script ->
+    apply from: file("gradle/verify/${script}.gradle")
 }
+def verifyTasks = verifyScripts.values().flatten()
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs every module's verify<Module> aggregate."
-    dependsOn verifyModules.values().collect { "verify${it}" }.findAll { tasks.names.contains(it) }
+    description = "Runs every verify task of gradle/verify."
+    dependsOn verifyTasks
+}
+afterEvaluate {
+    def registered = tasks.names.findAll { it.startsWith("verify") && it != "verifyAll" } as Set
+    def unreached = (registered - verifyTasks).sort()
+    def missing = (verifyTasks - registered).sort()
+    if (!unreached.isEmpty() || !missing.isEmpty()) {
+        throw new GradleException("verifyAll must run every verify task: not reached by verifyAll ${unreached}, " +
+                "listed in build.gradle but not registered ${missing}")
+    }
 }

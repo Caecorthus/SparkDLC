@@ -1,0 +1,255 @@
+// Contracts that are pinned as files and as source text: the documents, public API sources and contract tests that
+// must exist, and a few ids and calls that saved data, the wire and other code rely on by name.
+// 以文件和源码文本形式固定的契约：必须存在的文档、公共 API 源码与契约测试，以及存档数据、网络协议和其他代码按名称依赖的若干 id 与调用。
+
+// See gradle/verify/support.gradle: this block must stay identical to the one there.
+// 见 gradle/verify/support.gradle：这一段必须与那里的保持完全一致。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ow2.asm:asm-tree:9.9"
+        classpath "org.ow2.asm:asm-analysis:9.9"
+    }
+}
+verifySupport.requireSharedAsm(org.objectweb.asm.tree.ClassNode)
+
+def remappedModJar = verifySupport.remappedModJar
+def readClassNode = verifySupport.readClassNode
+
+// Tracked files: required on every checkout, a fresh clone (CI) included. AGENTS.md stays at the repository root; the
+// feature documents live under docs/ by what they cover (docs/core: factions, rounds, cooldowns, shared services;
+// docs/roles: roles, skills, their items and client presentation; docs/client-helpers: guidebook, achievements,
+// settings, Ponder).
+// 已跟踪的文件：任何检出（包括全新克隆 / CI）都必须具备。AGENTS.md 在仓库根目录；功能文档按内容放在 docs/ 下（docs/core：
+// 阵营、对局、冷却与共用服务；docs/roles：职业、技能及其物品与客户端表现；docs/client-helpers：指南、成就、设置、Ponder）。
+def trackedContractFiles = [
+        "AGENTS.md",
+        "docs/core/CONTEXT.md",
+        "docs/core/DOWNSTREAM_MIGRATION_NOTES.md",
+        "docs/roles/CONTEXT.md",
+        "docs/roles/DOWNSTREAM_MIGRATION_NOTES.md",
+        "docs/client-helpers/CONTEXT.md",
+        // The public facades and the rule classes the documents and the contract tests below describe.
+        // 上述文档与下方契约测试所描述的公共门面与规则类。
+        "src/main/java/dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/skill/api/SparkRoleApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/ApprenticeInstinctRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityRuntime.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/piggod/PigGodChaseRuntime.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchWorldRuntime.java",
+        // The entity render protocol's three owners (gradle/verify/entity-render.gradle).
+        // 实体渲染协议的三个归属类（见 gradle/verify/entity-render.gradle）。
+        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityRedraw.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityModelCapture.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/SecondaryWorldPass.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/api/SparkFactionApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/api/PlayerAffectPolicy.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/api/PoliceRoles.java",
+        "src/main/java/dev/caecorthus/sparkdlc/replay/api/SparkReplayApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/replay/net/ReplaySnapshot.java",
+        "src/main/java/dev/caecorthus/sparkdlc/record/net/MatchRecordSnapshot.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/record/SparkMatchRecordClient.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardLayout.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardPaint.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/guidebook/ui/decor/GuidebookCardDecor.java",
+        "src/main/java/dev/caecorthus/sparkdlc/round/settlement/SettlementExclusions.java",
+        "src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipment.java",
+        "src/main/java/dev/caecorthus/sparkdlc/cooldown/api/ForcedCooldowns.java",
+        "src/main/java/dev/caecorthus/sparkdlc/cooldown/api/RoleSkillCooldownStore.java",
+        "src/main/java/dev/caecorthus/sparkdlc/cooldown/ForcedCooldownRegistry.java",
+        "src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesCollisionCompatibility.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/shop/FactionShopAccessRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/nativefaction/NativeWatheFactions.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/nativefaction/NativeWatheFactionDeclarations.java",
+        "src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesNeutralPerkRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesScavengerBodyHideRewrite.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/api/ThirdFactionLineup.java",
+        "src/main/java/dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDrawRules.java",
+]
+// Local-only files: docs/local/ and src/test/ are gitignored, so these are required only in a checkout that has the
+// matching local tree; a fresh clone (CI) skips them. A document below docs/local/<name>/ is required once that
+// directory exists (the local document trees are imported separately, so one may be present without the other); a
+// contract test is required once src/test holds any test besides the tracked ones (verifySupport.localTestsPresent).
+// A partial local tree therefore fails loudly instead of being skipped.
+// 仅存于本地的文件：docs/local/ 与 src/test/ 已被 gitignore，因此只在拥有对应本地目录的检出中要求它们；全新克隆（CI）会跳过。
+// docs/local/<name>/ 下的文档在该目录存在时才要求（各本地文档目录是分别导入的，可能只存在其中一个）；契约测试在 src/test 中
+// 出现已跟踪测试之外的任何测试时即要求（verifySupport.localTestsPresent）。因此不完整的本地目录会明确失败，而不是被跳过。
+def localContractDocs = [
+        "docs/local/core/adr/0001-risk-based-tests.md",
+        "docs/local/client-helpers/adr/0001-risk-based-tests.md"
+]
+def localContractTests = [
+        "src/test/java/dev/caecorthus/sparkdlc/trait/api/SparkTraitsApiContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/trait/component/TraitSyncVisibilityTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/skill/api/SparkWitchApiTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityWindowRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/config/SparkAssistConfigTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/guidebook/GuidebookCatalogTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/guidebook/GuidebookObservationRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/guidebook/GuidebookSearchTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/guidebook/GuidebookSessionStateTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/input/InstinctKeyRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/input/InstinctToggleStateTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/sound/EventSoundCatalogTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/sound/EventSoundRefreshCategoriesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/sound/EventSoundVolumeRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardLayoutTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardFallbackTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardMetricsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCardContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/record/net/MatchRecordSnapshotTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/api/PoliceRolesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/round/settlement/SettlementExclusionsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/api/PlayerAffectPolicyTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/api/SparkFactionApiCompatibilityTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipmentTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/cooldown/ForcedCooldownContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/cooldown/RoleSkillStoreRegistryTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/target/PlayerAffectAdapterContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/target/OptionalModPlayerAffectAdapterContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/assignment/FactionSlotAllocatorTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/command/settings/GameSettingsCommandRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/command/settings/GameSettingsCommandMixinCompatibilityTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/round/end/FactionWinRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/collision/EntityCollisionExemptionsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/collision/EntityCollisionMixinContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/collision/LivingEntityCollisionMixinContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesCollisionCompatibilityContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheckTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshakeTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/replay/ReplayRoleTimelineTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/replay/RoleChangeRecordRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/inventory/LimitedInventoryRowsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/inventory/LimitedInventorySeamTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/nativefaction/NativeWatheFactionDeclarationsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/nativefaction/NativeWatheFactionSeamTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesNeutralPerkRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesRolesPinnedSelectorTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDrawRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/faction/api/ThirdFactionApiTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/command/settings/ThirdFactionDividendCommandTest.java"
+]
+
+tasks.register("verifyContractFiles") {
+    group = "verification"
+    description = "Checks that the contract documents, public API sources and (in a checkout with the local trees) contract tests exist."
+    inputs.files(trackedContractFiles)
+    inputs.files(localContractDocs)
+    inputs.files(localContractTests)
+
+    doLast {
+        def requiredFiles = [] + trackedContractFiles
+        localContractDocs.groupBy { it.split("/")[0..2].join("/") }.each { localTree, documents ->
+            if (file(localTree).isDirectory()) {
+                requiredFiles += documents
+            } else {
+                logger.lifecycle("No local ${localTree} tree: skipped ${documents.size()} local-only contract documents.")
+            }
+        }
+        if (verifySupport.localTestsPresent()) {
+            requiredFiles += localContractTests
+        } else {
+            logger.lifecycle("No local tests under src/test: skipped ${localContractTests.size()} local-only contract tests.")
+        }
+        def missing = requiredFiles.findAll { !file(it).isFile() }
+        if (!missing.isEmpty()) {
+            throw new GradleException("Missing contract files: ${missing.join(', ')}")
+        }
+    }
+}
+
+tasks.register("verifySourceContracts") {
+    group = "verification"
+    description = "Checks ids and calls pinned by name: the Engineer capture device and power restoration ids, the capture device replay events, and the Vulture's direct call into the trait contract."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    inputs.files(
+            "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
+            "src/main/java/dev/caecorthus/sparkdlc/SparkDlcItems.java",
+            "src/main/java/dev/caecorthus/sparkdlc/SparkDlcEntities.java",
+            "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java"
+    )
+
+    doLast {
+        def requireFile = { String path ->
+            if (!file(path).isFile()) {
+                throw new GradleException("Missing required verification file: ${path}")
+            }
+        }
+        def requireText = { String path, String snippet ->
+            requireFile(path)
+            if (!file(path).getText("UTF-8").contains(snippet)) {
+                throw new GradleException("Missing required contract '${snippet}' in ${path}")
+            }
+        }
+
+        // A role reaches the trait feature through its contract SparkTraitsApi only, as a direct call: no bridge
+        // class in between and no lookup by name. The general rule is verifyLayering ("trait-api"); this pins one
+        // caller, the Vulture's helium curse, which asks hasActiveTrait itself.
+        // 职业只经词条功能的契约 SparkTraitsApi 访问它，且为直接调用：中间不再有桥接类，也不按名称查找。通用规则见
+        // verifyLayering（"trait-api"）；此处钉在一个调用方上：秃鹫的氦气诅咒自行调用 hasActiveTrait。
+        requireText(
+                "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
+                "import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;"
+        )
+        requireText(
+                "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
+                "SparkTraitsApi.hasActiveTrait(player, VultureSuperCurseRules.CHILDISH_TRAIT_ID)"
+        )
+
+        // Registry and replay ids that worlds, maps and saved replays hold by name.
+        // 世界、地图与已保存回放按名称持有的注册 id 与回放 id。
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkDlcItems.java", "SparkDLC.id(\"capture_device\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkDlcItems.java", "SparkDLC.id(\"power_restoration\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkDlcEntities.java", "SparkDLC.id(\"capture_device\")")
+        [
+                "capture_device_placed",
+                "capture_device_triggered",
+                "capture_device_released",
+                "capture_device_expired"
+        ].each { replayId ->
+            requireText(
+                    "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java",
+                    "SparkDLC.id(\"${replayId}\")"
+            )
+        }
+
+        // The contract call the source pin above names, in the remapped jar: VultureSuperCurseService reaches public
+        // static boolean SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) as a compiled invokestatic. The jar
+        // is remapped, so the parameter types carry their intermediary names (class_1657 = PlayerEntity, class_2960 =
+        // Identifier). The compiler already guarantees the method exists with this descriptor.
+        // 上方源码钉值所指的契约调用在重映射 jar 中的形态：VultureSuperCurseService 以编译期 invokestatic 访问 public static
+        // boolean SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)。jar 已重映射，参数类型使用 intermediary 名称
+        // （class_1657 = PlayerEntity，class_2960 = Identifier）。该方法及其描述符的存在已由编译器保证。
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def vulture = readClassNode(zipFile, "dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.class")
+            def callsFacade = vulture.methods.any { method ->
+                method.instructions.toArray().any { instruction ->
+                    instruction instanceof org.objectweb.asm.tree.MethodInsnNode &&
+                            instruction.getOpcode() == org.objectweb.asm.Opcodes.INVOKESTATIC &&
+                            instruction.owner == "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi" &&
+                            instruction.name == "hasActiveTrait" &&
+                            instruction.desc == "(Lnet/minecraft/class_1657;Lnet/minecraft/class_2960;)Z"
+                }
+            }
+            if (!callsFacade) {
+                throw new GradleException(
+                        "VultureSuperCurseService must call SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) directly in ${jarFile.name}"
+                )
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}

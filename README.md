@@ -50,7 +50,7 @@ voice chat plugin (`voice.SparkDlcVoiceChatPlugin`) and one client mixin plugin.
 (listeners on one event run in registration order), so do not reorder them casually; `./gradlew runGameTest
 -PstartupOrderDump=<dir>` writes what the start-up registered, in order, so that two builds can be compared.
 
-更完整的说明见 [`CONTEXT.md`](CONTEXT.md)，各模块的细节在 `docs/<module>/CONTEXT.md`。
+更完整的说明见 [`CONTEXT.md`](CONTEXT.md)，各部分的细节在 `docs/core/CONTEXT.md`、`docs/roles/CONTEXT.md`、`docs/client-helpers/CONTEXT.md`。
 
 ## 构建与验证 / Build and verify
 
@@ -58,7 +58,7 @@ voice chat plugin (`voice.SparkDlcVoiceChatPlugin`) and one client mixin plugin.
 
 ```bash
 ./gradlew build            # 编译并打包，产物在 build/libs/（不运行测试和校验）
-./gradlew verifyAll        # 各模块的校验任务（gradle/verify/<module>.gradle）
+./gradlew verifyAll        # 全部校验任务（gradle/verify/*.gradle，按校验内容分组）
 ./gradlew runGameTest      # 无界面启动真实服务器，加载全部模块并审计所有通用端 mixin
 ./gradlew runClientAudit   # 启动真实客户端约半分钟，审计所有客户端 mixin 后自动退出
 ./gradlew test             # 单元/契约测试（src/test 仅本地保存，不进 git）

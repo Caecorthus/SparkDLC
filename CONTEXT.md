@@ -8,11 +8,11 @@ Wathe and NoellesRoles. It was created on 2026-11-19 by fusing five mods; their 
 
 | Legacy module | Main packages now (under `dev.caecorthus.sparkdlc`) | Legacy mod id (a `provides` alias, no longer a namespace) | What it owns | Module notes |
 | --- | --- | --- | --- | --- |
-| factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | Faction registration, native Wathe factions, round end and win services, payload policy, replay, anti-fast-round, lobby map reset, version handshake | `docs/factionapi/CONTEXT.md` |
+| factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | Faction registration, native Wathe factions, round end and win services, payload policy, replay, anti-fast-round, lobby map reset, version handshake | `docs/core/CONTEXT.md` |
 | strength | `role.<category>.<role>`, `item`, `entity`, `sabotage`, `tablet`, `economy`, `viewpoint` | `sparkstrength` | Buffs and reworks for Wathe/NoellesRoles roles, items (M67, tablet, drones...), sabotage, Partygoer | — |
 | traits | `trait` | `sparktraits` | Passive trait mechanics and their planning, sync and client presentation | — |
-| witch | `role.<category>.<role>`, `skill`, `faction.witch`, `item`, `net` | `sparkwitch` | Witch and Jiahao factions, their roles, the active skill framework, most new roles and items | `docs/witch/CONTEXT.md` |
-| assist | `guidebook`, `achievement`, `ponder`, `config`, `sound`, `client.settings` | `sparkassist` | Client-side helpers: guidebook, achievements, unified settings screen, Ponder scenes, HUD aids | `docs/assist/CONTEXT.md` |
+| witch | `role.<category>.<role>`, `skill`, `faction.witch`, `item`, `net` | `sparkwitch` | Witch and Jiahao factions, their roles, the active skill framework, most new roles and items | `docs/roles/CONTEXT.md` |
+| assist | `guidebook`, `achievement`, `ponder`, `config`, `sound`, `client.settings` | `sparkassist` | Client-side helpers: guidebook, achievements, unified settings screen, Ponder scenes, HUD aids | `docs/client-helpers/CONTEXT.md` |
 
 Since the stage-1 unification move the code is organised by function, not by legacy module: a role's items,
 components, payloads and services live in `role.<category>.<role>` (categories `civilian`, `killer`, `neutral`,
@@ -69,8 +69,8 @@ only reached from client code.
 ## Verification entry points
 
 See `AGENTS.md` (Verification). Module-specific verification notes stay in the module `CONTEXT.md` files; where they
-name legacy task names or a legacy `build.gradle`, the task now carries the module infix
-(`verifyWitchClientMixinSelectors`, ...) and lives in `gradle/verify/<module>.gradle`.
+name legacy task names or a legacy `build.gradle`, the check is now one of the tasks of `gradle/verify/*.gradle`, named
+for what it checks (`verifyUpstreamMixinSelectors`, `verifyBlackRavenSeams`, ...); `./gradlew verifyAll` runs them all.
 
 ## Bringing in new legacy commits
 

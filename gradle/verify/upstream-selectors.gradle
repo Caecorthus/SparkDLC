@@ -88,8 +88,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "faction.witch.ShopCurrencyPriceMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/ShopCurrencyPriceMixin.class",
+                configName: "wathe.ShopCurrencyPriceMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/wathe/ShopCurrencyPriceMixin.class",
                 handler: "sparkdlc\$renderManaPrice",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Redirect;",
                 selector: "method_48579(Lnet/minecraft/class_332;IIF)V",
@@ -1452,7 +1452,7 @@ tasks.register("verifyNoellesRolesLambdaSelectors") {
                     "(Lorg/agmas/noellesroles/packet/AssassinGuessRoleC2SPacket;" +
                     "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
             def assassinGuessMixin = readClassNode(
-                    zipFile, "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/AssassinGuessOutcomeMixin.class")
+                    zipFile, "dev/caecorthus/sparkdlc/mixin/role/killer/assassin/AssassinGuessOutcomeMixin.class")
             [
                     "sparkdlc\$forgivenMissIsSilent"      :
                             "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",

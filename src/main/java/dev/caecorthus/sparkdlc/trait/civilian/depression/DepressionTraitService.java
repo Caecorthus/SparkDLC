@@ -212,8 +212,8 @@ public final class DepressionTraitService {
      * 每次假死只按同一击杀正常收益的一半发一次钱；只在 AFTER 中发放的额外奖励仍只属于真实击杀。
      */
     private static void rewardFakeDeathKill(ServerPlayerEntity victim, ServerPlayerEntity killer, GameWorldComponent game) {
-        // Mirrors GameFunctionsMixin.sparkdlc$rewardOnlyRealKillers for Wathe's own killer reward.
-        // 与 GameFunctionsMixin.sparkdlc$rewardOnlyRealKillers 对 Wathe 杀手奖励的判定保持一致。
+        // Mirrors TraitKillRulesMixin.sparkdlc$rewardOnlyRealKillers for Wathe's own killer reward.
+        // 与 TraitKillRulesMixin.sparkdlc$rewardOnlyRealKillers 对 Wathe 杀手奖励的判定保持一致。
         boolean originalKiller = EffectiveEconomyRules.shouldReceiveOriginalKillerReward(
                 game.canUseKillerFeatures(killer),
                 EffectiveTraitService.hasConscience(killer)

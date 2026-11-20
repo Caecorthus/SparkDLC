@@ -398,7 +398,7 @@ public final class ReplaySession {
         }
     }
 
-    /** Same source as FactionAPI's RoundTextRendererMixin. 与 FactionAPI 的 RoundTextRendererMixin 取值一致。 */
+    /** Same source as the client's FactionWinAnnouncementMixin. 与客户端 FactionWinAnnouncementMixin 取值一致。 */
     private static @Nullable Text customWinTitle(ServerWorld world) {
         FactionRoundEndComponent customRoundEnd = FactionRoundEndComponent.KEY.get(world.getScoreboard());
         Identifier winningFaction = customRoundEnd.getWinningFaction();

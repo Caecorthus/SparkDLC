@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.faction.blackout;
 
-import dev.caecorthus.sparkdlc.mixin.faction.PlayerShopComponentMixin;
+import dev.caecorthus.sparkdlc.mixin.wathe.PlayerShopComponentAccessor;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -36,7 +36,7 @@ public final class FactionBlackoutCooldownAdapter {
 
     private static void setBlackoutCooldown(ServerPlayerEntity player, int cooldownTicks) {
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
-        ((PlayerShopComponentMixin) (Object) shop).sparkdlc$getCooldowns()
+        ((PlayerShopComponentAccessor) (Object) shop).sparkdlc$getCooldowns()
                 .put(BLACKOUT_COOLDOWN_ID, cooldownTicks);
         shop.sync();
     }

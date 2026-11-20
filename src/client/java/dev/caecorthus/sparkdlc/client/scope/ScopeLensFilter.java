@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
-import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.render.PostEffectProcessorAccessor;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;

@@ -17,11 +17,11 @@ import java.util.List;
 /**
  * The Perfumer's shop, built in two steps at two seams: {@link #register()} replaces the provider list with the role's
  * two unlimited consumables (a {@code BuildShopEntries} listener), and {@link #appendToFinalEntries} appends the
- * Perfumer kit to the final list (called from {@code M67ShopEntriesMixin} on both sides). The steps keep their own
+ * Perfumer kit to the final list (called from {@code FinalShopEntriesMixin} on both sides). The steps keep their own
  * seams and their own order; see each method.
  * 调香师的商店，分两步在两个接缝处构建：{@link #register()} 用职业的两种不限购消耗品替换提供方列表（
  * {@code BuildShopEntries} 监听器），{@link #appendToFinalEntries} 在最终列表末尾追加调香师道具（由
- * {@code M67ShopEntriesMixin} 在两端调用）。两步各自保留原有的接缝与顺序，见各方法。
+ * {@code FinalShopEntriesMixin} 在两端调用）。两步各自保留原有的接缝与顺序，见各方法。
  */
 public final class PerfumerShopService {
     private static boolean registered;
@@ -63,10 +63,10 @@ public final class PerfumerShopService {
     }
 
     /**
-     * Called from {@code M67ShopEntriesMixin} on both sides; Wathe buys by index, so the answer must only depend on
+     * Called from {@code FinalShopEntriesMixin} on both sides; Wathe buys by index, so the answer must only depend on
      * synced state (the real role). Deliberately not gated on {@code isPlayerPlayingAndAlive}: Wathe's
      * {@code initializeShopsForPlayers} caches Zephyr's {@code stock(1)} from this list before the round is ACTIVE.
-     * 由 M67ShopEntriesMixin 在两端调用；Wathe 按下标购买，因此结果只能依赖已同步状态（真实身份）。
+     * 由 FinalShopEntriesMixin 在两端调用；Wathe 按下标购买，因此结果只能依赖已同步状态（真实身份）。
      * 刻意不检查 isPlayerPlayingAndAlive：Wathe 在对局变为 ACTIVE 前就从此列表缓存晨风香水的 stock(1)。
      */
     public static List<ShopEntry> appendToFinalEntries(PlayerEntity player, List<ShopEntry> entries) {

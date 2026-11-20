@@ -193,7 +193,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   path); a second lineup for the same faction throws `IllegalStateException`;
   nulls throw `NullPointerException`. Lineups are kept in declared (ordinal)
   order, not registration order.
-- Third-faction draw (owner rules 2026-11-16): `MurderGameModeMixin` runs it in
+- Third-faction draw (owner rules 2026-11-16): `FactionRoleAssignmentMixin` runs it in
   the AFTER_VIGILANTES handler, right after that SFA phase and right before
   Wathe's `assignNeutrals`, so forced roles (`assignForcedRoles` runs first and
   skips every check) and the killer/vigilante passes are already dealt.

@@ -3743,8 +3743,8 @@ Current build baseline:
     (re-decided at `render` HEAD). The info card routes around it as a visible widget child, and it consumes every
     click inside its frame. For the Medium this band is taken; a role that owns a head row cannot also dock a drawer
     here.
-- `PoliceSlotAssignmentService` (`role/civilian/judge/`) with `mixin/faction/witch/PoliceSlotAssignmentMixin`
-  and `mixin/faction/witch/PoliceRoleHistoryMixin`: police-slot ownership. Judge, Emma, the Control Expert, the
+- `PoliceSlotAssignmentService` (`role/civilian/judge/`) with `mixin/role/civilian/judge/PoliceSlotAssignmentMixin`
+  and `mixin/role/civilian/judge/PoliceRoleHistoryMixin`: police-slot ownership. Judge, Emma, the Control Expert, the
   Seeker, USEC and the Black Raven share the Vigilante slots uniformly through `VARIANT_IDS`; no variant owns a
   separate slot mixin. A Vigilante slot draws only from the eligible variants nobody holds yet; the
   plain Vigilante appears only once all of them are held (or none is eligible). The Veteran slot
@@ -3788,7 +3788,7 @@ Current build baseline:
   (`cooldown.api.ForcedCooldowns`): role-skill stores for SparkWitch and NoellesRoles counters, the SparkWitch item
   nominal-cooldown provider, and the Seeker car item exemption. `RoleForcedCooldowns.register()` runs once from
   `SparkDLC#registerOwnRoleGameplay`, right after `RoleEvents.register()`. `RoleItemCooldownReleases` releases the
-  SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/faction/witch/ItemCooldownRemovalMixin`). For the
+  SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/cooldown/provider/RoleItemTimerReleaseMixin`). For the
   admin clear alone (its `afterAdminRemove`, an `AdminCooldownClear` listener registered by `RoleForcedCooldowns`), it also exempts the item from Saint Karma.
 - `event/RoleEvents`: watch-only registration/lifecycle aggregator.
 - `record/AchievementRecords` (W part, beside the S part of the role kits): the SparkWitch writers of the cross-mod achievement record contract (2026-10-09, W2-W7),
@@ -3913,7 +3913,7 @@ Current build baseline:
   pass) and `MINI_WITHER_TARGET` (Wraith checked on the server only, Last Escape before the role). The differences are
   each site's existing rule. `OffMatchUse.isMatchParticipant` and `SeekerTargeting.isActiveParticipant` stay separate.
 - `util/GiveCommandDropScope`: marks, by stack identity and per thread, vanilla `/give`'s cosmetic pickup-animation drop
-  (the shared count-1 template). `mixin/faction/witch/GiveCommandDropScopeMixin` (common config) is the one `@WrapOperation` on
+  (the shared count-1 template). `mixin/minecraft/GiveCommandDropScopeMixin` (common config) is the one `@WrapOperation` on
   `GiveCommand.execute`'s second `dropItem(ItemStack, boolean)` (ordinal 1); ordinal 0, the real remainder drop, stays
   outside. It is read by the drop guards that copy or empty a refused drop, each only cancelling the marked template:
   `PotionGunnerLoadoutService.interceptDrop` (launcher and shells),
@@ -4310,7 +4310,7 @@ that table and run `python3 tools/payload_policy.py generate --repo .`;
 类型化目标判定，表中 VENDETTA_TARGET 列记录它判定的五个 id。
 
 Role HUD panels draw through `client/hud/RoleHudDispatcher` (2026-10-22), behind two default-priority seams:
-`client/mixin/faction/witch/RoleHudRenderTailMixin` (`InGameHud.render` TAIL, which still runs under F1: Curser, Guardian Angel,
+`client/mixin/hud/RoleHudRenderTailMixin` (`InGameHud.render` TAIL, which still runs under F1: Curser, Guardian Angel,
 Orthopedist, Savior, Saint, Vendetta, Kidnapper control screen, Natsume, Saboteur) and
 `RoleHudDispatcher.renderMainHudTail`, called last by the one main-HUD TAIL hook `client/mixin/hud/MainHudDispatchMixin`
 (`renderMainHud` TAIL, hidden by F1: Witch mana with the tarot snapshot and slip, Witch skill, Magician, Black Raven). Since 2026-11-13 every text layer of the first seam returns on vanilla
@@ -4381,7 +4381,7 @@ their own body is outlined through walls on the owner's client only
 (`client/role/civilian/seeker/SeekerBodyClientHooks`, `SeekerRules.OWN_BODY_COLOR`), and the outline ends with
 the view. The possession filter is a private
 `PostEffectProcessor`, never `GameRenderer.postProcessor`. The Blind echo view is another private
-processor; the shared `client/mixin/faction/witch/PostEffectProcessorAccessor` only reads a private processor's
+processor; the shared `client/mixin/render/PostEffectProcessorAccessor` only reads a private processor's
 pass list (for per-pass matrix and array uniforms, never adding or removing passes) and is used only
 by `client/role/civilian/blind/render/BlindEchoView`. A placed camera's look (`LOOK_YAW`,
 `LOOK_PITCH`) and `VIEWING` flag are public DataTracker state that every tracking client renders
@@ -5104,7 +5104,7 @@ tasks it is promoted to an accomplice role through the pool above.
   the Bewitched right after the Grand Witch, only in a round that has one (dealt or forced; no Wathe pass draws witch
   roles), on every member-cap slot left, while the Bewitched is enabled; forced Bewitched count toward the cap. This
   replaced the old `WitchRoleCounts.bewitched(n) = (n - 18) / 6` quota (owner 2026-10-06) and its
-  `WitchRoleAssignmentService` pass; `MurderGameModeMixin` now runs only the Hunter/Orthopedist pairing before
+  `WitchRoleAssignmentService` pass; `HunterOrthopedistPairingMixin` now runs only the Hunter/Orthopedist pairing before
   `assignCivilians`. See "Third-faction draw" under Runtime Invariants.
 - **Before promotion (D2).** A witch-faction member with teammate vision and accomplice money (starting money,
   passive, kill rewards, the Grand Witch's +25 share), but no shop. `BewitchedShopService` empties its shop on both
@@ -5333,7 +5333,7 @@ the Curser and Guardian Angel, and SparkStrength components.
 Removing an item cooldown releases SparkWitch's own timer behind the item (2026-10-05). The removal is
 `ItemCooldownManager.remove` on the server. For these items it comes from SparkFactionAPI
 `/sparkdlc:clearCooldown` (main hand), Wathe's round reset, or SparkTraits dropping a parry lock once its
-holder is dead or the round ended. `ItemCooldownRemovalMixin` runs at TAIL, so a `remove` that SparkTraits cancels at
+holder is dead or the round ended. `RoleItemTimerReleaseMixin` runs at TAIL, so a `remove` that SparkTraits cancels at
 HEAD (its forced melee floor) releases nothing, and expiry never calls `remove`. `RoleItemCooldownReleases`
 then acts by item id:
 - White Cane: the `BlindComponent` cane ready tick moves to now; a running window is kept.
@@ -5437,7 +5437,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
     the beam (current boxes), the same for allies and enemies.
 - **Fall credit.** `FirePokerFallAttributionService` is one train-fall push ledger for every pushing weapon: each record
   stores the pusher, the pushing `Item`, and the window end (`FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS`, 200
-  ticks), and the latest push wins regardless of weapon. `GameWorldComponentMixin` still redirects only Wathe's
+  ticks), and the latest push wins regardless of weapon. `FirePokerFallKillMixin` still redirects only Wathe's
   fall-death `killPlayer`: a `wathe:fell_out_of_train` death inside the window is credited to the online pusher and
   runs inside `SparkTraitsApi.runWithNonFinalKillWeapon(recordedWeapon, kill)`, with Judge responsibility read
   first as before. The Fire Poker records itself as before; the Shriek Gun records every push, ally or enemy, with
@@ -6701,7 +6701,7 @@ Network:
   and keeps the order they were written for: before Wathe's ESCAPED kill (its listeners sit in the
   `sparkdlc:disconnect_cleanup` phase, ordered before the default phase where Wathe queues the kill with
   `server.execute`; the Dominator forced-shot and Schrödinger's Cat phases are the precedent) and before vanilla
-  saves the player (`mixin/faction/witch/ServerPlayNetworkHandlerDisconnectCleanupMixin` drains what is still queued at the head of
+  saves the player (`mixin/minecraft/ServerPlayNetworkHandlerDisconnectCleanupMixin` drains what is still queued at the head of
   `onDisconnected`, which leads to `PlayerManager.remove`). Each task runs once. `PlayerHitboxHistory`, Junker, the
   Hunter aim claims and the Magician keep their own default-phase `server.execute` (after the kill); the Dominator
   and the Cat keep their own early phases. One seam for all of them stays an owner decision.

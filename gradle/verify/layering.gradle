@@ -69,7 +69,8 @@ def sharedCore = [
         include: ["faction/", "round/", "cooldown/", "command/admin/",
                   "mixin/faction/", "mixin/round/", "mixin/cooldown/",
                   "client/round/", "client/mixin/faction/"],
-        except : ["faction/witch/", "cooldown/provider/", "mixin/faction/witch/", "client/mixin/faction/witch/"]
+        except : ["faction/witch/", "cooldown/provider/", "mixin/faction/witch/", "mixin/cooldown/provider/",
+                  "client/mixin/faction/witch/"]
 ]
 // What the core may name outside itself, with the reason. Everything else of the mod is off limits to it.
 // 核心在自身之外可以引用的内容及原因。本模组的其余一切对它都是禁区。
@@ -84,9 +85,6 @@ def sharedCoreSupport = [
         "component/ThirdFactionComponent"    : "the core's own Cardinal Component",
         "net/policy/GeneratedPayloadPolicy"  : "the generated locked-player payload sets; the anti-fast-round rules alias one",
         "mixin/wathe/"                       : "accessor interfaces on Wathe classes (one accessor per target for the whole mod)",
-        "replay/RoleChangeRecorder"          : "the faction mixin on Wathe's GameWorldComponent reports role changes to the replay",
-        "replay/ReplayPresentation"          : "the faction mixin on Wathe's replay generator hands its lines to the replay presentation",
-        "replay/ReplayRenderContext"         : "the same mixin opens the render context of that presentation",
         "util/ExactItemCooldowns"            : "the one exact item-cooldown reader and writer; ForcedCooldowns reads and overwrites the vanilla entry through it",
         "util/ExactItemCooldownRules"        : "its remaining-ticks formula, which the forced-cooldown ledger shares"
 ]

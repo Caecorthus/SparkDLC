@@ -405,8 +405,8 @@ public final class CoronerService {
         return new CoronerPlayerComponent.BodySnapshot(roleId);
     }
 
-    // GameFunctionsMixin asks this so a dying Coroner drops none of the loaned gear.
-    // GameFunctionsMixin 借此保证验尸官死亡时不掉落任何临时装备。
+    // CoronerBodySnapshotMixin asks this so a dying Coroner drops none of the loaned gear.
+    // CoronerBodySnapshotMixin 借此保证验尸官死亡时不掉落任何临时装备。
     public static boolean isTemporaryGrant(ItemStack stack) {
         return CoronerLoanedGear.isTemporaryGrant(stack);
     }

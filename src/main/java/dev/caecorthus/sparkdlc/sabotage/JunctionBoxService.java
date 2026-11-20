@@ -212,13 +212,9 @@ public final class JunctionBoxService {
     }
 
     /**
-     * Frozen cross-module seam: a weapon hit on a closed junction box, e.g. the SparkWitch Hunter's shotgun. SparkWitch's
-     * {@code compat/SparkStrengthJunctionBoxCompat} calls it (directly since the SparkDLC fusion), so the class
-     * {@code dev.caecorthus.sparkdlc.sabotage.JunctionBoxService}, the name {@code damageByWeapon} and the parameter types
-     * {@code (ServerPlayerEntity, BlockPos, int)} stay frozen. Server thread only.
-     * 冻结的跨模块接缝：武器命中未打开的接线箱，例如 SparkWitch 猎人的猎枪。SparkWitch 的
-     * compat/SparkStrengthJunctionBoxCompat 会调用它（融合进 SparkDLC 后为直接调用），因此类名、方法名 damageByWeapon 与参数类型
-     * (ServerPlayerEntity, BlockPos, int) 保持冻结。仅限服务端线程。
+     * A weapon hit on a closed junction box: the Hunter's shotgun ({@code DoubleBarrelShotgunItem}) calls it for the
+     * box its shot landed on. Server thread only.
+     * 武器命中未打开的接线箱：猎人的猎枪（{@code DoubleBarrelShotgunItem}）对其落点处的箱子调用本方法。仅限服务端线程。
      *
      * <p>Same gates as {@link #onPry}, but silent (a shot is not an interaction) and fail-closed: a null argument,
      * {@code damage <= 0}, a client world or any refused gate returns false and changes nothing. The caller owns

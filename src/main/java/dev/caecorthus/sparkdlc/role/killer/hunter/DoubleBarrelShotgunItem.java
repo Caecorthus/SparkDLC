@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthJunctionBoxCompat;
+import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.sabotage.JunctionBoxService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
@@ -596,17 +597,22 @@ public final class DoubleBarrelShotgunItem extends Item {
     }
 
     /**
-     * A shot that reached the wall damages the SparkStrength junction box it landed on (owner decision 2026-10-21).
-     * The id filter keeps reflection off every other block; SparkStrength decides the rest silently.
-     * 打到墙上的一枪会伤害其落点处的 SparkStrength 接线箱（所有者 2026-10-21 决定）。先按 id 过滤，其他方块不触发反射；
-     * 其余条件由 SparkStrength 静默判定。
+     * A shot that reached the wall damages the saboteur junction box ({@code sparkdlc:junction_box}) it landed on
+     * (owner decision 2026-10-21). The id filter keeps the sabotage gates off every other block; the sabotage feature
+     * owns every rule (who may pry, closed and wired box, sabotage still locked, map ready) and checks them silently,
+     * so a refused gate means the hit does nothing to the box. The damage is in its durability unit (hundredths of a
+     * percent, 10_000 = 100%); reaching 0 opens the box like a finished pry, credited to the shooter.
+     * 打到墙上的一枪会伤害其落点处的破坏者接线箱（{@code sparkdlc:junction_box}，所有者 2026-10-21 决定）。先按 id 过滤，
+     * 其他方块不会进入破坏门槛；所有破坏规则（谁可撬箱、箱子关闭且已接线、破坏仍处于锁定、地图就绪）由破坏功能自行静默校验，
+     * 任一门槛不通过时这次命中对箱子毫无作用。伤害使用其耐久单位（万分之一，10_000 = 100%）；耐久降至 0 时如同撬箱完成般
+     * 打开箱子，并记在射手名下。
      */
     private static void hitJunctionBox(ServerPlayerEntity shooter, double range) {
         if (wallHit(shooter, shooter.getRotationVec(1.0F), range) instanceof BlockHitResult wall
                 && wall.getType() == HitResult.Type.BLOCK
-                && SparkStrengthJunctionBoxCompat.JUNCTION_BOX_ID.equals(
+                && SparkStrengthBlocks.JUNCTION_BOX_ID.equals(
                         Registries.BLOCK.getId(shooter.getWorld().getBlockState(wall.getBlockPos()).getBlock()))) {
-            SparkStrengthJunctionBoxCompat.damage(shooter, wall.getBlockPos(), HunterRules.SHOTGUN_JUNCTION_BOX_DAMAGE);
+            JunctionBoxService.damageByWeapon(shooter, wall.getBlockPos(), HunterRules.SHOTGUN_JUNCTION_BOX_DAMAGE);
         }
     }
 

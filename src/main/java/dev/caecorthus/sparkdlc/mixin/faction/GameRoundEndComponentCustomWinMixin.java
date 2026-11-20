@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.mixin.faction;
 
 import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
-import dev.caecorthus.sparkdlc.round.end.FactionRoundEndRows;
 import dev.caecorthus.sparkdlc.round.end.FactionRoundEndStateRules;
+import dev.caecorthus.sparkdlc.round.end.RoundEndRows;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -22,8 +22,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Writes a custom faction win (the custom faction round-end state) into Wathe's round-end data and answers
+ * {@code didWin} from it. Same priority as the traits' {@code GameRoundEndComponentEffectiveWinMixin}, which injects
+ * at the same two HEADs and also cancels: this mixin is listed earlier in the config, so its callbacks run first and a
+ * custom win takes precedence over the effective-team win. Keep that config order.
+ * 将自定义阵营胜利（自定义阵营结算状态）写入 Wathe 的结算数据，并据此回答 {@code didWin}。与词条的
+ * {@code GameRoundEndComponentEffectiveWinMixin} 优先级相同，后者在同样的两个 HEAD 注入且同样会取消：本 mixin 在配置中排在前面，
+ * 因此其回调先运行，自定义胜利优先于有效阵营胜利。保持这一配置顺序。
+ */
 @Mixin(value = GameRoundEndComponent.class, remap = false)
-public abstract class GameRoundEndComponentMixin {
+public abstract class GameRoundEndComponentCustomWinMixin {
     @Shadow
     @Final
     private Scoreboard scoreboard;
@@ -69,8 +78,8 @@ public abstract class GameRoundEndComponentMixin {
 
         this.players.clear();
         GameWorldComponent game = GameWorldComponent.KEY.get(serverWorld);
-        this.gameMode = FactionRoundEndRows.gameModeId(game);
-        this.players.addAll(FactionRoundEndRows.rows(serverWorld, game, customRoundEnd));
+        this.gameMode = RoundEndRows.gameModeId(game);
+        this.players.addAll(RoundEndRows.rows(serverWorld, game, (uuid, role) -> customRoundEnd.didWin(uuid)));
 
         this.winStatus = winStatus;
         this.sync();

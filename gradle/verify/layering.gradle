@@ -105,11 +105,14 @@ def roleFeatures = [
         except : []
 ]
 // The core's contract: what a role feature may name of the core. `faction.api` and `cooldown.api` are the contract
-// packages; SettlementExclusions is the settlement rule list roles and traits register into; the cooldown accessors
-// are the mod-wide accessor interfaces on ItemCooldownManager.
+// packages; SettlementExclusions is the settlement rule list roles and traits register into; RoundEndRows is the Wathe
+// round-end row builder the traits' effective-win writer shares with the core's custom-win writer; the cooldown
+// accessors are the mod-wide accessor interfaces on ItemCooldownManager.
 // 核心的契约：职业功能可以引用的核心内容。`faction.api` 与 `cooldown.api` 是契约包；SettlementExclusions 是职业与词条向其注册的
-// 结算规则列表；冷却访问器是全模组共用的 ItemCooldownManager 访问器接口。
-def sharedCoreContract = ["faction/api/", "cooldown/api/", "round/settlement/SettlementExclusions", "mixin/cooldown/"]
+// 结算规则列表；RoundEndRows 是词条有效胜利写入方与核心自定义胜利写入方共用的 Wathe 结算行构造器；冷却访问器是全模组共用的
+// ItemCooldownManager 访问器接口。
+def sharedCoreContract = ["faction/api/", "cooldown/api/", "round/settlement/SettlementExclusions", "round/end/RoundEndRows",
+                          "mixin/cooldown/"]
 // Role-feature classes that name a core class outside the contract, each with the classes it may name and why.
 // 引用了契约之外核心类的职业功能类，各自列出允许引用的类及原因。
 def sharedCoreContractExceptions = [

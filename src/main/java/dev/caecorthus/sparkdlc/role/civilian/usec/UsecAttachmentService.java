@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
-import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentRules.Gate;
@@ -258,8 +257,7 @@ public final class UsecAttachmentService {
         PlayerInventory inventory = player.getInventory();
         return UsecAttachmentRules.releaseSlot(
                 slot -> UsecShopPurchase.fitsWhole(inventory, inventory.getStack(slot), stack),
-                slot -> inventory.getStack(slot).isEmpty(),
-                LimitedInventoryRows.isSecondRowShown());
+                slot -> inventory.getStack(slot).isEmpty());
     }
 
     /**

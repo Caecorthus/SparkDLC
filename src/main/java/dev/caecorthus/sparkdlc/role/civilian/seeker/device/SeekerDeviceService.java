@@ -416,8 +416,7 @@ public final class SeekerDeviceService {
             for (int index = 0; index < mainEmpty.length; index++) {
                 mainEmpty[index] = inventory.main.get(index).isEmpty();
             }
-            int slot = chooseReturnSlot(originalSlot, originalEmpty, mainEmpty, PlayerInventory.getHotbarSize(),
-                    LimitedInventoryRows.isSecondRowShown());
+            int slot = chooseReturnSlot(originalSlot, originalEmpty, mainEmpty, PlayerInventory.getHotbarSize());
             if (slot < 0) {
                 if (!status.pendingReturn()) {
                     status.apply(status.state().setPendingReturn(true));
@@ -644,16 +643,13 @@ public final class SeekerDeviceService {
     }
 
     /**
-     * Return slot: the original index when still empty, else the first empty hotbar slot, else (when the second row
-     * is shown) the first empty slot of the second row 27-35, so the car stays reachable, else the first empty main
-     * slot; -1 when the inventory is full. {@code LimitedInventoryRows.isSecondRowShown} is constant true now (it
-     * used to detect SparkFactionAPI 0.1.5.13+), so the not-shown path is unreachable since the fusion.
-     * 归还槽位：原索引仍为空时优先；否则快捷栏首个空位；否则（第二行显示时）第二行 27-35 的首个空位，使小车仍可取用；
-     * 否则主背包首个空位；背包已满时返回 -1。{@code LimitedInventoryRows.isSecondRowShown} 如今恒为 true（原先用于检测
-     * SparkFactionAPI 0.1.5.13+），因此“不显示”的路径融合后不可达。
+     * Return slot: the original index when still empty, else the first empty hotbar slot, else the first empty slot
+     * of the shown second row 27-35, so the car stays reachable, else the first empty main slot; -1 when the
+     * inventory is full.
+     * 归还槽位：原索引仍为空时优先；否则快捷栏首个空位；否则显示的第二行 27-35 的首个空位，使小车仍可取用；
+     * 否则主背包首个空位；背包已满时返回 -1。
      */
-    static int chooseReturnSlot(int originalSlot, boolean originalEmpty, boolean[] mainEmpty, int hotbarSize,
-                                boolean secondRowShown) {
+    static int chooseReturnSlot(int originalSlot, boolean originalEmpty, boolean[] mainEmpty, int hotbarSize) {
         if (originalSlot >= 0 && originalEmpty) {
             return originalSlot;
         }
@@ -663,12 +659,10 @@ public final class SeekerDeviceService {
                 return index;
             }
         }
-        if (secondRowShown) {
-            int end = Math.min(LimitedInventoryRows.SECOND_ROW_END, mainEmpty.length);
-            for (int index = LimitedInventoryRows.SECOND_ROW_START; index < end; index++) {
-                if (mainEmpty[index]) {
-                    return index;
-                }
+        int end = Math.min(LimitedInventoryRows.SECOND_ROW_END, mainEmpty.length);
+        for (int index = LimitedInventoryRows.SECOND_ROW_START; index < end; index++) {
+            if (mainEmpty[index]) {
+                return index;
             }
         }
         for (int index = hotbar; index < mainEmpty.length; index++) {

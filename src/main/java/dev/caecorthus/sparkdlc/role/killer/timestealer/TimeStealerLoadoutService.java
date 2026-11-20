@@ -134,23 +134,21 @@ public final class TimeStealerLoadoutService {
 
     /**
      * Where the displaced hotbar item goes, given the slot a removed misplaced Clock {@code vacated} (or
-     * {@link #NO_SLOT}): with the second row shown, the vacated slot when it is in that row, else its first empty slot,
-     * so the item stays visible; then the vacated slot; then main slots 9-35; then an empty offhand; {@link #NO_SLOT}
-     * with no room. Without the second row this is the old order (vacated slot, 9-35, offhand).
+     * {@link #NO_SLOT}): the vacated slot when it is in the shown second row, else that row's first empty slot, so the
+     * item stays visible; then the vacated slot; then main slots 9-35; then an empty offhand; {@link #NO_SLOT} with no
+     * room.
      * 被移出的快捷栏物品的去处（{@code vacated} 为被移除的错放时钟腾出的栏位，或 {@link #NO_SLOT}）：
-     * 显示第二行时，若腾出的栏位在该行则用它，否则用该行第一个空栏位，使物品仍可见；然后是腾出的栏位；然后是主背包 9-35；
-     * 然后是空副手；没有空间时为 {@link #NO_SLOT}。没有第二行时即旧顺序（腾出的栏位、9-35、副手）。
+     * 若腾出的栏位在显示的第二行则用它，否则用该行第一个空栏位，使物品仍可见；然后是腾出的栏位；然后是主背包 9-35；
+     * 然后是空副手；没有空间时为 {@link #NO_SLOT}。
      */
-    static int displacementSlot(boolean secondRowShown, int vacated, IntPredicate emptySlot) {
-        if (secondRowShown) {
-            if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
-                return vacated;
-            }
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (emptySlot.test(slot)) {
-                    return slot;
-                }
+    static int displacementSlot(int vacated, IntPredicate emptySlot) {
+        if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
+            return vacated;
+        }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (emptySlot.test(slot)) {
+                return slot;
             }
         }
         if (vacated != NO_SLOT) {
@@ -270,7 +268,7 @@ public final class TimeStealerLoadoutService {
         int target = hotbarTarget(inventory.selectedSlot, slot -> inventory.getStack(slot).isEmpty());
         if (target == NO_SLOT) {
             target = displacedHotbarSlot(inventory.selectedSlot);
-            int destination = displacementSlot(LimitedInventoryRows.isSecondRowShown(), vacated,
+            int destination = displacementSlot(vacated,
                     slot -> inventory.getStack(slot).isEmpty());
             if (destination == NO_SLOT) {
                 return false;

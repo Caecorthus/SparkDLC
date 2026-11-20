@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.client.inventory.armor;
 
 import com.mojang.datafixers.util.Pair;
-import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlot;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -66,11 +65,11 @@ public final class LimitedInventoryArmorSlots {
 
     /**
      * The layout anchor for Wathe's strip top {@code stripY}: the armor block centres on the inventory block, which
-     * includes the second row when that is shown.
-     * Wathe 热栏顶边 {@code stripY} 对应的布局锚点：护甲块以物品栏块为中心，显示第二行时物品栏块包括第二行。
+     * includes the shown second row.
+     * Wathe 热栏顶边 {@code stripY} 对应的布局锚点：护甲块以物品栏块为中心，物品栏块包括显示的第二行。
      */
     public static int anchorY(int stripY) {
-        return LimitedInventoryArmorLayout.anchorY(stripY, LimitedInventoryRows.isSecondRowShown());
+        return LimitedInventoryArmorLayout.anchorY(stripY);
     }
 
     /** {@code screenY} is the layout anchor ({@link #anchorY}). / {@code screenY} 为布局锚点。 */
@@ -240,17 +239,12 @@ public final class LimitedInventoryArmorSlots {
 
     /**
      * A hotbar slot is free, or a second-row slot: where the server's close offer of a cursor stack lands before any
-     * hidden slot. The hotbar-only return (second row not shown) is unreachable since the fusion: the row is always
-     * shown.
+     * hidden slot.
      * 有空快捷栏格，或有空的第二行格：服务器在关闭界面时放回光标物品会先落在这些位置，而不是隐藏栏位。
-     * “不显示第二行”时只看快捷栏的返回在融合后不可达：第二行恒显示。
      */
     private static boolean shownSlotFree(ScreenHandler handler) {
         if (firstEmptyHotbarButton(handler) >= 0) {
             return true;
-        }
-        if (!LimitedInventoryRows.isSecondRowShown()) {
-            return false;
         }
         for (int id = SECOND_ROW_START; id < SECOND_ROW_END; id++) {
             if (!handler.getSlot(id).hasStack()) {

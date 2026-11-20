@@ -74,13 +74,13 @@ public final class LimitedInventoryArmorLayout {
     }
 
     /**
-     * The y every other method here takes as {@code screenY}: Wathe's strip top, or with the second row shown, the top
-     * of a strip-high band with the same centre as the 176x54 inventory block ({@code screenY - 22}).
-     * 本类其他方法作为 {@code screenY} 接收的 y：Wathe 热栏顶边；显示第二行时，为与 176x54 物品栏块（{@code screenY - 22}）
-     * 同中心、热栏高度的区域顶边。
+     * The y every other method here takes as {@code screenY}: the top of a strip-high band with the same centre as the
+     * 176x54 inventory block (Wathe's strip top {@code stripY} plus the second row above it, {@code stripY - 22}).
+     * 本类其他方法作为 {@code screenY} 接收的 y：与 176x54 物品栏块（Wathe 热栏顶边 {@code stripY} 加上其上方的第二行，
+     * 即 {@code stripY - 22}）同中心、热栏高度的区域顶边。
      */
-    public static int anchorY(int stripY, boolean secondRow) {
-        return secondRow ? stripY - SECOND_ROW_PITCH / 2 : stripY;
+    public static int anchorY(int stripY) {
+        return stripY - SECOND_ROW_PITCH / 2;
     }
 
     /** Top edge of the block for the anchor {@code screenY} ({@link #anchorY}). / 护甲块顶边。 */

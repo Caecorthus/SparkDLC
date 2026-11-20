@@ -110,8 +110,7 @@ public final class PotionGunnerLoadoutService {
                 kept.setCount(1);
                 changed = true;
             }
-            int moved = keeperMoveSlot(keeper, LimitedInventoryRows.isSecondRowShown(),
-                    slot -> inventory.getStack(slot).isEmpty());
+            int moved = keeperMoveSlot(keeper, slot -> inventory.getStack(slot).isEmpty());
             if (moved != NO_SLOT) {
                 inventory.setStack(keeper, ItemStack.EMPTY);
                 inventory.setStack(moved, kept);
@@ -119,7 +118,7 @@ public final class PotionGunnerLoadoutService {
                 changed = true;
             }
         } else {
-            int target = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
+            int target = placementSlot(slot -> inventory.getStack(slot).isEmpty());
             kept = target == NO_SLOT ? null : new ItemStack(SparkDlcItems.potionLauncher());
             if (kept != null) {
                 inventory.setStack(target, kept);
@@ -268,14 +267,14 @@ public final class PotionGunnerLoadoutService {
 
     /**
      * Where a kept launcher outside the hotbar moves, or {@link #NO_SLOT} to leave it: the leftmost empty hotbar slot;
-     * else, with the second row shown and the launcher not already in it, the first empty second-row slot 27-35, so a
+     * else, when the launcher is not already in the shown second row, that row's first empty slot 27-35, so a
      * launcher in hidden storage, the offhand or armor becomes visible. A launcher parked in the shown row therefore
      * still moves into a free hotbar slot.
-     * 不在快捷栏的保留炮筒要移到的位置，保持不动时为 {@link #NO_SLOT}：最左侧空快捷栏位；否则在显示第二行且炮筒不在该行
+     * 不在快捷栏的保留炮筒要移到的位置，保持不动时为 {@link #NO_SLOT}：最左侧空快捷栏位；否则在炮筒不在显示的第二行
      * 时，移到第二行 27-35 的第一个空栏位，使位于隐藏栏位、副手或盔甲栏的炮筒变为可见。因此放在显示中第二行的炮筒仍会移
      * 入空快捷栏位。
      */
-    static int keeperMoveSlot(int keeper, boolean secondRowShown, IntPredicate emptySlot) {
+    static int keeperMoveSlot(int keeper, IntPredicate emptySlot) {
         if (PlayerInventory.isValidHotbarIndex(keeper)) {
             return NO_SLOT;
         }
@@ -284,7 +283,7 @@ public final class PotionGunnerLoadoutService {
                 return slot;
             }
         }
-        if (secondRowShown && !LimitedInventoryRows.isSecondRowIndex(keeper)) {
+        if (!LimitedInventoryRows.isSecondRowIndex(keeper)) {
             for (int slot = LimitedInventoryRows.SECOND_ROW_START;
                  slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
@@ -296,23 +295,21 @@ public final class PotionGunnerLoadoutService {
     }
 
     /**
-     * Where a launcher goes: the leftmost empty hotbar slot, else (when shown) the first empty second-row slot 27-35, so
-     * it stays visible, else the first empty main slot 9-35, else {@link #NO_SLOT}. Never the offhand or armor.
-     * 炮筒放置的位置：最左侧空快捷栏位，否则（显示时）第二行 27-35 的第一个空栏位使其仍可见，否则第一个空的主背包栏位
+     * Where a launcher goes: the leftmost empty hotbar slot, else the first empty second-row slot 27-35, so it stays
+     * visible, else the first empty main slot 9-35, else {@link #NO_SLOT}. Never the offhand or armor.
+     * 炮筒放置的位置：最左侧空快捷栏位，否则第二行 27-35 的第一个空栏位使其仍可见，否则第一个空的主背包栏位
      * 9-35，否则 {@link #NO_SLOT}。从不放入副手或盔甲栏。
      */
-    static int placementSlot(boolean secondRowShown, IntPredicate emptySlot) {
+    static int placementSlot(IntPredicate emptySlot) {
         for (int slot = 0; slot < PlayerInventory.getHotbarSize(); slot++) {
             if (emptySlot.test(slot)) {
                 return slot;
             }
         }
-        if (secondRowShown) {
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (emptySlot.test(slot)) {
-                    return slot;
-                }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (emptySlot.test(slot)) {
+                return slot;
             }
         }
         for (int slot = PlayerInventory.getHotbarSize(); slot < PlayerInventory.MAIN_SIZE; slot++) {
@@ -325,22 +322,20 @@ public final class PotionGunnerLoadoutService {
 
     /**
      * Return order for a bound stack, never the offhand or armor and never a slot holding anything else, tier by tier
-     * (same-type stacks with room, then empty slots): the hotbar, then (when shown) the second row 27-35, then (unless
-     * {@code shownOnly}) the hidden main slots, which are 9-26 with the second row shown and 9-35 without it. The one
-     * exception is the sweep's shown-only surfacing with the second row shown: it merges into shown stacks, then fills
+     * (same-type stacks with room, then empty slots): the hotbar, then the second row 27-35, then the hidden main
+     * slots 9-26. The sweep's shown-only surfacing ({@code shownOnly}) differs: it merges into shown stacks, then fills
      * the second row before empty hotbar slots, so it never takes a hotbar slot the player keeps free while the row has
-     * room (Wathe's custom shop handlers and the psycho bat need a free hotbar slot).
+     * room (Wathe's custom shop handlers and the psycho bat need a free hotbar slot), and never uses hidden slots.
      * 绑定物品堆的放回顺序，从不使用副手或盔甲栏，也从不占用放着其他物品的栏位；逐层进行（先有空余的同种物品堆，再空栏位）：
-     * 快捷栏，然后（显示时）第二行 27-35，然后（{@code shownOnly} 为 false 时）隐藏主背包栏位：显示第二行时为 9-26，
-     * 否则为 9-35。唯一例外是显示第二行时清扫的“仅显示栏位”移出：先并入显示中的同种物品堆，再先填第二行、后填空快捷栏位，
-     * 因此在第二行有空间时绝不占用玩家特意空出的快捷栏位（Wathe 自定义商店处理与疯魔球棒需要空快捷栏位）。
+     * 快捷栏，然后第二行 27-35，然后隐藏主背包栏位 9-26。清扫的“仅显示栏位”移出（{@code shownOnly}）不同：先并入显示中的
+     * 同种物品堆，再先填第二行、后填空快捷栏位，因此在第二行有空间时绝不占用玩家特意空出的快捷栏位（Wathe 自定义商店处理与
+     * 疯魔球棒需要空快捷栏位），且从不使用隐藏栏位。
      */
-    static List<Integer> returnSlots(IntPredicate sameTypeWithRoom, IntPredicate empty, boolean shownOnly,
-                                     boolean secondRowShown) {
+    static List<Integer> returnSlots(IntPredicate sameTypeWithRoom, IntPredicate empty, boolean shownOnly) {
         int hotbar = PlayerInventory.getHotbarSize();
-        int hiddenEnd = secondRowShown ? LimitedInventoryRows.SECOND_ROW_START : PlayerInventory.MAIN_SIZE;
+        int hiddenEnd = LimitedInventoryRows.SECOND_ROW_START;
         List<Integer> slots = new ArrayList<>();
-        if (shownOnly && secondRowShown) {
+        if (shownOnly) {
             collect(slots, 0, hotbar, sameTypeWithRoom);
             collect(slots, hiddenEnd, PlayerInventory.MAIN_SIZE, sameTypeWithRoom);
             collect(slots, hiddenEnd, PlayerInventory.MAIN_SIZE, empty);
@@ -349,14 +344,10 @@ public final class PotionGunnerLoadoutService {
         }
         collect(slots, 0, hotbar, sameTypeWithRoom);
         collect(slots, 0, hotbar, empty);
-        if (secondRowShown) {
-            collect(slots, hiddenEnd, PlayerInventory.MAIN_SIZE, sameTypeWithRoom);
-            collect(slots, hiddenEnd, PlayerInventory.MAIN_SIZE, empty);
-        }
-        if (!shownOnly) {
-            collect(slots, hotbar, hiddenEnd, sameTypeWithRoom);
-            collect(slots, hotbar, hiddenEnd, empty);
-        }
+        collect(slots, hiddenEnd, PlayerInventory.MAIN_SIZE, sameTypeWithRoom);
+        collect(slots, hiddenEnd, PlayerInventory.MAIN_SIZE, empty);
+        collect(slots, hotbar, hiddenEnd, sameTypeWithRoom);
+        collect(slots, hotbar, hiddenEnd, empty);
         return slots;
     }
 
@@ -366,7 +357,7 @@ public final class PotionGunnerLoadoutService {
      */
     static boolean returnToInventory(PlayerInventory inventory, ItemStack stack, boolean shownOnly) {
         for (int slot : returnSlots(index -> canMerge(inventory, inventory.getStack(index), stack),
-                index -> inventory.getStack(index).isEmpty(), shownOnly, LimitedInventoryRows.isSecondRowShown())) {
+                index -> inventory.getStack(index).isEmpty(), shownOnly)) {
             if (stack.isEmpty()) {
                 break;
             }
@@ -414,18 +405,14 @@ public final class PotionGunnerLoadoutService {
      * Moves shells out of hidden main slots into shown room in {@link #returnSlots} shown-only order; true when
      * anything moved. The second row 27-35 is shown, so shells parked there stay put: loading works from any shown
      * slot, and pulling them back would refill a hotbar slot the player kept free (Wathe's custom shop handlers and the
-     * psycho bat need one). The branch for a hidden second row (27-35 surfaced into the hotbar) is unreachable since
-     * the fusion: {@code LimitedInventoryRows.isSecondRowShown} is always true.
+     * psycho bat need one).
      * 按 {@link #returnSlots} 的“仅显示栏位”顺序把隐藏主背包栏位中的炮弹移入显示中的空余处；有移动时返回 true。第二行
      * 27-35 处于显示状态，因此放在那里的炮弹保持不动：在任何显示中的栏位都能装填，把它们拉回会占掉玩家特意空出的快捷栏
-     * 位（Wathe 自定义商店处理与疯魔球棒需要它）。第二行隐藏时的分支（27-35 移入快捷栏）融合后不可达：
-     * {@code LimitedInventoryRows.isSecondRowShown} 恒为 true。
+     * 位（Wathe 自定义商店处理与疯魔球棒需要它）。
      */
     private static boolean surfaceHiddenShells(PlayerInventory inventory) {
         boolean changed = false;
-        int hiddenEnd = LimitedInventoryRows.isSecondRowShown()
-                ? LimitedInventoryRows.SECOND_ROW_START : PlayerInventory.MAIN_SIZE;
-        for (int slot = PlayerInventory.getHotbarSize(); slot < hiddenEnd; slot++) {
+        for (int slot = PlayerInventory.getHotbarSize(); slot < LimitedInventoryRows.SECOND_ROW_START; slot++) {
             ItemStack stack = inventory.getStack(slot);
             if (!PotionGunnerInventoryRules.isShell(stack)) {
                 continue;

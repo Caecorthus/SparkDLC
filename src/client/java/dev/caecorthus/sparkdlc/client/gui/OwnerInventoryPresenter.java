@@ -65,7 +65,7 @@ public final class OwnerInventoryPresenter {
      */
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
-                () -> LimitedInventoryRows.isSecondRowShown() ? 22 : 0,
+                () -> 22,
                 KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkDLC/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();

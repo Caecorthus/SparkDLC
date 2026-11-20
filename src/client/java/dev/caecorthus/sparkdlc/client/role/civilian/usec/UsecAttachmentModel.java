@@ -83,9 +83,9 @@ public final class UsecAttachmentModel {
 
     /**
      * Client approximation of the server's shown-slot room check ({@code UsecAttachmentRules.releaseSlot}, A7): a free
-     * shown slot (hotbar, the second row while shown) or an empty offhand, and the round types that still fit on a
+     * shown slot (hotbar, the shown second row) or an empty offhand, and the round types that still fit on a
      * shown stack. / 服务端显示栏位空位检查的客户端近似（{@code UsecAttachmentRules.releaseSlot}，A7）：是否有空的显示栏位
-     * （快捷栏、显示时的第二行）或空副手，以及仍能叠入显示中物品堆的弹种。
+     * （快捷栏、显示的第二行）或空副手，以及仍能叠入显示中物品堆的弹种。
      */
     public record Room(boolean freeSlot, Set<UsecAmmoType> roundStacksWithRoom) {
         public static final Room NONE = new Room(false, Set.of());

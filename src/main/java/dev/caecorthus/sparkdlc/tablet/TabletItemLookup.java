@@ -1,21 +1,20 @@
 package dev.caecorthus.sparkdlc.tablet;
 
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * The tablet item ({@code sparkdlc:tablet}) as the features that use it as a console see it (the Seeker console, the
- * Rift Gate console): whether a stack is one, and whether a player carries one anywhere. A stack is matched by its
- * registry id, so asking never loads the item registry class. Those features never sell or grant the tablet: it is
- * issued free at round start (and to players who become eligible mid-round). Possession for the tablet's own
- * channels is the hotbar-only rule in {@link TabletAccess}.
+ * Rift Gate console): whether a stack is one, and whether a player carries one anywhere. A stack is matched against the
+ * registered item ({@code SparkDlcItems.tablet()}). Those features never sell or grant the tablet: it is issued free at
+ * round start (and to players who become eligible mid-round). Possession for the tablet's own channels is the
+ * hotbar-only rule in {@link TabletAccess}.
  * 把平板物品（{@code sparkdlc:tablet}）当作控制台使用的功能（搜寻者控制台、裂隙门控制台）所看到的平板：某个物品堆是否是平板、
- * 玩家是否在任意位置携带平板。物品堆按注册 id 匹配，因此查询不会加载物品注册类。这些功能从不出售或发放平板：平板在开局
- * （以及对局中途获得资格时）免费发放。平板自身频道的持有判定是 {@link TabletAccess} 中的仅快捷栏规则。
+ * 玩家是否在任意位置携带平板。物品堆与已注册的物品（{@code SparkDlcItems.tablet()}）比对。这些功能从不出售或发放平板：平板
+ * 在开局（以及对局中途获得资格时）免费发放。平板自身频道的持有判定是 {@link TabletAccess} 中的仅快捷栏规则。
  *
  * <p>There is no "does the tablet item exist" question any more: this mod registers the tablet itself, unconditionally,
  * during start-up, so the answer was always yes (the lazy registry lookup and its cache are removed with the Seeker's
@@ -24,14 +23,11 @@ import org.jetbrains.annotations.Nullable;
  * 分支一并移除）。</p>
  */
 public final class TabletItemLookup {
-    public static final String MOD_ID = "sparkdlc";
-    public static final Identifier TABLET_ID = Identifier.of(MOD_ID, "tablet");
-
     private TabletItemLookup() {
     }
 
     public static boolean isTablet(@Nullable ItemStack stack) {
-        return stack != null && !stack.isEmpty() && TABLET_ID.equals(Registries.ITEM.getId(stack.getItem()));
+        return stack != null && !stack.isEmpty() && stack.isOf(SparkDlcItems.tablet());
     }
 
     /**

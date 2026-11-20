@@ -29,7 +29,7 @@ import java.util.UUID;
 
 /**
  * Server side of the Rift Gate console in the tablet (D12, D16, C9; plan §15, research 05 option c): only a live
- * Riftwalker (RAW role) with {@code sparkdlc:tablet} in hotbar slots 0–8 (matched by registry id) may open it.
+ * Riftwalker (RAW role) with {@code sparkdlc:tablet} in hotbar slots 0–8 may open it.
  * Protocol: the client opener sends {@code rift_gate_console_request(OPEN)}; the server answers with a
  * {@code rift_gate_console} snapshot carrying a fresh console session id, and the open console polls with that id about
  * once per second. The server never pushes on its own except right after a close; it learns that the console closed
@@ -37,7 +37,7 @@ import java.util.UUID;
  * gates. Every request is re-validated here; the client only predicts. Any Riftwalker may close any gate (forced
  * multiple Riftwalkers share one network). Owned by P8.
  * 平板中的裂隙门控制台的服务端（D12、D16、C9；plan §15，调研 05 方案 c）：只有快捷栏 0–8 格持有 {@code sparkdlc:tablet}
- * （按注册 id 匹配）的存活隙行者（原始职业）才能打开。协议：客户端拦截器发送 {@code rift_gate_console_request(OPEN)}；
+ * 的存活隙行者（原始职业）才能打开。协议：客户端拦截器发送 {@code rift_gate_console_request(OPEN)}；
  * 服务端以携带新控制台会话 id 的 {@code rift_gate_console} 快照应答，打开中的控制台约每秒用该 id 轮询一次。除关门后立即
  * 回推外，服务端从不主动推送；轮询停止（{@link RiftGateConsoleRules#SESSION_TIMEOUT_TICKS}）即视为控制台已关闭，失效的
  * 会话不能再关门。每个请求都在此重新校验，客户端只做预测。任何隙行者都能关闭任何门（强制出现的多名隙行者共用一张门

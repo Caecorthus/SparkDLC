@@ -160,12 +160,12 @@ public final class KnightDuelSeal {
     public static boolean whitelisted(Item item) {
         if (item == WatheItems.LETTER || item == WatheItems.KEY || item == WatheItems.LOCKPICK
                 || item == WatheItems.CROWBAR || item == WatheItems.KNIFE || item == WatheItems.DERRINGER
-                || item == SparkDlcItems.crossSword() || item instanceof CocktailItem) {
+                || item == SparkDlcItems.crossSword() || item == SparkDlcItems.tablet()
+                || item instanceof CocktailItem) {
             return true;
         }
         Identifier id = Registries.ITEM.getId(item);
-        if (id.equals(KnightDuelRules.MASTER_KEY_ID) || id.equals(KnightDuelRules.NEUTRAL_MASTER_KEY_ID)
-                || id.equals(KnightDuelRules.TABLET_ID)) {
+        if (id.equals(KnightDuelRules.MASTER_KEY_ID) || id.equals(KnightDuelRules.NEUTRAL_MASTER_KEY_ID)) {
             return true;
         }
         if (!id.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {

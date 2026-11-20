@@ -147,7 +147,7 @@ SparkStrength and SparkAssist do not own SparkWitch gameplay.
 Round-start subtitles are one short sentence per role (owner, 2026-10-25): Wathe shows `announcement.goal.<role>`
 with one killer and `announcement.goals.<role>` with more, so both keys carry the same line; rules, costs and
 cooldowns go in letters, skill descriptions and the SparkAssist guidebook (`roles/RoleGoalSubtitleTest` caps them).
-The Seeker's console is the tablet (`sparkdlc:tablet`), matched by registry id only. The tablet is registered by
+The Seeker's console is the tablet (`sparkdlc:tablet`), matched as the registered item (`SparkDlcItems.tablet()`). The tablet is registered by
 this mod itself, so the former "Seeker availability requires the tablet item" draw condition and the car-as-console
 fallback are gone (they were constant in one mod); SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
 issues it free at round start to every tablet-eligible player (SparkWitch's `PoliceRoles` members and the witch
@@ -5844,7 +5844,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
 - **Projectiles** (`projectile/RiftGateProjectileService`, vanilla deflection seam). Any projectile, pearls included
   (D8, C5), moves to the front of a random other gate with rotated velocity, else reflects at full speed; at most 3
   passes. The NR throwing axe uses `mixin/role/witch/riftwalker/RiftThrowingAxeMixin`, the SparkStrength M67 `RiftGateM67Sweep`
-  (registry id only). Hitscan ignores gates; a custom player-only `canHit` must accept gates via `isProjectileTarget`.
+  (matched by the registered type `SparkDlcEntities.m67()`). Hitscan ignores gates; a custom player-only `canHit` must accept gates via `isProjectileTarget`.
   D18: the Abyss Listener flask does so (`DeepDarkSporeFlaskEntity.canHit`), and the Potion Gunner shell, which every
   non-player entity already stops, keeps the gate's exit velocity and its flat-range path length across a pass
   (`PotionShellEntity.onDeflected`).
@@ -5893,7 +5893,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
 - **Cross-mod seams.** SparkTraits only through existing bridges, failing closed: `isKillerInteractionBlocked`,
   `isRoleSkillBlocked`, `isLastEscapeActive`, `registerTerminalDeathReason` (`SparkTraitsApi`),
   `isLastStandPending` (`SparkTraitsApi`), `isLastStandDeathIntercepted` (`SparkTraitsApi`).
-  SparkStrength only by id (tablet, M67, `sparkdlc:engineer_stunned`). SparkTraits
+  SparkStrength's tablet, M67 and `sparkdlc:engineer_stunned` are referenced directly. SparkTraits
   `feat/accomplice-riftwalker-support` adds the Riftwalker to its five hard-coded accomplice id sets.
 - **Gaps and tests.** Open owner calls:
   - C11: the NR Pathogen can still infect an occupant within 3 blocks (non-lethal).
@@ -5961,9 +5961,9 @@ and `PartygoerHitGeometry` are asked directly), `RoleKitBlastOrigin` (`AttackOri
 (`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
 `stun`), and on the client the mana row, Tarot table and inventory cards (`KillerTeamEconomyClientHooks.topRightHudBottom`),
 `client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`) and
-`client/mixin/scope/ScopeAccessibilityOptionsMixin` (`SparkDlcSettingsApi.hostsScopeSettings`, asked without the former `SparkDlcSettingsBridge`). The registry-id-only seams
-(`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) keep their id lookups
-and only lost the mod gate. Where the role sections below and above describe an absent, older or failing SparkStrength
+`client/mixin/scope/ScopeAccessibilityOptionsMixin` (`SparkDlcSettingsApi.hostsScopeSettings`, asked without the former `SparkDlcSettingsBridge`). The former registry-id-only seams
+(`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) reference
+the registered tablet and M67 type directly. Where the role sections below and above describe an absent, older or failing SparkStrength
 or SparkAssist (fail closed, "disabled for the session", a logged warning),
 that branch can no longer occur: a sibling failure propagates instead of turning into a default.
 `compat/OptionalStaticMethod` is deleted (the

@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsVultureCompat;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
 import dev.doctor4t.wathe.api.Role;
@@ -130,7 +129,7 @@ public final class VultureSuperCurseService {
         }
 
         boolean childish = VultureSuperCurseRules.isChildish(
-                SparkTraitsVultureCompat.getRoundEndTraitIds(world, victim.getUuid()));
+                SparkTraitsApi.getRoundEndTraitIds(world, victim.getUuid()));
         SoundEvent scream = childish
                 ? SparkStrengthSounds.VULTURE_DEATH_SCREAM_HELIUM
                 : SparkStrengthSounds.VULTURE_DEATH_SCREAM;

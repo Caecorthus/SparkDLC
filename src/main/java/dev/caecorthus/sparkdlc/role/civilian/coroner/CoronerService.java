@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsReviveCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
@@ -356,7 +356,7 @@ public final class CoronerService {
         UUID ownerUuid = body.getPlayerUuid();
         return ownerUuid != null
                 && GameWorldComponent.KEY.get(world).isPlayerDead(ownerUuid)
-                && !SparkTraitsReviveCompat.isFakeDeathBody(body)
+                && !SparkTraitsApi.isFakeDeathBody(body)
                 && !PartygoerCorpseComponent.isPartygoerCorpse(body);
     }
 

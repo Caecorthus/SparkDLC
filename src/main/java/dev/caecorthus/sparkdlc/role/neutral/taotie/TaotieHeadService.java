@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.TaotieHeadEntity;
@@ -73,8 +73,8 @@ public final class TaotieHeadService {
                 || SwallowedPlayerComponent.isPlayerSwallowed(taotie)
                 || TaotieHeadDaze.isDazed(taotie)
                 || EngineerStunnedPlayerComponent.KEY.get(taotie).isStunned()
-                || SparkTraitsDroneCompat.isRoleSkillBlocked(taotie)
-                || SparkTraitsDroneCompat.isLastStandPending(taotie)) {
+                || SparkTraitsApi.isRoleSkillBlocked(taotie)
+                || SparkTraitsApi.isLastStandPending(taotie)) {
             return;
         }
         TaotieHeadPlayerComponent cooldown = TaotieHeadPlayerComponent.KEY.get(taotie);

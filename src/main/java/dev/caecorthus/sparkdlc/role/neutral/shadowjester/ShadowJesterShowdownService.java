@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.neutral.shadowjester;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsVultureCompat;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
@@ -174,7 +173,7 @@ public final class ShadowJesterShowdownService {
         if (role == null) {
             return false;
         }
-        List<Identifier> atDeath = SparkTraitsVultureCompat.getRoundEndTraitIds(world, victim.getUuid());
+        List<Identifier> atDeath = SparkTraitsApi.getRoundEndTraitIds(world, victim.getUuid());
         if (SparkTraitsApi.hasImpostor(victim) || atDeath.contains(IMPOSTOR_TRAIT_ID)) {
             return true;
         }

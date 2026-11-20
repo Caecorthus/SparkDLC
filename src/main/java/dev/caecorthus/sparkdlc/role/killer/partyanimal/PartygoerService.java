@@ -5,7 +5,6 @@ import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerOwnerComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDeathReasonCompat;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.nav.TrainNavGrid;
@@ -132,8 +131,8 @@ public final class PartygoerService {
         // Being eaten or kicked to death from inside is final: no Last Stand or Depression save.
         // 被吃掉或在肚里被一脚踢死都是最终死亡：背水一战与抑郁不会救人。
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            SparkTraitsDeathReasonCompat.registerTerminal(PartyAnimalRules.DEATH_REASON_EATEN);
-            SparkTraitsDeathReasonCompat.registerTerminal(PartyAnimalRules.DEATH_REASON_KICKED);
+            SparkTraitsApi.registerTerminalDeathReason(PartyAnimalRules.DEATH_REASON_EATEN);
+            SparkTraitsApi.registerTerminalDeathReason(PartyAnimalRules.DEATH_REASON_KICKED);
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             LIVE.clear();

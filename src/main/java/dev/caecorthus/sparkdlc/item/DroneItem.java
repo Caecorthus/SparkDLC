@@ -5,7 +5,6 @@ import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneCombatService;
@@ -104,7 +103,7 @@ public class DroneItem extends Item implements AdventureUsable {
                 || EngineerStunnedPlayerComponent.KEY.get(serverPlayer).isStunned()
                 || SparkTraitsApi.isKillerInteractionBlocked(serverPlayer)
                 // Deploying is a role skill, gated like piloting. / 部署属于职业技能，与驾驶同样受限。
-                || SparkTraitsDroneCompat.isRoleSkillBlocked(serverPlayer)
+                || SparkTraitsApi.isRoleSkillBlocked(serverPlayer)
                 || DronePilotService.isPiloting(serverPlayer)) {
             return ActionResult.FAIL;
         }

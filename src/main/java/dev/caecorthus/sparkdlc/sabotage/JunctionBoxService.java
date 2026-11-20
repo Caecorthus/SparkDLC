@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsSabotageCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.sabotage.net.ChannelProgressS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverService;
@@ -130,7 +130,7 @@ public final class JunctionBoxService {
         }
         stop(player, ChannelProgressS2CPacket.STATE_STOPPED);
         sabotage.addJunctionBox(pos);
-        int rate = SabotageRules.pryPerTick(SparkTraitsSabotageCompat.isMasterSaboteur(player));
+        int rate = SabotageRules.pryPerTick(SparkTraitsApi.hasMasterSaboteur(player));
         Channel channel = new Channel(ChannelProgressS2CPacket.KIND_PRY, type, world.getRegistryKey(), pos,
                 SabotageRules.DURABILITY_MAX, rate, now);
         channel.progress = SabotageRules.DURABILITY_MAX - sabotage.box(pos).durability;
@@ -169,7 +169,7 @@ public final class JunctionBoxService {
             return;
         }
         stop(player, ChannelProgressS2CPacket.STATE_STOPPED);
-        int total = SabotageRules.hackTicks(SparkTraitsSabotageCompat.isMasterSaboteur(player));
+        int total = SabotageRules.hackTicks(SparkTraitsApi.hasMasterSaboteur(player));
         Channel channel = new Channel(ChannelProgressS2CPacket.KIND_HACK, type, world.getRegistryKey(), pos, total, 1,
                 now);
         CHANNELS.put(player.getUuid(), channel);

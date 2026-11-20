@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DronePilotActionC2SPacket;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DronePilotCorrectionS2CPacket;
@@ -303,7 +302,7 @@ public final class DronePilotService {
         if (SparkTraitsApi.isKillerInteractionBlocked(player)) {
             return DronePilotEndReason.UNAVAILABLE;
         }
-        if (SparkTraitsDroneCompat.isRoleSkillBlocked(player)) {
+        if (SparkTraitsApi.isRoleSkillBlocked(player)) {
             return DronePilotEndReason.SKILL_BLOCKED;
         }
         // An admin cooldown clear of this drone's kind lifts the lock for that player (the owner check follows).
@@ -361,7 +360,7 @@ public final class DronePilotService {
             return DronePilotEndReason.UNAVAILABLE;
         }
         // SparkTraits role-skill block (also covers NoellesRoles' silenced killer). / SparkTraits 职业技能封锁（也涵盖 NoellesRoles 被沉默的杀手）。
-        if (SparkTraitsDroneCompat.isRoleSkillBlocked(pilot)) {
+        if (SparkTraitsApi.isRoleSkillBlocked(pilot)) {
             return DronePilotEndReason.SKILL_BLOCKED;
         }
         if (drone.state() == DroneState.FALLING) {

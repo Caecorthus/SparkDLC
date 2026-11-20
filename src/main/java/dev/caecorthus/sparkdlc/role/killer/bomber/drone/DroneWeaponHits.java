@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -569,7 +568,7 @@ public final class DroneWeaponHits {
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !SparkTraitsApi.isKillerInteractionBlocked(player)
-                && !SparkTraitsDroneCompat.isLastStandPending(player);
+                && !SparkTraitsApi.isLastStandPending(player);
     }
 
     /** Cheap per-tick pre-check for projectile sweeps. / 投射物逐刻扫掠的廉价预检查。 */

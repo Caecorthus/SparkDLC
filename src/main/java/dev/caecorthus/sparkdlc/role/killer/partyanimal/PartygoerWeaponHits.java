@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneHitGeometry;
@@ -740,7 +739,7 @@ public final class PartygoerWeaponHits {
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !SparkTraitsApi.isKillerInteractionBlocked(player)
-                && !SparkTraitsDroneCompat.isLastStandPending(player)
+                && !SparkTraitsApi.isLastStandPending(player)
                 && !PartygoerCarry.isCarried(player);
     }
 

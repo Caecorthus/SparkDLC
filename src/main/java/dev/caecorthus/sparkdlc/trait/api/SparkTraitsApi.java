@@ -228,6 +228,13 @@ public final class SparkTraitsApi {
         return hasActiveTrait(player, KillerTraits.TEAM_FIRST);
     }
 
+    /** Whether the player holds an active Master Saboteur (the sabotage system asks when an outage or a junction-box
+     *  channel starts).
+     *  玩家是否持有生效的破坏大师（破坏系统在停电或接线盒引导开始时查询）。 */
+    public static boolean hasMasterSaboteur(PlayerEntity player) {
+        return hasActiveTrait(player, KillerTraits.MASTER_SABOTEUR);
+    }
+
     /**
      * Killer-team membership after the alignment flips, for a caller that already holds the player's role: Impostor
      * turns an original civilian into a killer, Conscience turns an original killer into a civilian, and with both
@@ -579,8 +586,11 @@ public final class SparkTraitsApi {
      * Returns the ordered trait ids the player ended the round with, including traits hidden from their owner:
      * online active traits, else the latest death snapshot, else the assignment-time round snapshot.
      * Server-only; meaningful until Wathe's finalize resets players (e.g. inside its replay generation). Never null.
+     * Also right for a victim inside Wathe's {@code KillPlayer.AFTER}, on either side of the trait feature's own AFTER
+     * listener (which snapshots, then wipes, the victim's traits).
      * 返回玩家本局结束时持有的有序词条 id（包含对本人隐藏的词条）：在线时取当前词条，否则取最近死亡快照，再否则取分配时快照。
-     * 仅限服务端；在 Wathe 结算重置玩家之前（如回放生成期间）有效。永不返回 null。
+     * 仅限服务端；在 Wathe 结算重置玩家之前（如回放生成期间）有效。永不返回 null。在 Wathe 的 {@code KillPlayer.AFTER}
+     * 中查询受害者同样正确，无论调用发生在词条功能自己的 AFTER 监听器（先快照、再清空受害者词条）之前还是之后。
      */
     public static List<Identifier> getRoundEndTraitIds(ServerWorld world, UUID playerUuid) {
         if (world == null || playerUuid == null) {

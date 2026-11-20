@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /** Broad Steve adapter for consumers that read player skin metadata directly. / 为直接读取玩家皮肤元数据的渲染路径提供广义 Steve 适配。 */
 @Mixin(value = AbstractClientPlayerEntity.class, priority = 400)
 public abstract class BlackRavenSkinTexturesMixin {
-    private static final SkinTextures SPARKWITCH$STEVE_SKIN = new SkinTextures(
+    private static final SkinTextures sparkdlc$STEVE_SKIN = new SkinTextures(
             Identifier.ofVanilla("textures/entity/player/wide/steve.png"),
             null,
             null,
@@ -32,6 +32,6 @@ public abstract class BlackRavenSkinTexturesMixin {
                 || VendettaClientPresentation.isBoundKillerViewingVendetta(client.player, player)) {
             return;
         }
-        cir.setReturnValue(SPARKWITCH$STEVE_SKIN);
+        cir.setReturnValue(sparkdlc$STEVE_SKIN);
     }
 }

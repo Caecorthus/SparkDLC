@@ -97,7 +97,7 @@ public final class SerialPistolShotService {
             // cooldown; no punishment, no mood loss), exactly as for the revolver.
             // Wathe 左轮在此处（记录之前）被挂接：非玩家 id 指向魔术师皮套或搜寻者设备时将其结束或打坏，下方这一枪
             // 仍按未命中记录（D3：声音、枪口火光、冷却；无惩罚、不扣理智），与左轮完全一致。
-            hitSparkWitchWorldTarget(shooter, targetId, stack);
+            hitWorldTarget(shooter, targetId, stack);
             // A claimed Partygoer dies like a shot player (wathe:gun); the shot below stays a recorded miss.
             // 声明的派对客与中枪玩家一样死亡（wathe:gun）；下方这一枪仍按未命中记录。
             PartygoerWeaponHits.onSerialPistolShot(shooter, targetId < 0 ? null : world.getEntityById(targetId),
@@ -155,7 +155,7 @@ public final class SerialPistolShotService {
      * {@code SparkRoleApi.hitGunWorldTarget} with the pistol's server range.
      * 声明的实体不是玩家时（魔术师皮套或搜寻者设备）连同手枪的服务端射程交给 {@code SparkRoleApi.hitGunWorldTarget}。
      */
-    private static void hitSparkWitchWorldTarget(ServerPlayerEntity shooter, int targetId, ItemStack stack) {
+    private static void hitWorldTarget(ServerPlayerEntity shooter, int targetId, ItemStack stack) {
         Entity entity = targetId < 0 ? null : shooter.getServerWorld().getEntityById(targetId);
         if (entity != null && !(entity instanceof PlayerEntity)) {
             SparkRoleApi.hitGunWorldTarget(shooter, entity, stack,

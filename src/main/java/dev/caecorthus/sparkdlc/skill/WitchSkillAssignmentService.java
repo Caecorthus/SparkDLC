@@ -25,7 +25,7 @@ public final class WitchSkillAssignmentService {
     public static void assignForRole(ServerPlayerEntity player, Role role) {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier forcedSkillId = component.getForcedSkillId();
-        if (!SparkDlcRoles.isSparkWitchRole(role)) {
+        if (!SparkDlcRoles.isSkillRole(role)) {
             if (forcedSkillId != null) {
                 component.clearForcedSkill();
             }
@@ -74,7 +74,7 @@ public final class WitchSkillAssignmentService {
             WitchSkillSelectionContext context,
             RandomGenerator random
     ) {
-        if (!SparkDlcRoles.isSparkWitchRole(role)) {
+        if (!SparkDlcRoles.isSkillRole(role)) {
             return new SkillAssignmentPlan(Optional.empty(), forcedSkillId != null);
         }
         if (forcedSkillId != null) {

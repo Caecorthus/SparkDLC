@@ -325,7 +325,7 @@ public final class SparkDlcRoles {
         return SparkDlcRoleRegistry.assassinGuessRoles();
     }
 
-    public static boolean isSparkWitchRole(Role role) {
-        return SparkDlcRoleRegistry.isSparkWitchRole(role);
+    public static boolean isSkillRole(Role role) {
+        return SparkDlcRoleRegistry.isSkillRole(role);
     }
 }

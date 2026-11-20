@@ -68,7 +68,7 @@ public final class LastStandFinalMomentService {
     private static final int TITLE_STAY_TICKS = 100;
     private static final int TITLE_FADE_OUT_TICKS = 10;
     private static final int UNKNOWN_FACTION_COLOR = 0xFFFFFF;
-    private static final Identifier SPARKWITCH_FIEND_ID = Identifier.of("sparkdlc", "fiend");
+    private static final Identifier FIEND_ID = Identifier.of("sparkdlc", "fiend");
     static final Identifier FINAL_MOMENT_TIMEOUT = SparkDLC.id("final_moment_timeout");
 
     private LastStandFinalMomentService() {
@@ -107,7 +107,7 @@ public final class LastStandFinalMomentService {
             // 魔人从不影响胜负（魔人时刻由魔人自身的服务暂停胜利判定），因此这里不算作对立阵营。
             // A settlement-excluded player is neither a blocking ordinary civilian nor an opposing faction.
             // 结算排除玩家既不算阻止终局的普通好人，也不算对立阵营。
-            if (!player.alive() || player.settlementExcluded() || isSparkWitchFiend(player.role())) {
+            if (!player.alive() || player.settlementExcluded() || isFiend(player.role())) {
                 continue;
             }
             boolean effectiveCivilian = EffectiveTraitService.isEffectiveCivilian(player.role(), player.traitIds());
@@ -301,7 +301,7 @@ public final class LastStandFinalMomentService {
         for (PlayerState player : players) {
             // A living Fiend must not delay the survivor's win (D1); neither may a settlement-excluded player.
             // 存活的魔人不得拖延幸存者的胜利（D1）；结算排除玩家同样不得拖延。
-            if (!player.alive() || player.settlementExcluded() || isSparkWitchFiend(player.role())) {
+            if (!player.alive() || player.settlementExcluded() || isFiend(player.role())) {
                 continue;
             }
             livingPlayers++;
@@ -563,11 +563,11 @@ public final class LastStandFinalMomentService {
         gameComponent.sync();
 
         for (ServerPlayerEntity player : livingPlayers(world, gameComponent)) {
-            if (isSparkWitchFiend(gameComponent.getRole(player))) {
+            if (isFiend(gameComponent.getRole(player))) {
                 continue;
             }
             PlayerShopComponent.KEY.get(player).addToBalance(FINAL_MONEY_REWARD);
-            SparkWitchManaCompatibility.addMana(player, FINAL_MANA_REWARD);
+            WitchMana.addMana(player, FINAL_MANA_REWARD);
         }
 
         GameTimeComponent.KEY.get(world).setTime(FINAL_MOMENT_TICKS);
@@ -635,8 +635,8 @@ public final class LastStandFinalMomentService {
         return role != null && WatheRoles.LOOSE_END.identifier().equals(role.identifier());
     }
 
-    static boolean isSparkWitchFiend(@Nullable Role role) {
-        return role != null && SPARKWITCH_FIEND_ID.equals(role.identifier());
+    static boolean isFiend(@Nullable Role role) {
+        return role != null && FIEND_ID.equals(role.identifier());
     }
 
     private static List<ServerPlayerEntity> livingPlayers(ServerWorld world, GameWorldComponent gameComponent) {
@@ -710,8 +710,8 @@ public final class LastStandFinalMomentService {
      * Witch mana access: the Witch player component is used directly.
      * 魔女魔力入口：直接使用魔女玩家组件。
      */
-    private static final class SparkWitchManaCompatibility {
-        private SparkWitchManaCompatibility() {
+    private static final class WitchMana {
+        private WitchMana() {
         }
 
         static void addMana(ServerPlayerEntity player, int amount) {

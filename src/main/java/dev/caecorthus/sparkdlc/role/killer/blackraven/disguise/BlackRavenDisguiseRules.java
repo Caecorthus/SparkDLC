@@ -51,14 +51,14 @@ public final class BlackRavenDisguiseRules {
             noelles("time_keeper"),
             noelles("waiter"),
             noelles("reporter"),
-            sparkwitch("tarot_reader"),
-            sparkwitch("orthopedist"),
+            sparkdlc("tarot_reader"),
+            sparkdlc("orthopedist"),
             noelles("bartender"),
             noelles("recaller"),
             noelles("noisemaker"),
             noelles("spiritualist"),
-            sparkwitch("prophet"),
-            sparkwitch("perfumer"),
+            sparkdlc("prophet"),
+            sparkdlc("perfumer"),
             noelles("toxicologist"),
             noelles("engineer"),
             noelles("detective"),
@@ -67,25 +67,25 @@ public final class BlackRavenDisguiseRules {
 
     /** Good roles that are never claimable even when absent. / 即使未登场也永远不可伪装的好人职业。 */
     public static final Set<Identifier> DENYLIST = orderedSet(
-            sparkwitch("saint"),
+            sparkdlc("saint"),
             noelles("voodoo"),
             noelles("survival_master"),
             noelles("coroner"),
             noelles("bodyguard"),
-            sparkwitch("apprentice_witch"),
-            sparkwitch("wind_spirit"),
-            sparkwitch("guardian_angel"),
-            sparkwitch("vendetta"),
-            sparkwitch("pig_god"),
-            sparkwitch("blind"),
+            sparkdlc("apprentice_witch"),
+            sparkdlc("wind_spirit"),
+            sparkdlc("guardian_angel"),
+            sparkdlc("vendetta"),
+            sparkdlc("pig_god"),
+            sparkdlc("blind"),
             // Owner 2026-11-03: the dash and unlimited stamina read the real role, so no disguise.
             // 所有者 2026-11-03：冲刺与无限体力读取真实职业，因此不可伪装。
-            sparkwitch("athlete"),
+            sparkdlc("athlete"),
             // BEAR (2026-11-05), never claimable like USEC: its stamina, coins and kit read the real role. A civilian, so
             // the denylist rather than the police ids (whose reason line says "police role").
             // BEAR（2026-11-05）与 USEC 一样不可伪装：其体力、金币与装备读取真实职业。它是平民，因此放入黑名单而不是警察
             // id（后者的提示写着“警察职业”）。
-            sparkwitch("bear"),
+            sparkdlc("bear"),
             noelles("demon_hunter"),
             noelles("undercover"),
             wathe("civilian"),
@@ -96,14 +96,14 @@ public final class BlackRavenDisguiseRules {
     public static final Set<Identifier> POLICE_IDS = orderedSet(
             wathe("vigilante"),
             wathe("veteran"),
-            sparkwitch("judge"),
-            sparkwitch("emma"),
-            sparkwitch("control_expert"),
-            sparkwitch("seeker"),
-            sparkwitch("usec"),
+            sparkdlc("judge"),
+            sparkdlc("emma"),
+            sparkdlc("control_expert"),
+            sparkdlc("seeker"),
+            sparkdlc("usec"),
             // Police since 2026-10-21 (plan v2 §3.4); never in its own pool (it is in the round), listed for parity.
             // 自 2026-10-21 起为警察（计划 v2 §3.4）；它本局在场，不会出现在自己的名单中，列出只为与其他警察一致。
-            sparkwitch("black_raven")
+            sparkdlc("black_raven")
     );
 
     /** Stacks that never leave their slot during a swap. / 交换时永远留在原槽位的物品。 */
@@ -316,7 +316,7 @@ public final class BlackRavenDisguiseRules {
         return Identifier.of("noellesroles", path);
     }
 
-    private static Identifier sparkwitch(String path) {
+    private static Identifier sparkdlc(String path) {
         return Identifier.of(SparkDLC.MOD_ID, path);
     }
 

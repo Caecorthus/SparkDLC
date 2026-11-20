@@ -41,7 +41,7 @@ public final class CoronerRules {
     public static final Identifier NOELLES_DEMON_HUNTER_ID = Identifier.of("noellesroles", "demon_hunter");
     public static final Identifier NOELLES_ENGINEER_ID = Identifier.of("noellesroles", "engineer");
     public static final Identifier NOELLES_BOMBER_ID = Identifier.of("noellesroles", "bomber");
-    public static final Identifier SPARKWITCH_KIDNAPPER_ID = Identifier.of("sparkdlc", "kidnapper");
+    public static final Identifier KIDNAPPER_ID = Identifier.of("sparkdlc", "kidnapper");
 
     /** 验尸官商店：采尸袋条目 ID。 */
     public static final String BODY_BAG_ENTRY_ID = "sparkdlc_coroner_body_bag";
@@ -168,8 +168,8 @@ public final class CoronerRules {
         return hasRoleId(role, NOELLES_BOMBER_ID);
     }
 
-    public static boolean isSparkWitchKidnapper(@Nullable Role role) {
-        return hasRoleId(role, SPARKWITCH_KIDNAPPER_ID);
+    public static boolean isKidnapper(@Nullable Role role) {
+        return hasRoleId(role, KIDNAPPER_ID);
     }
 
     public static boolean grantsDagger(@Nullable Role role) {

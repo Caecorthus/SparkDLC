@@ -222,7 +222,7 @@ public final class DoubleBarrelShotgunItem extends Item {
         aims.forEach(aim -> RangedSmokeCarve.ray(shooter.getWorld(), aim.eye(), aim.end())); // BEAR: pellet tunnels / 弹丸通道
 
         RayOutcome centre = rays.get(0);
-        boolean sparkStrengthAbsorbed = false;
+        boolean centreRayAbsorbed = false;
         if (centre.crow() == null && centre.puppet() == null) {
             PlayerEntity aimed = centre.nearest();
             if (SeekerDeviceHits.onShotgunFired(shooter, aimed, range) == null) {
@@ -233,7 +233,7 @@ public final class DoubleBarrelShotgunItem extends Item {
                 // 返回 null 表示有比被瞄准玩家更近的东西取走了中心射线：本射线已找到的搜寻者设备（钩子已将其打坏），否则是
                 // 轰炸者无人机或派对客。没有被瞄准玩家时，只有调用后仍存在的设备能区分出后两者；空中心射线上的
                 // 无人机或派对客只吸收该射线，与旧的未命中一致。
-                sparkStrengthAbsorbed = centre.device() != null ? !centre.device().isRemoved() : aimed != null;
+                centreRayAbsorbed = centre.device() != null ? !centre.device().isRemoved() : aimed != null;
             }
         }
 
@@ -244,7 +244,7 @@ public final class DoubleBarrelShotgunItem extends Item {
         Set<SeekerDeviceEntity> devices = new LinkedHashSet<>();
         Map<UUID, RayTarget> byUuid = new LinkedHashMap<>();
         int hitRays = 0;
-        if (!sparkStrengthAbsorbed) {
+        if (!centreRayAbsorbed) {
             for (RayOutcome ray : rays) {
                 if (ray.puppet() != null) {
                     puppets.add(ray.puppet());
@@ -286,7 +286,7 @@ public final class DoubleBarrelShotgunItem extends Item {
         // pierce players.
         // 只有中心射线能打到墙（接线箱），且仅当没有任何东西取走它时，与旧单发一致：它命中的玩家、拦截者或未能确认的声明玩家
         // 都会使其打不到箱子，即使弹丸会穿透玩家。
-        if (!sparkStrengthAbsorbed && centre.reachesWall()) {
+        if (!centreRayAbsorbed && centre.reachesWall()) {
             hitJunctionBox(shooter, range);
         }
         NbtCompound extra = new NbtCompound();

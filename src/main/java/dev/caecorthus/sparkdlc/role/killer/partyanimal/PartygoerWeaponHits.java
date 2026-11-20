@@ -460,7 +460,7 @@ public final class PartygoerWeaponHits {
      * dies ({@code wathe:gun}); true = absorbed, the caller hits nobody.
      * 猎人猎枪：严格近于目标与任何无人机的派对客死亡（wathe:gun）；返回 true 表示已吸收，调用方不再命中任何人。
      */
-    public static boolean onSparkWitchShotgun(@Nullable PlayerEntity shooter, @Nullable PlayerEntity target,
+    public static boolean onShotgun(@Nullable PlayerEntity shooter, @Nullable PlayerEntity target,
                                               double range) {
         return shooter instanceof ServerPlayerEntity user && !PartygoerCarry.isCarried(user)
                 && killNearestOnLook(user, range, target, GameConstants.DeathReasons.GUN, true);
@@ -473,7 +473,7 @@ public final class PartygoerWeaponHits {
      * 黑鸦羽刃（onFeatherBladeFired 在黑羽鸦身份检查之前调用）：羽刃的标记 20 秒后致死，因此更近的派对客立即死亡
      * （wathe:knife），羽刃与标记后一样进入冷却。返回 true 表示已吸收（调用方随后不标记任何人，也不自行设冷却）。
      */
-    public static boolean onSparkWitchFeatherBlade(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
+    public static boolean onFeatherBlade(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                                    double range) {
         if (user == null || !mayKill(user) || !hasRole(user, BlackRavenRules.ROLE_ID)) {
             return false;
@@ -495,7 +495,7 @@ public final class PartygoerWeaponHits {
      * 与任何无人机的派对客以铁拳自身死因（sparkdlc:sphinx_hao_fist）死亡。返回 true 表示已吸收，调用方不再命中任何人
      * （调用方随后按“未击杀”结算这一枪）。
      */
-    public static boolean onSparkWitchSphinxHaoFist(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
+    public static boolean onSphinxHaoFist(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
                                                     double range) {
         return shooter != null && mayKill(shooter) && killNearestOnLook(shooter, range, target,
                 SparkDlcDeathReasons.SPHINX_HAO_FIST, true);
@@ -509,7 +509,7 @@ public final class PartygoerWeaponHits {
      * 狙击手 M1903A4（每发调用一次 onM1903A4Fired，传入完整 50 格射程）：与左轮相同的致命直线即时射线，因此严格近于
      * 目标与任何无人机的派对客以 Wathe 枪击死因（wathe:gun_shot，即该步枪自身死因）死亡。返回 true 表示已吸收，调用方不再命中任何人。
      */
-    public static boolean onSparkWitchM1903A4(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
+    public static boolean onM1903A4(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
                                               double range) {
         return shooter != null && mayKill(shooter)
                 && killNearestOnLook(shooter, range, target, GameConstants.DeathReasons.GUN, true);
@@ -522,7 +522,7 @@ public final class PartygoerWeaponHits {
      * 窃时者时钟（onClockFired，仅在瞄准到玩家时才会调用）：更近的派对客承受会致死的诅咒，因此立即死亡（sparkdlc:time_stolen）；
      * 返回 true 表示已吸收，调用方随后自行开始时钟冷却。无人机从不挡下时钟，因此不参与测量。
      */
-    public static boolean onSparkWitchClock(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
+    public static boolean onClock(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                             double range) {
         return user != null && !PartygoerCarry.isCarried(user)
                 && killNearestOnLook(user, range, target, SparkDlcDeathReasons.TIME_STOLEN, false);
@@ -533,7 +533,7 @@ public final class PartygoerWeaponHits {
      * nearest drone) dies; the ray goes on. / 杀意魔女死光（穿透）：cutDistance（已在最近的无人机处截断）之前的每只派对客都死亡；
      * 射线继续前进。
      */
-    public static void onSparkWitchDeathRay(@Nullable ServerPlayerEntity user, @Nullable Vec3d start,
+    public static void onDeathRay(@Nullable ServerPlayerEntity user, @Nullable Vec3d start,
                                             @Nullable Vec3d direction, double cutDistance) {
         if (user == null || start == null || direction == null || !(cutDistance > 0.0)
                 || !Double.isFinite(cutDistance) || direction.lengthSquared() == 0.0
@@ -553,7 +553,7 @@ public final class PartygoerWeaponHits {
      * length) and than any drone takes it ({@code sparkdlc:potion_backblast}). True = absorbed.
      * 炮筒尾焰通道：严格近于 reach（受害者距离或通道长度）且近于任何无人机的派对客承受尾焰（sparkdlc:potion_backblast）。
      */
-    public static boolean onSparkWitchBackblast(@Nullable ServerPlayerEntity gunner, @Nullable Vec3d start,
+    public static boolean onBackblast(@Nullable ServerPlayerEntity gunner, @Nullable Vec3d start,
                                                 @Nullable Vec3d direction, double reach) {
         if (gunner == null || start == null || direction == null || !(reach > 0.0) || !Double.isFinite(reach)
                 || direction.lengthSquared() == 0.0 || PartygoerCarry.isCarried(gunner)) {
@@ -573,7 +573,7 @@ public final class PartygoerWeaponHits {
      * USEC 狙击步枪对局射击：沿子弹折线（已由步枪处理下坠与截断）遍历，让其在 reach 之前严格先进入的第一只派对客或第一架无人机
      * 获胜。只有派对客获胜时在此处理（其死亡，wathe:gun，并返回其路径距离）；无人机获胜时原样返回 reach，由无人机钩子照旧击毁。
      */
-    public static double onSparkWitchUsecRifle(@Nullable ServerPlayerEntity shooter, @Nullable List<Vec3d> path,
+    public static double onUsecRifle(@Nullable ServerPlayerEntity shooter, @Nullable List<Vec3d> path,
                                                double reach) {
         if (shooter == null || path == null || path.size() < 2 || !(reach > 0.0) || !Double.isFinite(reach)
                 || shooter.getWorld().isClient() || !GameWorldComponent.KEY.get(shooter.getWorld()).isRunning()

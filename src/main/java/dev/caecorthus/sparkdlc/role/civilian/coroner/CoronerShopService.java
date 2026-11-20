@@ -86,8 +86,8 @@ public final class CoronerShopService {
             rebuildEngineerShop(context);
         } else if (CoronerRules.isBomber(disguiseRole)) {
             addBomberShop(context);
-        } else if (CoronerRules.isSparkWitchKidnapper(disguiseRole)) {
-            addSparkWitchKidnapperShop(player, context);
+        } else if (CoronerRules.isKidnapper(disguiseRole)) {
+            addKidnapperShop(player, context);
         }
     }
 
@@ -233,7 +233,7 @@ public final class CoronerShopService {
         ).actualStack(WatheItems.GRENADE.getDefaultStack()).build());
     }
 
-    private static void addSparkWitchKidnapperShop(PlayerEntity player, BuildShopEntries.ShopContext context) {
+    private static void addKidnapperShop(PlayerEntity player, BuildShopEntries.ShopContext context) {
         /*
          * 绑架者功能自己拥有迷药的物品、贴图、价格与描述（含持有者的【魅力】折扣）。
          * 这里仅在验尸官采尸袋之后追加该条目。

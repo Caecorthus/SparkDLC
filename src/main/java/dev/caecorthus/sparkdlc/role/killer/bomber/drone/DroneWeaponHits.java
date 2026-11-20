@@ -383,7 +383,7 @@ public final class DroneWeaponHits {
      * 猎枪、羽刃、狮身豪铁拳、狙击手 M1903A4、电击枪、啸音铳：沿射手瞄准的最近者命中；严格比目标更近的无人机
      * （未命中时射程内任意无人机）被击毁，调用方不再命中任何人。
      */
-    public static boolean onSparkWitchRay(@Nullable PlayerEntity shooter, @Nullable PlayerEntity target, double range) {
+    public static boolean onRay(@Nullable PlayerEntity shooter, @Nullable PlayerEntity target, double range) {
         if (!(shooter instanceof ServerPlayerEntity user) || !(range > 0.0) || !Double.isFinite(range)) {
             return false;
         }
@@ -405,7 +405,7 @@ public final class DroneWeaponHits {
      * Murderous Witch death ray (piercing): cut it at the nearest drone, which breaks; players before it are still hit.
      * 杀意魔女死光（穿透）：在最近的无人机处截断并将其击毁；无人机之前的玩家照常命中。
      */
-    public static double onSparkWitchDeathRay(@Nullable ServerPlayerEntity user, @Nullable Vec3d start,
+    public static double onDeathRay(@Nullable ServerPlayerEntity user, @Nullable Vec3d start,
                                               @Nullable Vec3d direction, double visibleDistance) {
         if (user == null || start == null || direction == null || !(visibleDistance > 0.0)
                 || !Double.isFinite(visibleDistance) || direction.lengthSquared() == 0.0) {
@@ -427,7 +427,7 @@ public final class DroneWeaponHits {
      * 飞行中的药炮手炮弹：本刻路径上（且早于更近的存活玩家）的无人机被击毁；返回其入射点让炮弹在此爆炸，否则为 null。
      */
     @Nullable
-    public static Vec3d onSparkWitchShellSweep(@Nullable Entity shell, @Nullable Entity thrower, @Nullable Vec3d from,
+    public static Vec3d onShellSweep(@Nullable Entity shell, @Nullable Entity thrower, @Nullable Vec3d from,
                                                @Nullable Vec3d to) {
         if (shell == null || from == null || to == null || shell.getWorld().isClient()
                 || noDroneNear(shell.getWorld(), from, to)) {
@@ -454,7 +454,7 @@ public final class DroneWeaponHits {
     }
 
     /** Potion launcher backblast lane: a drone strictly nearer than {@code reach} absorbs it. / 炮筒尾焰通道。 */
-    public static boolean onSparkWitchBackblast(@Nullable ServerPlayerEntity gunner, @Nullable Vec3d start,
+    public static boolean onBackblast(@Nullable ServerPlayerEntity gunner, @Nullable Vec3d start,
                                                 @Nullable Vec3d direction, double reach) {
         if (gunner == null || start == null || direction == null || !(reach > 0.0) || !Double.isFinite(reach)
                 || direction.lengthSquared() == 0.0) {
@@ -482,7 +482,7 @@ public final class DroneWeaponHits {
      * 第一架存活无人机被击毁并吸收这一枪；返回其路径距离（严格小于 {@code reach}），否则原样返回 {@code reach}。资格判定与死光一致
      * （任何存活无人机，不检查击毁者），另加调用方此入口自身的“对局进行中”守卫。
      */
-    public static double onSparkWitchUsecRifle(@Nullable ServerPlayerEntity shooter, @Nullable List<Vec3d> path,
+    public static double onUsecRifle(@Nullable ServerPlayerEntity shooter, @Nullable List<Vec3d> path,
                                                double reach) {
         if (shooter == null || path == null || path.size() < 2 || !(reach > 0.0) || !Double.isFinite(reach)
                 || shooter.getWorld().isClient() || !GameWorldComponent.KEY.get(shooter.getWorld()).isRunning()) {
@@ -519,7 +519,7 @@ public final class DroneWeaponHits {
      * 经 {@code SeekerDeviceHits.onBlast} 上报的范围爆炸。此处只处理药炮手炮弹爆炸：Wathe 手雷与 M67 已通过自身钩子在击杀之后
      * 击毁无人机，因此忽略它们的上报。
      */
-    public static void onSparkWitchBlast(@Nullable ServerWorld world, @Nullable Vec3d center, double radius,
+    public static void onAreaBlast(@Nullable ServerWorld world, @Nullable Vec3d center, double radius,
                                          @Nullable ServerPlayerEntity owner) {
         // Inside a Wathe grenade / M67 detonation our own hooks break drones after its kills; the blast report for the
         // grenade comes at its HEAD (before them), so skip here. / Wathe 手雷 / M67 引爆期间由自身钩子在击杀后处理；爆炸上报在 HEAD
@@ -535,10 +535,10 @@ public final class DroneWeaponHits {
     /**
      * Read-only competitor distance for the Raven Form crow step (asked by
      * {@code BlackRavenCrowTargets.deviceSquared}): the squared entry of the block-clipped segment into the nearest live
-     * drone, measured like {@link #onSparkWitchRay}; +inf when none. Breaks nothing: a drone that beats the crow then
+     * drone, measured like {@link #onRay}; +inf when none. Breaks nothing: a drone that beats the crow then
      * absorbs in the Seeker step through this class's existing hooks.
      * 供化鸦乌鸦步骤使用的只读竞争距离（由 {@code BlackRavenCrowTargets.deviceSquared} 询问）：按方块截断的线段进入最近存活无人机处的平方距离，量法同
-     * {@link #onSparkWitchRay}；没有时为正无穷。本方法不击毁任何东西：胜过乌鸦的无人机随后经本类现有钩子在搜寻者
+     * {@link #onRay}；没有时为正无穷。本方法不击毁任何东西：胜过乌鸦的无人机随后经本类现有钩子在搜寻者
      * 步骤中吸收这一击。
      */
     public static double nearestDroneSquared(@Nullable ServerPlayerEntity attacker, @Nullable Vec3d start,

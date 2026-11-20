@@ -29,11 +29,11 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SeekerDemonHunterTargetMixin {
     /** Mirrors NoellesRoles' {@code getGunTarget} reach (5 blocks). / 与 NoellesRoles {@code getGunTarget} 的 5 格射程一致。 */
     @Unique
-    private static final double SPARKWITCH$PISTOL_RANGE = 5.0D;
+    private static final double sparkdlc$PISTOL_RANGE = 5.0D;
 
     @WrapOperation(method = "handleClientShoot", at = @At(value = "INVOKE",
             target = "Lorg/agmas/noellesroles/demonhunter/DemonHunterPistolItem;getGunTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;"))
     private static HitResult sparkdlc$preferNearerSeekerDevice(PlayerEntity user, Operation<HitResult> original) {
-        return SeekerDeviceRaycast.preferNearerDevice(user, original.call(user), SPARKWITCH$PISTOL_RANGE);
+        return SeekerDeviceRaycast.preferNearerDevice(user, original.call(user), sparkdlc$PISTOL_RANGE);
     }
 }

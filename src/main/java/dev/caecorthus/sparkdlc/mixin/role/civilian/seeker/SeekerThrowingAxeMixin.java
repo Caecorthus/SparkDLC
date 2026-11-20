@@ -45,7 +45,7 @@ public abstract class SeekerThrowingAxeMixin {
      * 线段搜索外扩量；覆盖线段可能触及的所有设备箱体（瞄准余量均小于 0.2）。
      */
     @Unique
-    private static final double SPARKWITCH$SEARCH_PADDING = 1.0D;
+    private static final double sparkdlc$SEARCH_PADDING = 1.0D;
 
     /**
      * Squared distance from this tick's start to the absorbing device; infinite when none. Server-only, per tick.
@@ -70,7 +70,7 @@ public abstract class SeekerThrowingAxeMixin {
         Vec3d from = axe.getPos();
         Vec3d to = from.add(axe.getVelocity());
         List<SeekerDeviceEntity> nearby = axe.getWorld().getEntitiesByClass(SeekerDeviceEntity.class,
-                new Box(from, to).expand(SPARKWITCH$SEARCH_PADDING), device -> device.isAlive() && !device.isRemoved());
+                new Box(from, to).expand(sparkdlc$SEARCH_PADDING), device -> device.isAlive() && !device.isRemoved());
         sparkdlc$deviceCutSquared = !nearby.isEmpty()
                 && SeekerDeviceHits.onThrowingAxeSweep(axe, axe.getOwner(), from, to)
                 ? sparkdlc$cutSquared(nearby, from, to)

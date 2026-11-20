@@ -43,7 +43,7 @@ public final class WitchSkillUseService {
         ServerWorld world = player.getServerWorld();
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(world);
         Role role = gameComponent.getRole(player);
-        if (!SparkDlcRoles.isSparkWitchRole(role)) {
+        if (!SparkDlcRoles.isSkillRole(role)) {
             send(player, "message.sparkdlc.skill.not_witch");
             return false;
         }

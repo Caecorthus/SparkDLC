@@ -18,14 +18,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerBodyEntity.class)
 public abstract class PlayerBodyEntityWraithRoleMixin implements WraithBodyRoleAccess {
     @Unique
-    private static final TrackedData<String> SPARKWITCH_DEATH_ROLE = DataTracker.registerData(
+    private static final TrackedData<String> sparkdlc$DEATH_ROLE = DataTracker.registerData(
             PlayerBodyEntity.class,
             TrackedDataHandlerRegistry.STRING
     );
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     private void sparkdlc$trackDeathRole(DataTracker.Builder builder, CallbackInfo ci) {
-        builder.add(SPARKWITCH_DEATH_ROLE, "");
+        builder.add(sparkdlc$DEATH_ROLE, "");
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
@@ -44,7 +44,7 @@ public abstract class PlayerBodyEntityWraithRoleMixin implements WraithBodyRoleA
     @Override
     public void sparkdlc$setDeathRole(@Nullable Identifier roleId) {
         ((PlayerBodyEntity) (Object) this).getDataTracker().set(
-                SPARKWITCH_DEATH_ROLE,
+                sparkdlc$DEATH_ROLE,
                 roleId == null ? "" : roleId.toString()
         );
     }
@@ -52,6 +52,6 @@ public abstract class PlayerBodyEntityWraithRoleMixin implements WraithBodyRoleA
     @Override
     public @Nullable Identifier sparkdlc$getDeathRole() {
         return Identifier.tryParse(((PlayerBodyEntity) (Object) this)
-                .getDataTracker().get(SPARKWITCH_DEATH_ROLE));
+                .getDataTracker().get(sparkdlc$DEATH_ROLE));
     }
 }

@@ -166,7 +166,7 @@ public final class CorruptCopRules {
      * 派对客本能键）都改用此判定。保持按 id 精确匹配（而非 sparkdlc:jiahao 阵营），使本规则类保持轻量，且永远不把同属嘉
      * 豪阵营的黑警本身算进来。
      */
-    public static boolean isSparkWitchJiahaoMember(Role role) {
+    public static boolean isCorruptCopTeammate(Role role) {
         return isInsider(role) || isSphinxHao(role) || isSniper(role);
     }
 

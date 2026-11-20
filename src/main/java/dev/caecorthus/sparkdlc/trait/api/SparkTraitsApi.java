@@ -204,9 +204,7 @@ public final class SparkTraitsApi {
     public static boolean hasActiveTrait(PlayerEntity player, Identifier traitId) {
         return player != null
                 && traitId != null
-                && TraitPlayerComponent.KEY.maybeGet(player)
-                        .map(component -> component.hasActiveTrait(traitId))
-                        .orElse(false);
+                && TraitPlayerComponent.KEY.get(player).hasActiveTrait(traitId);
     }
 
     /**
@@ -375,9 +373,7 @@ public final class SparkTraitsApi {
     public static Collection<Identifier> getActiveTraitIds(PlayerEntity player) {
         return player == null
                 ? List.of()
-                : TraitPlayerComponent.KEY.maybeGet(player)
-                        .map(TraitPlayerComponent::getActiveTraitIds)
-                        .orElseGet(List::of);
+                : TraitPlayerComponent.KEY.get(player).getActiveTraitIds();
     }
 
     /**
@@ -409,9 +405,7 @@ public final class SparkTraitsApi {
     public static Collection<Identifier> getRevealedTraitIds(PlayerEntity player) {
         return player == null
                 ? List.of()
-                : TraitPlayerComponent.KEY.maybeGet(player)
-                        .<Collection<Identifier>>map(TraitPlayerComponent::getRevealedTraitIds)
-                        .orElseGet(List::of);
+                : TraitPlayerComponent.KEY.get(player).getRevealedTraitIds();
     }
 
     /**
@@ -443,11 +437,11 @@ public final class SparkTraitsApi {
         if (player == null || activeTraitIds == null || revealedTraitIds == null) {
             return;
         }
-        TraitPlayerComponent.KEY.maybeGet(player).ifPresent(component -> component.restoreActiveTraitsForRuntime(
+        TraitPlayerComponent.KEY.get(player).restoreActiveTraitsForRuntime(
                 List.copyOf(activeTraitIds),
                 List.copyOf(revealedTraitIds),
                 TraitAssignmentReason.INTERNAL
-        ));
+        );
     }
 
     /**
@@ -500,12 +494,8 @@ public final class SparkTraitsApi {
         if (player == null) {
             return snapshot;
         }
-        return TraitPlayerComponent.KEY.maybeGet(player)
-                .map(component -> captureWraithTraitSnapshot(
-                        component.getActiveTraitIds(),
-                        component.getRevealedTraitIds()
-                ))
-                .orElse(snapshot);
+        TraitPlayerComponent component = TraitPlayerComponent.KEY.get(player);
+        return captureWraithTraitSnapshot(component.getActiveTraitIds(), component.getRevealedTraitIds());
     }
 
     /**
@@ -516,14 +506,15 @@ public final class SparkTraitsApi {
         if (player == null || snapshot == null) {
             return;
         }
-        TraitPlayerComponent.KEY.maybeGet(player).ifPresent(component -> restoreWraithTraitSnapshot(
+        TraitPlayerComponent component = TraitPlayerComponent.KEY.get(player);
+        restoreWraithTraitSnapshot(
                 snapshot,
                 (active, revealed) -> component.restoreActiveTraitsForRuntime(
                         active,
                         revealed,
                         TraitAssignmentReason.INTERNAL
                 )
-        ));
+        );
     }
 
     /**
@@ -533,9 +524,7 @@ public final class SparkTraitsApi {
     public static boolean isLastStandPending(PlayerEntity player) {
         return player != null
                 && (LastStandService.isPending(player)
-                || TraitPlayerComponent.KEY.maybeGet(player)
-                        .map(TraitPlayerComponent::isLastStandPending)
-                        .orElse(false));
+                || TraitPlayerComponent.KEY.get(player).isLastStandPending());
     }
 
     /**
@@ -554,10 +543,7 @@ public final class SparkTraitsApi {
         if (player == null) {
             return;
         }
-        TraitPlayerComponent.KEY.maybeGet(player).ifPresent(component -> clearWraithTraits(
-                gameEnd,
-                component::clearActiveTraits
-        ));
+        clearWraithTraits(gameEnd, TraitPlayerComponent.KEY.get(player)::clearActiveTraits);
     }
 
     /**
@@ -592,9 +578,7 @@ public final class SparkTraitsApi {
         if (world == null || playerUuid == null) {
             return List.of();
         }
-        return TraitWorldComponent.KEY.maybeGet(world)
-                .map(traitWorld -> List.copyOf(RoundEndTraitResolver.resolve(world, traitWorld, playerUuid)))
-                .orElseGet(List::of);
+        return List.copyOf(RoundEndTraitResolver.resolve(world, TraitWorldComponent.KEY.get(world), playerUuid));
     }
 
     /**
@@ -604,9 +588,7 @@ public final class SparkTraitsApi {
      */
     public static boolean isFinalMomentActive(World world) {
         return world != null
-                && TraitWorldComponent.KEY.maybeGet(world)
-                        .map(TraitWorldComponent::isFinalMomentActive)
-                        .orElse(false);
+                && TraitWorldComponent.KEY.get(world).isFinalMomentActive();
     }
 
     /**
@@ -664,15 +646,13 @@ public final class SparkTraitsApi {
             return false;
         }
 
-        TraitPlayerComponent targetTraits = TraitPlayerComponent.KEY.maybeGet(target).orElse(null);
-        boolean finalMomentActive = TraitWorldComponent.KEY.maybeGet(viewer.getWorld())
-                .map(TraitWorldComponent::isFinalMomentActive)
-                .orElse(false);
+        TraitPlayerComponent targetTraits = TraitPlayerComponent.KEY.get(target);
+        boolean finalMomentActive = TraitWorldComponent.KEY.get(viewer.getWorld()).isFinalMomentActive();
 
-        TraitPlayerComponent viewerTraits = TraitPlayerComponent.KEY.maybeGet(viewer).orElse(null);
+        TraitPlayerComponent viewerTraits = TraitPlayerComponent.KEY.get(viewer);
         GameWorldComponent game = GameWorldComponent.KEY.maybeGet(viewer.getWorld()).orElse(null);
         boolean goingDarkSuppressed = false;
-        if (targetTraits != null && viewerTraits != null && game != null) {
+        if (game != null) {
             boolean viewerPlayingAndAlive = GameFunctions.isPlayerPlayingAndAlive(viewer);
             boolean viewerCanSeeSpectatorInformation = GameFunctions.isPlayerSpectatingOrCreative(viewer)
                     && !viewerPlayingAndAlive;
@@ -691,8 +671,8 @@ public final class SparkTraitsApi {
         // 灵魂出窍留下的肉身毫无防备，下游本能来源仍须为其描边，因此出窍状态不参与此处判断。
         return EffectiveInstinctService.shouldHideFromInstinct(
                 finalMomentActive,
-                targetTraits != null && targetTraits.isLastStandPending(),
-                targetTraits != null && targetTraits.isKillerInstinctHidden(),
+                targetTraits.isLastStandPending(),
+                targetTraits.isKillerInstinctHidden(),
                 goingDarkSuppressed
         );
     }

@@ -718,10 +718,7 @@ public final class LastStandFinalMomentService {
             if (amount <= 0) {
                 return;
             }
-            WitchPlayerComponent component = WitchPlayerComponent.KEY.maybeGet(player).orElse(null);
-            if (component == null) {
-                return;
-            }
+            WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
             if (!component.hasManaSystem()) {
                 component.initializeMana();
             }

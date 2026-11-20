@@ -13,7 +13,7 @@ import dev.caecorthus.sparkdlc.role.civilian.detective.SelectDetectiveCaseC2SPac
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules.InvestigationOutcome;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
-import dev.caecorthus.sparkdlc.util.ItemCooldownSync;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -348,7 +348,7 @@ public final class DetectiveInterrogationScreen extends Screen {
             context.drawText(textRenderer, clues, cluesX, lineOneY, DetectiveFolderPaint.INK_NAVY, false);
         }
 
-        int cooldownTicks = ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier());
+        int cooldownTicks = ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier());
         String cooldown = cooldownTicks > 0
                 ? Text.translatable(KEY + "cooldown", Math.ceilDiv(cooldownTicks, 20)).getString()
                 : "";
@@ -581,7 +581,7 @@ public final class DetectiveInterrogationScreen extends Screen {
         if (shown.getSuspects().size() >= DetectiveCaseRules.clampSuspectLimit(folder.getSyncedSuspectLimit())) {
             return Text.translatable("message.sparkdlc.detective.enough_clues");
         }
-        if (ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier()) > 0) {
+        if (ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier()) > 0) {
             return Text.translatable(KEY + "cooling");
         }
         return Text.translatable(KEY + "hint");
@@ -628,7 +628,7 @@ public final class DetectiveInterrogationScreen extends Screen {
                 && pendingSelection == null
                 && pendingTarget == null
                 && shown.getSuspects().size() < DetectiveCaseRules.clampSuspectLimit(folder.getSyncedSuspectLimit())
-                && ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier()) <= 0;
+                && ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier()) <= 0;
     }
 
     /**

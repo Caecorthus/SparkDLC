@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.witchmaiden;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesToxicologistBridge;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheDataComponentTypes;

@@ -48,7 +48,7 @@ import java.util.function.ToIntFunction;
  * Spends 拾荒者 loot exactly once per real use, and handles the ragpicker's own sneak-click manual destroy (owner,
  * 2026-11-04).
  * <p>Use signals, all server-side and for any holder of a marked stack: Wathe's {@code recordItemUse} (through
- * {@code GameRecordManagerItemUseMixin}, ahead of the Vendetta suppression), a looted room key, lockpick or
+ * {@code RoleItemUseRecordHooksMixin}, ahead of the Vendetta suppression), a looted room key, lockpick or
  * NoellesRoles master key that really opens a locked door, a Wathe bat swing at full charge on a player, and a charged
  * release (bow, crossbow or spear use action, never the knife) that started the item's cooldown or counted a vanilla
  * {@code USED} stat ({@code LivingEntityJunkerReleaseMixin}). A signal only queues; the queue drains at
@@ -56,7 +56,7 @@ import java.util.function.ToIntFunction;
  * tick, because then the item already spent itself (a thrown grenade, a drunk cocktail).
  * 拾荒者战利品每次真正使用恰好消耗一次，并处理拾荒者本人潜行右键的主动销毁（所有者 2026-11-04）。
  * <p>使用信号（均在服务端，对任何持有带标记物品的玩家生效）：Wathe 的 {@code recordItemUse}（经
- * {@code GameRecordManagerItemUseMixin}，先于仇杀屏蔽）、搜刮来的房间钥匙/撬锁器/NoellesRoles 万能钥匙真正打开了上锁的门、
+ * {@code RoleItemUseRecordHooksMixin}，先于仇杀屏蔽）、搜刮来的房间钥匙/撬锁器/NoellesRoles 万能钥匙真正打开了上锁的门、
  * Wathe 球棒满蓄力击中玩家，以及蓄力松手（弓、弩或矛的使用动作，小刀除外）且松手让该物品进入冷却或计入原版
  * {@code USED} 统计（{@code LivingEntityJunkerReleaseMixin}）。信号只负责排队；队列在 {@code END_SERVER_TICK} 结算，
  * 每个物品每 tick 至多消耗一次；若物品数量比上一 tick 少，说明物品已自行消耗（扔出的手雷、喝掉的鸡尾酒），跳过。

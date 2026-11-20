@@ -1,21 +1,20 @@
 package dev.caecorthus.sparkdlc.client.blood;
 
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
-import java.lang.reflect.Method;
 import java.util.UUID;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.world.World;
-import org.ladysnake.cca.api.v3.component.ComponentKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Reads NoellesRoles' hidden-body state without compiling against it.
- * 在不编译期依赖 NoellesRoles 的前提下读取隐藏尸体状态。
+ * Reads NoellesRoles' hidden-body state for the Wathe Blood spray. NoellesRoles is a hard dependency and registers its
+ * hidden-body component for every world, so the state is read directly through the compatibility bridge.
+ * 为 Wathe Blood 的喷血读取 NoellesRoles 的隐藏尸体状态。NoellesRoles 是硬依赖，且为每个世界注册其隐藏尸体组件，因此经由
+ * 兼容桥接直接读取。
  *
  * <p>A scavenger kill does not delete the corpse — the body entity still exists and still ticks, it is simply not shown.
  * That matters here because Wathe Blood 1.1.4 spawns its spray from the presence of a {@code PlayerBodyEntity}, so it
@@ -24,13 +23,6 @@ import org.slf4j.LoggerFactory;
  * 依据 {@code PlayerBodyEntity} 的出现来喷血的，它会给一具不可见的尸体旁边照喷不误。</p>
  */
 public final class ScavengerBlood {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Blood");
-    private static final String COMPONENT = "org.agmas.noellesroles.scavenger.HiddenBodiesWorldComponent";
-
-    private static boolean resolved;
-    private static ComponentKey<?> componentKey;
-    private static Method isHidden;
-
     private ScavengerBlood() {
     }
 
@@ -42,14 +34,14 @@ public final class ScavengerBlood {
      * 对他们血迹同样保留——看得见的尸体配上干净的地板，反而会在所有尸体中显得突兀。
      */
     public static boolean isBodyHidden(World world, UUID owner) {
-        if (world == null || owner == null || !resolve()) {
+        // The world and the body's owner come from Wathe Blood's call. / 世界与尸体主人来自 Wathe Blood 的调用。
+        if (world == null || owner == null) {
             return false;
         }
         try {
-            Object component = componentKey.getNullable(world);
-            return component != null && Boolean.TRUE.equals(isHidden.invoke(component, owner))
-                    && !localPlayerSeesHiddenBodies(world);
-        } catch (ReflectiveOperationException | RuntimeException exception) {
+            return NoellesHiddenBodiesBridge.isHidden(world, owner) && !localPlayerSeesHiddenBodies(world);
+        } catch (RuntimeException exception) {
+            // A failing check never suppresses blood. / 检查失败时绝不抑制血迹。
             return false;
         }
     }
@@ -65,25 +57,5 @@ public final class ScavengerBlood {
         }
         Role role = GameWorldComponent.KEY.maybeGet(world).map(game -> game.getRole(player)).orElse(null);
         return role != null && (role.getFaction() == Faction.KILLER || role.getFaction() == Faction.NEUTRAL);
-    }
-
-    private static boolean resolve() {
-        if (resolved) {
-            return componentKey != null;
-        }
-        resolved = true;
-        try {
-            Class<?> cls = Class.forName(COMPONENT);
-            // ComponentKey's lookups take Object, so the key is used through its type rather than a reflective
-            // get(World), which does not exist.
-            // ComponentKey 的查询方法参数是 Object，因此直接按其类型使用 key，而不是反射一个并不存在的 get(World)。
-            Method hidden = cls.getMethod("isHidden", UUID.class);
-            componentKey = (ComponentKey<?>) cls.getField("KEY").get(null);
-            isHidden = hidden;
-        } catch (ReflectiveOperationException | LinkageError | ClassCastException exception) {
-            componentKey = null;
-            LOGGER.warn("NoellesRoles hidden-body component unavailable; scavenger blood suppression is inert", exception);
-        }
-        return componentKey != null;
     }
 }

@@ -3,8 +3,6 @@ package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
@@ -13,6 +11,7 @@ import dev.caecorthus.sparkdlc.role.civilian.blind.net.BlindPulseSender;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -20,7 +19,6 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -163,11 +161,6 @@ public final class BlindCaneService {
     }
 
     private static int remainingItemCooldown(ServerPlayerEntity player, Item item) {
-        ItemCooldownManager manager = player.getItemCooldownManager();
-        if (!(manager instanceof ItemCooldownManagerAccessor accessor)
-                || !(accessor.sparkdlc$getEntries().get(item) instanceof ItemCooldownEntryAccessor entry)) {
-            return 0;
-        }
-        return Math.max(0, entry.sparkdlc$getEndTick() - accessor.sparkdlc$getTick());
+        return ExactItemCooldowns.remainingTicks(player, item);
     }
 }

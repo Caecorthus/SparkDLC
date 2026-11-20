@@ -1283,14 +1283,14 @@ final class SparkKillerScenes {
     /**
      * Bell Ringer (TollBellItem, BellTollService, TollBellGlint, BellRingerLoadoutService, BellRingerEchoService,
      * BellRingerEchoTargeting, BellRingerEchoRuntime, BellRingerRules): the bell comes with the role, is hidden in hand
-     * (NoellesHiddenEquipment) and glints only on its owner's screen while any target exists. A right-click (the client
+     * (NoellesHiddenEquipmentRegistry) and glints only on its owner's screen while any target exists. A right-click (the client
      * returns success, so the arm swings) kills at once every other participant whose Wathe mood is below 0, anywhere
      * on the train (forced, a death reason the traits treat as terminal: shields and revives do not stop it); roles
      * without real mood read 1 and are never claimed. 30 s cooldown; with no target nothing happens and no cooldown
      * starts. The Echo (ability key) costs 45 s of round time and tolls for every player; every participant with real
      * sanity on the civilian side loses all tasks for one random task due in 60 s (drain x1.5; missing it costs 0.5
      * mood).
-     * 敲钟人：钟随职业发放，手持隐藏（NoellesHiddenEquipment），只要存在目标，钟只在持有者自己的画面里发光。右键（客户端返回
+     * 敲钟人：钟随职业发放，手持隐藏（NoellesHiddenEquipmentRegistry），只要存在目标，钟只在持有者自己的画面里发光。右键（客户端返回
      * 成功，所以会挥手）立即击杀全车所有 Wathe 理智低于 0 的其他参与者，不论远近（强制击杀，词条视为终结的死因：护盾和复活
      * 都挡不住）；没有真实理智的职业读数为 1，永远不会被敲死。冷却 30 秒；没有目标时什么也不发生，也不进入冷却。回响（技能键）
      * 消耗 45 秒对局时间，向所有玩家敲响钟声；所有有真实理智的平民阵营参与者失去全部任务，换成一项 60 秒内完成的随机任务

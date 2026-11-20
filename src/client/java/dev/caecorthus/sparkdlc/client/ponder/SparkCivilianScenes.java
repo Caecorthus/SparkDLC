@@ -280,7 +280,7 @@ final class SparkCivilianScenes {
 
     /**
      * Angler (FisherFishingService, FisherInventory, FisherFishUse, FisherFishItem, FisherKeyFishDoors, the
-     * NoellesHiddenEquipment list): right-clicking a Wathe drink tray with the rod spends one bait and rolls a catch:
+     * NoellesHiddenEquipmentRegistry list): right-clicking a Wathe drink tray with the rod spends one bait and rolls a catch:
      * a fish into a free hotbar slot, nothing (a skunk) or a pufferfish on the tray; others see one arm swing, the
      * splash sounds are the Angler's own. The demo puts each catch straight in his hand. Edible fish are eaten
      * at once on right-click, with no swing or animation. The rod, bait and edible fish are hidden in hand from other

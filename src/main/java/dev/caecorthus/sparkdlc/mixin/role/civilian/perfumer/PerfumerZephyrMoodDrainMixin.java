@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.role.civilian.perfumer;
 
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;

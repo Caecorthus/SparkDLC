@@ -3,9 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.util.ItemCooldownSync;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -219,7 +217,7 @@ public final class BodyguardShieldService {
     private static void applyCooldown(ServerPlayerEntity player, BodyguardGearComponent gear, int ticks) {
         Item shield = SparkDlcItems.democracyShield();
         player.getItemCooldownManager().set(shield, ticks);
-        int actual = remainingCooldown(player.getItemCooldownManager(), shield);
+        int actual = ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), shield);
         gear.setShieldCooldownUntil(player.getServerWorld().getTime() + Math.max(0, actual));
     }
 
@@ -227,7 +225,7 @@ public final class BodyguardShieldService {
     private static void reassertCooldown(ServerPlayerEntity player, BodyguardGearComponent gear, long now) {
         Item shield = SparkDlcItems.democracyShield();
         ItemCooldownManager manager = player.getItemCooldownManager();
-        if (remainingCooldown(manager, shield) > 0) {
+        if (ExactItemCooldowns.remainingTicks(manager, shield) > 0) {
             return;
         }
         int left = (int) Math.min(Integer.MAX_VALUE, gear.shieldCooldownUntil() - now);
@@ -235,21 +233,15 @@ public final class BodyguardShieldService {
             // Exact: shieldCooldownUntil already holds the real (possibly Fast Hands shortened) end; set would shorten
             // it again and the slot would end before the shield is ready. / 精确写入：shieldCooldownUntil 已是真实（可能
             // 已被快手缩短的）结束时间；用 set 会再次缩短，栏位冷却会早于盾实际可用时结束。
-            ItemCooldownSync.writeExact(player, shield, left);
+            ExactItemCooldowns.raiseInPlace(player, shield, left);
         }
     }
 
     private static void preserveCooldown(ServerPlayerEntity player, Item item, int minimumTicks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
-        if (remainingCooldown(manager, item) < minimumTicks) {
+        if (ExactItemCooldowns.remainingTicks(manager, item) < minimumTicks) {
             manager.set(item, minimumTicks);
         }
-    }
-
-    private static int remainingCooldown(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
-        return entry == null ? 0 : Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
-                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
     }
 
     private static void applyRaisedSpeed(ServerPlayerEntity player) {

@@ -69,7 +69,8 @@ def sharedCore = [
         include: ["faction/", "round/", "cooldown/", "command/admin/",
                   "mixin/faction/", "mixin/round/", "mixin/cooldown/",
                   "client/round/", "client/mixin/faction/"],
-        except : ["faction/witch/", "cooldown/provider/", "mixin/faction/witch/", "client/mixin/faction/witch/"]
+        except : ["faction/witch/", "cooldown/provider/", "mixin/faction/witch/", "mixin/cooldown/provider/",
+                  "client/mixin/faction/witch/"]
 ]
 // What the core may name outside itself, with the reason. Everything else of the mod is off limits to it.
 // 核心在自身之外可以引用的内容及原因。本模组的其余一切对它都是禁区。
@@ -84,9 +85,8 @@ def sharedCoreSupport = [
         "component/ThirdFactionComponent"    : "the core's own Cardinal Component",
         "net/policy/GeneratedPayloadPolicy"  : "the generated locked-player payload sets; the anti-fast-round rules alias one",
         "mixin/wathe/"                       : "accessor interfaces on Wathe classes (one accessor per target for the whole mod)",
-        "replay/RoleChangeRecorder"          : "the faction mixin on Wathe's GameWorldComponent reports role changes to the replay",
-        "replay/ReplayPresentation"          : "the faction mixin on Wathe's replay generator hands its lines to the replay presentation",
-        "replay/ReplayRenderContext"         : "the same mixin opens the render context of that presentation"
+        "util/ExactItemCooldowns"            : "the one exact item-cooldown reader and writer; ForcedCooldowns reads and overwrites the vanilla entry through it",
+        "util/ExactItemCooldownRules"        : "its remaining-ticks formula, which the forced-cooldown ledger shares"
 ]
 
 // The role features: roles, traits, witch skills, role items, entities and blocks, sabotage, the tablet, the headset,
@@ -105,11 +105,14 @@ def roleFeatures = [
         except : []
 ]
 // The core's contract: what a role feature may name of the core. `faction.api` and `cooldown.api` are the contract
-// packages; SettlementExclusions is the settlement rule list roles and traits register into; the cooldown accessors
-// are the mod-wide accessor interfaces on ItemCooldownManager.
+// packages; SettlementExclusions is the settlement rule list roles and traits register into; RoundEndRows is the Wathe
+// round-end row builder the traits' effective-win writer shares with the core's custom-win writer; the cooldown
+// accessors are the mod-wide accessor interfaces on ItemCooldownManager.
 // 核心的契约：职业功能可以引用的核心内容。`faction.api` 与 `cooldown.api` 是契约包；SettlementExclusions 是职业与词条向其注册的
-// 结算规则列表；冷却访问器是全模组共用的 ItemCooldownManager 访问器接口。
-def sharedCoreContract = ["faction/api/", "cooldown/api/", "round/settlement/SettlementExclusions", "mixin/cooldown/"]
+// 结算规则列表；RoundEndRows 是词条有效胜利写入方与核心自定义胜利写入方共用的 Wathe 结算行构造器；冷却访问器是全模组共用的
+// ItemCooldownManager 访问器接口。
+def sharedCoreContract = ["faction/api/", "cooldown/api/", "round/settlement/SettlementExclusions", "round/end/RoundEndRows",
+                          "mixin/cooldown/"]
 // Role-feature classes that name a core class outside the contract, each with the classes it may name and why.
 // 引用了契约之外核心类的职业功能类，各自列出允许引用的类及原因。
 def sharedCoreContractExceptions = [
@@ -166,6 +169,10 @@ def traitInternalsExceptions = [
         "client/role/killer/specter/SpecterOtherworldScreenEffects"      : [
                 names : ["client/trait/render/DepressionScreenEffects"],
                 reason: "the Specter's otherworld compositor orders itself against the Depression screen effect the same way"
+        ],
+        "client/mixin/hud/MainHudDispatchMixin": [
+                names : ["client/trait/hud/DepressionHud", "client/trait/hud/PreparefullHud"],
+                reason: "the one renderMainHud TAIL hook draws every line of the mod in the order the former hooks ran, the two trait lines included"
         ]
 ]
 

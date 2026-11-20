@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.saboteur;
 
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
 

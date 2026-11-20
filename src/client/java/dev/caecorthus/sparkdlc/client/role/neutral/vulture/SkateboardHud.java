@@ -2,15 +2,13 @@ package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 
@@ -49,7 +47,7 @@ public final class SkateboardHud {
             // 按秃鹫共用时钟读取同步的锁；服务端仍报告有锁时绝不显示“就绪”。只有不属于本模组的冷却（无锁区间）才回退到原版条目。
             int cooldownTicks = SkateboardRideComponent.KEY.get(player).hasLock()
                     ? Math.max(1, SkateboardCooldownClient.lockRemaining(player))
-                    : cooldownTicks(player.getItemCooldownManager(), board);
+                    : ExactItemCooldowns.remainingTicks(player.getItemCooldownManager(), board);
             text = cooldownTicks > 0
                     ? Text.translatable("tip.sparkdlc.skateboard.cooldown", seconds(cooldownTicks))
                     : Text.translatable("tip.sparkdlc.skateboard.ready");
@@ -57,12 +55,6 @@ public final class SkateboardHud {
         int x = context.getScaledWindowWidth() - renderer.getWidth(text);
         int y = context.getScaledWindowHeight() - renderer.fontHeight * 2;
         context.drawTextWithShadow(renderer, text, x, y, VULTURE_COLOR);
-    }
-
-    private static int cooldownTicks(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
-        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick()
-                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick();
     }
 
     private static int seconds(int ticks) {

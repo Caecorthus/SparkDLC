@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.hit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerDeviceKind;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;

@@ -26,11 +26,11 @@ import java.util.Set;
 
 /**
  * Adapter of the third-faction draw: gathers the round's state, asks {@link ThirdFactionDrawRules#plan} and deals the
- * plan with {@code GameWorldComponent#addRole}. Called from {@code MurderGameModeMixin} after the AFTER_VIGILANTES
+ * plan with {@code GameWorldComponent#addRole}. Called from {@code FactionRoleAssignmentMixin} after the AFTER_VIGILANTES
  * assignment phase, i.e. right before Wathe's {@code assignNeutrals}; Wathe's forced roles and killer/vigilante passes
  * already ran, so those roles count as present.
  * 第三方阵营抽取的适配器：收集本局状态，调用 {@link ThirdFactionDrawRules#plan}，并用 {@code GameWorldComponent#addRole}
- * 执行计划。由 {@code MurderGameModeMixin} 在 AFTER_VIGILANTES 分配阶段之后调用，即紧接在 Wathe {@code assignNeutrals}
+ * 执行计划。由 {@code FactionRoleAssignmentMixin} 在 AFTER_VIGILANTES 分配阶段之后调用，即紧接在 Wathe {@code assignNeutrals}
  * 之前；此时 Wathe 的强制角色与杀手/义警分配已完成，这些角色计为在场。
  */
 public final class ThirdFactionDraw {

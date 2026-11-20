@@ -60,7 +60,7 @@ final class WatheShopScenes {
     }
 
     /**
-     * Grenade (GrenadeItem, GrenadeEntity; Spark: SparkDLC GrenadeExplosionMixin): one right-click throws it,
+     * Grenade (GrenadeItem, GrenadeEntity; Spark: SparkDLC GrenadeBlastMixin): one right-click throws it,
      * it blows up on the first thing it touches and kills everyone within 3 blocks, the thrower included. On Spark
      * walls and closed doors shield; plain Wathe uses a cube with no cover. 3 min cooldown, single use.
      * 手雷：右键一下扔出，撞到任何东西即爆炸，炸死 3 格内所有人（包括扔的人）。Spark 上墙和关着的门能挡住爆炸；

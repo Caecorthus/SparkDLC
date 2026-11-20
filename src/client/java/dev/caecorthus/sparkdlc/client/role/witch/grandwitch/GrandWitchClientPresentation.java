@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.util.TickTime;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.client.font.TextRenderer;
@@ -55,10 +56,7 @@ public final class GrandWitchClientPresentation {
     public static int swordDashTicks(ClientPlayerEntity player) {
         // Read the actual item timer, including any external extension; never infer it from kill cooldown.
         // 读取实际物品计时（包括外部延长），绝不从击杀冷却推算冲刺冷却。
-        ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = manager.sparkdlc$getEntries().get(SparkDlcItems.ceremonialSword());
-        return entry instanceof ItemCooldownEntryAccessor cooldown
-                ? Math.max(0, cooldown.sparkdlc$getEndTick() - manager.sparkdlc$getTick()) : 0;
+        return ExactItemCooldowns.remainingTicks(player, SparkDlcItems.ceremonialSword());
     }
 
     /** Full length of the running dash cooldown, 0 when none: the gauge's scale. 当前冲刺冷却的总时长，无冷却时为 0。 */

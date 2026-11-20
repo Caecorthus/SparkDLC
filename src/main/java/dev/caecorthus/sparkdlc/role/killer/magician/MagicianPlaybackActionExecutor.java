@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.util.hitscan.RangedOriginScope;

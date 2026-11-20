@@ -19,12 +19,12 @@ import java.util.OptionalLong;
 /**
  * Removing the vanilla cooldown of one of the mod's own role items ({@code ItemCooldownManager.remove}: the admin
  * {@code clearCooldown}, Wathe's round reset) also releases the role timer that gates the same item, so the item
- * is really usable when its slot shows ready. Server only: {@link #onRemoved} from {@code ItemCooldownRemovalMixin},
+ * is really usable when its slot shows ready. Server only: {@link #onRemoved} from {@code RoleItemTimerReleaseMixin},
  * {@link #onAdminCleared} from {@link #afterAdminRemove}, the {@code AdminCooldownClear} listener. Wathe's reset runs
  * before {@code ResetPlayer}, which clears these timers anyway.
  * 移除本模组职业物品的原版冷却（{@code ItemCooldownManager.remove}：管理员 {@code clearCooldown}、Wathe
  * 开局重置）时，同时释放门控同一物品的职业计时，使栏位显示就绪时物品确实可用。仅服务端：{@link #onRemoved}
- * 由 {@code ItemCooldownRemovalMixin} 调用，{@link #onAdminCleared} 由 {@code AdminCooldownClear} 的监听器
+ * 由 {@code RoleItemTimerReleaseMixin} 调用，{@link #onAdminCleared} 由 {@code AdminCooldownClear} 的监听器
  * {@link #afterAdminRemove} 调用。Wathe 的重置先于 {@code ResetPlayer}，后者本就会清除这些计时。
  */
 public final class RoleItemCooldownReleases {

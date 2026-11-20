@@ -349,7 +349,7 @@ identifier	sparkstrength:engine_sabotage	in AchievementRecords.java
 identifier	sparkstrength:flashlight_beam	context.register	
 identifier	sparkstrength:flashlight_blackout	in RoleKitRecordRules.java	
 identifier	sparkstrength:flashlight_receiver	context.register	
-identifier	sparkstrength:jester_moment_grayscale	in JesterMomentClientHooks.java	
+identifier	sparkstrength:jester_moment_grayscale	in JesterMomentGrayscaleLifecycle.java	
 identifier	sparkstrength:perfumer_screen_effects	in PerfumerClientHooks.java	
 identifier	sparkstrength:tablet_meeting	in RoleKitRecordRules.java	
 identifier	sparkstrength:tablet_suspect	in RoleKitRecordRules.java	

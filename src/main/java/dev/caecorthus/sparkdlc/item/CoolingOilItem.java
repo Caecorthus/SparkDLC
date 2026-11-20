@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.CoolingOilService;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.CoolingOilService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.windspirit;
 
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;

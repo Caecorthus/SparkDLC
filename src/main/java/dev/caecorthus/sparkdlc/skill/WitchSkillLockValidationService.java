@@ -1,13 +1,13 @@
 package dev.caecorthus.sparkdlc.skill;
 
 import dev.caecorthus.sparkdlc.command.ForceAbilityCommand;
+import dev.caecorthus.sparkdlc.command.WatheForcedRoles;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillSelectionContext;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
-import dev.doctor4t.wathe.cca.ScoreboardRoleSelectorComponent;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -22,18 +22,12 @@ public final class WitchSkillLockValidationService {
     private WitchSkillLockValidationService() {
     }
 
-    public static Role forcedRoleFor(ServerCommandSource source, ServerPlayerEntity player) {
-        ScoreboardRoleSelectorComponent selector =
-                ScoreboardRoleSelectorComponent.KEY.get(source.getServer().getScoreboard());
-        return selector.getForcedRoleForPlayer(player.getUuid());
-    }
-
     public static RoleConflict findForcedRoleConflict(
             ServerCommandSource source,
             ServerPlayerEntity player,
             WitchSkillDefinition skill
     ) {
-        return findRoleConflict(skill, forcedRoleFor(source, player));
+        return findRoleConflict(skill, WatheForcedRoles.forcedRoleFor(source, player));
     }
 
     public static RoleConflict findForcedSkillRoleConflict(ServerPlayerEntity player, Role role) {
@@ -62,15 +56,6 @@ public final class WitchSkillLockValidationService {
     public static String forceAbilityConflictMessage(RoleConflict conflict) {
         return "无法锁定，因为 " + ForceAbilityCommand.formatSkillIdForCommand(conflict.skill().id()) + " 与 "
                 + formatRoleId(conflict.role()) + " 冲突。";
-    }
-
-    public static Role findForceableRole(String roleName) {
-        for (Role role : WatheRoles.ROLES) {
-            if (!WatheRoles.SPECIAL_ROLES.contains(role) && role.identifier().getPath().equals(roleName)) {
-                return role;
-            }
-        }
-        return null;
     }
 
     private static String formatRoleId(Role role) {

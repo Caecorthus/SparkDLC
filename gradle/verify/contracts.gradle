@@ -57,7 +57,7 @@ def trackedContractFiles = [
         "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard.java",
         "src/client/java/dev/caecorthus/sparkdlc/client/guidebook/ui/decor/GuidebookCardDecor.java",
         "src/main/java/dev/caecorthus/sparkdlc/round/settlement/SettlementExclusions.java",
-        "src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipment.java",
+        "src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipmentRegistry.java",
         "src/main/java/dev/caecorthus/sparkdlc/cooldown/api/ForcedCooldowns.java",
         "src/main/java/dev/caecorthus/sparkdlc/cooldown/api/RoleSkillCooldownStore.java",
         "src/main/java/dev/caecorthus/sparkdlc/cooldown/ForcedCooldownRegistry.java",

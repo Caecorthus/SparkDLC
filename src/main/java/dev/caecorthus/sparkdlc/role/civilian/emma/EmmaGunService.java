@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

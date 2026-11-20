@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher.spirit;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.util.LandingSpotChecks;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -9,7 +10,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
@@ -77,12 +77,14 @@ final class FisherSpiritExit {
         return result;
     }
 
+    // Kept apart from the other landing checks: it probes the phasing player's current box and has no fluid rule.
+    // 与其他落点检查分开保留：它检查穿门玩家当前的碰撞箱，且没有流体规则。
     private static boolean isSafe(ServerPlayerEntity player, Vec3d feet) {
         ServerWorld world = player.getServerWorld();
         Box body = player.getBoundingBox().offset(feet.subtract(player.getPos()));
         Box playArea = MapVariablesWorldComponent.KEY.get(world).getPlayArea();
-        if (!FisherExitSearch.insideBounds(body, world.getBottomY(), world.getTopY(), playArea)
-                || !world.getWorldBorder().contains(body) || !chunksLoaded(world, body.expand(1))) {
+        if (!LandingSpotChecks.insideWorldAndPlayArea(body, world.getBottomY(), world.getTopY(), playArea)
+                || !world.getWorldBorder().contains(body) || !LandingSpotChecks.chunksLoaded(world, body.expand(1))) {
             return false;
         }
         if (world.getBlockCollisions(null, body).iterator().hasNext()) {
@@ -94,16 +96,5 @@ final class FisherSpiritExit {
         return world.getBlockCollisions(null, support).iterator().hasNext()
                 && world.getOtherEntities(player, body, other -> !other.isSpectator()
                 && (other.isCollidable() || other instanceof PlayerEntity)).isEmpty();
-    }
-
-    private static boolean chunksLoaded(ServerWorld world, Box box) {
-        for (int x = MathHelper.floor(box.minX) >> 4; x <= MathHelper.floor(box.maxX) >> 4; x++) {
-            for (int z = MathHelper.floor(box.minZ) >> 4; z <= MathHelper.floor(box.maxZ) >> 4; z++) {
-                if (!world.getChunkManager().isChunkLoaded(x, z)) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

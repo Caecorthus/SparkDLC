@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

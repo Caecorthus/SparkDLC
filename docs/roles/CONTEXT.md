@@ -311,7 +311,7 @@ Current build baseline:
     the Black Raven ledger's; a Fabric `UseEntityCallback` refuses handing it to item frames, armor stands and
     allays, and `DecoratedPotBlockProphetNecrologyMixin` makes a decorated pot answer
     `SKIP_DEFAULT_BLOCK_INTERACTION` so the pot never takes it and the book still opens; hand hiding is the
-    NoellesHiddenEquipment registration. The empty
+    NoellesHiddenEquipmentRegistry registration. The empty
     `net/OpenProphetNecrologyS2CPacket` opens the read-only two-tab book
     `client/role/civilian/prophet/ProphetNecrologyBookScreen`, which reads only `sparkdlc:prophet_player`.
   - Prophecy flow: the ability key's Prophet branch (`client/role/civilian/prophet/ProphetClientModule`, before the
@@ -3739,8 +3739,8 @@ Current build baseline:
     (re-decided at `render` HEAD). The info card routes around it as a visible widget child, and it consumes every
     click inside its frame. For the Medium this band is taken; a role that owns a head row cannot also dock a drawer
     here.
-- `PoliceSlotAssignmentService` (`role/civilian/judge/`) with `mixin/faction/witch/PoliceSlotAssignmentMixin`
-  and `mixin/faction/witch/PoliceRoleHistoryMixin`: police-slot ownership. Judge, Emma, the Control Expert, the
+- `PoliceSlotAssignmentService` (`role/civilian/judge/`) with `mixin/role/civilian/judge/PoliceSlotAssignmentMixin`
+  and `mixin/role/civilian/judge/PoliceRoleHistoryMixin`: police-slot ownership. Judge, Emma, the Control Expert, the
   Seeker, USEC and the Black Raven share the Vigilante slots uniformly through `VARIANT_IDS`; no variant owns a
   separate slot mixin. A Vigilante slot draws only from the eligible variants nobody holds yet; the
   plain Vigilante appears only once all of them are held (or none is eligible). The Veteran slot
@@ -3784,10 +3784,10 @@ Current build baseline:
   (`cooldown.api.ForcedCooldowns`): role-skill stores for SparkWitch and NoellesRoles counters, the SparkWitch item
   nominal-cooldown provider, and the Seeker car item exemption. `RoleForcedCooldowns.register()` runs once from
   `SparkDLC#registerOwnRoleGameplay`, right after `RoleEvents.register()`. `RoleItemCooldownReleases` releases the
-  SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/faction/witch/ItemCooldownRemovalMixin`). For the
+  SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/cooldown/provider/RoleItemTimerReleaseMixin`). For the
   admin clear alone (its `afterAdminRemove`, an `AdminCooldownClear` listener registered by `RoleForcedCooldowns`), it also exempts the item from Saint Karma.
 - `event/RoleEvents`: watch-only registration/lifecycle aggregator.
-- `record/witch/AchievementRecords`: the SparkWitch writers of the cross-mod achievement record contract (2026-10-09, W2-W7),
+- `record/AchievementRecords` (W part, beside the S part of the role kits): the SparkWitch writers of the cross-mod achievement record contract (2026-10-09, W2-W7),
   match-record events that SparkAssist reads from SparkFactionAPI's round-end broadcast to award local hidden
   achievements. Event types and field names are frozen: `sparkdlc:wind_spirit_fall` (`actor` Wind Spirit, UUID
   when offline; `target` victim), `sparkdlc:sabotage` (`lamps`), `sparkdlc:curse` (`targets`),
@@ -3909,7 +3909,7 @@ Current build baseline:
   pass) and `MINI_WITHER_TARGET` (Wraith checked on the server only, Last Escape before the role). The differences are
   each site's existing rule. `OffMatchUse.isMatchParticipant` and `SeekerTargeting.isActiveParticipant` stay separate.
 - `util/GiveCommandDropScope`: marks, by stack identity and per thread, vanilla `/give`'s cosmetic pickup-animation drop
-  (the shared count-1 template). `mixin/faction/witch/GiveCommandDropScopeMixin` (common config) is the one `@WrapOperation` on
+  (the shared count-1 template). `mixin/minecraft/GiveCommandDropScopeMixin` (common config) is the one `@WrapOperation` on
   `GiveCommand.execute`'s second `dropItem(ItemStack, boolean)` (ordinal 1); ordinal 0, the real remainder drop, stays
   outside. It is read by the drop guards that copy or empty a refused drop, each only cancelling the marked template:
   `PotionGunnerLoadoutService.interceptDrop` (launcher and shells),
@@ -3940,7 +3940,7 @@ Witch stays civilian. SparkWitch gameplay compares SparkFactionAPI faction ids o
 `Faction.NEUTRAL`, so the Tarot Reader's fifth Jiahao bucket (D5) is the only new classification. The Insider's and
 Corrupt Cop's effective faction is now `sparkdlc:jiahao` instead of `wathe:neutral`: `WraithRules.alignmentFor`
 refuses it as before (neither ever becomes a Wraith), and SparkWitch match-record faction keys
-(`record/witch/AchievementRecords`) carry it. Letters: SparkFactionAPI names their letter faction `sparkdlc.jiahao` /
+(`record/AchievementRecords`, W part) carry it. Letters: SparkFactionAPI names their letter faction `sparkdlc.jiahao` /
 `sparkdlc.witch`; like `neutral` before, no faction-specific `tip.letter.*` keys exist, so Wathe falls back to its
 generic letter keys. Unit tests run without mixins: the local `testsupport/NativeWatheFactionsTestInstaller`
 (auto-detected Jupiter extension) installs this declaration through SparkFactionAPI's production
@@ -4222,7 +4222,7 @@ label and HUD. The Clock and stamps are bound items: they share `TimeStealerInve
 click and world-target checks are the strict `item/BoundItemRules` policy) and the
 three item-generic mixins in `mixin/role/killer/timestealer/`, never become item entities, never leave the
 holder's own inventory slots, never death-drop, and are hidden from other living players' held-item
-view through `NoellesHiddenEquipment`; beyond the Bell Ringer's rules they also refuse shift-click
+view through `NoellesHiddenEquipmentRegistry`; beyond the Bell Ringer's rules they also refuse shift-click
 moves and offhand swaps, and a living holder keeps exactly one Clock in the hotbar. A stamp stack
 caught by the `dropItem` guard is emptied in place (move semantics) and re-delivered only to a
 living holder, so no drop path duplicates stamps. Vanilla `/give`'s cosmetic count-1 copy
@@ -4305,10 +4305,10 @@ that table and run `python3 tools/payload_policy.py generate --repo .`;
 类型化目标判定，表中 VENDETTA_TARGET 列记录它判定的五个 id。
 
 Role HUD panels draw through `client/hud/RoleHudDispatcher` (2026-10-22), behind two default-priority seams:
-`client/mixin/faction/witch/RoleHudRenderTailMixin` (`InGameHud.render` TAIL, which still runs under F1: Curser, Guardian Angel,
+`client/mixin/hud/RoleHudRenderTailMixin` (`InGameHud.render` TAIL, which still runs under F1: Curser, Guardian Angel,
 Orthopedist, Savior, Saint, Vendetta, Kidnapper control screen, Natsume, Saboteur) and
-`client/mixin/faction/witch/RoleHudMainHudTailMixin` (`renderMainHud` TAIL, hidden by F1: Witch mana with the tarot snapshot and
-slip, Witch skill, Magician, Black Raven). Since 2026-11-13 every text layer of the first seam returns on vanilla
+`RoleHudDispatcher.renderMainHudTail`, called last by the one main-HUD TAIL hook `client/mixin/hud/MainHudDispatchMixin`
+(`renderMainHud` TAIL, hidden by F1: Witch mana with the tarot snapshot and slip, Witch skill, Magician, Black Raven). Since 2026-11-13 every text layer of the first seam returns on vanilla
 `options.hudHidden` itself (`RoleHudDispatcher.hiddenByF1`; Savior and Natsume check it in their own gate); only the
 Kidnapper control screen stays under F1, because its black fill is the drug's blindness. `HudRenderCallback` HUDs
 (`HunterTrapDismantleHud`, the Blind view fallback hint in `BlindRenderWiring`, `BlackRavenCrowBoundaryOverlay`, the
@@ -4376,7 +4376,7 @@ their own body is outlined through walls on the owner's client only
 (`client/role/civilian/seeker/SeekerBodyClientHooks`, `SeekerRules.OWN_BODY_COLOR`), and the outline ends with
 the view. The possession filter is a private
 `PostEffectProcessor`, never `GameRenderer.postProcessor`. The Blind echo view is another private
-processor; the shared `client/mixin/faction/witch/PostEffectProcessorAccessor` only reads a private processor's
+processor; the shared `client/mixin/render/PostEffectProcessorAccessor` only reads a private processor's
 pass list (for per-pass matrix and array uniforms, never adding or removing passes) and is used only
 by `client/role/civilian/blind/render/BlindEchoView`. A placed camera's look (`LOOK_YAW`,
 `LOOK_PITCH`) and `VIEWING` flag are public DataTracker state that every tracking client renders
@@ -4509,7 +4509,7 @@ reads the same flag on both sides (`noellesroles:no_collision` alone is one-side
 claims only the invisibility instance it created in an empty slot; any foreign merge gives up its
 removal right. Expiry inside a door first tries to move the player to a validated safe spot (door
 sides, lateral offsets, then the last safe position); if none validates it only logs and clears.
-The rod, bait and edible fish are hidden in hand through `NoellesHiddenEquipment`; the Key Fish and
+The rod, bait and edible fish are hidden in hand through `NoellesHiddenEquipmentRegistry`; the Key Fish and
 Swordfish stay visible. Fishing is a Fabric `UseBlockCallback` in its own phase after the existing
 interaction guards, for a main-hand rod on `wathe:drink_tray` only: the client answers SUCCESS (the
 ordinary tray swing, identical to taking a drink), the server answers CONSUME on every handled
@@ -4918,7 +4918,7 @@ for the ComTac quick-equip from the hotbar into the empty headset slot; never th
 refuses the swap-hands action in a round), a container, the crafting grid, an item frame, an armor
 stand, an allay or a decorated pot, where `BlindKitDecoratedPotMixin` answers `SKIP_DEFAULT_BLOCK_INTERACTION`
 on both sides so the pot never takes it and the cane tap or ComTac equip still runs), hidden in hand
-from other players through `NoellesHiddenEquipment` (D9),
+from other players through `NoellesHiddenEquipmentRegistry` (D9),
 and stripped from inventory, headset slot, cursor and open screens of anyone who is not a living,
 playing, exact Blind (role change, terminal death, reset, finalize, disconnect and a staggered
 20-tick sweep that spares a real Blind inside a SparkTraits-intercepted Last Stand death). A
@@ -5099,7 +5099,7 @@ tasks it is promoted to an accomplice role through the pool above.
   the Bewitched right after the Grand Witch, only in a round that has one (dealt or forced; no Wathe pass draws witch
   roles), on every member-cap slot left, while the Bewitched is enabled; forced Bewitched count toward the cap. This
   replaced the old `WitchRoleCounts.bewitched(n) = (n - 18) / 6` quota (owner 2026-10-06) and its
-  `WitchRoleAssignmentService` pass; `MurderGameModeMixin` now runs only the Hunter/Orthopedist pairing before
+  `WitchRoleAssignmentService` pass; `HunterOrthopedistPairingMixin` now runs only the Hunter/Orthopedist pairing before
   `assignCivilians`. See "Third-faction draw" under Runtime Invariants.
 - **Before promotion (D2).** A witch-faction member with teammate vision and accomplice money (starting money,
   passive, kill rewards, the Grand Witch's +25 share), but no shop. `BewitchedShopService` empties its shop on both
@@ -5328,7 +5328,7 @@ the Curser and Guardian Angel, and SparkStrength components.
 Removing an item cooldown releases SparkWitch's own timer behind the item (2026-10-05). The removal is
 `ItemCooldownManager.remove` on the server. For these items it comes from SparkFactionAPI
 `/sparkdlc:clearCooldown` (main hand), Wathe's round reset, or SparkTraits dropping a parry lock once its
-holder is dead or the round ended. `ItemCooldownRemovalMixin` runs at TAIL, so a `remove` that SparkTraits cancels at
+holder is dead or the round ended. `RoleItemTimerReleaseMixin` runs at TAIL, so a `remove` that SparkTraits cancels at
 HEAD (its forced melee floor) releases nothing, and expiry never calls `remove`. `RoleItemCooldownReleases`
 then acts by item id:
 - White Cane: the `BlindComponent` cane ready tick moves to now; a running window is kept.
@@ -5404,7 +5404,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
   `WitchSkillUseResult.success(SHRIEK_COOLDOWN_TICKS)` (60 s), so the shared cooldown starts even with nobody in range.
   The caster is never told how many were hit.
 - **Shriek Gun.** `sparkdlc:shriek_gun` is a plain `Item#use` hitscan on the Taser template, hidden in hand through
-  `NoellesHiddenEquipment` and never in `wathe:guns`. The client only swings and recoils. Any holder may fire and the
+  `NoellesHiddenEquipmentRegistry` and never in `wathe:guns`. The client only swings and recoils. Any holder may fire and the
   role is never read (owner rule 2026-10-04, `util/OffMatchUse`). In every mode a spectator, a gun on cooldown, or a
   SparkTraits `blocksWeaponAction` holder is refused. A living, non-spectator, non-Wraith participant of an ACTIVE
   round fires the match shot below; a dead participant or active Wraith is refused. Everyone else (no match,
@@ -5432,7 +5432,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
     the beam (current boxes), the same for allies and enemies.
 - **Fall credit.** `FirePokerFallAttributionService` is one train-fall push ledger for every pushing weapon: each record
   stores the pusher, the pushing `Item`, and the window end (`FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS`, 200
-  ticks), and the latest push wins regardless of weapon. `GameWorldComponentMixin` still redirects only Wathe's
+  ticks), and the latest push wins regardless of weapon. `FirePokerFallKillMixin` still redirects only Wathe's
   fall-death `killPlayer`: a `wathe:fell_out_of_train` death inside the window is credited to the online pusher and
   runs inside `SparkTraitsApi.runWithNonFinalKillWeapon(recordedWeapon, kill)`, with Judge responsibility read
   first as before. The Fire Poker records itself as before; the Shriek Gun records every push, ally or enemy, with
@@ -6696,7 +6696,7 @@ Network:
   and keeps the order they were written for: before Wathe's ESCAPED kill (its listeners sit in the
   `sparkdlc:disconnect_cleanup` phase, ordered before the default phase where Wathe queues the kill with
   `server.execute`; the Dominator forced-shot and Schrödinger's Cat phases are the precedent) and before vanilla
-  saves the player (`mixin/faction/witch/ServerPlayNetworkHandlerDisconnectCleanupMixin` drains what is still queued at the head of
+  saves the player (`mixin/minecraft/ServerPlayNetworkHandlerDisconnectCleanupMixin` drains what is still queued at the head of
   `onDisconnected`, which leads to `PlayerManager.remove`). Each task runs once. `PlayerHitboxHistory`, Junker, the
   Hunter aim claims and the Magician keep their own default-phase `server.execute` (after the kill); the Dominator
   and the Cat keep their own early phases. One seam for all of them stays an owner decision.

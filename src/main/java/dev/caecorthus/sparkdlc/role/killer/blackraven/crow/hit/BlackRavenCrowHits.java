@@ -611,13 +611,13 @@ public final class BlackRavenCrowHits {
 
     /**
      * Wathe grenade, after its collision exploded ({@code BlackRavenCrowGrenadeMixin}): the crow pass of the blast,
-     * separate from Wathe's player loop (which {@code GrenadeExplosionMixin} refilters by each player's own box, so a
+     * separate from Wathe's player loop (which {@code GrenadeBlastMixin} refilters by each player's own box, so a
      * crow's owner whose body is elsewhere could never die there). {@link #onBlast} with the grenade's 3-block sphere
      * around its box centre and a clear line from it, {@code wathe:grenade}, the online thrower credited and the whole
      * pass inside the thrower's Judge attribution ({@code responsible}, the projectile's owner UUID, even offline).
      * Owners in {@code attempted} (the loop already tried to kill their body) are skipped, so one grenade never hits a
      * Black Raven twice; dead owners have no live crow. Returns how many crows were hit.
-     * Wathe 手雷在碰撞爆炸之后（{@code BlackRavenCrowGrenadeMixin}）：独立于 Wathe 玩家循环的乌鸦扫描（{@code GrenadeExplosionMixin} 会按每名玩家
+     * Wathe 手雷在碰撞爆炸之后（{@code BlackRavenCrowGrenadeMixin}）：独立于 Wathe 玩家循环的乌鸦扫描（{@code GrenadeBlastMixin} 会按每名玩家
      * 自身箱体重新筛选该循环，本体在别处的乌鸦主人在那里永远死不了）。以手雷箱体中心 3 格球体且视线畅通调用 {@link #onBlast}，
      * {@code wathe:grenade}，记在在线投掷者名下，整个扫描在投掷者的审判官归因内执行（{@code responsible}，投射物主人 UUID，离线亦可）。
      * 跳过 {@code attempted} 中的主人（循环已尝试击杀其本体），因此一颗手雷永远不会两次命中同一黑羽鸦；已死亡的主人没有存活乌鸦。

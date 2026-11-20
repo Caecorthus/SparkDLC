@@ -99,7 +99,7 @@ public final class SparkTraitsApi {
         if (player == null || item == null) {
             return false;
         }
-        dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns.setExact(player, item, ticks);
+        dev.caecorthus.sparkdlc.util.ExactItemCooldowns.setPastModifiers(player, item, ticks);
         return true;
     }
 
@@ -109,7 +109,7 @@ public final class SparkTraitsApi {
     }
 
     public static int getItemCooldownRemaining(PlayerEntity player, net.minecraft.item.Item item) {
-        return dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns.remainingTicks(player, item);
+        return dev.caecorthus.sparkdlc.util.ExactItemCooldowns.remainingTicks(player, item);
     }
 
     /** Marksman range multiplier for downstream police weapons: 1.3 when the player's runtime police role

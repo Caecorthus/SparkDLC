@@ -88,8 +88,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "faction.witch.ShopCurrencyPriceMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/ShopCurrencyPriceMixin.class",
+                configName: "wathe.ShopCurrencyPriceMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/wathe/ShopCurrencyPriceMixin.class",
                 handler: "sparkdlc\$renderManaPrice",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Redirect;",
                 selector: "method_48579(Lnet/minecraft/class_332;IIF)V",
@@ -1148,6 +1148,21 @@ def watheCommonMixinContracts = [
                 providerEntry: "dev/doctor4t/wathe/record/GameRecordManager.class",
                 providerMethod: "recordPlatterTake",
                 providerDescriptor: "(Lnet/minecraft/class_3222;Lnet/minecraft/class_2960;Lnet/minecraft/class_2338;Ljava/lang/String;Lnet/minecraft/class_2487;)V"
+        ],
+        [
+                // NoellesRoles' held-item hiding decision. The HEAD handler is required; this row also proves the
+                // target of the same class's RETURN handler, which keeps its `require = 0` (so it cannot be a row).
+                // NoellesRoles 的手持物品隐藏判定。HEAD 处理为必需；本行同时证明同一类中 RETURN 处理的目标存在，
+                // 该处理保留 `require = 0`（因此不能单独成行）。
+                configName: "compat.noellesroles.HiddenEquipmentHelperMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/HiddenEquipmentHelperMixin.class",
+                handler: "sparkdlc\$hideRoleItems",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "shouldHideItem(Lnet/minecraft/class_1799;Lnet/minecraft/class_1657;)Z",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/util/HiddenEquipmentHelper.class",
+                providerMethod: "shouldHideItem",
+                providerDescriptor: "(Lnet/minecraft/class_1799;Lnet/minecraft/class_1657;)Z"
         ]
 ]
 
@@ -1437,7 +1452,7 @@ tasks.register("verifyNoellesRolesLambdaSelectors") {
                     "(Lorg/agmas/noellesroles/packet/AssassinGuessRoleC2SPacket;" +
                     "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
             def assassinGuessMixin = readClassNode(
-                    zipFile, "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/AssassinGuessOutcomeMixin.class")
+                    zipFile, "dev/caecorthus/sparkdlc/mixin/role/killer/assassin/AssassinGuessOutcomeMixin.class")
             [
                     "sparkdlc\$forgivenMissIsSilent"      :
                             "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",

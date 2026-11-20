@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.saint.flash;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.mixin.role.civilian.judge.JudgeProjectileOwnerAccessor;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTargeting;

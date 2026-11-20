@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindPerceptionClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
-import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.render.PostEffectProcessorAccessor;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;

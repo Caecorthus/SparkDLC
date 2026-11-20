@@ -16,11 +16,11 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * The Rift Gate item ({@code sparkdlc:rift_gate}): stackable, bought for mana, hidden in hand (NoellesHiddenEquipment).
+ * The Rift Gate item ({@code sparkdlc:rift_gate}): stackable, bought for mana, hidden in hand (NoellesHiddenEquipmentRegistry).
  * Using it places a gate at the user's feet; the server decides every placement in
  * {@link RiftGatePlacementService#tryPlace} (which also consumes one item on success). The client only reports CONSUME,
  * so nothing swings before the server agrees.
- * 裂隙门物品（{@code sparkdlc:rift_gate}）：可堆叠、以魔力购买、手持时对他人隐藏（NoellesHiddenEquipment）。
+ * 裂隙门物品（{@code sparkdlc:rift_gate}）：可堆叠、以魔力购买、手持时对他人隐藏（NoellesHiddenEquipmentRegistry）。
  * 使用时在脚下放置一扇门；每次放置都由服务端 {@link RiftGatePlacementService#tryPlace} 决定（成功时同时消耗一个物品）。
  * 客户端只返回 CONSUME，服务端认可前不会挥手。
  */

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.riftwalker.sabbath;
 
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterTrapEntity;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
+import dev.caecorthus.sparkdlc.util.LandingSpotChecks;
 import dev.doctor4t.wathe.block.DoorPartBlock;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.block.Block;
@@ -14,7 +15,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -99,7 +99,7 @@ final class WitchesSabbathLanding {
     private static @Nullable Vec3d find(ServerWorld world, Vec3d origin, @Nullable Box playArea,
                                         ServerPlayerEntity target, Vec3d candidate) {
         Box footprint = standingBoxAt(target, candidate);
-        if (!chunksLoaded(world, footprint.expand(1.0))) {
+        if (!LandingSpotChecks.chunksLoaded(world, footprint.expand(1.0))) {
             return null;
         }
         OptionalDouble floor = floorTop(world, footprint, candidate.y);
@@ -136,11 +136,13 @@ final class WitchesSabbathLanding {
         return tops.build().toArray();
     }
 
+    // Kept apart from the other landing checks: it adds fluid, door, gate, trap and clear-path rules in its own order.
+    // 与其他落点检查分开保留：它按自己的顺序另加流体、门、裂隙门、捕兽夹与畅通路径规则。
     private static boolean isSafe(ServerWorld world, Vec3d origin, @Nullable Box playArea, ServerPlayerEntity target,
                                   Vec3d feet, Box body) {
-        if (!WitchesSabbathLandingPlan.insideBounds(body, world.getBottomY(), world.getTopY(), playArea)
+        if (!LandingSpotChecks.insideWorldAndPlayArea(body, world.getBottomY(), world.getTopY(), playArea)
                 || !world.getWorldBorder().contains(body)
-                || !chunksLoaded(world, body.expand(1.0))) {
+                || !LandingSpotChecks.chunksLoaded(world, body.expand(1.0))) {
             return false;
         }
         // Null entity context: door-passing exemptions can never hide a solid. / null 实体上下文：穿门豁免无法隐藏实体方块。
@@ -224,16 +226,5 @@ final class WitchesSabbathLanding {
 
     private static boolean isDoor(Block block) {
         return block instanceof DoorPartBlock || block instanceof DoorBlock;
-    }
-
-    private static boolean chunksLoaded(ServerWorld world, Box box) {
-        for (int x = MathHelper.floor(box.minX) >> 4; x <= MathHelper.floor(box.maxX) >> 4; x++) {
-            for (int z = MathHelper.floor(box.minZ) >> 4; z <= MathHelper.floor(box.maxZ) >> 4; z++) {
-                if (!world.getChunkManager().isChunkLoaded(x, z)) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

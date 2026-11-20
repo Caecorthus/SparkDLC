@@ -67,7 +67,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumVoteClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaPaintClient;
-import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientHooks;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.PerfumerClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.planner.PlannerClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.prophet.ProphetClientModule;
@@ -114,7 +114,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.WitchMaidenClientM
 import dev.caecorthus.sparkdlc.client.role.neutral.criminalreasoner.CriminalReasonerClientModule;
 import dev.caecorthus.sparkdlc.client.role.neutral.ferryman.FerrymanClient;
 import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendDashClient;
-import dev.caecorthus.sparkdlc.client.role.neutral.jester.JesterMomentClientHooks;
+import dev.caecorthus.sparkdlc.client.role.neutral.jester.JesterMomentGrayscaleLifecycle;
 import dev.caecorthus.sparkdlc.client.role.neutral.koko.KokoClient;
 import dev.caecorthus.sparkdlc.client.role.neutral.pathogen.PathogenClientHooks;
 import dev.caecorthus.sparkdlc.client.role.neutral.shadowjester.ShadowJesterShowdownMusicController;
@@ -404,7 +404,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         EngineerClientHooks.register();
         FlashlightLights.register();
         FlashlightRenderer.register();
-        JesterMomentClientHooks.register();
+        JesterMomentGrayscaleLifecycle.register();
         MorphlingClientHooks.register();
         PartyBalloonClientHooks.register();
         PathogenClientHooks.register();
@@ -484,8 +484,10 @@ public final class SparkDLCClient implements ClientModInitializer {
         dev.caecorthus.sparkdlc.client.trait.gui.OwnerInventoryClientAdapter.install();
         NewKillerTraitsClient.initialize();
         ParticleFactoryRegistry.getInstance().register(SparkDlcParticles.BLUE_POISON, PoisonParticle.Factory::new);
-        // A new connection starts unconfirmed, even if the previous one never reached its play session.
-        // 新连接从未确认状态开始，即使上一个连接没有进入 play 会话。
+        // A new connection starts unconfirmed, even if the previous one never reached its play session. This and the
+        // play DISCONNECT listener below are the flag's only resets on those two edges.
+        // 新连接从未确认状态开始，即使上一个连接没有进入 play 会话。此处与下方的 play DISCONNECT 监听器是这两个节点上
+        // 对该标记仅有的重置。
         ClientLoginConnectionEvents.INIT.register((handler, client) -> SparkDlcServerConnection.reset());
         /*
          * JOIN also starts a play session after a proxy backend switch, which fires no DISCONNECT: session-scoped
@@ -516,7 +518,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             DepressionRageLoopController.tick(client);
             FinalMomentMusicController.tick(client);
-            dev.caecorthus.sparkdlc.client.trait.jester.JesterMomentClientHooks.tick(client);
+            dev.caecorthus.sparkdlc.client.trait.jester.JesterMomentInventoryLock.tick(client);
             if (SparkDlcServerConnection.isConfirmedServer()) {
                 DepressionHud.tick();
             }
@@ -632,11 +634,16 @@ public final class SparkDLCClient implements ClientModInitializer {
 
     /** Session state of the mod's own roles, dropped on every connection edge. / 本模组自有职业的会话状态，在每个连接节点清除。 */
     private static void registerOwnRoleSessionResets() {
-        // Reset on every connection lifecycle edge so failed login attempts cannot leak confirmed state.
-        // 在每个连接生命周期节点清理状态，避免失败的登录尝试残留已确认标记。
-        ClientLoginConnectionEvents.INIT.register((handler, client) -> resetConnectionState());
+        // Reset on every connection lifecycle edge so failed login attempts cannot leak confirmed state. The
+        // confirmed-server flag itself is dropped on login INIT and play DISCONNECT by the trait session listeners
+        // above, which run earlier on the same edge, and no listener in between can confirm a server; so only login
+        // DISCONNECT, which has no such listener, drops it here.
+        // 在每个连接生命周期节点清理状态，避免失败的登录尝试残留已确认标记。已确认标记本身在登录 INIT 与 play DISCONNECT 上
+        // 由上方词条会话监听器清除，它们在同一节点上更早执行，且其间没有任何监听器能确认服务端；因此只有没有这类监听器的
+        // 登录 DISCONNECT 在这里清除它。
+        ClientLoginConnectionEvents.INIT.register((handler, client) -> resetConnectionClientState());
         ClientLoginConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionState());
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionState());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionClientState());
         // A proxy backend switch goes play -> configuration -> play on one connection: no DISCONNECT and no login INIT
         // fire, only another JOIN, so the previous backend's session state is dropped here too. Play-phase state of the
         // new session only arrives after JOIN, so nothing of it can be wiped. The confirmed-server flag is NOT reset
@@ -1062,16 +1069,27 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /**
-     * Connection edges (login INIT, login DISCONNECT, play DISCONNECT). These fire on the server-connector or Netty
-     * thread. The confirmed flag is volatile and is the point of the early reset, so it is cleared at once; everything
-     * else is client-thread state (two of the resets close a screen, which grabs the cursor through GLFW), so it is
-     * handed to the client thread. Tasks run in order, so the reset still precedes every play packet of a new session.
-     * 连接生命周期节点（登录 INIT、登录 DISCONNECT、play DISCONNECT）。这些事件在连接线程或 Netty 线程触发。已确认标记是
-     * volatile 的，且提前重置正是为了它，因此立即清除；其余都是客户端线程状态（其中两个重置会关闭界面，进而通过 GLFW 抓取
-     * 光标），因此交给客户端线程执行。任务按顺序执行，所以重置仍先于新会话的任何 play 数据包。
+     * Connection edges (login INIT, login DISCONNECT, play DISCONNECT; on login INIT and play DISCONNECT only the
+     * client-thread part runs, because the trait session listeners already dropped the flag earlier on that edge).
+     * These fire on the server-connector or Netty thread. The confirmed flag is volatile and is the point of the early
+     * reset, so it is cleared at once; everything else is client-thread state (two of the resets close a screen, which
+     * grabs the cursor through GLFW), so it is handed to the client thread. Tasks run in order, so the reset still
+     * precedes every play packet of a new session.
+     * 连接生命周期节点（登录 INIT、登录 DISCONNECT、play DISCONNECT；在登录 INIT 与 play DISCONNECT 上只执行客户端线程部分，
+     * 因为词条会话监听器已在同一节点上更早清除了标记）。这些事件在连接线程或 Netty 线程触发。已确认标记是 volatile 的，
+     * 且提前重置正是为了它，因此立即清除；其余都是客户端线程状态（其中两个重置会关闭界面，进而通过 GLFW 抓取光标），因此
+     * 交给客户端线程执行。任务按顺序执行，所以重置仍先于新会话的任何 play 数据包。
      */
     private static void resetConnectionState() {
         SparkDlcServerConnection.reset();
+        resetConnectionClientState();
+    }
+
+    /**
+     * The client-thread part of {@link #resetConnectionState}, for the edges whose flag reset already ran.
+     * {@link #resetConnectionState} 的客户端线程部分，用于标记已被清除的节点。
+     */
+    private static void resetConnectionClientState() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (!client.isOnThread()) {
             client.execute(SparkDLCClient::resetClientThreadState);
@@ -1123,6 +1141,11 @@ public final class SparkDLCClient implements ClientModInitializer {
         }
         MagicianPuppetStandIn.reset();
         SaviorClient.releaseClosedWorld();
+        // forgetMuzzles clears the same map at the end of the tick the world changed; neither covers the other (a
+        // dimension change fires no connection edge, and a JOIN's muzzle packets can run before that tick ends), so
+        // both stay.
+        // forgetMuzzles 在世界改变的那一 tick 结束时清空同一张表；两者互不覆盖（切换维度不触发连接节点，而 JOIN 之后的枪口
+        // 数据包可能在该 tick 结束前执行），因此都保留。
         var muzzles = WatheClient.particleMap;
         if (muzzles != null) {
             muzzles.clear();

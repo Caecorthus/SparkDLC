@@ -1,11 +1,10 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
 import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistAntidoteComponent;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.PoisonOnset;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
@@ -109,7 +108,7 @@ public final class ToxicologistAntidoteService {
 
         Item antidote = ModItems.ANTIDOTE;
         ItemCooldownManager cooldownManager = toxicologist.getItemCooldownManager();
-        int remainingCooldownTicks = remainingCooldownTicks(cooldownManager, antidote);
+        int remainingCooldownTicks = ExactItemCooldowns.remainingTicks(cooldownManager, antidote);
         if (remainingCooldownTicks <= 0) {
             // 当前没有冷却时不消费抵扣，等待下一次解毒剂成功使用后再自动生效。
             return;
@@ -124,16 +123,5 @@ public final class ToxicologistAntidoteService {
 
         cooldownManager.set(antidote, remainingCooldownTicks - reductionTicks);
         component.clear();
-    }
-
-    private static int remainingCooldownTicks(ItemCooldownManager cooldownManager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getEntries().get(item);
-        if (entry == null) {
-            return 0;
-        }
-
-        int endTick = ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTick();
-        int currentTick = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getTick();
-        return Math.max(0, endTick - currentTick);
     }
 }

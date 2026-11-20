@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.SparkDlcRoles;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -30,7 +31,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -67,9 +67,6 @@ public final class FerrymanMomentService {
 
     private FerrymanMomentService() {
     }
-
-    /** Wathe's internal dead-player set; null when the field is gone. / Wathe 内部死者集合；字段消失时为 null。 */
-    private static final @Nullable Field DEAD_PLAYERS = resolveDeadPlayersField();
 
     /**
      * Installed by the optional voice-chat plugin: drops a revived soul out of every voice group, so it can never
@@ -214,10 +211,13 @@ public final class FerrymanMomentService {
         // 复活的灵魂不再是已摆渡的尸体：它的下一具遗体重新计入摆渡、报酬与标记。
         component.removeFerried(soulId);
 
-        // Same body restore as the Last Stand trait and the T-Virus revive: ADVENTURE (Wathe's round
+        // Body restore like the Last Stand trait's and the T-Virus revive's: ADVENTURE (Wathe's round
         // mode, so souls cannot break the train), full health, air and food, no fall distance, own camera.
-        // 与背水一战词条、T 病毒复活相同的身体复原：冒险模式（Wathe 的对局模式，灵魂因此不能破坏
-        // 列车）、满血、满氧气与饱食度、清除摔落距离、视角回到自身。
+        // The three stay separate because they differ: Last Stand restores the saved effects and invulnerability and
+        // leaves food and fall distance alone; the T-Virus leaves food and velocity alone.
+        // 与背水一战词条、T 病毒复活类似的身体复原：冒险模式（Wathe 的对局模式，灵魂因此不能破坏
+        // 列车）、满血、满氧气与饱食度、清除摔落距离、视角回到自身。三者各自保留，因为并不相同：背水一战恢复保存的
+        // 效果与无敌状态，不改饱食度与摔落距离；T 病毒不改饱食度与速度。
         soul.setCameraEntity(soul);
         soul.changeGameMode(GameMode.ADVENTURE);
         soul.clearStatusEffects();
@@ -273,39 +273,15 @@ public final class FerrymanMomentService {
     }
 
     /**
-     * Removes the player from Wathe's per-round dead set through its field, resolved once and failing soft: a renamed
-     * field only logs and the revival reports itself as failed instead of throwing every purchase. Success means Wathe
-     * itself no longer reports the player dead.
-     * 通过字段移除 Wathe 本局的死者记录，只解析一次、失败即降级：字段改名时只记日志，让复活按“失败”上报，而不是每次购买
-     * 都抛异常。只有 Wathe 自己不再报告该玩家死亡时才算成功。
+     * Removes the player from Wathe's per-round dead set through the mod's one accessor on it (as the T-Virus revive and
+     * Last Stand do; the accessor mixin is required, so a renamed field fails at start-up instead of here). Success
+     * means Wathe itself no longer reports the player dead.
+     * 通过本模组在该集合上唯一的访问器移除 Wathe 本局的死者记录（与 T病毒复活、背水一战相同；访问器 mixin 是必需的，字段改名会在
+     * 启动时失败，而不是在这里）。只有 Wathe 自己不再报告该玩家死亡时才算成功。
      */
     private static boolean clearDeadFlag(GameWorldComponent game, ServerPlayerEntity soul) {
-        if (DEAD_PLAYERS == null) {
-            return false;
-        }
-        try {
-            Object store = DEAD_PLAYERS.get(game);
-            if (store instanceof Set<?> dead) {
-                dead.remove(soul.getUuid());
-            }
-        } catch (ReflectiveOperationException | RuntimeException exception) {
-            SparkDLC.LOGGER.warn("Charon moment: could not clear Wathe's dead flag for {}",
-                    soul.getGameProfile().getName(), exception);
-            return false;
-        }
+        ((GameWorldComponentAccessor) game).sparkdlc$getDeadPlayers().remove(soul.getUuid());
         return !game.isPlayerDead(soul.getUuid());
-    }
-
-    private static @Nullable Field resolveDeadPlayersField() {
-        try {
-            Field field = GameWorldComponent.class.getDeclaredField("deadPlayers");
-            field.setAccessible(true);
-            return field;
-        } catch (ReflectiveOperationException | RuntimeException exception) {
-            SparkDLC.LOGGER.warn("Charon moment: Wathe's dead-player set is not reachable; revivals will fail",
-                    exception);
-            return null;
-        }
     }
 
     private static void discardBodies(ServerWorld world, UUID owner) {

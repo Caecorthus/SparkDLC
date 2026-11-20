@@ -7,6 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.command.WatheForcedRoles;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
@@ -210,7 +211,7 @@ public final class TraitCommands {
         }
         TraitLockValidationService.RoleConflict conflict = TraitLockValidationService.findAudienceConflict(
                 trait,
-                TraitLockValidationService.forcedRoleFor(source, player)
+                WatheForcedRoles.forcedRoleFor(source, player)
         );
         if (conflict != null) {
             return AddResult.failure(TraitLockValidationService.addTraitRoleConflictMessage(trait, conflict.role()));

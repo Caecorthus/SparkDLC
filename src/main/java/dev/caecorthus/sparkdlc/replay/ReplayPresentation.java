@@ -22,9 +22,9 @@ import java.util.UUID;
 /**
  * Presentation side of the replay module: time-aware names, hover tooltips, roster, end-of-match summary, screen
  * snapshot, archive, and /replay.
- * The {@code ReplayGeneratorMixin} adapter only forwards Wathe seams here; every hook degrades to Wathe's
+ * The {@code ReplayPresentationMixin} adapter only forwards Wathe seams here; every hook degrades to Wathe's
  * original behaviour when no session is active or presentation code fails, so the replay itself never breaks.
- * 回放模块的展示侧：按时间解析的名字、悬停提示、名单、局末摘要、界面快照、存档与 /replay 命令。{@code ReplayGeneratorMixin}
+ * 回放模块的展示侧：按时间解析的名字、悬停提示、名单、局末摘要、界面快照、存档与 /replay 命令。{@code ReplayPresentationMixin}
  * 适配器只把 Wathe 接缝转发到这里；没有活动会话或展示代码出错时，每个钩子都退回 Wathe 原行为，回放本身不会中断。
  */
 public final class ReplayPresentation {

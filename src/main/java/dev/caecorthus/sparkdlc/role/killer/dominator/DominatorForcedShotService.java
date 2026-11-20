@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -140,8 +140,7 @@ public final class DominatorForcedShotService {
                 entries.remove(item);
             } else {
                 entries.put(item, entry);
-                remaining = Math.max(0, ((ItemCooldownEntryAccessor) entry)
-                        .sparkdlc$getEndTick() - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick());
+                remaining = ExactItemCooldowns.remainingTicks(manager, item);
             }
             player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(item, remaining));
         }

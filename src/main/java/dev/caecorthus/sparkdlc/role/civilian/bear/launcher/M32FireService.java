@@ -2,8 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
@@ -13,8 +11,8 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionSe
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -117,24 +115,12 @@ public final class M32FireService {
      */
     static boolean writeFloorExact(ServerPlayerEntity player, int ticks) {
         Item item = BearItems.M32A1;
-        int merged = M32FireRules.floorWrite(remainingTicks(player, item), ticks);
+        int merged = M32FireRules.floorWrite(ExactItemCooldowns.remainingTicks(player, item), ticks);
         if (merged <= 0) {
             return false;
         }
         SparkTraitsApi.setExactItemCooldownRemaining(player, item, merged);
         return true;
-    }
-
-    /** Remaining ticks on {@code item}'s cooldown on the player's own clock; 0 when none. / 剩余冷却刻数；无冷却时为 0。 */
-    static int remainingTicks(PlayerEntity player, Item item) {
-        if (!(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
-            return 0;
-        }
-        Object entry = accessor.sparkdlc$getEntries().get(item);
-        if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
-            return 0;
-        }
-        return Math.max(0, cooldown.sparkdlc$getEndTick() - accessor.sparkdlc$getTick());
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {

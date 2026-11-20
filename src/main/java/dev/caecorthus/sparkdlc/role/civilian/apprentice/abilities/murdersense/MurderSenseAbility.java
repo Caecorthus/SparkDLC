@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.ApprenticeAbilitySupport;
 import dev.doctor4t.wathe.game.GameConstants;
 import java.util.Set;

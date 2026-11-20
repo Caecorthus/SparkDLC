@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.entity;
 
 import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.AromaService;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.AromaService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitService;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

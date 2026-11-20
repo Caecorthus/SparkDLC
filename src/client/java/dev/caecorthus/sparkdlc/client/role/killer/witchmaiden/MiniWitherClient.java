@@ -7,8 +7,6 @@ import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.MiniWitherSkinAnimator;
 import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.MiniWitherSkinManager;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherEntities;
@@ -17,6 +15,7 @@ import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherSkullEntity;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.net.ToggleMiniWitherC2SPayload;
 import dev.caecorthus.sparkdlc.util.TickTime;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -131,7 +130,8 @@ public final class MiniWitherClient {
         if (!wither.isActive()) {
             return lines;
         }
-        int crimsonTicks = goheiCooldownTicks(player);
+        // The Gohei's own item cooldown, so any external change shows. / 御币自身的物品冷却，外部改动也会显示。
+        int crimsonTicks = ExactItemCooldowns.remainingTicks(player, SparkDlcItems.witherGohei());
         if (crimsonTicks > 0) {
             lines.add(Text.translatable("hud.sparkdlc.mini_wither.crimson.cooldown",
                     TickTime.ceilSecondsUnclamped(crimsonTicks)));
@@ -142,13 +142,5 @@ public final class MiniWitherClient {
             lines.add(Text.translatable("hud.sparkdlc.mini_wither.crimson.ready"));
         }
         return lines;
-    }
-
-    /** The Gohei's own item cooldown, so any external change shows. / 御币自身的物品冷却，外部改动也会显示。 */
-    private static int goheiCooldownTicks(ClientPlayerEntity player) {
-        ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = manager.sparkdlc$getEntries().get(SparkDlcItems.witherGohei());
-        return entry instanceof ItemCooldownEntryAccessor cooldown
-                ? Math.max(0, cooldown.sparkdlc$getEndTick() - manager.sparkdlc$getTick()) : 0;
     }
 }

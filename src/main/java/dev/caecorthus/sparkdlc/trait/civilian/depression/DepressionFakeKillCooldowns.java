@@ -4,9 +4,9 @@ import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.effective.death.EffectiveDeathConsequenceRules;
-import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -303,7 +303,7 @@ public final class DepressionFakeKillCooldowns {
                     : originalTicks(startTick, endTick, original.startTick(), original.lengthTicks());
             int shortenedEnd = shortenedEndTick(startTick, endTick, weapon.getValue(), originalTicks);
             if (shortenedEnd < endTick) {
-                ExactItemCooldowns.setExact(attacker, weapon.getKey(), Math.max(0, shortenedEnd - now));
+                ExactItemCooldowns.setPastModifiers(attacker, weapon.getKey(), Math.max(0, shortenedEnd - now));
             }
         }
     }

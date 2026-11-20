@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.judge;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.net.OpenJudgeSelectionS2CPacket;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;

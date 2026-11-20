@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.trait.killer.combat;
 
 import dev.caecorthus.sparkdlc.cooldown.api.AdminCooldownClear;
 import dev.caecorthus.sparkdlc.trait.net.ForcedMeleeCooldownPayload;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -10,6 +11,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -96,9 +98,29 @@ public final class ForcedMeleeCooldownService {
         Penalties state = SERVER.computeIfAbsent(player.getUuid(), ignored ->
                 new Penalties(player.getWorld().getRegistryKey(), new HashMap<>()));
         state.deadlines.merge(item, now(player) + ticks, Math::max);
-        ExactItemCooldowns.setExact(player, item,
+        ExactItemCooldowns.setPastModifiers(player, item,
                 Math.max(remainingTicks(player, item), ExactItemCooldowns.remainingTicks(player, item)));
         sync(player);
+    }
+
+    /**
+     * The duration the vanilla {@code Entry} gets in every server {@code ItemCooldownManager.set}, after all HEAD
+     * modifiers ({@code ExactItemCooldownMixin}): the exact duration of a running {@code ExactItemCooldowns}
+     * write-past-modifiers, else the modified one, never below this item's forced floor.
+     * 每次服务端 {@code ItemCooldownManager.set} 中原版 {@code Entry} 得到的时长，在所有 HEAD 倍率之后计算
+     * （{@code ExactItemCooldownMixin}）：正在进行的 {@code ExactItemCooldowns} 越过倍率写入取其精确时长，否则取修改后的时长，
+     * 且绝不低于该物品的强制下限。
+     */
+    public static int durationForWrite(ItemCooldownManager manager, Item item, int modifiedDuration,
+                                       ServerPlayerEntity owner) {
+        int exactTicks = ExactItemCooldowns.exactWriteTicks(manager, item);
+        boolean exact = exactTicks != ExactItemCooldowns.NO_EXACT_WRITE;
+        int duration = exact ? exactTicks : Math.max(0, modifiedDuration);
+        int floor = owner == null ? 0 : remainingTicks(owner, item);
+        // A normal rewrite cannot erase a longer existing cooldown while this penalty is active.
+        // Deliberate exact halving may reduce that normal component, but never the forced floor.
+        return CombatTimingRules.resolveWriteDuration(duration, floor,
+                ExactItemCooldowns.remainingTicks(manager, item), exact);
     }
 
     /** Called by the client receiver on its main thread; no client classes enter the common initializer. */
@@ -152,7 +174,7 @@ public final class ForcedMeleeCooldownService {
         if (state == null) return;
         state.deadlines.forEach((item, deadline) -> {
             int floor = remainingTicks(player, item);
-            if (floor > ExactItemCooldowns.remainingTicks(player, item)) ExactItemCooldowns.setExact(player, item, floor);
+            if (floor > ExactItemCooldowns.remainingTicks(player, item)) ExactItemCooldowns.setPastModifiers(player, item, floor);
         });
     }
 

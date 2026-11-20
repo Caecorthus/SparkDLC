@@ -65,8 +65,9 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   actual balance changes (after − before) of those calls. Starting money and
   other `setBalance` writes are not income.
 - **Hidden equipment registration**: an item-identity registration through
-  `compat/noellesroles/NoellesHiddenEquipment`. When NoellesRoles is present, the
-  optional Adapter adds registered items to its existing held-item hiding path.
+  `compat/noellesroles/NoellesHiddenEquipmentRegistry`. The RETURN handler of
+  `mixin/compat/noellesroles/HiddenEquipmentHelperMixin` adds registered items to NoellesRoles' existing held-item
+  hiding path.
 - **Limited inventory second row**: player-inventory main slots 27-35, shown
   directly above the hotbar in Wathe's `LimitedInventoryScreen`. Main slots
   9-26 stay hidden storage for add-ons. "In the limited inventory" means alive,
@@ -192,7 +193,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   path); a second lineup for the same faction throws `IllegalStateException`;
   nulls throw `NullPointerException`. Lineups are kept in declared (ordinal)
   order, not registration order.
-- Third-faction draw (owner rules 2026-11-16): `MurderGameModeMixin` runs it in
+- Third-faction draw (owner rules 2026-11-16): `FactionRoleAssignmentMixin` runs it in
   the AFTER_VIGILANTES handler, right after that SFA phase and right before
   Wathe's `assignNeutrals`, so forced roles (`assignForcedRoles` runs first and
   skips every check) and the killer/vigilante passes are already dealt.

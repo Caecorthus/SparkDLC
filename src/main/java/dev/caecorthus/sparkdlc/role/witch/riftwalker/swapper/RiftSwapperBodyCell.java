@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.swapper;
 
+import dev.caecorthus.sparkdlc.util.LandingSpotChecks;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +10,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import org.jetbrains.annotations.Nullable;
@@ -49,13 +49,15 @@ final class RiftSwapperBodyCell {
         return null;
     }
 
+    // Kept apart from the other landing checks: a fixed standing box and a waist-and-eye fluid rule.
+    // 与其他落点检查分开保留：使用固定的站立碰撞箱，并检查腰部与眼部的流体。
     private static boolean isSafe(ServerPlayerEntity swapper, ServerWorld world, Vec3d feet) {
         // Standing box: the Swapper may be crouching now, but the body and the dead spectator start standing.
         // 使用站立碰撞箱：交换者此刻可能在潜行，但尸体与死亡旁观者都以站立姿态出现。
         Box body = PlayerEntity.STANDING_DIMENSIONS.getBoxAt(feet);
         Box playArea = MapVariablesWorldComponent.KEY.get(world).getPlayArea();
-        if (!insideBounds(body, world.getBottomY(), world.getTopY(), playArea)
-                || !world.getWorldBorder().contains(body) || !chunksLoaded(world, body.expand(1))) {
+        if (!LandingSpotChecks.insideWorldAndPlayArea(body, world.getBottomY(), world.getTopY(), playArea)
+                || !world.getWorldBorder().contains(body) || !LandingSpotChecks.chunksLoaded(world, body.expand(1))) {
             return false;
         }
         if (world.getBlockCollisions(null, body).iterator().hasNext()) {
@@ -90,26 +92,5 @@ final class RiftSwapperBodyCell {
         Vec3d to = feet.add(0.0, RiftSwapperCrushRules.BODY_RAY_HEIGHT, 0.0);
         return world.raycast(new RaycastContext(from, to, RaycastContext.ShapeType.COLLIDER,
                 RaycastContext.FluidHandling.NONE, ShapeContext.absent())).getType() == HitResult.Type.MISS;
-    }
-
-    private static boolean insideBounds(Box body, int bottom, int top, @Nullable Box playArea) {
-        return Double.isFinite(body.minX) && Double.isFinite(body.maxX)
-                && Double.isFinite(body.minY) && Double.isFinite(body.maxY)
-                && Double.isFinite(body.minZ) && Double.isFinite(body.maxZ)
-                && body.minY >= bottom && body.maxY <= top
-                && (playArea == null || body.minX >= playArea.minX && body.maxX <= playArea.maxX
-                && body.minY >= playArea.minY && body.maxY <= playArea.maxY
-                && body.minZ >= playArea.minZ && body.maxZ <= playArea.maxZ);
-    }
-
-    private static boolean chunksLoaded(ServerWorld world, Box box) {
-        for (int x = MathHelper.floor(box.minX) >> 4; x <= MathHelper.floor(box.maxX) >> 4; x++) {
-            for (int z = MathHelper.floor(box.minZ) >> 4; z <= MathHelper.floor(box.maxZ) >> 4; z++) {
-                if (!world.getChunkManager().isChunkLoaded(x, z)) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

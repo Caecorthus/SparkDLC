@@ -49,14 +49,4 @@ final class FisherExitSearch {
         }
         return lastSafe != null && safe.test(lastSafe) ? lastSafe : null;
     }
-
-    static boolean insideBounds(Box body, int bottom, int top, @Nullable Box playArea) {
-        return Double.isFinite(body.minX) && Double.isFinite(body.maxX)
-                && Double.isFinite(body.minY) && Double.isFinite(body.maxY)
-                && Double.isFinite(body.minZ) && Double.isFinite(body.maxZ)
-                && body.minY >= bottom && body.maxY <= top
-                && (playArea == null || body.minX >= playArea.minX && body.maxX <= playArea.maxX
-                && body.minY >= playArea.minY && body.maxY <= playArea.maxY
-                && body.minZ >= playArea.minZ && body.maxZ <= playArea.maxZ);
-    }
 }

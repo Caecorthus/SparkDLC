@@ -672,3 +672,52 @@ Rules that came out of it / 由此形成的规则:
   Gradle 测试源码集。本目录三个脚本中的路径常量（`TOOLING_TREES`、`TEST_ROOTS` 等）仍是各阶段执行时的目录名；这些阶段
   已经执行，不会再运行。
 
+## No twins / 没有双胞胎
+
+Partly scripted. What existed twice because two former mods each had one was merged by hand, one group at a time,
+with the order proof in each commit; mixins that only shared a simple name, or that sat in a former mod's bucket,
+were renamed or moved by `move_mixins.py` from `mixin-moves.tsv`.
+部分脚本化。因两个旧 mod 各有一份而存在两份的东西逐组手工合并，每个提交附有顺序证明；只是简单名相同、或放在旧 mod
+目录里的 mixin 由 `move_mixins.py` 按 `mixin-moves.tsv` 改名或搬迁。
+
+| Was / 原先 | Is / 现在 |
+| --- | --- |
+| `record.AchievementRecords`, `record.witch.AchievementRecords` | `record.AchievementRecords` (event types and keys byte-identical; the two guards keep their log lines: `safely`, `safelyUntyped`) |
+| `role.civilian.perfumer.PerfumerShopService`, `…perfumer.kit.PerfumerShopService`, the `kit` package | one `role.civilian.perfumer` package (both component ids stay) |
+| `JesterMomentClientHooks` x2 | `JesterMomentGrayscaleLifecycle`, `JesterMomentInventoryLock` (two jobs) |
+| reflective `TrainVoicePlugin.resetPlayer` x2 | `voice.WatheVoiceGroups` |
+| reflective `EMFAnimationApi` x2 | `client.render.entity.EmfVanillaModel` |
+| reflection on `HiddenBodiesWorldComponent`, on Wathe `deadPlayers` | `NoellesHiddenBodiesBridge`, `GameWorldComponentAccessor` |
+| identical parts of five landing checks; the Raven's copy of the Rift exit check | `util.LandingSpotChecks`; `RiftExitSafety.isSafe` |
+| `SparkDlcServerConnection.reset()` registered twice per connection edge | once per edge |
+| `ForceRoleCommandMixin` x2, `findForceableRole` x2, `forcedRoleFor` x2 | `mixin.trait.ForceRoleCommandLockConflictMixin`, `command.WatheForcedRoles` |
+| two round-end row loops | `round.end.RoundEndRows` (the two win writers stay two mixins: the core may not name traits) |
+| two `applyLetterLore` TAIL editors | `mixin.wathe.LetterLoreTextMixin` |
+| `HiddenEquipmentHelperMixin` + `NoellesHiddenEquipmentHelperMixin` + `NoellesHiddenEquipment` | `HiddenEquipmentHelperMixin` (HEAD and RETURN) + `NoellesHiddenEquipmentRegistry` |
+| `util.ItemCooldownSync`, `cooldown.ExactItemCooldownWriter`, `trait…ExactItemCooldowns`, ~20 private `remainingTicks` | `util.ExactItemCooldowns` (modes `raiseInPlace`, `overwriteInPlace`, `setPastModifiers`), `util.ExactItemCooldownRules` |
+| two wrappers of Wathe's instinct lightmap gate | `client.mixin.wathe.InstinctLightGateMixin` |
+| four `renderMainHud` TAIL hooks (role kits, Depression, Preparefull, role panels) | `client.mixin.hud.MainHudDispatchMixin` |
+
+Left separate, and why / 有意保持分开的：the collision mixins (`@WrapMethod` at priority 1100 outside Wathe's wall vs
+`@Inject` inside it; renamed `Exemption…` / `LastStand…`), the three body restores (different effects and order), the
+Fisher / Sabbath / Rift-exit / Swapper landing checks (different boxes, bounds and fluid rules),
+`trait.replay.TraitAchievementRecords` (other guard and log line), the `UsecCooldowns.write` copies (they held the
+vanilla fallbacks of the other slice), the muzzle-map clean-ups (dimension change vs disconnect).
+碰撞 mixin、三种尸体复原、四种落点检查、词条成就记录、`UsecCooldowns.write` 的副本与枪口粒子表的两次清理保持分开（原因见上）。
+
+Rules / 规则:
+- **A mixin is named for its job and filed under its feature**, whatever its target; `mixin.wathe` and
+  `mixin.compat.noellesroles` keep accessors and plumbing of no single feature. `move_mixins.py` keeps the position of
+  every entry in its config (only the name changes), so the application order is the same.
+  mixin 按其作用命名、放在其功能的包下；`mixin.wathe` 与 `mixin.compat.noellesroles` 只保留访问器与不属于单一功能的接入代码。
+  脚本保持每个条目在配置中的位置，应用顺序不变。
+- **Merged mixins sit in the slot of the first of the merged entries**, after a check that no other entry of that
+  config hooks the same point in between (entries of one config are contiguous in Mixin's order at equal priority).
+  合并后的 mixin 占用被合并条目中第一个的位置，前提是该配置中两者之间没有其他条目挂同一个点。
+- **Proof.** The start-up dump (`runGameTest -PstartupOrderDump=<dir>`) of `70808d300` and of the slice, before and
+  after merging the "nothing inside is optional" slice, is byte-identical (2051 lines: no registry entry, listener,
+  component factory or payload moved; the merged Perfumer shop listener kept its class name). Mixin order is proved
+  per merge in the commit messages and pinned by the local order tests (`ForceRoleCommandLockConflictMixinTest`,
+  `GameRoundEndWinWritersOrderTest`, `LetterLoreTextMixinOrderTest`, `InstinctLightGateMixinSourceTest`,
+  `MainHudDispatchTest`).
+  证明：`70808d300` 与本节完成后（合并另一节前后）的启动导出逐字节相同（2051 行）；mixin 顺序在各提交说明中逐一证明，并由本地顺序测试固定。

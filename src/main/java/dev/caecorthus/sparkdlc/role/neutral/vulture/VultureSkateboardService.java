@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
-import dev.caecorthus.sparkdlc.util.ItemCooldownSync;
+import dev.caecorthus.sparkdlc.util.ExactItemCooldowns;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -144,7 +144,7 @@ public final class VultureSkateboardService {
         SkateboardRideComponent.KEY.get(player).start(now + VultureSkateboardRules.RIDE_TICKS);
         // Exact: readyAt below is the real gate, and Fast Hands / Stimulation must not shorten the shown cooldown.
         // 精确写入：下方的 readyAt 才是真正的判定，快手/亢奋不得缩短显示的冷却。
-        ItemCooldownSync.writeExact(player, skateboard, VultureSkateboardRules.USE_COOLDOWN_TICKS);
+        ExactItemCooldowns.raiseInPlace(player, skateboard, VultureSkateboardRules.USE_COOLDOWN_TICKS);
         if (round != null) {
             round.readyAt.put(player.getUuid(), now + VultureSkateboardRules.USE_COOLDOWN_TICKS);
         }
@@ -328,13 +328,13 @@ public final class VultureSkateboardService {
     }
 
     /**
-     * Keeps the server's vanilla entry at the server-clock lock: raise-only and exact, see {@link ItemCooldownSync}.
+     * Keeps the server's vanilla entry at the server-clock lock: raise-only and exact, see {@link ExactItemCooldowns}.
      * It gates use and feeds other mods; the owner's own display comes from the synced lock window instead.
-     * 让服务端的原版条目与服务端时钟锁保持一致：只提高且精确，见 {@link ItemCooldownSync}。它用于判定能否使用并供其他模组
+     * 让服务端的原版条目与服务端时钟锁保持一致：只提高且精确，见 {@link ExactItemCooldowns}。它用于判定能否使用并供其他模组
      * 读取；本人看到的显示则来自同步的锁区间。
      */
     private static void preserveCooldown(ServerPlayerEntity player, Item item, int minimumTicks) {
-        ItemCooldownSync.raiseExact(player, item, minimumTicks);
+        ExactItemCooldowns.keepRaisedInPlace(player, item, minimumTicks);
     }
 
     private static final class Round {

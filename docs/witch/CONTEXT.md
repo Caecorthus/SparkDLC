@@ -3189,8 +3189,8 @@ Current build baseline:
     ready curve for magnification-driven profiles (smoothstep over ln m / ln 3: 0 at 1×, about 0.69 at 2×, 1 from
     `PERIPHERY_BLUR_FULL_MAGNIFICATION` 3× up), and a profile that varies it must follow its eased magnification. The
     filter is released 2 s after scoping out, and on disconnect, login, client stop and resource reload; after a failure
-    it retries after 2, 4, 8, 16, then 30 s. Under an Iris shader pack (Wathe `IrisHelper`; an Iris error counts as a
-    pack in use), or while failing, the HUD draws a semi-transparent ring instead; its dark periphery fades with the
+    it retries after 2, 4, 8, 16, then 30 s. Under an Iris shader pack (`client.compat.iris.IrisShaderPacks`; an Iris error counts as a
+    pack in use, for good), or while failing, the HUD draws a semi-transparent ring instead; its dark periphery fades with the
     same blur (below 1 it first clears over `ScopeLensGeometry.FALLBACK_RIM_FADE` past the tube rim,
     `fallbackPeripheryColor`), and at 1 it is the original single gradient.
   - Scope shadow: `ScopeShadow` is a smoothed exit-pupil offset driven by the camera's yaw/pitch rate plus a smaller
@@ -3676,7 +3676,7 @@ Current build baseline:
   perceived-player memory), `BlindClientStatus` (HUD remaining-tick view),
   `BlindComTacHeadVisibility` (the in-round ComTac head hide), `render/` (the private echo post
   processor `BlindEchoView`, depth capture and fail-closed hint in `BlindRenderWiring`,
-  `BlindSilhouettePass`, the Iris check `BlindShaderPackCheck`, the fog-culling guard
+  `BlindSilhouettePass`, the Iris check (`client.compat.iris.IrisShaderPacks#inUseOrUnknown`), the fog-culling guard
   `BlindTerrainFog`, and the outline overlay `BlindSeeThroughOutlines`, whose `add` other features call), `gate/` (`BlindClientGates` and the
   pure `BlindGateRules` behind the `BlindGate*` vetoes, client-only bumps, the plain
   `BlindCrosshair`, and the Attune ducking in `BlindAttuneDucking`) and `kit/` (the owner-only HUD
@@ -5875,7 +5875,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   (D16), and closes through `RiftGateRegistry.close(CONSOLE)` after two clicks (`RiftGateCloseConfirm`); no close-all.
 - **Rift Gate Remover** (`sparkdlc:rift_gate_remover`, 传送门清除工具, owner 2026-10-05). An operator tool listed only
   in vanilla's Operator Utilities tab (`SparkDlcItemGroups.operatorOnlyItems`, kept out of the SparkWitch tab).
-  `gate/RiftGateRemoverService` checks `RoleCommandPermissions.ITEM_RIFT_GATE_REMOVER` (op level 2 by default), picks
+  `gate/RiftGateRemoverService` checks `SparkDlcPermissions.ITEM_RIFT_GATE_REMOVER` (op level 2 by default), picks
   the gate on the look ray within 24 blocks (stopped by block outlines), and closes it through
   `RiftGateRegistry.close(ADMIN)`: occupants are released at the gate with no re-entry cooldown, also when a blocked
   first release is retried by the tick (`RiftSessionComponent.pendingCloseReason`, server-only). Works in any round
@@ -5974,7 +5974,7 @@ junction-box bridge was its last user). The exact sibling types each witch sourc
 `WitchSparkStrengthDirectCallBoundaryTest`; no string-named target is left (the purse seam is a
 `KillerTeamEconomyService.WalletRule` the disguise registers). The client voice receivers are a loader-resolved entrypoint (`voice/ClientVoiceReceivers`, `sparkdlc_client_voice`).
 Still reflective by necessity: the real optional mods
-(Iris through `SmokeShaderPackBridge` / `BlindShaderPackCheck`, EMF through `EmfVanillaModel`).
+(Iris through `SmokeShaderPackBridge` and the one shader-pack check `client.compat.iris.IrisShaderPacks`, EMF through `EmfVanillaModel`).
 
 SparkTraits is optional and fail-closed. Reflection may target only
 `dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi`, never `sparktraits.impl` or

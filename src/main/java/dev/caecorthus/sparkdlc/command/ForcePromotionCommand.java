@@ -13,7 +13,6 @@ import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
-import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -53,8 +52,8 @@ public final class ForcePromotionCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:forcePromotion")
                 .requires(LegacyPermissions.require(
-                        RoleCommandPermissions.COMMAND_FORCE_PROMOTION,
-                        RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
+                        SparkDlcPermissions.COMMAND_FORCE_PROMOTION,
+                        SparkDlcPermissions.DEFAULT_COMMAND_LEVEL
                 ))
                 .then(CommandManager.argument("promotionRole", IdentifierArgumentType.identifier())
                         .suggests(ForcePromotionCommand::suggestPromotionRoles)

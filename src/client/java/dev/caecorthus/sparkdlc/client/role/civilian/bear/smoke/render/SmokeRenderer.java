@@ -2,13 +2,12 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeVolumes;
-import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudSnapshot;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.render.FogShape;
@@ -133,8 +132,6 @@ public final class SmokeRenderer {
     private static boolean smokeOnScreen;
     @Nullable
     private static WorldRenderContext passContext;
-    @Nullable
-    private static Boolean irisLoaded;
     /** Fog of this world render, captured at LAST (vanilla clears it before Iris's final pass). / LAST 时记下的本次雾。 */
     private static final float[] PASS_FOG = new float[7];
 
@@ -174,12 +171,12 @@ public final class SmokeRenderer {
         passContext = context;
         passSlot = SecondaryWorldPass.isActive() ? 1 : 0;
         lastActiveNanos = Util.getMeasuringTimeNano();
-        if (BlindShaderPackCheck.isShaderPackInUse()) {
+        if (IrisShaderPacks.inUseOrUnknown()) {
             marchPoint = MarchPoint.AFTER_SHADER_PACK;
         } else if (context.worldRenderer().getTranslucentFramebuffer() != null) {
             marchPoint = MarchPoint.BEFORE_PARTICLES;
         } else {
-            marchPoint = irisLoaded() ? MarchPoint.LAST : MarchPoint.BEFORE_TRANSLUCENT;
+            marchPoint = IrisShaderPacks.installed() ? MarchPoint.LAST : MarchPoint.BEFORE_TRANSLUCENT;
         }
     }
 
@@ -358,13 +355,6 @@ public final class SmokeRenderer {
         } finally {
             GL_STATE.restore();
         }
-    }
-
-    private static boolean irisLoaded() {
-        if (irisLoaded == null) {
-            irisLoaded = FabricLoader.getInstance().isModLoaded("iris");
-        }
-        return irisLoaded;
     }
 
     /** Frees every GL object and clears the failure backoff (disconnect, resource reload). / 释放全部 GL 对象并清除失败退避（断线、资源重载）。 */

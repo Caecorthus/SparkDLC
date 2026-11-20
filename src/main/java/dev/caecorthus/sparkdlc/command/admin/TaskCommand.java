@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.command.admin;
 
+import dev.caecorthus.sparkdlc.command.SparkDlcPermissions;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -47,7 +48,7 @@ public final class TaskCommand {
             TaskAction action
     ) {
         dispatcher.register(CommandManager.literal(literal)
-                .requires(AdminToolPermissions.admin())
+                .requires(SparkDlcPermissions.admin())
                 .then(CommandManager.argument("task", StringArgumentType.word())
                         .suggests(TaskCommand::suggestTasks)
                         .executes(context -> updateTasks(

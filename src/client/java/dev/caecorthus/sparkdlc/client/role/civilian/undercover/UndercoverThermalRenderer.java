@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.client.compat.iris.IrisShaderPacks;
 import dev.caecorthus.sparkdlc.client.render.ClientFrame;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
@@ -12,7 +13,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.systems.VertexSorter;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
@@ -44,7 +44,6 @@ import org.joml.Matrix4fStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import java.lang.reflect.Method;
 
 /**
  * The stage-2 Undercover's thermal vision, after Tarkov's T-7 goggles (owner 2026-10-19): a clean, full-resolution
@@ -68,8 +67,6 @@ public final class UndercoverThermalRenderer {
     private static final Identifier SHADER = SparkDLC.id("shaders/post/undercover_thermal.json");
     private static final String HEAT_TARGET = "heat";
     private static final int INITIAL_BUFFER_BYTES = 64 * 1024;
-    private static final String IRIS_API = "net.irisshaders.iris.api.v0.IrisApi";
-    private static final boolean IRIS_LOADED = FabricLoader.getInstance().isModLoaded("iris");
     /** Frustum margin around a body; vanilla culls entities with 0.5. / 人体周围的视锥余量；原版剔除实体用 0.5。 */
     private static final double CULL_MARGIN = 1.5;
     private static final ManagedPostEffect EFFECT =
@@ -78,11 +75,6 @@ public final class UndercoverThermalRenderer {
     private static boolean rendering;
     private static boolean warned;
     private static @Nullable BufferAllocator allocator;
-    private static @Nullable Method irisInstance;
-    private static @Nullable Method irisPackInUse;
-    private static boolean shaderPackInUse;
-    private static int shaderPackCheckedEpoch;
-    private static boolean shaderPackChecked;
 
     private UndercoverThermalRenderer() {
     }
@@ -95,33 +87,12 @@ public final class UndercoverThermalRenderer {
     /**
      * An Iris shader pack renders into its own buffers; any failure to ask Iris counts as "in use" (fail closed).
      * Asked once per client tick and frame ({@link ClientFrame}): the thermal outline fallback asks for every player.
+     * The question itself is {@link IrisShaderPacks}' per-frame, fail-closed variant.
      * Iris 光影包渲染到自己的缓冲区；询问 Iris 失败也按“正在使用”处理。每个客户端 tick 与每帧只询问一次（见 ClientFrame）：
-     * 热成像的描边退回逻辑会对每个玩家询问。
+     * 热成像的描边退回逻辑会对每个玩家询问。询问本身使用 {@link IrisShaderPacks} 的“每帧一次、失败即关闭”变体。
      */
     public static boolean shaderPackInUse() {
-        if (!IRIS_LOADED) {
-            return false;
-        }
-        int epoch = ClientFrame.epoch();
-        if (!shaderPackChecked || shaderPackCheckedEpoch != epoch) {
-            shaderPackInUse = askIris();
-            shaderPackCheckedEpoch = epoch;
-            shaderPackChecked = true;
-        }
-        return shaderPackInUse;
-    }
-
-    private static boolean askIris() {
-        try {
-            if (irisInstance == null || irisPackInUse == null) {
-                Class<?> api = Class.forName(IRIS_API);
-                irisInstance = api.getMethod("getInstance");
-                irisPackInUse = api.getMethod("isShaderPackInUse");
-            }
-            return !Boolean.FALSE.equals(irisPackInUse.invoke(irisInstance.invoke(null)));
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException exception) {
-            return true;
-        }
+        return IrisShaderPacks.inUseOrUnknownThisFrame();
     }
 
     /**

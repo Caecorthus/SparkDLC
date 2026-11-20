@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkWitchKidnapperCompat;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
 import com.mojang.authlib.GameProfile;
@@ -188,7 +188,7 @@ final class CoronerLoanedGear {
              * 各模块已融合进 SparkDLC，createKidnapperDrugStack 直接调用 SparkWitch；保留 null 判断只是防御。
              * The bridge calls SparkWitch directly since the SparkDLC fusion; the null check is only defensive.
              */
-            ItemStack knockoutDrug = SparkWitchCompat.createKidnapperDrugStack();
+            ItemStack knockoutDrug = SparkWitchKidnapperCompat.createKnockoutDrugStack();
             if (knockoutDrug != null) {
                 giveTemporaryStack(player, knockoutDrug, disguiseUuid, snapshot.roleId(), "sparkdlc_knockout_drug");
             }

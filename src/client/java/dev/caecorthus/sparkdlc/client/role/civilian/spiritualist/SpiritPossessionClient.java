@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyComp
 import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchWraithViewerCompat;
 import dev.caecorthus.sparkdlc.client.mixin.role.civilian.spiritualist.SpiritPossessionCameraAccessor;
 import dev.caecorthus.sparkdlc.client.viewpoint.BodySettleHold;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessExitC2SPacket;
@@ -141,7 +141,7 @@ public final class SpiritPossessionClient {
             return false;
         }
         for (PlayerEntity player : client.world.getPlayers()) {
-            if (player != client.player && !(player instanceof SpiritCamera) && SparkWitchCompat.isWraithActive(player)) {
+            if (player != client.player && !(player instanceof SpiritCamera) && SparkWitchApi.isWraithActive(player)) {
                 return true;
             }
         }
@@ -471,7 +471,7 @@ public final class SpiritPossessionClient {
                 entity -> entity instanceof PlayerEntity candidate
                         && candidate != player
                         && !(candidate instanceof SpiritCamera)
-                        && SparkWitchCompat.isWraithActive(candidate),
+                        && SparkWitchApi.isWraithActive(candidate),
                 reachSquared);
         return hit != null && hit.getEntity() instanceof PlayerEntity wraith ? wraith : null;
     }

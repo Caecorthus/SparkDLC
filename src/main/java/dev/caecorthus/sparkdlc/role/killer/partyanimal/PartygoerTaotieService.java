@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.mixin.role.killer.partyanimal.PartygoerTaotieCooldownAccessor;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerSwallowC2SPacket;
@@ -249,7 +249,7 @@ public final class PartygoerTaotieService {
         public boolean aliveParticipant() {
             return GameFunctions.isPlayerPlayingAndAlive(taotie)
                     && GameFunctions.isPlayerAliveAndSurvival(taotie)
-                    && !SparkWitchCompat.isWraithActive(taotie);
+                    && !SparkWitchApi.isWraithActive(taotie);
         }
 
         @Override
@@ -270,7 +270,7 @@ public final class PartygoerTaotieService {
         @Override
         public boolean stunned() {
             return EngineerStunnedPlayerComponent.KEY.get(taotie).isStunned()
-                    || SparkWitchCompat.isControlExpertStunned(taotie);
+                    || SparkWitchApi.isControlExpertStunned(taotie);
         }
 
         @Override

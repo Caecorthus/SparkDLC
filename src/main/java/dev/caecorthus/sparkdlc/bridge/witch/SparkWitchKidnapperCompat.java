@@ -10,10 +10,8 @@ import net.minecraft.item.ItemStack;
  * 给其他模块调用的稳定入口。
  * Stable entry point for the other modules.
  *
- * <p>当前主要服务 SparkStrength 验尸官伪装为绑架者的场景；各模块已融合进 SparkDLC，
- * SparkStrength 的 {@code SparkWitchCompat} 现在直接调用本类方法（此前为按名称反射）。
- * Used by SparkStrength's Coroner when disguised as the Kidnapper; since the SparkDLC fusion its
- * {@code SparkWitchCompat} calls these methods directly (it used to reflect them by name).</p>
+ * <p>当前主要服务验尸官伪装为绑架者的场景（临时迷药与商店条目）。
+ * Used by the Coroner when disguised as the Kidnapper (the loaned knockout drug and its shop entry).</p>
  */
 public final class SparkWitchKidnapperCompat {
     private SparkWitchKidnapperCompat() {

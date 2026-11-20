@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.morphling;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingCorpseRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -63,7 +63,7 @@ public final class MorphlingCorpseInstinctClient {
                 MorphlingCorpseRules.exemptViewer(
                         GameFunctions.isPlayerPlayingAndAlive(viewer),
                         GameFunctions.isPlayerSpectatingOrCreative(viewer),
-                        SparkWitchCompat.isWraithActive(viewer)
+                        SparkWitchApi.isWraithActive(viewer)
                 )
         );
     }

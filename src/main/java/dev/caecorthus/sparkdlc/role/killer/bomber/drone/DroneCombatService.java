@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
@@ -63,9 +63,9 @@ import java.util.UUID;
  *   投弹无人机掉落可拾取的 M67（不会爆炸）并以 45 秒冷却返还主人；炸弹无人机立即引爆。</li>
  *   <li>{@link #detonate}: bomb drone blast, radius {@link DroneRules#BOMB_BLAST_RADIUS}, M67 path judgement, kills
  *   credited to the owner with the NoellesRoles bomb death reason; then kills the Black Raven behind every SparkWitch
- *   Raven Form crow in the radius ({@code SparkWitchCompat.killCrowsInBlast}); chains into other drones in the blast.
+ *   Raven Form crow in the radius ({@code SparkWitchApi.killCrowsInBlast}); chains into other drones in the blast.
  *   炸弹无人机爆炸，沿用 M67 路径判定，击杀归属主人并使用 NoellesRoles 炸弹死因；随后处死半径内每只 SparkWitch 化鸦乌鸦
- *   背后的黑羽鸦（SparkWitchCompat.killCrowsInBlast）；会连锁击毁范围内的其他无人机。</li>
+ *   背后的黑羽鸦（SparkWitchApi.killCrowsInBlast）；会连锁击毁范围内的其他无人机。</li>
  * </ul>
  *
  * <p>Re-entrancy: a drone being removed is held in {@link #BUSY}; every entry point ignores it, so a blast that breaks
@@ -228,7 +228,7 @@ public final class DroneCombatService {
                             new ItemStack(SparkStrengthItems.bombDrone())),
                     center.x, center.y, center.z, 100, 0, 0, 0, 1.0);
             // The blast clears SparkWitch BEAR smoke around it (visual only). / 爆炸炸开周围的 SparkWitch BEAR 烟雾（仅视觉）。
-            SparkWitchCompat.carveSmoke(world, center, DroneRules.BOMB_BLAST_RADIUS);
+            SparkWitchApi.carveSmoke(world, center, DroneRules.BOMB_BLAST_RADIUS);
 
             UUID ownerUuid = drone.ownerUuid();
             // Connected owners keep credit even when dead (like M67). / 在线主人即使已死亡也保留击杀归属（同 M67）。
@@ -259,7 +259,7 @@ public final class DroneCombatService {
                 // same radius, the pilot credited, NoellesRoles' bomb reason instance, inside this blast's scope.
                 // 爆炸范围内的 SparkWitch 化鸦乌鸦与此处的玩家一样处死其黑羽鸦（所有者 2026-10-21）：同一半径、记在驾驶者
                 // 名下、NoellesRoles 炸弹死因实例，并处于本次爆炸作用域内。
-                AttackOriginScope.runBlast(center, () -> SparkWitchCompat.killCrowsInBlast(world, center,
+                AttackOriginScope.runBlast(center, () -> SparkWitchApi.killCrowsInBlast(world, center,
                         DroneRules.BOMB_BLAST_RADIUS, owner, Noellesroles.DEATH_REASON_BOMB));
             }
             if (roundId.equals(DroneService.currentRoundId(world))) {

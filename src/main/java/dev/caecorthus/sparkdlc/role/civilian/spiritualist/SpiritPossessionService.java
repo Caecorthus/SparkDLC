@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.spiritualist;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCooldownCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionStateS2CPacket;
@@ -301,7 +301,7 @@ public final class SpiritPossessionService {
                 && !target.isRemoved()
                 && !target.isSpectator()
                 && target.getServerWorld() == world
-                && SparkWitchCompat.isWraithActive(target);
+                && SparkWitchApi.isWraithActive(target);
     }
 
     private static void sendState(ServerPlayerEntity player, SpiritPossessionStateS2CPacket packet) {

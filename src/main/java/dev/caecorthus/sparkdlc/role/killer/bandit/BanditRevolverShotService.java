@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.bandit;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolShotService;
@@ -85,7 +85,7 @@ public final class BanditRevolverShotService {
             // 非玩家 id：先交给 SparkWitch 的魔术师皮套/搜寻者设备，再看派对客；这一枪仍按未命中记录。
             Entity entity = targetId < 0 ? null : world.getEntityById(targetId);
             if (entity != null && !(entity instanceof PlayerEntity)) {
-                SparkWitchCompat.hitGunWorldTarget(shooter, entity, gun, range);
+                SparkWitchApi.hitGunWorldTarget(shooter, entity, gun, range);
             }
             PartygoerWeaponHits.onSerialPistolShot(shooter, entity, range);
         }
@@ -163,7 +163,7 @@ public final class BanditRevolverShotService {
     private static boolean isHittable(ServerPlayerEntity shooter, ServerPlayerEntity target) {
         return GameFunctions.isPlayerAliveAndSurvival(target)
                 && (GameFunctions.isPlayerPlayingAndAlive(target)
-                || SparkWitchCompat.isBoundKillerTargetingVendetta(shooter, target))
+                || SparkWitchApi.isBoundKillerTargetingVendetta(shooter, target))
                 && SerialPistolShotService.hasLineOfSight(shooter, target);
     }
 }

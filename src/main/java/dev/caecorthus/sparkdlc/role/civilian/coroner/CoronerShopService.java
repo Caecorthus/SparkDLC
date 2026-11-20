@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkWitchKidnapperCompat;
 import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerSabotageRepairService;
@@ -234,7 +234,7 @@ public final class CoronerShopService {
     }
 
     private static void addSparkWitchKidnapperShop(PlayerEntity player, BuildShopEntries.ShopContext context) {
-        ShopEntry entry = SparkWitchCompat.createKidnapperDrugShopEntry(player);
+        ShopEntry entry = SparkWitchKidnapperCompat.createKnockoutDrugShopEntry(player);
         if (entry == null) {
             return;
         }

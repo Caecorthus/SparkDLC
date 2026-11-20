@@ -221,8 +221,8 @@ Current build baseline:
     saves at once; only `""` or a listed id), `reloadSkins()`, `openSkinsFolder()`, `statusText()` (translated) and
     `Object createScreen(Object parent)` (the `MiniWitherSkinScreen`, parent a `Screen` or null). FQCN and signatures
     are frozen once shipped.
-  - Add-on gun world hits (2026-10-07, frozen names and signatures, reached by SparkStrength's `SparkWitchCompat`
-    through reflection for the Serial Killer pistols, which extend Wathe's `RevolverItem` but fire through
+  - Add-on gun world hits (2026-10-07, frozen names and signatures, called directly by the Serial
+    Killer pistols, which extend Wathe's `RevolverItem` but fire through
     `sparkdlc:serial_pistol_shoot`): client `SparkWitchApi.preferNearerGunWorldTarget(PlayerEntity, HitResult,
     double)` adds the Seeker device step that `mixin/seeker/SeekerGunTargetMixin` wraps inside `RevolverItem#use`
     (the Wraith pass-through and Magician puppet pick already sit on `RevolverItem.getGunTarget` itself); server
@@ -232,8 +232,8 @@ Current build baseline:
     recorded as `REVOLVER`). The caller finishes such a shot as a miss. `SparkWitchApi.isBoundKillerTargetingVendetta(
     PlayerEntity, PlayerEntity)` (`VendettaInteractionService`'s rule) lets the pistols' own alive check accept the
     shooter's bound active Vendetta, so `killPlayer` resolves its terminal death as under a revolver shot.
-  - Shield pierce seam (2026-10-07, frozen names and signatures, server thread only, reached by SparkStrength's
-    `SparkWitchCompat` through reflection for the Bodyguard gear): `SparkWitchApi.tryPierceShieldLayer(PlayerEntity,
+  - Shield pierce seam (2026-10-07, frozen names and signatures, server thread only, called directly by the
+    Bodyguard gear): `SparkWitchApi.tryPierceShieldLayer(PlayerEntity,
     PlayerEntity, Identifier)` spends one pierce of the shot being settled against exactly that victim, killer and death
     reason (today only the USEC AXMC's `wathe:gun_shot` scope, `UsecShieldPierce.tryPierce`); true means the caller
     spends its layer and lets the same kill go on. `SparkWitchApi.piercingShotAmmoId(PlayerEntity, PlayerEntity,
@@ -241,8 +241,8 @@ Current build baseline:
     spends nothing; null for every other kill. Both fail closed (false / null) for nulls and outside the exact scope.
     The facade exposes the round, not a price: the add-on owns its balance numbers (the Democracy Shield's 10 / 25
     points live in SparkStrength's `BodyguardRules`, next to its sword and TR shell costs).
-  - Raven Form crow seam (2026-10-21, frozen names and signatures, reached by SparkStrength's `SparkWitchCompat`
-    through reflection; plan v2 §2.5): `SparkWitchApi.isBlackRavenCrow(Entity)` (side-neutral, lets a client gate that
+  - Raven Form crow seam (2026-10-21, frozen names and signatures, called directly by the knives,
+    the tomahawk and the bomb drone; plan v2 §2.5): `SparkWitchApi.isBlackRavenCrow(Entity)` (side-neutral, lets a client gate that
     accepts only players send the attack); server `SparkWitchApi.crowMeleeStandIn(ServerPlayerEntity, Entity, double
     reach)` returns the owner of a crow the attacker may hit within reach + 0.5 (lag-compensated, clear line) and arms
     the owner substitution (`BlackRavenCrowHits.addonMeleeStandIn`), so the add-on runs its own player path on the

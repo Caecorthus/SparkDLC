@@ -135,7 +135,6 @@
     "role.killer.partyanimal.PartygoerCarriedInteractionMixin",
     "role.killer.partyanimal.PartygoerCarriedPayloadGuardMixin",
     "role.killer.partyanimal.PartygoerTaotieCooldownAccessor",
-    "role.killer.partyanimal.PartygoerMagicianHitsMixin",
     "role.killer.partyanimal.PartygoerNoellesItemsMixin",
     "role.killer.partyanimal.PartygoerPoisonGasMixin",
     "role.killer.partyanimal.PartygoerSeekerHitsMixin",

@@ -162,12 +162,6 @@ final class WitchesSabbathTargets {
             }
 
             @Override
-            public boolean captureStunPinned() {
-                // D19: pulled unless the lock point cannot follow (the pull re-locks it). / D19：锁定点无法跟随时才跳过。
-                return RiftwalkerStatusProbes.isCaptureStunPinned(player);
-            }
-
-            @Override
             public boolean seekerSession() {
                 // Read-only Seeker query; unreachable for witches today, kept as a cheap guard (research/04 §1.2).
                 // 只读的搜寻者查询；魔女目前不可能处于会话中，作为廉价防护保留（research/04 §1.2）。

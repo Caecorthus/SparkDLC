@@ -44,19 +44,6 @@ public final class RiftwalkerStatusProbes {
     }
 
     /**
-     * D19 fail-closed guard for Witches' Sabbath: capture-stunned while {@link #relockCaptureStun} cannot move the lock
-     * point. Always false: the re-lock is a direct call, so it is always available (it could fail only while
-     * {@code stun(int)} was looked up reflectively); the Sabbath's skip branch for it is unreachable since the fusion.
-     * Kept so the skip rule and its caller stay as they are.
-     * D19 魔女集会的失败即关闭防护：处于捕捉眩晕，且 {@link #relockCaptureStun} 无法移动锁定点。恒为 false：重新锁定是
-     * 直接调用，始终可用（只有在 {@code stun(int)} 仍靠反射查找时才可能失败）；魔女集会为此设的跳过分支融合后不可达。保
-     * 留本方法，使跳过规则及其调用方保持不变。
-     */
-    public static boolean isCaptureStunPinned(@Nullable PlayerEntity player) {
-        return false;
-    }
-
-    /**
      * D19, server only, right after a Witches' Sabbath teleport: if the player is still capture-stunned, calls
      * the component's {@code stun(RELOCK_TICKS)}, which keeps {@code max(remaining, 1)} ticks and
      * moves the lock point to the player's current (landing) position, so the stun goes on there. A free player is never

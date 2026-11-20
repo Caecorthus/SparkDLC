@@ -101,7 +101,6 @@ public final class WitchesSabbathRules {
         LAST_STAND_PENDING,
         LAST_ESCAPE,
         KIDNAPPER_CONTROLLED,
-        CAPTURE_STUN_PINNED,
         SEEKER_SESSION,
         INSIDE_GATE,
         FACTION_VETO
@@ -159,14 +158,6 @@ public final class WitchesSabbathRules {
 
         boolean kidnapperControlled();
 
-        /**
-         * D19: capture-stunned AND the lock point cannot be moved to the landing spot (fail closed). A
-         * capture stun whose lock can move, a Hunter trap root and a Control Expert stun are pulled and stay held.
-         * D19：处于捕捉眩晕，且锁定点无法移到落点（失败即关闭）。锁定点可移动的捕捉眩晕、猎人捕兽夹定身与
-         * 控场专家眩晕都会被召集，并保持原状态。
-         */
-        boolean captureStunPinned();
-
         boolean seekerSession();
 
         boolean insideGate();
@@ -222,11 +213,11 @@ public final class WitchesSabbathRules {
     /**
      * First reason this teammate is skipped, or null when they are pulled. Apprentice and Murderous Witches fail
      * {@code witchFaction} (C6); teammates inside a gate are skipped (D6), never ejected. Stunned, rooted and captured
-     * teammates are pulled and stay held at the landing spot (D19, superseding C10's Sabbath half); only a capture stun
-     * whose lock point cannot be moved is skipped.
+     * teammates are pulled and stay held at the landing spot (D19, superseding C10's Sabbath half): the pull moves a
+     * capture stun's lock point along ({@code RiftwalkerStatusProbes#relockCaptureStun}).
      * 返回该队友被跳过的第一个原因；会被召集时返回 null。预备魔女与杀意魔女在 {@code witchFaction} 处被排除（C6）；
      * 门内的队友被跳过（D6），不会被拉出。被眩晕、定身或捕捉的队友会被召集，并在落点保持原状态（D19，取代 C10 中关于
-     * 魔女集会的后半句）；只有锁定点无法移动的捕捉眩晕会被跳过。
+     * 魔女集会的后半句）：召集会把捕捉眩晕的锁定点一并移过去（{@code RiftwalkerStatusProbes#relockCaptureStun}）。
      */
     public static @Nullable TargetSkip targetSkip(TargetProbe target) {
         if (target.isCaster()) {
@@ -252,9 +243,6 @@ public final class WitchesSabbathRules {
         }
         if (target.kidnapperControlled()) {
             return TargetSkip.KIDNAPPER_CONTROLLED;
-        }
-        if (target.captureStunPinned()) {
-            return TargetSkip.CAPTURE_STUN_PINNED;
         }
         if (target.seekerSession()) {
             return TargetSkip.SEEKER_SESSION;

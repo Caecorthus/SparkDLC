@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.achievement.RoundObservation;
 import dev.caecorthus.sparkdlc.achievement.RoundOutcome;
 import dev.caecorthus.sparkdlc.achievement.RoundStatsRecorder;
 import dev.caecorthus.sparkdlc.achievement.RoundTracker;
+import dev.caecorthus.sparkdlc.record.net.MatchRecordSnapshot;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.doctor4t.wathe.api.Role;
@@ -48,7 +49,7 @@ public final class AchievementClientState {
     private static final int TRAIT_POLL_TICKS = 20;
 
     private static final RoundTracker TRACKER = new RoundTracker();
-    private static Object recordAtStart;
+    private static MatchRecordSnapshot recordAtStart;
     private static Set<String> traits = Set.of();
     private static int traitPollCountdown;
     // The types behind RoundObservation.EXPLOSIVE_ENTITY_IDS that this client knows, resolved once.
@@ -251,7 +252,7 @@ public final class AchievementClientState {
                 ? self.equals(game.getLooseEndWinner())
                 : roundEnd.didWin(self);
         String customFaction = AchievementFactions.customWinningFaction(scoreboard);
-        Object record = MatchRecordReader.latest();
+        MatchRecordSnapshot record = MatchRecordReader.latest();
         return new RoundOutcome(
                 winStatus.name(),
                 won,

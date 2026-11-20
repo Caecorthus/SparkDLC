@@ -171,6 +171,10 @@ def traitInternalsExceptions = [
         "client/role/killer/specter/SpecterOtherworldScreenEffects"      : [
                 names : ["client/trait/render/DepressionScreenEffects"],
                 reason: "the Specter's otherworld compositor orders itself against the Depression screen effect the same way"
+        ],
+        "client/mixin/hud/MainHudDispatchMixin": [
+                names : ["client/trait/hud/DepressionHud", "client/trait/hud/PreparefullHud"],
+                reason: "the one renderMainHud TAIL hook draws every line of the mod in the order the former hooks ran, the two trait lines included"
         ]
 ]
 

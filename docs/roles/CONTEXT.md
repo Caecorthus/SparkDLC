@@ -4312,8 +4312,8 @@ that table and run `python3 tools/payload_policy.py generate --repo .`;
 Role HUD panels draw through `client/hud/RoleHudDispatcher` (2026-10-22), behind two default-priority seams:
 `client/mixin/faction/witch/RoleHudRenderTailMixin` (`InGameHud.render` TAIL, which still runs under F1: Curser, Guardian Angel,
 Orthopedist, Savior, Saint, Vendetta, Kidnapper control screen, Natsume, Saboteur) and
-`client/mixin/faction/witch/RoleHudMainHudTailMixin` (`renderMainHud` TAIL, hidden by F1: Witch mana with the tarot snapshot and
-slip, Witch skill, Magician, Black Raven). Since 2026-11-13 every text layer of the first seam returns on vanilla
+`RoleHudDispatcher.renderMainHudTail`, called last by the one main-HUD TAIL hook `client/mixin/hud/MainHudDispatchMixin`
+(`renderMainHud` TAIL, hidden by F1: Witch mana with the tarot snapshot and slip, Witch skill, Magician, Black Raven). Since 2026-11-13 every text layer of the first seam returns on vanilla
 `options.hudHidden` itself (`RoleHudDispatcher.hiddenByF1`; Savior and Natsume check it in their own gate); only the
 Kidnapper control screen stays under F1, because its black fill is the drug's blindness. `HudRenderCallback` HUDs
 (`HunterTrapDismantleHud`, the Blind view fallback hint in `BlindRenderWiring`, `BlackRavenCrowBoundaryOverlay`, the

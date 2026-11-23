@@ -4664,5 +4664,22 @@
   "option.sparkdlc.blood_appearance.value.off": "隐藏",
   "option.sparkdlc.suppress_scavenger_blood": "清道夫尸体旁不喷血",
   "option.sparkdlc.suppress_scavenger_blood.description": "清道夫的尸体只是被隐藏、实体仍在，关掉这项会在看不见的尸体旁留下血迹。",
-  "screen.sparkdlc.settings.group.blood": "血液"
+  "screen.sparkdlc.settings.group.blood": "血液",
+  "gamemode.sparkdlc.dual_role_murder": "双选模式",
+  "gui.sparkdlc.dual_role.title": "选择开局身份",
+  "screen.sparkdlc.dual_role.chosen": "已选定，等待其他人…",
+  "screen.sparkdlc.dual_role.countdown": "%s 秒后开始",
+  "screen.sparkdlc.dual_role.hold": "你的身份是 %s",
+  "screen.sparkdlc.dual_role.hold_countdown": "%s 秒后开始",
+  "screen.sparkdlc.dual_role.keep_hint": "继续持有当前身份",
+  "screen.sparkdlc.dual_role.keep_prefix": "【保留】",
+  "screen.sparkdlc.dual_role.switch_hint": "改为同阵营的另一身份",
+  "screen.sparkdlc.dual_role.switch_prefix": "【换成】",
+  "screen.sparkdlc.dual_role.title": "身份抉择",
+  "tag.sparkdlc.dual_role.civilian": "【乘客】",
+  "tag.sparkdlc.dual_role.jiahao": "【嘉豪】",
+  "tag.sparkdlc.dual_role.killer": "【杀手】",
+  "tag.sparkdlc.dual_role.neutral": "【中立】",
+  "tag.sparkdlc.dual_role.police": "【乘客 · 警职】",
+  "tag.sparkdlc.dual_role.witch": "【魔女】"
 }

@@ -563,6 +563,9 @@ public final class SparkDlcComponents
         // 对局服务：回合结束、防速通、大厅地图重置、第三阵营抽取。
         registry.registerScoreboardComponent(FactionRoundEndComponent.KEY, FactionRoundEndComponent::new);
         registry.registerScoreboardComponent(
+                dev.caecorthus.sparkdlc.round.dualselect.DualRoleSelectionComponent.KEY,
+                dev.caecorthus.sparkdlc.round.dualselect.DualRoleSelectionComponent::new);
+        registry.registerScoreboardComponent(
                 AntiFastRoundComponent.KEY,
                 AntiFastRoundComponent::new
         );

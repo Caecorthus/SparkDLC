@@ -1,0 +1,45 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:steady",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.steady.name",
+      "summaryKey": "trait.sparkdlc.steady.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "理智可以存得比别人多。通用词条，但只会出现在有真实理智的身份上，杀手这类假理智身份抽不到。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "理智上限从 100% 提高到 125%。"
+            },
+            {
+              "type": "section",
+              "text": "建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "理智满了也照样做任务，把多出来的部分存起来，之后能撑更久不崩溃。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#6AA6FF",
+      "order": 760
+    }
+  ]
+}

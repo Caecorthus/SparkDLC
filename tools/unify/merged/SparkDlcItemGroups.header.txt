@@ -1,0 +1,7 @@
+/**
+ * The one creative tab of SparkDLC and what fills it: the role kit section first (every item registered before
+ * {@link #registerRoleKitSection()} ran, in registration order), then the section of the mod's own roles (a fixed
+ * order, then every other item of the mod). Operator-only items stay in vanilla's Operator Utilities tab.
+ * SparkDLC 唯一的创造模式物品栏及其内容：先是职业套件部分（{@link #registerRoleKitSection()} 运行之前注册的全部物品，
+ * 按注册顺序），再是本模组自有职业部分（固定顺序，随后是本模组的其他物品）。管理员专用物品仍只在原版「管理员用品」物品栏。
+ */

@@ -1,0 +1,4 @@
+{
+  "parent": "sparkdlc:item/projectile/potion_shell",
+  "textures": {"shell": "sparkdlc:item/projectile/potion_shell_ac", "particle": "sparkdlc:item/projectile/potion_shell_ac"}
+}

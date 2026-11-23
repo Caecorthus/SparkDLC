@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/carpet",
+  "textures": {
+    "wool": "sparkdlc:block/damp_carpet"
+  }
+}

@@ -1,0 +1,242 @@
+package dev.caecorthus.sparkdlc.role.special.wraith.runtime;
+
+import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithCommunicationPolicy;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithReconnectPolicy;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStaminaService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithConversion;
+import dev.caecorthus.sparkdlc.role.special.wraith.progression.WraithProgression;
+import dev.caecorthus.sparkdlc.role.special.wraith.progression.WraithPromotionEconomyPolicy;
+import dev.caecorthus.sparkdlc.role.special.wraith.progression.WraithTaskSnapshot;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelFeatureService;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaDisconnectService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaLifecycleService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaReplayService;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurFeatureService;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurPlayerComponent;
+import dev.caecorthus.sparkdlc.role.witch.curser.CurserFeatureService;
+import dev.caecorthus.sparkdlc.role.witch.curser.CurserPlayerComponent;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerMoodComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
+import dev.doctor4t.wathe.compat.TrainVoicePlugin;
+import net.minecraft.entity.EntityPose;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
+
+import java.util.UUID;
+
+/**
+ * Owns Wraith activation, reconnect, world maintenance, role transitions, and terminal cleanup.
+ * 负责冤魂激活、重连、世界维护、身份切换与终止清理。
+ */
+public final class WraithLifecycle {
+    private static final double CROUCH_RELEASE_UPWARD_VELOCITY = 0.08D;
+    // Replay causes (SparkReplayApi) for the shared transitionRole addRole; neither has a source player.
+    // 共用 transitionRole 中 addRole 的回放原因（SparkReplayApi）；两者都没有来源玩家。
+    private static final Identifier CONVERSION_REPLAY_CAUSE = SparkDLC.id("wraith_conversion");
+    private static final Identifier PROMOTION_REPLAY_CAUSE = SparkDLC.id("wraith_promotion");
+    private static boolean registered;
+
+    private WraithLifecycle() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        WraithProgression.register();
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> onJoin(handler.player));
+        ServerTickEvents.END_WORLD_TICK.register(WraithLifecycle::tickWorld);
+        WraithParticipation.register();
+        WraithConversion.register();
+    }
+
+    /**
+     * Completes the role, runtime, and task portion of a confirmed conversion in fixed order.
+     * 按固定顺序完成已确认转化的身份、运行态与任务步骤。
+     */
+    public static void activateConvertedPlayer(ServerPlayerEntity player, WraithTaskSnapshot taskSnapshot) {
+        wakeIfSleeping(player);
+        SparkReplayApi.withRoleChangeCause(CONVERSION_REPLAY_CAUSE, (UUID) null,
+                () -> transitionRole(player, SparkDlcRoles.wraith()));
+        if (player.isSpectator()) {
+            player.changeGameMode(GameMode.ADVENTURE);
+        }
+        normalizeConvertedPose(player);
+        WraithStaminaService.ensureInfiniteStamina(player);
+        WraithPresence.apply(player, true);
+        restoreLivingVoice(player);
+        WraithProgression.restoreForActivation(player, taskSnapshot);
+    }
+
+    /**
+     * Applies the post-state-change promotion effects without changing component state itself.
+     * 在组件状态已经晋升后应用身份与效果变化，本方法不修改组件状态。
+     */
+    public static void promotePlayer(ServerPlayerEntity player, Role role) {
+        wakeIfSleeping(player);
+        SparkReplayApi.withRoleChangeCause(PROMOTION_REPLAY_CAUSE, (UUID) null,
+                () -> transitionRole(player, role));
+        WraithStaminaService.ensureInfiniteStamina(player);
+        SaboteurFeatureService.initializePromotion(player);
+        if (role == SparkDlcRoles.curser()) {
+            CurserFeatureService.initializeForPromotion(player);
+        } else {
+            CurserPlayerComponent.KEY.get(player).clear();
+        }
+        WraithPresence.removeRestrictedEffects(player);
+        GuardianAngelFeatureService.initializeForPromotion(player, role);
+        VendettaLifecycleService.initializeForPromotion(player, role);
+        if (!WraithStateService.isActive(player)) {
+            return;
+        }
+        PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
+        shop.setBalance(WraithPromotionEconomyPolicy.balanceAfterPromotion(
+                shop.getBalance(),
+                true,
+                true
+        ));
+        applyPromotedVoiceGroup(player, role);
+    }
+
+    public static void clearPlayer(ServerPlayerEntity player) {
+        WraithPlayerComponent wraith = WraithPlayerComponent.KEY.get(player);
+        boolean wasActive = wraith.isActive();
+        if (wasActive) {
+            wakeIfSleeping(player);
+        }
+        WraithConversion.clearPlayer(player);
+        WraithProgression.clearPlayer(player);
+        SaboteurPlayerComponent.KEY.get(player).clear();
+        CurserFeatureService.clearPlayer(player);
+        wraith.clear();
+        WraithPresence.clear(player);
+        GuardianAngelFeatureService.detachPlayer(player);
+        VendettaLifecycleService.clearPlayer(player);
+        if (wasActive) {
+            restoreLivingVoice(player);
+        }
+    }
+
+    public static void clearRoundState(ServerWorld world) {
+        WraithProgression.clearAll();
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            if (WraithStateService.isActive(player)) {
+                clearPlayer(player);
+                SparkTraitsApi.clearWraithTraits(player, true);
+            }
+        }
+        WraithConversion.clearRound(world);
+        VendettaDisconnectService.clearRoundState();
+        VendettaReplayService.clearRoundState();
+    }
+
+    static boolean shouldTerminateForFall(boolean active, double playerY, double minimumY) {
+        return active && playerY < minimumY;
+    }
+
+    /** Ends active Wraith participation without dispatching Wathe's ordinary death pipeline. */
+    public static void terminatePlayer(ServerPlayerEntity player) {
+        clearPlayer(player);
+        SparkTraitsApi.clearWraithTraits(player, false);
+        PlayerMoodComponent.KEY.get(player).reset();
+        player.changeGameMode(GameMode.SPECTATOR);
+        TrainVoicePlugin.addPlayer(player.getUuid());
+    }
+
+    /** Compatibility entry point for existing promoted-role callers. */
+    public static void terminatePromotedPlayer(ServerPlayerEntity player) {
+        terminatePlayer(player);
+    }
+
+    private static void onJoin(ServerPlayerEntity player) {
+        if (WraithReconnectPolicy.shouldTerminateOnJoin(
+                WraithPlayerComponent.KEY.get(player).isActive()
+        )) {
+            terminatePlayer(player);
+        }
+    }
+
+    private static void tickWorld(ServerWorld world) {
+        Box playArea = MapVariablesWorldComponent.KEY.get(world).getPlayArea();
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            WraithPlayerComponent wraith = WraithPlayerComponent.KEY.get(player);
+            if (!wraith.isActive()) {
+                continue;
+            }
+            WraithStaminaService.ensureInfiniteStamina(player);
+            if (playArea != null && shouldTerminateForFall(true, player.getY(), playArea.minY)) {
+                // Falling ends Wraith participation, while target-owned effects finish independently.
+                // 坠落会终止冤魂参与，但目标持有的效果仍独立结束。
+                terminatePromotedPlayer(player);
+                continue;
+            }
+            WraithPresence.apply(player, wraith.isRestricted());
+        }
+    }
+
+    private static void normalizeConvertedPose(ServerPlayerEntity player) {
+        boolean wasCrouching = player.isSneaking() || player.getPose() == EntityPose.CROUCHING;
+        player.setSneaking(false);
+        player.setPose(EntityPose.STANDING);
+        player.calculateDimensions();
+        if (!wasCrouching) {
+            return;
+        }
+        Vec3d velocity = player.getVelocity();
+        if (velocity.y < CROUCH_RELEASE_UPWARD_VELOCITY) {
+            // 死亡转冤魂时如果玩家仍保持 Shift 矮碰撞箱，可能被刷新到方块内；
+            // 切回站立碰撞箱后给一个很小的向上速度，帮助玩家脱离地面边缘。
+            player.setVelocity(velocity.x, CROUCH_RELEASE_UPWARD_VELOCITY, velocity.z);
+            player.velocityModified = true;
+        }
+    }
+
+    private static void wakeIfSleeping(ServerPlayerEntity player) {
+        if (player.isSleeping()) {
+            // Use vanilla wake-up so the bed occupancy and world sleep counters are released together.
+            // 使用原版唤醒流程，同时释放床位并更新世界睡眠计数。
+            player.wakeUp(true, true);
+        }
+    }
+
+    private static void transitionRole(ServerPlayerEntity player, Role role) {
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        game.addRole(player, role);
+        game.sync();
+        WraithRoleAnnouncementService.announceCurrentRole(player);
+    }
+
+    private static void restoreLivingVoice(ServerPlayerEntity player) {
+        TrainVoicePlugin.resetPlayer(player.getUuid());
+    }
+
+    private static void applyPromotedVoiceGroup(ServerPlayerEntity player, Role role) {
+        if (WraithCommunicationPolicy.usesDeadVoiceGroup(
+                WraithStateService.isActive(player),
+                GuardianAngelRules.isGuardianAngel(role)
+        )) {
+            // Guardian Angel speaks inside Wathe's hidden dead/spectator group instead of proximity voice.
+            // 守护天使只在 Wathe 的隐藏死者/旁观者语音组内发言，不进入生者近距离语音。
+            TrainVoicePlugin.addPlayer(player.getUuid());
+        } else {
+            restoreLivingVoice(player);
+        }
+    }
+}

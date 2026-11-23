@@ -1,0 +1,128 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:saboteur",
+      "tab": "ROLE",
+      "sourceModId": "sparkdlc",
+      "nameKey": "announcement.role.saboteur",
+      "summaryKey": "guidebook.sparkdlc.content.role.overview",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "杀手阵营冤魂晋升而来的身份，与杀手阵营共同获胜。你仍然隐身、无敌，也仍受冤魂的部分限制（详见冤魂页）；你的工作是熄灭灯光，为队友制造黑暗。"
+            },
+            {
+              "type": "section",
+              "text": "能力",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "破坏",
+                  "tone": "danger"
+                },
+                {
+                  "text": "（技能键）：熄灭身边 20 格内的列车灯，持续 20 秒。晋升后先冷却 60 秒，之后每次冷却 120 秒；附近没有灯时也照常进入冷却。"
+                }
+              ]
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:roles/sparkdlc/saboteur",
+              "text": "演示：熄灭列车灯"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "任务收入",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：晋升后每完成一个任务获得 50 金币。晋升时还会获得一台【对讲机】。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "队友识别",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：活着的杀手开本能时，会看到你显示为橙色。全车停电期间，只有生前和你用平板互认过的杀手按本能还看得到你。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "语音",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：你说话（包括用对讲机）只有活着的杀手能听到，你也只听得到活着的杀手说话。"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "text": "商店",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "只有【开锁器】50 金币（限购 1 个）。"
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "用对讲机和队友约好位置，在对方动手前把灯熄掉。"
+            },
+            {
+              "type": "bullet",
+              "text": "你的破坏和杀手在平板上发动的灯光破坏互不冲突，冷却也各算各的：全队破坏还在冷却时，用你的破坏补上一片局部黑暗。"
+            },
+            {
+              "type": "bullet",
+              "text": "忍者在黑暗中击杀有额外赏金，可以优先在忍者附近破坏灯光。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "破坏只影响列车上的灯，火把、手持光源等照样亮着。"
+            },
+            {
+              "type": "bullet",
+              "text": "破坏不会让人失明，只是把灯关掉；好人仍能借着其他光源看见周围。"
+            },
+            {
+              "type": "bullet",
+              "text": "你在列车上算死者：用不了平板的「破坏」页、撬不了【接线箱】，也修不了电闸和动力装置。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#E28743",
+      "order": 450
+    }
+  ]
+}

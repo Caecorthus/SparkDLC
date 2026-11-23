@@ -1,0 +1,40 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:fast_hands",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.fast_hands.name",
+      "summaryKey": "trait.sparkdlc.fast_hands.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "手上的物品冷却转得更快。通用词条，好人、杀手、中立和魔女阵营都可能抽到。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "你使用物品后的冷却缩短 10%，例如【刀】、【左轮手枪】、【开锁器】。"
+            },
+            {
+              "type": "bullet",
+              "text": "商店的冷却和身份技能的冷却不受影响。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#FF8A3D",
+      "order": 730
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+package dev.caecorthus.sparkdlc.mixin.role.killer.bomber;
+
+import org.agmas.noellesroles.bomber.BomberPlayerComponent;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+import java.util.UUID;
+
+/**
+ * 访问 NoellesRoles 炸弹客组件内部计时字段。
+ *
+ * <p>托盘/床陷阱触发时不能直接调用 {@link BomberPlayerComponent#placeBomb}，
+ * 因为那个方法会记录“炸弹客直接对玩家安置炸弹”的旧回放。
+ * 这里仅用于在本模组内复刻同样的炸弹状态初始化，再由本模组写入专属回放。</p>
+ */
+@Mixin(value = BomberPlayerComponent.class, remap = false)
+public interface BomberPlayerComponentAccessor {
+    @Accessor(value = "hasBomb", remap = false)
+    void sparkdlc$setHasBomb(boolean hasBomb);
+
+    @Accessor(value = "bombTimer", remap = false)
+    void sparkdlc$setBombTimer(int bombTimer);
+
+    @Accessor(value = "beepTimer", remap = false)
+    void sparkdlc$setBeepTimer(int beepTimer);
+
+    @Accessor(value = "isBeeping", remap = false)
+    void sparkdlc$setBeeping(boolean beeping);
+
+    @Accessor(value = "bomberUuid", remap = false)
+    void sparkdlc$setBomberUuid(UUID bomberUuid);
+
+    @Accessor(value = "lastDisplayedSeconds", remap = false)
+    void sparkdlc$setLastDisplayedSeconds(int lastDisplayedSeconds);
+}

@@ -1,0 +1,79 @@
+{
+  "entries": [
+    {
+      "id": "noellesroles:conductor",
+      "tab": "ROLE",
+      "sourceModId": "noellesroles",
+      "nameKey": "announcement.role.conductor",
+      "summaryKey": "guidebook.sparkdlc.content.role.overview",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "身为列车长，你的首要任务是维持秩序，保障乘客安全。"
+            },
+            {
+              "type": "paragraph",
+              "text": "好人阵营的特殊身份。你带着一把【万能钥匙】，能进出车上锁着的门（被堵住的除外），是最快赶到现场、救人或查房的人。"
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:roles/noellesroles/conductor",
+              "text": "演示：列车长怎么用万能钥匙"
+            },
+            {
+              "type": "section",
+              "text": "初始物品",
+              "tone": "item"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "万能钥匙",
+                  "tone": "item"
+                },
+                {
+                  "text": "：能打开列车上锁着的门，包括别人的房间和车厢门。没有冷却，可以反复使用。被【开锁器】或工程师堵住的门打不开，最多等 1 分钟，或者请工程师解开。"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "听到动静时第一时间开门进去，抓现行或救人。"
+            },
+            {
+              "type": "bullet",
+              "text": "有人被困在锁着的房间里时，你可以开门接应（门被堵住时除外）；也可以带警职去查看可疑的房间。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "钥匙拿在手上时别人看得见，容易暴露你的身份。"
+            },
+            {
+              "type": "bullet",
+              "text": "你死后钥匙会掉在地上，任何人捡起来都能用，包括杀手。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "noellesroles"
+      ],
+      "color": "#FFCD54",
+      "order": 40
+    }
+  ]
+}

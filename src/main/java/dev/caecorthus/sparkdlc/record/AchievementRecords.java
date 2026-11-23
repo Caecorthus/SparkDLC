@@ -1,0 +1,654 @@
+package dev.caecorthus.sparkdlc.record;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.record.GameRecordEvent;
+import dev.doctor4t.wathe.record.GameRecordManager;
+import dev.doctor4t.wathe.record.GameRecordTypes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
+
+/**
+ * Extra match-record data read by the local hidden achievements (achievement record contract,
+ * role-kit part S1-S15). Event types and field names are binding. Server only: every caller runs on the logical
+ * server, and Wathe's builder already drops events outside an active match. No replay formatter is registered for
+ * these types, so Wathe's replay skips them. A recording failure is logged and swallowed: it never breaks gameplay.
+ * 本地隐藏成就读取的额外对局记录数据（成就记录契约的职业套件部分 S1-S15）。事件类型与字段名不可更改。
+ * 仅服务端：所有调用方都在逻辑服务端，且 Wathe 的构建器会丢弃对局外的事件。这些类型不注册回放格式化器，
+ * Wathe 回放会跳过它们。记录失败只写日志并吞掉异常，绝不影响玩法。
+ *
+ * <p>The same class holds the W part of the contract: the match-record events of the mod's own roles that the
+ * achievement feature reads (through the faction core's round-end broadcast) to award local hidden achievements
+ * (W2-W7, 2026-10-09; W8-W15 and W17, 2026-10-14). Event types and field names are frozen; a reader matches them by
+ * string. They have no replay formatter on purpose, so Wathe's replay skips them. Every writer runs on the logical
+ * server after its feature's own success checks, records nothing outside an active match, and never lets a recording
+ * failure reach gameplay. W1 (USEC shot distance and scope) adds fields to the existing
+ * {@code sparkdlc:usec_rifle_fire} item use instead; see {@code UsecReplay}. W16 (Bone Setting absorbed a trap
+ * fracture) likewise adds a field to the existing {@code sparkdlc:hunter_trap_triggered} global event; see
+ * {@code HunterTrapEntity}. The S and W writers keep their own failure guards ({@link #safely(String, Runnable)} and
+ * {@link #safelyUntyped(Runnable)}), which log different lines.
+ * <p>同一个类也承载该契约的 W 部分：成就功能通过阵营核心的回合结束广播读取这些本模组职业专属的对局记录事件，用于颁发
+ * 本地隐藏成就（W2-W7，2026-10-09；W8-W15 与 W17，2026-10-14）。事件类型与字段名冻结，读取方按字符串匹配。它们刻意
+ * 没有回放格式化器，因此 Wathe 回放会跳过它们。每个写入方都在逻辑服务端、在其功能自身的成功检查之后执行；对局未激活时不记录；
+ * 记录失败绝不影响玩法。W1（USEC 射击距离与开镜）则在既有 {@code sparkdlc:usec_rifle_fire} 物品使用记录上追加字段，见
+ * {@code UsecReplay}。W16（正骨吸收了捕兽夹骨折）同样在既有 {@code sparkdlc:hunter_trap_triggered} 全局事件上追加字段，
+ * 见 {@code HunterTrapEntity}。S 与 W 写入方各自保留自己的失败保护（{@link #safely(String, Runnable)} 与
+ * {@link #safelyUntyped(Runnable)}），二者记录的日志行不同。
+ */
+public final class AchievementRecords {
+    /** S1. actor = the Toxicologist. / actor 为毒理学家。 */
+    public static final String TOXICOLOGIST_BLUE = "sparkdlc:toxicologist_blue";
+    /** S2. actor = the Detective, target = the interrogated player; victim uuid, is_killer bool. / actor 为侦探，target 为被调查者。 */
+    public static final String DETECTIVE_INTERROGATE = "sparkdlc:detective_interrogate";
+    /** S3. actor = the Taotie; count int. / actor 为饕餮；count 为本次齐射的头颅数。 */
+    public static final String TAOTIE_VOLLEY = "sparkdlc:taotie_volley";
+    /** S4. actor = the Corrupt Cop; active bool. / actor 为黑警；active 为开关新状态。 */
+    public static final String CORRUPT_COP_SHOW_OFF = "sparkdlc:corrupt_cop_show_off";
+    /** S5. actor = the Coroner; role string ("" when cleared), killer bool. / actor 为验尸官；清除时 role 为空串。 */
+    public static final String CORONER_DISGUISE = "sparkdlc:coroner_disguise";
+    /** S7. actor = the killer whose income it was; amount int = coins it added to the purse. / actor 为收入所属杀手；amount 为计入团队钱包的金币。 */
+    public static final String TEAM_CONTRIBUTION = "sparkdlc:team_contribution";
+    /**
+     * S8. World event at each real blackout edge: active bool; cause string (one of the BLACKOUT_CAUSE_* values);
+     * actor = whoever caused that edge, when known (the buyer on "purchase", the restorer on "power_restoration").
+     * 每个真实停电边沿的世界事件：active 布尔；cause 为 BLACKOUT_CAUSE_* 之一；已知时 actor 为造成该边沿的人。
+     */
+    public static final String BLACKOUT_STATE = "sparkdlc:blackout_state";
+    /** S9. actor = the holder whose blackout blindness a lit flashlight cancelled; remaining_ticks int. / actor 为手电筒替其挡下停电失明的持有者。 */
+    public static final String FLASHLIGHT_BLACKOUT = "sparkdlc:flashlight_blackout";
+    /** S11. actor = the player who called the tablet emergency meeting. / actor 为召开平板紧急会议的玩家。 */
+    public static final String TABLET_MEETING = "sparkdlc:tablet_meeting";
+    /** S12. target = the player a meeting marked as suspect; caller uuid = that meeting's caller. / target 为会议投出的嫌疑人。 */
+    public static final String TABLET_SUSPECT = "sparkdlc:tablet_suspect";
+    /** S13. actor = the thrower; throw_id uuid (the axe entity's uuid). / actor 为投掷者；throw_id 为飞斧实体的 UUID。 */
+    public static final String THROWING_AXE_THROW = "sparkdlc:throwing_axe_throw";
+    /** S14. actor = the thrower, target = the player hit; throw_id uuid, killed bool. / actor 为投掷者，target 为被命中的玩家。 */
+    public static final String THROWING_AXE_HIT = "sparkdlc:throwing_axe_hit";
+    /**
+     * S15. World event at each edge of an engine sabotage: state string (one of the ENGINE_STATE_* values); outage_id
+     * int, the same on every event of one sabotage; phase string (one of the ENGINE_PHASE_* values), the phase at that
+     * edge (for "repaired", "remote_repaired" and "aborted", the phase it ended in); actor = the initiator on
+     * "triggered", the repairer on "repaired" and "remote_repaired", none otherwise.
+     * 动力破坏每个边沿的世界事件：state 为 ENGINE_STATE_* 之一；outage_id 为整数，同一次破坏的所有事件相同；phase 为
+     * ENGINE_PHASE_* 之一，即该边沿时的阶段（repaired、remote_repaired 与 aborted 为结束时所处的阶段）；actor 在
+     * triggered 时为发起者，在 repaired 与 remote_repaired 时为修理者，其余情况没有。
+     */
+    public static final String ENGINE_SABOTAGE = "sparkdlc:engine_sabotage";
+
+    /** S8 cause: the lights went out through Wathe's blackout shop entry; actor = the buyer. / 经 Wathe 商店停电熄灯；actor 为购买者。 */
+    public static final String BLACKOUT_CAUSE_PURCHASE = "purchase";
+    /**
+     * S8 cause: an Engineer's Sabotage Repair ended it early; actor = the buyer. The value keeps the item's old name.
+     * 工程师的破坏维修提前结束；actor 为购买者。取值沿用该物品的旧名。
+     */
+    public static final String BLACKOUT_CAUSE_POWER_RESTORATION = "power_restoration";
+    /** S8 cause: the world tick saw the lights back with no known cause (the blackout ran out). / 世界 tick 看到来电且无已知原因（停电时间耗尽）。 */
+    public static final String BLACKOUT_CAUSE_EXPIRED = "expired";
+    /** S8 cause: the world tick saw the lights go out with no known cause. / 世界 tick 看到熄灯且无已知原因。 */
+    public static final String BLACKOUT_CAUSE_UNKNOWN = "unknown";
+    /** S8 cause: a killer triggered the lights sabotage from the tablet; actor = that killer. / 杀手在平板上触发了灯光破坏；actor 为该杀手。 */
+    public static final String BLACKOUT_CAUSE_SABOTAGE = "sabotage";
+    /** S8 cause: a circuit breaker repair brought the lights back; actor = the repairer. / 修好电闸来电；actor 为修理者。 */
+    public static final String BLACKOUT_CAUSE_BREAKER_REPAIR = "breaker_repair";
+
+    /**
+     * S15 state: triggered from the tablet by someone who may sabotage (a killer or the Undercover); actor = that player.
+     * 由可以破坏的人（杀手或卧底）在平板上触发；actor 为该玩家。
+     */
+    public static final String ENGINE_STATE_TRIGGERED = "triggered";
+    /** S15 state: the 60 s repair window ran out; the train halts. / 60 秒抢修窗口已过，列车停驶。 */
+    public static final String ENGINE_STATE_WRECKED = "wrecked";
+    /** S15 state: halted for the cap; emergency power, still wrecked. / 停驶到上限：应急动力，仍是损毁。 */
+    public static final String ENGINE_STATE_EMERGENCY = "emergency";
+    /** S15 state: someone finished a repair panel; actor = the repairer. / 有人完成了维修面板；actor 为修理者。 */
+    public static final String ENGINE_STATE_REPAIRED = "repaired";
+    /**
+     * S15 state: an Engineer bought Sabotage Repair and ended it from anywhere; actor = the buyer.
+     * 工程师买下破坏维修，远程结束了它；actor 为购买者。
+     */
+    public static final String ENGINE_STATE_REMOTE_REPAIRED = "remote_repaired";
+    /**
+     * S15 state: ended without a repair (round over, map copied again, last unit gone); no actor.
+     * 不经维修结束（对局结束、重新复制地图、最后一台装置没了）；没有 actor。
+     */
+    public static final String ENGINE_STATE_ABORTED = "aborted";
+    /** S15 phase: engine units damaged, the repair window running. / 动力装置受损，抢修窗口进行中。 */
+    public static final String ENGINE_PHASE_CRITICAL = "critical";
+    /** S15 phase: wrecked, the train halted. / 已损毁，列车停驶。 */
+    public static final String ENGINE_PHASE_WRECKED = "wrecked";
+    /** S15 phase: wrecked, the train on emergency power. / 已损毁，列车靠应急动力行驶。 */
+    public static final String ENGINE_PHASE_EMERGENCY = "emergency";
+
+    // W part (2026-10-09 / 2026-10-14): the mod's own role events, see the class comment. / W 部分：本模组职业事件，见类注释。
+    public static final String WIND_SPIRIT_FALL = "sparkdlc:wind_spirit_fall";
+    public static final String SABOTAGE = "sparkdlc:sabotage";
+    public static final String CURSE = "sparkdlc:curse";
+    public static final String MURDER_SENSE = "sparkdlc:murder_sense";
+    public static final String BLACK_RAVEN_PERCEIVED = "sparkdlc:black_raven_perceived";
+    public static final String HOLY_FLASH_BURST = "sparkdlc:holy_flash_burst";
+    public static final String NINJA_PARRY = "sparkdlc:ninja_parry";
+    public static final String POISON_APPLE_TAKE = "sparkdlc:poison_apple_take";
+    public static final String PERFUME_MARK = "sparkdlc:perfume_mark";
+    public static final String PROPHECY = "sparkdlc:prophecy";
+    public static final String SAINT_KARMA = "sparkdlc:saint_karma";
+    public static final String JUDGE_VERDICT = "sparkdlc:judge_verdict";
+    public static final String EMMA_HUNT_REWARD = "sparkdlc:emma_hunt_reward";
+    public static final String SEEKER_MARK = "sparkdlc:seeker_mark";
+    public static final String MAGICIAN_PUPPET_KILL = "sparkdlc:magician_puppet_kill";
+
+    /** Wathe's own actor key, written directly when the actor is offline. / Wathe 自身的发起者键，发起者离线时直接写入。 */
+    static final String ACTOR_KEY = "actor";
+    /** Wathe's own target key, written directly when the target is offline. / Wathe 自身的目标键，目标离线时直接写入。 */
+    static final String TARGET_KEY = "target";
+    static final String LAMPS_KEY = "lamps";
+    static final String TARGETS_KEY = "targets";
+    static final String DURATION_KEY = "duration";
+    static final String ACTOR_FACTION_KEY = "actor_faction";
+    static final String ROLE_KEY = "role";
+    static final String FACTION_KEY = "faction";
+    static final String AFFECTED_KEY = "affected";
+    static final String AFFECTED_OTHERS_KEY = "affected_others";
+    static final String DEATH_REASON_KEY = "death_reason";
+    static final String WEAPON_KEY = "weapon";
+    static final String POISONED_KEY = "poisoned";
+    static final String GUESS_KEY = "guess";
+    static final String CORRECT_KEY = "correct";
+    static final String ATTEMPT_KEY = "attempt";
+    static final String KILLER_KEY = "killer";
+    static final String KILLER_FACTION_KEY = "killer_faction";
+    static final String SENTENCED_KEY = "sentenced";
+    static final String KILLS_KEY = "kills";
+    static final String REQUIRED_KILLS_KEY = "required_kills";
+    static final String DISGUISE_PLAYER_KEY = "disguise_player";
+    static final String DISGUISE_DEAD_KEY = "disguise_dead";
+
+    private AchievementRecords() {
+    }
+
+    /** S1: a real Toxicologist entered the blue state (debounced by the caller). / 真毒理学家进入蓝毒状态（调用方已去抖）。 */
+    public static void toxicologistBlue(ServerPlayerEntity toxicologist) {
+        safely(TOXICOLOGIST_BLUE, () -> GameRecordManager.event(TOXICOLOGIST_BLUE).actor(toxicologist).record());
+    }
+
+    /**
+     * S2: a magnifier interrogation of {@code suspect} for the case of {@code victim} succeeded. {@code is_killer} is
+     * true when the suspect (real identity) is the killer credited with the victim's latest recorded death.
+     * 放大镜对嫌疑人的调查成功。嫌疑人（真实身份）是该受害者最近一次死亡记录中所记的凶手时 is_killer 为 true。
+     */
+    public static void detectiveInterrogate(ServerPlayerEntity detective, ServerPlayerEntity suspect, UUID victim) {
+        safely(DETECTIVE_INTERROGATE, () -> {
+            if (!GameRecordManager.hasActiveMatch()) {
+                return;
+            }
+            GameRecordManager.MatchRecord match = GameRecordManager.getCurrentMatch();
+            UUID credited = match == null ? null : AchievementRecordRules.creditedKiller(
+                    match.getEvents(),
+                    victim,
+                    event -> GameRecordTypes.DEATH.equals(event.type()),
+                    event -> uuidOrNull(event, "target"),
+                    event -> uuidOrNull(event, "actor"));
+            GameRecordManager.event(DETECTIVE_INTERROGATE)
+                    .actor(detective)
+                    .target(suspect)
+                    .putUuid("victim", victim)
+                    .putBool("is_killer", AchievementRecordRules.isCreditedKiller(suspect.getUuid(), credited))
+                    .record();
+        });
+    }
+
+    /** S3: a Taotie volley spawned {@code count} heads. / 饕餮一次齐射生成了 count 颗头颅。 */
+    public static void taotieVolley(ServerPlayerEntity taotie, int count) {
+        safely(TAOTIE_VOLLEY, () -> GameRecordManager.event(TAOTIE_VOLLEY).actor(taotie).putInt("count", count).record());
+    }
+
+    /** S4: the server copy of the Corrupt Cop toggle really flipped. / 黑警开关的服务端副本确实翻转了。 */
+    public static void corruptCopShowOff(ServerPlayerEntity cop, boolean active) {
+        safely(CORRUPT_COP_SHOW_OFF,
+                () -> GameRecordManager.event(CORRUPT_COP_SHOW_OFF).actor(cop).putBool("active", active).record());
+    }
+
+    /**
+     * S5: the Coroner's active disguise changed; {@code roleId} null means cleared. {@code killer} uses the disguise's
+     * own role, even while a higher-priority morph temporarily hides it.
+     * 验尸官的当前伪装发生变化；roleId 为 null 表示清除。killer 按伪装本身的职业判断，即使暂时被更高优先级的变形压住。
+     */
+    public static void coronerDisguise(ServerPlayerEntity coroner, @Nullable Identifier roleId) {
+        safely(CORONER_DISGUISE, () -> GameRecordManager.event(CORONER_DISGUISE)
+                .actor(coroner)
+                .put("role", roleId == null ? "" : roleId.toString())
+                .putBool("killer", roleId != null && CoronerRules.isKillerFaction(CoronerRules.resolveRole(roleId)))
+                .record());
+    }
+
+    /**
+     * S7: a killer's income moved the killer team purse from {@code purseBefore} to {@code purseAfter}; records
+     * {@code amount} = the increase, and nothing when the purse did not grow. One event per contribution.
+     * 杀手的收入使杀手团队钱包从 purseBefore 变为 purseAfter；记录 amount = 增加量，钱包未增加时不记录。每笔贡献一条事件。
+     */
+    public static void teamContribution(ServerPlayerEntity killer, int purseBefore, int purseAfter) {
+        safely(TEAM_CONTRIBUTION, () -> {
+            int amount = AchievementRecordRules.purseIncrease(purseBefore, purseAfter);
+            if (amount > 0) {
+                GameRecordManager.event(TEAM_CONTRIBUTION).actor(killer).putInt("amount", amount).record();
+            }
+        });
+    }
+
+    /**
+     * S8: a real blackout edge (the lights went out, or came back) in {@code world}; {@code cause} is one of the
+     * BLACKOUT_CAUSE_* values and {@code actor} the player behind it, null when unknown. Fed by BlackoutRecorder,
+     * which keeps one edge per change.
+     * 该世界的一个真实停电边沿（熄灯或来电）；cause 为 BLACKOUT_CAUSE_* 之一，actor 为造成者，未知时为 null。
+     * 由 BlackoutRecorder 调用，每次变化只记一个边沿。
+     */
+    public static void blackoutState(ServerWorld world, boolean active, @Nullable ServerPlayerEntity actor, String cause) {
+        safely(BLACKOUT_STATE, () -> GameRecordManager.event(BLACKOUT_STATE)
+                .world(world)
+                .actor(actor)
+                .putBool("active", active)
+                .put("cause", cause)
+                .record());
+    }
+
+    /**
+     * S9: a lit flashlight cancelled {@code holder}'s blackout blindness, with {@code remainingTicks} of the blackout
+     * left. Once per blackout per player (BlackoutRecorder).
+     * 开启的手电筒挡下了持有者的停电失明，此时停电还剩 remainingTicks 个 tick。每次停电每名玩家一次（BlackoutRecorder）。
+     */
+    public static void flashlightBlackout(ServerPlayerEntity holder, int remainingTicks) {
+        safely(FLASHLIGHT_BLACKOUT, () -> GameRecordManager.event(FLASHLIGHT_BLACKOUT)
+                .actor(holder)
+                .putInt("remaining_ticks", remainingTicks)
+                .record());
+    }
+
+    /** S11: {@code caller} started a tablet emergency meeting. / 该玩家召开了平板紧急会议。 */
+    public static void tabletMeeting(ServerPlayerEntity caller) {
+        safely(TABLET_MEETING, () -> GameRecordManager.event(TABLET_MEETING).actor(caller).record());
+    }
+
+    /**
+     * S12: a finished meeting added {@code suspect} to the suspect list; {@code caller} is that meeting's caller (left
+     * out when unknown). The suspect goes into the target slot by uuid: a meeting may pick an offline player.
+     * 会议结束时把嫌疑人加入了嫌疑人列表；caller 为该次会议的召开者（未知时省略）。嫌疑人按 UUID 写入 target：会议可能投出离线玩家。
+     */
+    public static void tabletSuspect(ServerWorld world, UUID suspect, @Nullable UUID caller) {
+        safely(TABLET_SUSPECT, () -> {
+            GameRecordManager.EventBuilder event = GameRecordManager.event(TABLET_SUSPECT)
+                    .world(world)
+                    .putUuid("target", suspect);
+            if (caller != null) {
+                event.putUuid("caller", caller);
+            }
+            event.record();
+        });
+    }
+
+    /** S13: {@code thrower} threw a Bandit throwing axe; {@code throwId} is the spawned axe's uuid. / 投掷者扔出一把飞斧。 */
+    public static void throwingAxeThrow(ServerPlayerEntity thrower, UUID throwId) {
+        safely(THROWING_AXE_THROW, () -> GameRecordManager.event(THROWING_AXE_THROW)
+                .actor(thrower)
+                .putUuid("throw_id", throwId)
+                .record());
+    }
+
+    /**
+     * S14: the axe {@code throwId} hit {@code victim} and its kill call returned. {@code killed} is true when the victim
+     * was alive before and is dead now (a shield, vest or fake death leaves it false). {@code thrower} is null when
+     * the thrower is offline; the S13 event with the same throw_id still names them.
+     * 飞斧 throwId 命中受害者且其击杀调用已返回。受害者此前存活、现在死亡时 killed 为 true（护盾、防弹衣或假死时为 false）。
+     * 投掷者离线时 thrower 为 null；相同 throw_id 的 S13 事件仍记有投掷者。
+     */
+    public static void throwingAxeHit(@Nullable ServerPlayerEntity thrower, ServerPlayerEntity victim, UUID throwId,
+                                      boolean deadBefore) {
+        safely(THROWING_AXE_HIT, () -> GameRecordManager.event(THROWING_AXE_HIT)
+                .world(victim.getServerWorld())
+                .actor(thrower)
+                .target(victim)
+                .putUuid("throw_id", throwId)
+                .putBool("killed", AchievementRecordRules.killedByHit(deadBefore, isMarkedDead(victim)))
+                .record());
+    }
+
+    /**
+     * S15: an engine sabotage edge in {@code world}; {@code state} is one of the ENGINE_STATE_* values and
+     * {@code phase} one of the ENGINE_PHASE_* values. Fed by EngineRecorder, once per edge.
+     * 该世界中动力破坏的一个边沿；state 为 ENGINE_STATE_* 之一，phase 为 ENGINE_PHASE_* 之一。由 EngineRecorder 调用，
+     * 每个边沿一次。
+     */
+    public static void engineSabotage(ServerWorld world, String state, @Nullable ServerPlayerEntity actor, int outageId,
+                                      String phase) {
+        safely(ENGINE_SABOTAGE, () -> GameRecordManager.event(ENGINE_SABOTAGE)
+                .world(world)
+                .actor(actor)
+                .put("state", state)
+                .putInt("outage_id", outageId)
+                .put("phase", phase)
+                .record());
+    }
+
+    /** S14 helper: whether Wathe has marked the player dead this round; false on failure. / Wathe 本局是否已标记该玩家死亡。 */
+    public static boolean isMarkedDead(ServerPlayerEntity player) {
+        try {
+            return GameWorldComponent.KEY.get(player.getWorld()).isPlayerDead(player.getUuid());
+        } catch (RuntimeException error) {
+            SparkDLC.LOGGER.warn("Could not read the dead state for {}", THROWING_AXE_HIT, error);
+            return false;
+        }
+    }
+
+    /**
+     * S10: extra data for the existing {@code sparkdlc:capture_device_triggered} global event: the device's owner
+     * uuid. Null without an owner, which records the event as before.
+     * S10：现有 capture_device_triggered 全局事件的附加数据：装置主人的 UUID。没有主人时返回 null，事件照旧记录。
+     */
+    public static @Nullable NbtCompound captureDeviceTriggeredExtra(@Nullable UUID owner) {
+        if (owner == null) {
+            return null;
+        }
+        NbtCompound extra = new NbtCompound();
+        extra.putUuid("owner", owner);
+        return extra;
+    }
+
+    /**
+     * S6: extra data for the existing {@code sparkdlc:skateboard_ride_started} global event (vanilla Speed at ride
+     * start). Null on failure, which records the event without the extra fields, as before.
+     * S6：现有 skateboard_ride_started 全局事件的附加数据（上板时的原版速度效果）。失败时返回 null，事件照旧记录、只是不带附加字段。
+     */
+    public static @Nullable NbtCompound skateboardRideExtra(ServerPlayerEntity rider) {
+        try {
+            StatusEffectInstance speed = rider.getStatusEffect(StatusEffects.SPEED);
+            NbtCompound extra = new NbtCompound();
+            extra.putBoolean("has_speed", speed != null);
+            extra.putInt("speed_amplifier",
+                    AchievementRecordRules.speedAmplifier(speed != null, speed == null ? 0 : speed.getAmplifier()));
+            return extra;
+        } catch (RuntimeException error) {
+            SparkDLC.LOGGER.warn("Could not build skateboard ride record data", error);
+            return null;
+        }
+    }
+
+    /**
+     * W2: a player died falling out of the train shortly after a promoted Wind Spirit's wind charge caught them. The
+     * Wind Spirit may have left; its UUID is then written as {@code actor}. Kill credit is untouched.
+     * W2：玩家在被晋升风精灵的风弹击中后不久坠车身亡。风精灵可能已离线，此时直接写入其 UUID 作为 {@code actor}。不改变击杀归属。
+     */
+    public static void windSpiritFall(ServerPlayerEntity victim, UUID windSpirit) {
+        safelyUntyped(() -> {
+            ServerPlayerEntity online = victim.getServer() == null ? null
+                    : victim.getServer().getPlayerManager().getPlayer(windSpirit);
+            GameRecordManager.EventBuilder event = GameRecordManager.event(WIND_SPIRIT_FALL)
+                    .world(victim.getServerWorld())
+                    .target(victim);
+            actor(event, online, windSpirit).record();
+        });
+    }
+
+    /** W3: a Saboteur's Sabotage succeeded, with the lamps it turned off (may be 0). / W3：破坏成功及其熄灭的灯数（可为 0）。 */
+    public static void sabotage(ServerPlayerEntity saboteur, int lamps) {
+        safelyUntyped(() -> GameRecordManager.event(SABOTAGE).actor(saboteur)
+                .putInt(LAMPS_KEY, Math.max(0, lamps)).record());
+    }
+
+    /** W4: a Curser's cast succeeded, with the players it cursed. / W4：诅咒师施法成功及其诅咒的玩家数。 */
+    public static void curse(ServerPlayerEntity curser, int targets) {
+        safelyUntyped(() -> GameRecordManager.event(CURSE).actor(curser)
+                .putInt(TARGETS_KEY, Math.max(0, targets)).record());
+    }
+
+    /** W5: an Apprentice Witch activated Murder Sense for {@code durationTicks}. / W5：预备魔女启用杀意感知及其持续刻数。 */
+    public static void murderSense(ServerPlayerEntity witch, int durationTicks) {
+        safelyUntyped(() -> GameRecordManager.event(MURDER_SENSE).actor(witch)
+                .putInt(DURATION_KEY, Math.max(0, durationTicks)).record());
+    }
+
+    /**
+     * W6: a Black Raven's Perception revealed {@code target}. Both factions are effective factions at this moment
+     * (trait flips such as Conscience included); {@code role} is the role the snapshot revealed.
+     * W6：黑鸦的感知揭示了 {@code target}。两个阵营都取此刻的有效阵营（含良知等天赋翻转）；{@code role} 为快照揭示的职业。
+     */
+    public static void blackRavenPerceived(ServerPlayerEntity raven, ServerPlayerEntity target, Role targetRole,
+                                           GameWorldComponent game) {
+        safelyUntyped(() -> {
+            if (!GameRecordManager.hasActiveMatch()) {
+                return;
+            }
+            GameRecordManager.EventBuilder event = GameRecordManager.event(BLACK_RAVEN_PERCEIVED)
+                    .actor(raven)
+                    .target(target)
+                    .put(ROLE_KEY, targetRole.identifier().toString());
+            putFaction(event, ACTOR_FACTION_KEY, SparkFactionApi.resolveEffectiveFaction(raven, game));
+            putFaction(event, FACTION_KEY, SparkFactionApi.resolveEffectiveFaction(target, game));
+            event.record();
+        });
+    }
+
+    /**
+     * W7: a Holy Flash went off. {@code thrower} is the owner entity when it is still a server player (dead ones
+     * included); otherwise {@code throwerUuid} is written as {@code actor}. Without either, nothing is recorded.
+     * W7：圣光弹爆开。投掷者仍是服务端玩家（含已死亡者）时以其为 {@code actor}；否则写入 {@code throwerUuid}。两者皆无时不记录。
+     */
+    public static void holyFlashBurst(ServerWorld world, @Nullable ServerPlayerEntity thrower,
+                                      @Nullable UUID throwerUuid, int affected, int affectedOthers) {
+        if (thrower == null && throwerUuid == null) {
+            return;
+        }
+        safelyUntyped(() -> actor(GameRecordManager.event(HOLY_FLASH_BURST).world(world), thrower, throwerUuid)
+                .putInt(AFFECTED_KEY, Math.max(0, affected))
+                .putInt(AFFECTED_OTHERS_KEY, Math.max(0, affectedOthers))
+                .record());
+    }
+
+    /**
+     * W8: a Ninja's parry blocked {@code attacker}'s killing blow. {@code death_reason} is the blocked death reason and
+     * {@code weapon} the attacker's main-hand item id at that moment ({@code minecraft:air} when empty). Never written
+     * for a Ceremonial Sword blow: it pierces the parry and still kills.
+     * W8：忍者的格挡挡下了 {@code attacker} 的致命一击。{@code death_reason} 为被挡下的死因，{@code weapon} 为此刻攻击者主手
+     * 物品标识（空手为 {@code minecraft:air}）。仪礼剑会穿透格挡并照常击杀，因此绝不为其写入。
+     */
+    public static void ninjaParry(ServerPlayerEntity ninja, ServerPlayerEntity attacker, Identifier deathReason) {
+        safelyUntyped(() -> GameRecordManager.event(NINJA_PARRY).actor(ninja).target(attacker)
+                .put(DEATH_REASON_KEY, deathReason.toString())
+                .put(WEAPON_KEY, Registries.ITEM.getId(attacker.getMainHandStack().getItem()).toString())
+                .record());
+    }
+
+    /**
+     * W9: {@code taker} took a serving from a platter armed with a Poison Apple. {@code actor} is the player who armed
+     * it (UUID when offline); {@code poisoned} is true only for the poisoned serving (the second take; the first is
+     * safe). The poisoned serving still has to be eaten or drunk, by whoever ends up holding it, to poison anyone.
+     * W9：{@code taker} 从布置了毒苹果的餐盘上取走一份。{@code actor} 为布置者（离线时写入其 UUID）；仅被下毒的那一份
+     * （第二次拿取；第一次是安全的）的 {@code poisoned} 为 true。被下毒的那一份仍需被最终持有者吃下或喝下才会使人中毒。
+     */
+    public static void poisonAppleTake(ServerPlayerEntity taker, UUID poisoner, boolean poisoned) {
+        safelyUntyped(() -> {
+            GameRecordManager.EventBuilder event = GameRecordManager.event(POISON_APPLE_TAKE)
+                    .world(taker.getServerWorld())
+                    .target(taker)
+                    .putBool(POISONED_KEY, poisoned);
+            actor(event, online(taker, poisoner), poisoner).record();
+        });
+    }
+
+    /** W10: a Perfumer's Perfume Essence marked {@code target}. / W10：调香师的香精标记了 {@code target}。 */
+    public static void perfumeMark(ServerPlayerEntity perfumer, ServerPlayerEntity target) {
+        safelyUntyped(() -> GameRecordManager.event(PERFUME_MARK).actor(perfumer).target(target).record());
+    }
+
+    /**
+     * W11: a Prophet's charged Prophecy about the dead {@code victim} (written as {@code target}, UUID when offline).
+     * {@code guess} is the guessed cause group id, {@code correct} whether it matched, and {@code attempt} the 1-based
+     * guess number on this death of that victim (a revived victim's new death starts again at 1). When a correct guess
+     * names someone, {@code killer} is the revealed responsible player and {@code killer_faction} their effective
+     * faction now (the role's faction when offline); both are absent otherwise.
+     * W11：先知针对死者 {@code victim} 的一次已扣费预言（写入为 {@code target}，离线时写入 UUID）。{@code guess} 为所猜死因
+     * 分组 id，{@code correct} 为是否猜中，{@code attempt} 为针对该死者这一次死亡的第几次猜测（从 1 起；被复活者再次死亡后
+     * 重新从 1 计）。猜中且揭示了某人时，{@code killer} 为被揭示的责任人，{@code killer_faction} 为其此刻的有效阵营（离线时
+     * 取其职业阵营）；否则两者都不写入。
+     */
+    public static void prophecy(ServerPlayerEntity prophet, UUID victim, String guess, boolean correct, int attempt,
+                                @Nullable UUID killer) {
+        safelyUntyped(() -> {
+            if (!GameRecordManager.hasActiveMatch()) {
+                return;
+            }
+            GameRecordManager.EventBuilder event = GameRecordManager.event(PROPHECY)
+                    .actor(prophet)
+                    .put(GUESS_KEY, guess)
+                    .putBool(CORRECT_KEY, correct)
+                    .putInt(ATTEMPT_KEY, Math.max(1, attempt));
+            target(event, online(prophet, victim), victim);
+            if (killer != null) {
+                event.putUuid(KILLER_KEY, killer);
+                putFaction(event, KILLER_FACTION_KEY, factionOf(prophet, killer));
+            }
+            event.record();
+        });
+    }
+
+    /**
+     * W12: a Saint died with Hellfire active and {@code killer} took Karma (it passed the Karma immunity check).
+     * {@code actor} is the dead Saint.
+     * W12：圣徒在业火状态下死亡，{@code killer} 背上了业障（已通过业障免疫检查）。{@code actor} 为死去的圣徒。
+     */
+    public static void saintKarma(ServerPlayerEntity saint, ServerPlayerEntity killer) {
+        safelyUntyped(() -> GameRecordManager.event(SAINT_KARMA).actor(saint).target(killer).record());
+    }
+
+    /**
+     * W13: a Judge's charged judgment of {@code defendant}, after the fee was taken. {@code sentenced} is whether the
+     * defendant's {@code kills} reached {@code required_kills}; {@code duration} is the sentence in ticks (0 when not
+     * sentenced).
+     * W13：法官对 {@code defendant} 的一次已扣费审判（扣费之后写入）。{@code sentenced} 为被告的 {@code kills} 是否达到
+     * {@code required_kills}；{@code duration} 为刑期刻数（未判刑时为 0）。
+     */
+    public static void judgeVerdict(ServerPlayerEntity judge, ServerPlayerEntity defendant, boolean sentenced,
+                                    int kills, int requiredKills, int durationTicks) {
+        safelyUntyped(() -> GameRecordManager.event(JUDGE_VERDICT).actor(judge).target(defendant)
+                .putBool(SENTENCED_KEY, sentenced)
+                .putInt(KILLS_KEY, Math.max(0, kills))
+                .putInt(REQUIRED_KILLS_KEY, Math.max(0, requiredKills))
+                .putInt(DURATION_KEY, sentenced ? Math.max(0, durationTicks) : 0)
+                .record());
+    }
+
+    /**
+     * W14: Emma's revolver killed the Witch Factor holder {@code factorHolder} and earned the hunt reward (the speed
+     * burst and the revolver cooldown cut to a tenth, about 1 s).
+     * W14：艾玛的左轮击杀了魔女因子持有者 {@code factorHolder}，获得猎杀奖励（加速与降至十分之一、约 1 秒的左轮冷却）。
+     */
+    public static void emmaHuntReward(ServerPlayerEntity emma, ServerPlayerEntity factorHolder) {
+        safelyUntyped(() -> GameRecordManager.event(EMMA_HUNT_REWARD).actor(emma).target(factorHolder).record());
+    }
+
+    /**
+     * W15: a Seeker's device was broken and {@code breaker} was marked for {@code duration} ticks.
+     * W15：搜寻者的设备被打坏，{@code breaker} 被标记 {@code duration} 刻。
+     */
+    public static void seekerMark(ServerPlayerEntity seeker, ServerPlayerEntity breaker, int durationTicks) {
+        safelyUntyped(() -> GameRecordManager.event(SEEKER_MARK).actor(seeker).target(breaker)
+                .putInt(DURATION_KEY, Math.max(0, durationTicks)).record());
+    }
+
+    /**
+     * W17: a Magician's playback puppet killed {@code victim}, and the kill took. {@code weapon} is the puppet's weapon
+     * item id ({@code wathe:knife}, {@code wathe:bat} or {@code wathe:revolver}); {@code disguise_player} is the player
+     * the puppet was disguised as (absent when none) and {@code disguise_dead} whether that player was dead just before
+     * the kill.
+     * W17：魔术师的回放皮套击杀了 {@code victim}，且击杀生效。{@code weapon} 为皮套武器的物品标识（{@code wathe:knife}、
+     * {@code wathe:bat} 或 {@code wathe:revolver}）；{@code disguise_player} 为皮套伪装的玩家（无伪装时不写入），
+     * {@code disguise_dead} 为该玩家在这次击杀前是否已死亡。
+     */
+    public static void magicianPuppetKill(ServerPlayerEntity magician, ServerPlayerEntity victim, Identifier weapon,
+                                          @Nullable UUID disguise, boolean disguiseDead) {
+        safelyUntyped(() -> {
+            GameRecordManager.EventBuilder event = GameRecordManager.event(MAGICIAN_PUPPET_KILL)
+                    .actor(magician)
+                    .target(victim)
+                    .put(WEAPON_KEY, weapon.toString())
+                    .putBool(DISGUISE_DEAD_KEY, disguise != null && disguiseDead);
+            if (disguise != null) {
+                event.putUuid(DISGUISE_PLAYER_KEY, disguise);
+            }
+            event.record();
+        });
+    }
+
+    private static @Nullable UUID uuidOrNull(GameRecordEvent event, String key) {
+        NbtCompound data = event.data();
+        return data != null && data.containsUuid(key) ? data.getUuid(key) : null;
+    }
+
+    private static void safely(String type, Runnable writer) {
+        try {
+            writer.run();
+        } catch (RuntimeException error) {
+            SparkDLC.LOGGER.warn("Could not record {}", type, error);
+        }
+    }
+
+    private static @Nullable ServerPlayerEntity online(ServerPlayerEntity context, UUID player) {
+        return context.getServer() == null ? null : context.getServer().getPlayerManager().getPlayer(player);
+    }
+
+    private static GameRecordManager.EventBuilder target(GameRecordManager.EventBuilder event,
+                                                         @Nullable ServerPlayerEntity online, UUID uuid) {
+        return online != null ? event.target(online) : event.putUuid(TARGET_KEY, uuid);
+    }
+
+    /**
+     * The effective faction of {@code player}: resolved on the player while online, else from the round role.
+     * {@code player} 的有效阵营：在线时按玩家解析，否则按其本局职业解析。
+     */
+    private static @Nullable Identifier factionOf(ServerPlayerEntity context, UUID player) {
+        GameWorldComponent game = GameWorldComponent.KEY.get(context.getServerWorld());
+        ServerPlayerEntity online = online(context, player);
+        if (online != null) {
+            return SparkFactionApi.resolveEffectiveFaction(online, game);
+        }
+        Role role = game.getRole(player);
+        return role == null ? null : SparkFactionApi.resolveEffectiveFaction(role);
+    }
+
+    private static GameRecordManager.EventBuilder actor(GameRecordManager.EventBuilder event,
+                                                        @Nullable ServerPlayerEntity online, @Nullable UUID uuid) {
+        if (online != null) {
+            return event.actor(online);
+        }
+        return uuid == null ? event : event.putUuid(ACTOR_KEY, uuid);
+    }
+
+    private static void putFaction(GameRecordManager.EventBuilder event, String key, @Nullable Identifier faction) {
+        if (faction != null) {
+            event.put(key, faction.toString());
+        }
+    }
+
+    /**
+     * The guard of the W writers: a recording failure is logged and swallowed, never thrown into gameplay. Its log line
+     * names no event type, as it always did; it stays apart from {@link #safely(String, Runnable)} so that what is
+     * logged on a real failure does not change.
+     * W 写入方的保护：记录失败只记日志并吞掉，绝不抛进玩法。其日志行一向不写事件类型；它与
+     * {@link #safely(String, Runnable)} 保持分开，使真实失败时的日志内容不变。
+     */
+    private static void safelyUntyped(Runnable write) {
+        try {
+            write.run();
+        } catch (RuntimeException exception) {
+            SparkDLC.LOGGER.warn("Failed to write a SparkDLC achievement record", exception);
+        }
+    }
+}

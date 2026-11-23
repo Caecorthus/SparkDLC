@@ -1,0 +1,108 @@
+{
+  "values": [
+    {
+      "id": "wathe:revolver",
+      "required": false
+    },
+    {
+      "id": "wathe:derringer",
+      "required": false
+    },
+    {
+      "id": "wathe:grenade",
+      "required": false
+    },
+    {
+      "id": "wathe:lockpick",
+      "required": false
+    },
+    {
+      "id": "wathe:key",
+      "required": false
+    },
+    {
+      "id": "wathe:walkie_talkie",
+      "required": false
+    },
+    {
+      "id": "wathe:body_bag",
+      "required": false
+    },
+    {
+      "id": "wathe:firecracker",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:m67",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:serial_pistol",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:serial_left_pistol",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:bomb_drone",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:grenade_drone",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:impostor_lockpick",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:capture_device",
+      "required": false
+    },
+    {
+      "id": "noellesroles:master_key",
+      "required": false
+    },
+    {
+      "id": "noellesroles:neutral_master_key",
+      "required": false
+    },
+    {
+      "id": "noellesroles:demon_hunter_pistol",
+      "required": false
+    },
+    {
+      "id": "noellesroles:repair_tool",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:shriek_gun",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:usec_rifle",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:double_barrel_shotgun",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:taser",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:spare_key",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:ninja_grappling_hook",
+      "required": false
+    },
+    {
+      "id": "sparkdlc:seeker_camera",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+package dev.caecorthus.sparkdlc.trait.civilian.impostor;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.trait.api.Trait;
+import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
+import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
+import net.minecraft.util.Identifier;
+
+import java.util.Set;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitEligibility;
+import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandTrait;
+
+/** Civilian trait that flips the player's effective alignment to killers.
+ *  平民阵营天赋：将玩家的有效阵营翻转为杀手阵营。 */
+public final class ImpostorTrait implements Trait {
+    public static final Identifier ID = SparkDLC.id("impostor");
+
+    @Override
+    public Identifier id() {
+        return ID;
+    }
+
+    @Override
+    public int color() {
+        return EffectiveTraitService.IMPOSTOR_COLOR;
+    }
+
+    @Override
+    public boolean uniquePerGame() {
+        return true;
+    }
+
+    @Override
+    public TraitAudience audience() {
+        return TraitAudience.INNOCENT_ONLY;
+    }
+
+    @Override
+    public Set<Identifier> incompatibleTraits() {
+        return Set.of(LastStandTrait.ID);
+    }
+
+    @Override
+    public boolean canApply(TraitSelectionContext context) {
+        return EffectiveTraitEligibility.canSelectImpostor(context.role(), context.gameComponent(), context.selectedTraitIds());
+    }
+}

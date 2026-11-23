@@ -1,0 +1,211 @@
+package dev.caecorthus.sparkdlc;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
+import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
+import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
+import dev.caecorthus.sparkdlc.block.SparkBedBlock;
+import dev.caecorthus.sparkdlc.block.SparkBedService;
+import dev.doctor4t.wathe.index.WatheBlockEntities;
+import dev.doctor4t.wathe.index.WatheBlocks;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CarpetBlock;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
+
+/**
+ * The blocks of the mod and their block items: the sabotage fixtures, the map-maker beds and the damp carpets. Each
+ * part registers through its own method, at the moment it always did.
+ * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床与潮湿地毯。每个部分通过自己的方法、在一贯的时刻注册。
+ */
+public final class SparkDlcBlocks {
+    private SparkDlcBlocks() {
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Sabotage fixtures / 破坏系统的地图设施
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * The sabotage blocks and their block items. Both are map fixtures: unbreakable outside creative, no drops.
+     * 破坏系统的方块及其方块物品。两者都是地图设施：创造模式以外无法破坏，不掉落。
+     */
+
+    public static final Identifier JUNCTION_BOX_ID = SparkDLC.id("junction_box");
+    public static final Identifier CIRCUIT_BREAKER_ID = SparkDLC.id("circuit_breaker");
+    public static final Identifier ENGINE_UNIT_ID = SparkDLC.id("engine_unit");
+
+    private static boolean sabotageFixturesRegistered;
+    private static Block junctionBox;
+    private static Block circuitBreaker;
+    private static Block engineUnit;
+
+    public static synchronized void registerSabotageFixtures() {
+        if (sabotageFixturesRegistered) {
+            return;
+        }
+        junctionBox = registerWithItem(JUNCTION_BOX_ID, new JunctionBoxBlock(fixtureSettings()));
+        circuitBreaker = registerWithItem(CIRCUIT_BREAKER_ID, new CircuitBreakerBlock(fixtureSettings()));
+        engineUnit = registerWithItem(ENGINE_UNIT_ID, new EngineUnitBlock(fixtureSettings()));
+        sabotageFixturesRegistered = true;
+    }
+
+    public static Block junctionBox() {
+        if (junctionBox == null) {
+            throw new IllegalStateException("SparkDLC sabotage fixture blocks are not registered yet");
+        }
+        return junctionBox;
+    }
+
+    public static Block circuitBreaker() {
+        if (circuitBreaker == null) {
+            throw new IllegalStateException("SparkDLC sabotage fixture blocks are not registered yet");
+        }
+        return circuitBreaker;
+    }
+
+    public static Block engineUnit() {
+        if (engineUnit == null) {
+            throw new IllegalStateException("SparkDLC sabotage fixture blocks are not registered yet");
+        }
+        return engineUnit;
+    }
+
+    /** Any block the sabotage system scans for. / 破坏系统会扫描的任意方块。 */
+    public static boolean isSabotageFixture(net.minecraft.block.BlockState state) {
+        return state.isOf(junctionBox()) || state.isOf(circuitBreaker()) || state.isOf(engineUnit());
+    }
+
+    private static AbstractBlock.Settings fixtureSettings() {
+        return AbstractBlock.Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
+                .strength(-1.0F, 3_600_000.0F)
+                .sounds(BlockSoundGroup.METAL)
+                .nonOpaque()
+                .dropsNothing()
+                .pistonBehavior(PistonBehavior.BLOCK);
+    }
+
+    private static Block registerWithItem(Identifier id, Block block) {
+        Block registeredBlock = Registry.register(Registries.BLOCK, id, block);
+        Registry.register(Registries.ITEM, id, new BlockItem(registeredBlock, new Item.Settings()));
+        return registeredBlock;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Map-maker beds / 供地图作者使用的床
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * The two map-maker beds (PR #239). They copy Wathe's trimmed bed settings and are added to
+     * Wathe's own {@code wathe:trimmed_bed} block entity type through Fabric's {@code addSupportedBlock}, so the block
+     * entity they create is Wathe's {@code TrimmedBedBlockEntity} with Wathe's type: scorpion poison, its client
+     * particles and every add-on hook that checks that type or class see them as ordinary trimmed beds. Registered from
+     * {@code SparkDlcItems.registerRoleItems()}, after every existing item, so earlier raw ids keep their order.
+     * <p>
+     * 两张供地图作者使用的床（PR #239）。沿用 Wathe 裁剪床的方块设置，并通过 Fabric 的
+     * {@code addSupportedBlock} 加入 Wathe 自己的 {@code wathe:trimmed_bed} 方块实体类型，因此它们创建的方块实体就是
+     * 带 Wathe 类型的 {@code TrimmedBedBlockEntity}：蝎子毒、其客户端粒子以及所有按该类型或类判断的附属钩子都把它们视为
+     * 普通裁剪床。由 {@code SparkDlcItems.registerRoleItems()} 在所有既有物品之后注册，保持既有注册顺序。
+     */
+
+    public static final Identifier GREY_DIRTY_BED_ID = SparkDLC.id("grey_dirty_bed");
+    public static final Identifier GREEN_STRANGE_BED_ID = SparkDLC.id("green_strange_bed");
+
+    private static Block greyDirtyBed;
+    private static Block greenStrangeBed;
+
+    public static synchronized void registerBeds() {
+        if (greyDirtyBed != null) {
+            return;
+        }
+        greyDirtyBed = registerBed(GREY_DIRTY_BED_ID, SparkBedBlock.Variant.GREY_DIRTY);
+        greenStrangeBed = registerBed(GREEN_STRANGE_BED_ID, SparkBedBlock.Variant.GREEN_STRANGE);
+        // The beds own their one listener, so RoleEvents' pinned registration order stays untouched.
+        // 床自带唯一的监听器，因此 RoleEvents 中被固定的注册顺序保持不变。
+        SparkBedService.register();
+    }
+
+    private static Block registerBed(Identifier id, SparkBedBlock.Variant variant) {
+        Block bed = Registry.register(
+                Registries.BLOCK,
+                id,
+                new SparkBedBlock(variant, AbstractBlock.Settings.copy(WatheBlocks.WHITE_TRIMMED_BED))
+        );
+        WatheBlockEntities.TRIMMED_BED.addSupportedBlock(bed);
+        Registry.register(Registries.ITEM, id, new BlockItem(bed, new Item.Settings()));
+        return bed;
+    }
+
+    public static Block greyDirtyBed() {
+        return greyDirtyBed;
+    }
+
+    public static Block greenStrangeBed() {
+        return greenStrangeBed;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Damp carpets / 潮湿地毯
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * Two map-maker props (PR #3): a thin damp carpet and its full-block version for stacked floors or wall coverings.
+     * Pure decoration: vanilla's own CarpetBlock (1/16-high shape and collision, cannot be placed on air and breaks
+     * when the block under it goes) and a plain Block, both with brown carpet / wool settings and a quieter, lower
+     * wool sound group.
+     * The thin carpet is listed in {@code minecraft:combination_step_sound_blocks} like every vanilla carpet: a walking
+     * entity's step position is the floor under the carpet, and only that tag makes the carpet's own step sound play
+     * (with the floor's at 15% volume). Each drops itself. Registered from {@code SparkDlcItems.registerRoleItems()}
+     * after every existing item, so earlier raw ids keep their order; the BlockItems join the creative tab through its
+     * namespace sweep.
+     * <p>
+     * 两件供地图作者使用的装饰（PR #3）：贴地的潮湿薄地毯，以及供堆叠地面或铺墙用的完整方块版本。纯装饰：直接使用原版
+     * CarpetBlock（1/16 高的形状与碰撞箱，不能放在空气上，下方方块消失时随之破坏）与普通 Block，方块设置沿用
+     * 棕色地毯 / 羊毛，并换成更轻更低的羊毛音组。
+     * 薄地毯像所有原版地毯一样列入 {@code minecraft:combination_step_sound_blocks}：行走实体的脚步位置是地毯下面的地板，
+     * 只有该标签才会让地毯自己的脚步声响起（同时以 15% 音量播放地板的脚步声）。两者都掉落自身。由
+     * {@code SparkDlcItems.registerRoleItems()} 在所有既有物品之后注册，保持既有注册顺序；方块物品通过命名空间扫描进入
+     * 创造物品栏。
+     */
+
+    public static final Identifier DAMP_CARPET_ID = SparkDLC.id("damp_carpet");
+    public static final Identifier DAMP_CARPET_BLOCK_ID = SparkDLC.id("damp_carpet_block");
+
+    /** Wool sounds, quieter and lower than wool's own (1.0, 1.0). / 羊毛音效，比羊毛本身（1.0，1.0）更轻更低。 */
+    private static final BlockSoundGroup DAMP_CARPET_SOUNDS = new BlockSoundGroup(
+            0.6F, 0.55F,
+            SoundEvents.BLOCK_WOOL_BREAK,
+            SoundEvents.BLOCK_WOOL_STEP,
+            SoundEvents.BLOCK_WOOL_PLACE,
+            SoundEvents.BLOCK_WOOL_HIT,
+            SoundEvents.BLOCK_WOOL_FALL
+    );
+
+    private static Block dampCarpet;
+    private static Block dampCarpetBlock;
+
+    public static synchronized void registerDampCarpets() {
+        if (dampCarpet != null) {
+            return;
+        }
+        dampCarpet = registerWithItem(DAMP_CARPET_ID,
+                new CarpetBlock(AbstractBlock.Settings.copy(Blocks.BROWN_CARPET).sounds(DAMP_CARPET_SOUNDS)));
+        dampCarpetBlock = registerWithItem(DAMP_CARPET_BLOCK_ID,
+                new Block(AbstractBlock.Settings.copy(Blocks.BROWN_WOOL).sounds(DAMP_CARPET_SOUNDS)));
+    }
+
+    public static Block dampCarpet() {
+        return dampCarpet;
+    }
+
+    public static Block dampCarpetBlock() {
+        return dampCarpetBlock;
+    }
+}

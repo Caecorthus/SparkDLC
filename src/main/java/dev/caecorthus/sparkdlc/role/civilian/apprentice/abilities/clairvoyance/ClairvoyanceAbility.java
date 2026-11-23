@@ -1,0 +1,37 @@
+package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.clairvoyance;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.ApprenticeAbilitySupport;
+import dev.doctor4t.wathe.game.GameConstants;
+import net.minecraft.util.Identifier;
+
+public final class ClairvoyanceAbility {
+    public static final Identifier ID = SparkDLC.id("clairvoyance");
+    public static final int MANA_COST = 50;
+    // The self outline is now a real cost: everyone sees it, for 10 s (owner D9). / 自身描边成为真正的代价：所有人可见，持续 10 秒（所有者 D9）。
+    public static final int SELF_TICKS = GameConstants.getInTicks(0, 10);
+    public static final int OTHERS_TICKS = GameConstants.getInTicks(0, 10);
+    public static final int COOLDOWN_TICKS = GameConstants.getInTicks(0, 40);
+    public static final int SELF_COLOR = 0x7EE8FF;
+    public static final int TARGET_COLOR = 0xFFFFFF;
+
+    private ClairvoyanceAbility() {
+    }
+
+    public static WitchSkillUseResult use(WitchSkillUseContext context) {
+        return ApprenticeAbilitySupport.use(
+                context,
+                MANA_COST,
+                COOLDOWN_TICKS,
+                "message.sparkdlc.skill.clairvoyance.activated",
+                () -> {
+                    WitchPlayerComponent.KEY.get(context.player()).beginClairvoyance(SELF_TICKS, OTHERS_TICKS);
+                    ApprenticePlayerComponent.KEY.get(context.player()).beginExposure(SELF_TICKS);
+                }
+        );
+    }
+}

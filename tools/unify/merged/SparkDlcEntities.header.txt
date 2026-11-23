@@ -1,0 +1,6 @@
+/**
+ * The entity types of the mod that have no role registry of their own (a role with several entities keeps its
+ * {@code <Role>Entities} class). Each part registers through its own method, at the moment it always did.
+ * 本模组中没有独立职业注册类的实体类型（拥有多个实体的职业保留各自的 {@code <Role>Entities} 类）。每个部分通过自己的方法、
+ * 在一贯的时刻注册。
+ */

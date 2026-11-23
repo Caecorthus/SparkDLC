@@ -1,0 +1,165 @@
+package dev.caecorthus.sparkdlc.role.killer.ninja;
+
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
+import dev.caecorthus.sparkdlc.item.rope.RopeShieldPolicy;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.KillPlayer;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
+import dev.doctor4t.wathe.cca.WorldBlackoutComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheSounds;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Bridges Ninja parry, dark-kill bounty, and death cleanup (items and any active Grappling Hook) through public Wathe
+ * hooks.
+ * 通过 Wathe 公共挂钩桥接忍者格挡、黑暗赏金与死亡清理（物品与任何活动钩爪）。
+ */
+public final class NinjaFeatureService {
+    private static boolean registered;
+
+    private NinjaFeatureService() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        NinjaShopService.register();
+        NinjaGrappleService.register();
+        KillPlayer.BEFORE.register(NinjaFeatureService::beforeKill);
+        KillPlayer.AFTER.register(NinjaFeatureService::afterKill);
+    }
+
+    public static void assignForRole(ServerPlayerEntity player, Role role) {
+        // A (re)assigned role ends any hook still out, whoever holds the item. / 重新分配职业时结束仍在外的钩爪，无论谁持有。
+        NinjaGrappleService.discardHook(player);
+        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
+        if (!NinjaRules.isNinja(role)) {
+            component.clearNinjaParryWindow();
+            return;
+        }
+        // 忍者开局先锁住苦无 60 秒，直接按物品类型设置即可覆盖不同的发放顺序。
+        player.getItemCooldownManager().set(
+                SparkDlcItems.ninjaKnife(),
+                NinjaRules.NINJA_KNIFE_INITIAL_COOLDOWN_TICKS
+        );
+        // 忍者开局同样锁住钩爪 90 秒（所有者 2026-10-07）。/ The Grappling Hook is locked for 90 s at round start too.
+        player.getItemCooldownManager().set(
+                SparkDlcItems.ninjaGrapplingHook(),
+                NinjaRules.GRAPPLING_HOOK_INITIAL_COOLDOWN_TICKS
+        );
+    }
+
+    private static @Nullable KillPlayer.KillResult beforeKill(
+            ServerPlayerEntity victim,
+            @Nullable ServerPlayerEntity killer,
+            Identifier deathReason
+    ) {
+        if (SparkTraitsApi.isLastEscapeActive(victim)) {
+            return null;
+        }
+        // Current forced/admin/scripted call sites pass no killer; only a real, distinct player killer may be parried.
+        // 当前强制、管理和脚本死亡调用不传 killer；格挡只接受真实且非自身的玩家击杀者。
+        if (killer == null || !GameFunctions.isPlayerPlayingAndAlive(victim)) {
+            return null;
+        }
+        // Rope seam ("不破盾"): the strangle passes the parry without ending its window. / 绳索接缝（「不破盾」）：勒杀穿过格挡且不结束格挡窗口。
+        if (RopeShieldPolicy.passesShields(deathReason)) {
+            return null;
+        }
+        GameWorldComponent gameComponent = GameWorldComponent.KEY.get(victim.getServerWorld());
+        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(victim);
+        boolean selfKill = victim.getUuid().equals(killer.getUuid());
+        if (!NinjaRules.shouldParryPlayerKill(
+                NinjaRules.isNinja(gameComponent.getRole(victim)),
+                component.isNinjaParryActive(),
+                selfKill,
+                deathReason
+        )) {
+            return null;
+        }
+
+        component.finishNinjaParryWindow();
+        victim.playSoundToPlayer(WatheSounds.ITEM_PSYCHO_ARMOUR, SoundCategory.PLAYERS, 1.0F, 0.8F);
+        victim.sendMessage(Text.translatable("message.sparkdlc.skill.ninja_parry.blocked"), true);
+        // Achievement record W8, only for a blow the parry really stops (the Ceremonial Sword pierces it and kills).
+        // 成就记录 W8，仅在格挡确实挡下时写入（仪礼剑会穿透格挡并照常击杀）。
+        if (!CeremonialSwordProtectionPolicy.pierces(deathReason)) {
+            AchievementRecords.ninjaParry(victim, killer, deathReason);
+        }
+        return CeremonialSwordProtectionPolicy.afterProtection(deathReason);
+    }
+
+    private static void afterKill(
+            ServerPlayerEntity victim,
+            @Nullable ServerPlayerEntity killer,
+            Identifier deathReason
+    ) {
+        removeNinjaWeapons(victim);
+        NinjaGrappleService.discardHook(victim);
+        if (killer == null || victim.getUuid().equals(killer.getUuid())) {
+            return;
+        }
+
+        GameWorldComponent gameComponent = GameWorldComponent.KEY.get(killer.getServerWorld());
+        if (!NinjaRules.isNinja(gameComponent.getRole(killer))) {
+            return;
+        }
+        int rawBrightness = killer.getServerWorld().getBaseLightLevel(killer.getBlockPos(), 0);
+        boolean blackoutActive = WorldBlackoutComponent.KEY.get(killer.getServerWorld()).isBlackoutActive();
+        if (!NinjaRules.isDarkKillLocation(rawBrightness, blackoutActive)) {
+            return;
+        }
+
+        PlayerShopComponent.KEY.get(killer).addToBalance(NinjaRules.DARK_KILL_BOUNTY);
+        killer.sendMessage(Text.translatable(
+                "message.sparkdlc.ninja.bounty",
+                NinjaRules.DARK_KILL_BOUNTY
+        ), true);
+    }
+
+    private static void removeNinjaWeapons(ServerPlayerEntity player) {
+        boolean changed = false;
+        for (int slot = 0; slot < player.getInventory().size(); slot++) {
+            ItemStack stack = player.getInventory().getStack(slot);
+            if (stack.isOf(SparkDlcItems.ninjaKnife()) || stack.isOf(SparkDlcItems.ninjaShuriken())
+                    || stack.isOf(SparkDlcItems.ninjaGrapplingHook())) {
+                player.getInventory().setStack(slot, ItemStack.EMPTY);
+                changed = true;
+            }
+        }
+        // The personal 2x2 crafting grid is player-owned; external container slots remain untouched.
+        // 个人 2x2 合成格属于玩家；外部容器槽位保持不变。
+        var personalCraftingInput = player.playerScreenHandler.getCraftingInput();
+        for (int slot = 0; slot < personalCraftingInput.size(); slot++) {
+            ItemStack stack = personalCraftingInput.getStack(slot);
+            if (stack.isOf(SparkDlcItems.ninjaKnife()) || stack.isOf(SparkDlcItems.ninjaShuriken())
+                    || stack.isOf(SparkDlcItems.ninjaGrapplingHook())) {
+                personalCraftingInput.setStack(slot, ItemStack.EMPTY);
+                changed = true;
+            }
+        }
+        ItemStack cursorStack = player.currentScreenHandler.getCursorStack();
+        if (cursorStack.isOf(SparkDlcItems.ninjaKnife())
+                || cursorStack.isOf(SparkDlcItems.ninjaShuriken())
+                || cursorStack.isOf(SparkDlcItems.ninjaGrapplingHook())) {
+            player.currentScreenHandler.setCursorStack(ItemStack.EMPTY);
+            changed = true;
+        }
+        if (changed) {
+            player.getInventory().markDirty();
+        }
+    }
+}

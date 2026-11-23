@@ -1,0 +1,6 @@
+{
+  "parent": "sparkdlc:block/junction_box_broken",
+  "textures": {
+    "front": "sparkdlc:block/junction_box_front_engine"
+  }
+}

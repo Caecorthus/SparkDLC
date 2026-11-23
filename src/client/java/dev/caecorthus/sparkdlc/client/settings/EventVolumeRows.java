@@ -1,0 +1,197 @@
+package dev.caecorthus.sparkdlc.client.settings;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * How the audio page lays out the event sound groups: train and round sounds first, then role moments by faction and
+ * traits by category, each row named "role · sound" with the role's guide colour. Each row names the mod whose sounds
+ * it scales: Wathe (a required dependency) or SparkDLC itself ({@link #OWN}); the audio page shows "From ..." only for
+ * Wathe's rows. Role names come from the role's own lang key (the guide's nameKey), with an English fallback; colours
+ * copy the guide entries' {@code color}.
+ * 音频页如何排列事件音效分组：先列车与回合，再按阵营排角色时刻、按分类排天赋；每行写成「角色 · 声音」并配上角色在
+ * 指南里的颜色。每行标明其缩放的声音所属的模组：Wathe（必需依赖）或 SparkDLC 自身（{@link #OWN}）；音频页只为 Wathe
+ * 的行显示「来自……」。角色名取自角色自己的 lang 键（即指南的 nameKey），并带英文后备；颜色照抄指南条目的 {@code color}。
+ */
+final class EventVolumeRows {
+    /** The mod id of the rows for SparkDLC's own sounds. / SparkDLC 自身声音所在行的模组 id。 */
+    static final String OWN = SparkDLC.MOD_ID;
+
+    /** Audio page sections, in display order; ids key the remembered folded state. 音频页分节，按显示顺序。 */
+    enum Section {
+        TRAIN_AND_ROUND("train_round"),
+        ROLE_ANY("role_any"),
+        ROLE_KILLER("role_killer"),
+        ROLE_NEUTRAL("role_neutral"),
+        /**
+         * Team Jiahao (Corrupt Cop, Insider, Sphinx Hao), its own Wathe faction since 2026-11-04.
+         * 嘉豪阵营（黑警、内应、狮身豪），自 2026-11-04 起独立。
+         */
+        ROLE_JIAHAO("role_jiahao"),
+        ROLE_CIVILIAN("role_civilian"),
+        TRAIT_CIVILIAN("trait_civilian");
+
+        private final String id;
+
+        Section(String id) {
+            this.id = id;
+        }
+
+        String id() {
+            return id;
+        }
+
+        String titleKey() {
+            return "screen.sparkdlc.settings.group." + id;
+        }
+    }
+
+    /**
+     * One slider row.
+     *
+     * @param group       the volume group it controls / 控制的音量分组
+     * @param section     where it sits / 所在分节
+     * @param mod         the mod id whose sounds it scales / 声音所属模组 id
+     * @param whoKey      lang key of the role or trait, or null for a plain row / 角色或天赋名的 lang 键，普通行为 null
+     * @param whoFallback English name used if that key is missing / 该键缺失时使用的英文名
+     * @param colour      the role's guide colour as RGB, 0 for none / 角色在指南中的颜色，0 为无
+     * @param preview     a representative sound and the category the game plays it on / 代表性声音及其在游戏中的分类
+     */
+    record Row(EventSoundGroup group, Section section, String mod, @Nullable String whoKey, String whoFallback,
+               int colour, Sample preview) {
+    }
+
+    /** A sample: sound event id and its in-game category. 试听样本：声音事件 id 与游戏内分类。 */
+    record Sample(String sound, SoundCategory category) {
+        Identifier id() {
+            return Identifier.of(sound);
+        }
+    }
+
+    private static Sample sample(String sound, SoundCategory category) {
+        return new Sample(sound, category);
+    }
+
+    static final List<Row> ROWS = List.of(
+            plain(EventSoundGroup.TRAIN_INSIDE, Section.TRAIN_AND_ROUND, "wathe",
+                    sample("wathe:ambient.train.inside", SoundCategory.AMBIENT)),
+            plain(EventSoundGroup.TRAIN_OUTSIDE, Section.TRAIN_AND_ROUND, "wathe",
+                    sample("wathe:ambient.train.outside", SoundCategory.AMBIENT)),
+            plain(EventSoundGroup.TRAIN_HORN, Section.TRAIN_AND_ROUND, "wathe",
+                    sample("wathe:ambient.train.horn", SoundCategory.AMBIENT)),
+            plain(EventSoundGroup.BLACKOUT, Section.TRAIN_AND_ROUND, "wathe",
+                    sample("wathe:ambient.blackout", SoundCategory.PLAYERS)),
+            plain(EventSoundGroup.ROUND_MUSIC, Section.TRAIN_AND_ROUND, "wathe",
+                    sample("wathe:ui.riser", SoundCategory.MASTER)),
+
+            plain(EventSoundGroup.PSYCHO_MODE, Section.ROLE_ANY, "wathe",
+                    sample("wathe:ambient.psycho_drone", SoundCategory.AMBIENT)),
+            plain(EventSoundGroup.SHIELD_CLANG, Section.ROLE_ANY, "wathe",
+                    sample("wathe:item.psycho.armour", SoundCategory.MASTER)),
+
+            role(EventSoundGroup.BELL_RINGER_TOLL, Section.ROLE_KILLER, OWN,
+                    "announcement.role.bell_ringer", "Bell Ringer", 0x8C6D3F,
+                    sample("sparkdlc:ambient.bell_ringer_toll", SoundCategory.PLAYERS)),
+            role(EventSoundGroup.TIME_STEALER_CHIME, Section.ROLE_KILLER, OWN,
+                    "announcement.role.time_stealer", "Time Stealer", 0x2E8B7A,
+                    sample("sparkdlc:ambient.time_stealer_chime", SoundCategory.PLAYERS)),
+
+            role(EventSoundGroup.JESTER_MOMENT, Section.ROLE_NEUTRAL, "noellesroles",
+                    "announcement.role.jester", "Jester", 0xF8C8DC,
+                    sample("noellesroles:ambient.jester_laugh", SoundCategory.MASTER)),
+            role(EventSoundGroup.SHADOW_JESTER_FINALE, Section.ROLE_NEUTRAL, OWN,
+                    "announcement.role.shadow_jester", "Shadow Jester", 0xBE1E5A,
+                    sample("sparkdlc:ambient.shadow_jester", SoundCategory.AMBIENT)),
+            role(EventSoundGroup.VULTURE_CURSE, Section.ROLE_NEUTRAL, OWN,
+                    "announcement.role.vulture", "Vulture", 0xB56700,
+                    sample("sparkdlc:vulture.super_curse", SoundCategory.PLAYERS)),
+
+            role(EventSoundGroup.CORRUPT_COP_MOMENT, Section.ROLE_JIAHAO, "noellesroles",
+                    "announcement.role.corrupt_cop", "Corrupt Cop", 0x193264,
+                    sample("noellesroles:music.corrupt_cop_moment_1", SoundCategory.AMBIENT)),
+            role(EventSoundGroup.ARROGANT_ASF_MUSIC, Section.ROLE_JIAHAO, OWN,
+                    "announcement.role.corrupt_cop", "Corrupt Cop", 0x193264,
+                    sample("sparkdlc:music.takediskrush", SoundCategory.AMBIENT)),
+            role(EventSoundGroup.SPHINX_HAO_FADE, Section.ROLE_JIAHAO, OWN,
+                    "announcement.role.sphinx_hao", "Sphinx Hao", 0xFF7F50,
+                    sample("sparkdlc:music.sphinx_hao_fade", SoundCategory.AMBIENT)),
+
+            role(EventSoundGroup.PIG_CHASE, Section.ROLE_CIVILIAN, OWN,
+                    "announcement.role.pig_god", "Pig God", 0xF2A4FC,
+                    sample("sparkdlc:skill.pig_chase", SoundCategory.PLAYERS)),
+            role(EventSoundGroup.SAINT_BELL, Section.ROLE_CIVILIAN, OWN,
+                    "announcement.role.saint", "Saint", 0xEEBC78,
+                    sample("sparkdlc:ambient.saint_bell", SoundCategory.PLAYERS)),
+            role(EventSoundGroup.HOLY_FLASH_TINNITUS, Section.ROLE_CIVILIAN, OWN,
+                    "announcement.role.saint", "Saint", 0xEEBC78,
+                    sample("sparkdlc:skill.holy_flash_tinnitus", SoundCategory.PLAYERS)),
+
+            role(EventSoundGroup.LAST_STAND_FINAL_MOMENT, Section.TRAIT_CIVILIAN, OWN,
+                    "trait.sparkdlc.last_stand.name", "Last Stand", 0xFFFFFF,
+                    sample("sparkdlc:music.final_moment", SoundCategory.MASTER)),
+            role(EventSoundGroup.DEPRESSION_PSYCHO_RANGE, Section.TRAIT_CIVILIAN, OWN,
+                    "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
+                    sample("sparkdlc:depression.docile_to_rage", SoundCategory.AMBIENT)),
+            role(EventSoundGroup.DEPRESSION_PSYCHO_MUSIC, Section.TRAIT_CIVILIAN, OWN,
+                    "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
+                    sample("sparkdlc:depression.blind_rage_chase", SoundCategory.AMBIENT)),
+            role(EventSoundGroup.DEPRESSION_PSYCHO_ALERT, Section.TRAIT_CIVILIAN, OWN,
+                    "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
+                    sample("sparkdlc:depression.player_was_seen", SoundCategory.AMBIENT))
+    );
+
+    /**
+     * Groups kept in the catalog and the config but given no row, because nothing in the mod plays them:
+     * the Grand Witch's ceremonial sword BGM is no longer started since the sword became a permanent reward
+     * (f29ea44d, 2026-09-14). The catalog still scales the sound if it ever comes back.
+     * 保留在目录和配置中、但不显示行的分组，因为本模组不会播放它们：仪礼剑改为常驻奖励后
+     * （f29ea44d，2026-09-14），不再启动大魔女仪礼剑 BGM。若以后恢复播放，目录仍会按设置缩放它。
+     */
+    static final Set<EventSoundGroup> NOT_PLAYED = EnumSet.of(EventSoundGroup.GRAND_WITCH_CEREMONIAL_SWORD_BGM);
+
+    private EventVolumeRows() {
+    }
+
+    private static Row plain(EventSoundGroup group, Section section, String mod, Sample preview) {
+        return new Row(group, section, mod, null, "", 0, preview);
+    }
+
+    private static Row role(EventSoundGroup group, Section section, String mod, String whoKey, String whoFallback,
+                            int colour, Sample preview) {
+        return new Row(group, section, mod, whoKey, whoFallback, colour, preview);
+    }
+
+    /**
+     * Rows that pass {@code shown} (in game: the sound manager knows the sample), grouped by section in display order.
+     * 通过 {@code shown} 的行（游戏中：声音管理器认识该样本），按分节与显示顺序排列。
+     */
+    static List<List<Row>> visibleBySection(Predicate<Row> shown) {
+        List<List<Row>> sections = new ArrayList<>();
+        for (Section section : Section.values()) {
+            List<Row> rows = new ArrayList<>();
+            for (Row row : ROWS) {
+                if (row.section() == section && shown.test(row)) {
+                    rows.add(row);
+                }
+            }
+            sections.add(rows);
+        }
+        return sections;
+    }
+
+    /** Groups that no row places (a programming error the tests catch). 没有被任何行放置的分组（由测试发现）。 */
+    static Set<EventSoundGroup> unplaced() {
+        Set<EventSoundGroup> missing = EnumSet.allOf(EventSoundGroup.class);
+        ROWS.forEach(row -> missing.remove(row.group()));
+        missing.removeAll(NOT_PLAYED);
+        return missing;
+    }
+}

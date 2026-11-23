@@ -29,8 +29,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -142,6 +144,7 @@ public final class RopeStrangleService {
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             BY_USER.clear();
+            HAS_GRABBED.clear();
             BY_VICTIM.clear();
         });
     }
@@ -184,6 +187,13 @@ public final class RopeStrangleService {
      * cooldown and both players untouched.
      * {@code RopeItem.use} 的服务端入口。返回是否开始了勒杀；任何拒绝都不改动绳索、冷却与双方玩家。
      */
+    /**
+     * Players who already grabbed somebody this round, so the first grab takes the longer cooldown. Cleared by
+     * {@link ResetPlayer}.
+     * 本局已经成功抓取过的玩家；第一次抓取使用更长的冷却。由 {@link ResetPlayer} 清空。
+     */
+    private static final Set<UUID> HAS_GRABBED = new HashSet<>();
+
     static boolean tryStart(ServerPlayerEntity user, Hand hand) {
         ItemStack rope = user.getStackInHand(hand);
         // The traits' new-action gate (Last Escape, a Close Quarters lock on this item): silent, like every weapon.
@@ -209,6 +219,12 @@ public final class RopeStrangleService {
             return false;
         }
         start(user, victim);
+        // First grab of the round takes the longer cooldown, every later one the shorter. Set here, not on release, so a
+        // grab that gets interrupted still pays for itself.
+        // 本局第一次抓取使用更长的冷却，之后每次较短。在这里设置而不是在松手时，被抓取打断的抓取也要付出代价。
+        boolean firstGrab = HAS_GRABBED.add(user.getUuid());
+        user.getItemCooldownManager().set(SparkDlcItems.rope(),
+                firstGrab ? RopeRules.INITIAL_COOLDOWN_TICKS : RopeRules.USE_COOLDOWN_TICKS);
         return true;
     }
 

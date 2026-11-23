@@ -26,6 +26,13 @@ public final class RopeRules {
     public static final int CHANNEL_TICKS = 60;
     public static final int HIT_INTERVAL_TICKS = 20;
     public static final int INTERRUPT_COOLDOWN_TICKS = 200;
+    /**
+     * Item cooldown after a successful grab: {@link #INITIAL_COOLDOWN_TICKS} on the first grab of the round and
+     * {@link #USE_COOLDOWN_TICKS} on every later one, so a Hiro cannot chain two stranglings back to back.
+     * 抓取成功后的物品冷却：本局第一次 {@link #INITIAL_COOLDOWN_TICKS}，之后每次 {@link #USE_COOLDOWN_TICKS}，避免连续两次勒杀。
+     */
+    public static final int INITIAL_COOLDOWN_TICKS = 45 * 20;
+    public static final int USE_COOLDOWN_TICKS = 30 * 20;
     public static final int PRICE = 50;
 
     /** Hit-volume margin of the aim ray, the Taser's. / 瞄准射线的命中体积余量，与电击枪相同。 */

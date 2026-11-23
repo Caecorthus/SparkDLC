@@ -1,0 +1,190 @@
+package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
+
+import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapter;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapters;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.DisguiseTaskReward;
+import dev.doctor4t.wathe.api.event.TaskComplete;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Disguise task income (paid into the live disguise wallet, mirroring the real payer) and the money
+ * visibility answer for the client CanSeeMoney listener. Also the single routing point for killer income
+ * earned while disguised (amendment W): the wallet mixins credit it to the stashed Black Raven wallet here,
+ * never to the live disguise wallet.
+ * 伪装任务收入（按真实付款方规则发放到当前伪装钱包）以及客户端 CanSeeMoney 监听器使用的金钱可见性。
+ * 同时是伪装期间杀手收入的唯一转入点（修订 W）：钱包 mixin 在此将其记入存档中的黑羽鸦钱包，
+ * 从不进入当前伪装钱包。
+ */
+public final class BlackRavenDisguiseEconomy {
+    /** Server thread only: set while a routed killer receipt is reported to the purse. / 仅服务端线程：转入收入上报团队资金时置位。 */
+    private static final ThreadLocal<Boolean> ROUTED_PURSE_RECEIPT = ThreadLocal.withInitial(() -> Boolean.FALSE);
+    private static boolean registered;
+
+    private BlackRavenDisguiseEconomy() {
+    }
+
+    /**
+     * Owner view of a Wathe shop component, added by PlayerShopComponentBlackRavenDisguiseMixin so wallet
+     * mixins can tell whose balance a Wathe call credits without capturing method locals.
+     * Wathe 商店组件的持有者视图，由 PlayerShopComponentBlackRavenDisguiseMixin 注入，使钱包 mixin
+     * 无需捕获局部变量即可判断 Wathe 调用入账的是谁的余额。
+     */
+    public interface ShopOwnerAccess {
+        @Nullable PlayerEntity sparkdlc$blackRavenShopOwner();
+    }
+
+    /**
+     * Registers the single TaskComplete listener and the disguise's rule for the killer-team purse.
+     * 注册唯一的 TaskComplete 监听器，以及伪装对杀手团队资金的规则。
+     */
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        TaskComplete.EVENT.register((player, task) -> onTaskComplete(player));
+        // Keeps the killer-team purse on the stashed Black Raven wallet's side of a disguised Raven. While disguised
+        // the purse neither funds nor is debited by disguise purchases, and income landing in the disguise wallet is
+        // not reported as killer income; routed Raven-wallet kill rewards are reported by recordPurseReceipt instead.
+        // 让杀手团队资金只与伪装黑羽鸦存档中的黑羽鸦钱包相关。伪装期间团队资金既不资助也不承担伪装购买，进入伪装钱包的收入
+        // 也不作为杀手收入上报；转入黑羽鸦钱包的击杀奖励改由 recordPurseReceipt 上报。
+        KillerTeamEconomyService.registerWalletRule(new KillerTeamEconomyService.WalletRule() {
+            @Override
+            public boolean countsIncome(PlayerEntity player) {
+                return acceptsKillerTeamContribution(player);
+            }
+
+            @Override
+            public boolean keepsPurchasesPersonal(PlayerEntity player) {
+                return BlackRavenDisguiseService.routesKillerIncome(player);
+            }
+        });
+    }
+
+    /** TRUE/FALSE for a disguised player; null means "no opinion" (not disguised). / 伪装玩家返回 TRUE/FALSE；未伪装返回 null。 */
+    public static @Nullable Boolean moneyVisibleFor(PlayerEntity player) {
+        Identifier acting = BlackRavenActingRole.actingRoleId(player);
+        if (acting == null) {
+            return null;
+        }
+        // Missing adapter fails closed: the disguise shows no money. / 缺少适配器时失败关闭：伪装不显示金钱。
+        BlackRavenDisguiseAdapter adapter = BlackRavenDisguiseAdapters.get(acting);
+        return adapter != null && adapter.moneyVisible();
+    }
+
+    /**
+     * Task money the disguise earns on top of what other listeners already pay the raw Black Raven.
+     * The trait feature pays +50 to a Conscience/Impostor holder whose raw role has no native task money, and
+     * black_raven has none, so the NoellesRoles and {@code RoleEconomyService} mirrors skip it to avoid double pay.
+     * 伪装在其他监听器已向真实黑羽鸦支付之外可获得的任务金钱。词条功能会向真实职业无原生任务金钱的
+     * 良知/内鬼持有者支付 +50，而 black_raven 没有原生任务金钱，因此诺艾尔与 {@code RoleEconomyService} 镜像跳过以免重复。
+     */
+    static int taskRewardAmount(@Nullable DisguiseTaskReward policy, boolean conscience, boolean impostor) {
+        if (policy == null) {
+            return 0;
+        }
+        boolean traitsPayNothing = !conscience && !impostor;
+        return switch (policy) {
+            case NOELLES_NATIVE, ROLE_ECONOMY_GOOD_ROLE -> traitsPayNothing ? BlackRavenDisguiseRules.TASK_REWARD : 0;
+            case OWN_ROLE -> BlackRavenDisguiseRules.TASK_REWARD;
+            case NONE -> 0;
+        };
+    }
+
+    // Killer income routing (amendment W). / 杀手收入转入（修订 W）。
+
+    /** Owner of the shop when its killer income must go to the stashed Raven wallet, else null. / 需转入黑羽鸦钱包时返回持有者。 */
+    public static @Nullable PlayerEntity killerIncomeOwner(@Nullable PlayerShopComponent shop) {
+        PlayerEntity owner = shopOwner(shop);
+        return owner != null && BlackRavenDisguiseService.routesKillerIncome(owner) ? owner : null;
+    }
+
+    /**
+     * Credits a Wathe killer receipt to the stashed Raven wallet; false leaves the caller's original credit
+     * in place. {@code purseReceipt} mirrors {@code KillerTeamEconomyService}'s rule that only action rewards (not
+     * Wathe's timed passive income) feed the killer-team purse.
+     * 将 Wathe 杀手收入记入存档黑羽鸦钱包；返回 false 时调用方保留原始入账。purseReceipt 对应 {@code KillerTeamEconomyService} 的
+     * 规则：只有行动奖励（非 Wathe 定时被动收入）计入杀手团队资金。
+     */
+    public static boolean creditKillerIncome(@Nullable PlayerShopComponent shop, int amount, boolean purseReceipt) {
+        PlayerEntity owner = killerIncomeOwner(shop);
+        if (owner == null) {
+            return false;
+        }
+        int before = BlackRavenDisguiseService.ravenWalletBalance(owner);
+        BlackRavenDisguiseService.creditRavenWallet(owner, amount);
+        long received = (long) BlackRavenDisguiseService.ravenWalletBalance(owner) - before;
+        if (purseReceipt && received > 0) {
+            recordPurseReceipt(owner, received);
+        }
+        return true;
+    }
+
+    /**
+     * Killer-team purse gate: income landing in a disguise wallet is not killer income, so only a routed
+     * Raven-wallet receipt may contribute while disguised.
+     * 杀手团队资金门禁：进入伪装钱包的收入不是杀手收入，伪装期间只有转入黑羽鸦钱包的收入可计入。
+     */
+    public static boolean acceptsKillerTeamContribution(@Nullable PlayerEntity player) {
+        return player == null
+                || ROUTED_PURSE_RECEIPT.get()
+                || !BlackRavenDisguiseService.routesKillerIncome(player);
+    }
+
+    private static void onTaskComplete(ServerPlayerEntity player) {
+        if (!GameFunctions.isPlayerPlayingAndAlive(player)
+                || !BlackRavenRules.isBlackRaven(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
+            return;
+        }
+        Identifier acting = BlackRavenActingRole.actingRoleId(player);
+        BlackRavenDisguiseAdapter adapter = BlackRavenDisguiseAdapters.get(acting);
+        if (adapter == null) {
+            return;
+        }
+        DisguiseTaskReward policy = adapter.taskReward();
+        int amount = switch (policy) {
+            case NOELLES_NATIVE, ROLE_ECONOMY_GOOD_ROLE -> taskRewardAmount(
+                    policy,
+                    SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE),
+                    SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)
+            );
+            case OWN_ROLE, NONE -> taskRewardAmount(policy, false, false);
+        };
+        if (amount > 0) {
+            // Live wallet = the disguise identity's own wallet (amendment W). / 当前钱包即伪装身份自己的钱包。
+            PlayerShopComponent.KEY.get(player).addToBalance(amount);
+        }
+    }
+
+    private static @Nullable PlayerEntity shopOwner(@Nullable PlayerShopComponent shop) {
+        return (Object) shop instanceof ShopOwnerAccess access ? access.sparkdlc$blackRavenShopOwner() : null;
+    }
+
+    /**
+     * Reports a routed receipt to the killer-team purse ({@code KillerTeamEconomyService}): this calls only its
+     * {@code recordIncome(PlayerEntity, long)}, directly. The Raven wallet was already credited.
+     * 向杀手团队资金（{@code KillerTeamEconomyService}）上报转入收入：只直接调用其
+     * {@code recordIncome(PlayerEntity, long)}。此时黑羽鸦钱包已入账。
+     */
+    private static void recordPurseReceipt(PlayerEntity owner, long received) {
+        boolean outer = !ROUTED_PURSE_RECEIPT.get();
+        ROUTED_PURSE_RECEIPT.set(Boolean.TRUE);
+        try {
+            KillerTeamEconomyService.recordIncome(owner, received);
+        } finally {
+            if (outer) {
+                ROUTED_PURSE_RECEIPT.remove();
+            }
+        }
+    }
+}

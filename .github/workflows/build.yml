@@ -36,9 +36,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      # `build` runs none of the verify tasks, so verifyAll is named explicitly: it runs every module's
-      # verify<Module> aggregate from gradle/verify/.
-      # `build` 不会运行任何校验任务，因此显式指定 verifyAll：它运行 gradle/verify/ 下每个模块的 verify<Module> 汇总任务。
+      # `build` runs none of the verify tasks, so verifyAll is named explicitly: it runs every verify task of
+      # gradle/verify/.
+      # `build` 不会运行任何校验任务，因此显式指定 verifyAll：它运行 gradle/verify/ 下的全部校验任务。
       - name: Build and verify
         run: ./gradlew --no-daemon --console=plain build verifyAll
 

@@ -1,0 +1,51 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:well_trained",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.well_trained.name",
+      "summaryKey": "trait.sparkdlc.well_trained.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "低理智也不影响状态。警职词条，只会出现在老兵身上。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "理智自然下降的速度降低 30%。"
+            },
+            {
+              "type": "bullet",
+              "text": "低理智的负面效果对你无效：理智低于 55% 也不会看到别人手里的假物品（被下毒时照样会眼花），低于 20% 也能照常疾跑。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "理智降到 -100% 仍然会精神崩溃。少了假物品这类提醒，更要自己盯着理智，记得做任务。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:veteran"
+      ],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#4A90E2",
+      "order": 950
+    }
+  ]
+}

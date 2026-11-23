@@ -1,0 +1,181 @@
+package dev.caecorthus.sparkdlc.client.mixin.role.killer.phantom;
+
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageLayout;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerSelectionPageState;
+import dev.caecorthus.sparkdlc.client.role.killer.phantom.PhantomBackpackPlayerWidget;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
+import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Items;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.text.Text;
+import org.agmas.noellesroles.Noellesroles;
+import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * 给 Wathe 受限背包界面追加幽灵“让其他玩家隐身”头像栏。
+ *
+ * <p>客户端列表先过滤自己、死亡/旁观、被饕餮吞噬的玩家，保证界面符合需求；
+ * 服务端仍会在收包后完整重判一遍，避免客户端状态延迟或改包绕过规则。</p>
+ */
+@Mixin(LimitedInventoryScreen.class)
+public abstract class PhantomBackpackInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
+    @Shadow @Final public ClientPlayerEntity player;
+
+    @Unique private final List<PhantomBackpackPlayerWidget> sparkdlc$phantomPlayerWidgets = new ArrayList<>();
+    @Unique private PlayerPageSwitchWidget sparkdlc$phantomPreviousPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$phantomNextPageWidget;
+    @Unique private int sparkdlc$phantomCurrentPage;
+
+    public PhantomBackpackInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
+        super(handler, inventory, title);
+    }
+
+    @Inject(method = "init", at = @At("HEAD"))
+    private void sparkdlc$phantomAddInvisibilityButtons(CallbackInfo ci) {
+        if (player == null || player.getWorld() == null) {
+            return;
+        }
+
+        GameWorldComponent gameWorld = GameWorldComponent.KEY.get(player.getWorld());
+        if (!gameWorld.isRole(player, Noellesroles.PHANTOM)) {
+            return;
+        }
+
+        sparkdlc$phantomAddPlayerSelectionUI();
+    }
+
+    @Unique
+    private void sparkdlc$phantomAddPlayerSelectionUI() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || client.player.networkHandler == null) {
+            return;
+        }
+
+        List<UUID> targetUuids = sparkdlc$phantomCollectTargets(client.player);
+        int y = PlayerPageLayout.getPlayerRowY(this.height);
+        sparkdlc$phantomPlayerWidgets.clear();
+        sparkdlc$phantomCurrentPage = PlayerSelectionPageState.getPhantomPage();
+
+        for (UUID targetUuid : targetUuids) {
+            PlayerListEntry playerListEntry = client.player.networkHandler.getPlayerListEntry(targetUuid);
+            PhantomBackpackPlayerWidget child = new PhantomBackpackPlayerWidget(
+                    0,
+                    y,
+                    targetUuid,
+                    playerListEntry
+            );
+            sparkdlc$phantomPlayerWidgets.add(child);
+            addDrawableChild(child);
+        }
+
+        sparkdlc$phantomPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+                0,
+                y,
+                Items.PURPLE_DYE.getDefaultStack(),
+                Text.translatable("ui.sparkdlc.pagination.previous"),
+                button -> {
+                    sparkdlc$phantomCurrentPage--;
+                    sparkdlc$phantomRefreshPage();
+                }
+        ));
+        sparkdlc$phantomNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+                0,
+                y,
+                Items.LIME_DYE.getDefaultStack(),
+                Text.translatable("ui.sparkdlc.pagination.next"),
+                button -> {
+                    sparkdlc$phantomCurrentPage++;
+                    sparkdlc$phantomRefreshPage();
+                }
+        ));
+
+        sparkdlc$phantomRefreshPage();
+    }
+
+    @Unique
+    private List<UUID> sparkdlc$phantomCollectTargets(ClientPlayerEntity localPlayer) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        List<UUID> targetUuids = new ArrayList<>();
+        for (UUID targetUuid : localPlayer.networkHandler.getPlayerUuids()) {
+            if (targetUuid.equals(localPlayer.getUuid())) {
+                continue;
+            }
+
+            PlayerEntity targetPlayer = client.world == null ? null : client.world.getPlayerByUuid(targetUuid);
+            if (targetPlayer == null
+                    || !GameFunctions.isPlayerPlayingAndAlive(targetPlayer)
+                    || !GameFunctions.isPlayerAliveAndSurvival(targetPlayer)
+                    || SwallowedPlayerComponent.isPlayerSwallowed(targetPlayer)) {
+                continue;
+            }
+
+            targetUuids.add(targetUuid);
+        }
+        return targetUuids;
+    }
+
+    @Unique
+    private void sparkdlc$phantomRefreshPage() {
+        int totalPages = PlayerPageLayout.getTotalPageCount(sparkdlc$phantomPlayerWidgets.size());
+        if (sparkdlc$phantomCurrentPage < 0) {
+            sparkdlc$phantomCurrentPage = 0;
+        }
+        if (sparkdlc$phantomCurrentPage >= totalPages) {
+            sparkdlc$phantomCurrentPage = totalPages - 1;
+        }
+        PlayerSelectionPageState.setPhantomPage(sparkdlc$phantomCurrentPage);
+
+        int startIndex = sparkdlc$phantomCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
+        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkdlc$phantomPlayerWidgets.size());
+        int visibleCount = endIndex - startIndex;
+        int y = PlayerPageLayout.getPlayerRowY(this.height);
+        boolean showPrevious = sparkdlc$phantomCurrentPage > 0;
+        boolean showNext = sparkdlc$phantomCurrentPage < totalPages - 1;
+        int groupStartX = PlayerPageLayout.getCenteredGroupStartX(this.width, visibleCount, showPrevious, showNext);
+        int playerStartX = groupStartX + (showPrevious ? PlayerPageLayout.SLOT_APART : 0);
+
+        for (int i = 0; i < sparkdlc$phantomPlayerWidgets.size(); i++) {
+            PhantomBackpackPlayerWidget widget = sparkdlc$phantomPlayerWidgets.get(i);
+            boolean visible = i >= startIndex && i < endIndex;
+            widget.visible = visible;
+            widget.active = visible;
+            if (visible) {
+                int visibleIndex = i - startIndex;
+                widget.setX(playerStartX + visibleIndex * PlayerPageLayout.SLOT_APART);
+                widget.setY(y);
+            }
+        }
+
+        if (sparkdlc$phantomPreviousPageWidget != null) {
+            sparkdlc$phantomPreviousPageWidget.visible = showPrevious;
+            sparkdlc$phantomPreviousPageWidget.active = showPrevious;
+            sparkdlc$phantomPreviousPageWidget.setX(groupStartX);
+            sparkdlc$phantomPreviousPageWidget.setY(y);
+        }
+        if (sparkdlc$phantomNextPageWidget != null) {
+            sparkdlc$phantomNextPageWidget.visible = showNext;
+            sparkdlc$phantomNextPageWidget.active = showNext;
+            sparkdlc$phantomNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
+            sparkdlc$phantomNextPageWidget.setY(y);
+        }
+    }
+}

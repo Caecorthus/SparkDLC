@@ -1,0 +1,84 @@
+# Identifiers that only carried a former mod's name (stage 3, "One name"), renamed by rename_identifiers.py. old / new are
+# whole Java identifiers (a trailing "(" limits the match to calls and declarations); declared_in lists the files that declare
+# old (the plan checks that old is there and new is not); scope is "tree" (every source file that names old: the two
+# production trees, gametest, local tests and harness, docs/roles|core|client-helpers) or "declared" (only declared_in).
+# No saved-data, wire, registry or lang name is in this table.
+# 只因带有旧模组名字的标识符（第三阶段“统一名字”），由 rename_identifiers.py 改名。old / new 为完整的 Java 标识符（以“(”结尾时只匹配调用
+# 与声明）；declared_in 列出声明 old 的文件（plan 检查 old 在其中、new 不在）；scope 为 tree（所有引用 old 的源码文件）或 declared
+# （只改 declared_in）。表中没有任何存档、网络、注册或语言键名字。
+old	new	scope	declared_in	reason
+isSparkWitchRole	isSkillRole	tree	src/main/java/dev/caecorthus/sparkdlc/SparkDlcRoles.java,src/main/java/dev/caecorthus/sparkdlc/role/SparkDlcRoleRegistry.java	the roles the role skill framework (WitchSkill*) assigns and runs skills for
+isRegisteredSparkWitchRole	isRegisteredSkillRole	tree	src/main/java/dev/caecorthus/sparkdlc/role/SparkDlcRoleRegistry.java	the role list behind isSkillRole
+registerFactionApiRoles	registerOwnRoles	tree	src/main/java/dev/caecorthus/sparkdlc/role/SparkDlcRoleRegistry.java	registers the mod's own roles (through SparkFactionApi.registerRole)
+isSparkWitchJiahaoMember	isCorruptCopTeammate	tree	src/main/java/dev/caecorthus/sparkdlc/role/jiahao/corruptcop/CorruptCopRules.java	Insider, Sphinx Hao or Sniper: the Corrupt Cop's Team Jiahao partners (its Javadoc)
+SPARKWITCH_BOTTOM_PADDING	OWN_HUD_BOTTOM_PADDING	tree	src/main/java/dev/caecorthus/sparkdlc/role/civilian/saint/SaintHudLayoutRules.java	padding under the corner rows of the mod's own role HUD
+hasSparkWitchSkill	hasRoleSkill	tree	src/main/java/dev/caecorthus/sparkdlc/role/civilian/saint/SaintHudLayoutRules.java,src/client/java/dev/caecorthus/sparkdlc/client/hud/RoleHudDispatcher.java	whether the player holds a role skill (WitchPlayerComponent.getActiveSkillId)
+SPARKWITCH_KIDNAPPER_ID	KIDNAPPER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/role/civilian/coroner/CoronerRules.java	the mod's Kidnapper role id
+isSparkWitchKidnapper	isKidnapper	tree	src/main/java/dev/caecorthus/sparkdlc/role/civilian/coroner/CoronerRules.java	role is the Kidnapper
+addSparkWitchKidnapperShop	addKidnapperShop	tree	src/main/java/dev/caecorthus/sparkdlc/role/civilian/coroner/CoronerShopService.java	the Kidnapper disguise's shop rows
+onSparkWitchRay	onRay	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/bomber/drone/DroneWeaponHits.java	a hitscan role weapon reaching a drone
+onSparkWitchDeathRay	onDeathRay	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/bomber/drone/DroneWeaponHits.java,src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the Death Ray
+onSparkWitchShellSweep	onShellSweep	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/bomber/drone/DroneWeaponHits.java	the Potion Gunner shell sweep
+onSparkWitchBackblast	onBackblast	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/bomber/drone/DroneWeaponHits.java,src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the launcher backblast
+onSparkWitchUsecRifle	onUsecRifle	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/bomber/drone/DroneWeaponHits.java,src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the USEC rifle
+onSparkWitchBlast	onAreaBlast	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/bomber/drone/DroneWeaponHits.java	an area blast reported through SeekerDeviceHits.onBlast
+onSparkWitchShotgun	onShotgun	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the Hunter shotgun
+onSparkWitchFeatherBlade	onFeatherBlade	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the feather blade
+onSparkWitchSphinxHaoFist	onSphinxHaoFist	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the Sphinx Hao fist
+onSparkWitchM1903A4	onM1903A4	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the M1903A4
+onSparkWitchClock	onClock	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/partyanimal/PartygoerWeaponHits.java	the Time Stealer clock
+hitSparkWitchWorldTarget	hitWorldTarget	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/serialkiller/SerialPistolShotService.java	a claimed non-player target (puppet, Seeker device)
+sparkwitch(	sparkdlc(	declared	src/main/java/dev/caecorthus/sparkdlc/role/killer/blackraven/disguise/BlackRavenDisguiseRules.java	Identifier.of("sparkdlc", path); only the call/declaration, file-limited (the word is in old-id strings elsewhere)
+SPARKSTRENGTH_GOOD_ROLE	ROLE_ECONOMY_GOOD_ROLE	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/blackraven/disguise/adapter/DisguiseTaskReward.java	RoleEconomyService good-role pay (its Javadoc); not serialized
+SPARKWITCH	OWN_ROLE	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/blackraven/disguise/adapter/DisguiseTaskReward.java	the mod's own civilian roles' economy pay (its Javadoc); not serialized
+sparkStrengthBlast	blastCentre	tree	src/main/java/dev/caecorthus/sparkdlc/role/civilian/bear/ricochet/BearRicochetRules.java	the blast scope's centre (its Javadoc)
+sparkStrengthAbsorbed	centreRayAbsorbed	tree	src/main/java/dev/caecorthus/sparkdlc/role/killer/hunter/DoubleBarrelShotgunItem.java	a drone or Partygoer absorbed the centre ray
+SPARKSTRENGTH_CURED_TREATABLE_TARGET	sparkdlc$CURED_TREATABLE_TARGET	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/civilian/toxicologist/ToxicologistAntidoteItemMixin.java	mixin static field: the mod's member prefix
+SPARKSTRENGTH_CURE_TARGET	sparkdlc$CURE_TARGET	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/civilian/toxicologist/ToxicologistAntidoteItemMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$REVOLVER_RANGE	sparkdlc$REVOLVER_RANGE	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/civilian/seeker/SeekerGunTargetMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$DERRINGER_RANGE	sparkdlc$DERRINGER_RANGE	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/civilian/seeker/SeekerGunTargetMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$KNIFE_RANGE	sparkdlc$KNIFE_RANGE	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/civilian/seeker/SeekerKnifeTargetMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$SEARCH_PADDING	sparkdlc$SEARCH_PADDING	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/civilian/seeker/SeekerThrowingAxeMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH_DEATH_ROLE	sparkdlc$DEATH_ROLE	tree	src/main/java/dev/caecorthus/sparkdlc/mixin/role/special/wraith/PlayerBodyEntityWraithRoleMixin.java	mixin static field (tracked data): the mod's member prefix
+SPARKWITCH$PSYCHO_SKIN	sparkdlc$PSYCHO_SKIN	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/role/witch/curser/CurserConfusionSkinMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$PISTOL_RANGE	sparkdlc$PISTOL_RANGE	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/role/civilian/seeker/SeekerDemonHunterTargetMixin.java,src/client/java/dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianDemonHunterTargetMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$STEVE_SKIN	sparkdlc$STEVE_SKIN	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenSkinTexturesMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH$STEVE_TEXTURE	sparkdlc$STEVE_TEXTURE	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenPlayerTextureMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH_WRAITH_ID	sparkdlc$WRAITH_ID	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/EffectiveAlignmentGoalTextMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_ROLE_COLUMNS	sparkdlc$ROLE_COLUMNS	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_ROLE_BUTTON_WIDTH	sparkdlc$ROLE_BUTTON_WIDTH	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_ROLE_BUTTON_HEIGHT	sparkdlc$ROLE_BUTTON_HEIGHT	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_ROLE_GAP_X	sparkdlc$ROLE_GAP_X	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_ROLE_GAP_Y	sparkdlc$ROLE_GAP_Y	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_ROLE_TOP_OFFSET	sparkdlc$ROLE_TOP_OFFSET	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_CONTROL_BOTTOM_PADDING	sparkdlc$CONTROL_BOTTOM_PADDING	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKTRAITS_NAV_BUTTON_WIDTH	sparkdlc$NAV_BUTTON_WIDTH	tree	src/client/java/dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.java	mixin static field: the mod's member prefix
+SPARKWITCH_FIEND_ID	FIEND_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/civilian/laststand/LastStandFinalMomentService.java	the Fiend role id
+isSparkWitchFiend	isFiend	tree	src/main/java/dev/caecorthus/sparkdlc/trait/civilian/laststand/LastStandFinalMomentService.java	role is the Fiend
+SparkWitchManaCompatibility	WitchMana	tree	src/main/java/dev/caecorthus/sparkdlc/trait/civilian/laststand/LastStandFinalMomentService.java	private nested class: adds witch mana through WitchPlayerComponent
+SPARKWITCH_USEC_ID	USEC_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/civilian/police/PoliceRoleCategory.java	the USEC role id
+SPARKWITCH_SAVIOR_ID	SAVIOR_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/civilian/police/PoliceRoleCategory.java	the Savior role id
+SPARKWITCH_PIG_GOD_ID	PIG_GOD_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java	the role id
+SPARKWITCH_SAINT_ID	SAINT_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java	the role id
+SPARKWITCH_NOA_ID	NOA_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java	the role id
+SPARKWITCH_SHERRY_ID	SHERRY_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java	the role id
+SPARKWITCH_BELL_RINGER_ID	BELL_RINGER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java	the role id
+SPARKWITCH_SPECTER_ID	SPECTER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java	the role id
+SPARKWITCH_BLIND_ID	BLIND_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveTraitEligibility.java,src/main/java/dev/caecorthus/sparkdlc/trait/civilian/depression/DepressionRules.java	the Blind role id
+SPARKWITCH_MOD_ID	MOD_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/selection/TraitRoleEligibility.java	the namespace "sparkdlc" of the role ids listed there
+SPARKWITCH_GRAND_WITCH_ID	GRAND_WITCH_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_ACCOMPLICE_ID	ACCOMPLICE_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_ABYSS_LISTENER_ID	ABYSS_LISTENER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_POTION_GUNNER_ID	POTION_GUNNER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_RIFTWALKER_ID	RIFTWALKER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_BEWITCHED_ID	BEWITCHED_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_MURDEROUS_WITCH_ID	MURDEROUS_WITCH_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_INSIDER_ID	INSIDER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_SPHINX_HAO_ID	SPHINX_HAO_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+SPARKWITCH_SNIPER_ID	SNIPER_ID	tree	src/main/java/dev/caecorthus/sparkdlc/trait/effective/EffectiveWinService.java	the role id
+isSparkTraitsFinalMomentActive	finalMomentActive	tree	src/client/java/dev/caecorthus/sparkdlc/client/hooks/WitchInstinctSuppressionClientHooks.java	SparkTraitsApi.isFinalMomentActive for a nullable world (isFinalMomentActive is the API call it makes)
+sparkTraitsHidden	hiddenByTrait	tree	src/client/java/dev/caecorthus/sparkdlc/client/role/jiahao/sphinxhao/SphinxHaoInstinctRules.java	the target is hidden from the viewer's instinct by a trait
+strengthRowsBottom	walletRowsBottom	tree	src/client/java/dev/caecorthus/sparkdlc/client/role/civilian/tarotreader/TarotDivinationHudLayout.java	bottom of the killer team-wallet row (its Javadoc)
+strengthName	disguiseName	tree	src/client/java/dev/caecorthus/sparkdlc/client/role/civilian/emma/EmmaVisibleName.java	the name a disguise of the mod shows
+sparkFactionId	factionIdOfConstant	tree	src/main/java/dev/caecorthus/sparkdlc/achievement/Factions.java	SparkFactionApi.factionIdOf for a Faction constant name
+sparkFactionLookup	factionLookup	tree	src/main/java/dev/caecorthus/sparkdlc/achievement/Factions.java	the lookup parameter of fromWatheName

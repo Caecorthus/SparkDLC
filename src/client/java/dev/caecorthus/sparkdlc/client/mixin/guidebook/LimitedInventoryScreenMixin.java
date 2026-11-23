@@ -1,0 +1,120 @@
+package dev.caecorthus.sparkdlc.client.mixin.guidebook;
+
+import dev.caecorthus.sparkdlc.client.guidebook.GuidebookScreen;
+import dev.caecorthus.sparkdlc.guidebook.GuidebookInputState;
+import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
+import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+/**
+ * Adds the guide without replacing the live inventory screen or its handler.
+ * 在保留背包界面和容器生命周期的前提下加入指南。
+ */
+@Mixin(LimitedInventoryScreen.class)
+public abstract class LimitedInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
+    @Unique
+    private GuidebookScreen sparkdlc$guide;
+    @Unique
+    private GuidebookInputState sparkdlc$guideInput;
+
+    protected LimitedInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
+        super(handler, inventory, title);
+    }
+
+    @Inject(method = "init", at = @At("RETURN"))
+    private void sparkdlc$addGuidebook(CallbackInfo ci) {
+        LimitedInventoryScreen screen = (LimitedInventoryScreen) (Object) this;
+        if (sparkdlc$guide == null) {
+            sparkdlc$guide = GuidebookScreen.embedded(screen);
+        }
+        sparkdlc$guide.init(this.client, this.width, this.height);
+        // Resize reinitializes this screen while a guide-owned press may still be held.
+        // 窗口缩放会重新初始化同一界面，保留尚未释放的指南输入。
+        if (sparkdlc$guideInput == null) {
+            sparkdlc$guideInput = new GuidebookInputState();
+        }
+
+        ScreenEvents.afterRender(screen).register((current, context, mouseX, mouseY, delta) -> {
+            context.getMatrices().push();
+            // Persistent navigation stays below shop tooltips (z 400); the modal layer sits above them at 500, so
+            // price-tag glyphs (z 400.03) no longer bleed through the scrim.
+            // 常驻目录位于商品说明（z 400）下方；模态层位于其上方的 500，价签文字（z 400.03）不再透出遮罩。
+            context.getMatrices().translate(0, 0, sparkdlc$guide.isModal() ? 500 : 100);
+            sparkdlc$guide.render(context, mouseX, mouseY, delta);
+            context.getMatrices().pop();
+        });
+        ScreenEvents.remove(screen).register(current -> sparkdlc$guide.removed());
+        ScreenMouseEvents.allowMouseClick(screen).register((current, x, y, button) -> {
+            boolean captured = sparkdlc$guideInput.pressMouse(button, sparkdlc$guide.capturesMouse(x, y));
+            sparkdlc$guide.mouseClicked(x, y, button);
+            return !captured;
+        });
+        ScreenMouseEvents.allowMouseRelease(screen).register((current, x, y, button) -> {
+            boolean captured = sparkdlc$guideInput.releaseMouse(button, sparkdlc$guide.isModal());
+            if (captured) {
+                sparkdlc$guide.mouseReleased(x, y, button);
+            }
+            return !captured;
+        });
+        ScreenMouseEvents.allowMouseScroll(screen).register((current, x, y, horizontal, vertical) -> {
+            boolean captured = sparkdlc$guide.capturesMouse(x, y);
+            if (captured) {
+                sparkdlc$guide.mouseScrolled(x, y, horizontal, vertical);
+            }
+            return !captured;
+        });
+        ScreenKeyboardEvents.allowKeyPress(screen).register((current, key, scanCode, modifiers) -> {
+            boolean captured = sparkdlc$guide.capturesKeyboard();
+            boolean handled = sparkdlc$guide.keyPressed(key, scanCode, modifiers);
+            return !sparkdlc$guideInput.pressKey(key, captured || handled);
+        });
+        ScreenKeyboardEvents.allowKeyRelease(screen).register((current, key, scanCode, modifiers) ->
+                !sparkdlc$guideInput.releaseKey(key, sparkdlc$guide.capturesKeyboard()));
+    }
+
+    // The modal guide owns the pointer: the inventory, Wathe's shop/item tooltips and the info
+    // cards must not hover under the scrim. -100000 rather than -1 because shop widgets can sit at negative x (about
+    // -10 at 427 px). The guide itself still receives the real coordinates through afterRender.
+    // 模态指南独占指针：遮罩下的背包、Wathe 商店与物品提示以及信息卡都不应响应悬停。使用
+    // -100000 而非 -1，因为商店控件可能位于负横坐标（427 像素宽时约为 -10）。指南本身仍通过 afterRender 获得真实坐标。
+    @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    private int sparkdlc$hideMouseX(int mouseX) {
+        return sparkdlc$guide != null && sparkdlc$guide.isModal() ? -100000 : mouseX;
+    }
+
+    @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true, ordinal = 1)
+    private int sparkdlc$hideMouseY(int mouseY) {
+        return sparkdlc$guide != null && sparkdlc$guide.isModal() ? -100000 : mouseY;
+    }
+
+    // Fabric has no per-screen drag/character events in this Minecraft version.
+    // 当前版本的 Fabric 没有界面级拖动和字符事件，因此仅补充这两个入口。
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (sparkdlc$guide != null && sparkdlc$guideInput.dragMouse(button, sparkdlc$guide.isModal())) {
+            sparkdlc$guide.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+            return true;
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        if (sparkdlc$guide != null && sparkdlc$guide.capturesKeyboard()) {
+            sparkdlc$guide.charTyped(chr, modifiers);
+            return true;
+        }
+        return super.charTyped(chr, modifiers);
+    }
+}

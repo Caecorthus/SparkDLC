@@ -1,0 +1,61 @@
+package dev.caecorthus.sparkdlc.role.civilian.engineer;
+
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.game.GameConstants;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * 工程师增强的可调规则集中处。
+ *
+ * <p>所有价格、范围、持续时间和商店条目 ID 都放在这里，后续平衡数值时只需要改这一处，
+ * 其它物品、实体、商店和回放逻辑都读取这些常量。</p>
+ */
+public final class EngineerRules {
+    public static final Identifier ENGINEER_ID = Identifier.of("noellesroles", "engineer");
+
+    public static final String CAPTURE_DEVICE_ENTRY_ID = "sparkdlc_capture_device";
+    /** Kept from the old Power Restoration, so purchase records and the other id lists still match. / 沿用旧的电力恢复系统 id，购买记录与其他 id 列表照样匹配。 */
+    public static final String SABOTAGE_REPAIR_ENTRY_ID = "sparkdlc_power_restoration";
+    public static final String WATHE_BLACKOUT_ENTRY_ID = "blackout";
+
+    public static final int CAPTURE_DEVICE_PRICE = 125;
+    public static final int SABOTAGE_REPAIR_PRICE = 250;
+
+    public static final double CAPTURE_RADIUS = 5.0D;
+    public static final double CAPTURE_RADIUS_SQUARED = CAPTURE_RADIUS * CAPTURE_RADIUS;
+    public static final int CAPTURE_STUN_TICKS = GameConstants.getInTicks(0, 5);
+    public static final int CAPTURE_MAX_LIFETIME_TICKS = GameConstants.getInTicks(2, 0);
+
+    private EngineerRules() {
+    }
+
+    public static boolean isEngineer(@Nullable Role role) {
+        return role != null && ENGINEER_ID.equals(role.identifier());
+    }
+
+    public static @Nullable Identifier roleId(@Nullable Role role) {
+        return role == null ? null : role.identifier();
+    }
+
+    /**
+     * Whether a capture device placed under real role {@code placedAs} may still report to an owner whose real role is
+     * now {@code currentRole}. An unknown placement role (devices saved before it was recorded) keeps reporting.
+     * 放置时的真实职业未知（旧版本实体）时保持原行为；否则只有放置者真实职业未变时才发放捕捉报告。
+     */
+    public static boolean reportsToOwner(@Nullable Identifier placedAs, @Nullable Identifier currentRole) {
+        return placedAs == null || placedAs.equals(currentRole);
+    }
+
+    /**
+     * Who may see a placed capture device: its owner, anyone not alive in the round, and spectators or creative players.
+     * The server tracks the entity only to these viewers ({@code CaptureDeviceEntity#canBeSpectated}) and the client
+     * renderer draws it only for them, so a living non-owner's client never receives the trap at all.
+     * 谁能看见已放置的捕捉装置：放置者本人、不在局内存活的人，以及旁观或创造模式玩家。服务端只向这些观看者追踪该实体
+     * （CaptureDeviceEntity#canBeSpectated），客户端渲染器也只为他们绘制，因此局内存活的非放置者客户端根本收不到这个陷阱。
+     */
+    public static boolean deviceVisibleTo(boolean viewerIsOwner, boolean viewerPlayingAndAlive,
+                                          boolean viewerSpectatingOrCreative) {
+        return viewerIsOwner || !viewerPlayingAndAlive || viewerSpectatingOrCreative;
+    }
+}

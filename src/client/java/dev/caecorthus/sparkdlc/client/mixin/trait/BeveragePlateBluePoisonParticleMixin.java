@@ -1,0 +1,69 @@
+package dev.caecorthus.sparkdlc.client.mixin.trait;
+
+import dev.caecorthus.sparkdlc.client.trait.killer.BluePoisonMarkerClientStore;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.SparkDlcParticles;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
+import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.client.WatheClient;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.agmas.noellesroles.Noellesroles;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(BeveragePlateBlockEntity.class)
+public abstract class BeveragePlateBluePoisonParticleMixin {
+    @Inject(method = "clientTick", at = @At("HEAD"), remap = false)
+    private static void sparkdlc$showBluePoisonParticle(
+            World world,
+            BlockPos pos,
+            BlockState state,
+            BlockEntity blockEntity,
+            CallbackInfo ci
+    ) {
+        // The blue layer is no longer in the platter's client NBT: only viewers the server sent the marker to hold it.
+        // 蓝毒层已不在餐盘的客户端 NBT 中：只有被服务端发送过该标记的观察者才持有它。
+        if (!SparkDlcServerConnection.isConfirmedServer()
+                || !BluePoisonMarkerClientStore.contains(world, pos)
+                || !sparkdlc$canSeeBluePoison(world)) {
+            return;
+        }
+        if (world.getRandom().nextBetween(0, 20) < 17) {
+            return;
+        }
+        // When normal poison also exists, Wathe's own red skull still renders beside this blue skull.
+        // 如果普通毒也存在，Wathe 原本的红骷髅会和这里的蓝骷髅并存。
+        world.addParticle(
+                SparkDlcParticles.BLUE_POISON,
+                pos.getX() + 0.5f,
+                pos.getY(),
+                pos.getZ() + 0.5f,
+                0f,
+                0.05f,
+                0f
+        );
+    }
+
+    @Unique
+    private static boolean sparkdlc$canSeeBluePoison(World world) {
+        PlayerEntity viewer = MinecraftClient.getInstance().player;
+        if (viewer == null) {
+            return false;
+        }
+        GameWorldComponent game = GameWorldComponent.KEY.get(world);
+        return ConsciencePoisonerService.shouldShowHiddenBluePoisonParticles(
+                ConsciencePoisonerService.isConsciencePoisoner(viewer, game),
+                game.isRole(viewer, Noellesroles.TOXICOLOGIST),
+                WatheClient.canSeeSpectatorInformation()
+        );
+    }
+}

@@ -1,0 +1,213 @@
+package dev.caecorthus.sparkdlc.achievement;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * One event of Wathe's server-side match record, as a SparkDLC server hands it to clients when a round ends. Values
+ * are the event's NBT fields flattened to strings by {@link RecordFlattener}: nested fields use dotted keys
+ * ({@code player.role}), UUIDs are in their usual text form, booleans are {@code "1"}/{@code "0"} and lists are
+ * comma-joined. Older servers never send the fields added since, so every typed accessor takes a fallback.
+ * Wathe 服务端对局记录中的一条事件，由 SparkDLC 服务端在回合结束时交给客户端。{@code values} 是该事件的 NBT 字段，
+ * 由 {@link RecordFlattener} 统一转成字符串：嵌套字段用带点的键（{@code player.role}），UUID 为常见的文本形式，
+ * 布尔值为 {@code "1"}/{@code "0"}，列表以逗号连接。旧服务器不会发送后来新增的字段，所以每个类型化读取方法都带默认值。
+ *
+ * @param type   Wathe record type, e.g. {@code death}, {@code shop_purchase} Wathe 记录类型
+ * @param tick   world ticks since the match started 对局开始后的世界 tick 数
+ * @param actor  who did it (for a death: the killer), or null 执行者（死亡事件里是击杀者），没有则为 null
+ * @param target who it was done to (for a death: the victim), or null 承受者（死亡事件里是死者），没有则为 null
+ */
+public record MatchEvent(String type, int tick, UUID actor, UUID target, Map<String, String> values) {
+    public static final String DEATH = "death";
+    public static final String SHOP_PURCHASE = "shop_purchase";
+    public static final String TASK_COMPLETE = "task_complete";
+    public static final String PLAYER_POISONED = "player_poisoned";
+    public static final String ITEM_USE = "item_use";
+    public static final String ITEM_PICKUP = "item_pickup";
+    public static final String SKILL_USE = "skill_use";
+    /** A mod's own named event; its id is in {@code event}. 模组自定义的具名事件，id 在 {@code event} 中。 */
+    public static final String GLOBAL_EVENT = "global_event";
+    public static final String SHIELD_BLOCKED = "shield_blocked";
+    /** Wathe's opening role snapshot: {@code player.uuid}, {@code player.role}, … Wathe 开局身份快照。 */
+    public static final String ROLE_ASSIGNED = "role_assigned";
+    /** A role change: {@code player}, {@code from}, {@code to}, {@code cause}, {@code source}. 身份变化。 */
+    public static final String ROLE_CHANGED = "sparkdlc:role_changed";
+    /** Psycho mode started ({@code active} 1) or ended (0) for {@code actor}. 疯魔模式开始或结束。 */
+    public static final String PSYCHO = "sparkdlc:psycho";
+    /** {@code actor} finished eating or drinking {@code item}; {@code kind} is food or drink. 吃完或喝完一样东西。 */
+    public static final String CONSUME = "sparkdlc:consume";
+    /**
+     * {@code actor}'s total coins gained this match ({@code amount}), written once at match end.
+     * {@code actor} 本局获得的金币总数（{@code amount}），在对局结束时写入一次。
+     */
+    public static final String INCOME = "sparkdlc:income";
+    /**
+     * The first event of a match: {@code game_mode}, {@code map_effect}, {@code player_count}.
+     * 对局的第一条事件：{@code game_mode}、{@code map_effect}、{@code player_count}。
+     */
+    public static final String MATCH_START = "match_start";
+    /**
+     * The match is over: {@code win_status} (Wathe {@code WinStatus} name) and, for a neutral win, the
+     * {@code winners} list. Only {@link #PLAYER_RESULT}s follow it.
+     * 对局结束：{@code win_status}（Wathe 的 {@code WinStatus} 名称），中立获胜时还有 {@code winners} 列表。之后只有
+     * {@link #PLAYER_RESULT}。
+     */
+    public static final String MATCH_END = "match_end";
+    /**
+     * One participant's result after {@link #MATCH_END}: {@code player}, {@code end_status}, {@code is_winner}.
+     * {@link #MATCH_END} 之后单名参与者的结算：{@code player}、{@code end_status}、{@code is_winner}。
+     */
+    public static final String PLAYER_RESULT = "player_result";
+    /** {@code actor} is connected for this match (at the start, or on joining); {@code pos}. {@code actor} 在本局连接（开局时或中途加入）。 */
+    public static final String PLAYER_JOIN = "player_join";
+    /** {@code actor} disconnected; {@code pos}. {@code actor} 断开连接。 */
+    public static final String PLAYER_LEAVE = "player_leave";
+    /**
+     * {@code actor} took {@code item} from the platter at {@code pos.x}/{@code pos.y}/{@code pos.z}; {@code poisoner}
+     * when that platter was poisoned.
+     * {@code actor} 从位于 {@code pos.x}/{@code pos.y}/{@code pos.z} 的餐盘拿走 {@code item}；餐盘被下毒时带 {@code poisoner}。
+     */
+    public static final String PLATTER_TAKE = "platter_take";
+
+    /**
+     * {@link #GLOBAL_EVENT} id: {@code actor}'s death just before it was a Last Stand false death; they come
+     * back about 5 seconds later.
+     * {@link #GLOBAL_EVENT} 的 id：{@code actor} 紧挨着的上一次死亡是背水一战的假死，约 5 秒后复活。
+     */
+    public static final String LAST_STAND_TRIGGERED = "sparkdlc:last_stand_triggered";
+    /**
+     * {@link #GLOBAL_EVENT} id: the Pathogen ({@code actor}) brought {@code target} back to life with the T-Virus.
+     * {@link #GLOBAL_EVENT} 的 id：病原体（{@code actor}）用 T 病毒复活了 {@code target}。
+     */
+    public static final String PATHOGEN_REVIVED = "sparkdlc:pathogen_revived";
+    /**
+     * The {@code death_reason} Wathe gives a living player who disconnects mid-round.
+     * Wathe 给对局中途断线的存活玩家记的 {@code death_reason}。
+     */
+    public static final String ESCAPED = "wathe:escaped";
+
+    public MatchEvent {
+        values = values == null ? Map.of() : Map.copyOf(values);
+    }
+
+    public boolean is(String eventType) {
+        return eventType.equals(type);
+    }
+
+    /** Whether this is a {@link #GLOBAL_EVENT} with this id. 是否为 id 为此值的 {@link #GLOBAL_EVENT}。 */
+    public boolean isGlobal(String eventId) {
+        return is(GLOBAL_EVENT) && eventId.equals(values.get("event"));
+    }
+
+    /**
+     * Whether this is a death Wathe wrote because a living player disconnected ({@link #ESCAPED}).
+     * 是否为存活玩家断线时 Wathe 写下的死亡（{@link #ESCAPED}）。
+     */
+    public boolean isDisconnect() {
+        return is(DEATH) && ESCAPED.equals(values.get("death_reason"));
+    }
+
+    public boolean has(String key) {
+        return values.containsKey(key);
+    }
+
+    /** The raw text of a field, or null. 字段的原始文本，没有则为 null。 */
+    public String value(String key) {
+        return values.get(key);
+    }
+
+    /** The raw text of a field, or {@code fallback} when missing or blank. 字段的原始文本；缺失或为空时返回 {@code fallback}。 */
+    public String value(String key, String fallback) {
+        String value = values.get(key);
+        return value == null || value.isBlank() ? fallback : value;
+    }
+
+    /** A boolean field; false when missing. 布尔字段；缺失时为 false。 */
+    public boolean bool(String key) {
+        return bool(key, false);
+    }
+
+    /**
+     * A boolean field: {@code "1"}/{@code "true"} and other non-zero numbers are true, {@code "0"}/{@code "false"}
+     * false; anything else is {@code fallback}.
+     * 布尔字段：{@code "1"}、{@code "true"} 及其他非零数字为真，{@code "0"}、{@code "false"} 为假；其他情况返回 {@code fallback}。
+     */
+    public boolean bool(String key, boolean fallback) {
+        String value = values.get(key);
+        if (value == null) {
+            return fallback;
+        }
+        String trimmed = value.trim();
+        if (trimmed.equalsIgnoreCase("true")) {
+            return true;
+        }
+        if (trimmed.equalsIgnoreCase("false")) {
+            return false;
+        }
+        try {
+            return Double.parseDouble(trimmed) != 0;
+        } catch (NumberFormatException exception) {
+            return fallback;
+        }
+    }
+
+    /** A whole-number field (a decimal is truncated), or {@code fallback}. 整数字段（小数会截断），否则返回 {@code fallback}。 */
+    public int intValue(String key, int fallback) {
+        String value = values.get(key);
+        if (value == null) {
+            return fallback;
+        }
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException notAnInt) {
+            try {
+                double parsed = Double.parseDouble(value.trim());
+                return Double.isFinite(parsed) ? (int) parsed : fallback;
+            } catch (NumberFormatException notANumber) {
+                return fallback;
+            }
+        }
+    }
+
+    /** A numeric field, or {@code fallback}. 数值字段，否则返回 {@code fallback}。 */
+    public double doubleValue(String key, double fallback) {
+        String value = values.get(key);
+        if (value == null) {
+            return fallback;
+        }
+        try {
+            double parsed = Double.parseDouble(value.trim());
+            return Double.isNaN(parsed) ? fallback : parsed;
+        } catch (NumberFormatException exception) {
+            return fallback;
+        }
+    }
+
+    /** A UUID field, or null when missing or malformed. UUID 字段；缺失或格式错误时为 null。 */
+    public UUID uuid(String key) {
+        String value = values.get(key);
+        if (value == null) {
+            return null;
+        }
+        try {
+            return UUID.fromString(value.trim());
+        } catch (IllegalArgumentException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * A list field split back into its entries; empty when missing. Entries must not contain commas (ids, numbers and
+     * UUIDs never do).
+     * 拆回各项的列表字段；缺失时为空。各项本身不能含逗号（id、数字和 UUID 都不会有）。
+     */
+    public List<String> list(String key) {
+        String value = values.get(key);
+        if (value == null || value.isEmpty()) {
+            return List.of();
+        }
+        return Arrays.stream(value.split(",", -1)).map(String::trim).toList();
+    }
+}

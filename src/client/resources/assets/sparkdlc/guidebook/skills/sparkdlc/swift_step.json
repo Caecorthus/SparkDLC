@@ -1,0 +1,63 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:swift_step",
+      "tab": "SKILL",
+      "sourceModId": "sparkdlc",
+      "nameKey": "skill.sparkdlc.swift_step.name",
+      "summaryKey": "skill.sparkdlc.swift_step.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "预备魔女随机技能之一"
+            },
+            {
+              "type": "paragraph",
+              "text": "短时间大幅加速，用来逃命或赶路；两层充能，可以连用两次。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "按技能键（默认 G），消耗 20 魔力和一层充能，获得速度 III，持续 5 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "一共两层充能。用掉的每一层各自在 20 秒后恢复，互不影响；只有两层都用完时，技能才进入冷却，等到有一层恢复为止。"
+            },
+            {
+              "type": "bullet",
+              "text": "开局有 30 秒冷却。"
+            },
+            {
+              "type": "section",
+              "text": "使用建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "五种技能里最便宜、节奏最快的一个，可以放心多用：被追杀时连用两层拉开距离，听到动静时第一时间赶到现场。"
+            },
+            {
+              "type": "bullet",
+              "text": "留一层在手里，遇到危险时随时能跑。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "sparkdlc:apprentice_witch"
+      ],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#9CF26F",
+      "order": 120
+    }
+  ]
+}

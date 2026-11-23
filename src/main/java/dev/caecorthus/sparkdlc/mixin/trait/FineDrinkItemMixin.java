@@ -1,0 +1,31 @@
+package dev.caecorthus.sparkdlc.mixin.trait;
+
+import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvent;
+import org.agmas.noellesroles.item.FineDrinkItem;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+/**
+ * Silences NoellesRoles' fine drink feedback while preserving its mood and record logic.
+ * 静音 NoellesRoles 高级饮品反馈，同时保留其理智与记录逻辑。
+ */
+@Mixin(value = FineDrinkItem.class, remap = false)
+public abstract class FineDrinkItemMixin {
+    @Redirect(
+            method = "finishUsing",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/player/PlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;)V"
+            )
+    )
+    private void sparkdlc$skipCautiousFineDrinkSound(PlayerEntity player, SoundEvent sound) {
+        if (SparkDlcServerConnection.isUnconfirmedClientEntity(player)
+                || !GlobalTraitService.shouldSuppressCautiousSounds(player)) {
+            player.playSound(sound);
+        }
+    }
+}

@@ -1,0 +1,100 @@
+{
+  "entries": [
+    {
+      "id": "noellesroles:recaller",
+      "tab": "ROLE",
+      "sourceModId": "noellesroles",
+      "nameKey": "announcement.role.recaller",
+      "summaryKey": "guidebook.sparkdlc.noellesroles.recaller.summary",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "你可以回溯一切，力挽狂澜吗？"
+            },
+            {
+              "type": "paragraph",
+              "text": "好人阵营的机动位。你可以在任意位置留下一个存档点，之后花金币瞬间传送回去，用来脱险、赶路或制造不在场证明。"
+            },
+            {
+              "type": "section",
+              "text": "能力",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "回溯",
+                  "tone": "info"
+                },
+                {
+                  "text": "（技能键）：第一次按下，在当前位置设置存档点，之后冷却 10 秒。再次按下花费 100 金币传送回存档点，存档点随之清空，冷却 30 秒。"
+                }
+              ]
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:roles/noellesroles/recaller",
+              "text": "演示：设存档点和回溯"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "收入",
+                  "tone": "info"
+                },
+                {
+                  "text": "：存活时每 10 秒获得 5 金币，没有上限；每完成一个任务额外获得 50 金币。"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "text": "商店",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "【末影珍珠】125 金币，【紫颂果】35 金币，都不限量。拿在手上时其他活人看不到。"
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "把存档点设在安全的地方，比如自己的房间或人多的车厢，遇险时一键撤离。"
+            },
+            {
+              "type": "bullet",
+              "text": "回溯要花 100 金币，身上至少留够一次传送的钱。"
+            },
+            {
+              "type": "bullet",
+              "text": "【末影珍珠】可以扔到想去的地方；【紫颂果】吃下后会随机传送到附近，适合紧急脱身。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "存档点只能用一次，回溯之后要重新设置。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "noellesroles"
+      ],
+      "color": "#9EFFFF",
+      "order": 80
+    }
+  ]
+}

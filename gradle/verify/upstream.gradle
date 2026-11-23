@@ -1,0 +1,157 @@
+// The pinned upstream jars: Wathe and NoellesRoles in libs/, the two mods SparkDLC is built on and mixes into. Every
+// selector, lambda number and descriptor the mod names in THEIR classes (gradle/verify/upstream-selectors.gradle,
+// gradle/verify/black-raven.gradle) was read from exactly these two files, so the files themselves are pinned here:
+// which jars are present, their checksums and the metadata inside them. No ASM is needed for that.
+//
+// gradle.properties holds the pins (`wathe_version`, `wathe_sha256`, `noellesroles_version`, `noellesroles_sha256`,
+// `mod_version`), once for the whole mod; the build must use exactly its values (no -P or ~/.gradle override). The
+// literals in `upstreamBaselines` and `auditedRelease` below are the versions the selector tables were last AUDITED
+// against: moving a pin in gradle.properties therefore fails here until the tables have been read again from the new
+// jar and the literal is moved with them, on purpose.
+//
+// 固定的上游 jar：libs/ 中的 Wathe 与 NoellesRoles，即 SparkDLC 所依赖并向其注入的两个模组。本模组在“它们的”类中点名的每个
+// 选择器、lambda 编号与描述符（gradle/verify/upstream-selectors.gradle、gradle/verify/black-raven.gradle）都读自这两个文件，
+// 因此在这里固定文件本身：存在哪些 jar、它们的校验和及其内部的元数据。这部分不需要 ASM。
+// 钉值集中在 gradle.properties（`wathe_version`、`wathe_sha256`、`noellesroles_version`、`noellesroles_sha256`、
+// `mod_version`），全模组只有一份；构建必须原样使用其中的值（不得用 -P 或 ~/.gradle 覆盖）。下方 `upstreamBaselines` 与
+// `auditedRelease` 中的字面量是选择器表最近一次“审计”所依据的版本：因此改动 gradle.properties 中的钉值会在这里失败，直到按新
+// jar 重新核对这些表并同步改动字面量为止——这是有意为之。
+
+def sha256 = verifySupport.sha256
+def modMetadataOf = verifySupport.modMetadataOf
+
+def pinnedProperties = [
+        "mod_version",
+        "wathe_version",
+        "wathe_sha256",
+        "noellesroles_version",
+        "noellesroles_sha256"
+]
+// The baseline is confirmed per release; the release is SparkDLC's own version.
+// 基线按发布版本确认；发布版本即 SparkDLC 自身的版本。
+def auditedRelease = "2.0.0"
+def upstreamBaselines = [
+        // The runtime Wathe build that the released 1.5.6 pack ships; the whole mod builds against this one jar. The
+        // historical Windows build of the same commit (sha256 95d7c06…) numbers javac lambdas differently.
+        // 正式版 1.5.6 整合包所带的运行时 Wathe 构建，整个模组都基于这一个 jar 构建；同一提交的旧 Windows 构建
+        // （sha256 95d7c06…）的 javac lambda 编号不同。
+        wathe       : [
+                versionProperty: "wathe_version",
+                auditedVersion : "1.5.6-spark-1.21.1",
+                sha256Property : "wathe_sha256",
+                environment    : "*",
+                depends        : [minecraft: "~${project.minecraft_version}".toString()]
+        ],
+        // The runtime baseline build (sha1 b2302b9…); the historical Windows build of the same sources numbers its
+        // packet lambdas differently (see noellesRolesLambdas in upstream-selectors.gradle).
+        // 运行时基线构建（sha1 b2302b9…）；同一源码的旧 Windows 构建对数据包 lambda 的编号不同
+        // （见 upstream-selectors.gradle 中的 noellesRolesLambdas）。
+        noellesroles: [
+                versionProperty: "noellesroles_version",
+                auditedVersion : "1.7.6-h1.5.6-spark",
+                sha256Property : "noellesroles_sha256",
+                depends        : [wathe: "1.5.6-spark-1.21.1"]
+        ]
+]
+def supersededUpstreamJars = [
+        "wathe-1.5.7-spark-1.21.1.jar",
+        "noellesroles-1.7.7-h1.5.7-spark.jar"
+]
+def upstreamJarFiles = fileTree("libs") {
+    upstreamBaselines.keySet().each { modId ->
+        include "${modId}-*.jar"
+    }
+}
+
+tasks.register("verifyUpstreamJars") {
+    group = "verification"
+    description = "Checks the pinned Wathe/NoellesRoles jars in libs/: the gradle.properties pins, the audited versions, the exact jar set, checksums and embedded metadata."
+    inputs.file("gradle.properties")
+    inputs.files(upstreamJarFiles)
+    pinnedProperties.each { propertyName ->
+        inputs.property(propertyName, project.property(propertyName))
+    }
+    inputs.property("minecraft_version", project.minecraft_version)
+
+    doLast {
+        def properties = new Properties()
+        file("gradle.properties").withInputStream { properties.load(it) }
+        pinnedProperties.each { propertyName ->
+            def configuredValue = properties.getProperty(propertyName)
+            if (configuredValue == null || configuredValue.isEmpty() ||
+                    project.property(propertyName).toString() != configuredValue) {
+                throw new GradleException(
+                        "${propertyName} must be exactly the gradle.properties pin; " +
+                                "found file=${configuredValue}, project=${project.property(propertyName)}"
+                )
+            }
+        }
+        if (project.mod_version.toString() != auditedRelease) {
+            throw new GradleException(
+                    "Compatibility release drift: expected ${auditedRelease}, found ${project.mod_version}"
+            )
+        }
+
+        def expectedJarNames = upstreamBaselines.collect { modId, baseline ->
+            "${modId}-${baseline.auditedVersion}.jar".toString()
+        }.sort()
+        def actualJarNames = upstreamJarFiles.files.collect { it.name }.sort()
+        if (actualJarNames != expectedJarNames) {
+            throw new GradleException(
+                    "Upstream jar set drift in libs/: expected exactly ${expectedJarNames}, found ${actualJarNames}"
+            )
+        }
+        supersededUpstreamJars.each { fileName ->
+            if (file("libs/${fileName}").exists()) {
+                throw new GradleException("Superseded upstream jar must be absent: ${fileName}")
+            }
+        }
+
+        upstreamBaselines.each { modId, baseline ->
+            def pinnedVersion = project.property(baseline.versionProperty).toString()
+            if (pinnedVersion != baseline.auditedVersion) {
+                throw new GradleException(
+                        "Upstream baseline drift for ${modId}: audited ${baseline.auditedVersion}, " +
+                                "${baseline.versionProperty} is ${pinnedVersion}"
+                )
+            }
+            def upstreamJar = file("libs/${modId}-${baseline.auditedVersion}.jar")
+            if (!upstreamJar.isFile()) {
+                throw new GradleException("Missing upstream jar: ${upstreamJar}")
+            }
+            def expectedHash = project.findProperty(baseline.sha256Property)?.toString()
+            if (!(expectedHash ==~ /[0-9a-f]{64}/)) {
+                throw new GradleException(
+                        "Missing or malformed ${baseline.sha256Property} pin in gradle.properties: ${expectedHash}"
+                )
+            }
+            def actualHash = sha256(upstreamJar)
+            if (actualHash != expectedHash) {
+                throw new GradleException(
+                        "${upstreamJar.name} checksum mismatch: expected ${expectedHash}, found ${actualHash}"
+                )
+            }
+
+            def metadata = modMetadataOf(upstreamJar)
+            if (metadata.id?.toString() != modId || metadata.version?.toString() != baseline.auditedVersion) {
+                throw new GradleException(
+                        "${upstreamJar.name} metadata mismatch: expected ${modId} ${baseline.auditedVersion}, " +
+                                "found ${metadata.id} ${metadata.version}"
+                )
+            }
+            if (baseline.environment != null && metadata.environment?.toString() != baseline.environment) {
+                throw new GradleException(
+                        "${upstreamJar.name} environment mismatch: expected ${baseline.environment}, found ${metadata.environment}"
+                )
+            }
+            baseline.depends.each { dependencyId, expectedPredicate ->
+                def actualPredicate = metadata.depends?.get(dependencyId)?.toString()
+                if (actualPredicate != expectedPredicate) {
+                    throw new GradleException(
+                            "${upstreamJar.name} dependency drift: ${dependencyId} expected ${expectedPredicate}, found ${actualPredicate}"
+                    )
+                }
+            }
+        }
+    }
+}

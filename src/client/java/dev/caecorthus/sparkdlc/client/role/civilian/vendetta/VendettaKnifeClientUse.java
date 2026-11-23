@@ -1,0 +1,57 @@
+package dev.caecorthus.sparkdlc.client.role.civilian.vendetta;
+
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.UseVendettaKnifeC2SPacket;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaKnifeRules;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
+import java.util.UUID;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.World;
+
+/** Resolves the release target client-side; the payload remains untrusted server input. */
+public final class VendettaKnifeClientUse {
+    private VendettaKnifeClientUse() {
+    }
+
+    public static void onStoppedUsing(
+            ItemStack stack,
+            World world,
+            LivingEntity user,
+            int remainingUseTicks,
+            int maxUseTicks
+    ) {
+        if (!world.isClient || user.isSpectator() || !(user instanceof PlayerEntity attacker)
+                || SparkTraitsApi.blocksWeaponAction(attacker, stack)
+                || maxUseTicks - remainingUseTicks < VendettaKnifeRules.MINIMUM_HOLD_TICKS) {
+            return;
+        }
+        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.get(attacker);
+        UUID killerUuid = component.getBoundKillerUuid();
+        if (killerUuid == null || !component.isActive() || !component.isKnifeAvailable()) {
+            return;
+        }
+
+        // Client targeting is feedback only; the server repeats role, UUID, distance, and sight validation.
+        // 客户端瞄准仅用于反馈；服务端会重新校验身份、UUID、距离与视线。
+        // The bound killer's Raven Form crow stands in for it (the server validates and resolves the owner).
+        // 被绑定杀手的化鸦乌鸦可代替其本人（由服务端校验并解析为主人）。
+        HitResult collision = ProjectileUtil.getCollision(
+                attacker,
+                entity -> entity instanceof PlayerEntity target
+                        && !target.isSpectator()
+                        && killerUuid.equals(target.getUuid())
+                        || entity instanceof BlackRavenCrowEntity crow && crow.isOwnedBy(killerUuid),
+                VendettaKnifeRules.MAX_RANGE
+        );
+        if (collision instanceof EntityHitResult entityHit) {
+            ClientPlayNetworking.send(new UseVendettaKnifeC2SPacket(entityHit.getEntity().getId()));
+        }
+    }
+}

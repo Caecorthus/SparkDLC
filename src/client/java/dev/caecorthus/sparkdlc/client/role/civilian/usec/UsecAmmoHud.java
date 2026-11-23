@@ -1,0 +1,186 @@
+package dev.caecorthus.sparkdlc.client.role.civilian.usec;
+
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecCooldowns;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecMagazineItem;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
+import dev.caecorthus.sparkdlc.util.OffMatchUse;
+import dev.doctor4t.wathe.client.WatheClient;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
+import net.minecraft.util.Language;
+
+import java.util.List;
+
+/**
+ * Role-owned presentation: the USEC's bottom-right ammo line (S2), registered as its own {@code HudRenderCallback}
+ * like the Seeker's status line, so no shared HUD dispatcher changes. It reads only the local player's own held rifle
+ * stack (synced {@code CUSTOM_DATA}), its synced vanilla item cooldown and the local zoom; the server stays
+ * authoritative. Any holder sees it, off-match included (owner, 2026-11-05; gates in {@link UsecAmmoHudRules#visible}).
+ * It hides under F1 or, in a live round, without Wathe's HUD, and it is never part of the witch skill inventory panel.
+ * 职业自有展示：USEC 右下角弹药行（S2），与搜寻者状态行一样注册为独立的 {@code HudRenderCallback}，不改动任何共享 HUD
+ * 分发。只读取本地玩家自己手持步枪的物品数据（已同步的 {@code CUSTOM_DATA}）、已同步的原版物品冷却与本地倍率；服务端保持
+ * 权威。任何持有者都能看到，含对局外（所有者 2026-11-05；门槛见 {@link UsecAmmoHudRules#visible}）。F1 时，或进行中的对局里
+ * Wathe HUD 隐藏时不显示，且从不属于魔女技能背包面板。
+ */
+public final class UsecAmmoHud {
+    // Render-thread caches. Item components are immutable, so one CUSTOM_DATA instance always decodes to the same rifle
+    // state; the built Texts and widths are pure functions of their parts, the active Language (replaced on every
+    // resource reload) and the font renderer, so they are rebuilt only when one of those changes.
+    // 渲染线程缓存。物品组件不可变，同一个 CUSTOM_DATA 实例总是解码出相同的步枪状态；构建出的文本与宽度只取决于其片段、
+    // 当前 Language（每次资源重载都会换新）与字体渲染器，因此只在其中之一变化时重建。
+    // The key also holds the font glyph options (`HudFontOptions`), which a toggle changes without a reload.
+    // 键还包含字形选项（`HudFontOptions`），切换它们不会触发资源重载。
+    private static boolean cachedStateRead;
+    private static NbtComponent cachedStateData;
+    private static UsecRifleState cachedState = UsecRifleState.EMPTY;
+    private static Language cachedLanguage;
+    private static TextRenderer cachedRenderer;
+    private static int cachedFontOptions = -1;
+    private static List<UsecAmmoHudRules.Part> cachedLineParts;
+    private static Text cachedLine;
+    private static int cachedLineWidth;
+    private static int cachedTokenWidth;
+    private static UsecAmmoHudRules.Part cachedZoomPart;
+    private static Text cachedZoomText;
+    private static int cachedZoomWidth;
+    private static int cachedZoomSampleWidth;
+
+    private UsecAmmoHud() {
+    }
+
+    static void render(DrawContext context, RenderTickCounter tickCounter) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+        if (player == null || client.world == null) {
+            return;
+        }
+        // Cheapest exit first: anyone not holding the rifle leaves here. / 先做开销最小的判断。
+        ItemStack rifle = player.getMainHandStack();
+        if (!UsecRifleClient.isRifle(rifle)) {
+            return;
+        }
+        // HudRenderCallback still fires under F1, unlike Wathe's own HUD layer; follow both.
+        // HudRenderCallback 在 F1 下仍会触发，与 Wathe 自身 HUD 层不同；两者都要遵循。
+        boolean watheHud = WatheClient.trainComponent != null && WatheClient.trainComponent.hasHud();
+        if (!UsecAmmoHudRules.visible(SparkDlcServerConnection.isConfirmedServer(), client.options.hudHidden,
+                watheHud, OffMatchUse.mode(player), player.isSpectator(), true)) {
+            return;
+        }
+        UsecRifleState state = rifleState(rifle);
+        UsecCooldowns.Status cooldown = UsecBoltWatchClient.status(player);
+        float progress = cooldown.coolingDown()
+                ? player.getItemCooldownManager().getCooldownProgress(SparkDlcItems.usecRifle(),
+                tickCounter.getTickDelta(true))
+                : 0.0F;
+        UsecAmmoHudRules.Snapshot snapshot = new UsecAmmoHudRules.Snapshot(state.chamber(), state.magazine(),
+                state.suppressor(), cooldown, progress, UsecScopeProfile.isActive(), UsecZoomState.magnification());
+
+        TextRenderer renderer = client.textRenderer;
+        Language language = Language.getInstance();
+        int fontOptions = HudFontOptions.current();
+        if (language != cachedLanguage || renderer != cachedRenderer || fontOptions != cachedFontOptions) {
+            cachedLanguage = language;
+            cachedRenderer = renderer;
+            cachedFontOptions = fontOptions;
+            cachedLineParts = null;
+            cachedZoomPart = null;
+            cachedZoomSampleWidth = renderer.getWidth(
+                    Text.translatable(UsecAmmoHudRules.ZOOM_KEY, UsecAmmoHudRules.ZOOM_TAG_LAYOUT_SAMPLE));
+        }
+        List<UsecAmmoHudRules.Part> parts = UsecAmmoHudRules.line(snapshot);
+        if (!parts.equals(cachedLineParts)) {
+            cachedLineParts = parts;
+            cachedLine = compose(parts);
+            cachedLineWidth = renderer.getWidth(cachedLine);
+            cachedTokenWidth = renderer.getWidth(text(parts.getFirst()));
+        }
+        Text line = cachedLine;
+        int lineWidth = cachedLineWidth;
+        UsecAmmoHudRules.Part zoom = UsecAmmoHudRules.zoomTag(snapshot);
+        if (zoom != null && !zoom.equals(cachedZoomPart)) {
+            cachedZoomPart = zoom;
+            cachedZoomText = text(zoom);
+            cachedZoomWidth = renderer.getWidth(cachedZoomText);
+        }
+        Text zoomText = zoom == null ? null : cachedZoomText;
+        // Placement reserves the widest tag form, so the row does not jump as the magnification eases.
+        // 布局按最宽的标签形式预留宽度，倍率缓动时该行不会跳动。
+        int rowWidth = lineWidth + (zoom == null ? 0 : Math.max(cachedZoomWidth, cachedZoomSampleWidth)
+                + UsecAmmoHudRules.ZOOM_TAG_GAP);
+        WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
+        boolean sharedLineOccupied = witch.getActiveSkillId() != null
+                || witch.getSaintState().karmaCooldownTicks() > 0;
+        int screenWidth = context.getScaledWindowWidth();
+        int x = UsecAmmoHudRules.rowX(screenWidth, lineWidth);
+        int y = UsecAmmoHudRules.rowY(screenWidth, context.getScaledWindowHeight(), rowWidth, renderer.fontHeight,
+                sharedLineOccupied);
+        context.drawTextWithShadow(renderer, line, x, y, UsecAmmoHudRules.TEXT_COLOR);
+        if (zoomText != null) {
+            context.drawTextWithShadow(renderer, zoomText,
+                    x - UsecAmmoHudRules.ZOOM_TAG_GAP - cachedZoomWidth, y, UsecAmmoHudRules.TAN_COLOR);
+        }
+        if (UsecAmmoHudRules.showsBar(cooldown.remaining())) {
+            // Directly under the chamber token, as wide as it. / 紧贴弹膛标记下方，与其等宽。
+            int width = cachedTokenWidth;
+            int barY = y + renderer.fontHeight;
+            context.fill(x, barY, x + width, barY + UsecAmmoHudRules.BAR_HEIGHT, UsecAmmoHudRules.BAR_TRACK_COLOR);
+            int fill = UsecAmmoHudRules.barFill(progress, width);
+            context.fill(x, barY, x + fill, barY + 1, UsecAmmoHudRules.BAR_FILL_COLOR);
+            context.fill(x, barY + 1, x + fill, barY + 2, UsecAmmoHudRules.BAR_FILL_SHADE_COLOR);
+        }
+    }
+
+    /**
+     * The held rifle's state, decoded again only when its CUSTOM_DATA component instance changes.
+     * 手持步枪的状态；只在其 CUSTOM_DATA 组件实例变化时重新解码。
+     */
+    private static UsecRifleState rifleState(ItemStack rifle) {
+        NbtComponent data = rifle.get(DataComponentTypes.CUSTOM_DATA);
+        if (!cachedStateRead || data != cachedStateData) {
+            cachedState = UsecRifleState.read(rifle);
+            cachedStateData = data;
+            cachedStateRead = true;
+        }
+        return cachedState;
+    }
+
+    static Text compose(List<UsecAmmoHudRules.Part> parts) {
+        MutableText line = Text.empty();
+        for (UsecAmmoHudRules.Part part : parts) {
+            line.append(text(part));
+        }
+        return line;
+    }
+
+    private static MutableText text(UsecAmmoHudRules.Part part) {
+        Object[] args = part.args().stream().map(UsecAmmoHud::argument).toArray();
+        return Text.translatable(part.key(), args).setStyle(color(part.color()));
+    }
+
+    private static Object argument(UsecAmmoHudRules.Arg arg) {
+        return switch (arg) {
+            case UsecAmmoHudRules.Literal literal -> literal.value();
+            case UsecAmmoHudRules.Rounds rounds -> UsecMagazineItem.roundsText(rounds.rounds());
+            case UsecAmmoHudRules.Empty empty -> Text.translatable(UsecAmmoHudRules.EMPTY_KEY)
+                    .setStyle(color(UsecAmmoHudRules.MUTED_COLOR));
+        };
+    }
+
+    private static Style color(int argb) {
+        return Style.EMPTY.withColor(TextColor.fromRgb(argb & 0xFFFFFF));
+    }
+}

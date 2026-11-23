@@ -1,0 +1,42 @@
+package dev.caecorthus.sparkdlc.mixin.compat.noellesroles;
+
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectGuard;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+/**
+ * Guards the Demon Hunter shot before trigger sound, ammunition, records, or damage.
+ * 在扳机音效、弹药、记录或伤害产生前拦截恶魔猎人的射击。
+ */
+@Mixin(targets = "org.agmas.noellesroles.demonhunter.DemonHunterShootC2SPacket$Receiver", remap = false)
+public abstract class NoellesRolesDemonHunterAffectMixin {
+    private static final Identifier ACTION = Identifier.of("noellesroles", "demon_hunter_shot");
+
+    @Inject(
+            method = "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
+            at = @At("HEAD"),
+            cancellable = true,
+            require = 0,
+            remap = false
+    )
+    private void sparkdlc$guardDemonHunterShot(
+            @Coerce Object payload,
+            ServerPlayNetworking.Context context,
+            CallbackInfo ci
+    ) {
+        ServerPlayerEntity actor = context.player();
+        ServerPlayerEntity target = PlayerAffectGuard.entityTarget(
+                actor,
+                PlayerAffectGuard.intAccessor(payload, "target")
+        );
+        if (target != null && !PlayerAffectGuard.allows(actor, target, ACTION)) {
+            ci.cancel();
+        }
+    }
+}

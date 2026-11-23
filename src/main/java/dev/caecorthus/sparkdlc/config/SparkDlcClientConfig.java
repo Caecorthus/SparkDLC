@@ -1,0 +1,350 @@
+package dev.caecorthus.sparkdlc.config;
+
+import com.google.gson.JsonObject;
+import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import java.util.EnumMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import net.minecraft.util.TranslatableOption;
+
+/**
+ * Small client config model for the mod's client settings.
+ * 本模组客户端设置的本地配置模型。
+ */
+public final class SparkDlcClientConfig {
+    private static final String INSTINCT_KEY_MODE = "instinctKeyMode";
+    private static final String EVENT_SOUND_VOLUME = "eventSoundVolume";
+    private static final String EVENT_SOUND_VOLUMES = "eventSoundVolumes";
+    private static final String GUIDEBOOK_DECOR = "guidebookDecor";
+    private static final String GUIDEBOOK_FOLIAGE = "guidebookFoliage";
+    private static final String EVENT_SOUND_MASTER_VOLUME = "eventSoundMasterVolume";
+    private static final String COLLAPSED_SETTINGS_GROUPS = "collapsedSettingsGroups";
+    private static final String CHARGE_INDICATOR_STYLE = "chargeIndicatorStyle";
+    private static final String NOELLES_CREATIVE_ENTRIES = "noellesCreativeEntries";
+    private static final String BLOOD_APPEARANCE = "bloodAppearance";
+    private static final String SUPPRESS_SCAVENGER_BLOOD = "suppressScavengerBlood";
+    /**
+     * Every key of the settings file this model reads or writes, the retired single {@code eventSoundVolume}
+     * included (read, never written back). The file's other keys belong to other client features
+     * ({@code SparkDlcConfigManager} keeps them).
+     * 本模型读写的设置文件键，包括已退役的单一 {@code eventSoundVolume}（只读取、不写回）。文件中的其他键属于其他客户端功能
+     * （由 {@code SparkDlcConfigManager} 保留）。
+     */
+    public static final Set<String> KEYS = Set.of(INSTINCT_KEY_MODE, EVENT_SOUND_VOLUME, EVENT_SOUND_VOLUMES,
+            GUIDEBOOK_DECOR, GUIDEBOOK_FOLIAGE, EVENT_SOUND_MASTER_VOLUME, COLLAPSED_SETTINGS_GROUPS,
+            CHARGE_INDICATOR_STYLE, NOELLES_CREATIVE_ENTRIES, BLOOD_APPEARANCE, SUPPRESS_SCAVENGER_BLOOD);
+
+    private InstinctKeyMode instinctKeyMode = InstinctKeyMode.HOLD;
+    private GuidebookDecor guidebookDecor = GuidebookDecor.MEDIUM;
+    private boolean guidebookFoliage = true;
+    private final EnumMap<EventSoundGroup, Double> eventSoundVolumes = new EnumMap<>(EventSoundGroup.class);
+    private double eventSoundMasterVolume = 1.0D;
+    private final Set<String> collapsedSettingsGroups = new LinkedHashSet<>();
+    private ChargeIndicatorStyle chargeIndicatorStyle = ChargeIndicatorStyle.RING_OPEN;
+    private boolean noellesCreativeEntries = true;
+    private BloodAppearance bloodAppearance = BloodAppearance.DEFAULT;
+    private boolean suppressScavengerBlood = true;
+
+    private SparkDlcClientConfig() {
+        setAllEventSoundVolumes(1.0D);
+    }
+
+    public static SparkDlcClientConfig defaults() {
+        return new SparkDlcClientConfig();
+    }
+
+    public static SparkDlcClientConfig fromJson(JsonObject json) {
+        SparkDlcClientConfig config = defaults();
+        if (json == null) {
+            return config;
+        }
+        // Each field falls back on its own: one bad value must not reset (and then overwrite) every other setting.
+        // 每个字段各自回退：一个错误的值不能把其他所有设置都重置（并随后覆盖保存）。
+        if (json.has(INSTINCT_KEY_MODE) && json.get(INSTINCT_KEY_MODE).isJsonPrimitive()) {
+            config.setInstinctKeyMode(InstinctKeyMode.fromSerialized(json.get(INSTINCT_KEY_MODE).getAsString()));
+        }
+        if (json.has(EVENT_SOUND_VOLUME) && json.get(EVENT_SOUND_VOLUME).isJsonPrimitive()
+                && json.get(EVENT_SOUND_VOLUME).getAsJsonPrimitive().isNumber()) {
+            config.setAllEventSoundVolumes(json.get(EVENT_SOUND_VOLUME).getAsDouble());
+        }
+        if (json.has(GUIDEBOOK_DECOR) && json.get(GUIDEBOOK_DECOR).isJsonPrimitive()) {
+            config.setGuidebookDecor(GuidebookDecor.fromSerialized(json.get(GUIDEBOOK_DECOR).getAsString()));
+        }
+        if (json.has(CHARGE_INDICATOR_STYLE) && json.get(CHARGE_INDICATOR_STYLE).isJsonPrimitive()) {
+            config.setChargeIndicatorStyle(
+                    ChargeIndicatorStyle.fromId(json.get(CHARGE_INDICATOR_STYLE).getAsString()));
+        }
+        if (json.has(NOELLES_CREATIVE_ENTRIES) && json.get(NOELLES_CREATIVE_ENTRIES).isJsonPrimitive()
+                && json.get(NOELLES_CREATIVE_ENTRIES).getAsJsonPrimitive().isBoolean()) {
+            config.setNoellesCreativeEntries(json.get(NOELLES_CREATIVE_ENTRIES).getAsBoolean());
+        }
+        if (json.has(BLOOD_APPEARANCE) && json.get(BLOOD_APPEARANCE).isJsonPrimitive()) {
+            config.setBloodAppearance(BloodAppearance.fromId(json.get(BLOOD_APPEARANCE).getAsString()));
+        }
+        if (json.has(SUPPRESS_SCAVENGER_BLOOD) && json.get(SUPPRESS_SCAVENGER_BLOOD).isJsonPrimitive()
+                && json.get(SUPPRESS_SCAVENGER_BLOOD).getAsJsonPrimitive().isBoolean()) {
+            config.setSuppressScavengerBlood(json.get(SUPPRESS_SCAVENGER_BLOOD).getAsBoolean());
+        }
+        if (json.has(GUIDEBOOK_FOLIAGE) && json.get(GUIDEBOOK_FOLIAGE).isJsonPrimitive()
+                && json.get(GUIDEBOOK_FOLIAGE).getAsJsonPrimitive().isBoolean()) {
+            config.setGuidebookFoliage(json.get(GUIDEBOOK_FOLIAGE).getAsBoolean());
+        }
+        if (json.has(EVENT_SOUND_MASTER_VOLUME) && json.get(EVENT_SOUND_MASTER_VOLUME).isJsonPrimitive()
+                && json.get(EVENT_SOUND_MASTER_VOLUME).getAsJsonPrimitive().isNumber()) {
+            config.setEventSoundMasterVolume(json.get(EVENT_SOUND_MASTER_VOLUME).getAsDouble());
+        }
+        if (json.has(COLLAPSED_SETTINGS_GROUPS) && json.get(COLLAPSED_SETTINGS_GROUPS).isJsonArray()) {
+            for (JsonElement element : json.getAsJsonArray(COLLAPSED_SETTINGS_GROUPS)) {
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+                    config.setSettingsGroupCollapsed(element.getAsString(), true);
+                }
+            }
+        }
+        if (json.has(EVENT_SOUND_VOLUMES) && json.get(EVENT_SOUND_VOLUMES).isJsonObject()) {
+            JsonObject eventVolumes = json.getAsJsonObject(EVENT_SOUND_VOLUMES);
+            for (String key : eventVolumes.keySet()) {
+                EventSoundGroup group = EventSoundGroup.fromSerialized(key);
+                JsonElement volume = eventVolumes.get(key);
+                if (group != null && volume.isJsonPrimitive() && volume.getAsJsonPrimitive().isNumber()) {
+                    config.setEventSoundVolume(group, volume.getAsDouble());
+                }
+            }
+        }
+        return config;
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        json.addProperty(INSTINCT_KEY_MODE, this.instinctKeyMode.serializedName());
+        JsonObject eventVolumes = new JsonObject();
+        for (EventSoundGroup group : EventSoundGroup.values()) {
+            eventVolumes.addProperty(group.serializedName(), eventSoundVolume(group));
+        }
+        json.add(EVENT_SOUND_VOLUMES, eventVolumes);
+        json.addProperty(EVENT_SOUND_MASTER_VOLUME, eventSoundMasterVolume);
+        json.addProperty(GUIDEBOOK_DECOR, guidebookDecor.serializedName());
+        json.addProperty(GUIDEBOOK_FOLIAGE, guidebookFoliage);
+        json.addProperty(CHARGE_INDICATOR_STYLE, chargeIndicatorStyle.id());
+        json.addProperty(NOELLES_CREATIVE_ENTRIES, noellesCreativeEntries);
+        json.addProperty(BLOOD_APPEARANCE, bloodAppearance.id());
+        json.addProperty(SUPPRESS_SCAVENGER_BLOOD, suppressScavengerBlood);
+        JsonArray collapsed = new JsonArray();
+        collapsedSettingsGroups.forEach(collapsed::add);
+        json.add(COLLAPSED_SETTINGS_GROUPS, collapsed);
+        return json;
+    }
+
+    public GuidebookDecor guidebookDecor() {
+        return guidebookDecor;
+    }
+
+    public void setGuidebookDecor(GuidebookDecor guidebookDecor) {
+        this.guidebookDecor = guidebookDecor == null ? GuidebookDecor.MEDIUM : guidebookDecor;
+    }
+
+    public boolean guidebookFoliage() {
+        return guidebookFoliage;
+    }
+
+    public void setGuidebookFoliage(boolean guidebookFoliage) {
+        this.guidebookFoliage = guidebookFoliage;
+    }
+
+    public InstinctKeyMode instinctKeyMode() {
+        return instinctKeyMode;
+    }
+
+    public void setInstinctKeyMode(InstinctKeyMode instinctKeyMode) {
+        this.instinctKeyMode = instinctKeyMode == null ? InstinctKeyMode.HOLD : instinctKeyMode;
+    }
+
+    public double eventSoundVolume(EventSoundGroup group) {
+        if (group == null) {
+            return 1.0D;
+        }
+        return eventSoundVolumes.getOrDefault(group, 1.0D);
+    }
+
+    public void setEventSoundVolume(EventSoundGroup group, double eventSoundVolume) {
+        if (group == null) {
+            return;
+        }
+        eventSoundVolumes.put(group, clampVolume(eventSoundVolume));
+    }
+
+    /** Multiplies every group's volume; it never reaches sounds outside the catalog. 乘在所有分组上，不影响目录外的声音。 */
+    public double eventSoundMasterVolume() {
+        return eventSoundMasterVolume;
+    }
+
+    public void setEventSoundMasterVolume(double volume) {
+        this.eventSoundMasterVolume = clampVolume(volume);
+    }
+
+    /** What the sound runtime applies: the group's volume times the master. 声音运行时实际使用的值：分组音量乘以总音量。 */
+    public double effectiveEventSoundVolume(EventSoundGroup group) {
+        return clampVolume(eventSoundVolume(group) * eventSoundMasterVolume);
+    }
+
+    /** Settings-screen sections the player folded, as "page/group" ids. 玩家在设置界面折叠的分节。 */
+    public boolean settingsGroupCollapsed(String id) {
+        return id != null && collapsedSettingsGroups.contains(id);
+    }
+
+    public void setSettingsGroupCollapsed(String id, boolean collapsed) {
+        if (id == null || id.isBlank()) {
+            return;
+        }
+        if (collapsed) {
+            collapsedSettingsGroups.add(id);
+        } else {
+            collapsedSettingsGroups.remove(id);
+        }
+    }
+
+    private void setAllEventSoundVolumes(double eventSoundVolume) {
+        double clampedVolume = clampVolume(eventSoundVolume);
+        for (EventSoundGroup group : EventSoundGroup.values()) {
+            eventSoundVolumes.put(group, clampedVolume);
+        }
+    }
+
+    public static double clampVolume(double value) {
+        if (Double.isNaN(value)) {
+            return 1.0D;
+        }
+        return Math.max(0.0D, Math.min(1.0D, value));
+    }
+
+    /** How much guidebook decoration to draw; {@link #density()} is the generators' 0..2 scale, -1 for off.
+     * 指南点缀的多少；density() 为生成器使用的 0 到 2 档，关为 -1。 */
+    public enum GuidebookDecor implements TranslatableOption {
+        OFF(0, "off", "option.sparkdlc.guidebook_decor.off", -1),
+        LIGHT(1, "light", "option.sparkdlc.guidebook_decor.light", 0),
+        MEDIUM(2, "medium", "option.sparkdlc.guidebook_decor.medium", 1),
+        FULL(3, "full", "option.sparkdlc.guidebook_decor.full", 2);
+
+        private final int id;
+        private final String serializedName;
+        private final String translationKey;
+        private final int density;
+
+        GuidebookDecor(int id, String serializedName, String translationKey, int density) {
+            this.id = id;
+            this.serializedName = serializedName;
+            this.translationKey = translationKey;
+            this.density = density;
+        }
+
+        public static GuidebookDecor fromSerialized(String serializedName) {
+            for (GuidebookDecor value : values()) {
+                if (value.serializedName.equals(serializedName)) {
+                    return value;
+                }
+            }
+            return MEDIUM;
+        }
+
+        public String serializedName() {
+            return serializedName;
+        }
+
+        public int density() {
+            return density;
+        }
+
+        @Override
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public String getTranslationKey() {
+            return translationKey;
+        }
+    }
+
+    public enum InstinctKeyMode implements TranslatableOption {
+        HOLD(0, "hold", "option.sparkdlc.instinct_key_mode.hold"),
+        TOGGLE(1, "toggle", "option.sparkdlc.instinct_key_mode.toggle");
+
+        private final int id;
+        private final String serializedName;
+        private final String translationKey;
+
+        InstinctKeyMode(int id, String serializedName, String translationKey) {
+            this.id = id;
+            this.serializedName = serializedName;
+            this.translationKey = translationKey;
+        }
+
+        public static InstinctKeyMode fromSerialized(String serializedName) {
+            for (InstinctKeyMode mode : values()) {
+                if (mode.serializedName.equals(serializedName)) {
+                    return mode;
+                }
+            }
+            return HOLD;
+        }
+
+        public InstinctKeyMode next() {
+            return this == HOLD ? TOGGLE : HOLD;
+        }
+
+        public String serializedName() {
+            return serializedName;
+        }
+
+        public String translationKey() {
+            return translationKey;
+        }
+
+        @Override
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public String getTranslationKey() {
+            return translationKey;
+        }
+    }
+
+    /** Where the charge indicator is drawn, or {@link ChargeIndicatorStyle#OFF}. 蓄力指示画在哪里；或 {@link ChargeIndicatorStyle#OFF}。 */
+    public ChargeIndicatorStyle chargeIndicatorStyle() {
+        return chargeIndicatorStyle;
+    }
+
+    public void setChargeIndicatorStyle(ChargeIndicatorStyle chargeIndicatorStyle) {
+        this.chargeIndicatorStyle = chargeIndicatorStyle == null ? ChargeIndicatorStyle.RING_OPEN : chargeIndicatorStyle;
+    }
+
+    /** Whether NoellesRoles items are filed into the creative tabs. 是否把 NoellesRoles 物品放进创造模式标签页。 */
+    public boolean noellesCreativeEntries() {
+        return noellesCreativeEntries;
+    }
+
+    public void setNoellesCreativeEntries(boolean noellesCreativeEntries) {
+        this.noellesCreativeEntries = noellesCreativeEntries;
+    }
+
+    /** Particle tint for Wathe Blood. Wathe Blood 的粒子着色。 */
+    public BloodAppearance bloodAppearance() {
+        return bloodAppearance;
+    }
+
+    public void setBloodAppearance(BloodAppearance bloodAppearance) {
+        this.bloodAppearance = bloodAppearance;
+    }
+
+    /** Whether blood is skipped beside a corpse that NoellesRoles has hidden. 尸体被 NoellesRoles 隐藏时是否跳过喷血。 */
+    public boolean suppressScavengerBlood() {
+        return suppressScavengerBlood;
+    }
+
+    public void setSuppressScavengerBlood(boolean suppressScavengerBlood) {
+        this.suppressScavengerBlood = suppressScavengerBlood;
+    }
+}

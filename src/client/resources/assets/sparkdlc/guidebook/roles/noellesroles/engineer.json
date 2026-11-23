@@ -1,0 +1,133 @@
+{
+  "entries": [
+    {
+      "id": "noellesroles:engineer",
+      "tab": "ROLE",
+      "sourceModId": "noellesroles",
+      "nameKey": "announcement.role.engineer",
+      "summaryKey": "guidebook.sparkdlc.content.role.overview",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "你对物理和机械工程十分精通。"
+            },
+            {
+              "type": "paragraph",
+              "text": "好人阵营的守门人。你能察觉列车上被撬坏或被堵住的门，用【维修工具】修门、锁门，还能布置陷阱抓人。"
+            },
+            {
+              "type": "section",
+              "text": "能力",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "维修工具",
+                  "tone": "info"
+                },
+                {
+                  "text": "：开局自带，对着门使用：修好被【撬棍】撬坏的门；把正常的门关上并锁住 1 分钟（派对狂的派对客照样推得开）；或者解开被堵住的门。每次使用冷却 3 分钟，开局冷却 60 秒。拿在手上别人看不见。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "text": "锁住的门钥匙和【开锁器】都打不开，但【撬棍】等破门手段仍能强行撬开。"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "门禁感知",
+                  "tone": "info"
+                },
+                {
+                  "text": "：任何一扇门被撬坏或被堵住时，你会收到提示，那扇门会隔墙红色高亮 5 秒。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "修接线箱",
+                  "tone": "info"
+                },
+                {
+                  "text": "：用【维修工具】对着被撬过的【接线箱】使用，能把它修回完好并关上，和修门共用 3 分钟冷却。撬开但还没被入侵的箱子，杀手得重新撬；已经被入侵的箱子修好也收不回已解锁的破坏。"
+                }
+              ]
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:roles/noellesroles/engineer",
+              "text": "演示：维修工具和破坏维修"
+            },
+            {
+              "type": "bullet",
+              "text": "开局 0 金币，每完成一个任务获得 50 金币。"
+            },
+            {
+              "type": "section",
+              "text": "商店",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "【捕捉装置】125 金币：放在地板或天花板上，拿在手上别人看不见。除你以外的活人进入 5 格内就会触发：范围内的人被定身 5 秒，你会拿到一份写着他们名字的【捕捉检测报告】。只能触发一次，2 分钟没触发会自动消失。"
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:capture_device",
+              "text": "演示：捕捉装置"
+            },
+            {
+              "type": "bullet",
+              "text": "【破坏维修】250 金币，不限购：只能在有破坏进行时购买，没有破坏时买不了，也不扣钱。买下立即远程结束当前破坏：灯光破坏马上来电；动力破坏不管到了哪个阶段都直接修好，停驶的列车会鸣笛重新开动。你付的金币会平分给活着的杀手（破坏是卧底自己开的则谁也拿不到），之后杀手的破坏冷却只有 90 秒。"
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "收到门被撬坏的提示，往往说明有人正在破门行凶，马上赶去高亮的门。"
+            },
+            {
+              "type": "bullet",
+              "text": "把捕捉装置放在房门口、必经之路或案发现场附近，报告里的名字就是线索。"
+            },
+            {
+              "type": "bullet",
+              "text": "用锁门护住落单的队友，或者把可疑的人挡在门外。"
+            },
+            {
+              "type": "bullet",
+              "text": "电闸和动力装置活着的人都能去修，【破坏维修】留到实在赶不过去、或有人正在黑暗中被追杀时再买，平时别给杀手送钱。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "捕捉装置不分敌我，好人走进范围也会被定住；而且隔着墙也会触发。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "noellesroles"
+      ],
+      "color": "#C8A03C",
+      "order": 180
+    }
+  ]
+}

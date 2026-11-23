@@ -1,0 +1,7 @@
+{
+  "parent": "sparkdlc:item/flashlight",
+  "textures": {
+    "flashlight": "sparkdlc:item/flashlight_on",
+    "particle": "sparkdlc:item/flashlight_on"
+  }
+}

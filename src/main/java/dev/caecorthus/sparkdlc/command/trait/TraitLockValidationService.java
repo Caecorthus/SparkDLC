@@ -1,0 +1,146 @@
+package dev.caecorthus.sparkdlc.command.trait;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.trait.api.Trait;
+import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.doctor4t.wathe.api.Faction;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.WatheRoles;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+
+import java.util.Collection;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitEligibility;
+import dev.caecorthus.sparkdlc.trait.selection.TraitRoleEligibility;
+import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
+import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandTrait;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
+
+/**
+ * Shared command-time validation for next-round trait and role locks.
+ * 下局天赋与身份锁定的命令期共用校验入口。
+ */
+public final class TraitLockValidationService {
+    private TraitLockValidationService() {
+    }
+
+    public static RoleConflict findAudienceConflict(Trait trait, Role role) {
+        if (isCommandLockCompatibleWithRole(trait, role)) {
+            return null;
+        }
+        return new RoleConflict(trait, role);
+    }
+
+    public static RoleConflict findPendingTraitAudienceConflict(ServerPlayerEntity player, Role role) {
+        return findPendingTraitAudienceConflict(TraitPlayerComponent.KEY.get(player).getPendingTraitIds(), role);
+    }
+
+    public static RoleConflict findPendingTraitAudienceConflict(Collection<Identifier> traitIds, Role role) {
+        if (isUnknownRole(role)) {
+            return null;
+        }
+        for (Identifier traitId : traitIds) {
+            Trait trait = TraitRegistry.get(traitId);
+            if (trait != null && !isCommandLockCompatibleWithRole(trait, role)) {
+                return new RoleConflict(trait, role);
+            }
+        }
+        return null;
+    }
+
+    public static boolean isAudienceCompatibleWithRole(Trait trait, Role role) {
+        if (isUnknownRole(role)) {
+            return true;
+        }
+        if (!TraitRoleEligibility.canReceiveTrait(role, trait)) {
+            return false;
+        }
+        Faction faction = role.getFaction();
+        return switch (trait.audience()) {
+            case UNIVERSAL -> true;
+            case KILLER_ONLY -> faction == Faction.KILLER;
+            case INNOCENT_ONLY -> faction == Faction.CIVILIAN;
+            case NEUTRAL_ONLY -> faction == Faction.NEUTRAL;
+        };
+    }
+
+    /**
+     * Command locks do not know the future round's full player counts, so keep this to permanent role exclusions.
+     * 命令锁定不知道下局完整人数；这里只处理永久性的身份互斥，避免误挡普通锁定。
+     */
+    private static boolean isCommandLockCompatibleWithRole(Trait trait, Role role) {
+        if (!isAudienceCompatibleWithRole(trait, role)) {
+            return false;
+        }
+        // Same permanent exclusion as round assignment, so locks fail loudly instead of being dropped.
+        // 与开局分配相同的永久互斥，让锁定直接报错而不是在开局时被静默丢弃。
+        if (trait.id().equals(ConscienceTrait.ID) && EffectiveTraitEligibility.isConscienceBlockedRole(role)) {
+            return false;
+        }
+        // Settlement-excluded roles never hold Last Stand (process-lifetime SettlementExclusions registration).
+        // 结算排除身份永远不能获得背水一战（SettlementExclusions 注册在进程生命周期内持续有效）。
+        if (trait.id().equals(LastStandTrait.ID) && LastStandTrait.isSettlementExcludedRole(role)) {
+            return false;
+        }
+        // Police-category and other permanently excluded roles share round assignment's Impostor block: the same
+        // predicate selection asks, Survival Master and Undercover included. Selection's round-state conditions
+        // (at least two original killers, no Last Stand or Conscience already selected) are not known here.
+        // 警职类别及其他永久排除身份与开局分配共用内鬼排除：与开局抽取询问的是同一个谓词，包含生存大师与卧底。
+        // 开局抽取中依赖对局状态的条件（至少两名原始杀手、尚未选中背水一战或善良）在此处未知，不做校验。
+        return !trait.id().equals(ImpostorTrait.ID)
+                || isUnknownRole(role)
+                || !EffectiveTraitEligibility.isImpostorPermanentlyExcludedRole(role);
+    }
+
+    public static ServerPlayerEntity findOtherPendingUniqueTraitOwner(MinecraftServer server, ServerPlayerEntity target, Trait trait) {
+        if (!trait.uniquePerGame()) {
+            return null;
+        }
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            if (!player.getUuid().equals(target.getUuid()) && TraitPlayerComponent.KEY.get(player).hasPendingTrait(trait.id())) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public static String addTraitRoleConflictMessage(Trait trait, Role role) {
+        return "无法添加，因为 " + formatTraitId(trait.id()) + " 与 " + formatRoleId(role) + " 冲突。";
+    }
+
+    public static String lockUniqueTraitConflictMessage(ServerPlayerEntity owner, Trait trait) {
+        return lockUniqueTraitConflictMessage(owner.getGameProfile().getName(), trait);
+    }
+
+    static String lockUniqueTraitConflictMessage(String ownerName, Trait trait) {
+        return "无法锁定，因为 " + ownerName + " 已经有了 " + formatTraitId(trait.id()) + "。";
+    }
+
+    public static String forceRoleConflictMessage(RoleConflict conflict) {
+        return "无法锁定，因为 " + formatTraitId(conflict.trait().id()) + " 与 "
+                + formatRoleId(conflict.role()) + " 冲突。";
+    }
+
+    /** Command-facing trait id shared by lock messages, command feedback and suggestions: the mod's own ids drop the
+     *  namespace, foreign ids stay fully qualified.
+     *  锁定提示、命令反馈与补全共用的命令侧天赋 id：本模组的 id 省略命名空间，外部 id 保留完整形式。 */
+    static String formatTraitId(Identifier traitId) {
+        if (traitId.getNamespace().equals(SparkDLC.MOD_ID)) {
+            return traitId.getPath();
+        }
+        return traitId.toString();
+    }
+
+    static String formatRoleId(Role role) {
+        return role.identifier().getPath();
+    }
+
+    private static boolean isUnknownRole(Role role) {
+        return role == null || role == WatheRoles.NO_ROLE;
+    }
+
+    public record RoleConflict(Trait trait, Role role) {
+    }
+}

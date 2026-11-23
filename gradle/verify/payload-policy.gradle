@@ -1,0 +1,15 @@
+// The locked-player payload policy: every C2S payload the mod registers has a row in
+// config/payload-policy/actions.tsv, every row owned by the mod is registered, and the one generated class
+// (net.policy.GeneratedPayloadPolicy) is byte-identical to what the table generates. The tool is tools/payload_policy.py.
+// 锁定玩家数据包策略：本模组注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行，归属本模组的每一行都确有注册，
+// 且唯一的生成类（net.policy.GeneratedPayloadPolicy）与规范表生成结果逐字节一致。工具为 tools/payload_policy.py。
+tasks.register("verifyPayloadPolicy", Exec) {
+    group = "verification"
+    description = "Checks the mod against the canonical payload policy table."
+    inputs.file("tools/payload_policy.py")
+    inputs.dir("config/payload-policy")
+    inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
+    outputs.upToDateWhen { true }
+    workingDir = rootDir
+    commandLine "python3", "tools/payload_policy.py", "check", "--repo", "."
+}

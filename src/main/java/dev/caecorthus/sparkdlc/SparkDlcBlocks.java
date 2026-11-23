@@ -271,16 +271,6 @@ public final class SparkDlcBlocks {
     public static final Identifier DAMP_CARPET_ID = SparkDLC.id("damp_carpet");
     public static final Identifier DAMP_CARPET_BLOCK_ID = SparkDLC.id("damp_carpet_block");
 
-    /** Wool sounds, quieter and lower than wool's own (1.0, 1.0). / 羊毛音效，比羊毛本身（1.0，1.0）更轻更低。 */
-    private static final BlockSoundGroup DAMP_CARPET_SOUNDS = new BlockSoundGroup(
-            0.6F, 0.55F,
-            SoundEvents.BLOCK_WOOL_BREAK,
-            SoundEvents.BLOCK_WOOL_STEP,
-            SoundEvents.BLOCK_WOOL_PLACE,
-            SoundEvents.BLOCK_WOOL_HIT,
-            SoundEvents.BLOCK_WOOL_FALL
-    );
-
     private static Block dampCarpet;
     private static Block dampCarpetBlock;
 
@@ -288,10 +278,22 @@ public final class SparkDlcBlocks {
         if (dampCarpet != null) {
             return;
         }
+        // Wool sounds, quieter and lower than wool's own (1.0, 1.0). Built here rather than in a static field, so
+        // loading this class (its ids are read by tables such as RoleItemCooldownNominals) never touches SoundEvents.
+        // 羊毛音效，比羊毛本身（1.0，1.0）更轻更低。在此处而非静态字段中创建，这样加载本类（其 id 会被
+        // RoleItemCooldownNominals 等表读取）时不会触及 SoundEvents。
+        BlockSoundGroup sounds = new BlockSoundGroup(
+                0.6F, 0.55F,
+                SoundEvents.BLOCK_WOOL_BREAK,
+                SoundEvents.BLOCK_WOOL_STEP,
+                SoundEvents.BLOCK_WOOL_PLACE,
+                SoundEvents.BLOCK_WOOL_HIT,
+                SoundEvents.BLOCK_WOOL_FALL
+        );
         dampCarpet = registerWithItem(DAMP_CARPET_ID,
-                new CarpetBlock(AbstractBlock.Settings.copy(Blocks.BROWN_CARPET).sounds(DAMP_CARPET_SOUNDS)));
+                new CarpetBlock(AbstractBlock.Settings.copy(Blocks.BROWN_CARPET).sounds(sounds)));
         dampCarpetBlock = registerWithItem(DAMP_CARPET_BLOCK_ID,
-                new Block(AbstractBlock.Settings.copy(Blocks.BROWN_WOOL).sounds(DAMP_CARPET_SOUNDS)));
+                new Block(AbstractBlock.Settings.copy(Blocks.BROWN_WOOL).sounds(sounds)));
     }
 
     public static Block dampCarpet() {

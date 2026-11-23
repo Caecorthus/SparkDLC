@@ -1,0 +1,34 @@
+# Classes that match the "former mod" name patterns of rename_classes.py and keep their name on purpose. fqcn_glob is relative to
+# dev.caecorthus.sparkdlc (`*` = within one segment, `**` = any number of segments). `plan` fails on a class that matches a pattern and has
+# neither a row in class-renames.tsv nor one here.
+# 名字符合 rename_classes.py 的“旧模组名”模式、但有意保留的类。fqcn_glob 相对于 dev.caecorthus.sparkdlc（`*` 匹配一个段内，`**` 匹配任意多段）。
+# 符合模式的类如果既不在 class-renames.tsv 中、也不在这里，`plan` 会失败。
+fqcn_glob	reason
+faction.api.SparkFactionApi	public faction contract: the name reads "Spark faction API" and Faction is the concept, not the former mod; 190 files and the downstream documentation name it
+trait.api.SparkTraitsApi	public trait API: the name reads "Spark traits API" (the API of the traits); kept with SparkFactionApi and SparkReplayApi as the family of public facades
+**.WitchMaiden*	Witch Maiden is a role
+**.WitchesSabbath*	Witches' Sabbath is a skill of the Riftwalker
+**.WitchFactor*	the witch factor is a mechanic of the Grand Witch
+skill.Witch*	the witch skill system (skills of the Witch-faction roles): a gameplay term, see WitchSkillRegistry
+skill.api.Witch*	public types of the witch skill system
+skill.mana.Witch*	mana of the witch skill system
+client.hud.WitchManaHudRenderer	mana of the witch skill system
+client.hud.WitchSkillHudRenderer	witch skill HUD
+client.text.WitchSkillClientTexts	witch skill texts
+cooldown.provider.WitchSkillCooldownStore	cooldown of a witch skill
+mixin.faction.affect.WitchSkillUseAffectMixin	guards targeted witch skills
+client.mixin.faction.witch.WitchSkillInventoryScreenMixin	witch skill panel of the inventory screen
+client.mixin.faction.witch.WitchCohortRoleNameMixin	cohort of the Witch faction
+component.WitchPlayerComponent	per-player state of the witch skill system (active skill, cooldown, mana)
+component.WitchPlayerNbtCodec	codec of WitchPlayerComponent
+component.WitchPlayerSyncCodec	codec of WitchPlayerComponent
+component.WitchWorldComponent	world state of the witch skill system (skill toggles, shared round state)
+economy.WitchEconomy*	money rules of the Witch faction
+faction.witch.Witch*	the Witch faction (line-up and win conditions)
+role.witch.Witch*	policies of the Witch faction
+achievement.WitchRules	achievements of the Witch faction, the Murderous Witch and the Fiend
+client.hooks.WitchCohortClientHooks	cohort of the Witch faction
+client.hooks.WitchInstinctClientHooks	instinct of the Witch faction
+client.hooks.WitchInstinctSuppressionClientHooks	Grand Witch area spells that suppress instinct highlights
+client.hooks.WitchPoisonVisionClientHooks	poison vision of the Witch faction (see WitchPoisonVisionRules)
+compat.noellesroles.WitchPoisonVisionRules	which Witch-faction roles read hidden poison traps

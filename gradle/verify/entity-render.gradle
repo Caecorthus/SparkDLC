@@ -1,0 +1,98 @@
+// Entity render protocol (EMF/ETF and animation-pack compatibility, 2026-10-25; docs/roles/CONTEXT.md "Entity render protocol"):
+// an entity is drawn outside the world's own entity loop only through EntityRedraw, and a second world render runs
+// only inside SecondaryWorldPass.run. Returns the violations in one source file, comments stripped.
+// The rule is stated over every production source of both source sets. It was written for the sources of one former
+// mod; the files below were outside that set and do not follow the protocol. They are listed, not exempted by a
+// pattern: a new file that draws an entity on its own fails, a listed file that stops doing so must leave the list.
+// 实体渲染协议（EMF/ETF 与动画包兼容，2026-10-25；见 docs/roles/CONTEXT.md「Entity render protocol」）：在世界自身的实体循环之外
+// 只能经由 EntityRedraw 绘制实体，第二次世界渲染只能在 SecondaryWorldPass.run 内执行。返回单个源文件（已去掉注释）的违规项。
+// 规则针对两个源码集的全部生产源码。它原先只为某一个旧 mod 的源码而写；下列文件当时不在该范围内，也没有遵循协议。它们是逐个
+// 列出的，而不是用模式豁免：新文件自行绘制实体会失败，已列出的文件不再这样做时必须从列表中移除。
+def entityRenderRedrawOwner = "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityRedraw.java"
+def entityRenderProtocolExceptions = [
+        "src/client/java/dev/caecorthus/sparkdlc/client/ponder/ActorElement.java"       :
+                "draws a Ponder demo actor with EntityRenderDispatcher#render into the Ponder scene; was outside the former rule's sources, not reviewed against the protocol",
+        "src/client/java/dev/caecorthus/sparkdlc/client/ponder/PartyAnimalScenes.java"  :
+                "draws the demo Partygoer and its passenger with EntityRenderDispatcher#render into a Ponder scene; was outside the former rule's sources, not reviewed against the protocol",
+        "src/client/java/dev/caecorthus/sparkdlc/client/ponder/WraithScenes.java"       :
+                "draws a demo entity with EntityRenderDispatcher#render into a Ponder scene; was outside the former rule's sources, not reviewed against the protocol",
+        "src/client/java/dev/caecorthus/sparkdlc/client/role/civilian/undercover/UndercoverThermalRenderer.java":
+                "the Undercover's thermal view calls the body's own EntityRenderer#render; was outside the former rule's sources, not reviewed against the protocol",
+        "src/client/java/dev/caecorthus/sparkdlc/client/trait/render/PigPlayerRenderer.java":
+                "the Pig trait builds its models from EntityModelLoader; was outside the former rule's sources, not reviewed against the protocol"
+]
+def entityRenderProtocolViolations = { String source, boolean redrawOwner ->
+    def code = source.replaceAll(/(?s)\/\*.*?\*\//, " ").replaceAll(/(?m)\/\/.*$/, " ")
+    def found = []
+    if (!redrawOwner) {
+        if (code =~ /getRenderer\([^;]*?\)\s*\.render\(/) {
+            found << "EntityRenderer#render on a getRenderer(...) result"
+        }
+        if (code =~ /getEntityRenderDispatcher\(\)\s*\.render\(/) {
+            found << "EntityRenderDispatcher#render"
+        }
+        def names = [] as Set
+        (code =~ /(\w+)\s*=\s*[^;=]*?\bgetRenderer\(/).each { names << it[1] }
+        (code =~ /(\w+)\s*=\s*[^;=]*?\bgetEntityRenderDispatcher\(\)/).each { names << it[1] }
+        (code =~ /\bEntityRenderDispatcher\s+(\w+)/).each { names << it[1] }
+        (code =~ /\bEntityRenderer\s*(?:<[^;{]*?>)?\s+(\w+)/).each { names << it[1] }
+        names.each { name ->
+            if (code =~ /\b${java.util.regex.Pattern.quote(name)}\s*\.render\(/) {
+                found << "${name}.render(...) on an entity renderer or dispatcher"
+            }
+        }
+    }
+    // A hand-posed model built from EntityModelLoader is replaced and animated by EMF with whatever entity is mounted.
+    // 由 EntityModelLoader 构建的手动摆姿模型会被 EMF 替换，并以当前挂载的实体驱动动画。
+    if (code =~ /\bgetEntityModelLoader\s*\(/) {
+        found << "EntityModelLoader model (build a hand-posed model from its TexturedModelData)"
+    }
+    def worldRender = code =~ /\bworldRenderer\s*\.render\(/
+    while (worldRender.find()) {
+        def before = code.substring(Math.max(0, worldRender.start() - 160), worldRender.start())
+        if (!before.contains("SecondaryWorldPass.run(")) {
+            found << "WorldRenderer#render outside SecondaryWorldPass.run"
+        }
+    }
+    return found
+}
+
+tasks.register("verifyEntityRenderProtocol") {
+    group = "verification"
+    description = "Checks every production source against the entity render protocol: entities are drawn again only through EntityRedraw, a second world render runs only inside SecondaryWorldPass.run."
+    inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
+
+    doLast {
+        def sources = verifySupport.productionSources()
+        if (!file(entityRenderRedrawOwner).isFile()) {
+            throw new GradleException("Missing ${entityRenderRedrawOwner}, the one class that may draw an entity again")
+        }
+        // The scan must recognise a violation at all. / 扫描必须确实能识别出违规。
+        if (entityRenderProtocolViolations("void f() { client.getEntityRenderDispatcher().render(entity); }", false).isEmpty() ||
+                !entityRenderProtocolViolations("void f() { client.getEntityRenderDispatcher().render(entity); }", true).isEmpty()) {
+            throw new GradleException("The entity render protocol scan no longer recognises a direct EntityRenderDispatcher#render")
+        }
+        def violating = [] as Set
+        sources.each { sourceFile, relative ->
+            def violations = entityRenderProtocolViolations(sourceFile.getText("UTF-8"),
+                    relative == entityRenderRedrawOwner)
+            if (violations.isEmpty()) {
+                return
+            }
+            violating.add(relative)
+            if (!entityRenderProtocolExceptions.containsKey(relative)) {
+                throw new GradleException("Entity render protocol violation in ${relative}: "
+                        + violations.join("; ") + ". Draw entities again only through "
+                        + "client/render/entity/EntityRedraw (or reuse EntityModelCapture geometry), run a "
+                        + "second world render inside SecondaryWorldPass.run, and build hand-posed models from "
+                        + "their TexturedModelData; see docs/roles/CONTEXT.md.")
+            }
+        }
+        def stale = entityRenderProtocolExceptions.keySet() - violating
+        if (!stale.isEmpty()) {
+            throw new GradleException("Listed entity render protocol exceptions no longer break the protocol; remove them: ${stale}")
+        }
+        logger.lifecycle("verifyEntityRenderProtocol: ${sources.size()} production sources, " +
+                "${entityRenderProtocolExceptions.size()} listed exceptions")
+    }
+}

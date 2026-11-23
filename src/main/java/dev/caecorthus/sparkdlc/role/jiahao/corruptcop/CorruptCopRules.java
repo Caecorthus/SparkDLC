@@ -1,0 +1,228 @@
+package dev.caecorthus.sparkdlc.role.jiahao.corruptcop;
+
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.DoorInteraction;
+import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Predicate;
+
+/**
+ * Pure Corrupt Cop rules keyed by stable role/item ids.
+ * 黑警的纯规则：项目本身依赖 NoellesRoles，这里使用稳定 id 是为了让规则和测试保持轻量。
+ */
+public final class CorruptCopRules {
+    public static final Identifier CORRUPT_COP_ID = Identifier.of("noellesroles", "corrupt_cop");
+    public static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");
+    // The Insider (内应), matched by id only: it used to live in another jar.
+    // 内应，仅按 id 匹配：它曾位于另一个 jar。
+    public static final Identifier INSIDER_ID = Identifier.of("sparkdlc", "insider");
+    // 狮身豪 (Sphinx Hao): a second Team Jiahao partner with the Insider's team capabilities, matched by id only like
+    // the Insider.
+    // 狮身豪：与内应拥有相同阵营能力的第二个嘉豪阵营搭档，与内应一样仅按 id 匹配。
+    public static final Identifier SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
+    // 狙击手 (Sniper, PR #245): a third Team Jiahao partner with the Insider's team capabilities (Insider-style
+    // instinct), matched by id only like the Insider.
+    // 狙击手（PR #245）：与内应拥有相同阵营能力（内应式本能）的第三个嘉豪阵营搭档，与内应一样仅按 id 匹配。
+    public static final Identifier SNIPER_ID = Identifier.of("sparkdlc", "sniper");
+    public static final int ABILITY_COLOR = 0x193264;
+    public static final float LATERAL_SPEED_MULTIPLIER = 2.25F;
+    public static final int INSTINCT_PRIORITY = 90;
+    public static final int NEUTRAL_MASTER_KEY_COOLDOWN_TICKS = 200;
+    private static final double NORMALIZED_MOVEMENT_INPUT_EPSILON = 1.0E-7D;
+
+    private CorruptCopRules() {
+    }
+
+    public static @Nullable GetInstinctHighlight.HighlightResult instinctHighlight(
+            Role viewerRole,
+            boolean viewerAlive,
+            boolean viewerSpectatingOrCreative,
+            boolean samePlayer,
+            boolean targetAlive,
+            boolean targetSpectatingOrCreative,
+            boolean targetInvisible,
+            boolean throughWallsVision,
+            boolean taskUnlocked
+    ) {
+        /*
+         * Before the task unlock this x-ray stays silent: the Team Jiahao instinct answer at priority 93 still outlines
+         * the Insider for the cop, and NoellesRoles' priority-0 Moment window answer is left untouched.
+         * 任务解锁前本透视不作答：嘉豪阵营优先级 93 的本能答复仍会为黑警描出内应，NoellesRoles 优先级 0 的黑警时刻窗口
+         * 也不受影响。
+         */
+        if (!isCorruptCop(viewerRole)
+                || !taskUnlocked
+                || !viewerAlive
+                || viewerSpectatingOrCreative
+                || samePlayer
+                || !targetAlive
+                || targetSpectatingOrCreative
+                || targetInvisible) {
+            return null;
+        }
+        /*
+         * NoellesRoles' Moment vision window answers keyless at priority 0, which this priority-90 answer outranks;
+         * stay keyless during that window so the cop's Moment wall vision is not reduced to key-held instinct.
+         * NoellesRoles 的黑警时刻透视窗口以优先级 0 免按键作答，会被这里的优先级 90 覆盖；
+         * 因此窗口期间同样免按键，避免黑警时刻的透视退化为按住本能键才可见。
+         */
+        return throughWallsVision
+                ? GetInstinctHighlight.HighlightResult.always(viewerRole.color(), INSTINCT_PRIORITY)
+                : GetInstinctHighlight.HighlightResult.withKeybind(viewerRole.color(), INSTINCT_PRIORITY);
+    }
+
+    /**
+     * Whose real role may use the neutral master key on train doors, and whose corpse lends one to the Coroner: a
+     * neutral-aligned role, plus always the Corrupt Cop itself. Callers pass {@code SparkFactionApi::isNeutralAligned}
+     * because the native Wathe factions (witch faction, Team Jiahao) are no longer {@code isNeutral()} yet
+     * keep this perk (owner D3); the cop never depends on that lookup. The predicate never sees null.
+     * 哪些真实身份可用中立万能钥匙开列车门、其尸体会借给验尸官中立钥匙：与中立对齐的身份，以及黑警本身。调用方传入
+     * SparkFactionApi::isNeutralAligned，因为原生 Wathe 阵营（魔女阵营、嘉豪阵营）的 isNeutral()
+     * 已为 false，但保留该待遇（所有者 D3）；黑警从不依赖该查询。判定函数不会收到 null。
+     */
+    public static boolean isNeutralKeyRole(@Nullable Role role, Predicate<? super Role> neutralAligned) {
+        return role != null && (isCorruptCop(role) || neutralAligned.test(role));
+    }
+
+    public static DoorInteraction.DoorInteractionResult neutralMasterKeyDoorResult(
+            Identifier handItemId,
+            Role playerRole,
+            Predicate<? super Role> neutralAligned,
+            DoorInteraction.DoorType doorType,
+            boolean blasted,
+            boolean jammed,
+            boolean open,
+            boolean requiresKey,
+            boolean coolingDown
+    ) {
+        return neutralMasterKeyDoorResult(
+                handItemId,
+                isNeutralKeyRole(playerRole, neutralAligned),
+                isCorruptCop(playerRole),
+                doorType,
+                blasted,
+                jammed,
+                open,
+                requiresKey,
+                coolingDown
+        );
+    }
+
+    public static DoorInteraction.DoorInteractionResult neutralMasterKeyDoorResult(
+            Identifier handItemId,
+            boolean neutralKeyUser,
+            boolean corruptCopKeyUser,
+            DoorInteraction.DoorType doorType,
+            boolean blasted,
+            boolean jammed,
+            boolean open,
+            boolean requiresKey,
+            boolean coolingDown
+    ) {
+        /*
+         * 中立万能钥匙现在对所有中立身份生效；验尸官伪装中立尸体时，
+         * 调用方会把 neutralKeyUser 置为 true，让临时获得的钥匙同样能开列车门。
+         */
+        if (!NEUTRAL_MASTER_KEY_ID.equals(handItemId) || !neutralKeyUser) {
+            return DoorInteraction.DoorInteractionResult.PASS;
+        }
+        if (blasted || jammed || open) {
+            return DoorInteraction.DoorInteractionResult.PASS;
+        }
+        if (!canNeutralMasterKeyOpen(doorType, requiresKey, corruptCopKeyUser)) {
+            return DoorInteraction.DoorInteractionResult.PASS;
+        }
+        return coolingDown
+                ? DoorInteraction.DoorInteractionResult.DENY
+                : DoorInteraction.DoorInteractionResult.ALLOW;
+    }
+
+    public static boolean isCorruptCop(Role role) {
+        return role != null && CORRUPT_COP_ID.equals(role.identifier());
+    }
+
+    public static boolean isInsider(Role role) {
+        return role != null && INSIDER_ID.equals(role.identifier());
+    }
+
+    public static boolean isSphinxHao(Role role) {
+        return role != null && SPHINX_HAO_ID.equals(role.identifier());
+    }
+
+    public static boolean isSniper(Role role) {
+        return role != null && SNIPER_ID.equals(role.identifier());
+    }
+
+    /**
+     * The Corrupt Cop's teammates (Team Jiahao): the Insider, the Sphinx Hao and the Sniper. Used wherever the Insider
+     * alone used to stand for "a Team Jiahao partner" (concealment pairing, blackout team, Partygoer instinct key).
+     * Stays id-exact (not the {@code sparkdlc:jiahao} faction) so these rules stay Minecraft-light and never count the
+     * Corrupt Cop itself, whose faction is Team Jiahao too.
+     * 黑警的队友（嘉豪阵营）：内应、狮身豪与狙击手。凡是此前用内应单独代表“嘉豪阵营搭档”的地方（隐身配对、熄灯队伍、
+     * 派对客本能键）都改用此判定。保持按 id 精确匹配（而非 sparkdlc:jiahao 阵营），使本规则类保持轻量，且永远不把同属嘉
+     * 豪阵营的黑警本身算进来。
+     */
+    public static boolean isCorruptCopTeammate(Role role) {
+        return isInsider(role) || isSphinxHao(role) || isSniper(role);
+    }
+
+    public static boolean usesKillerStyleInstinctLight(
+            Role viewerRole,
+            boolean instinctKeyPressed,
+            boolean viewerPlayingAndAlive
+    ) {
+        return isCorruptCop(viewerRole) && instinctKeyPressed && viewerPlayingAndAlive;
+    }
+
+    public static boolean nextAbilityActive(boolean isCorruptCop, boolean currentlyActive) {
+        return isCorruptCop && !currentlyActive;
+    }
+
+    public static Vec3d lateralVelocityBonus(
+            Vec3d movementInput,
+            float speed,
+            float yaw,
+            boolean isCorruptCop,
+            boolean abilityActive,
+            boolean aliveSurvival
+    ) {
+        if (!isCorruptCop || !abilityActive || !aliveSurvival || movementInput == null) {
+            return Vec3d.ZERO;
+        }
+
+        double lengthSquared = movementInput.lengthSquared();
+        if (lengthSquared < NORMALIZED_MOVEMENT_INPUT_EPSILON) {
+            return Vec3d.ZERO;
+        }
+
+        Vec3d normalizedInput = lengthSquared > 1.0D ? movementInput.normalize() : movementInput;
+        double lateralInput = normalizedInput.x;
+        if (Math.abs(lateralInput) < NORMALIZED_MOVEMENT_INPUT_EPSILON) {
+            return Vec3d.ZERO;
+        }
+
+        // Vanilla already applied one lateral share; add only the remaining multiplier after normalization.
+        // 原版已经应用了一份横移速度；归一化之后只补上剩余倍率。
+        double bonusSpeed = lateralInput * speed * (LATERAL_SPEED_MULTIPLIER - 1.0D);
+        float radians = yaw * MathHelper.RADIANS_PER_DEGREE;
+        return new Vec3d(
+                bonusSpeed * MathHelper.cos(radians),
+                0.0D,
+                bonusSpeed * MathHelper.sin(radians)
+        );
+    }
+
+    private static boolean canNeutralMasterKeyOpen(
+            DoorInteraction.DoorType doorType,
+            boolean requiresKey,
+            boolean corruptCop
+    ) {
+        return doorType == DoorInteraction.DoorType.TRAIN_DOOR
+                // 仍保留黑警增强里原本的小门行为；其它中立角色只吃“中立万能钥匙”的列车门能力。
+                || (corruptCop && doorType == DoorInteraction.DoorType.SMALL_DOOR && requiresKey);
+    }
+}

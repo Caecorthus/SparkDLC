@@ -1,0 +1,73 @@
+package dev.caecorthus.sparkdlc.client.hud;
+
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistRules;
+import dev.caecorthus.sparkdlc.util.TickTime;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.hit.EntityHitResult;
+
+/** Renders the Orthopedist's private cooldown and aimed-target state. / 渲染骨科大夫私有冷却与准星目标状态。 */
+public final class OrthopedistHudRenderer {
+    private static final int RIGHT_PADDING = 5;
+    private static final int BOTTOM_PADDING = 5;
+
+    private OrthopedistHudRenderer() {
+    }
+
+    public static void render(DrawContext context, ClientPlayerEntity player) {
+        TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
+        Text line = stateText(player);
+        int x = context.getScaledWindowWidth() - RIGHT_PADDING - renderer.getWidth(line);
+        int y = context.getScaledWindowHeight() - BOTTOM_PADDING - renderer.fontHeight;
+        context.drawTextWithShadow(renderer, line, x, y, OrthopedistRules.COLOR);
+    }
+
+    static Text stateText(ClientPlayerEntity player) {
+        OrthopedistPlayerComponent component = OrthopedistPlayerComponent.KEY.get(player);
+        if (component.getCooldownTicks() > 0) {
+            return Text.translatable(
+                    "hud.sparkdlc.orthopedist.cooldown",
+                    TickTime.ceilSecondsAtLeastOne(component.getCooldownTicks())
+            );
+        }
+
+        PlayerEntity target = aimedPlayer(player);
+        if (target == null) {
+            return Text.translatable("hud.sparkdlc.orthopedist.no_target");
+        }
+        if (OrthopedistPlayerComponent.KEY.get(target).hasBoneSettingActive()) {
+            return Text.translatable(
+                    "hud.sparkdlc.orthopedist.already_active",
+                    target.getDisplayName()
+            );
+        }
+        return Text.translatable(
+                "hud.sparkdlc.orthopedist.ready",
+                SparkDLCClient.abilityKeyText(),
+                target.getDisplayName()
+        );
+    }
+
+    // Mirrors OrthopedistTargeting.isValidDirectTarget, spectator test included, so a Rift Gate occupant never reads as
+    // a target. Game modes are public (tab list).
+    // 镜像 OrthopedistTargeting.isValidDirectTarget（含旁观者判断），裂隙门内的玩家不会显示为目标。游戏模式本就公开（玩家列表）。
+    private static PlayerEntity aimedPlayer(ClientPlayerEntity player) {
+        if (!(MinecraftClient.getInstance().crosshairTarget instanceof EntityHitResult entityHit)
+                || !(entityHit.getEntity() instanceof PlayerEntity target)
+                || target == player
+                || target.isSpectator()
+                || !GameFunctions.isPlayerPlayingAndAlive(target)
+                || player.squaredDistanceTo(target) > OrthopedistRules.TARGET_RANGE_SQUARED
+                || !player.canSee(target)) {
+            return null;
+        }
+        return target;
+    }
+}

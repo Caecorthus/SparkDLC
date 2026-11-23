@@ -2,7 +2,7 @@
 
 ## NoellesRoles Saint bell
 
-`src/main/resources/assets/sparkwitch/sounds/ambient/saint_bell.ogg` is redistributed from
+`src/main/resources/assets/sparkdlc/sounds/ambient/saint_bell.ogg` is redistributed from
 [Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
 `45934af010561e22251cbfcfbc022f87ad581a36`.
 
@@ -18,14 +18,14 @@ were copied or adapted from
 
 The adapted implementation is primarily under:
 
-- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/killer/hunter/`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/civilian/orthopedist/`
-- `src/client/java/dev/caecorthus/sparkdlc/witch/client/hunter/`
-- `src/client/java/dev/caecorthus/sparkdlc/witch/client/hooks/HunterTrapClientHooks.java`
-- `src/client/java/dev/caecorthus/sparkdlc/witch/client/renderer/HunterTrapEntityRenderer.java`
+- `src/main/java/dev/caecorthus/sparkdlc/role/killer/hunter/`
+- `src/main/java/dev/caecorthus/sparkdlc/role/civilian/orthopedist/`
+- `src/client/java/dev/caecorthus/sparkdlc/client/role/killer/hunter/`
+- `src/client/java/dev/caecorthus/sparkdlc/client/hooks/HunterTrapClientHooks.java`
+- `src/client/java/dev/caecorthus/sparkdlc/client/render/entity/HunterTrapEntityRenderer.java`
 
 Copied or namespace-adapted assets include the Hunter trap, double-barrel shotgun, shell, Fracture,
-and Bone Setting models, textures, and icons under `src/main/resources/assets/sparkwitch/`.
+and Bone Setting models, textures, and icons under `src/main/resources/assets/sparkdlc/`.
 
 SparkWitch's 2026-07-14 modifications use `sparkwitch` identifiers, integrate Wathe's native role,
 shop, death, replay, and component contracts, pair random Hunter assignment with one Orthopedist,
@@ -44,21 +44,21 @@ and commit author `wifi-left`.
 
 The following files contain adapted code:
 
-- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/killer/ninja/`, primarily from
+- `src/main/java/dev/caecorthus/sparkdlc/role/killer/ninja/`, primarily from
   `src/main/java/org/agmas/noellesroles/game/roles/killer/ninja/NinjaPlayerComponent.java`,
   `src/main/java/org/agmas/noellesroles/init/RoleInitialItems.java`, and
   `src/main/java/org/agmas/noellesroles/init/RoleShopHandler.java`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/item/ninja/NinjaKnifeItem.java`, from
+- `src/main/java/dev/caecorthus/sparkdlc/item/ninja/NinjaKnifeItem.java`, from
   `src/main/java/org/agmas/noellesroles/content/item/NinjaKnifeItem.java`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/item/ninja/NinjaShurikenItem.java`, from
+- `src/main/java/dev/caecorthus/sparkdlc/item/ninja/NinjaShurikenItem.java`, from
   `src/main/java/org/agmas/noellesroles/content/item/NinjaShurikenItem.java`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/entity/NinjaShurikenEntity.java`, from
+- `src/main/java/dev/caecorthus/sparkdlc/entity/NinjaShurikenEntity.java`, from
   `src/main/java/org/agmas/noellesroles/content/entity/ThrowingKnifeEntity.java`
 
 The following files are copied item models with namespace-only changes:
 
-- `src/main/resources/assets/sparkwitch/models/item/ninja_knife.json`
-- `src/main/resources/assets/sparkwitch/models/item/ninja_shuriken.json`
+- `src/main/resources/assets/sparkdlc/models/item/ninja_knife.json`
+- `src/main/resources/assets/sparkdlc/models/item/ninja_shuriken.json`
 
 On 2026-09-25, SparkWitch replaced the upstream `ninja_knife.png` and `ninja_shuriken.png` item
 textures with new 16x16 artwork. The upstream item textures are no longer included in SparkWitch
@@ -77,7 +77,7 @@ GPLv3 section 13. A verbatim copy of the upstream license is included at
 
 ## StarRailExpress Perception grayscale
 
-`src/client/resources/assets/minecraft/shaders/program/sparkwitch_perception.fsh` adapts the
+`src/client/resources/assets/minecraft/shaders/program/sparkdlc_perception.fsh` adapts the
 desaturation pass from SparkTraits commit `2f1c5adc4d1bc75e1bc6f4b8ec9d9123b2b96328`. That
 shader was itself adapted from
 [catmoon-train/StarRailExpress](https://github.com/catmoon-train/StarRailExpress) `insanity.fsh`
@@ -92,7 +92,7 @@ shader remains covered by GPL-3.0-only; the existing copy is included at
 ## NoellesRoles master-key model transforms (Spare Key)
 
 The `display` transforms (`thirdperson_righthand`, `firstperson_righthand`) in
-`src/main/resources/assets/sparkwitch/models/item/spare_key.json` are copied from
+`src/main/resources/assets/sparkdlc/models/item/spare_key.json` are copied from
 `assets/noellesroles/models/item/master_key.json` in
 [Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
 `45934af010561e22251cbfcfbc022f87ad581a36`. SparkWitch keeps the transforms unchanged and points the
@@ -101,14 +101,14 @@ model at its own texture.
 The upstream repository licenses this work under LGPL-3.0-or-later. A copy of that license is
 included at `licenses/NoellesRoles-LGPL-3.0-or-later.txt`.
 
-The 16x16 item texture `src/main/resources/assets/sparkwitch/textures/item/spare_key.png` is not
+The 16x16 item texture `src/main/resources/assets/sparkdlc/textures/item/spare_key.png` is not
 the NoellesRoles master-key texture: it was contributed by Ranmeng-Someya in
 [Caecorthus/SparkWitch#189](https://github.com/Caecorthus/SparkWitch/pull/189) and is covered by
 `LICENSE-TEXTURES.md`.
 
 ## NoellesRoles defense vial texture (Defense Vial)
 
-`src/main/resources/assets/sparkwitch/textures/item/defense_vial.png` is redistributed unchanged from
+`src/main/resources/assets/sparkdlc/textures/item/defense_vial.png` is redistributed unchanged from
 `assets/noellesroles/textures/item/defense_vial.png` in
 [Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
 `45934af010561e22251cbfcfbc022f87ad581a36`.
@@ -122,9 +122,9 @@ The following files adapt the `insanity` shader program from
 [catmoon-train/StarRailExpress](https://github.com/catmoon-train/StarRailExpress) at commit
 `f8d84137e36e08349a10542438944ef2f010ec37`, credited upstream to the Catmoon Train Team:
 
-- `src/client/resources/assets/minecraft/shaders/program/sparktraits_depression_insanity.fsh`, from
+- `src/client/resources/assets/minecraft/shaders/program/sparkdlc_depression_insanity.fsh`, from
   `src/main/resources/assets/minecraft/shaders/program/insanity.fsh`
-- `src/client/resources/assets/minecraft/shaders/program/sparktraits_depression_insanity.json`, from
+- `src/client/resources/assets/minecraft/shaders/program/sparkdlc_depression_insanity.json`, from
   `src/main/resources/assets/minecraft/shaders/program/insanity.json`
 
 SparkTraits renames the program to its own identifier, replaces the fixed 1.2 output multiplier

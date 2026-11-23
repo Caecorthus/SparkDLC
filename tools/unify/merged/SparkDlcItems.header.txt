@@ -1,0 +1,8 @@
+/**
+ * Every item the mod registers from one place (BEAR and Black Raven feather items keep their role classes). The two
+ * parts register at different moments of {@code SparkDLC#onInitialize}, each through its own method, and that order
+ * is the raw-id order of the item registry and the order of the creative tab: add a new item at the end of the
+ * registration method of its part.
+ * 本模组集中注册的全部物品（BEAR 与黑羽鸦羽毛物品仍在各自的职业类中）。两个部分在 {@code SparkDLC#onInitialize} 的不同时刻、
+ * 各自通过自己的方法注册；该顺序就是物品注册表的 raw id 顺序，也是创造模式物品栏的顺序：新增物品请追加到所属部分注册方法的末尾。
+ */

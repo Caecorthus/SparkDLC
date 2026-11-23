@@ -1,0 +1,283 @@
+package dev.caecorthus.sparkdlc.role.civilian.coroner;
+
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperKnockoutService;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerSabotageRepairService;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumShopService;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
+import dev.caecorthus.sparkdlc.role.civilian.recaller.RecallerShopRules;
+import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistAntidoteService;
+import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistBlueShop;
+import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistCapsuleRules;
+import dev.caecorthus.sparkdlc.util.ShopStacks;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.BuildShopEntries;
+import dev.doctor4t.wathe.cca.GameTimeComponent;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.index.WatheItems;
+import dev.doctor4t.wathe.util.ShopEntry;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.text.Text;
+import org.agmas.noellesroles.ModItems;
+import org.agmas.noellesroles.item.IngredientItem;
+
+/**
+ * 验尸官专属商店条目。
+ *
+ * <p>这里只追加采尸袋，不清空原有条目；如果之后 NoellesRoles 或其它增强继续给验尸官加商品，
+ * 不会被这里覆盖。</p>
+ */
+public final class CoronerShopService {
+    private static boolean registered;
+
+    private CoronerShopService() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        BuildShopEntries.EVENT.register(CoronerShopService::buildShopEntries);
+    }
+
+    private static void buildShopEntries(PlayerEntity player, BuildShopEntries.ShopContext context) {
+        Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+        if (!CoronerRules.canUseCoronerShop(role)) {
+            return;
+        }
+
+        context.addEntry(0, new ShopEntry.Builder(
+                CoronerRules.BODY_BAG_ENTRY_ID,
+                bodyBagDisplayStack(),
+                CoronerRules.BODY_BAG_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(SparkDlcItems.coronerBodyBag().getDefaultStack()).build());
+
+        Role disguiseRole = CoronerService.activeDisguiseRoleForRules(player);
+        if (disguiseRole == null) {
+            return;
+        }
+        /*
+         * 验尸官伪装商店统一在采尸袋之后追加。
+         * 这里不调用 NoellesRoles 原商店 handler，避免酒保/工程师这类 handler 的 clearEntries()
+         * 把验尸官自己的采尸袋清掉；也避免真实职业判断导致验尸官打不开对应商店。
+         */
+        if (CoronerRules.isToxicologist(disguiseRole)) {
+            addToxicologistShop(context);
+        } else if (CoronerRules.isProfessor(disguiseRole)) {
+            addProfessorShop(context);
+        } else if (CoronerRules.isReporter(disguiseRole)) {
+            addReporterShop(context);
+        } else if (CoronerRules.isTimekeeper(disguiseRole)) {
+            addTimekeeperShop(context);
+        } else if (CoronerRules.isRecaller(disguiseRole)) {
+            addRecallerShop(context);
+        } else if (CoronerRules.isBartender(disguiseRole)) {
+            addBartenderShop(context);
+        } else if (CoronerRules.isEngineer(disguiseRole)) {
+            rebuildEngineerShop(context);
+        } else if (CoronerRules.isBomber(disguiseRole)) {
+            addBomberShop(context);
+        } else if (CoronerRules.isKidnapper(disguiseRole)) {
+            addKidnapperShop(player, context);
+        }
+    }
+
+    private static ItemStack bodyBagDisplayStack() {
+        return ShopStacks.display(SparkDlcItems.coronerBodyBag().getDefaultStack(),
+                "shop.sparkdlc.coroner_body_bag");
+    }
+
+    private static void addToxicologistShop(BuildShopEntries.ShopContext context) {
+        int offset = 0;
+        offset = insertAfterBodyBag(context, offset, new ShopEntry.Builder(
+                ToxicologistCapsuleRules.CAPSULE_ENTRY_ID,
+                capsuleDisplayStack(),
+                ToxicologistCapsuleRules.CAPSULE_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(SparkDlcItems.capsule().getDefaultStack()).build());
+        offset = insertAfterBodyBag(context, offset, new ShopEntry.Builder(
+                ToxicologistCapsuleRules.REFRESH_ANTIDOTE_COOLDOWN_ENTRY_ID,
+                refreshAntidoteCooldownDisplayStack(),
+                ToxicologistCapsuleRules.REFRESH_ANTIDOTE_COOLDOWN_PRICE,
+                ShopEntry.Type.TOOL
+        ).onBuy(ToxicologistAntidoteService::refreshAntidoteCooldown).build());
+        // Same blue entries, in the same order, as the real Toxicologist shop.
+        // 与真实毒理学家商店相同的蓝毒条目与顺序。
+        for (ShopEntry entry : ToxicologistBlueShop.entries()) {
+            offset = insertAfterBodyBag(context, offset, entry);
+        }
+    }
+
+    private static void addProfessorShop(BuildShopEntries.ShopContext context) {
+        int offset = 0;
+        for (ProfessorSerumType type : ProfessorSerumType.BACKPACK_ORDER) {
+            offset = insertAfterBodyBag(context, offset, new ShopEntry.Builder(
+                    ProfessorSerumRules.shopEntryId(type),
+                    professorSerumDisplayStack(type),
+                    ProfessorSerumRules.price(type),
+                    ShopEntry.Type.TOOL
+            ).actualStack(type.defaultStack()).build());
+        }
+        insertAfterBodyBag(context, offset, new ShopEntry.Builder(
+                ProfessorSerumRules.REFRESH_COOLDOWN_ENTRY_ID,
+                professorRefreshDisplayStack(),
+                ProfessorSerumRules.REFRESH_COOLDOWN_PRICE,
+                ShopEntry.Type.TOOL
+        ).onBuy(ProfessorSerumShopService::refreshCooldown).build());
+    }
+
+    private static void addReporterShop(BuildShopEntries.ShopContext context) {
+        insertAfterBodyBag(context, 0, new ShopEntry.Builder("note", new ItemStack(WatheItems.NOTE, 4), 50,
+                ShopEntry.Type.TOOL).build());
+    }
+
+    private static void addTimekeeperShop(BuildShopEntries.ShopContext context) {
+        ItemStack reduceTimeItem = ModItems.TIMEKEEPER_REDUCE_TIME.getDefaultStack();
+        reduceTimeItem.set(DataComponentTypes.CUSTOM_NAME, Text.translatable("item.noellesroles.timekeeper_reduce_time"));
+        insertAfterBodyBag(context, 0, new ShopEntry.Builder("timekeeper_reduce_time", reduceTimeItem, 100, ShopEntry.Type.TOOL)
+                .onBuy(buyer -> {
+                    GameTimeComponent.KEY.get(buyer.getWorld()).addTime(-900);
+                    return true;
+                }).build());
+    }
+
+    private static void addRecallerShop(BuildShopEntries.ShopContext context) {
+        int offset = 0;
+        offset = insertAfterBodyBag(context, offset, new ShopEntry.Builder(
+                RecallerShopRules.ENDER_PEARL_ENTRY_ID,
+                Items.ENDER_PEARL.getDefaultStack(),
+                RecallerShopRules.ENDER_PEARL_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(Items.ENDER_PEARL.getDefaultStack()).build());
+        insertAfterBodyBag(context, offset, new ShopEntry.Builder(
+                RecallerShopRules.CHORUS_FRUIT_ENTRY_ID,
+                Items.CHORUS_FRUIT.getDefaultStack(),
+                RecallerShopRules.CHORUS_FRUIT_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(Items.CHORUS_FRUIT.getDefaultStack()).build());
+    }
+
+    private static void addBartenderShop(BuildShopEntries.ShopContext context) {
+        context.clearEntries();
+        context.addEntry(new ShopEntry.Builder(
+                CoronerRules.BODY_BAG_ENTRY_ID,
+                bodyBagDisplayStack(),
+                CoronerRules.BODY_BAG_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(SparkDlcItems.coronerBodyBag().getDefaultStack()).build());
+        // Ingredient prices and spices A/B come from BartenderShopService, which rewrites every final Bartender list.
+        // 调剂价格与调料 A/B 由 BartenderShopService 统一改写最终酒保列表时提供。
+        context.addEntry(new ShopEntry(
+                ModItems.BASE_SPIRIT.getDefaultStack(), BartenderRules.BASE_SPIRIT_PRICE, ShopEntry.Type.POISON));
+        addIngredientEntry(context, ModItems.RUM);
+        addIngredientEntry(context, ModItems.GIN);
+        addIngredientEntry(context, ModItems.VODKA);
+        addIngredientEntry(context, ModItems.TEQUILA);
+        addIngredientEntry(context, ModItems.WHISKEY);
+        addIngredientEntry(context, ModItems.ICE_CUBE);
+        addIngredientEntry(context, ModItems.SPECIAL_LIQUEUR);
+        addIngredientEntry(context, ModItems.SPECIAL_SPICE);
+    }
+
+    private static void rebuildEngineerShop(BuildShopEntries.ShopContext context) {
+        context.clearEntries();
+        context.addEntry(new ShopEntry.Builder(
+                CoronerRules.BODY_BAG_ENTRY_ID,
+                bodyBagDisplayStack(),
+                CoronerRules.BODY_BAG_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(SparkDlcItems.coronerBodyBag().getDefaultStack()).build());
+        context.addEntry(new ShopEntry.Builder(
+                EngineerRules.CAPTURE_DEVICE_ENTRY_ID,
+                captureDeviceDisplayStack(),
+                EngineerRules.CAPTURE_DEVICE_PRICE,
+                ShopEntry.Type.TOOL
+        ).actualStack(SparkDlcItems.captureDevice().getDefaultStack()).build());
+        context.addEntry(new ShopEntry.Builder(
+                EngineerRules.SABOTAGE_REPAIR_ENTRY_ID,
+                sabotageRepairDisplayStack(),
+                EngineerRules.SABOTAGE_REPAIR_PRICE,
+                ShopEntry.Type.TOOL
+        ).onBuy(EngineerSabotageRepairService::tryRepair).build());
+    }
+
+    private static void addBomberShop(BuildShopEntries.ShopContext context) {
+        context.getEntries().removeIf(entry ->
+                entry.stack().isOf(WatheItems.KNIFE)
+                        || entry.stack().isOf(WatheItems.GRENADE));
+        insertAfterBodyBag(context, 0, new ShopEntry.Builder(
+                "coroner_bomber_timed_bomb",
+                ModItems.TIMED_BOMB.getDefaultStack(),
+                100,
+                ShopEntry.Type.WEAPON
+        ).actualStack(ModItems.TIMED_BOMB.getDefaultStack()).build());
+        /*
+         * 验尸官伪装为炸弹客时，商店还要继承炸弹客原本的手雷条目。
+         * 这里按 NoellesRoles 炸弹客商店的平衡值重新放回 300 金币，
+         * 避免基础商店里若已存在同名手雷时出现重复或价格不一致。
+         */
+        insertAfterBodyBag(context, 1, new ShopEntry.Builder(
+                "grenade",
+                WatheItems.GRENADE.getDefaultStack(),
+                300,
+                ShopEntry.Type.WEAPON
+        ).actualStack(WatheItems.GRENADE.getDefaultStack()).build());
+    }
+
+    private static void addKidnapperShop(PlayerEntity player, BuildShopEntries.ShopContext context) {
+        /*
+         * 绑架者功能自己拥有迷药的物品、贴图、价格与描述（含持有者的【魅力】折扣）。
+         * 这里仅在验尸官采尸袋之后追加该条目。
+         * The Kidnapper feature owns the drug's item, texture, price and description (the holder's Charisma
+         * discount included); this only appends its entry after the Coroner's body bag.
+         */
+        insertAfterBodyBag(context, 0, KidnapperKnockoutService.shopEntry(player));
+    }
+
+    private static int insertAfterBodyBag(BuildShopEntries.ShopContext context, int offset, ShopEntry entry) {
+        context.addEntry(Math.min(1 + offset, context.size()), entry);
+        return offset + 1;
+    }
+
+    private static void addIngredientEntry(BuildShopEntries.ShopContext context, Item item) {
+        if (item instanceof IngredientItem ingredientItem) {
+            context.addEntry(new ShopEntry(item.getDefaultStack(), ingredientItem.getShopPrice(), ShopEntry.Type.POISON));
+        }
+    }
+
+    private static ItemStack capsuleDisplayStack() {
+        return ShopStacks.display(SparkDlcItems.capsule().getDefaultStack(), "shop.sparkdlc.capsule");
+    }
+
+    private static ItemStack refreshAntidoteCooldownDisplayStack() {
+        return ShopStacks.display(Items.CLOCK.getDefaultStack(),
+                "shop.sparkdlc.toxicologist.refresh_antidote_cooldown");
+    }
+
+    private static ItemStack professorSerumDisplayStack(ProfessorSerumType type) {
+        return ShopStacks.display(type.defaultStack(), "shop.sparkdlc.professor." + type.id());
+    }
+
+    private static ItemStack professorRefreshDisplayStack() {
+        return ShopStacks.display(Items.CLOCK.getDefaultStack(), "shop.sparkdlc.professor.refresh_cooldown");
+    }
+
+    private static ItemStack captureDeviceDisplayStack() {
+        return ShopStacks.display(SparkDlcItems.captureDevice().getDefaultStack(),
+                "shop.sparkdlc.engineer.capture_device");
+    }
+
+    private static ItemStack sabotageRepairDisplayStack() {
+        return ShopStacks.display(SparkDlcItems.powerRestoration().getDefaultStack(),
+                "shop.sparkdlc.engineer.power_restoration");
+    }
+}

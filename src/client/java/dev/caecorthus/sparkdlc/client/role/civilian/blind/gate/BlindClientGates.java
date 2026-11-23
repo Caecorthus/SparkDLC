@@ -1,0 +1,118 @@
+package dev.caecorthus.sparkdlc.client.role.civilian.blind.gate;
+
+import dev.caecorthus.sparkdlc.client.ponder.ActorPlayer;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindPerceptionClientState;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindSilhouettePass;
+import dev.caecorthus.sparkdlc.client.render.WraithClientState;
+import dev.caecorthus.sparkdlc.entity.NinjaGrapplingHookEntity;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FishingBobberEntity;
+import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Per-call client hooks behind the {@code BlindGate*} mixins. Every answer re-reads {@link BlindView#isActive}, so the
+ * gates switch off the same frame the view does. Cheap checks (is it another player?) run first.
+ * {@code BlindGate*} mixin 背后的逐次调用客户端钩子。每次都重新读取 {@link BlindView#isActive}，因此闸门与视图在同一帧关闭。
+ * 先执行开销小的判断（是否为其他玩家）。
+ */
+public final class BlindClientGates {
+    private BlindClientGates() {
+    }
+
+    /** The view is active: hide HUD leaks, outlines, the hand and the block outline. / 视图生效：隐藏 HUD 泄露、描边、手与方块框。 */
+    public static boolean viewActive() {
+        return BlindView.isActive(MinecraftClient.getInstance());
+    }
+
+    /**
+     * D2: an unperceived other player, or a spectator, is not drawn at all; neither is a fishing bobber or Ninja
+     * grappling hook whose owner is hidden, because its line or chain is drawn to the owner's hand.
+     * D2：未被感知的其他玩家或旁观者完全不画；主人被隐藏的浮漂或忍者钩爪也不画，因为钓线或锁链会连到主人手上。
+     */
+    public static boolean hidesEntity(@Nullable Entity entity) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (entity instanceof MagicianPlaybackEntity) {
+            // A Magician puppet passes for another player (owner decision D6) and is never perceived: server perception
+            // credits sounds to players only, so it is hidden like an unperceived player.
+            // 魔术师皮套冒充其他玩家（所有者决定 D6）且永远不会被感知：服务端感知只把声音归于玩家，因此与未被感知的玩家
+            // 一样隐藏。
+            return BlindGateRules.hidesEntity(BlindView.isActive(client), true, false, false);
+        }
+        if (entity instanceof FishingBobberEntity bobber) {
+            return hidesPlayer(client, bobber.getPlayerOwner());
+        }
+        if (entity instanceof NinjaGrapplingHookEntity hook) {
+            return hidesPlayer(client, hook.getOwnerPlayer());
+        }
+        if (BlackRavenCrowForm.isHiddenBody(entity) && isOtherPlayer(client, entity) && BlindView.isActive(client)) {
+            // The Black Raven's left-behind Raven Form body is never drawn or echoed (the crow is a normal entity).
+            // 黑羽鸦化鸦时被留下的本体从不绘制、也不回声显示（乌鸦是普通实体）。
+            return true;
+        }
+        return hidesPlayer(client, entity);
+    }
+
+    /**
+     * D4: a perceived other player draws its body even when invisible. Spectators (dead, swallowed, Last Stand pending)
+     * would show only a floating head and active Wraiths are never perceivable (D4), so neither is forced.
+     * D4：被感知的其他玩家即使隐身也画出身体。旁观者（死亡、被吞、最后一搏待定）只会显示漂浮的头，
+     * 活跃的冤魂永远不可被感知（D4），因此两者都不强制显示。
+     */
+    public static boolean forcesVisible(@Nullable Entity entity) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!isOtherPlayer(client, entity) || !BlindView.isActive(client) || BlackRavenCrowForm.isHiddenBody(entity)) {
+            return false;
+        }
+        return BlindGateRules.forcesVisible(true, true, isPerceived(entity), entity.isSpectator(),
+                WraithClientState.isActive((PlayerEntity) entity));
+    }
+
+    /**
+     * No held item, armor, cape or mod feature on other players, and only the empty arm pose (no gun, bat or knife
+     * stance). The guidebook's demo actors are not other players, so a Blind reader still sees their knives, vests and
+     * gun stances. This gate is asked for every feature layer of every living entity and only reads state.
+     * 其他玩家不画手持物、护甲、披风与模组附加层，手臂只用空手姿势（无持枪、持棒或持刀姿势）。指南的演示演员不是其他玩家，
+     * 因此盲人读者仍能看到它们的刀、背心与持枪姿势。每个生物的每个附加层都会询问该闸门，且它只读取状态。
+     */
+    public static boolean suppressesFeatures(@Nullable Entity entity) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!isOtherPlayer(client, entity)) {
+            return false;
+        }
+        return BlindGateRules.suppressesFeatures(BlindView.isActive(client), true) && !(entity instanceof ActorPlayer);
+    }
+
+    /**
+     * The answer behind {@code SparkRoleApi.hidesFeaturesFromBlind}: a feature would be skipped here by either Blind
+     * gate, the world frame's ({@link #suppressesFeatures}) or the silhouette pass's
+     * ({@link BlindSilhouettePass#isRendering()}). Downstream extras drawn outside the feature loop (the Vulture
+     * skateboard under a replaced Pig body) follow it; a replaced body itself keeps its shape (owner 2026-10-07).
+     * {@code SparkRoleApi.hidesFeaturesFromBlind} 背后的答案：任一盲人闸门（世界画面的 {@link #suppressesFeatures}
+     * 或轮廓 pass 的 {@link BlindSilhouettePass#isRendering()}）会在此跳过附加层。附加层循环之外绘制的下游附加物
+     * （在被替换的猪身体下方绘制的秃鹫滑板）遵循它；被替换的身体本身保留原形状（所有者 2026-10-07）。
+     */
+    public static boolean hidesFeaturesFromBlind(@Nullable Entity entity) {
+        return suppressesFeatures(entity) || BlindSilhouettePass.isRendering();
+    }
+
+    private static boolean hidesPlayer(MinecraftClient client, @Nullable Entity entity) {
+        if (!isOtherPlayer(client, entity) || !BlindView.isActive(client)) {
+            return false;
+        }
+        return BlindGateRules.hidesEntity(true, true, isPerceived(entity), entity.isSpectator());
+    }
+
+    private static boolean isOtherPlayer(MinecraftClient client, @Nullable Entity entity) {
+        return entity instanceof PlayerEntity && client.player != null && entity.getId() != client.player.getId();
+    }
+
+    private static boolean isPerceived(Entity entity) {
+        return BlindPerceptionClientState.get().isPerceived(entity.getId(), Util.getMeasuringTimeNano());
+    }
+}

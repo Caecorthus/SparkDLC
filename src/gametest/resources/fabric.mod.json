@@ -7,10 +7,21 @@
   "environment": "*",
   "entrypoints": {
     "fabric-gametest": [
-      "dev.caecorthus.sparkdlc.gametest.SparkDlcBootTest"
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcBootTest",
+      "dev.caecorthus.sparkdlc.gametest.LegacyRegistryAliasesGameTest",
+      "dev.caecorthus.sparkdlc.gametest.LegacySavedDataGameTest",
+      "dev.caecorthus.sparkdlc.gametest.LegacyDataNamesGameTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcCommandTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcStartupTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcSharedHelpersGameTest",
+      "dev.caecorthus.sparkdlc.gametest.ShiningNeonPillarGameTest"
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"
+    ],
+    "preLaunch": [
+      "dev.caecorthus.sparkdlc.gametest.LegacyClientNamesFixture"
     ]
   },
   "depends": {

@@ -1,6 +1,0 @@
-{
-  "parent": "sparkwitch:item/savior_lightsaber_handheld",
-  "textures": {
-    "layer0": "sparkwitch:item/savior_lightsaber_3"
-  }
-}

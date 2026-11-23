@@ -1,0 +1,35 @@
+# Members of the classes that are merged into one (class-renames.tsv, kind merge / stored). action: rename = new member name in the merged
+# class; drop = the member is not carried over; move = the member lives in another class now (new = Class#member). `plan` fails when two
+# parts of a merged class declare one name and no row here tells them apart.
+# 被合并类的成员（class-renames.tsv 中 kind 为 merge / stored 的行）。action：rename = 在合并类中的新成员名；drop = 不带入合并类；
+# move = 成员改放到另一个类（new = 类#成员）。合并类的两个部分声明了同名成员而这里没有行加以区分时，`plan` 会失败。
+class	member	action	new	reason
+SparkStrengthItems	register	rename	registerRoleKitItems	two register() in one class; called from SparkDLC#registerRoleKitContent
+SparkStrengthItems	registered	rename	roleKitItemsRegistered	guard of registerRoleKitItems
+SparkStrengthItems	TIMEKEEPER_WATCH_MODE	move	SparkDlcDataComponents#TIMEKEEPER_WATCH_MODE	a data component belongs to the data component registry; it also fixes its raw id as the fourth, where the static initialiser of SparkStrengthItems used to put it
+SparkWitchItems	register	rename	registerRoleItems	two register() in one class; called from SparkDLC#registerOwnRoleContent
+SparkWitchItems	registered	rename	roleItemsRegistered	guard of registerRoleItems
+SparkStrengthBlocks	register	rename	registerSabotageFixtures	two register() in one class; called from SparkDLC#registerRoleKitContent
+SparkStrengthBlocks	registered	rename	sabotageFixturesRegistered	guard of registerSabotageFixtures
+SparkWitchBlocks	register	rename	registerBeds	two register() in one class; called at the end of SparkDlcItems#registerRoleItems, as before
+SparkStrengthEntities	register	rename	registerRoleKitEntities	two register() in one class; called from SparkDLC#registerRoleKitContent
+SparkStrengthEntities	registered	rename	roleKitEntitiesRegistered	guard of registerRoleKitEntities
+SparkWitchEntities	register	rename	registerRoleEntities	two register() in one class; called from SparkDLC#registerOwnRoleContent
+SparkWitchEntities	registered	rename	roleEntitiesRegistered	guard of registerRoleEntities
+SparkStrengthSounds	initialize	rename	registerRoleKitSounds	three registration methods in one class; called from SparkDLC#registerRoleKitContent
+SparkStrengthSounds	REGISTRAR	rename	ROLE_KIT_REGISTRAR	two registrars in one class: each still registers its own entries at its own time
+SparkTraitsSounds	initialize	rename	registerTraitSounds	three registration methods in one class; called from SparkDLC#registerTraits
+SparkTraitsSounds	registrar	rename	TRAIT_REGISTRAR	two registrars in one class: each still registers its own entries at its own time
+SparkWitchSounds	register	rename	registerRoleSounds	three registration methods in one class; called from SparkDLC#registerOwnRoleContent
+SparkWitchSounds	registered	rename	roleSoundsRegistered	guard of registerRoleSounds
+SparkTraitsDataComponentTypes	init	rename	register	the merged class has one register(), which only forces the static initialiser
+SparkStrengthItemGroups	ITEMS_GROUP	drop		alias of SparkDlcItemGroups.ITEMS_GROUP, which is the same class now
+SparkStrengthItemGroups	register	rename	registerRoleKitSection	three register() in one class; called from SparkDLC#registerRoleKitContent, when only the role kit items exist
+SparkStrengthItemGroups	registered	rename	roleKitSectionRegistered	guard of registerRoleKitSection
+SparkStrengthItemGroups	addEntries	rename	addRoleKitEntries	two addEntries in one class
+SparkStrengthItemGroups	isOwnItem	rename	isRoleKitItem	"own" meant "of SparkStrength"
+SparkStrengthItemGroups	OWN_ITEMS	rename	ROLE_KIT_ITEMS	"own" meant "of SparkStrength"
+SparkWitchItemGroups	ITEMS_GROUP	drop		alias of SparkDlcItemGroups.ITEMS_GROUP, which is the same class now
+SparkWitchItemGroups	register	rename	registerRoleSection	three register() in one class; called from SparkDLC#registerOwnRoleContent
+SparkWitchItemGroups	registered	rename	roleSectionRegistered	guard of registerRoleSection
+SparkWitchItemGroups	addEntries	rename	addRoleEntries	two addEntries in one class

@@ -1,0 +1,119 @@
+package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
+
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
+import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
+import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
+import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
+import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
+import dev.doctor4t.wathe.api.event.BuildShopEntries;
+import dev.doctor4t.wathe.api.event.ShopPurchase;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.util.ShopEntry;
+import java.util.List;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * The Blind's role-gated shop (C14): trait shop entries are preserved and the only own entry is the ComTac VIII,
+ * {@link BlindRules#COMTAC_PRICE} coins, stock 1, shown with the {@code shop.sparkdlc.comtac_viii} name and its
+ * "one per round" description. Wathe caches stock while STARTING, so the gate is the synced role alone; stock is
+ * unenforced for a role gained mid-round, so the buy gate also refuses a buyer who already owns one (inventory,
+ * headset slot or cursor) or already bought one in this match (a server-only mark in {@link BlindComponent}). A bought
+ * ComTac goes into the headset slot when it is empty (E1), else the first empty hotbar slot; with no room the purchase
+ * fails and charges nothing.
+ * 盲人的职业限定商店（C14）：保留词条商店条目，自有条目只有 ComTac VIII，{@link BlindRules#COMTAC_PRICE} 金币、
+ * 库存 1，以 {@code shop.sparkdlc.comtac_viii} 名称及其“每局一件”说明显示。Wathe 在 STARTING 阶段缓存库存，因此只按
+ * 同步职业筛选；中途获得的职业不受库存约束，因此购买门槛还会拒绝已持有者（背包、耳机槽或光标）以及本局已买过者
+ * （{@link BlindComponent} 中仅服务端的记录）。购得的 ComTac 在耳机槽为空时直接放入（E1），否则放入第一个空快捷栏位；没有空间时
+ * 购买失败且不扣费。
+ */
+public final class BlindShopService {
+    /** Lang key of the "already owned" refusal. / “已持有”拒绝提示的语言键。 */
+    public static final String ALREADY_OWNED_KEY = "shop.error.sparkdlc.comtac_owned";
+    private static final String NAME_KEY = "shop.sparkdlc." + BlindRules.COMTAC_SHOP_ENTRY_ID;
+    private static final String DESCRIPTION_KEY = NAME_KEY + ".description";
+    private static final int DESCRIPTION_COLOR = 0x808080;
+    private static boolean registered;
+
+    private BlindShopService() {
+    }
+
+    static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        BuildShopEntries.EVENT.register(BlindShopService::buildEntries);
+        ShopPurchase.BEFORE.register(BlindShopService::denyDuplicate);
+    }
+
+    private static void buildEntries(PlayerEntity player, BuildShopEntries.ShopContext context) {
+        if (!BlindRules.isBlind(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
+            return;
+        }
+        List<ShopEntry> preserved = TraitShopEntries.capture(context);
+        context.clearEntries();
+        context.addEntry(new ShopEntry.Builder(BlindRules.COMTAC_SHOP_ENTRY_ID, displayStack(), BlindRules.COMTAC_PRICE,
+                ShopEntry.Type.TOOL)
+                .stock(1)
+                .onBuy(BlindShopService::buyComTac)
+                .build());
+        TraitShopEntries.restore(context, preserved);
+    }
+
+    /** Fiend shop precedent: a plain item name and one grey, non-italic lore line. / 沿用魔人商店：普通名称与一行灰色非斜体说明。 */
+    private static ItemStack displayStack() {
+        ItemStack display = SparkDlcItems.comTac().getDefaultStack();
+        display.set(DataComponentTypes.ITEM_NAME, Text.translatable(NAME_KEY));
+        display.set(DataComponentTypes.LORE, new LoreComponent(List.of(Text.translatable(DESCRIPTION_KEY)
+                .styled(style -> style.withItalic(false).withColor(DESCRIPTION_COLOR)))));
+        return display;
+    }
+
+    private static @Nullable ShopPurchase.PurchaseResult denyDuplicate(ServerPlayerEntity player, ShopEntry entry,
+                                                                       int index) {
+        return BlindRules.COMTAC_SHOP_ENTRY_ID.equals(entry.id()) && refusesPurchase(player)
+                ? ShopPurchase.PurchaseResult.deny(ALREADY_OWNED_KEY) : null;
+    }
+
+    private static boolean refusesPurchase(ServerPlayerEntity buyer) {
+        return BlindKitRules.refusesComTacPurchase(BlindLoadoutService.ownsComTac(buyer),
+                BlindComponent.KEY.get(buyer).comTacPurchaseMatch(), BlindParticipants.currentMatchId());
+    }
+
+    /**
+     * Server-side buy handler ({@code PlayerShopComponent.tryBuy}); false charges nothing. Both landings are plain
+     * writes (headset component or inventory slot), so no sound is played.
+     * 服务端购买处理（{@code PlayerShopComponent.tryBuy}）；返回 false 不扣费。两种落点都是普通写入（耳机组件或背包栏位），因此不播放音效。
+     */
+    private static boolean buyComTac(PlayerEntity player) {
+        // Normally already denied with a message by denyDuplicate; this is the authoritative backstop.
+        // 通常已由 denyDuplicate 带提示拒绝；此处为权威兜底。
+        if (!(player instanceof ServerPlayerEntity buyer) || !BlindParticipants.isActiveBlind(buyer)
+                || refusesPurchase(buyer)) {
+            return false;
+        }
+        PlayerInventory inventory = buyer.getInventory();
+        int slot = BlindKitRules.comTacLanding(HeadsetSlots.get(buyer).isEmpty(),
+                hotbar -> inventory.getStack(hotbar).isEmpty());
+        if (slot == BlindKitRules.NO_SLOT) {
+            return false;
+        }
+        if (slot == BlindKitRules.HEADSET_SLOT) {
+            HeadsetSlots.set(buyer, new ItemStack(SparkDlcItems.comTac()));
+        } else {
+            inventory.setStack(slot, new ItemStack(SparkDlcItems.comTac()));
+        }
+        BlindComponent.KEY.get(buyer).markComTacBought(BlindParticipants.currentMatchId());
+        inventory.markDirty();
+        buyer.currentScreenHandler.sendContentUpdates();
+        return true;
+    }
+}

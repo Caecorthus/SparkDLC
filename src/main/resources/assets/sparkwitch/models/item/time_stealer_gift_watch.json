@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "sparkwitch:item/time_stealer_gift_watch"
-  }
-}

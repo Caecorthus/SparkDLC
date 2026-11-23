@@ -1,0 +1,196 @@
+package dev.caecorthus.sparkdlc.mixin.compat.noellesroles;
+
+import dev.caecorthus.sparkdlc.item.BanditAmmoItem;
+import dev.caecorthus.sparkdlc.item.BanditAttachmentItem;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipmentRegistry;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import org.agmas.noellesroles.ModItems;
+import org.agmas.noellesroles.item.IngredientItem;
+import org.agmas.noellesroles.util.HiddenEquipmentHelper;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+/**
+ * Adds the dying watch, Engineer capture items, Professor serums, Morphling items, Detective tools,
+ * Perfumer kit, every Bartender ingredient, the Recaller's ender pearl / chorus fruit, the Toxicologist's
+ * Blue Vitriol / Blue Belladonna, the Bomber's drones, the Vulture's skateboard, the Impostor's pry tool, the Pathogen's
+ * Virus / T-Virus, the Party Animal's Party Balloon and the Bandit's revolver parts / rounds to NoellesRoles'
+ * hidden-equipment filter. The tablet is not
+ * hidden: every player is given one, so holding it reveals nothing.
+ * 将濒毁怀表、工程师捕捉装置、教授试剂、变形怪道具、侦探道具、调香师道具、全部酒保调剂、回溯者的末影珍珠/紫颂果、毒理学家的蓝矾/蓝颠茄、炸弹客无人机、秃鹫滑板、内鬼的撬锁工具、病原体的病毒/T病毒、派对狂的派对气球以及强盗的左轮配件/子弹加入 NoellesRoles 的隐藏装备过滤器。平板不隐藏：
+ * 每名玩家都会获得一台，手持平板不会暴露任何信息。
+ * The RETURN handler then adds the items registered in {@link NoellesHiddenEquipmentRegistry}.
+ * 随后由 RETURN 处理加入 {@link NoellesHiddenEquipmentRegistry} 中注册的物品。
+ */
+@Mixin(value = HiddenEquipmentHelper.class, remap = false)
+public abstract class HiddenEquipmentHelperMixin {
+    @Inject(method = "shouldHideItem", at = @At("HEAD"), cancellable = true, remap = false)
+    private static void sparkdlc$hideRoleItems(
+            ItemStack stack,
+            PlayerEntity holder,
+            CallbackInfoReturnable<Boolean> cir
+    ) {
+        if (stack.isOf(SparkDlcItems.dyingWatch())) {
+            // 濒毁怀表属于计时员私有能力道具，手持时对其他存活玩家隐藏。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (EngineerCaptureReport.isCaptureReport(stack)) {
+            // 捕捉报告属于工程师私有信息；NoellesRoles 的装备包过滤会让其他存活玩家看不到手持报告。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.captureDevice())
+                && (EngineerRules.isEngineer(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))
+                || CoronerService.hasEngineerDisguise(holder))) {
+            // 捕捉装置手持时只对别人隐藏；放置后的实体可见性由实体渲染器按观察者身份判断。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if ((stack.isOf(SparkDlcItems.invisibilitySerum())
+                || stack.isOf(SparkDlcItems.doorpassingPotion())
+                || stack.isOf(SparkDlcItems.sedative())
+                || stack.isOf(SparkDlcItems.truthSerum()))
+                && (ProfessorSerumRules.isProfessor(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))
+                || CoronerService.hasProfessorDisguise(holder))) {
+            // 用户需求是“教授手持四种试剂时不可见”，所以这里额外校验持有者确实是教授。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.morphReagent()) || stack.isOf(SparkDlcItems.morphDevice())) {
+            // 变形试剂和遥控器是 Morphling 的核心情报道具；只要被装备隐藏系统扫描到就不展示给其他存活玩家。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if ((stack.isOf(SparkDlcItems.magnifier()) || stack.isOf(SparkDlcItems.caseFolder()))
+                && DetectiveRules.isDetective(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
+            // A held magnifier or case folder would expose the detective; hide it while the holder is a detective.
+            // 手持放大镜或文件夹会暴露侦探身份；持有者为侦探时对其他玩家隐藏。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if ((stack.isOf(SparkDlcItems.coolingOil())
+                || stack.isOf(SparkDlcItems.aromaOrb())
+                || stack.isOf(SparkDlcItems.zephyrPerfume()))
+                && PerfumerKitRules.isPerfumer(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
+            // Only the Perfumer's shop sells these; hide them while the holder's real role is Perfumer.
+            // 这些道具只由调香师商店出售；持有者真实身份为调香师时对其他玩家隐藏。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(ModItems.BASE_SPIRIT) && CoronerService.hasBartenderDisguise(holder)) {
+            // 验尸官伪装酒保时，基酒手持隐藏规则与真实酒保一致。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.getItem() instanceof IngredientItem) {
+            // Every Bartender ingredient stays hidden; upstream lists only six, missing special liqueur/spice.
+            // 所有酒保调剂（含上游后加、未列入的特调利口酒/特调香料）手持时始终对其他存活玩家隐藏。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(Items.ENDER_PEARL) || stack.isOf(Items.CHORUS_FRUIT)) {
+            // Only the Recaller shop (and the Coroner's Recaller disguise) sells these; holding one reveals the role.
+            // 末影珍珠/紫颂果仅由回溯者商店（及验尸官回溯者伪装商店）出售，手持会暴露身份。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.blueVitriol()) || stack.isOf(SparkDlcItems.blueBelladonna())) {
+            // Only the Toxicologist shop (and the Coroner's Toxicologist disguise shop) sells these, like the antidote.
+            // 蓝矾/蓝颠茄仅由毒理学家商店（及验尸官毒理学家伪装商店）出售，与解毒剂一样手持会暴露身份。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.grenadeDrone()) || stack.isOf(SparkDlcItems.bombDrone())) {
+            // Only the real Bomber ever holds drones; a held drone would expose the role, like the timed bomb.
+            // 只有真实炸弹客会持有无人机；手持无人机会像定时炸弹一样暴露身份。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.impostorLockpick())) {
+            // Only an Impostor is ever given the pry tool; holding one would expose the trait.
+            // 只有内鬼会获得撬锁工具；手持会暴露内鬼身份。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.skateboard())) {
+            // Only the real Vulture is ever given a skateboard; holding one would expose the role, like its master key.
+            // 只有真实秃鹫会获得滑板；手持滑板会像它的万能钥匙一样暴露身份。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.virus()) || stack.isOf(SparkDlcItems.tVirus())) {
+            // Only the Pathogen shop sells these; a held Virus or T-Virus would expose the role.
+            // 病毒与 T病毒只由病原体商店出售；手持会暴露身份。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(SparkDlcItems.partyBalloon())
+                && PartyAnimalRules.isPartyAnimal(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
+            // Only the Party Animal's shop sells balloons; hide them while the holder's real role is Party Animal.
+            // 派对气球只由派对狂商店出售；持有者真实身份为派对狂时对其他玩家隐藏。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.getItem() instanceof BanditAttachmentItem || stack.getItem() instanceof BanditAmmoItem) {
+            // Only the Bandit's shop sells revolver parts and PS12 rounds; a held one would expose the role. The modded
+            // revolver itself stays visible, like any gun.
+            // 左轮配件与 PS12 子弹只由强盗商店出售，手持会暴露身份。改装左轮本身与其他枪一样保持可见。
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if (stack.isOf(ModItems.TIMED_BOMB) && CoronerService.hasBomberDisguise(holder)) {
+            // 验尸官伪装炸弹客时，未放置的定时炸弹不暴露给其他玩家。
+            cir.setReturnValue(true);
+        }
+    }
+
+    /**
+     * Adds the items registered in {@link NoellesHiddenEquipmentRegistry} after NoellesRoles' own decision. Formerly
+     * the {@code @Pseudo} mixin {@code NoellesHiddenEquipmentHelperMixin}; its {@code require = 0} is kept. Only reached
+     * when the HEAD handler above did not decide: its early return is not one of the method's original returns.
+     * 在 NoellesRoles 自身判定之后加入 {@link NoellesHiddenEquipmentRegistry} 中注册的物品。原为 {@code @Pseudo} mixin
+     * {@code NoellesHiddenEquipmentHelperMixin}，保留其 {@code require = 0}。只有上面的 HEAD 处理未作出判定时才会执行：
+     * 它的提前返回不属于方法原有的返回点。
+     */
+    @Inject(method = "shouldHideItem", at = @At("RETURN"), cancellable = true, remap = false, require = 0)
+    private static void sparkdlc$includeRegisteredItems(
+            ItemStack stack,
+            PlayerEntity holder,
+            CallbackInfoReturnable<Boolean> cir
+    ) {
+        if (!cir.getReturnValueZ() && NoellesHiddenEquipmentRegistry.shouldHide(stack)) {
+            cir.setReturnValue(true);
+        }
+    }
+}

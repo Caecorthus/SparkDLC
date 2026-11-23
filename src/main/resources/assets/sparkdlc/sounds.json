@@ -1,0 +1,858 @@
+{
+  "item.m67.equip": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m67_equip"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.item.m67.equip"
+  },
+  "item.m67.pull": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m67_pull"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.item.m67.pull"
+  },
+  "item.m67.land": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m67_land",
+        "volume": 0.65
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.item.m67.land"
+  },
+  "item.m67.throw": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m67_throw"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.item.m67.throw"
+  },
+  "item.m67.explode": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m67_explode"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.item.m67.explode"
+  },
+  "entity.grenade_drone.loop": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/grenade_drone_loop",
+        "attenuation_distance": 20
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.grenade_drone.loop"
+  },
+  "entity.bomb_drone.loop": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/bomb_drone_loop",
+        "attenuation_distance": 20
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.bomb_drone.loop"
+  },
+  "entity.drone.place": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/drone_place",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.drone.place"
+  },
+  "entity.drone.break": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/drone_break"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.drone.break"
+  },
+  "entity.drone.release": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/drone_release"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.drone.release"
+  },
+  "entity.taotie_head.bonk": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/taotie_head_bonk"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.taotie_head.bonk"
+  },
+  "item.drone.bind": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/drone_bind",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.item.drone.bind"
+  },
+  "music.takediskrush": {
+    "sounds": [
+      {
+        "name": "sparkdlc:music/takediskrush",
+        "stream": true,
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.music.takediskrush"
+  },
+  "ambient.shadow_jester": {
+    "sounds": [
+      {
+        "name": "sparkdlc:ambient/shadow_jester",
+        "stream": true,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.ambient.shadow_jester"
+  },
+  "vulture.super_curse": {
+    "sounds": [
+      {
+        "name": "sparkdlc:vulture/super_curse",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.vulture.super_curse"
+  },
+  "vulture.super_curse_helium": {
+    "sounds": [
+      {
+        "name": "sparkdlc:vulture/super_curse_helium",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.vulture.super_curse"
+  },
+  "vulture.death_scream": {
+    "sounds": [
+      {
+        "name": "sparkdlc:vulture/death_scream"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.vulture.death_scream"
+  },
+  "vulture.death_scream_helium": {
+    "sounds": [
+      {
+        "name": "sparkdlc:vulture/death_scream_helium_1"
+      },
+      {
+        "name": "sparkdlc:vulture/death_scream_helium_2"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.vulture.death_scream"
+  },
+  "block.junction_box.pry": {
+    "sounds": [
+      {
+        "name": "wathe:item.lockpick.door",
+        "type": "event",
+        "volume": 0.8
+      },
+      {
+        "name": "minecraft:block.chain.hit",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.junction_box.pry"
+  },
+  "block.junction_box.break": {
+    "sounds": [
+      {
+        "name": "minecraft:block.redstone_torch.burnout",
+        "type": "event",
+        "volume": 1.0
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.junction_box.break"
+  },
+  "block.junction_box.spark": {
+    "sounds": [
+      {
+        "name": "minecraft:block.redstone_torch.burnout",
+        "type": "event",
+        "volume": 0.25,
+        "pitch": 1.6
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.junction_box.spark"
+  },
+  "block.junction_box.hack": {
+    "sounds": [
+      {
+        "name": "minecraft:block.note_block.bit",
+        "type": "event",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.junction_box.hack"
+  },
+  "block.junction_box.hacked": {
+    "sounds": [
+      {
+        "name": "minecraft:block.beacon.power_select",
+        "type": "event",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.junction_box.hacked"
+  },
+  "block.junction_box.repair": {
+    "sounds": [
+      {
+        "name": "minecraft:block.smithing_table.use",
+        "type": "event",
+        "volume": 1.0
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.junction_box.repair"
+  },
+  "block.circuit_breaker.trip": {
+    "sounds": [
+      {
+        "name": "minecraft:block.lever.click",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.circuit_breaker.trip"
+  },
+  "block.circuit_breaker.switch": {
+    "sounds": [
+      {
+        "name": "minecraft:block.lever.click",
+        "type": "event",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.circuit_breaker.switch"
+  },
+  "block.circuit_breaker.restore": {
+    "sounds": [
+      {
+        "name": "minecraft:block.beacon.activate",
+        "type": "event",
+        "volume": 1.0
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.block.circuit_breaker.restore"
+  },
+  "ui.sabotage.ready": {
+    "sounds": [
+      {
+        "name": "minecraft:block.note_block.chime",
+        "type": "event",
+        "volume": 0.6
+      }
+    ]
+  },
+  "entity.partygoer.spawn": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/partygoer/spawn"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.partygoer.spawn"
+  },
+  "entity.partygoer.grab": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/partygoer/grab"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.partygoer.grab"
+  },
+  "entity.partygoer.death": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/partygoer/death"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.partygoer.death"
+  },
+  "entity.partygoer.vanish": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/partygoer/vanish"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.partygoer.vanish"
+  },
+  "entity.partygoer.rage": {
+    "sounds": [
+      {
+        "name": "sparkdlc:entity/partygoer/rage"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.entity.partygoer.rage"
+  },
+  "depression.docile_to_rage": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/docile_to_rage"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.docile_to_rage"
+  },
+  "depression.rage_loop": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/rage_loop"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.rage_loop"
+  },
+  "depression.blind_rage_enrage": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/blind_rage_enrage"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.blind_rage_enrage"
+  },
+  "depression.blind_rage_chase": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/blind_rage_chase",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.blind_rage_chase"
+  },
+  "depression.rage_to_docile": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/rage_to_docile"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.rage_to_docile"
+  },
+  "depression.player_was_seen": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/player_was_seen"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.player_was_seen"
+  },
+  "depression.melee_kill_1": {
+    "sounds": [
+      "sparkdlc:depression/melee_kill_1"
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.melee_kill"
+  },
+  "depression.melee_kill_2": {
+    "sounds": [
+      "sparkdlc:depression/melee_kill_2"
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.melee_kill"
+  },
+  "depression.shyguy_killed": {
+    "sounds": [
+      {
+        "name": "sparkdlc:depression/shyguy_killed"
+      }
+    ],
+    "subtitle": "subtitle.sparkdlc.depression.shyguy_killed"
+  },
+  "music.final_moment": {
+    "sounds": [
+      {
+        "name": "sparkdlc:music/final_moment",
+        "stream": true
+      }
+    ]
+  },
+  "skill.pig_chase": {
+    "subtitle": "subtitles.sparkdlc.skill.pig_chase",
+    "sounds": [
+      "sparkdlc:skill/pig_chase"
+    ]
+  },
+  "ambient.grand_witch_ceremonial_sword_bgm": {
+    "subtitle": "subtitles.sparkdlc.ambient.grand_witch_ceremonial_sword_bgm",
+    "sounds": [
+      {
+        "name": "sparkdlc:ambient/grand_witch_ceremonial_sword_bgm",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.specter_otherworld_bgm_0": {
+    "subtitle": "subtitles.sparkdlc.ambient.specter_otherworld_bgm",
+    "sounds": [
+      {
+        "name": "sparkdlc:ambient/specter_otherworld_bgm_0",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.specter_otherworld_bgm_1": {
+    "subtitle": "subtitles.sparkdlc.ambient.specter_otherworld_bgm",
+    "sounds": [
+      {
+        "name": "sparkdlc:ambient/specter_otherworld_bgm_1",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.specter_otherworld_bgm_2": {
+    "subtitle": "subtitles.sparkdlc.ambient.specter_otherworld_bgm",
+    "sounds": [
+      {
+        "name": "sparkdlc:ambient/specter_otherworld_bgm_2",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.saint_bell": {
+    "subtitle": "subtitles.sparkdlc.ambient.saint_bell",
+    "sounds": [
+      "sparkdlc:ambient/saint_bell"
+    ]
+  },
+  "ambient.time_stealer_chime": {
+    "subtitle": "subtitles.sparkdlc.ambient.time_stealer_chime",
+    "sounds": [
+      "sparkdlc:ambient/time_stealer_chime"
+    ]
+  },
+  "skill.holy_flash_tinnitus": {
+    "subtitle": "subtitles.sparkdlc.skill.holy_flash_tinnitus",
+    "sounds": [
+      {
+        "name": "sparkdlc:skill/holy_flash_tinnitus",
+        "stream": false
+      }
+    ]
+  },
+  "ambient.time_stealer_final": {
+    "subtitle": "subtitles.sparkdlc.ambient.time_stealer_final",
+    "sounds": [
+      "sparkdlc:ambient/time_stealer_final"
+    ]
+  },
+  "ambient.bell_ringer_toll": {
+    "subtitle": "subtitles.sparkdlc.ambient.bell_ringer_toll",
+    "sounds": [
+      "minecraft:block/bell/bell_use01",
+      "minecraft:block/bell/bell_use02"
+    ]
+  },
+  "seeker_car_motor": {
+    "subtitle": "subtitles.sparkdlc.seeker_car_motor",
+    "sounds": [
+      {
+        "name": "minecraft:mob/silverfish/step1",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      },
+      {
+        "name": "minecraft:mob/silverfish/step2",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      },
+      {
+        "name": "minecraft:mob/silverfish/step3",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      },
+      {
+        "name": "minecraft:mob/silverfish/step4",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      }
+    ]
+  },
+  "seeker_car_break": {
+    "subtitle": "subtitles.sparkdlc.seeker_car_break",
+    "sounds": [
+      {
+        "name": "minecraft:random/break",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "seeker_camera_break": {
+    "subtitle": "subtitles.sparkdlc.seeker_camera_break",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.7,
+        "pitch": 1.3
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.7,
+        "pitch": 1.3
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.7,
+        "pitch": 1.3
+      }
+    ]
+  },
+  "seeker_car_swallow": {
+    "subtitle": "subtitles.sparkdlc.seeker_car_swallow",
+    "sounds": [
+      {
+        "name": "minecraft:random/eat1",
+        "pitch": 0.7
+      },
+      {
+        "name": "minecraft:random/eat2",
+        "pitch": 0.7
+      },
+      {
+        "name": "minecraft:random/eat3",
+        "pitch": 0.7
+      }
+    ]
+  },
+  "seeker_battery_low": {
+    "subtitle": "subtitles.sparkdlc.seeker_battery_low",
+    "sounds": [
+      {
+        "name": "minecraft:note/pling",
+        "volume": 0.6,
+        "pitch": 1.8
+      }
+    ]
+  },
+  "seeker_battery_dead": {
+    "subtitle": "subtitles.sparkdlc.seeker_battery_dead",
+    "sounds": [
+      {
+        "name": "minecraft:block/beacon/deactivate",
+        "volume": 0.8,
+        "pitch": 1.4
+      }
+    ]
+  },
+  "blind.cane_tap": {
+    "subtitle": "subtitles.sparkdlc.blind.cane_tap",
+    "sounds": [
+      {
+        "name": "minecraft:random/wood_click",
+        "pitch": 1.5
+      },
+      {
+        "name": "minecraft:block/bamboo/step1",
+        "pitch": 1.6
+      },
+      {
+        "name": "minecraft:block/bamboo/step2",
+        "pitch": 1.6
+      }
+    ]
+  },
+  "item.usec_rifle.shoot": {
+    "subtitle": "subtitles.sparkdlc.item.usec_rifle.shoot",
+    "sounds": [
+      "sparkdlc:item/usec_rifle_shoot"
+    ]
+  },
+  "item.usec_rifle.shoot_suppressed": {
+    "subtitle": "subtitles.sparkdlc.item.usec_rifle.shoot_suppressed",
+    "sounds": [
+      "sparkdlc:item/usec_rifle_shoot_suppressed"
+    ]
+  },
+  "item.usec_rifle.bolt": {
+    "subtitle": "subtitles.sparkdlc.item.usec_rifle.bolt",
+    "sounds": [
+      "sparkdlc:item/usec_rifle_bolt"
+    ]
+  },
+  "item.usec_rifle.magazine": {
+    "subtitle": "subtitles.sparkdlc.item.usec_rifle.magazine",
+    "sounds": [
+      "sparkdlc:item/usec_rifle_magazine"
+    ]
+  },
+  "item.usec_rifle.load_round": {
+    "subtitle": "subtitles.sparkdlc.item.usec_rifle.load_round",
+    "sounds": [
+      "sparkdlc:item/usec_rifle_load_round"
+    ]
+  },
+  "item.usec_rifle.scope": {
+    "subtitle": "subtitles.sparkdlc.item.usec_rifle.scope",
+    "sounds": [
+      {
+        "name": "sparkdlc:item/usec_rifle_scope",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.double_barrel.shot": {
+    "subtitle": "subtitles.sparkdlc.item.double_barrel.shot",
+    "sounds": [
+      {
+        "name": "sparkdlc:item/double_barrel_shot",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "item.double_barrel.load": {
+    "subtitle": "subtitles.sparkdlc.item.double_barrel.load",
+    "sounds": [
+      {
+        "name": "sparkdlc:item/double_barrel_load",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.savior_pistol.shoot": {
+    "sounds": [
+      "sparkdlc:item/savior_pistol_shoot"
+    ]
+  },
+  "item.savior_pistol.click": {
+    "sounds": [
+      "sparkdlc:item/savior_pistol_click"
+    ]
+  },
+  "item.savior_lightsaber.hit": {
+    "sounds": [
+      "sparkdlc:item/savior_lightsaber_hit"
+    ]
+  },
+  "item.savior_lightsaber.ignite": {
+    "sounds": [
+      "sparkdlc:item/savior_lightsaber_ignite"
+    ]
+  },
+  "item.savior_lightsaber.hum": {
+    "sounds": [
+      "sparkdlc:item/savior_lightsaber_hum"
+    ]
+  },
+  "item.savior_lightsaber.swing": {
+    "sounds": [
+      "sparkdlc:item/savior_lightsaber_swing"
+    ]
+  },
+  "duel.manba": {
+    "sounds": [
+      {
+        "name": "sparkdlc:duel/manba",
+        "stream": true
+      }
+    ]
+  },
+  "duel.sf": {
+    "sounds": [
+      {
+        "name": "sparkdlc:duel/sf",
+        "stream": true
+      }
+    ]
+  },
+  "mini_wither.idle": {
+    "subtitle": "subtitles.entity.wither.ambient",
+    "sounds": [
+      "minecraft:mob/wither/idle1",
+      "minecraft:mob/wither/idle2",
+      "minecraft:mob/wither/idle3",
+      "minecraft:mob/wither/idle4"
+    ]
+  },
+  "mini_wither.shoot": {
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      "minecraft:mob/wither/shoot"
+    ]
+  },
+  "mini_wither.summon": {
+    "subtitle": "subtitles.entity.wither.spawn",
+    "sounds": [
+      "minecraft:mob/wither/spawn"
+    ]
+  },
+  "mini_wither.dismiss": {
+    "subtitle": "subtitles.entity.wither.ambient",
+    "sounds": [
+      "minecraft:mob/wither/idle1",
+      "minecraft:mob/wither/idle2",
+      "minecraft:mob/wither/idle3",
+      "minecraft:mob/wither/idle4"
+    ]
+  },
+  "mini_wither.unlock": {
+    "subtitle": "subtitles.entity.wither.ambient",
+    "sounds": [
+      "minecraft:mob/wither/idle1",
+      "minecraft:mob/wither/idle2",
+      "minecraft:mob/wither/idle3",
+      "minecraft:mob/wither/idle4"
+    ]
+  },
+  "mini_wither.crimson_shoot": {
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      "minecraft:mob/wither/shoot"
+    ]
+  },
+  "mini_wither.crimson_hit": {
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      "minecraft:mob/zombie/woodbreak"
+    ]
+  },
+  "mini_wither.burst": {
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      "minecraft:random/explode1",
+      "minecraft:random/explode2",
+      "minecraft:random/explode3",
+      "minecraft:random/explode4"
+    ]
+  },
+  "bear.m32.fire": {
+    "subtitle": "subtitles.sparkdlc.bear.m32.fire",
+    "sounds": [
+      "sparkdlc:bear/m32_fire"
+    ]
+  },
+  "bear.m32.load": {
+    "subtitle": "subtitles.sparkdlc.bear.m32.load",
+    "sounds": [
+      "sparkdlc:bear/m32_load"
+    ]
+  },
+  "bear.m32.unload": {
+    "subtitle": "subtitles.sparkdlc.bear.m32.unload",
+    "sounds": [
+      "sparkdlc:bear/m32_unload"
+    ]
+  },
+  "bear.m32.empty": {
+    "subtitle": "subtitles.sparkdlc.bear.m32.empty",
+    "sounds": [
+      "sparkdlc:bear/m32_empty"
+    ]
+  },
+  "bear.smoke.burst": {
+    "subtitle": "subtitles.sparkdlc.bear.smoke.burst",
+    "sounds": [
+      "sparkdlc:bear/smoke_burst"
+    ]
+  },
+  "bear.rys_t.visor_down": {
+    "subtitle": "subtitles.sparkdlc.bear.rys_t.visor_down",
+    "sounds": [
+      "sparkdlc:bear/rys_t_visor_down"
+    ]
+  },
+  "bear.rys_t.visor_up": {
+    "subtitle": "subtitles.sparkdlc.bear.rys_t.visor_up",
+    "sounds": [
+      "sparkdlc:bear/rys_t_visor_up"
+    ]
+  },
+  "bear.rys_t.ricochet": {
+    "subtitle": "subtitles.sparkdlc.bear.rys_t.ricochet",
+    "sounds": [
+      "sparkdlc:bear/rys_t_ricochet"
+    ]
+  },
+  "bear.rys_t.visor_hit": {
+    "subtitle": "subtitles.sparkdlc.bear.rys_t.visor_hit",
+    "sounds": [
+      "sparkdlc:bear/rys_t_visor_hit"
+    ]
+  },
+  "bear.rys_t.tinnitus": {
+    "subtitle": "subtitles.sparkdlc.bear.rys_t.tinnitus",
+    "sounds": [
+      "sparkdlc:bear/rys_t_tinnitus"
+    ]
+  },
+  "bear.earplugs.insert": {
+    "subtitle": "subtitles.sparkdlc.bear.earplugs.insert",
+    "sounds": [
+      "sparkdlc:bear/earplugs_insert"
+    ]
+  },
+  "music.sphinx_hao_fade": {
+    "subtitle": "subtitles.sparkdlc.music.sphinx_hao_fade",
+    "sounds": [
+      {
+        "name": "sparkdlc:music/sphinx_hao_fade",
+        "stream": true
+      }
+    ]
+  },
+  "item.m1903a4.shoot": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m1903a4_shoot",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "item.m1903a4.bolt": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m1903a4_bolt",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.bolt_1": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m1903a4_bolt_1",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.openbolt": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m1903a4_openbolt",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.load": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m1903a4_load",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.kill": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m1903a4_kill",
+        "attenuation_distance": 16
+      }
+    ]
+  }
+}

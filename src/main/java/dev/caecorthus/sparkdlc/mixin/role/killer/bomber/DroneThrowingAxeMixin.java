@@ -1,0 +1,72 @@
+package dev.caecorthus.sparkdlc.mixin.role.killer.bomber;
+
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneHitGeometry;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import org.agmas.noellesroles.entity.ThrowingAxeEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
+
+/**
+ * NoellesRoles throwing axe versus Bomber drones (server). Its entity collision is custom (players only, piercing),
+ * so a drone is resolved on this tick's segment before the pierce loop and broken (attributed to the thrower); players
+ * before the drone are still hit, players behind it are shielded, and the axe stops at the drone. With no drone on the
+ * segment the cut stays infinite and NoellesRoles behaves exactly as before. Coexists with the Seeker's hooks on
+ * the same calls (each wrapper only narrows the hit set).
+ * NoellesRoles 飞斧与炸弹客无人机（服务端）。其实体碰撞为自定义（只认玩家、可贯穿），因此在贯穿循环前判定本刻路径上的无人机并将其击毁
+ * （归属投掷者）；无人机之前的玩家照常命中，之后的玩家被挡下，飞斧停在无人机处。路径上没有无人机时截断距离保持无穷大，
+ * NoellesRoles 行为完全不变。与搜寻者在相同调用上的钩子共存（每个包装只会缩小命中集合）。
+ *
+ * <p>Partygoers on the same segment before the drone cut (and before the first block) die too
+ * ({@code PartygoerWeaponHits#onThrowingAxeSweep}, NoellesRoles' throwing-axe death reason); the axe pierces them like
+ * players and keeps flying.
+ * 同一路径上、无人机截断点之前（且在第一个方块之前）的派对客同样被击杀（PartygoerWeaponHits#onThrowingAxeSweep，NoellesRoles
+ * 飞斧死因）；飞斧像贯穿玩家一样贯穿它们并继续飞行。</p>
+ */
+@Mixin(ThrowingAxeEntity.class)
+public abstract class DroneThrowingAxeMixin {
+    /** Squared distance from this tick's start to the broken drone; infinite when none. / 本刻起点到被击毁无人机的平方距离。 */
+    @Unique
+    private double sparkdlc$droneCutSquared = Double.POSITIVE_INFINITY;
+
+    @Inject(method = "tick", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"))
+    private void sparkdlc$sweepDrones(CallbackInfo ci) {
+        ThrowingAxeEntity axe = (ThrowingAxeEntity) (Object) this;
+        Vec3d from = axe.getPos();
+        DroneHitGeometry.DroneHit hit = DroneWeaponHits.onThrowingAxeSweep(axe, axe.getOwner(), from,
+                from.add(axe.getVelocity()));
+        sparkdlc$droneCutSquared = hit == null ? Double.POSITIVE_INFINITY : hit.distanceSquared();
+        PartygoerWeaponHits.onThrowingAxeSweep(axe, axe.getOwner(), from, from.add(axe.getVelocity()),
+                sparkdlc$droneCutSquared);
+    }
+
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/util/math/Box;raycast(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Ljava/util/Optional;"))
+    private Optional<Vec3d> sparkdlc$shieldPlayersBehindDrone(Box box, Vec3d from, Vec3d to,
+                                                                   Operation<Optional<Vec3d>> original) {
+        Optional<Vec3d> hit = original.call(box, from, to);
+        double cut = sparkdlc$droneCutSquared;
+        return cut == Double.POSITIVE_INFINITY ? hit : hit.filter(point -> from.squaredDistanceTo(point) < cut);
+    }
+
+    @Inject(method = "tick", cancellable = true, at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/projectile/PersistentProjectileEntity;tick()V"))
+    private void sparkdlc$stopAtDrone(CallbackInfo ci) {
+        if (sparkdlc$droneCutSquared == Double.POSITIVE_INFINITY) {
+            return;
+        }
+        sparkdlc$droneCutSquared = Double.POSITIVE_INFINITY;
+        ((ThrowingAxeEntity) (Object) this).discard();
+        ci.cancel();
+    }
+}

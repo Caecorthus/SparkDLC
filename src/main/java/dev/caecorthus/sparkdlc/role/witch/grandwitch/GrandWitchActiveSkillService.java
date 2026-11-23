@@ -1,0 +1,110 @@
+package dev.caecorthus.sparkdlc.role.witch.grandwitch;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.util.ShopEntry;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+
+/**
+ * Grants the permanent task reward; legacy spell/window entry points remain link-compatible.
+ * 发放永久任务奖励；保留旧法术和窗口入口的链接兼容性。
+ */
+public final class GrandWitchActiveSkillService {
+    public static final Identifier CEREMONIAL_SWORD_SKILL_ID = SparkDLC.id("ceremonial_sword");
+
+    private GrandWitchActiveSkillService() {
+    }
+
+    public static WitchSkillUseResult use(WitchSkillUseContext context) {
+        return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
+    }
+
+    public static void onTaskComplete(ServerPlayerEntity player) {
+        if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
+            return;
+        }
+        if (!WitchFactionRules.isGrandWitch(GameWorldComponent.KEY.get(player.getServerWorld()).getRole(player))) {
+            return;
+        }
+        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
+        int previousTasks = component.getGrandWitchCeremonialSwordTasks();
+        component.recordGrandWitchCeremonialSwordTask();
+        if (!GrandWitchRules.shouldGrantCeremonialSword(previousTasks, component.getGrandWitchCeremonialSwordTasks())) {
+            return;
+        }
+        grantCeremonialSword(player);
+    }
+
+    private static void grantCeremonialSword(ServerPlayerEntity player) {
+        PlayerInventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.size(); slot++) {
+            if (inventory.getStack(slot).isOf(SparkDlcItems.ceremonialSword())) {
+                return;
+            }
+        }
+        ItemStack sword = new ItemStack(SparkDlcItems.ceremonialSword());
+        // Wathe exposes only the hotbar; add the reward without replacing knives in either hand.
+        // Wathe 仅展示快捷栏；额外发放奖励，不替换主副手匕首。
+        if (!ShopEntry.insertStackInFreeSlot(player, sword)) {
+            // Drop the reward when the hotbar is full; never overwrite existing items.
+            // 快捷栏已满时掉落奖励，不能覆盖已有物品。
+            player.dropItem(sword, false);
+        }
+        inventory.markDirty();
+        player.currentScreenHandler.sendContentUpdates();
+    }
+
+    /**
+     * Retire persisted legacy windows without replacing the permanent sword or starting a cooldown.
+     * 清理持久化的旧窗口，但不换回匕首、不启动技能冷却。
+     */
+    public static void finishCeremonialSwordWindow(ServerPlayerEntity player, WitchPlayerComponent component) {
+        stopCeremonialSwordBgm(player);
+        component.clearCeremonialSwordWindow();
+    }
+
+    public static void tickCeremonialSwordWindow(ServerPlayerEntity player, WitchPlayerComponent component) {
+        if (component.getCeremonialSwordTicks() > 0 || component.getCeremonialSwordSlot() >= 0) {
+            finishCeremonialSwordWindow(player, component);
+        }
+    }
+
+    public static void stopCeremonialSwordBgm(ServerPlayerEntity player) {
+        WitchWorldComponent.KEY.get(player.getServerWorld())
+                .stopGrandWitchCeremonialSwordBgm(player.getUuid());
+    }
+
+    /**
+     * Lifecycle cleanup only; the legacy restoreKnife argument no longer restores temporary weapons.
+     * 仅用于生命周期清理；旧 restoreKnife 参数不再触发临时武器还原。
+     */
+    public static void clearCeremonialSword(ServerPlayerEntity player, boolean restoreKnife) {
+        removeCeremonialSwords(player);
+        stopCeremonialSwordBgm(player);
+        WitchPlayerComponent.KEY.get(player).clearCeremonialSwordWindow();
+    }
+
+    private static void removeCeremonialSwords(ServerPlayerEntity player) {
+        PlayerInventory inventory = player.getInventory();
+        boolean changed = false;
+        for (int slot = 0; slot < inventory.size(); slot++) {
+            if (inventory.getStack(slot).isOf(SparkDlcItems.ceremonialSword())) {
+                inventory.setStack(slot, ItemStack.EMPTY);
+                changed = true;
+            }
+        }
+        if (changed) {
+            inventory.markDirty();
+        }
+    }
+}

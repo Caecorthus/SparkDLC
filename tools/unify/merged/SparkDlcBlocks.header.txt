@@ -1,0 +1,5 @@
+/**
+ * The blocks of the mod and their block items: the sabotage fixtures and the map-maker beds. Each part registers
+ * through its own method, at the moment it always did.
+ * 本模组的方块及其方块物品：破坏系统的地图设施与供地图作者使用的床。每个部分通过自己的方法、在一贯的时刻注册。
+ */

@@ -2409,6 +2409,14 @@ Current build baseline:
     end of `SparkDLCClient.registerOwnRoleClient`) opens `ShiningNeonPillarScreen`.
   - Resources: blockstate is Wathe's `neon_pillar` variants on Wathe's models; item model Wathe's unlit pillar; loot
     drops itself; `minecraft:mineable/pickaxe` lists it, like Wathe's pillar.
+- `SparkDlcBlocks.registerDampCarpets()` (PR #3, reworked in review): two map-maker props, pure decoration. The Damp
+  Carpet (`sparkdlc:damp_carpet`, 潮湿的地毯) is vanilla's `CarpetBlock` and the Damp Carpet (Full Block)
+  (`sparkdlc:damp_carpet_block`, 潮湿的地毯（完整方块）) a plain `Block`, with brown carpet / wool settings (map colour,
+  strength, piston behaviour) and one quieter, lower wool sound group (volume 0.6, pitch 0.55). The thin carpet is in
+  `minecraft:combination_step_sound_blocks`, which is what makes a carpet's step sound play at all (an entity's step
+  and landing position is the floor under it). Not flammable (no `FlammableBlockRegistry` entry). Each drops itself.
+  Registered from `SparkDlcItems.registerRoleItems()` right after the .30-06 rounds; the BlockItems join the creative
+  tab through its namespace sweep. Models parent vanilla `block/carpet` and `block/cube_all`; textures are opaque.
 - `item/sparekey/`: the Spare Key (`sparkdlc:spare_key`, 备用钥匙), the PR #189 conductor key renamed and given to
   the NoellesRoles Attendant (owner decisions 2026-11-03); numbers live in `SpareKeyRules`.
   - Grant (`SpareKeyAttendantKit`): once per round from an own `ON_FINISH_INITIALIZE` phase after Wathe's default

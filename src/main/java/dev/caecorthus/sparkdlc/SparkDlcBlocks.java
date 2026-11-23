@@ -12,6 +12,7 @@ import dev.doctor4t.wathe.index.WatheBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CarpetBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
@@ -19,14 +20,16 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
 
 /**
  * The blocks of the mod and their block items: the sabotage fixtures, the map-maker beds and the map-maker props
- * (yellowed wallpaper, shining neon pillar). Each part registers through its own method, at the moment it always did.
- * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床，以及地图道具（泛黄墙纸、闪烁霓虹灯柱）。
+ * (yellowed wallpaper, shining neon pillar, damp carpets). Each part registers through its own method, at the moment
+ * it always did.
+ * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床，以及地图道具（泛黄墙纸、闪烁霓虹灯柱、潮湿地毯）。
  * 每个部分通过自己的方法、在一贯的时刻注册。
  */
 public final class SparkDlcBlocks {
@@ -238,5 +241,62 @@ public final class SparkDlcBlocks {
             throw new IllegalStateException("SparkDLC shining neon pillar is not registered yet");
         }
         return shiningNeonPillar;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Damp carpets / 潮湿地毯
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * Two map-maker props (PR #3): a thin damp carpet and its full-block version for stacked floors or wall coverings.
+     * Pure decoration: vanilla's own CarpetBlock (1/16-high shape and collision, cannot be placed on air and breaks
+     * when the block under it goes) and a plain Block, both with brown carpet / wool settings and a quieter, lower
+     * wool sound group.
+     * The thin carpet is listed in {@code minecraft:combination_step_sound_blocks} like every vanilla carpet: a walking
+     * entity's step position is the floor under the carpet, and only that tag makes the carpet's own step sound play
+     * (with the floor's at 15% volume). Each drops itself. Registered from {@code SparkDlcItems.registerRoleItems()}
+     * after every existing item, so earlier raw ids keep their order; the BlockItems join the creative tab through its
+     * namespace sweep.
+     * <p>
+     * 两件供地图作者使用的装饰（PR #3）：贴地的潮湿薄地毯，以及供堆叠地面或铺墙用的完整方块版本。纯装饰：直接使用原版
+     * CarpetBlock（1/16 高的形状与碰撞箱，不能放在空气上，下方方块消失时随之破坏）与普通 Block，方块设置沿用
+     * 棕色地毯 / 羊毛，并换成更轻更低的羊毛音组。
+     * 薄地毯像所有原版地毯一样列入 {@code minecraft:combination_step_sound_blocks}：行走实体的脚步位置是地毯下面的地板，
+     * 只有该标签才会让地毯自己的脚步声响起（同时以 15% 音量播放地板的脚步声）。两者都掉落自身。由
+     * {@code SparkDlcItems.registerRoleItems()} 在所有既有物品之后注册，保持既有注册顺序；方块物品通过命名空间扫描进入
+     * 创造物品栏。
+     */
+
+    public static final Identifier DAMP_CARPET_ID = SparkDLC.id("damp_carpet");
+    public static final Identifier DAMP_CARPET_BLOCK_ID = SparkDLC.id("damp_carpet_block");
+
+    /** Wool sounds, quieter and lower than wool's own (1.0, 1.0). / 羊毛音效，比羊毛本身（1.0，1.0）更轻更低。 */
+    private static final BlockSoundGroup DAMP_CARPET_SOUNDS = new BlockSoundGroup(
+            0.6F, 0.55F,
+            SoundEvents.BLOCK_WOOL_BREAK,
+            SoundEvents.BLOCK_WOOL_STEP,
+            SoundEvents.BLOCK_WOOL_PLACE,
+            SoundEvents.BLOCK_WOOL_HIT,
+            SoundEvents.BLOCK_WOOL_FALL
+    );
+
+    private static Block dampCarpet;
+    private static Block dampCarpetBlock;
+
+    public static synchronized void registerDampCarpets() {
+        if (dampCarpet != null) {
+            return;
+        }
+        dampCarpet = registerWithItem(DAMP_CARPET_ID,
+                new CarpetBlock(AbstractBlock.Settings.copy(Blocks.BROWN_CARPET).sounds(DAMP_CARPET_SOUNDS)));
+        dampCarpetBlock = registerWithItem(DAMP_CARPET_BLOCK_ID,
+                new Block(AbstractBlock.Settings.copy(Blocks.BROWN_WOOL).sounds(DAMP_CARPET_SOUNDS)));
+    }
+
+    public static Block dampCarpet() {
+        return dampCarpet;
+    }
+
+    public static Block dampCarpetBlock() {
+        return dampCarpetBlock;
     }
 }

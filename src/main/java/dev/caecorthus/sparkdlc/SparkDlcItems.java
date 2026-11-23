@@ -1395,6 +1395,10 @@ public final class SparkDlcItems {
         // rifle and rounds, so earlier registration order stays unchanged.
         // 闪烁霓虹灯柱（PR #2）：方块、方块实体类型与 BlockItem，追加在最后（狙击手的步枪与子弹之后），以保持既有注册顺序不变。
         SparkDlcBlocks.registerShiningNeonPillar();
+        // Map-maker damp carpets (PR #3): blocks plus their BlockItems, appended after the Sniper's rounds so earlier
+        // registration order stays unchanged.
+        // 地图作者用的潮湿地毯（PR #3）：方块及其 BlockItem，追加在狙击手子弹之后，以保持既有注册顺序不变。
+        SparkDlcBlocks.registerDampCarpets();
         registerMeleeSuppression();
         VendettaKnifeLoadoutService.register();
         roleItemsRegistered = true;

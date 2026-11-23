@@ -3459,6 +3459,8 @@
   "screen.sparkdlc.shining_neon_pillar.random": "随机模式",
   "screen.sparkdlc.shining_neon_pillar.hint": "输入 %s-%s 秒，然后点完成",
   "screen.sparkdlc.shining_neon_pillar.random_hint": "随机模式忽略这两项：每段亮/灭持续 %s-%s 秒",
+  "block.sparkdlc.damp_carpet": "潮湿的地毯",
+  "block.sparkdlc.damp_carpet_block": "潮湿的地毯（完整方块）",
   "item.sparkdlc.m1903a4": "M1903A4 狙击步枪",
   "item.sparkdlc.ammo_3006": "春田.30-06制式步枪弹",
   "item.sparkdlc.ammo_3006.tooltip": "用于装填 M1903A4，需要在狙击手商店购买。",

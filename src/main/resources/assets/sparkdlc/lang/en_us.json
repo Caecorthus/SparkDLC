@@ -3459,6 +3459,8 @@
   "screen.sparkdlc.shining_neon_pillar.random": "Random mode",
   "screen.sparkdlc.shining_neon_pillar.hint": "%s-%s seconds, then press Done",
   "screen.sparkdlc.shining_neon_pillar.random_hint": "Random mode ignores both: each phase lasts %s-%s seconds",
+  "block.sparkdlc.damp_carpet": "Damp Carpet",
+  "block.sparkdlc.damp_carpet_block": "Damp Carpet (Full Block)",
   "item.sparkdlc.m1903a4": "M1903A4 Sniper Rifle",
   "item.sparkdlc.ammo_3006": "Springfield .30-06 Service Round",
   "item.sparkdlc.ammo_3006.tooltip": "Loads the M1903A4. Bought in the Sniper shop.",

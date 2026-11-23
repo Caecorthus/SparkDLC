@@ -1387,6 +1387,10 @@ public final class SparkDlcItems {
                 AMMO_3006_ID,
                 new Ammo3006Item(Ammo3006Item.createSettings())
         );
+        // Map-maker yellowed wallpaper (PR #1): blocks plus their BlockItems, appended last, after the M1903A4 and its
+        // rounds, so earlier registration order stays unchanged.
+        // 地图作者用的泛黄墙纸（PR #1）：方块及其 BlockItem，追加在最后（M1903A4 及其子弹之后），以保持既有注册顺序不变。
+        SparkDlcBlocks.registerWallpaper();
         registerMeleeSuppression();
         VendettaKnifeLoadoutService.register();
         roleItemsRegistered = true;

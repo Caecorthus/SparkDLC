@@ -30,6 +30,9 @@ SparkWitch also gives the NoellesRoles Attendant (`noellesroles:attendant`, 乘�
 It also adds two map-maker beds (contributed in PR #239 and reworked in review), both Wathe trimmed beds: the Stained
 Bed (`sparkdlc:grey_dirty_bed`, 污渍的床) can never be slept in, and the Strange Bed (`sparkdlc:green_strange_bed`,
 奇怪的床) sleeps like Wathe's bed but gives 5 s Slowness I and Nausea to whoever finishes the sleep task in it.
+Map makers also get ten yellowed wallpaper blocks (泛黄墙纸, contributed in PR #1): one with a skirting board
+(`sparkdlc:yellowed_wallpaper_skirting`), one plain (`sparkdlc:yellowed_wallpaper_plain`) and eight with a direction
+arrow (`sparkdlc:yellowed_wallpaper_arrow_<n|ne|e|se|s|sw|w|nw>`).
 城崎诺亚 Noa Jogasaki (`sparkdlc:noa`, contributed in PR #186 and reworked in review) is a civilian painter whose
 sanity never drains on its own and never returns from tasks, and whose shared ability key (G) paints a random reward
 from one of two tables chosen by her sanity, with a 60 s cooldown.
@@ -2370,6 +2373,14 @@ Current build baseline:
   - Resources: models parent Wathe's `template_trimmed_bed_*`; textures are Wathe's white bed with only the bedding
     repainted (wood, trim and alpha byte-identical); loot drops the head half like Wathe; `minecraft:beds` and
     `minecraft:mineable/axe` list both. No render layer entry: every sampled texel is opaque.
+- `SparkDlcBlocks.registerWallpaper()` (PR #1, reworked in review): the ten yellowed wallpaper blocks, plain
+  `Block`s with `WHITE_WOOL` settings and `MapColor.PALE_YELLOW`, a `cube_all` model each, a self-drop loot table each
+  (like Wathe's decorative blocks), no tags and no render layer entry (every texel is opaque). Registered last in
+  `SparkDlcItems.registerRoleItems()`, after the M1903A4 and its rounds; the BlockItems join the tab through its
+  namespace sweep. The PR's ids `yellow_wallpaper`, `yellow_wallpaper_plain` and `yellowed_wallpaper_<dir>` were
+  renamed to one `yellowed_wallpaper_*` family before they were ever published, so they have no legacy rows. An
+  arrow's direction is the one it points on the top face (north = texture up). The skirting texture uses a warmer,
+  darker paper than the plain and arrow sheets (the PR's art, kept as is).
 - `item/sparekey/`: the Spare Key (`sparkdlc:spare_key`, 备用钥匙), the PR #189 conductor key renamed and given to
   the NoellesRoles Attendant (owner decisions 2026-11-03); numbers live in `SpareKeyRules`.
   - Grant (`SpareKeyAttendantKit`): once per round from an own `ON_FINISH_INITIALIZE` phase after Wathe's default

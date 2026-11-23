@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "sparkdlc:block/yellowed_wallpaper_arrow_w"
+  }
+}

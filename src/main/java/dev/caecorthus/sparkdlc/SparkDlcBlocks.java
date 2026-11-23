@@ -10,6 +10,7 @@ import dev.doctor4t.wathe.index.WatheBlockEntities;
 import dev.doctor4t.wathe.index.WatheBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
@@ -19,10 +20,12 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
+
 /**
- * The blocks of the mod and their block items: the sabotage fixtures and the map-maker beds. Each part registers
- * through its own method, at the moment it always did.
- * 本模组的方块及其方块物品：破坏系统的地图设施与供地图作者使用的床。每个部分通过自己的方法、在一贯的时刻注册。
+ * The blocks of the mod and their block items: the sabotage fixtures, the map-maker beds and the map-maker wallpaper.
+ * Each part registers through its own method, at the moment it always did.
+ * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床与墙纸。每个部分通过自己的方法、在一贯的时刻注册。
  */
 public final class SparkDlcBlocks {
     private SparkDlcBlocks() {
@@ -147,5 +150,53 @@ public final class SparkDlcBlocks {
 
     public static Block greenStrangeBed() {
         return greenStrangeBed;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Map-maker wallpaper / 供地图作者使用的墙纸
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * The yellowed wallpaper family (PR #1): plain full cubes for train interiors, one texture on every face. One
+     * sheet with a dark skirting board along its bottom edge, one plain sheet, and eight sheets with a painted arrow
+     * that points the way through the carriages. Wool settings (soft, wool sounds, no tool needed) with a pale
+     * yellow map colour; each block drops itself ({@code data/sparkdlc/loot_table/blocks}), like Wathe's decorative
+     * blocks. Registered from {@code SparkDlcItems.registerRoleItems()} after every existing item, so earlier raw ids
+     * keep their order; the block items join the creative tab through its namespace sweep, in this order.
+     * <p>
+     * 泛黄墙纸系列（PR #1）：用于车厢内饰的普通完整方块，六个面使用同一张贴图。一款底边带深色踢脚线，一款素面，另有八款
+     * 画有指引车厢方向的箭头。方块设置沿用羊毛（质软、羊毛音效、无需工具），地图颜色为淡黄色；每个方块掉落自身
+     * （{@code data/sparkdlc/loot_table/blocks}），与 Wathe 的装饰方块一致。
+     * 由 {@code SparkDlcItems.registerRoleItems()} 在所有既有物品之后注册，保持既有注册顺序；方块物品按此顺序经命名空间
+     * 扫描加入创造模式物品栏。
+     */
+
+    public static final Identifier YELLOWED_WALLPAPER_SKIRTING_ID = SparkDLC.id("yellowed_wallpaper_skirting");
+    public static final Identifier YELLOWED_WALLPAPER_PLAIN_ID = SparkDLC.id("yellowed_wallpaper_plain");
+
+    /**
+     * Arrow directions, in registration order; the arrow block of direction {@code d} is
+     * {@code sparkdlc:yellowed_wallpaper_arrow_<d>}. The direction is the one the arrow points on the block's top face
+     * (north is the texture's up); on the side faces the arrow keeps its picture direction (north up, east right).
+     * 箭头方向，按注册顺序；方向 {@code d} 的箭头方块为 {@code sparkdlc:yellowed_wallpaper_arrow_<d>}。方向指箭头在方块
+     * 顶面上所指的方向（北即贴图的上方）；在侧面上箭头保持图上的方向（北朝上，东朝右）。
+     */
+    public static final List<String> WALLPAPER_ARROW_DIRECTIONS = List.of("n", "ne", "e", "se", "s", "sw", "w", "nw");
+
+    private static boolean wallpaperRegistered;
+
+    public static synchronized void registerWallpaper() {
+        if (wallpaperRegistered) {
+            return;
+        }
+        registerWithItem(YELLOWED_WALLPAPER_SKIRTING_ID, new Block(wallpaperSettings()));
+        registerWithItem(YELLOWED_WALLPAPER_PLAIN_ID, new Block(wallpaperSettings()));
+        for (String direction : WALLPAPER_ARROW_DIRECTIONS) {
+            registerWithItem(SparkDLC.id("yellowed_wallpaper_arrow_" + direction), new Block(wallpaperSettings()));
+        }
+        wallpaperRegistered = true;
+    }
+
+    private static AbstractBlock.Settings wallpaperSettings() {
+        return AbstractBlock.Settings.copy(Blocks.WHITE_WOOL).mapColor(MapColor.PALE_YELLOW);
     }
 }

@@ -5,8 +5,10 @@ import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.block.ShiningNeonPillarBlock;
+import dev.caecorthus.sparkdlc.block.ScheduleBlock;
 import dev.caecorthus.sparkdlc.block.SparkBedBlock;
 import dev.caecorthus.sparkdlc.block.SparkBedService;
+import dev.caecorthus.sparkdlc.item.ScheduleWatchItem;
 import dev.doctor4t.wathe.index.WatheBlockEntities;
 import dev.doctor4t.wathe.index.WatheBlocks;
 import net.minecraft.block.AbstractBlock;
@@ -27,10 +29,10 @@ import java.util.List;
 
 /**
  * The blocks of the mod and their block items: the sabotage fixtures, the map-maker beds and the map-maker props
- * (yellowed wallpaper, shining neon pillar, damp carpets). Each part registers through its own method, at the moment
- * it always did.
- * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床，以及地图道具（泛黄墙纸、闪烁霓虹灯柱、潮湿地毯）。
- * 每个部分通过自己的方法、在一贯的时刻注册。
+ * (yellowed wallpaper, shining neon pillar, damp carpets, station timetable and its pocket watch). Each part registers
+ * through its own method, at the moment it always did.
+ * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床，以及地图道具（泛黄墙纸、闪烁霓虹灯柱、潮湿地毯、
+ * 车站时刻表及其怀表）。每个部分通过自己的方法、在一贯的时刻注册。
  */
 public final class SparkDlcBlocks {
     private SparkDlcBlocks() {
@@ -298,5 +300,48 @@ public final class SparkDlcBlocks {
 
     public static Block dampCarpetBlock() {
         return dampCarpetBlock;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Station timetable / 车站时刻表
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * The map-maker timetable block, its block item and the pocket watch that gives the same reading (see
+     * ScheduleBlock). Registered from SparkDlcItems.registerRoleItems(), after every existing item, so earlier raw ids
+     * keep their order. No listener: the reading cooldown is the watch's item cooldown.
+     * 供地图作者使用的时刻表方块、其方块物品，以及给出同样读数的怀表（见 ScheduleBlock）。由
+     * SparkDlcItems.registerRoleItems() 在所有既有物品之后注册，保持既有注册顺序。没有监听器：读数冷却就是怀表的物品冷却。
+     */
+
+    public static final Identifier SCHEDULE_ID = SparkDLC.id("schedule");
+    public static final Identifier SCHEDULE_WATCH_ID = SparkDLC.id("schedule_watch");
+
+    private static Block schedule;
+    private static Item scheduleWatch;
+
+    public static synchronized void registerSchedule() {
+        if (schedule != null) {
+            return;
+        }
+        schedule = registerWithItem(SCHEDULE_ID, new ScheduleBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        scheduleWatch = Registry.register(
+                Registries.ITEM,
+                SCHEDULE_WATCH_ID,
+                new ScheduleWatchItem(ScheduleWatchItem.createSettings())
+        );
+    }
+
+    public static Block schedule() {
+        if (schedule == null) {
+            throw new IllegalStateException("SparkDLC timetable is not registered yet");
+        }
+        return schedule;
+    }
+
+    public static Item scheduleWatch() {
+        if (scheduleWatch == null) {
+            throw new IllegalStateException("SparkDLC timetable is not registered yet");
+        }
+        return scheduleWatch;
     }
 }

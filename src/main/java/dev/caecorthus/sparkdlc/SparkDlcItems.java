@@ -1399,6 +1399,10 @@ public final class SparkDlcItems {
         // registration order stays unchanged.
         // 地图作者用的潮湿地毯（PR #3）：方块及其 BlockItem，追加在狙击手子弹之后，以保持既有注册顺序不变。
         SparkDlcBlocks.registerDampCarpets();
+        // Station timetable (map-maker block plus its BlockItem) and the pocket watch that reads it, appended last,
+        // after the Sniper's items, so earlier registration order stays unchanged.
+        // 车站时刻表（地图作者用的方块及其 BlockItem）与读它的怀表，追加在最后（狙击手物品之后），以保持既有注册顺序不变。
+        SparkDlcBlocks.registerSchedule();
         registerMeleeSuppression();
         VendettaKnifeLoadoutService.register();
         roleItemsRegistered = true;

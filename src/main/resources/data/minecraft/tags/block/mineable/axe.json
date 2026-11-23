@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "sparkdlc:grey_dirty_bed",
-    "sparkdlc:green_strange_bed"
+    "sparkdlc:green_strange_bed",
+    "sparkdlc:schedule"
   ]
 }

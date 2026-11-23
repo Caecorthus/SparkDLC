@@ -2,7 +2,9 @@ package dev.caecorthus.sparkdlc.cooldown.provider;
 
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherRules;
 import dev.caecorthus.sparkdlc.cooldown.api.ItemCooldownNominalProvider;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.block.ScheduleBlock;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordItem;
 import dev.caecorthus.sparkdlc.item.defense.DefenseVialRules;
@@ -152,6 +154,9 @@ final class RoleItemCooldownNominals implements ItemCooldownNominalProvider {
             // M1903A4Cooldowns is its only writer.
             // 狙击手 M1903A4：开火后 10 秒，而非装填后的 2 秒下限或开局 60 秒锁定；M1903A4Cooldowns 是唯一写入方。
             entries.put(SparkDlcItems.M1903A4_ID, M1903A4Rules.SHOT_COOLDOWN_TICKS);
+            // Timetable pocket watch: the 25 s between two readings, shared with the timetable block.
+            // 时刻表怀表：两次读数之间的 25 秒，与时刻表方块共用。
+            entries.put(SparkDlcBlocks.SCHEDULE_WATCH_ID, ScheduleBlock.READ_COOLDOWN_TICKS);
             // NoellesRoles items: public constants of the pinned 1.7.6 jar, plus the master key, which both
             // NoellesRoles (literal) and the Insider door path write as 200 ticks. The timed bomb stays exempt in
             // the cooldown core itself (ItemCooldownCatalog; Bomber pass gate).

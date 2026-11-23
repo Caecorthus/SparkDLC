@@ -1,0 +1,52 @@
+config	old_entry	new_entry	reason
+common	faction.GameFunctionsMixin	faction.FactionLetterAndKillRewardMixin	twin x3; writes custom-faction letter lore and pays custom-faction kill rewards (FactionLetterTextRules, FactionKillRewardAdapter); core faction job, stays in core
+common	faction.MurderGameModeMixin	faction.FactionRoleAssignmentMixin	twin x3; runs the faction assignment phases and the third-faction draw inside assignRolesAndGetKillerCount; core faction job
+common	faction.PlayerShopComponentMixin	wathe.PlayerShopComponentAccessor	twin x2; is a pure @Accessor (cooldowns map) on a Wathe type, not a mixin with a job: wathe holds the one accessor per Wathe target; its only user faction.blackout.FactionBlackoutCooldownAdapter changes its import (core may name mixin/wathe/ per sharedCoreSupport)
+common	faction.WorldBlackoutComponentMixin	faction.FactionBlackoutImmunityMixin	twin x2; routes blackout night vision through the faction blackout-immunity capability (FactionBlackoutRules)
+common	faction.AntiFastRoundPayloadGuardMixin	round.antifastround.AntiFastRoundPayloadGuardMixin	drops skill payloads during anti-fast-round safe time; names only round.antifastround -> its feature's package (mixin.round, still core; mirrors round.mapreset)
+common	faction.GameWorldComponentReplayMixin	replay.RoleChangeReplayMixin	records mid-round role changes for the replay (RoleChangeRecorder); replay is not a faction concept -> mixin.replay; name says the job
+common	faction.ReplayGeneratorMixin	replay.ReplayPresentationMixin	wraps Wathe's end-of-round replay into the mod's replay presentation session (ReplayPresentation/ReplayRenderContext) -> mixin.replay; target-only name
+common	faction.WaxedSignRecolorMixin	minecraft.WaxedSignRecolorMixin	creative map-editing aid on vanilla signs; names nothing of the mod -> generic engine plumbing
+common	trait.GameFunctionsMixin	trait.TraitKillRulesMixin	twin x3; trait rules in killPlayer: scopes kill attempts (Last Escape/effective traits), keeps the Last Stand revolver, pays kill rewards only to real killers
+common	trait.MurderGameModeMixin	trait.TraitAssignmentAndWinMixin	twin x3; plans/applies traits around role assignment, self-realizes Impostors, effective-civilian killer win, Last Stand final moment
+common	trait.PlayerShopComponentMixin	trait.TraitShopEconomyMixin	twin x2; Snowball payouts, Charisma price, blackout scoped/shared by Conscience group
+common	trait.WorldBlackoutComponentMixin	trait.TraitBlackoutEffectsMixin	twin x2; Master Saboteur blackout duration and Going Dark sync during blackout
+common	trait.NoellesRolesShadowJesterWinMixin	trait.EffectiveKillerShadowJesterWinMixin	twin x2; makes the NoellesRoles Shadow Jester showdown see effective (trait-flipped) killer-team players
+common	wathe.GameFunctionsMixin	role.civilian.coroner.CoronerBodySnapshotMixin	twin x3; only Coroner: death-identity snapshot on bodies and temporary grants that never drop -> the Coroner's package
+common	wathe.GrenadeExplosionMixin	item.grenade.GrenadeBlastMixin	grenade blast rules (target filter, own-blast scope, drones/partygoers broken after the blast); owner GrenadeBlastService -> mixin.item.grenade
+common	wathe.JesterFakeDeathImmunityMixin	role.neutral.jester.JesterFakeDeathImmunityMixin	one role (JesterMomentService) -> new mixin.role.neutral.jester (client already has role.neutral.jester)
+common	wathe.ShadowJesterRevolverCooldownMixin	role.neutral.shadowjester.ShadowJesterRevolverCooldownMixin	one role (ShadowJesterShowdownService) -> new mixin.role.neutral.shadowjester
+common	wathe.PathogenTeamWinMixin	role.neutral.pathogen.PathogenTeamWinMixin	one role (PathogenTeamService) -> new mixin.role.neutral.pathogen
+common	wathe.BlackoutPurchaseRecordMixin	record.BlackoutPurchaseRecordMixin	achievement record S8 (BlackoutRecorder) -> mixin.record
+common	wathe.KillerTeamPassiveIncomeMixin	economy.KillerTeamPassiveIncomeMixin	killer team economy (KillerTeamIncomeScope) -> new mixin.economy (client.mixin.economy already exists)
+common	wathe.KillerTeamShopMixin	economy.KillerTeamShopMixin	killer team purse on Wathe's shop (KillerTeamEconomyService) -> mixin.economy
+common	wathe.KillerPassiveMoneyCapMixin	economy.KillerPassiveMoneyCapMixin	killer income rule (removes the 200-coin passive cap); names nothing of the mod -> beside the other killer-money mixins in mixin.economy
+common	wathe.PlayerCollisionGraceMixin	collision.PlayerCollisionGraceMixin	opening collision grace (collision.PlayerCollisionGraceWorldComponent) -> new mixin.collision, the feature's package
+common	wathe.M67ShopEntriesMixin	wathe.FinalShopEntriesMixin	not M67-only: composes the final shop list (sabotage filter, Bartender, Perfumer, M67, bomb drone) in a fixed order; Wathe shop plumbing, stays in wathe, name says the job
+common	compat.noellesroles.AssassinGuessOutcomeMixin	role.killer.assassin.AssassinGuessOutcomeMixin	one role (AssassinGuessService) -> new common mixin.role.killer.assassin (client has it)
+common	compat.noellesroles.JesterMomentTransitionMixin	role.neutral.jester.JesterMomentTransitionMixin	one role (JesterMomentService) -> mixin.role.neutral.jester
+common	compat.noellesroles.PathogenInfectedTeamMixin	role.neutral.pathogen.PathogenInfectedTeamMixin	one role (PathogenVisibility) -> mixin.role.neutral.pathogen
+common	compat.noellesroles.ShadowJesterAllianceMixin	role.neutral.shadowjester.ShadowJesterAllianceMixin	one role (ShadowJesterShowdownService) -> mixin.role.neutral.shadowjester
+common	compat.noellesroles.ShadowJesterWinPriorityMixin	role.neutral.shadowjester.ShadowJesterWinPriorityMixin	one role (ShadowJesterShowdownService) -> mixin.role.neutral.shadowjester
+common	compat.noellesroles.ToxicologistAntidoteItemMixin	role.civilian.toxicologist.ToxicologistAntidoteItemMixin	Toxicologist antidote cure/reward (plus the Pathogen virus cure it gates) -> new mixin.role.civilian.toxicologist
+common	compat.noellesroles.ThrowingAxeHitRecordMixin	record.ThrowingAxeHitRecordMixin	achievement record S14 (AchievementRecords) -> mixin.record (moves with its throw twin; comments name each other)
+common	compat.noellesroles.ThrowingAxeThrowRecordMixin	record.ThrowingAxeThrowRecordMixin	achievement record S13 -> mixin.record
+common	faction.witch.NoellesRolesShadowJesterWinMixin	faction.witch.WitchBlocksShadowJesterWinMixin	twin x2; stays (living Witch-faction members block the Shadow Jester showdown win = Witch faction rule), renamed to its job
+common	faction.witch.MurderGameModeMixin	role.killer.hunter.HunterOrthopedistPairingMixin	twin x3; only Hunter->Orthopedist pairing before civilians (role.HunterOrthopedistPairingService) -> the Hunter's package (one-way pairing owned by the Hunter)
+common	faction.witch.GameWorldComponentMixin	item.firepoker.FirePokerFallKillMixin	target-only name; attributes fall-out-of-train kills to the Fire Poker / Shriek Gun pusher (FirePokerFallAttributionService) -> new mixin.item.firepoker
+common	faction.witch.GameFunctionsCeremonialSwordProtectionMixin	item.ceremonialsword.GameFunctionsCeremonialSwordProtectionMixin	not Witch: ceremonial sword / Savior terminal kill vs psycho armour (CeremonialSwordProtectionPolicy) -> new mixin.item.ceremonialsword; moves with its Noelles twin (comment link)
+common	faction.witch.NoellesCeremonialSwordProtectionMixin	item.ceremonialsword.NoellesCeremonialSwordProtectionMixin	same policy on NoellesRoles' KillPlayer listener -> mixin.item.ceremonialsword
+common	faction.witch.PoliceRoleHistoryMixin	role.civilian.judge.PoliceRoleHistoryMixin	police-variant rotation debt (role.civilian.judge.PoliceSlotAssignmentService) -> mixin.role.civilian.judge
+common	faction.witch.PoliceSlotAssignmentMixin	role.civilian.judge.PoliceSlotAssignmentMixin	police-variant slot draw (same service) -> mixin.role.civilian.judge
+common	faction.witch.GameRecordManagerItemUseMixin	record.RoleItemUseRecordHooksMixin	not Witch: Junker loot spend, Saint karma, Vendetta replay, Wraith swapper capture on Wathe's item/skill-use records; 4 roles share one record seam -> mixin.record (uncertain: no single role owns it)
+common	faction.witch.ItemCooldownRemovalMixin	cooldown.provider.RoleItemTimerReleaseMixin	not Witch: explicit cooldown remove also releases role timers (cooldown.provider.RoleItemCooldownReleases) -> mixin.cooldown.provider; needs a layering except (see # layering)
+common	faction.witch.GiveCommandDropScopeMixin	minecraft.GiveCommandDropScopeMixin	vanilla /give cosmetic drop plumbing (util.GiveCommandDropScope) -> generic engine plumbing
+common	faction.witch.ServerPlayNetworkHandlerDisconnectCleanupMixin	minecraft.ServerPlayNetworkHandlerDisconnectCleanupMixin	vanilla disconnect seam for util.ServerDisconnectCleanup -> generic engine plumbing
+client	faction.RoundTextRendererMixin	faction.FactionWinAnnouncementMixin	twin x2; shows custom-faction win text instead of the first winning role's; stays core
+client	trait.RoundTextRendererMixin	trait.EffectiveAlignmentGoalTextMixin	twin x2; replaces the welcome goal line for alignment-flipped players
+client	faction.witch.ModelElementRotationAngleMixin	render.ModelElementRotationAngleMixin	not Witch: vanilla model JSON angle parsing (client.render.ModelElementRotationRules) -> render plumbing
+client	faction.witch.PostEffectProcessorAccessor	render.PostEffectProcessorAccessor	shared accessor used by Blind echo and scope filters, not Witch -> render plumbing (3 importers change)
+client	faction.witch.RoleHudRenderTailMixin	hud.RoleHudRenderTailMixin	the one InGameHud.render TAIL seam for role HUD panels (client.hud.RoleHudDispatcher) -> mixin.hud beside MainHudDispatchMixin
+client	faction.witch.RoleNameDisplayMixin	hud.RoleNameTranslationFallbackMixin	not Witch: keeps Wathe spectator/body role labels readable when a translation is missing (client.text.RoleDisplayTexts) -> hud; name says the job
+client	faction.witch.ShopCurrencyPriceMixin	wathe.ShopCurrencyPriceMixin	not Witch-only: shop labels for every non-coin currency (mana, stamps, traffic, hao; client.text.ShopCurrencyTexts) -> beside the other Wathe shop-screen mixins (ShopPageMixin, ShopRowOverflowMixin)
+client	achievement.GameRoundEndComponentMixin	achievement.RoundEndSyncAchievementMixin	target-only name; tells the achievement tracker the round-end result reached this client

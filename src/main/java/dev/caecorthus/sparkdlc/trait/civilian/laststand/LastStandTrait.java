@@ -1,0 +1,123 @@
+package dev.caecorthus.sparkdlc.trait.civilian.laststand;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.trait.api.Trait;
+import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
+import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
+import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
+import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
+import dev.doctor4t.wathe.api.Faction;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import org.agmas.noellesroles.Noellesroles;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * Hidden civilian trait that can turn one qualifying death into a delayed last stand.
+ * 隐藏平民阵营天赋：在满足条件的一次死亡后，延迟触发一次背水一战。
+ */
+public final class LastStandTrait implements Trait {
+    public static final Identifier ID = SparkDLC.id("last_stand");
+    private static final Set<Identifier> ADDITIONAL_THREAT_ROLE_IDS = Set.of(
+            Identifier.of("sparkdlc", "grand_witch"),
+            Identifier.of("sparkdlc", "accomplice"),
+            // The special accomplices share every Accomplice rule. / 特殊共犯沿用共犯的全部规则。
+            Identifier.of("sparkdlc", "abyss_listener"),
+            Identifier.of("sparkdlc", "potion_gunner"),
+            Identifier.of("sparkdlc", "riftwalker"),
+            // The Bewitched (魔化使) is an accomplice before promotion. / 魔化使是晋升前的共犯。
+            Identifier.of("sparkdlc", "bewitched")
+    );
+
+    @Override
+    public Identifier id() {
+        return ID;
+    }
+
+    @Override
+    public int color() {
+        return 0xFFFFFF;
+    }
+
+    @Override
+    public boolean uniquePerGame() {
+        return true;
+    }
+
+    @Override
+    public boolean hiddenFromOwnerAtStart() {
+        return true;
+    }
+
+    @Override
+    public TraitAudience audience() {
+        return TraitAudience.INNOCENT_ONLY;
+    }
+
+    @Override
+    public boolean canApply(TraitSelectionContext context) {
+        return Trait.super.canApply(context)
+                && canSelectHiddenCivilianTrait(context.role(), context.gameComponent());
+    }
+
+    /**
+     * Shared eligibility of the hidden civilian comeback traits (Last Stand and Jester): an original civilian that is
+     * not the Survival Master or settlement-excluded, with at least two threat players.
+     * 隐藏平民翻盘词条（背水一战与小丑）共用的资格：原始平民、非生存大师、非结算排除身份，且至少两名威胁玩家。
+     */
+    public static boolean canSelectHiddenCivilianTrait(Role role, GameWorldComponent gameComponent) {
+        return gameComponent != null
+                && canSelectLastStand(
+                        role,
+                        countLastStandThreatPlayers(
+                                gameComponent.getAllKillerTeamPlayers(),
+                                gameComponent.getRoles()
+                        )
+                );
+    }
+
+    static boolean canSelectLastStand(Role role, int killerTeamPlayerCount) {
+        return role != null
+                && role.getFaction() == Faction.CIVILIAN
+                && !role.identifier().equals(Noellesroles.SURVIVAL_MASTER_ID)
+                && !isSettlementExcludedRole(role)
+                && killerTeamPlayerCount >= 2;
+    }
+
+    /**
+     * Settlement-excluded roles (for example the Black Raven, owner decision 2026-10-21) never
+     * count as living for settlement, so they can never hold Last Stand; command locks reject the pairing too.
+     * 结算排除身份（如黑羽鸦，所有者 2026-10-21 决定）不计入结算存活，
+     * 因此永远不能获得背水一战；命令锁定同样拒绝该组合。
+     */
+    public static boolean isSettlementExcludedRole(Role role) {
+        return SettlementExclusions.isExcludedRole(role);
+    }
+
+    static int countLastStandThreatPlayers(
+            Collection<UUID> nativeKillerPlayers,
+            Map<UUID, Role> rolesByPlayer
+    ) {
+        // Preserve Wathe's native killer bucket and extend only Last Stand's local threshold.
+        // 保留 Wathe 的原生杀手桶，只扩展背水一战自己的选取门槛。
+        Set<UUID> threatPlayers = new HashSet<>(nativeKillerPlayers);
+        rolesByPlayer.forEach((uuid, role) -> {
+            if (ADDITIONAL_THREAT_ROLE_IDS.contains(role.identifier())) {
+                threatPlayers.add(uuid);
+            }
+        });
+        return threatPlayers.size();
+    }
+
+    @Override
+    public void onAssigned(ServerPlayerEntity player, TraitAssignmentReason reason) {
+        LastStandService.recordReturnPoint(player);
+    }
+}

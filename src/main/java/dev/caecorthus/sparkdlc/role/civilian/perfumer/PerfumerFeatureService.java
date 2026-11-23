@@ -1,0 +1,104 @@
+package dev.caecorthus.sparkdlc.role.civilian.perfumer;
+
+import dev.caecorthus.sparkdlc.faction.api.FactionInstinctPolicy;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.entity.PlayerBodyEntity;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+
+/**
+ * Publishes the Perfumer's private, always-on mark, blood, and corpse outlines.
+ * 发布调香师私有且常亮的标记、血腥气味与尸体轮廓。
+ */
+public final class PerfumerFeatureService {
+    private static final int OUTLINE_PRIORITY = 300;
+    private static boolean registered;
+
+    private PerfumerFeatureService() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        SparkFactionApi.registerInstinctPolicy(PerfumerFeatureService::instinctHighlight);
+    }
+
+    private static FactionInstinctPolicy.InstinctResult instinctHighlight(
+            PlayerEntity viewer,
+            Entity target,
+            GameWorldComponent gameComponent
+    ) {
+        if (!PerfumerRuntime.isPerfumerRole(gameComponent.getRole(viewer))
+                || !GameFunctions.isPlayerPlayingAndAlive(viewer)
+                || GameFunctions.isPlayerSpectatingOrCreative(viewer)) {
+            return null;
+        }
+
+        int color;
+        if (target instanceof PlayerEntity targetPlayer) {
+            if (!GameFunctions.isPlayerPlayingAndAlive(targetPlayer)
+                    || GameFunctions.isPlayerSpectatingOrCreative(targetPlayer)) {
+                return null;
+            }
+
+            PerfumerPlayerComponent component = PerfumerPlayerComponent.KEY.get(viewer);
+            if (component.isBloody(targetPlayer.getUuid())) {
+                color = PerfumerRules.BLOODY_OUTLINE_COLOR;
+                if (!shouldOutline(viewer, targetPlayer, viewer.squaredDistanceTo(targetPlayer))) {
+                    return null;
+                }
+            } else if (component.isMarked(targetPlayer.getUuid())) {
+                color = PerfumerRules.ROLE_COLOR;
+                // Same two conditions, cheap range test first: the raycast runs only inside the range.
+                // 同样的两个条件，先做廉价的距离判断：只有在范围内才做射线检测。
+                if (!PerfumerRules.isWithinVisibleOutlineRange(viewer.squaredDistanceTo(targetPlayer))
+                        || !viewer.canSee(targetPlayer)) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else if (target instanceof PlayerBodyEntity body) {
+            // Distance first: a corpse out of every outline range skips the hidden-body lookup, the Partygoer
+            // corpse check and the raycast below. Each check alone still refuses, so the result is unchanged.
+            // 先判断距离：超出所有轮廓范围的尸体跳过隐藏尸体查询、派对客尸体判断以及下方的射线检测。每个条件
+            // 单独仍会拒绝，因此结果不变。
+            double squaredDistance = viewer.squaredDistanceTo(body);
+            if (!PerfumerRules.canOutlineAtDistance(squaredDistance)) {
+                return null;
+            }
+            // A killed Partygoer is no passenger's body. / 被打死的派对客不是乘客的尸体。
+            if (NoellesHiddenBodiesBridge.isHidden(viewer.getWorld(), body.getPlayerUuid())
+                    || PartygoerCorpseComponent.isPartygoerCorpse(body)) {
+                return null;
+            }
+            color = PerfumerRules.CORPSE_OUTLINE_COLOR;
+            if (!shouldOutline(viewer, body, squaredDistance)) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+
+        return FactionInstinctPolicy.InstinctResult.show(color, false, OUTLINE_PRIORITY);
+    }
+
+    /**
+     * {@link PerfumerRules#shouldOutlinePlayer} with the block raycast last. This policy runs on the Perfumer's client
+     * several times per visible entity per frame, and line of sight changes the answer only between the wall range and
+     * the visible range, so {@code canSee} is asked only there; everywhere else the answer is the same either way.
+     * 把方块射线检测放到最后的 {@link PerfumerRules#shouldOutlinePlayer}。该策略在调香师客户端上对每个可见实体每帧运行数次，
+     * 而视线只在穿墙范围与可见范围之间才会改变结果，因此只在那一段才调用 {@code canSee}；其余距离无论有无视线结果都相同。
+     */
+    private static boolean shouldOutline(PlayerEntity viewer, Entity target, double squaredDistance) {
+        boolean hasLineOfSight = PerfumerRules.outlineDependsOnLineOfSight(squaredDistance) && viewer.canSee(target);
+        return PerfumerRules.shouldOutlinePlayer(squaredDistance, hasLineOfSight);
+    }
+}

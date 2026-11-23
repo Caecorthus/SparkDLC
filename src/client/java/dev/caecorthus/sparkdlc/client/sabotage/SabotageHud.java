@@ -1,0 +1,81 @@
+package dev.caecorthus.sparkdlc.client.sabotage;
+
+import dev.caecorthus.sparkdlc.client.tablet.screen.TabletCanvas;
+import dev.caecorthus.sparkdlc.client.tablet.screen.TabletTheme;
+import dev.caecorthus.sparkdlc.sabotage.net.ChannelProgressS2CPacket;
+import dev.caecorthus.sparkdlc.sabotage.SabotageRules;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.text.Text;
+
+/**
+ * HUD of the sabotage system: the prying/hacking bar under the crosshair. Darkness comes only from the sky-light block
+ * ({@link SabotageSkyLight}), shader packs included; a screen-wide veil would also dim the daytime windows and the
+ * breaker outline players need to find the repair.
+ * 破坏系统的 HUD：准星下方的撬开/入侵进度条。黑暗只来自屏蔽天空光照（{@link SabotageSkyLight}），光影包下也一样；
+ * 全屏遮罩会连白天的车窗和玩家找电闸要靠的红框一起压暗。
+ */
+final class SabotageHud {
+    /** The Undercover's role colour for its door breach bar. / 卧底拆门读条使用卧底职业色。 */
+    private static final int UNDERCOVER_SILVER = 0xFFC0C0C0;
+    private static final int BAR_WIDTH = 92;
+    private static final int BAR_HEIGHT = 5;
+
+    private SabotageHud() {
+    }
+
+    static void render(DrawContext context, RenderTickCounter tickCounter) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+        if (player == null || client.world == null || client.options.hudHidden) {
+            return;
+        }
+        SabotageClientState.Channel channel = SabotageClientState.channel();
+        if (channel != null) {
+            renderBar(client, context, channel, client.world.getTime(), tickCounter.getTickDelta(true));
+        }
+    }
+
+    private static void renderBar(MinecraftClient client, DrawContext context, SabotageClientState.Channel channel,
+                                  long now, float tickDelta) {
+        TextRenderer textRenderer = client.textRenderer;
+        int w = context.getScaledWindowWidth();
+        int h = context.getScaledWindowHeight();
+        float fraction = channel.fraction(now, tickDelta);
+        boolean pry = channel.kind == ChannelProgressS2CPacket.KIND_PRY;
+        boolean breach = channel.kind == ChannelProgressS2CPacket.KIND_BREACH;
+        boolean finished = channel.finishedFlashTicks > 0;
+        int accent = finished ? TabletTheme.SUCCESS
+                : breach ? UNDERCOVER_SILVER : (pry ? TabletTheme.WARNING : TabletTheme.KILLER.base());
+        Text label;
+        if (breach) {
+            float seconds = Math.max(0.0F, (1.0F - fraction) * channel.total / 20.0F);
+            label = finished ? Text.translatable("hud.sparkdlc.undercover.breached")
+                    : Text.translatable("hud.sparkdlc.undercover.breaching", String.format("%.1f", seconds));
+        } else if (finished) {
+            label = Text.translatable(pry ? "hud.sparkdlc.sabotage.pried" : "hud.sparkdlc.sabotage.hacked");
+        } else if (pry) {
+            int durability = Math.round((1.0F - fraction) * SabotageRules.DURABILITY_MAX);
+            label = Text.translatable("hud.sparkdlc.sabotage.prying", SabotageRules.percent(durability));
+        } else {
+            float seconds = Math.max(0.0F, (1.0F - fraction) * channel.total / 20.0F);
+            label = Text.translatable("hud.sparkdlc.sabotage.hacking", String.format("%.1f", seconds));
+        }
+        int scale = Math.max(1, (int) Math.round(client.getWindow().getScaleFactor()));
+        TabletCanvas canvas = new TabletCanvas(context, scale, client.getWindow().getFramebufferHeight());
+        float x = (w - BAR_WIDTH) / 2.0F;
+        float y = h / 2.0F + 14.0F;
+        canvas.batch(() -> {
+            canvas.roundRect(x - 1, y - 1, BAR_WIDTH + 2, BAR_HEIGHT + 2, 3.5F, 0xB0000000);
+            canvas.roundRect(x, y, BAR_WIDTH, BAR_HEIGHT, 2.5F, TabletTheme.SURFACE_SUNKEN);
+            float fill = BAR_WIDTH * fraction;
+            if (fill > 0.5F) {
+                canvas.roundRect(x, y, fill, BAR_HEIGHT, 2.5F, accent);
+            }
+            canvas.textCentered(textRenderer, label.getString(), w / 2, (int) (y + BAR_HEIGHT + 4), TabletTheme.TEXT);
+        });
+    }
+}

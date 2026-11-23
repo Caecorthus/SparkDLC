@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "sparkdlc:item/peachwood_sword"
+  }
+}

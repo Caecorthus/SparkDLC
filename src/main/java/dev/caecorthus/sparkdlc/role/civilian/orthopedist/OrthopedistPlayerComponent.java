@@ -1,0 +1,162 @@
+package dev.caecorthus.sparkdlc.role.civilian.orthopedist;
+
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.network.ServerPlayerEntity;
+import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentProvider;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
+import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
+
+/**
+ * Independent Orthopedist state: owner-private cooldown plus viewer-safe Bone Setting visibility.
+ * 骨科大夫的独立状态：本人私有冷却，以及可安全同步给骨科大夫观察者的正骨标记。
+ */
+public final class OrthopedistPlayerComponent
+        implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
+    public static final ComponentKey<OrthopedistPlayerComponent> KEY = ComponentRegistry.getOrCreate(
+            OrthopedistRules.ROLE_ID,
+            OrthopedistPlayerComponent.class
+    );
+
+    private final PlayerEntity player;
+    private int cooldownTicks;
+    private boolean boneSettingActive;
+
+    public OrthopedistPlayerComponent(PlayerEntity player) {
+        this.player = player;
+    }
+
+    public int getCooldownTicks() {
+        return cooldownTicks;
+    }
+
+    public void setCooldownTicks(int ticks) {
+        cooldownTicks = Math.max(0, ticks);
+        sync();
+    }
+
+    public boolean hasBoneSettingActive() {
+        return boneSettingActive;
+    }
+
+    public void assignForRole(Role role) {
+        setCooldownTicks(isOrthopedist(role) ? OrthopedistRules.INITIAL_COOLDOWN_TICKS : 0);
+    }
+
+    public void refreshBoneSettingState() {
+        updateBoneSettingState(player.hasStatusEffect(OrthopedistEffects.boneSetting()));
+    }
+
+    public void clear() {
+        cooldownTicks = 0;
+        boneSettingActive = false;
+        player.removeStatusEffect(OrthopedistEffects.boneSetting());
+        sync();
+    }
+
+    /**
+     * Client-only: forgets observer data synced while the local player acted as an Orthopedist. No sync and no
+     * status-effect change; the server copy is untouched and a later sync overwrites this again.
+     * 仅客户端：清除本地玩家扮演骨科大夫期间同步来的观察数据。不触发同步、不改动状态效果；服务端数据不受影响，后续同步会再次覆盖。
+     */
+    public void clearObserverViewOnClient() {
+        if (!player.getWorld().isClient) {
+            return;
+        }
+        cooldownTicks = 0;
+        boneSettingActive = false;
+    }
+
+    @Override
+    public void serverTick() {
+        if (cooldownTicks > 0) {
+            cooldownTicks--;
+            if ((cooldownTicks == 0 || cooldownTicks % 20 == 0) && player instanceof ServerPlayerEntity owner
+                    && owner.networkHandler != null) {
+                // Observers only read the Bone Setting bit, which every write syncs to all (and every new observer gets a
+                // full resend); the countdown checkpoint goes to the owner alone.
+                // 观察者只读取正骨标记，而每次写入都会同步给所有人（新观察者也会收到补发）；倒计时校准只发给本人。
+                KEY.syncWith(owner, (ComponentProvider) owner);
+            }
+        }
+        refreshBoneSettingState();
+    }
+
+    @Override
+    public void clientTick() {
+        if (cooldownTicks > 0) {
+            cooldownTicks--;
+        }
+    }
+
+    @Override
+    public boolean shouldSyncWith(ServerPlayerEntity recipient) {
+        if (recipient == player) {
+            return true;
+        }
+        // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
+        return GameWorldComponent.KEY.get(recipient.getWorld()).isRole(recipient, SparkDlcRoles.orthopedist());
+    }
+
+    /**
+     * Only the component owner receives cooldown data; Orthopedist observers receive the public effect bit only.
+     * 只有组件本人会收到冷却；其他骨科大夫观察者仅收到公开的正骨标记。
+     */
+    @Override
+    public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
+        boolean includeCooldown = recipient == player;
+        buf.writeBoolean(includeCooldown);
+        if (includeCooldown) {
+            buf.writeVarInt(cooldownTicks);
+        }
+        buf.writeBoolean(boneSettingActive);
+    }
+
+    @Override
+    public void applySyncPacket(RegistryByteBuf buf) {
+        boolean includesCooldown = buf.readBoolean();
+        cooldownTicks = includesCooldown ? Math.max(0, buf.readVarInt()) : 0;
+        boneSettingActive = buf.readBoolean();
+    }
+
+    @Override
+    public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        if (cooldownTicks > 0) {
+            tag.putInt("CooldownTicks", cooldownTicks);
+        }
+    }
+
+    @Override
+    public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        cooldownTicks = tag.contains("CooldownTicks", NbtElement.NUMBER_TYPE)
+                ? Math.max(0, tag.getInt("CooldownTicks"))
+                : 0;
+        boneSettingActive = false;
+    }
+
+    private void updateBoneSettingState(boolean active) {
+        if (active == boneSettingActive) {
+            return;
+        }
+        boneSettingActive = active;
+        sync();
+    }
+
+    private void sync() {
+        KEY.sync(player);
+    }
+
+    private static boolean isOrthopedist(Role role) {
+        return role != null && OrthopedistRules.ROLE_ID.equals(role.identifier());
+    }
+}

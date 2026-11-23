@@ -1,0 +1,562 @@
+# Package map of the stage-1 move. Columns: old_prefix, class_filter, new_prefix, note.
+# Prefixes are relative to dev.caecorthus.sparkdlc (empty = the root package). The longest old_prefix wins;
+# a rule with a class_filter (regex on the simple class name) applies only to that exact package and beats
+# the plain rule of the same package. A plain rule also covers sub-packages no longer rule names.
+# 第一阶段搬迁的包映射。列：old_prefix、class_filter、new_prefix、note。前缀相对 dev.caecorthus.sparkdlc
+# （空 = 根包）。最长的 old_prefix 优先；带 class_filter（简单类名正则）的规则只作用于该包本身，并优先于
+# 同一包的普通规则。普通规则同时覆盖没有更长规则的子包。
+old_prefix	class_filter	new_prefix	note
+witch.roles.neutral.murderouswitch.MurderousWitchDeathRay		role.neutral.murderouswitch.deathray	package name lower-cased
+witch.roles.neutral.murderouswitch.MurderousWitchFeature		role.neutral.murderouswitch.feature	package name lower-cased
+witch.roles.civilian.apprentice.abilities.Clairvoyance		role.civilian.apprentice.abilities.clairvoyance	package name lower-cased
+witch.roles.neutral.murderouswitch.MurderousWitchRules		role.neutral.murderouswitch.rules	package name lower-cased
+witch.roles.civilian.apprentice.abilities.MightyForce		role.civilian.apprentice.abilities.mightyforce	package name lower-cased; FQCN string in SparkWitchCombatAffectMixin
+witch.roles.civilian.apprentice.abilities.MurderSense		role.civilian.apprentice.abilities.murdersense	package name lower-cased
+witch.roles.neutral.murderouswitch.MurderousWitchShop		role.neutral.murderouswitch.shop	package name lower-cased
+witch.roles.civilian.apprentice.abilities.SwiftStep		role.civilian.apprentice.abilities.swiftstep	package name lower-cased
+witch.roles.civilian.apprentice.abilities.Healing		role.civilian.apprentice.abilities.healing	package name lower-cased
+witch.roles.civilian.apprentice.abilities.Purify		role.civilian.apprentice.abilities.purify	package name lower-cased
+factionapi.client.mixin.compat.noellesroles		client.mixin.compat.noellesroles	SparkFactionClientMixinPlugin names NoellesScavengerBodyHideNeutralPerkMixin by FQCN string
+witch.roles.witch.accomplice.AccompliceShop		role.witch.accomplice.shop	package name lower-cased
+traits.impl.compatibility.sparkfactionapi		bridge.traits	LEGACY SCAFFOLDING
+traits.impl.compatibility.noellesroles		trait.compat.noellesroles	
+factionapi.mixin.compat.sparkstrength		mixin.faction.affect	self-targeting mixins into own role services (string targets): dissolve into direct calls
+factionapi.mixin.compat.noellesroles		mixin.compat.noellesroles	
+factionapi.impl.compat.noellesroles		compat.noellesroles	
+factionapi.mixin.compat.sparkwitch		mixin.faction.affect	self-targeting mixins (string targets): dissolve into direct calls
+strength.client.mixin.serialkiller		client.mixin.role.killer.serialkiller	
+strength.client.mixin.spiritualist		client.mixin.role.civilian.spiritualist	
+factionapi.client.mixin.inventory		client.mixin.inventory	
+strength.client.mixin.partyanimal		client.mixin.role.killer.partyanimal	
+strength.client.role.shadowjester		client.role.neutral.shadowjester	
+strength.client.role.spiritualist		client.role.civilian.spiritualist	
+strength.client.mixin.corruptcop		client.mixin.role.jiahao.corruptcop	owner correction: Team Jiahao is its own role category
+strength.client.mixin.noisemaker		client.mixin.role.civilian.noisemaker	
+strength.client.mixin.timekeeper		client.mixin.role.civilian.timekeeper	
+strength.client.mixin.undercover		client.mixin.role.civilian.undercover	
+strength.client.role.demonhunter		client.role.civilian.demonhunter	
+strength.client.role.partyanimal		client.role.killer.partyanimal	
+strength.client.screen.detective		client.role.civilian.detective	layer package folded into the role package
+witch.client.mixin.abysslistener		client.mixin.role.witch.abysslistener	
+witch.client.mixin.controlexpert		client.mixin.role.civilian.controlexpert	
+strength.client.mixin.attendant		client.mixin.role.civilian.attendant	
+strength.client.mixin.bodyguard		client.mixin.role.civilian.bodyguard	
+strength.client.mixin.morphling		client.mixin.role.killer.morphling	
+strength.client.mixin.professor		client.mixin.role.civilian.professor	
+strength.client.mixin.viewpoint		client.mixin.viewpoint	
+strength.client.role.corruptcop		client.role.jiahao.corruptcop	owner correction: Team Jiahao is its own role category
+strength.client.role.timekeeper		client.role.civilian.timekeeper	
+strength.client.role.undercover		client.role.civilian.undercover	
+strength.client.screen.assassin		client.role.killer.assassin	layer package folded into the role package
+strength.component.shadowjester		role.neutral.shadowjester	layer package folded into the role package
+strength.component.spiritualist		role.civilian.spiritualist	layer package folded into the role package
+strength.component.toxicologist		role.civilian.toxicologist	layer package folded into the role package
+witch.client.mixin.potiongunner		client.mixin.role.witch.potiongunner	
+factionapi.mixin.nativefaction		mixin.faction.nativefaction	
+strength.client.mixin.assassin		client.mixin.role.killer.assassin	
+strength.client.mixin.engineer		client.mixin.role.civilian.engineer	
+strength.client.mixin.perfumer		client.mixin.role.civilian.perfumer	
+strength.client.mixin.reporter		client.mixin.role.civilian.reporter	
+strength.client.mixin.sabotage		client.mixin.sabotage	
+strength.client.role.attendant		client.role.civilian.attendant	
+strength.client.role.bodyguard		client.role.civilian.bodyguard	
+strength.client.role.detective		client.role.civilian.detective	
+strength.client.role.morphling		client.role.killer.morphling	
+strength.client.role.professor		client.role.civilian.professor	
+strength.component.demonhunter		role.civilian.demonhunter	layer package folded into the role package
+strength.component.partyanimal		role.killer.partyanimal	layer package folded into the role package
+strength.mixin.sparkfactionapi		mixin.cooldown	self-targeting mixin into CooldownCommand (string target): dissolve
+witch.client.mixin.timestealer		client.mixin.role.killer.timestealer	
+witch.client.mixin.witchmaiden		client.mixin.role.killer.witchmaiden	
+factionapi.client.net.version		client.net.version	
+factionapi.impl.antifastround		round.antifastround	contains GeneratedPayloadPolicy (tools/payload_policy.py names this package)
+factionapi.impl.nativefaction		faction.nativefaction	
+factionapi.mixin.thirdfaction		mixin.faction.thirdfaction	
+strength.client.mixin.coroner		client.mixin.role.civilian.coroner	
+strength.client.mixin.economy		client.mixin.economy	
+strength.client.mixin.phantom		client.mixin.role.killer.phantom	
+strength.client.mixin.veteran		client.mixin.role.civilian.veteran	
+strength.client.mixin.vulture		client.mixin.role.neutral.vulture	
+strength.client.role.engineer		client.role.civilian.engineer	
+strength.client.role.pathogen		client.role.neutral.pathogen	
+strength.client.role.perfumer		client.role.civilian.perfumer.kit	
+strength.client.screen.bandit		client.role.killer.bandit	layer package folded into the role package
+strength.client.screen.tablet		client.tablet.screen	
+strength.client.ui.noisemaker		client.role.civilian.noisemaker	layer package folded into the role package
+strength.component.corruptcop		role.jiahao.corruptcop	layer package folded into the role package; owner correction: Team Jiahao is its own role category
+strength.component.noisemaker		role.civilian.noisemaker	layer package folded into the role package
+strength.component.timekeeper		role.civilian.timekeeper	layer package folded into the role package
+strength.component.undercover		role.civilian.undercover	layer package folded into the role package
+strength.network.shadowjester		role.neutral.shadowjester	layer package folded into the role package
+strength.network.spiritualist		role.civilian.spiritualist	layer package folded into the role package
+witch.client.criminalreasoner		client.role.neutral.criminalreasoner	
+witch.client.mixin.accountant		client.mixin.role.civilian.accountant	
+witch.client.mixin.bellringer		client.mixin.role.killer.bellringer	
+witch.client.mixin.blackraven		client.mixin.role.killer.blackraven	
+witch.client.mixin.riftwalker		client.mixin.role.witch.riftwalker	
+witch.client.mixin.windspirit		client.mixin.role.civilian.windspirit	
+witch.roles.neutral.sphinxhao		role.jiahao.sphinxhao	owner correction: Team Jiahao is its own role category
+factionapi.client.mixin.team		client.mixin.team	
+factionapi.impl.thirdfaction		faction.thirdfaction	
+strength.client.mixin.bandit		client.mixin.role.killer.bandit	
+strength.client.mixin.bomber		client.mixin.role.killer.bomber	
+strength.client.mixin.jester		client.mixin.role.neutral.jester	
+strength.client.mixin.render		client.mixin.render	
+strength.client.role.coroner		client.role.civilian.coroner	
+strength.client.role.economy		client.economy	
+strength.client.role.vulture		client.role.neutral.vulture	
+strength.client.ui.professor		client.role.civilian.professor	layer package folded into the role package
+strength.component.bodyguard		role.civilian.bodyguard	layer package folded into the role package
+strength.component.collision		collision	
+strength.component.detective		role.civilian.detective	layer package folded into the role package
+strength.component.morphling		role.killer.morphling	layer package folded into the role package
+strength.component.professor		role.civilian.professor	layer package folded into the role package
+strength.network.demonhunter		role.civilian.demonhunter	layer package folded into the role package
+strength.network.partyanimal		role.killer.partyanimal	layer package folded into the role package
+witch.client.mixin.dominator		client.mixin.role.killer.dominator	
+witch.client.mixin.kidnapper		client.mixin.role.killer.kidnapper	
+witch.client.mixin.sphinxhao		client.mixin.role.jiahao.sphinxhao	owner correction: Team Jiahao is its own role category
+factionapi.client.inventory		client.inventory	
+factionapi.command.settings		command.settings	
+factionapi.mixin.settlement		mixin.round.settlement	
+strength.client.mixin.input		client.mixin.input	
+strength.client.mixin.wathe		client.mixin.wathe	
+strength.client.role.bandit		client.role.killer.bandit	
+strength.client.role.bomber		client.role.killer.bomber	
+strength.client.role.jester		client.role.neutral.jester	
+strength.client.role.taotie		client.role.neutral.taotie	
+strength.client.role.waiter		client.role.civilian.waiter	
+strength.client.ui.reporter		client.role.civilian.reporter	layer package folded into the role package
+strength.component.assassin		role.killer.assassin	layer package folded into the role package
+strength.component.engineer		role.civilian.engineer	layer package folded into the role package
+strength.component.pathogen		role.neutral.pathogen	layer package folded into the role package
+strength.component.perfumer		role.civilian.perfumer.kit	strength kit for the witch-registered Perfumer; sub-package avoids PerfumerRules/PerfumerShopService collisions until merged by hand
+strength.component.reporter		role.civilian.reporter	layer package folded into the role package
+strength.component.sabotage		sabotage	
+strength.mixin.noellesroles		mixin.compat.noellesroles	
+strength.mixin.serialkiller		mixin.role.killer.serialkiller	
+strength.network.noisemaker		role.civilian.noisemaker	layer package folded into the role package
+strength.network.timekeeper		role.civilian.timekeeper	layer package folded into the role package
+strength.network.undercover		role.civilian.undercover	layer package folded into the role package
+witch.client.mixin.ferryman		client.mixin.role.neutral.ferryman	
+witch.client.mixin.moodflag		client.mixin.hud	
+witch.client.mixin.saboteur		client.mixin.role.killer.saboteur	
+witch.client.mixin.stowaway		client.mixin.role.neutral.stowaway	
+witch.roles.neutral.insider		role.jiahao.insider	owner correction: Team Jiahao is its own role category
+factionapi.client.api.card		client.gui.card	inventory info card, used by witch (23 refs) and assist
+factionapi.client.mapreset		client.round.mapreset	
+factionapi.impl.assignment		faction.assignment	
+factionapi.impl.capability		faction.capability	
+factionapi.mixin.inventory		mixin.inventory	
+strength.client.ui.coroner		client.role.civilian.coroner	layer package folded into the role package
+strength.client.ui.phantom		client.role.killer.phantom	layer package folded into the role package
+strength.component.coroner		role.civilian.coroner	layer package folded into the role package
+strength.component.economy		economy	
+strength.component.phantom		role.killer.phantom	layer package folded into the role package
+strength.component.veteran		role.civilian.veteran	layer package folded into the role package
+strength.component.vulture		role.neutral.vulture	layer package folded into the role package
+strength.mixin.partyanimal		mixin.role.killer.partyanimal	
+strength.network.detective		role.civilian.detective	layer package folded into the role package
+strength.network.professor		role.civilian.professor	layer package folded into the role package
+strength.role.serialkiller		role.killer.serialkiller	
+strength.role.shadowjester		role.neutral.shadowjester	
+strength.role.spiritualist		role.civilian.spiritualist	
+strength.role.toxicologist		role.civilian.toxicologist	
+witch.client.abysslistener		client.role.witch.abysslistener	
+witch.client.controlexpert		client.role.civilian.controlexpert	
+witch.client.guardianangel		client.role.civilian.guardianangel	
+witch.client.mixin.insider		client.mixin.role.jiahao.insider	owner correction: Team Jiahao is its own role category
+witch.client.mixin.m1903a4		client.mixin.item.m1903a4	
+witch.client.mixin.natsume		client.mixin.role.killer.natsume	
+witch.client.mixin.planner		client.mixin.role.civilian.planner	
+witch.client.mixin.specter		client.mixin.role.killer.specter	
+witch.roles.neutral.sniper		role.jiahao.sniper	owner correction: Team Jiahao is its own role category
+assist.client.achievement		client.achievement	
+factionapi.api.settlement		round.settlement	
+factionapi.command.replay		command.replay	
+factionapi.impl.collision		faction.collision	
+factionapi.impl.inventory		inventory	
+factionapi.mixin.cooldown		mixin.cooldown	2 of the 4 duplicated ItemCooldown accessors
+factionapi.mixin.mapreset		mixin.round.mapreset	
+strength.client.mixin.hud		client.mixin.hud	
+strength.client.mixin.m67		client.mixin.item.m67	
+strength.client.ui.common		client.gui.widget	
+strength.client.viewpoint		client.viewpoint	
+strength.component.tablet		tablet	
+strength.component.taotie		role.neutral.taotie	layer package folded into the role package
+strength.component.waiter		role.civilian.waiter	layer package folded into the role package
+strength.mixin.corruptcop		mixin.role.jiahao.corruptcop	owner correction: Team Jiahao is its own role category
+strength.mixin.undercover		mixin.role.civilian.undercover	
+strength.network.reporter		role.civilian.reporter	layer package folded into the role package
+strength.network.sabotage		sabotage.net	
+strength.role.demonhunter		role.civilian.demonhunter	
+strength.role.partyanimal		role.killer.partyanimal	
+traits.client.net.version		client.net.version	
+traits.impl.command.admin		command.trait	
+witch.client.mixin.fisher		client.mixin.role.civilian.fisher	
+witch.client.mixin.hunter		client.mixin.role.killer.hunter	
+witch.client.mixin.knight		client.mixin.role.civilian.knight	
+witch.client.mixin.medium		client.mixin.role.civilian.medium	
+witch.client.mixin.render		client.mixin.render	
+witch.client.mixin.savior		client.mixin.role.civilian.savior	
+witch.client.mixin.seeker		client.mixin.role.civilian.seeker	
+witch.client.potiongunner		client.role.witch.potiongunner	
+witch.mixin.abysslistener		mixin.role.witch.abysslistener	
+witch.mixin.controlexpert		mixin.role.civilian.controlexpert	
+factionapi.client.record		client.record	
+factionapi.client.replay		client.replay	
+factionapi.command.admin		command.admin	
+factionapi.impl.blackout		faction.blackout	
+factionapi.impl.cooldown		cooldown	
+factionapi.impl.mapreset		round.mapreset	
+factionapi.impl.registry		faction.registry	
+factionapi.impl.roundend		round.end	
+strength.client.instinct		client.instinct	
+strength.client.renderer		client.render.entity	
+strength.client.sabotage		client.sabotage	
+strength.mixin.attendant		mixin.role.civilian.attendant	
+strength.mixin.bartender		mixin.role.civilian.bartender	
+strength.mixin.bodyguard		mixin.role.civilian.bodyguard	
+strength.mixin.minecraft		mixin.minecraft	3 duplicated cooldown accessors + RaycastShapeScopeMixin duplicate
+strength.mixin.professor		mixin.role.civilian.professor	
+strength.mixin.viewpoint		mixin.viewpoint	
+strength.network.coroner		role.civilian.coroner	layer package folded into the role package
+strength.network.economy		economy	
+strength.network.phantom		role.killer.phantom	layer package folded into the role package
+strength.network.vulture		role.neutral.vulture	layer package folded into the role package
+strength.role.corruptcop		role.jiahao.corruptcop	owner correction: Team Jiahao is its own role category
+strength.role.noisemaker		role.civilian.noisemaker	
+strength.role.timekeeper		role.civilian.timekeeper	
+strength.role.undercover		role.civilian.undercover	
+traits.impl.presentation		trait.presentation	
+witch.client.mixin.armor		client.mixin.inventory	
+witch.client.mixin.blind		client.mixin.role.civilian.blind	
+witch.client.mixin.fiend		client.mixin.role.neutral.fiend	
+witch.client.mixin.hanna		client.mixin.role.civilian.hanna	
+witch.client.mixin.input		client.mixin.input	
+witch.client.mixin.saint		client.mixin.role.civilian.saint	
+witch.client.mixin.scope		client.mixin.scope	
+witch.client.net.version		client.net.version	
+witch.client.timestealer		client.role.killer.timestealer	
+witch.client.witchmaiden		client.role.killer.witchmaiden	
+witch.mixin.potiongunner		mixin.role.witch.potiongunner	
+assist.client.guidebook		client.guidebook	
+factionapi.api.cooldown		cooldown.api	KEEP as API boundary (cooldown contract)
+factionapi.client.mixin		client.mixin.faction	
+factionapi.impl.economy		faction.economy	
+factionapi.mixin.record		mixin.record	
+strength.client.ui.shop		client.gui.shop	
+strength.mixin.engineer		mixin.role.civilian.engineer	
+strength.mixin.perfumer		mixin.role.civilian.perfumer	
+strength.mixin.sabotage		mixin.sabotage	
+strength.mixin.silencer		mixin.role.killer.silencer	
+strength.network.bandit		role.killer.bandit	layer package folded into the role package
+strength.network.bomber		role.killer.bomber	layer package folded into the role package
+strength.network.tablet		tablet.net	
+strength.network.taotie		role.neutral.taotie	layer package folded into the role package
+strength.role.attendant		role.civilian.attendant	
+strength.role.bartender		role.civilian.bartender	
+strength.role.bodyguard		role.civilian.bodyguard	
+strength.role.detective		role.civilian.detective	
+strength.role.morphling		role.killer.morphling	
+strength.role.professor		role.civilian.professor	
+witch.client.apprentice		client.role.civilian.apprentice	
+witch.client.bellringer		client.role.killer.bellringer	
+witch.client.blackraven		client.role.killer.blackraven	
+witch.client.grandwitch		client.role.witch.grandwitch	
+witch.client.mixin.bear		client.mixin.role.civilian.bear	
+witch.client.mixin.usec		client.mixin.role.civilian.usec	
+witch.client.riftwalker		client.role.witch.riftwalker	
+witch.client.windspirit		client.role.civilian.windspirit	
+witch.mixin.defensevial		mixin.item.defense	
+witch.mixin.timestealer		mixin.role.killer.timestealer	
+witch.mixin.witchmaiden		mixin.role.killer.witchmaiden	
+assist.client.creative		client.creative	
+assist.client.settings		client.settings	
+factionapi.client.team		client.team	
+factionapi.impl.record		record	
+factionapi.impl.replay		replay	
+factionapi.impl.target		faction.target	
+factionapi.impl.vision		faction.vision	
+factionapi.net.version		net.version	handshake 1 of 3
+strength.client.compat		client.bridge.strength	LEGACY SCAFFOLDING
+strength.client.render		client.render	
+strength.client.tablet		client.tablet	
+strength.mixin.coroner		mixin.role.civilian.coroner	
+strength.mixin.veteran		mixin.role.civilian.veteran	
+strength.mixin.vulture		mixin.role.neutral.vulture	
+strength.network.drone		role.killer.bomber.drone	
+strength.payloadpolicy		net.policy.strength	generated by tools/payload_policy.py; one generated class after the namespace merge
+strength.role.assassin		role.killer.assassin	
+strength.role.engineer		role.civilian.engineer	
+strength.role.pathogen		role.neutral.pathogen	
+strength.role.perfumer		role.civilian.perfumer.kit	strength kit for the witch-registered Perfumer; sub-package avoids PerfumerRules/PerfumerShopService collisions until merged by hand
+strength.role.poisoner		role.killer.poisoner	
+strength.role.recaller		role.civilian.recaller	
+strength.role.reporter		role.civilian.reporter	
+strength.role.silencer		role.killer.silencer	
+traits.client.instinct		client.trait.instinct	
+traits.impl.assignment		trait.assignment	
+witch.client.bewitched		client.role.witch.bewitched	
+witch.client.dominator		client.role.killer.dominator	
+witch.client.inventory		client.inventory	
+witch.client.kidnapper		client.role.killer.kidnapper	
+witch.client.mixin.noa		client.mixin.role.civilian.noa	
+witch.client.sphinxhao		client.role.jiahao.sphinxhao	owner correction: Team Jiahao is its own role category
+witch.mixin.accountant		mixin.role.civilian.accountant	
+witch.mixin.bellringer		mixin.role.killer.bellringer	
+witch.mixin.blackraven		mixin.role.killer.blackraven	
+witch.mixin.discoverer		mixin.role.civilian.discoverer	
+witch.mixin.riftwalker		mixin.role.witch.riftwalker	
+strength.client.mixin	MixinPlugin$	client	mixin plugin leaves the mixin package (FQCN strings inside; mixins.json plugin key)
+factionapi.api.compat		compat.noellesroles	
+factionapi.api.replay		replay.api	KEEP as API boundary (replay contributors)
+factionapi.client.api		client.record	
+factionapi.mixin.team		mixin.team	
+factionapi.mixin.text		mixin.faction.text	
+factionapi.net.record		record.net	
+factionapi.net.replay		replay.net	
+strength.client.input		client.input	
+strength.client.world		client.world	
+strength.mixin.bomber		mixin.role.killer.bomber	
+strength.mixin.taotie		mixin.role.neutral.taotie	
+strength.mixin.waiter		mixin.role.civilian.waiter	
+strength.role.coroner		role.civilian.coroner	
+strength.role.economy		economy	
+strength.role.phantom		role.killer.phantom	
+strength.role.veteran		role.civilian.veteran	
+strength.role.vulture		role.neutral.vulture	
+traits.impl.effective		trait.effective	
+traits.impl.lifecycle		trait.lifecycle	
+traits.impl.selection		trait.selection	
+traits.net.conscience		trait.net	
+witch.client.ferryman		client.role.neutral.ferryman	
+witch.client.magician		client.role.killer.magician	
+witch.client.moodflag		client.hud.moodflag	
+witch.client.renderer		client.render.entity	
+witch.client.saboteur		client.role.killer.saboteur	
+witch.client.stowaway		client.role.neutral.stowaway	
+witch.client.vendetta		client.role.civilian.vendetta	
+witch.compat.cooldown		cooldown.provider	
+witch.mixin.dominator		mixin.role.killer.dominator	
+witch.mixin.kidnapper		mixin.role.killer.kidnapper	
+witch.mixin.sphinxhao		mixin.role.jiahao.sphinxhao	owner correction: Team Jiahao is its own role category
+factionapi.component	^SparkFactionComponents$		CCA entrypoint -> root; merged into SparkDlcComponents later; fabric.mod.json string
+assist.client.charge		client.hud.charge	
+assist.client.config		client.config	
+assist.client.ponder		client.ponder	
+factionapi.component		component	round/faction scoreboard components
+factionapi.impl.shop		faction.shop	
+factionapi.impl.team		team	
+factionapi.impl.text		faction.text	
+strength.client.item		client.item	
+strength.mixin.wathe		mixin.wathe	
+strength.network.m67		item.m67	
+strength.role.bandit		role.killer.bandit	
+strength.role.bomber		role.killer.bomber	
+strength.role.jester		role.neutral.jester	
+strength.role.taotie		role.neutral.taotie	
+strength.role.waiter		role.civilian.waiter	
+traits.client.compat		client.bridge.traits	LEGACY SCAFFOLDING
+traits.client.jester		client.trait.jester	
+traits.client.killer		client.trait.killer	
+traits.client.render		client.trait.render	
+traits.impl.registry		trait.registry	
+traits.impl.resource			particle and sound registries -> root
+witch.client.ability		client.skill	
+witch.client.athlete		client.role.civilian.athlete	
+witch.client.bedrock		client.render.bedrock	
+witch.client.headset		client.headset	
+witch.client.insider		client.role.jiahao.insider	owner correction: Team Jiahao is its own role category
+witch.client.m1903a4		client.item.m1903a4	
+witch.client.natsume		client.role.killer.natsume	
+witch.client.planner		client.role.civilian.planner	
+witch.client.prophet		client.role.civilian.prophet	
+witch.client.recruit		client.role.civilian.recruit	
+witch.client.specter		client.role.killer.specter	
+witch.mixin.accessor		mixin.accessor	3 duplicated cooldown accessors
+witch.mixin.ferryman		mixin.role.neutral.ferryman	
+witch.mixin.saboteur		mixin.role.killer.saboteur	
+witch.mixin.stowaway		mixin.role.neutral.stowaway	
+assist.client.mixin	^(AccessibilityOptionsScreen|GameMenuScreen|SoundOptionsScreen|SoundSystem|KeyBinding)Mixin$	client.mixin.settings	
+assist.client.mixin	^(Actor|Ponder)	client.mixin.ponder	
+assist.client.mixin	^(AdvancementsScreen|ClientAdvancementManager|GameRoundEndComponent|GunDropPayload|PoisonOverlayPayload|TaskCompletePayload)Mixin$	client.mixin.achievement	
+assist.client.mixin	^(BloodParticle|ParticleAccessor|WatheBloodClient)Mixin$	client.mixin.blood	
+assist.client.mixin	^LimitedInventoryScreenMixin$	client.mixin.guidebook	
+assist.client.blood		client.blood	
+assist.client.input		client.input	
+assist.client.sound		client.sound	
+factionapi.impl.gun		faction.gun	
+traits.client.audio		client.trait.audio	
+traits.client.mixin		client.mixin.trait	
+witch.block.service		block	
+witch.client.compat		client.bridge.witch	LEGACY SCAFFOLDING
+witch.client.curser		client.role.witch.curser	
+witch.client.factor		client.role.witch.grandwitch.factor	
+witch.client.fisher		client.role.civilian.fisher	
+witch.client.hunter		client.role.killer.hunter	
+witch.client.junker		client.role.civilian.junker	
+witch.client.knight		client.role.civilian.knight	
+witch.client.medium		client.role.civilian.medium	
+witch.client.render		client.render	
+witch.client.savior		client.role.civilian.savior	
+witch.client.screen		client.role.civilian.tarotreader	
+witch.client.seeker		client.role.civilian.seeker	
+witch.client.sherry		client.role.civilian.sherry	
+witch.client.wraith		client.role.special.wraith	test-only package (src/test); follows the Wraith client role package
+witch.mixin.insider		mixin.role.jiahao.insider	owner correction: Team Jiahao is its own role category
+witch.mixin.natsume		mixin.role.killer.natsume	
+witch.mixin.planner		mixin.role.civilian.planner	
+witch.mixin.prophet		mixin.role.civilian.prophet	
+witch.mixin.recruit		mixin.role.civilian.recruit	
+witch.mixin.specter		mixin.role.killer.specter	
+witch.mixin.vulture		mixin.role.neutral.vulture	joins strength vulture mixins
+witch.payloadpolicy		net.policy.witch	generated by tools/payload_policy.py
+strength.component	^SparkStrengthComponents$		CCA entrypoint -> root; fabric.mod.json string
+traits.net.version	^SparkTraitsPackets$	net	packet registration hub
+witch.client.mixin	MixinPlugin$	client	mixin plugin leaves the mixin package (FQCN strings inside; mixins.json plugin key; verify script)
+witch.client.mixin	^(AssassinSaboteur)	client.mixin.role.killer.saboteur	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(AssassinSavior)	client.mixin.role.civilian.savior	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(Curser)	client.mixin.role.witch.curser	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(DeathRay)	client.mixin.role.neutral.murderouswitch	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(GameFunctionsGrandWitch|GrandWitch|CrossSword|WatheClientFactor)	client.mixin.role.witch.grandwitch	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(Magician)	client.mixin.role.killer.magician	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(Vendetta|ItemEntityVendetta|PlayerEntityVendetta|ScreenHandlerVendetta|PlayerManagerVendetta|NoellesAssassinVendetta|NoellesThrowingAxeVendetta|AssassinVendetta)	client.mixin.role.civilian.vendetta	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(WatheClientJudge)	client.mixin.role.civilian.judge	flat mixin bucketed by class-name prefix
+witch.client.mixin	^(Wraith)	client.mixin.role.special.wraith	flat mixin bucketed by class-name prefix
+assist.achievement		achievement	
+strength.collision		collision	
+strength.component		component	
+strength.mixin.m67		mixin.item.m67	
+strength.viewpoint		viewpoint	
+traits.client.text		client.trait.text	
+traits.impl.replay		trait.replay	
+traits.impl.traits		trait	trait implementations: trait.<audience>.<trait>
+traits.net.version		net.version	handshake 2 of 3 (byte-identical twin of witch)
+witch.client.armor		client.inventory.armor	
+witch.client.blind		client.role.civilian.blind	
+witch.client.fiend		client.role.neutral.fiend	
+witch.client.hanna		client.role.civilian.hanna	
+witch.client.hooks		client.hooks	12 mixed hooks: optional hand pass into role packages
+witch.client.input		client.input	
+witch.client.judge		client.role.civilian.judge	
+witch.client.mixin		client.mixin.faction.witch	flat leftovers after the per-role class rules below
+witch.client.ninja		client.role.killer.ninja	
+witch.client.saint		client.role.civilian.saint	
+witch.client.scope		client.scope	
+witch.client.tarot		client.role.civilian.tarotreader	
+witch.mixin.fisher		mixin.role.civilian.fisher	
+witch.mixin.hunter		mixin.role.killer.hunter	
+witch.mixin.junker		mixin.role.civilian.junker	
+witch.mixin.knight		mixin.role.civilian.knight	
+witch.mixin.savior		mixin.role.civilian.savior	
+witch.mixin.seeker		mixin.role.civilian.seeker	
+witch.mixin.sherry		mixin.role.civilian.sherry	
+witch.mixin.tofana		mixin.item.tofana	
+factionapi.client		client	client initializer + mixin plugin -> client root (plugin must stay outside the mixin package)
+strength.sabotage		sabotage	
+traits.client.gui		client.trait.gui	
+traits.client.hud		client.trait.hud	
+traits.net.combat		trait.net	
+witch.client.bear		client.role.civilian.bear	
+witch.client.emma		client.role.civilian.emma	
+witch.client.hiro		client.role.killer.hiro	
+witch.client.koko		client.role.neutral.koko	
+witch.client.text		client.text	
+witch.client.usec		client.role.civilian.usec	
+witch.mixin.blind		mixin.role.civilian.blind	
+witch.mixin.fiend		mixin.role.neutral.fiend	
+witch.mixin.hanna		mixin.role.civilian.hanna	
+witch.mixin.saint		mixin.role.civilian.saint	
+witch.testsupport		testsupport	test-only package (src/test); named in META-INF/services
+traits.component	^(SparkTraitsComponents|SparkTraitsDataComponentTypes)$		CCA entrypoint and data-component registry -> root
+assist.guidebook		guidebook	
+factionapi.mixin		mixin.faction	
+strength.command		command	
+strength.network		net	
+traits.component		trait.component	
+witch.api.client		client.api	LEGACY SCAFFOLDING: "frozen cross-mod" client facades, now internal
+witch.client.gui		client.gui	
+witch.client.hud		client.hud	16 files, mostly per-role HUD renderers: optional hand pass
+witch.client.noa		client.role.civilian.noa	
+witch.mixin.bear		mixin.role.civilian.bear	
+witch.mixin.hiro		mixin.role.killer.hiro	
+witch.mixin.koko		mixin.role.neutral.koko	
+witch.mixin.rope		mixin.item.rope	
+witch.mixin.usec		mixin.role.civilian.usec	
+witch.component	^SparkWitchComponents$		CCA entrypoint -> root; fabric.mod.json string
+factionapi.impl		faction	
+strength.client		client	
+strength.compat		bridge.strength	LEGACY SCAFFOLDING: cross-module facades, inline and delete
+strength.entity		entity	
+strength.record		record	
+strength.replay		replay.role	role replay formatters; optional hand pass into role packages
+strength.tablet		tablet	
+witch.component		component	Wraith*/Perfumer* components: optional hand pass into role packages
+witch.mixin.cat		mixin.role.neutral.cat	
+witch.mixin.noa		mixin.role.civilian.noa	
+witch.registry	^SparkWitch(Blocks|DataComponents)$		registry classes -> root
+witch.registry	^WitchThirdFactionLineup	faction.witch	
+factionapi.api		faction.api	KEEP as internal API boundary (the faction contract)
+strength.block		block	
+strength.event		event	listener wiring hub; dissolved into the initializer later
+strength.voice		voice	voicechat plugin 1 of 3; fabric.mod.json string
+witch.registry		role	role registry, assassin guess order, hunter/orthopedist pairing
+assist.client		client	
+assist.config		config	
+assist.ponder		ponder	
+strength.item		item	35 flat item classes, many role-owned: optional hand pass to move them into role packages
+strength.role		role	shared role helpers
+strength.util		util	
+traits.client		client	client initializer -> client root
+traits.compat		bridge.traits	LEGACY SCAFFOLDING
+witch.command		command	
+witch.economy		economy	
+witch.headset		headset	
+witch.compat	^Spark(Strength|Traits|Faction|Witch)	bridge.witch	LEGACY SCAFFOLDING: cross-module facades
+assist.input		input	
+assist.sound		sound	
+traits.mixin		mixin.trait	85 flat mixins; includes 3 duplicated accessors + RaycastShapeScopeMixin variant
+traits.voice		voice	voicechat plugin 2 of 3
+witch.client		client	
+witch.compat		compat.noellesroles	NoellesRoles/Wathe glue
+witch.entity		entity	
+witch.record		record.witch	AchievementRecords collides by name with strength.record.AchievementRecords (different content)
+witch.mixin	^(Apprentice)	mixin.role.civilian.apprentice	flat mixin bucketed by class-name prefix
+witch.mixin	^(BlackRaven|PlayerEntityBlackRaven|ScreenHandlerBlackRaven|NoellesHiddenEquipmentBlackRaven|GameFunctionsBlackRaven)	mixin.role.killer.blackraven	flat mixin bucketed by class-name prefix
+witch.mixin	^(Emma)	mixin.role.civilian.emma	flat mixin bucketed by class-name prefix
+witch.mixin	^(GameFunctionsGrandWitch|GrandWitch|CrossSword|WatheClientFactor)	mixin.role.witch.grandwitch	flat mixin bucketed by class-name prefix
+witch.mixin	^(GameFunctionsSaint)	mixin.role.civilian.saint	flat mixin bucketed by class-name prefix
+witch.mixin	^(Judge)	mixin.role.civilian.judge	flat mixin bucketed by class-name prefix
+witch.mixin	^(Kidnapper)	mixin.role.killer.kidnapper	flat mixin bucketed by class-name prefix
+witch.mixin	^(Knight)	mixin.role.civilian.knight	flat mixin bucketed by class-name prefix
+witch.mixin	^(Magician)	mixin.role.killer.magician	flat mixin bucketed by class-name prefix
+witch.mixin	^(PlayerBodyEntityWraith|ScreenHandlerWraith|ServerPlayerEntityWraith)	mixin.role.special.wraith	flat mixin bucketed by class-name prefix
+witch.mixin	^(PlayerStaminaComponentOrthopedist)	mixin.role.civilian.orthopedist	flat mixin bucketed by class-name prefix
+witch.mixin	^(Vendetta|ItemEntityVendetta|PlayerEntityVendetta|ScreenHandlerVendetta|PlayerManagerVendetta|NoellesAssassinVendetta|NoellesThrowingAxeVendetta|AssassinVendetta)	mixin.role.civilian.vendetta	flat mixin bucketed by class-name prefix
+witch.mixin	^(WindSpirit)	mixin.role.civilian.windspirit	flat mixin bucketed by class-name prefix
+witch.mixin	^(Wraith)	mixin.role.special.wraith	flat mixin bucketed by class-name prefix
+witch.block		block	
+witch.mixin		mixin.faction.witch	flat leftovers after the per-role class rules below
+witch.roles		role	
+witch.skill		skill	
+witch.voice		voice	voicechat plugin 3 of 3; two Class.forName bridges to client receivers
+witch.util	^RaycastShapeScope$	util.hitscan	identical twin of strength.util.RaycastShapeScope: parked here to avoid the name collision until the duplicates are merged
+factionapi			module initializer -> root, dissolved into SparkDLC in the init stage
+traits.api		trait.api	KEEP as internal API boundary (SparkTraitsApi, 45 foreign refs)
+witch.impl		event	listener wiring hub
+witch.item		item	
+witch.lang		lang	test-only package (src/test)
+witch.mana		skill.mana	
+witch.util		util	
+witch.net	^SparkWitch(Version|ServerConfirm|ServerConnection)	net.version	handshake 3 of 3
+witch.api		skill.api	KEEP as internal API boundary (skill contract)
+witch.net		net	40 files, mostly role payloads: optional hand pass into role packages
+witch.win		faction.witch	
+strength			initializer + 6 registry classes -> root; merged into SparkDlc* registries later
+assist	^DurableFiles$	util	
+assist			SparkAssist id helper -> root (replaced by SparkDLC.id)
+client		client	fused client entrypoint stays
+traits			initializer -> root
+witch			initializer + 7 registry classes -> root
+			entrypoint + module enum stay; SparkDlcModule dies with the namespace migration

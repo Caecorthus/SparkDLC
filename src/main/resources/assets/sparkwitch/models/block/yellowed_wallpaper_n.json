@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "sparkwitch:block/yellowed_wallpaper_n"
-  }
-}

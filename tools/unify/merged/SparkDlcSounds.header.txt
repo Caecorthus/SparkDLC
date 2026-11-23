@@ -1,0 +1,6 @@
+/**
+ * The sound events of the mod (the Seeker and Blind kits keep their own classes). Each part registers through its own
+ * method, at the moment it always did; the role kit and trait parts each keep their own registrar.
+ * 本模组的声音事件（搜寻者与盲人套件保留各自的类）。每个部分通过自己的方法、在一贯的时刻注册；职业套件与词条部分各自保留自己的
+ * registrar。
+ */

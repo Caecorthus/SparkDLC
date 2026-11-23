@@ -1,0 +1,7 @@
+# The classes a hand-written merged class was made from, with the hash of their text at that time. `plan` fails when one of them has
+# changed: the hand-written class must then be updated by hand, and the hash with it.
+# 手写合并类所依据的类及其当时文本的哈希。其中任何一个发生变化时 `plan` 失败：此时必须手工更新手写类，并同步更新哈希。
+old_fqcn	sha256
+SparkStrengthDataComponents	659bdb6861490751c5dd9e974e21cfca606b2daa6d771fc3cbe714b123622c33
+SparkTraitsDataComponentTypes	c4ed6fee349a111612d2d6edf02798facbf94bd0c549663dcd453f605c48a8e1
+SparkWitchDataComponents	2a3f10c845276ebcc6368c5d7899d12ba6c8e60b2a3d625ac79575b23692f256

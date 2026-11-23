@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "sparkwitch:item/big_dog_portrait"
-  }
-}

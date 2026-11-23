@@ -1,0 +1,55 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:fast_reload",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.fast_reload.name",
+      "summaryKey": "trait.sparkdlc.fast_reload.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "左轮手枪冷却更短，USEC 拉栓更快。警职词条，只会出现在老兵以外的警职身上（义警、法官、樱羽艾玛、控场专家、搜寻者、USEC、黑羽鸦）。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "【左轮手枪】开枪后的冷却缩短 30%，义警从 10 秒缩短到 7 秒。可以和【快手】词条叠加。"
+            },
+            {
+              "type": "bullet",
+              "text": "USEC 的【AXMC 狙击步枪】拉栓时间从 2 秒缩短到 1.4 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "只对左轮手枪和 USEC 的狙击步枪有效，【德林加手枪】不受影响。"
+            },
+            {
+              "type": "section",
+              "text": "建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "第一枪落空也能更快补枪。但每一枪都要确认目标，误杀的代价不会变小。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:vigilante"
+      ],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#F4A261",
+      "order": 910
+    }
+  ]
+}

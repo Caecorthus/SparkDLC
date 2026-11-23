@@ -1,0 +1,145 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:murderous_witch",
+      "tab": "ROLE",
+      "sourceModId": "sparkdlc",
+      "nameKey": "announcement.role.murderous_witch",
+      "summaryKey": "guidebook.sparkdlc.content.role.overview",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "我再也无法承受这种高压了……"
+            },
+            {
+              "type": "paragraph",
+              "text": "中立阵营的独狼。目标是成为最后一个活着的人：场上所有人都是你的敌人，包括大魔女。"
+            },
+            {
+              "type": "section",
+              "text": "能力",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "本能",
+                  "tone": "money"
+                },
+                {
+                  "text": "：按住本能透视键，其他所有存活玩家都会显示为红色；全车停电期间，本能谁也看不到。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "死亡射线",
+                  "tone": "money"
+                },
+                {
+                  "text": "（技能键，默认 G）：消耗 100 魔力，10 秒内可射出 3 道最远 12 格的穿透射线，直线上的人一般都会被处决，墙壁会挡住射线；冷却 60 秒。详见“死亡射线”页。"
+                }
+              ]
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:roles/sparkdlc/murderous_witch",
+              "text": "演示：死亡射线"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "魔力",
+                  "tone": "money"
+                },
+                {
+                  "text": "：开局为 0，每 2 秒恢复 1 点，自然恢复最多到 150。每次击杀恢复 25 魔力，击杀大魔女或预备魔女恢复 50。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "text": "停电时有夜视，能看见隐藏的毒药陷阱；理智是假理智，不会精神崩溃，可以一直疾跑。"
+            },
+            {
+              "type": "section",
+              "text": "金币与商店",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "起始金币与杀手相同。金币低于 200 时每 10 秒获得 5 金币；每次直接击杀获得 100 金币。"
+            },
+            {
+              "type": "bullet",
+              "text": "商店：【刀】100 金币，【左轮手枪】300 金币，【飞斧】150 金币，【烧火棍】50 金币，【开锁器】50 金币，【撬棍】25 金币。刀、烧火棍、开锁器、撬棍各限购 1 次。用左轮手枪打死谁都不会掉枪。"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "烧火棍",
+                  "tone": "money"
+                },
+                {
+                  "text": "：左键把人狠狠击退，冷却 10 秒。魔力不少于 20 时自动消耗 20 魔力，让对方失明并获得缓慢 III 3 秒，自己获得速度 III 3 秒。被你击退的人 10 秒内掉下火车，算作你的击杀。"
+                }
+              ]
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:fire_poker",
+              "text": "演示：烧火棍"
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "前期混在人群里做任务、攒钱，先买一把【刀】；魔力攒到 100 再考虑开死亡射线。"
+            },
+            {
+              "type": "bullet",
+              "text": "让好人、杀手和魔女阵营互相消耗，人越少你越好收拾。"
+            },
+            {
+              "type": "bullet",
+              "text": "烧火棍适合在火车边缘把人推下去：不留尸体，还算你的击杀。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "只要你活着，好人和杀手都无法提前获胜，所以两边都会来找你；不过列车时间耗尽时，仍然算好人阵营获胜。"
+            },
+            {
+              "type": "bullet",
+              "text": "大魔女开本能时能认出你（全车停电期间除外）。"
+            },
+            {
+              "type": "bullet",
+              "text": "你看不到剩余时间，也只会获得通用词条。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#7A3857",
+      "order": 600
+    }
+  ]
+}

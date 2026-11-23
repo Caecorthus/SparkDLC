@@ -1,0 +1,277 @@
+package dev.caecorthus.sparkdlc.entity;
+
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
+import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
+import dev.caecorthus.sparkdlc.item.m67.M67Physics;
+import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
+import dev.caecorthus.sparkdlc.item.m67.M67Rules;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.AttackOriginScope;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneCombatService;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
+import dev.doctor4t.wathe.game.GameConstants;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheParticles;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+/**
+ * Server-ticked M67. {@code M67MatchBlastHits} recognises a detonation from this class, the {@code sparkdlc:m67} id,
+ * public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and relies on the discard coming only after the
+ * blast's kills.
+ * 由服务端驱动的 M67。{@code M67MatchBlastHits} 依据本类、{@code sparkdlc:m67} id、public {@link #getDetonateAt()} 与
+ * {@link #getThrowerUuid()} 识别引爆，并依赖爆炸击杀之后才移除自身这一顺序。
+ */
+public final class M67GrenadeEntity extends ThrownItemEntity {
+    private static final TrackedData<Long> DETONATE_AT = DataTracker.registerData(
+            M67GrenadeEntity.class, TrackedDataHandlerRegistry.LONG);
+    private static final TrackedData<Optional<UUID>> ROUND_ID = DataTracker.registerData(
+            M67GrenadeEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    private static final TrackedData<Optional<UUID>> THROWER_UUID = DataTracker.registerData(
+            M67GrenadeEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    // m67_throw.ogg's striker clicks end within 0.25s of release; landing clatter must not mask them.
+    // m67_throw.ogg 的撞针声在投出后 0.25 秒内结束，落地声不得将其掩盖。
+    private static final int THROW_STRIKER_TICKS = 5;
+
+    // Server-only thrower of a drone-dropped M67; never tracked or in the spawn packet. / 无人机投下的 M67 的投掷者，仅存服务器，不进追踪数据与生成包。
+    private @Nullable UUID concealedThrowerUuid;
+    // Server-only, fixed at throw: a non-participant's grenade explodes with full visuals but affects no one.
+    // 仅存服务器，投掷时确定：非参赛者的手雷照常完整爆炸表现，但不影响任何人。
+    private boolean presentation;
+    private boolean hasLanded;
+    private boolean landSoundPending;
+    private int interpolationTicks;
+    private double trackedX;
+    private double trackedY;
+    private double trackedZ;
+    private float trackedYaw;
+    private float trackedPitch;
+
+    public M67GrenadeEntity(EntityType<? extends M67GrenadeEntity> type, World world) {
+        super(type, world);
+    }
+
+    /** Server: a hand-thrown M67; {@code presentation} is the server's throw-mode decision. / 服务器：手投 M67；presentation 由服务端投掷模式决定。 */
+    public M67GrenadeEntity(ServerWorld world, ServerPlayerEntity owner, UUID roundId, boolean presentation) {
+        this(world, owner, roundId, false, presentation);
+        setPosition(owner.getX(), owner.getEyeY() - 0.1, owner.getZ());
+        setRotation(owner.getYaw(), owner.getPitch());
+    }
+
+    private M67GrenadeEntity(ServerWorld world, ServerPlayerEntity owner, UUID roundId, boolean concealThrower,
+                             boolean presentation) {
+        this(SparkDlcEntities.m67(), world);
+        this.presentation = presentation;
+        if (concealThrower) {
+            concealedThrowerUuid = owner.getUuid();
+        } else {
+            setOwner(owner);
+            dataTracker.set(THROWER_UUID, Optional.of(owner.getUuid()));
+        }
+        dataTracker.set(ROUND_ID, Optional.of(roundId));
+        dataTracker.set(DETONATE_AT, world.getTime() + M67Rules.FUSE_TICKS);
+    }
+
+    /**
+     * Server: an M67 released by a Bomber drone, with the thrower concealed. The thrower is kept only in a server
+     * field ({@link #getThrowerUuid} still answers it, so blast attribution, disconnect cleanup and
+     * {@code M67MatchBlastHits} keep working) and the vanilla projectile owner is never set, because 1.21.1's
+     * {@code setOwner(null)} cannot clear it and its entity id would ride in the spawn packet. Pose comes from the drone.
+     * 服务器：炸弹客无人机投下的 M67，投掷者被隐藏。投掷者只存于服务器字段（{@link #getThrowerUuid} 仍返回它，因此爆炸归属、
+     * 断线清理与 {@code M67MatchBlastHits} 照常工作），且从不设置原版投射物主人——1.21.1 的 setOwner(null) 无法清除它，
+     * 其实体 id 会随生成包下发。位姿取自无人机。
+     */
+    public static M67GrenadeEntity droppedConcealed(ServerWorld world, ServerPlayerEntity owner, UUID roundId,
+                                                    Vec3d pos, float yaw, float pitch) {
+        // Drones exist only in the ACTIVE match and drop for their Bomber owner, so drops stay match grenades.
+        // 无人机只存在于 ACTIVE 对局并为其炸弹客主人投弹，因此投弹始终是对局手雷。
+        M67GrenadeEntity grenade = new M67GrenadeEntity(world, owner, roundId, true, false);
+        grenade.setPosition(pos);
+        grenade.setRotation(yaw, pitch);
+        return grenade;
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return SparkDlcItems.m67();
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(DETONATE_AT, -1L);
+        builder.add(ROUND_ID, Optional.empty());
+        builder.add(THROWER_UUID, Optional.empty());
+    }
+
+    /**
+     * Thrower uuid: the concealed server-only value when set, else the tracked one. Public contract:
+     * {@code M67MatchBlastHits} calls this getter on the server (blast attribution).
+     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：M67MatchBlastHits 在服务器调用此 getter（爆炸归属）。
+     */
+    public @Nullable UUID getThrowerUuid() {
+        return concealedThrowerUuid != null ? concealedThrowerUuid : dataTracker.get(THROWER_UUID).orElse(null);
+    }
+
+    public @Nullable UUID getRoundId() {
+        return dataTracker.get(ROUND_ID).orElse(null);
+    }
+
+    public long getDetonateAt() {
+        return dataTracker.get(DETONATE_AT);
+    }
+
+    @Override
+    public void tick() {
+        // Bypass ThrownEntity.tick: it integrates movement itself. / 绕过父投掷物 tick，避免重复位移。
+        baseTick();
+        if (isRemoved()) {
+            return;
+        }
+        if (getWorld().isClient()) {
+            if (interpolationTicks > 0) {
+                lerpPosAndRotation(interpolationTicks, trackedX, trackedY, trackedZ, trackedYaw, trackedPitch);
+                interpolationTicks--;
+            }
+            return;
+        }
+        ServerWorld world = (ServerWorld) getWorld();
+        UUID throwerUuid = getThrowerUuid();
+        ServerPlayerEntity owner = throwerUuid == null ? null : world.getServer().getPlayerManager().getPlayer(throwerUuid);
+        // Connected dead owners retain attribution; stale rounds never detonate. / 在线死亡投掷者保留归属，旧回合禁止引爆。
+        if (owner == null || !validRound(world) || getDetonateAt() < 0) {
+            discard();
+            return;
+        }
+        if (world.getTime() >= getDetonateAt()) {
+            detonate(world, owner);
+            return;
+        }
+        tickServerMotion(world);
+    }
+
+    @Override
+    public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int steps) {
+        trackedX = x;
+        trackedY = y;
+        trackedZ = z;
+        trackedYaw = yaw;
+        trackedPitch = pitch;
+        interpolationTicks = Math.max(1, steps);
+    }
+
+    private void tickServerMotion(ServerWorld world) {
+        M67Physics.Vector requested = M67Physics.requestedMovement(vector(getVelocity()));
+        Vec3d movement = new Vec3d(requested.x(), requested.y(), requested.z());
+        // Swept block shapes, no player-body collisions or material-dependent friction. / 扫掠方块形状，不碰撞玩家身体或采用材质摩擦。
+        Vec3d actual = Entity.adjustMovementForCollisions(this, movement, getBoundingBox(), world, List.of());
+        setPosition(getPos().add(actual));
+        M67Physics.Motion motion = M67Physics.afterCollision(requested,
+                M67Physics.collision(requested, vector(actual)), hasLanded);
+        hasLanded = motion.hasLanded();
+        setOnGround(motion.grounded());
+        M67Physics.Vector velocity = motion.velocity();
+        setVelocity(velocity.x(), velocity.y(), velocity.z());
+        if (motion.firstLanding()) {
+            landSoundPending = true;
+        }
+        // Spawned on release, so age counts server ticks since the throw. / 投出时生成，age 即投出后的服务端刻数。
+        if (landSoundPending && age >= THROW_STRIKER_TICKS) {
+            landSoundPending = false;
+            world.playSound(null, getX(), getY(), getZ(), SparkDlcSounds.M67_LAND,
+                    SoundCategory.PLAYERS, 1.0F, 1.0F);
+        }
+    }
+
+    private static M67Physics.Vector vector(Vec3d value) {
+        return new M67Physics.Vector(value.x, value.y, value.z);
+    }
+
+    private boolean validRound(ServerWorld world) {
+        UUID roundId = getRoundId();
+        return roundId != null && M67RoundService.isCurrentRound(world, roundId);
+    }
+
+    private void detonate(ServerWorld world, ServerPlayerEntity owner) {
+        if (!validRound(world)) {
+            discard();
+            return;
+        }
+        // Breaks drones itself below; SeekerDeviceHits.onBlast (fired from the discard) must not break them again.
+        // 下方自行击毁无人机；SeekerDeviceHits.onBlast（由 discard 触发）不得再次处理无人机。
+        DroneCombatService.runOwnBlast(() -> explode(world, owner));
+    }
+
+    private void explode(ServerWorld world, ServerPlayerEntity owner) {
+        world.playSound(null, getBlockPos(), SparkDlcSounds.M67_EXPLODE, SoundCategory.PLAYERS,
+                5.0F, 1.0F);
+        world.spawnParticles(WatheParticles.BIG_EXPLOSION, getX(), getY() + 0.1, getZ(), 1, 0, 0, 0, 0);
+        world.spawnParticles(ParticleTypes.SMOKE, getX(), getY() + 0.1, getZ(), 100, 0, 0, 0, 0.2);
+        world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, getStack()),
+                getX(), getY() + 0.1, getZ(), 100, 0, 0, 0, 1.0);
+        if (presentation) {
+            // Presentation ends here: no victim selection, kill attempt or drone break. / 表现手雷到此为止：不选目标、不击杀、不击毁无人机。
+            discard();
+            return;
+        }
+        // Only a real blast clears BEAR smoke (visual only), matching the off-match rule (OffMatchUse).
+        // 只有真实爆炸才会炸开 BEAR 烟雾（仅视觉），与局外规则（OffMatchUse）一致。
+        SparkRoleApi.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
+
+        List<ServerPlayerEntity> candidates = List.copyOf(world.getPlayers(GameFunctions::isPlayerAliveAndSurvival));
+        for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, this, candidates, M67Rules.BLAST_RADIUS)) {
+            if (isRemoved() || !validRound(world)) {
+                break;
+            }
+            // Exactly one ordinary kill attempt; protection/rewards belong to Wathe. The blast scope lets a Bodyguard's
+            // shield face the blast itself. / 仅调用一次普通击杀流程，保护与奖励交给 Wathe。爆炸作用域让保镖的盾按爆炸点判定方向。
+            if (GameFunctions.isPlayerAliveAndSurvival(victim)) {
+                AttackOriginScope.runBlast(getPos(), () ->
+                        GameFunctions.killPlayer(victim, true, owner, GameConstants.DeathReasons.GRENADE));
+            }
+        }
+        if (!isRemoved() && validRound(world)) {
+            // Bomber drones in the blast break too (bomb drones chain-detonate). / 爆炸范围内的炸弹客无人机同样被击毁（炸弹无人机连锁引爆）。
+            DroneCombatService.breakDronesInBlast(world, this, M67Rules.BLAST_RADIUS, owner);
+            // Partygoers in the blast die like players (wathe:grenade). / 爆炸范围内的派对客与玩家一样死亡。
+            PartygoerWeaponHits.onGrenadeBlast(world, this, M67Rules.BLAST_RADIUS, owner);
+        }
+        discard();
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        // This transient entity must fail closed even if external code reloads its NBT. / 即使外部代码载入 NBT，临时实体也不能复活生效。
+        dataTracker.set(ROUND_ID, Optional.empty());
+        dataTracker.set(THROWER_UUID, Optional.empty());
+        concealedThrowerUuid = null;
+        presentation = true;
+        dataTracker.set(DETONATE_AT, -1L);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+    }
+}

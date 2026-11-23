@@ -1,0 +1,61 @@
+package dev.caecorthus.sparkdlc.client.mixin.trait;
+
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.client.trait.render.PigPlayerRenderer;
+import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+/**
+ * Replaces only Pig trait player rendering with the custom pig-body renderer.
+ * 仅替换猪天赋玩家的渲染为自定义猪身体渲染。
+ */
+@Mixin(PlayerEntityRenderer.class)
+public abstract class PigPlayerRendererMixin {
+    @Shadow
+    public abstract Identifier getTexture(AbstractClientPlayerEntity player);
+
+    @Inject(
+            method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sparkdlc$renderPigPlayer(
+            AbstractClientPlayerEntity player,
+            float yaw,
+            float tickDelta,
+            MatrixStack matrices,
+            VertexConsumerProvider vertexConsumers,
+            int light,
+            CallbackInfo ci
+    ) {
+        // The cheap gates run first: the Wraith queries below cost more and every player renders each frame.
+        // 先执行廉价判定：下方冤魂查询开销更大，而每名玩家每帧都会渲染。
+        if (!SparkDlcServerConnection.isConfirmedServer() || !PigTraitService.isPig(player)) {
+            return;
+        }
+        AbstractClientPlayerEntity viewer = MinecraftClient.getInstance().player;
+        // The Wraith feature owns Wraith projection; this trait-owned renderer only yields to its state query.
+        // 冤魂功能负责冤魂投影；此天赋渲染器仅通过其状态查询让出渲染权。
+        boolean wraithViewer = SparkTraitsApi.isWraithActive(viewer);
+        boolean spectatorReveal = viewer != null
+                && viewer.isSpectator()
+                && SparkTraitsApi.isWraithActive(player);
+        if (!wraithViewer
+                && (!player.isInvisible() || spectatorReveal)) {
+            Identifier headTexture = getTexture(player);
+            PigPlayerRenderer.render(player, yaw, tickDelta, matrices, vertexConsumers, light, headTexture);
+            ci.cancel();
+        }
+    }
+}

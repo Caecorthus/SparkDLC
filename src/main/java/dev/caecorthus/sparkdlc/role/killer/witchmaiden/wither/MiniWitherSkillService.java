@@ -1,0 +1,114 @@
+package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
+
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
+import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
+import dev.caecorthus.sparkdlc.util.TickTime;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.record.GameRecordEvent;
+import dev.doctor4t.wathe.record.GameRecordManager;
+import dev.doctor4t.wathe.record.replay.ReplayGenerator;
+import dev.doctor4t.wathe.record.replay.ReplayRegistry;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Key 2: summons or dismisses the Mini Wither. Both directions start the shared 10 s cooldown (owner rule). Summoning
+ * never happens on unlock; the Wither appears only on a press.
+ * 技能键 2：召唤或收回小凋灵。两个方向都会开始共用的 10 秒冷却（所有者规则）。解锁时不会自动召唤，只有按键才会出现。
+ */
+public final class MiniWitherSkillService {
+    private static final String SUMMONED_KEY = "summoned";
+
+    private MiniWitherSkillService() {
+    }
+
+    public static void registerReplayFormatter() {
+        ReplayRegistry.registerSkillFormatter(MiniWitherRules.SKILL_ID, MiniWitherSkillService::formatSkillUse);
+    }
+
+    /** Handles the empty toggle request; the server re-checks everything. / 处理空的切换请求；服务端重新校验全部条件。 */
+    public static void toggle(ServerPlayerEntity player) {
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getServerWorld());
+        if (game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE
+                || !GameFunctions.isPlayerPlayingAndAlive(player) || player.isSpectator()
+                || !WitchMaidenRules.isWitchMaiden(game.getRole(player))) {
+            return;
+        }
+        // Same silent refusals as the other dedicated role skills (Apprentice Purify, Blind Attune).
+        // 与其他自有流程职业技能（预备魔女净化、盲人凝神）相同的静默拒绝。
+        if (SparkTraitsApi.isRoleSkillBlocked(player) || NoellesTaotieSeekerBridge.isSwallowed(player)) {
+            return;
+        }
+        MiniWitherPlayerComponent wither = MiniWitherPlayerComponent.KEY.get(player);
+        if (!wither.isUnlocked()) {
+            send(player, Text.translatable("message.sparkdlc.mini_wither.locked",
+                    wither.getCompletedTasks(), MiniWitherRules.UNLOCK_TASKS));
+            return;
+        }
+        if (GrandWitchFearService.denyRoleSkillIfFeared(player)) {
+            return;
+        }
+        if (wither.getToggleCooldownTicks() > 0) {
+            send(player, Text.translatable("message.sparkdlc.skill.cooldown",
+                    TickTime.ceilSecondsRaw(wither.getToggleCooldownTicks())));
+            return;
+        }
+        boolean summon = !wither.isActive();
+        if (summon) {
+            // Until its first shot it stares where she looked when summoning. / 第一次射击前，它盯着召唤时她看的方向。
+            wither.setAim(player.getYaw(), player.getPitch());
+        }
+        wither.setActive(summon);
+        wither.raiseToggleCooldown(MiniWitherRules.TOGGLE_COOLDOWN_TICKS);
+        present(player, summon);
+        NbtCompound extra = new NbtCompound();
+        extra.putBoolean(SUMMONED_KEY, summon);
+        GameRecordManager.recordSkillUse(player, MiniWitherRules.SKILL_ID, null, extra);
+    }
+
+    private static void present(ServerPlayerEntity player, boolean summon) {
+        ServerWorld world = player.getServerWorld();
+        Vec3d at = MiniWitherAnchor.position(player);
+        if (summon) {
+            world.spawnParticles(ParticleTypes.SOUL, at.x, at.y, at.z, 12, 0.25, 0.3, 0.25, 0.02);
+            world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.SUMMON),
+                    SoundCategory.PLAYERS, 0.3F, 1.8F);
+        } else {
+            world.spawnParticles(ParticleTypes.LARGE_SMOKE, at.x, at.y, at.z, 8, 0.2, 0.25, 0.2, 0.01);
+            world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.DISMISS),
+                    SoundCategory.PLAYERS, 0.2F, 2.0F);
+        }
+    }
+
+    private static void send(ServerPlayerEntity player, Text text) {
+        player.sendMessage(text, true);
+    }
+
+    private static @Nullable Text formatSkillUse(
+            GameRecordEvent event,
+            GameRecordManager.MatchRecord match,
+            ServerWorld world
+    ) {
+        NbtCompound data = event.data();
+        if (!data.containsUuid("actor")) {
+            return null;
+        }
+        var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
+        return Text.translatable(
+                data.getBoolean(SUMMONED_KEY)
+                        ? "replay.skill.sparkdlc.mini_wither.summon"
+                        : "replay.skill.sparkdlc.mini_wither.dismiss",
+                ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo)
+        );
+    }
+}

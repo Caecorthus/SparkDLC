@@ -1,0 +1,125 @@
+package dev.caecorthus.sparkdlc.role.neutral.fiend;
+
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
+import dev.doctor4t.wathe.game.GameConstants;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Frozen Fiend contract: stable gameplay values and pure decisions (identifiers in, values out, no world access).
+ * Work packages read these values and never redefine them.
+ * 冻结的魔人契约：稳定玩法数值与纯规则判断（输入标识符、输出数值，不访问世界）。各工作包只读取、不重新定义这些数值。
+ */
+public final class FiendRules {
+    public static final Identifier ROLE_ID = SparkDLC.id("fiend");
+    public static final int COLOR = 0x8E1B3A;
+    public static final int MIN_PLAYERS = 18;
+
+    public static final int GUN_GOLD = 50;
+    public static final int KNIFE_GOLD = 50;
+    public static final int BAT_GOLD = 100;
+    public static final int SWORD_GOLD = 100;
+    public static final int BOMB_PASS_GOLD = 50;
+    public static final int KNIFE_NOTES = 4;
+    /** Speed III for 5 s after a gun hit (D7). / 被枪击后获得 5 秒速度 III（D7）。 */
+    public static final int GUN_SPEED_TICKS = 100;
+    public static final int GUN_SPEED_AMPLIFIER = 2;
+    public static final double AURA_RADIUS = 8.0;
+    public static final int AURA_COOLDOWN_TICKS = 400;
+
+    public static final int MOMENT_PRICE = 200;
+    public static final int MOMENT_DURATION_TICKS = 2400;
+    /** Speed II for the whole moment, and no shield (owner tuning, 2026-10-04). / 整个时刻获得速度 II，且无护盾（所有者调整，2026-10-04）。 */
+    public static final int MOMENT_SPEED_AMPLIFIER = 1;
+    public static final int MOMENT_CROWBAR_COOLDOWN_TICKS = 100;
+    /**
+     * Dash, the moment-only skill on the ability key (owner decision 2026-10-04): Speed IV for 10 s, ready when the
+     * moment starts, then a 30 s cooldown counted from each use.
+     * 疾驰：仅在时刻中可用的技能键技能（所有者 2026-10-04 决定）：10 秒速度 IV，时刻开始时即就绪，之后每次使用起算 30 秒冷却。
+     */
+    public static final int DASH_SPEED_AMPLIFIER = 3;
+    public static final int DASH_DURATION_TICKS = 200;
+    public static final int DASH_COOLDOWN_TICKS = 600;
+    public static final String MOMENT_SHOP_ENTRY_ID = "sparkdlc_fiend_moment";
+
+    /**
+     * Feign death (owner request 2026-10-16): a dormant Fiend fakes death for 5 s once 60 s have passed since the
+     * round start or its last revival; a kill the dormant immunity blocks starts one at once that lasts 20 s.
+     * 假死（所有者 2026-10-16 需求）：休眠魔人在开局或上次复活后满 60 秒时假死 5 秒；被休眠免疫挡下的击杀会立即触发
+     * 一次持续 20 秒的假死。
+     */
+    public static final int FEIGN_INTERVAL_TICKS = 1200;
+    public static final int FEIGN_TICKS = 100;
+    public static final int LETHAL_FEIGN_TICKS = 400;
+
+    /**
+     * NoellesRoles Demon Hunter pistol kill. A literal id on purpose: NoellesRoles exposes it only as a mutable
+     * static on its entrypoint class, and reading it would initialize that class.
+     * NoellesRoles 猎魔枪击杀原因。刻意使用字面量：NoellesRoles 只在入口类上以可变静态字段暴露它，读取会触发该类初始化。
+     */
+    public static final Identifier DEMON_HUNTER_SHOT_ID = Identifier.of("noellesroles", "demon_hunter_shot");
+
+    /** Attack kinds that pay the dormant Fiend. / 能让休眠魔人获得收益的攻击类型。 */
+    public enum Hit {
+        GUN,
+        KNIFE,
+        BAT,
+        SWORD,
+        NONE
+    }
+
+    private FiendRules() {
+    }
+
+    /**
+     * Owner decision D3: only falling or being pushed off the train kills the dormant Fiend; forced and piercing
+     * kills are blocked too. Disconnect ({@code wathe:escaped}) and {@code /kill} ({@code wathe:vanilla_death}) still
+     * apply, and so does {@code sparkdlc:fiend_devoured}, which only {@code FiendFeignService} uses when a Vulture
+     * eats the fake corpse during a feign death (owner request 2026-10-16). An unknown ({@code null}) reason is
+     * treated as immune.
+     * 所有者决定 D3：只有坠落或被推下列车能杀死休眠魔人，强制与穿透击杀同样被拦截。断线（{@code wathe:escaped}）与
+     * {@code /kill}（{@code wathe:vanilla_death}）仍然生效；{@code sparkdlc:fiend_devoured} 也生效，它只由
+     * {@code FiendFeignService} 在假死期间秃鹫吃掉假尸体时使用（所有者 2026-10-16 需求）。未知（{@code null}）原因视为免疫。
+     */
+    public static boolean mayDie(@Nullable Identifier deathReason) {
+        return GameConstants.DeathReasons.FELL_OUT_OF_TRAIN.equals(deathReason)
+                || GameConstants.DeathReasons.ESCAPED.equals(deathReason)
+                || GameConstants.DeathReasons.VANILLA_DEATH.equals(deathReason)
+                || SparkDlcDeathReasons.FIEND_DEVOURED.equals(deathReason);
+    }
+
+    /**
+     * Owner decision D5: every gun counts as GUN (revolver, derringer and the Hunter shotgun share
+     * {@code wathe:gun_shot}; plus the Demon Hunter pistol, the Savior pistol, PR #200, and the 狮身豪 "手"枪 fist,
+     * 2026-11-17). A {@code wathe:knife_stab}
+     * counts only when the attacker holds a knife in hand. Bat and Ceremonial Sword throat-cut map to BAT and SWORD, and
+     * the Savior lightsaber (bat attributes) to BAT; everything else is NONE.
+     * 所有者决定 D5：所有枪械都算 GUN（左轮、短管手枪与猎人霰弹枪共用 {@code wathe:gun_shot}，另加猎魔枪、救世主手枪（PR #200）
+     * 与狮身豪“手”枪的拳头（2026-11-17））。
+     * {@code wathe:knife_stab} 仅在攻击者手持刀时算 KNIFE。球棒与仪礼剑封喉分别为 BAT 与 SWORD，救世主光剑（球棒属性）算 BAT，
+     * 其余均为 NONE。
+     */
+    public static Hit classify(@Nullable Identifier deathReason, boolean killerHoldsKnife) {
+        if (deathReason == null) {
+            return Hit.NONE;
+        }
+        if (GameConstants.DeathReasons.GUN.equals(deathReason) || DEMON_HUNTER_SHOT_ID.equals(deathReason)
+                || SaviorRules.PISTOL_DEATH_REASON.equals(deathReason)
+                || SparkDlcDeathReasons.SPHINX_HAO_FIST.equals(deathReason)) {
+            return Hit.GUN;
+        }
+        if (GameConstants.DeathReasons.KNIFE.equals(deathReason)) {
+            return killerHoldsKnife ? Hit.KNIFE : Hit.NONE;
+        }
+        if (GameConstants.DeathReasons.BAT.equals(deathReason)
+                || SaviorRules.LIGHTSABER_DEATH_REASON.equals(deathReason)) {
+            return Hit.BAT;
+        }
+        if (SparkDlcDeathReasons.CEREMONIAL_BLADE.equals(deathReason)) {
+            return Hit.SWORD;
+        }
+        return Hit.NONE;
+    }
+}

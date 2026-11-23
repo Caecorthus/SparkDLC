@@ -1,0 +1,26 @@
+package dev.caecorthus.sparkdlc.role.killer.blackraven;
+
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
+
+/** Narrow primary-skill adapter for Black Raven Perception. */
+public final class BlackRavenSkillService {
+    private BlackRavenSkillService() {
+    }
+
+    public static WitchSkillUseResult use(WitchSkillUseContext context) {
+        // Perception is part of the Black Raven kit, which a disguise disables. / 感知属于黑羽鸦能力，伪装期间禁用。
+        if (BlackRavenActingRole.isDisguised(context.player())) {
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.perception.disguised");
+        }
+        if (!BlackRavenRules.isBlackRaven(context.role())
+                || !BlackRavenPerceptionService.activate(context.player())) {
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
+        }
+        return WitchSkillUseResult.successAfterActiveWindow(
+                BlackRavenRules.PERCEPTION_COOLDOWN_TICKS,
+                "message.sparkdlc.skill.perception.activated"
+        );
+    }
+}

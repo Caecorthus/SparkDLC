@@ -4664,5 +4664,15 @@
   "option.sparkdlc.blood_appearance.value.off": "隐藏",
   "option.sparkdlc.suppress_scavenger_blood": "清道夫尸体旁不喷血",
   "option.sparkdlc.suppress_scavenger_blood.description": "清道夫的尸体只是被隐藏、实体仍在，关掉这项会在看不见的尸体旁留下血迹。",
-  "screen.sparkdlc.settings.group.blood": "血液"
+  "screen.sparkdlc.settings.group.blood": "血液",
+"gamemode.sparkdlc.dual_role_murder": "双选模式",
+"gui.sparkdlc.mode_voting.title": "下一局模式",
+"gui.sparkdlc.mode_voting.classic": "经典谋杀",
+"gui.sparkdlc.mode_voting.dual": "双角色谋杀",
+"gui.sparkdlc.mode_voting.classic_tag": "全体各抽一个身份",
+"gui.sparkdlc.mode_voting.dual_tag": "同阵营二选一",
+"gui.sparkdlc.mode_voting.classic_desc": "所有人各抽一个身份，按老规矩打到结束。",
+"gui.sparkdlc.mode_voting.dual_desc": "开局可以在同阵营的另一个身份里二选一。",
+"gui.sparkdlc.mode_voting.votes": "已投 %s 票",
+"gui.sparkdlc.mode_voting.countdown": "剩余 %s 秒"
 }

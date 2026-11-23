@@ -289,6 +289,7 @@ public final class SparkDLC implements ModInitializer {
         CurserFeatureService.register();
         RoleEvents.register();
         dev.caecorthus.sparkdlc.cooldown.provider.RoleForcedCooldowns.register();
+        dev.caecorthus.sparkdlc.round.modevote.ModeVoteService.register();
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(
                 (message, sender, params) -> mayUseTextChat(sender)
         );

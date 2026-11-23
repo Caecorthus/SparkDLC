@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public final class GeneratedPayloadPolicy {
     /** SHA-256 of the canonical table this file was generated from. / 生成本文件所用规范表的 SHA-256。 */
-    public static final String CONTRACT_SHA256 = "df1f8421859fd98e380a5e07672002191c35077bc4a700a0ff01af5e74ad5e0f";
+    public static final String CONTRACT_SHA256 = "5031e70357adcc03974022c12df7c609d69eabceb4f8a33de2c74d0a73377105";
 
     /** Column SAFE_TIME: 103 ids. / SAFE_TIME 列：103 个 id。 */
     public static final Set<Identifier> SAFE_TIME = Set.of(

@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
+import dev.caecorthus.sparkdlc.block.ShiningNeonPillarBlock;
 import dev.caecorthus.sparkdlc.block.SparkBedBlock;
 import dev.caecorthus.sparkdlc.block.SparkBedService;
 import dev.doctor4t.wathe.index.WatheBlockEntities;
@@ -23,9 +24,10 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 
 /**
- * The blocks of the mod and their block items: the sabotage fixtures, the map-maker beds and the map-maker wallpaper.
- * Each part registers through its own method, at the moment it always did.
- * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床与墙纸。每个部分通过自己的方法、在一贯的时刻注册。
+ * The blocks of the mod and their block items: the sabotage fixtures, the map-maker beds and the map-maker props
+ * (yellowed wallpaper, shining neon pillar). Each part registers through its own method, at the moment it always did.
+ * 本模组的方块及其方块物品：破坏系统的地图设施、供地图作者使用的床，以及地图道具（泛黄墙纸、闪烁霓虹灯柱）。
+ * 每个部分通过自己的方法、在一贯的时刻注册。
  */
 public final class SparkDlcBlocks {
     private SparkDlcBlocks() {
@@ -198,5 +200,43 @@ public final class SparkDlcBlocks {
 
     private static AbstractBlock.Settings wallpaperSettings() {
         return AbstractBlock.Settings.copy(Blocks.WHITE_WOOL).mapColor(MapColor.PALE_YELLOW);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // Shining neon pillar / 闪烁霓虹灯柱
+    // ---------------------------------------------------------------------------------------------------------------
+    /*
+     * A map-maker neon pillar that blinks (PR #2). It copies Wathe's neon pillar settings, so its light follows
+     * {@code lit} and {@code active} exactly like Wathe's pillar, and has its own block entity type for the blink
+     * settings. Registered from {@code SparkDlcItems.registerRoleItems()}, after every existing item, so earlier raw
+     * ids keep their order.
+     * 供地图作者使用、会闪烁的霓虹灯柱（PR #2）。沿用 Wathe 霓虹灯柱的方块设置，因此亮度与 Wathe 灯柱完全一样跟随
+     * {@code lit} 与 {@code active}；闪烁设置存放在它自己的方块实体类型中。由 {@code SparkDlcItems.registerRoleItems()}
+     * 在所有既有物品之后注册，保持既有原始 id 的顺序。
+     */
+
+    public static final Identifier SHINING_NEON_PILLAR_ID = SparkDLC.id("shining_neon_pillar");
+
+    private static Block shiningNeonPillar;
+
+    public static synchronized void registerShiningNeonPillar() {
+        if (shiningNeonPillar != null) {
+            return;
+        }
+        Block pillar = Registry.register(
+                Registries.BLOCK,
+                SHINING_NEON_PILLAR_ID,
+                new ShiningNeonPillarBlock(AbstractBlock.Settings.copy(WatheBlocks.NEON_PILLAR))
+        );
+        SparkDlcBlockEntities.registerShiningNeonPillar(pillar);
+        Registry.register(Registries.ITEM, SHINING_NEON_PILLAR_ID, new BlockItem(pillar, new Item.Settings()));
+        shiningNeonPillar = pillar;
+    }
+
+    public static Block shiningNeonPillar() {
+        if (shiningNeonPillar == null) {
+            throw new IllegalStateException("SparkDLC shining neon pillar is not registered yet");
+        }
+        return shiningNeonPillar;
     }
 }

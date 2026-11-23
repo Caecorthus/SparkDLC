@@ -33,6 +33,9 @@ Bed (`sparkdlc:grey_dirty_bed`, 污渍的床) can never be slept in, and the Str
 Map makers also get ten yellowed wallpaper blocks (泛黄墙纸, contributed in PR #1): one with a skirting board
 (`sparkdlc:yellowed_wallpaper_skirting`), one plain (`sparkdlc:yellowed_wallpaper_plain`) and eight with a direction
 arrow (`sparkdlc:yellowed_wallpaper_arrow_<n|ne|e|se|s|sw|w|nw>`).
+The Shining Neon Pillar (`sparkdlc:shining_neon_pillar`, 闪烁霓虹灯柱, contributed in PR #2 and reworked in review) is
+Wathe's neon pillar that a creative-mode operator can make blink: sneak-right-click with an empty hand opens a screen
+for the lit and dark durations (1-600 s) or a random mode (3-8 s per phase).
 城崎诺亚 Noa Jogasaki (`sparkdlc:noa`, contributed in PR #186 and reworked in review) is a civilian painter whose
 sanity never drains on its own and never returns from tasks, and whose shared ability key (G) paints a random reward
 from one of two tables chosen by her sanity, with a 60 s cooldown.
@@ -2381,6 +2384,31 @@ Current build baseline:
   renamed to one `yellowed_wallpaper_*` family before they were ever published, so they have no legacy rows. An
   arrow's direction is the one it points on the top face (north = texture up). The skirting texture uses a warmer,
   darker paper than the plain and arrow sheets (the PR's art, kept as is).
+- `block/ShiningNeonPillar*` + `SparkDlcBlocks.registerShiningNeonPillar()` + `SparkDlcBlockEntities` (PR #2, reworked
+  in review): the Shining Neon Pillar. `ShiningNeonPillarBlock` extends Wathe's `NeonPillarBlock` with
+  `Settings.copy(WatheBlocks.NEON_PILLAR)`, so right-click toggles the column, light follows `lit` and `active`, and
+  Wathe's blackout darkens it like any lamp; it is placed lit. Registered from `SparkDlcItems.registerRoleItems()`
+  after the Sniper's rounds, so it joins the creative tab through the registration-order sweep.
+  - Who: `ShiningNeonPillarService.mayConfigure` is `isCreativeLevelTwoOp()` (creative + permission level 2, the
+    command-block rule), on both sides; anyone else's sneak-right-click passes like on Wathe's pillar.
+  - Settings (`NeonBlinkSettings`, clamped in the record's constructor to 20-12000 ticks, so a decoded packet or a
+    saved block entity is always in bounds) live in the column's driver: the `sparkdlc:shining_neon_pillar` block
+    entity of the column's lowest block along its axis when they were applied (`blink_on_ticks`, `blink_off_ticks`,
+    `blink_random`); every other block entity of the column is cleared. Saved with the chunk, copied by the lobby map
+    reset; the next flip time is transient.
+  - Flip: a server-side block entity ticker on the driver (others return at once). While `active` is false or
+    Wathe's blackout runs it only forgets its phase (a blackout, the lights sabotage and Saboteur outages restore
+    each lamp on its own timer, so an earlier flip would be overwritten). A fresh phase (also after a load or a map
+    reset copy) first sets the column to the driver's state; a flip sets every block of the column (same axis, at
+    most 64 down and 129 in all, loaded chunks only) to the driver's opposite state with a quiet lever click. A
+    second driver met in the walk (two joined columns) is cleared.
+  - Payloads: `open_neon_pillar_settings` (S2C, sent from `onUse`) and `apply_neon_pillar_settings` (C2S), registered
+    by `block/ShiningNeonPillarPackets` from `SparkDlcPackets.registerItemsAndSystems` (policy row `role_kit`, allowed
+    everywhere). The receiver re-checks permission, loaded chunk, reach (`canInteractWithBlockAt(pos, 1.0)`) and the
+    block; turning blinking off leaves the column lit. Client: `client.block.ShiningNeonPillarClient` (called at the
+    end of `SparkDLCClient.registerOwnRoleClient`) opens `ShiningNeonPillarScreen`.
+  - Resources: blockstate is Wathe's `neon_pillar` variants on Wathe's models; item model Wathe's unlit pillar; loot
+    drops itself; `minecraft:mineable/pickaxe` lists it, like Wathe's pillar.
 - `item/sparekey/`: the Spare Key (`sparkdlc:spare_key`, 备用钥匙), the PR #189 conductor key renamed and given to
   the NoellesRoles Attendant (owner decisions 2026-11-03); numbers live in `SpareKeyRules`.
   - Grant (`SpareKeyAttendantKit`): once per round from an own `ON_FINISH_INITIALIZE` phase after Wathe's default

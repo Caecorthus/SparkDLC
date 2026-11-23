@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
+import dev.caecorthus.sparkdlc.block.ShiningNeonPillarPackets;
 import dev.caecorthus.sparkdlc.economy.SyncKillerTeamEconomyS2CPacket;
 import dev.caecorthus.sparkdlc.item.m67.M67Packets;
 import dev.caecorthus.sparkdlc.role.civilian.accountant.AccountantPassbookService;
@@ -132,6 +133,9 @@ public final class SparkDlcPackets {
         SabotagePackets.register();
         // Killer team economy: the shared balance, sent to the players who may see it. / 杀手团队经济：共享余额，只发给可见的玩家。
         PayloadTypeRegistry.playS2C().register(SyncKillerTeamEconomyS2CPacket.ID, SyncKillerTeamEconomyS2CPacket.CODEC);
+        // Shining neon pillar (a map-maker block): the settings screen and the settings it sends back.
+        // 闪烁霓虹灯柱（供地图作者使用的方块）：设置界面及其回传的设置。
+        ShiningNeonPillarPackets.register();
     }
 
     /** Civilian roles. / 平民职业。 */

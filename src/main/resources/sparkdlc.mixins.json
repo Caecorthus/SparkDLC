@@ -544,7 +544,12 @@
     "role.jiahao.sphinxhao.ScreenHandlerSphinxHaoGunMixin",
     "role.jiahao.sphinxhao.DecoratedPotBlockSphinxHaoGunMixin",
     "item.defense.FoodPlatterBlockDefenseVialPourMixin",
-    "item.defense.GameRecordManagerDefenseVialTakeMixin"
+    "item.defense.GameRecordManagerDefenseVialTakeMixin",
+    "round.dualselect.GameTimeComponentFreezeMixin",
+    "round.dualselect.PlayerMoodComponentFreezeMixin",
+    "round.dualselect.PlayerShopComponentFreezeMixin",
+    "round.dualselect.MurderGameModeAnnounceMixin",
+    "round.dualselect.GameFunctionsLettersMixin"
   ],
   "injectors": {
     "defaultRequire": 1

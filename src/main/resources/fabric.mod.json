@@ -165,7 +165,8 @@
       "sparkdlc:criminal_reasoner_player",
       "sparkdlc:planner_master_player",
       "sparkdlc:sphinx_hao_player",
-      "sparkdlc:sphinx_hao_world"
+      "sparkdlc:sphinx_hao_world",
+      "sparkdlc:dual_role_selection"
     ],
     "sparkdlc:native_wathe_factions": {
       "sparkdlc:jiahao": "JIAHAO",

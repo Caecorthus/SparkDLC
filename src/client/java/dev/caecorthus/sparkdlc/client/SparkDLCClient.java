@@ -8,7 +8,6 @@ import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.achievement.AchievementGalaxy;
 import dev.caecorthus.sparkdlc.client.achievement.AchievementAdvancements;
 import dev.caecorthus.sparkdlc.client.achievement.AchievementClientState;
-import dev.caecorthus.sparkdlc.client.block.ShiningNeonPillarClient;
 import dev.caecorthus.sparkdlc.client.config.SparkDlcConfigManager;
 import dev.caecorthus.sparkdlc.client.creative.NoellesCreativeEntries;
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
@@ -278,6 +277,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         registerSharedAbilityKey();
         registerWitchCohortAndPoisonVision();
         registerLateRoleHubs();
+        dev.caecorthus.sparkdlc.client.round.dualselect.DualSelectClient.register();
     }
 
     /**
@@ -605,9 +605,6 @@ public final class SparkDLCClient implements ClientModInitializer {
         // BEAR smoke under an Iris shader pack: liveness, billboard fallback, per-entity outline veto (no-op without a pack).
         // Iris 光影包下的 BEAR 烟雾：存活判定、公告板兜底、逐实体描边否决（未用光影包时不做任何事）。
         dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack.SmokeShaderPackWiring.register();
-        // Shining neon pillar (PR #2, a map-maker block registered with the role items): its settings screen receiver.
-        // 闪烁霓虹灯柱（PR #2，随职业物品注册的地图作者方块）：其设置界面的接收器。
-        ShiningNeonPillarClient.register();
     }
 
     /** What an active Wraith may type and whether it may jump. / 活跃冤魂能否打字、能否跳跃。 */

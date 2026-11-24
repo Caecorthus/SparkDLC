@@ -1436,7 +1436,7 @@
   "item.sparkdlc.rope": "Rope",
   "item.sparkdlc.rope.tooltip.line1": "Use: aim at a player within 2 blocks from behind them to start strangling.",
   "item.sparkdlc.rope.tooltip.line2": "Both of you are held for 3 s; the target then dies of asphyxiation, bypassing shields without consuming them.",
-  "item.sparkdlc.rope.tooltip.line3": "Being attacked, controlled or pushed away interrupts it and starts a 10 s cooldown; the rope is spent only by a successful kill.",
+  "item.sparkdlc.rope.tooltip.line3": "Each grab starts a 30 s cooldown (45 s on your first this round); being attacked, controlled or pushed away interrupts it with a 10 s cooldown instead; the rope is spent only by a successful kill.",
   "shop.sparkdlc.rope": "Rope",
   "shop.sparkdlc.rope.description": "Strangle a player within 2 blocks from behind: after 3 s they die of asphyxiation, bypassing shields. A 10 s cooldown if interrupted.",
   "replay.item_use.sparkdlc.rope": "%s started strangling %s with a §6Rope§r",

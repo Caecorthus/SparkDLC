@@ -1088,7 +1088,7 @@ Current build baseline:
       (Close Quarters); a refusal costs nothing (action-bar `message.sparkdlc.rope.blocked` / `.no_target` /
       `.not_behind`). A start records `recordItemUse` (replay line `replay.item_use.sparkdlc.rope` through
       `RopeReplayFormatter`, registered from `RopeStrangleService.register()`; until 2026-11-13 no formatter existed
-      and Wathe dropped the line), snaps both players to anchors and holds them for 60 ticks (every
+      and Wathe dropped the line), sets the rope's item cooldown (`INITIAL_COOLDOWN_TICKS` 45 s on the user's first grab of the round, `USE_COOLDOWN_TICKS` 30 s on every later one; `HAS_GRABBED`, forgotten on `ResetPlayer` and `ON_FINISH_FINALIZE`, PR #8; a kill consumes the rope, so the next rope inherits it, and an interrupt or a protected victim overwrites it with the 200-tick cooldown), snaps both players to anchors and holds them for 60 ticks (every
       hold teleport passes the player's own yaw/pitch: in 1.21.1 `requestTeleport`'s rotation is absolute and `ROT`
       only sends its difference from the server's, so zeros would turn the camera to yaw 0 / pitch 0); at
       ticks 20/40/60 the victim shows one vanilla hurt through `ServerWorld.sendEntityDamage` with the attacker-less

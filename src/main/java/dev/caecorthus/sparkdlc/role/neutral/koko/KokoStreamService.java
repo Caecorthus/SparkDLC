@@ -11,7 +11,10 @@ import dev.doctor4t.wathe.api.event.CanTargetBody;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameFunctions;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -41,19 +44,20 @@ import org.jetbrains.annotations.Nullable;
  *   spends the mana, starts the 20 s stream, pays the first second of traffic and puts the vanilla Glowing effect on
  *   her for 10 s, which is how every other player sees her through walls. A refused request changes nothing.</li>
  *   <li>The corpse stream is a vanilla right-click on a Wathe body ({@code UseEntityCallback}, main hand): no mana,
- *   Glowing on the body for 50 s, +100 traffic, once per dead player, and the shared cooldown. Her own client answers
+ *   Glowing for 50 s on the body and on up to 2 more not-yet-streamed bodies within 5 blocks of it, +100 traffic
+ *   each, once per dead player, and the shared cooldown. Her own client answers
  *   SUCCESS for any body so the held item is never used by the same click; the server alone decides.</li>
  *   <li>The world tick pays a live second's traffic, ends a stream that ran out or that her death, a role change or
- *   the round's end cut short, and renews Speed III while she holds 1000 traffic.</li>
+ *   the round's end cut short, and grants the permanent Speed III once she holds half the win threshold.</li>
  * </ul>
  * Client/server authority: the client only sends the empty request or the vanilla interaction; role, round, control
  * states, cooldown, Fear and mana are all checked here.
  * 可可两种直播与 {@link KokoComponent} 中全部计时的服务端部分：
  * {@link #tryGoLive} 判定 {@code sparkdlc:use_koko_stream} 请求（{@link KokoRules#streamVerdict}）、扣除魔力、开始 20 秒
  * 直播、结算第一秒流量，并给她挂上 10 秒原版发光效果——其他玩家正是靠它隔墙看到她；被拒绝的请求不改变任何东西。
- * 尸体直播是对 Wathe 尸体的一次原版右键（{@code UseEntityCallback}，主手）：不耗魔力，尸体发光 50 秒，+100 流量，每名死者
- * 一次，并进入共用冷却。她自己的客户端对任何尸体都回答 SUCCESS，使同一次点击不会再使用手中物品；是否生效只由服务端决定。
- * 世界刻负责结算直播每秒的流量，结束已到时或因死亡、换职业、对局结束而中断的直播，并在流量达到 1000 时续上速度 III。
+ * 尸体直播是对 Wathe 尸体的一次原版右键（{@code UseEntityCallback}，主手）：不耗魔力，该尸体及其 5 格内至多另外 2 具尚未直播的尸体发光
+ * 50 秒，每具 +100 流量，每名死者一次，并进入共用冷却。她自己的客户端对任何尸体都回答 SUCCESS，使同一次点击不会再使用手中物品；是否生效只由服务端决定。
+ * 世界刻负责结算直播每秒的流量，结束已到时或因死亡、换职业、对局结束而中断的直播，并在流量达到获胜阈值一半时给予永久速度 III。
  * 客户端/服务端权威：客户端只发送空请求或原版交互；职业、回合、受控状态、冷却、恐惧与魔力全部在这里校验。
  */
 public final class KokoStreamService {
@@ -223,13 +227,6 @@ public final class KokoStreamService {
     }
 
     /**
-     * What "each corpse only once" counts: the dead player the body belongs to, or the body entity itself when it has
-     * no owner. A second body of the same player (a repeated feigned death, a fake body and then the real one) is the
-     * same corpse to her.
-     * “每具尸体只能一次”的计数对象：尸体所属的死者；尸体没有主人时退回到尸体实体本身。同一名玩家的第二具尸体（反复假死，或先
-     * 假尸体后真尸体）对她来说是同一具。
-     */
-    /**
      * The bodies one corpse stream lights up: the clicked one first, then every other live-camera body within
      * {@link KokoRules#CORPSE_CLUSTER_RADIUS} blocks, capped at {@link KokoRules#CORPSE_CLUSTER_MAX}. Bodies she already
      * streamed this round are skipped, so a repeated feigned death never pays twice.
@@ -245,24 +242,35 @@ public final class KokoStreamService {
                         && CanTargetBody.EVENT.invoker().canTarget(player, b)
                         && b.squaredDistanceTo(origin) <= radius * radius
                         && !state.hasStreamed(corpseKey(b)));
-        // The clicked body always comes first, so `limit` never drops it in favour of a neighbour.
-        // 被点中的那具始终排在最前，保证 `limit` 不会为了邻居把它挤掉。
-        List<PlayerBodyEntity> ordered = new java.util.ArrayList<>(fresh.size());
-        if (!state.hasStreamed(corpseKey(origin)) && origin.canHit()) {
+        // The clicked body always comes first, so the cap never drops it in favour of a neighbour. Bodies are counted
+        // by dead player (corpseKey), so two bodies of one player in the cluster (a fake one next to the real one) light
+        // up only the first and pay once.
+        // 被点中的那具始终排在最前，保证上限不会为了邻居把它挤掉。尸体按死者计（corpseKey），所以同一名玩家在簇内的两具尸体
+        // （真尸体旁边的假尸体）只点亮第一具、只计一次流量。
+        List<PlayerBodyEntity> ordered = new ArrayList<>(KokoRules.CORPSE_CLUSTER_MAX);
+        Set<UUID> keys = new HashSet<>();
+        if (origin.canHit() && !state.hasStreamed(corpseKey(origin))) {
             ordered.add(origin);
+            keys.add(corpseKey(origin));
         }
         for (PlayerBodyEntity candidate : fresh) {
-            if (candidate != origin) {
-                ordered.add(candidate);
-            }
             if (ordered.size() >= KokoRules.CORPSE_CLUSTER_MAX) {
                 break;
             }
+            if (candidate != origin && keys.add(corpseKey(candidate))) {
+                ordered.add(candidate);
+            }
         }
-        return ordered.size() > KokoRules.CORPSE_CLUSTER_MAX
-                ? ordered.subList(0, KokoRules.CORPSE_CLUSTER_MAX) : ordered;
+        return ordered;
     }
 
+    /**
+     * What "each corpse only once" counts: the dead player the body belongs to, or the body entity itself when it has
+     * no owner. A second body of the same player (a repeated feigned death, a fake body and then the real one) is the
+     * same corpse to her.
+     * “每具尸体只能一次”的计数对象：尸体所属的死者；尸体没有主人时退回到尸体实体本身。同一名玩家的第二具尸体（反复假死，或先
+     * 假尸体后真尸体）对她来说是同一具。
+     */
     static UUID corpseKey(PlayerBodyEntity body) {
         UUID owner = body.getPlayerUuid();
         return owner != null ? owner : body.getUuid();
@@ -298,15 +306,16 @@ public final class KokoStreamService {
                     && GameFunctions.isPlayerPlayingAndAlive(player)
                     && KokoRules.isKoko(game.getRole(player));
             tickStream(player, state, now, livingKoko);
-            int totalPlayers = player.getServerWorld().getPlayers().size();
+            int roundPlayers = game.getAllPlayers().size();
             // Permanent, not renewed: once she reaches half the win threshold the Speed III never expires, so the
             // server only has to grant it when the current effect is missing, finite or weaker.
             // 永久而非续期：流量达到获胜阈值一半后速度 III 不再过期，因此服务端只需在当前效果缺失、有限或更弱时补一次。
-            if (livingKoko && KokoRules.hasSpeed(state.traffic(), totalPlayers)
+            if (livingKoko && KokoRules.hasSpeed(state.traffic(), roundPlayers)
                     && !hasPermanentSpeed(player)) {
-                // Infinite duration: it survives the stream ending and only disappears with death, a role change or
-                // the round's end. Ambient, no particles, icon on.
-                // 无限时长：直播结束也不会消失，只随死亡、职业变化或对局结束一起消失。环境效果、无粒子、显示图标。
+                // Infinite duration: it survives the stream ending and spending traffic; a role change takes it away
+                // (clear) and Wathe's reset clears every effect at the round's end. Ambient, no particles, icon on.
+                // 无限时长：直播结束、花掉流量都不会消失；职业变化时移除（clear），对局结束时 Wathe 的重置会清掉所有效果。
+                // 环境效果、无粒子、显示图标。
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED,
                         StatusEffectInstance.INFINITE, KokoRules.SPEED_AMPLIFIER, true, false, true));
             }
@@ -348,6 +357,22 @@ public final class KokoStreamService {
      */
     static void clear(ServerPlayerEntity player) {
         KokoComponent.KEY.get(player).clear();
+        removePermanentSpeed(player);
+    }
+
+    /**
+     * Takes back her permanent Speed III when the role is reassigned (the infinite effect would otherwise follow the
+     * player into the next role). Only the exact effect she is given (infinite, amplifier 2, ambient) is removed, so a
+     * Speed from anything else is left alone.
+     * 职业重新分配时收回她的永久速度 III（否则这份无限效果会跟着玩家进入下一个职业）。只移除她得到的那份效果（无限、等级 2、
+     * 环境效果），其他来源的速度不受影响。
+     */
+    private static void removePermanentSpeed(ServerPlayerEntity player) {
+        StatusEffectInstance speed = player.getStatusEffect(StatusEffects.SPEED);
+        if (speed != null && speed.isInfinite() && speed.getAmplifier() == KokoRules.SPEED_AMPLIFIER
+                && speed.isAmbient()) {
+            player.removeStatusEffect(StatusEffects.SPEED);
+        }
     }
 
     /** A living, non-spectator participant of an ACTIVE round; safe on both sides. / ACTIVE 回合中存活且非旁观的参与者；两端均可调用。 */

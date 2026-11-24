@@ -1394,17 +1394,20 @@ Current build baseline:
     starts when the stream ends (the Hanna float rule).
   - Corpse stream (`KokoStreamService`, `UseEntityCallback` in phase `sparkdlc:koko_corpse_stream` after the default
     phase, so every lock guard has already refused a locked player; main hand, a Wathe `PlayerBodyEntity`): no mana,
-    vanilla Glowing on the body for 50 s (everyone sees it), +100 traffic and the 45 s shared cooldown, once per dead
-    player per Koko (`corpseKey`: the body's player UUID, kept in her component, so a repeated feigned death pays
+    vanilla Glowing for 50 s (everyone sees it) on the clicked body and on up to 2 more within 5 blocks of it
+    (`corpseCluster`, PR #9: hittable, targetable, not yet streamed, one per dead player, the clicked body first), +100
+    traffic each and the 45 s shared cooldown, once per dead player per Koko (`corpseKey`: the body's player UUID, kept in her component, so a repeated feigned death pays
     once). `KokoRules.corpseVerdict`: role, round, control and aim gates (`canHit`, which NoellesRoles turns off for a
     Scavenger-hidden body, `CanTargetBody` and line of sight; vanilla checked the range) pass the click on; Fear, a running stream, the
-    cooldown and a repeated body each refuse with their own action-bar line. A fake body is streamed like a real one,
+    cooldown and a cluster with nothing left to stream each refuse with their own action-bar line. A fake body is streamed like a real one,
     so the stream never reveals a feigned death. Her own client answers SUCCESS for a body so the same click never
     also uses the held item; it predicts nothing else.
-  - Speed and win: holding 1000 traffic renews Speed III (a 2.5 s ambient effect, once per second), so it lapses when
-    a purchase drops her below 1000. `KokoWinService` runs in phase `sparkdlc:koko_stream_win`, ordered after the
+  - Speed and win (PR #9): both thresholds come from the synced round roster (`GameWorldComponent.getAllPlayers`), so
+    the server and her HUD agree: `KokoRules.winTraffic` = players / 4 + 500, `speedTraffic` = half of it. Reaching
+    `speedTraffic` gives her an infinite ambient Speed III, kept when traffic is spent; `KokoStreamService.clear` (role
+    assignment, `ResetPlayer`) removes exactly that effect, and Wathe's reset clears every effect at the round's end. `KokoWinService` runs in phase `sparkdlc:koko_stream_win`, ordered after the
     Fiend's and the Charon's phases and before `Event.DEFAULT_PHASE` (a default-phase `block()` from the Murderous
-    Witch or the witch faction would otherwise hide it): alive, not swallowed or spectating, live and 1500 traffic
+    Witch or the witch faction would otherwise hide it): alive, not swallowed or spectating, live and `winTraffic`
     (`KokoRules.wins`) is `neutralWin(koko)`; anything else is `null`, so she never blocks another side.
   - Stamina (`KokoStaminaService`, `mixin/role/neutral/koko/KokoSprintDrainMixin`): the Discoverer's capture/rewrite pair around
     Wathe's stamina tick with multiplier 0.5, gated to her exact role while live; server authority, and her own client
@@ -1431,7 +1434,7 @@ Current build baseline:
     the server, so she reaches only the public proximity channel (owner 2026-11-13: no channel she has no right to).
   - Replay (`KokoReplay`, skill events under the role id): `stream_start`, `stream_end`, `corpse_stream` (the dead
     player's UUID is stored in the event data; `corpse_stream_unknown` without one) and `lightstick` (whoever used it).
-  - Client (`client/role/neutral/koko/`, presentation only): the two role-owned HUD rows (traffic against 1500, and the stream line:
+  - Client (`client/role/neutral/koko/`, presentation only): the two role-owned HUD rows (traffic against `winTraffic`, and the stream line:
     live, cooling, needs mana, ready), the keyed instinct outline of the other living players while she is live
     (`KokoInstinctHooks`, `withKeybind`, priority 90, never `always`), and the mood flag `hud/mood_flag/koko.png`; the
     ability key sends the empty payload with no prediction.

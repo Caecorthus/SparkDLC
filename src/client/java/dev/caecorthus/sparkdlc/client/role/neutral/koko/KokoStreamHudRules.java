@@ -7,14 +7,14 @@ import dev.caecorthus.sparkdlc.util.TickTime;
 /**
  * Pure presentation rules of Koko's two owner-only rows in the bottom-right corner. The lower row is her stream line,
  * in priority order: "the stream lasts N more seconds", "the stream is available in N seconds", "the stream needs N
- * mana", "the stream is ready (press G to start)". The upper row is her traffic against the 1500 she needs. Inputs are
+ * mana", "the stream is ready (press G to start)". The upper row is her traffic against the round's win threshold. Inputs are
  * the local player's own synced state only (her stream and ready ticks against the client world clock, her traffic,
  * her mana), so the rows never leak another player and never decide anything: the server alone starts a stream. They
  * take the Fiend Dash line's corner layout (5 px padding, one row up over an occupied shared skill line, lifted above
  * the hotbar column at narrow GUI widths); her mana stays in the shared top-right mana row. Role-owned presentation;
  * never the witch skill inventory panel and never the action bar. No Minecraft client types, so it is unit-testable.
  * 可可右下角两行仅本人可见内容的纯展示规则。下面一行是直播行，按优先级依次为：“直播状态还能持续 N 秒”“直播将在 N 秒后可用”
- * “直播需要 N 魔力”“直播准备就绪（按下 G 开始）”。上面一行是她的流量与所需的 1500。输入只有本地玩家自己的同步状态（依据
+ * “直播需要 N 魔力”“直播准备就绪（按下 G 开始）”。上面一行是她的流量与本局获胜阈值。输入只有本地玩家自己的同步状态（依据
  * 客户端世界时钟的直播刻与就绪刻、流量、魔力），因此这两行不会泄露其他玩家，也不做任何判定：直播是否开始只由服务端决定。
  * 沿用魔人疾驰行的角落布局（5 像素边距、共享技能行被占用时上移一行、GUI 较窄时抬升到快捷栏列之上）；她的魔力仍显示在右上角
  * 的共享魔力行。属于职业自有展示，从不使用魔女技能背包面板，也从不使用动作栏。不含 Minecraft 客户端类型，可做单元测试。
@@ -49,10 +49,17 @@ public final class KokoStreamHudRules {
     }
 
     /**
-     * A row's translation key, the kind of its argument, that argument's number (unused for the key hint) and colour.
-     * 一行的翻译键、参数类别、该参数的数值（按键提示不使用）与颜色。
+     * A row's translation key, the kind of its argument, that argument's number (unused for the key hint), colour, and
+     * for the traffic row the round's win threshold (0 elsewhere). The threshold is part of the line so the cached
+     * text is rebuilt when it changes.
+     * 一行的翻译键、参数类别、该参数的数值（按键提示不使用）、颜色，以及流量行使用的本局获胜阈值（其余行为 0）。阈值属于这一行，
+     * 因此它变化时缓存的文本会重建。
      */
-    public record Line(String key, Argument argument, int value, int color) {
+    public record Line(String key, Argument argument, int value, int color, int goal) {
+        public Line(String key, Argument argument, int value, int color) {
+            this(key, argument, value, color, 0);
+        }
+
         public boolean keyHint() {
             return argument == Argument.KEY_HINT;
         }
@@ -94,9 +101,9 @@ public final class KokoStreamHudRules {
         return new Line(READY_KEY, Argument.KEY_HINT, 0, READY_COLOR);
     }
 
-    /** The traffic row: "traffic N / 1500". / 流量行：“流量 N / 1500”。 */
-    public static Line trafficLine(int traffic) {
-        return new Line(TRAFFIC_KEY, Argument.TRAFFIC, Math.max(0, traffic), READY_COLOR);
+    /** The traffic row: "traffic N / threshold". / 流量行：“流量 N / 阈值”。 */
+    public static Line trafficLine(int traffic, int winTraffic) {
+        return new Line(TRAFFIC_KEY, Argument.TRAFFIC, Math.max(0, traffic), READY_COLOR, winTraffic);
     }
 
     /** Left x of a right-aligned row. / 右对齐行的左侧 x。 */

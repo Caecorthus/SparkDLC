@@ -62,7 +62,9 @@ public final class KokoStreamHud {
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         KokoStreamHudRules.Line stream = KokoStreamHudRules.streamLine(state.streamRemaining(now),
                 state.cooldownRemaining(now), witch.hasManaSystem(), witch.getMana());
-        KokoStreamHudRules.Line traffic = KokoStreamHudRules.trafficLine(state.traffic());
+        // The round roster is synced, so this is the server's threshold. / 本局名单已同步，因此与服务端的阈值一致。
+        KokoStreamHudRules.Line traffic = KokoStreamHudRules.trafficLine(state.traffic(),
+                KokoRules.winTraffic(game.getAllPlayers().size()));
         // The corner row may be taken by the shared witch skill line (defensive: Koko has no witch skill id) or by the
         // Saint's Karma line, which any killer of a Hellfire Saint can carry.
         // 右下角这一行可能被共享魔女技能行占用（防御性处理：可可没有魔女技能 id），或被圣徒业报行占用（任何在地狱火期间击杀
@@ -83,7 +85,7 @@ public final class KokoStreamHud {
     private static Text text(KokoStreamHudRules.Line line, int value, Text keyText) {
         return switch (line.argument()) {
             case KEY_HINT -> Text.translatable(line.key(), keyText);
-            case TRAFFIC -> Text.translatable(line.key(), value, KokoRules.WIN_TRAFFIC);
+            case TRAFFIC -> Text.translatable(line.key(), value, line.goal());
             default -> Text.translatable(line.key(), value);
         };
     }

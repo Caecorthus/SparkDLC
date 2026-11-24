@@ -1438,7 +1438,7 @@
   "item.sparkdlc.rope.tooltip.line2": "勒杀期间双方 3 秒内无法行动；完成后目标窒息而死，无视护盾且不消耗护盾。",
   "item.sparkdlc.rope.tooltip.line3": "出手后绳索冷却 30 秒（本局首次 45 秒）；被攻击、被控制或被推开会中断勒杀，改为 10 秒冷却；只有击杀成功才会消耗。",
   "shop.sparkdlc.rope": "绳索",
-  "shop.sparkdlc.rope.description": "从背后勒杀 2 格内的玩家：3 秒后目标窒息而死，无视护盾。被打断则冷却 10 秒。",
+  "shop.sparkdlc.rope.description": "从背后勒杀 2 格内的玩家：3 秒后目标窒息而死，无视护盾。出手后冷却 30 秒（本局首次 45 秒），被打断则冷却 10 秒。",
   "replay.item_use.sparkdlc.rope": "%s 用§6绳索§r勒住了 %s",
   "message.sparkdlc.rope.no_target": "2 格内没有背对你的玩家",
   "message.sparkdlc.rope.not_behind": "你必须位于目标背后",

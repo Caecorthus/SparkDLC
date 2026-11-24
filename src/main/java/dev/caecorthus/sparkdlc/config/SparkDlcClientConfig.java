@@ -25,6 +25,7 @@ public final class SparkDlcClientConfig {
     private static final String NOELLES_CREATIVE_ENTRIES = "noellesCreativeEntries";
     private static final String BLOOD_APPEARANCE = "bloodAppearance";
     private static final String SUPPRESS_SCAVENGER_BLOOD = "suppressScavengerBlood";
+    private static final String ROLE_CARD = "roleCard";
     /**
      * Every key of the settings file this model reads or writes, the retired single {@code eventSoundVolume}
      * included (read, never written back). The file's other keys belong to other client features
@@ -34,7 +35,7 @@ public final class SparkDlcClientConfig {
      */
     public static final Set<String> KEYS = Set.of(INSTINCT_KEY_MODE, EVENT_SOUND_VOLUME, EVENT_SOUND_VOLUMES,
             GUIDEBOOK_DECOR, GUIDEBOOK_FOLIAGE, EVENT_SOUND_MASTER_VOLUME, COLLAPSED_SETTINGS_GROUPS,
-            CHARGE_INDICATOR_STYLE, NOELLES_CREATIVE_ENTRIES, BLOOD_APPEARANCE, SUPPRESS_SCAVENGER_BLOOD);
+            CHARGE_INDICATOR_STYLE, NOELLES_CREATIVE_ENTRIES, BLOOD_APPEARANCE, SUPPRESS_SCAVENGER_BLOOD, ROLE_CARD);
 
     private InstinctKeyMode instinctKeyMode = InstinctKeyMode.HOLD;
     private GuidebookDecor guidebookDecor = GuidebookDecor.MEDIUM;
@@ -46,6 +47,8 @@ public final class SparkDlcClientConfig {
     private boolean noellesCreativeEntries = true;
     private BloodAppearance bloodAppearance = BloodAppearance.DEFAULT;
     private boolean suppressScavengerBlood = true;
+    /** The round-start role card (client.hud.rolecard). / 开局身份卡（client.hud.rolecard）。 */
+    private boolean roleCard = true;
 
     private SparkDlcClientConfig() {
         setAllEventSoundVolumes(1.0D);
@@ -86,6 +89,10 @@ public final class SparkDlcClientConfig {
         if (json.has(SUPPRESS_SCAVENGER_BLOOD) && json.get(SUPPRESS_SCAVENGER_BLOOD).isJsonPrimitive()
                 && json.get(SUPPRESS_SCAVENGER_BLOOD).getAsJsonPrimitive().isBoolean()) {
             config.setSuppressScavengerBlood(json.get(SUPPRESS_SCAVENGER_BLOOD).getAsBoolean());
+        }
+        if (json.has(ROLE_CARD) && json.get(ROLE_CARD).isJsonPrimitive()
+                && json.get(ROLE_CARD).getAsJsonPrimitive().isBoolean()) {
+            config.setRoleCard(json.get(ROLE_CARD).getAsBoolean());
         }
         if (json.has(GUIDEBOOK_FOLIAGE) && json.get(GUIDEBOOK_FOLIAGE).isJsonPrimitive()
                 && json.get(GUIDEBOOK_FOLIAGE).getAsJsonPrimitive().isBoolean()) {
@@ -130,6 +137,7 @@ public final class SparkDlcClientConfig {
         json.addProperty(NOELLES_CREATIVE_ENTRIES, noellesCreativeEntries);
         json.addProperty(BLOOD_APPEARANCE, bloodAppearance.id());
         json.addProperty(SUPPRESS_SCAVENGER_BLOOD, suppressScavengerBlood);
+        json.addProperty(ROLE_CARD, roleCard);
         JsonArray collapsed = new JsonArray();
         collapsedSettingsGroups.forEach(collapsed::add);
         json.add(COLLAPSED_SETTINGS_GROUPS, collapsed);
@@ -150,6 +158,14 @@ public final class SparkDlcClientConfig {
 
     public void setGuidebookFoliage(boolean guidebookFoliage) {
         this.guidebookFoliage = guidebookFoliage;
+    }
+
+    public boolean roleCard() {
+        return roleCard;
+    }
+
+    public void setRoleCard(boolean roleCard) {
+        this.roleCard = roleCard;
     }
 
     public InstinctKeyMode instinctKeyMode() {

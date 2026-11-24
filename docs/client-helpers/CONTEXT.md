@@ -21,6 +21,21 @@ Wathe's snow settings. Laid out like Sodium's options (page tabs, grouped rows, 
 once, and each config file is written once per committed change. Server and admin settings never appear here.
 _Avoid_: config menu, mod menu, options screen (vanilla's)
 
+**Round-start role card**:
+A client-only paper ticket (`client.hud.rolecard`) that tells a player their own role once per Wathe welcome: a
+stub in the role colour with a punched hole, the role name after its gem, the effective faction as a chip (the faction
+the trait-adjusted welcome goal speaks for), and the one-line description `role.desc.<path>` (else
+`role.desc.<namespace>.<path>`; a role without one gets no card, which today means Wathe's own base roles). Painted
+with the guidebook's paper and ink (`ExpressPaint`, `ExpressPalette`), wrapped by the info card's CJK line breaker
+(`InventoryInfoCard.wrapParagraph`). `client.mixin.hud.rolecard` observes `RoundTextRenderer.startWelcome`, so the
+card follows Wathe's timing and also introduces a role announced later the same way (a player who becomes a Wraith):
+it rises above the hotbar as the welcome's goal line appears (220 ticks in), stays 10 s and sinks back
+(`RoleCardRules`). It widens 248 / 288 / 328 px until the text fits five lines (seven at most). Drawn only on a
+confirmed SparkDLC server, in a running round past its fade, for a living player, outside Loose Ends and Discovery,
+with F1 off; the `roleCard` setting (General, "Role card") turns it off. It reads the synced role when it rises,
+predicts nothing and sends nothing.
+_Avoid_: role popup, intro screen (it takes no input)
+
 **Settings store**:
 One config file that settings rows write into (`sparkdlc.json`, `wathe.json`); the
 **SparkDLC settings screen** saves each touched store once per flush, and "Undo" puts back the values it opened with.

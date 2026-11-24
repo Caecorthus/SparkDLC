@@ -107,6 +107,14 @@ public final class SparkDlcClientSettings {
         config().setGuidebookDecor(decor);
     }
 
+    public static boolean roleCard() {
+        return config().roleCard();
+    }
+
+    public static void setRoleCard(boolean roleCard) {
+        config().setRoleCard(roleCard);
+    }
+
     public static boolean guidebookFoliage() {
         return config().guidebookFoliage();
     }

@@ -88,9 +88,20 @@ public final class SparkDlcSettingsPages {
                 true);
         foliage.enabledWhen(() -> SparkDlcClientSettings.guidebookDecor() != GuidebookDecor.OFF,
                 () -> Text.translatable("option.sparkdlc.guidebook_foliage.needs_decor"));
+        ToggleOption roleCard = new ToggleOption(
+                "role_card",
+                Text.translatable("option.sparkdlc.role_card"),
+                Text.translatable("option.sparkdlc.role_card.description"),
+                OWN,
+                SparkDlcClientSettings.STORE,
+                SparkDlcClientSettings::roleCard,
+                SparkDlcClientSettings::setRoleCard,
+                true);
         return new SettingsPage(GENERAL, Text.translatable("screen.sparkdlc.settings.page.general"), List.of(
                 new SettingsPage.Group("controls", Text.translatable("screen.sparkdlc.settings.group.controls"),
                         List.of(instinct)),
+                new SettingsPage.Group("role_card", Text.translatable("screen.sparkdlc.settings.group.role_card"),
+                        List.of(roleCard)),
                 new SettingsPage.Group("guidebook", Text.translatable("screen.sparkdlc.settings.group.guidebook"),
                         List.of(decor, foliage))));
     }

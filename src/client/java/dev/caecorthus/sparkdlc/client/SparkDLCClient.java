@@ -131,6 +131,8 @@ import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionGunnerClient
 import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionShellEntityRenderer;
 import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.RiftwalkerClient;
 import dev.caecorthus.sparkdlc.client.round.mapreset.MapResetHud;
+import dev.caecorthus.sparkdlc.client.hud.rolecard.RoleCardHud;
+import dev.caecorthus.sparkdlc.client.hud.rolecard.RoleCardState;
 import dev.caecorthus.sparkdlc.client.sabotage.BlackoutSightClient;
 import dev.caecorthus.sparkdlc.client.sabotage.SabotageClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
@@ -281,9 +283,10 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /**
-     * The settings file, the achievement galaxy layout, Ponder, the charge HUD, the guidebook, the creative entries
-     * and their tick and session listeners. The settings are loaded first: every later step may read them.
-     * 设置文件、成就银河排布、Ponder、蓄力 HUD、指南、创造模式条目，以及它们的 tick 与会话监听器。设置最先加载：之后的每个步骤都可能读取它。
+     * The settings file, the achievement galaxy layout, Ponder, the charge HUD, the guidebook, the creative entries,
+     * the round-start role card, and their tick and session listeners. The settings are loaded first: every later
+     * step may read them.
+     * 设置文件、成就银河排布、Ponder、蓄力 HUD、指南、创造模式条目、开局身份卡，以及它们的 tick 与会话监听器。设置最先加载：之后的每个步骤都可能读取它。
      */
     private static void startSettingsGuidebookAndAchievements() {
         configManager = SparkDlcConfigManager.load();
@@ -319,6 +322,13 @@ public final class SparkDLCClient implements ClientModInitializer {
             AchievementClientState.disconnect();
         }));
         ClientTickEvents.END_CLIENT_TICK.register(SparkDLCClient::forgetMuzzles);
+        // Round-start role card: timer on the client tick, the card on the HUD, gone on disconnect (client thread).
+        // Registered last in this step, so every earlier listener keeps its place.
+        // 开局身份卡：计时器在客户端刻上推进，卡片画在 HUD 上，断开连接时清除（在客户端线程上）。放在本步骤最后注册，
+        // 不改变之前任何监听器的位置。
+        ClientTickEvents.END_CLIENT_TICK.register(RoleCardState::tick);
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(RoleCardState::clear));
+        RoleCardHud.register();
     }
 
     /**

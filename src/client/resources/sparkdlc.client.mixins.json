@@ -118,6 +118,7 @@
     "role.neutral.vulture.SkateboardPresenceFootstepsMixin",
     "role.neutral.vulture.SkateboardReplacedBodyMixin",
     "wathe.RoleAnnouncementGoalTextMixin",
+    "hud.rolecard.RoundTextRendererRoleCardMixin",
     "wathe.ShopPageMixin",
     "wathe.ShopRowOverflowMixin",
     "role.killer.bandit.BanditRevolverCrosshairMixin",

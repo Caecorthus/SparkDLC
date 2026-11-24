@@ -904,6 +904,15 @@ public final class InventoryInfoCard {
      * per (code point, style) and shared by every block and retry of one tooltip.
      * 单个提示段：先做 7a 单位粘连，再断行，最后避免孤字；字宽按（码点，样式）缓存，整个提示共享。
      */
+    /**
+     * The card's paragraph wrap for other client overlays (the round-start role card): the same unit gluing, CJK line
+     * breaking and widow retry as one tooltip block, with its own width cache. Render thread.
+     * 供其他客户端覆盖层（开局身份卡）使用的段落换行：与单个提示段相同的单位粘连、中文断行与孤字重排，自带字宽缓存。渲染线程。
+     */
+    public static List<OrderedText> wrapParagraph(TextRenderer font, Text paragraph, int wrapWidth) {
+        return wrapBlock(font, paragraph, wrapWidth, new HashMap<>());
+    }
+
     private static List<OrderedText> wrapBlock(TextRenderer font, Text block, int wrapWidth, Map<Cell, Integer> advances) {
         Text text = glueUnits(block);
         List<OrderedText> wrapped = wrapTooltipText(font, text, wrapWidth, advances);

@@ -45,18 +45,19 @@ public final class KokoWinService {
 
     private static CheckWinCondition.@Nullable WinResult checkWin(ServerWorld world, GameWorldComponent game,
                                                                  GameFunctions.WinStatus currentStatus) {
+        int totalPlayers = world.getPlayers().size();
         for (ServerPlayerEntity player : world.getPlayers()) {
             // The component read comes first: it is empty for everyone who is not a Koko with traffic.
             // 先读组件：除了已有流量的可可，其他人的组件都是空的。
             KokoComponent state = KokoComponent.KEY.get(player);
-            if (state.traffic() < KokoRules.WIN_TRAFFIC) {
+            if (state.traffic() < KokoRules.winTraffic(totalPlayers)) {
                 continue;
             }
             // An alive spectator (a Rift Gate occupant) counts like a swallowed player: no win from in there.
             // 存活的旁观者（裂隙门内）与被吞下的玩家同样处理：在里面不能获胜。
             if (KokoRules.wins(KokoRules.isKoko(game.getRole(player)), GameFunctions.isPlayerPlayingAndAlive(player),
                     player.isSpectator() || NoellesTaotieSeekerBridge.isSwallowed(player), state.isLive(),
-                    state.traffic())) {
+                    state.traffic(), totalPlayers)) {
                 return CheckWinCondition.WinResult.neutralWin(player);
             }
         }

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  *   stamina. Everyone sees her through walls for the first 10 s.</li>
  *   <li>Corpse stream (right-click a corpse): no mana, the body glows for everyone for 50 s, +100 traffic, once per
  *   dead player. Both share one cooldown: 60 s at the deal, 45 s after a stream ends or a corpse is streamed.</li>
- *   <li>1000 traffic keeps Speed III on her; live with 1500 traffic she wins alone.</li>
+ *   <li>half the win threshold keeps permanent Speed III on her; live at the full threshold she wins alone.</li>
  *   <li>Shop: one lightstick for 100 traffic (Speed II for 10 s, traffic gain doubled for those 10 s, 30 s between
  *   uses). No coins, no knife, no lockpick; she starts with one neutral master key.</li>
  *   <li>Mana follows the Murderous Witch's natural regeneration ({@code WitchManaRules}): 1 per 2 s up to 150, nothing
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
  *   其他所有存活玩家，疾跑体力消耗减半；前 10 秒所有人都能隔墙看到她。</li>
  *   <li>尸体直播（右键对准尸体）：不耗魔力，该尸体对所有人高亮 50 秒，+100 流量，每具尸体只能一次。两者共用冷却：发牌后 60 秒，
  *   直播结束或尸体直播之后 45 秒。</li>
- *   <li>流量达到 1000 时保持速度 III；直播中流量达到 1500 时独自获胜。</li>
+ *   <li>流量达到获胜阈值的一半时保持永久速度 III；直播中流量达到阈值时独自获胜。</li>
  *   <li>商店：应援棒 100 流量，限购一根（10 秒速度 II，这 10 秒内流量获取翻倍，每 30 秒可用一次）。没有金币、刀和撬锁器；
  *   开局持有一把中立万能钥匙。</li>
  *   <li>魔力恢复与杀意魔女相同（见 {@code WitchManaRules}）：每 2 秒 1 点、上限 150，开局为 0，没有任务或击杀奖励。</li>
@@ -73,13 +73,23 @@ public final class KokoRules {
     public static final int CORPSE_GLOW_TICKS = 50 * 20;
     public static final int CORPSE_TRAFFIC = 100;
 
-    public static final int SPEED_TRAFFIC = 1000;
+    /**
+     * Her two thresholds are derived from the round's player count (owner 2026-11-23): win at
+     * {@code totalPlayers / 4 + WIN_TRAFFIC_BASE} traffic, permanent Speed III at half of that.
+     * 她的两个阈值由本局人数决定（所有者 2026-11-23）：流量达到「总人数 / 4 + {@link #WIN_TRAFFIC_BASE}」即可获胜，
+     * 达到该值的一半获得永久速度 III。
+     */
+    public static final int WIN_TRAFFIC_BASE = 500;
+    public static final int WIN_TRAFFIC_PER_PLAYER = 4;
     /** Speed III. / 速度 III。 */
     public static final int SPEED_AMPLIFIER = 2;
     /** Speed III is renewed once per second and outlives the next renewal. / 速度 III 每秒续一次，时长覆盖到下次续期。 */
     public static final int SPEED_REFRESH_TICKS = 20;
     public static final int SPEED_EFFECT_TICKS = 2 * SPEED_REFRESH_TICKS + 10;
-    public static final int WIN_TRAFFIC = 1500;
+    /** Radius of the corpse-stream cluster, in blocks. / 尸体直播的作用半径（格）。 */
+    public static final double CORPSE_CLUSTER_RADIUS = 5.0D;
+    /** At most this many bodies light up from one click. / 一次点击最多点亮这么多具尸体。 */
+    public static final int CORPSE_CLUSTER_MAX = 3;
 
     /** Lightstick: 100 traffic, one per round (owner 2026-11-13). / 应援棒：100 流量，每局限购一根（所有者 2026-11-13）。 */
     public static final int LIGHTSTICK_PRICE = 100;
@@ -192,16 +202,27 @@ public final class KokoRules {
         return cheering ? STREAM_TRAFFIC_PER_SECOND * LIGHTSTICK_TRAFFIC_MULTIPLIER : STREAM_TRAFFIC_PER_SECOND;
     }
 
-    public static boolean hasSpeed(int traffic) {
-        return traffic >= SPEED_TRAFFIC;
+    /** Traffic needed to win this round. / 本局获胜所需的流量。 */
+    public static int winTraffic(int totalPlayers) {
+        return Math.max(1, totalPlayers) / WIN_TRAFFIC_PER_PLAYER + WIN_TRAFFIC_BASE;
+    }
+
+    /** Traffic needed for the permanent Speed III, half of the win threshold. / 永久速度 III 所需的流量，为获胜阈值的一半。 */
+    public static int speedTraffic(int totalPlayers) {
+        return winTraffic(totalPlayers) / 2;
+    }
+
+    public static boolean hasSpeed(int traffic, int totalPlayers) {
+        return traffic >= speedTraffic(totalPlayers);
     }
 
     /**
      * Her only win: alive, not swallowed by a Taotie, live and holding {@link #WIN_TRAFFIC} traffic.
      * 她唯一的胜利条件：存活、未被饕餮吞下、正在直播且流量达到 {@link #WIN_TRAFFIC}。
      */
-    public static boolean wins(boolean koko, boolean playingAndAlive, boolean swallowed, boolean live, int traffic) {
-        return koko && playingAndAlive && !swallowed && live && traffic >= WIN_TRAFFIC;
+    public static boolean wins(boolean koko, boolean playingAndAlive, boolean swallowed, boolean live, int traffic,
+                               int totalPlayers) {
+        return koko && playingAndAlive && !swallowed && live && traffic >= winTraffic(totalPlayers);
     }
 
     /**

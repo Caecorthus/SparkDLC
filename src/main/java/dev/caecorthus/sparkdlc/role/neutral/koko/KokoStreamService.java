@@ -11,6 +11,7 @@ import dev.doctor4t.wathe.api.event.CanTargetBody;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameFunctions;
+import java.util.List;
 import java.util.UUID;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -29,6 +30,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -188,7 +190,7 @@ public final class KokoStreamService {
                 GrandWitchFearService.isPlayerFeared(player),
                 state.isLive(),
                 state.cooldownRemaining(now) <= 0,
-                state.hasStreamed(corpseKey(body)));
+                corpseCluster(player, state, body).isEmpty());
         switch (verdict) {
             case PASS -> {
                 return ActionResult.PASS;
@@ -199,15 +201,20 @@ public final class KokoStreamService {
                     TickTime.ceilSeconds(state.cooldownRemaining(now))));
             case ALREADY_STREAMED -> tell(player, Text.translatable("message.sparkdlc.koko.corpse.already"));
             case USE -> {
-                // Everyone sees the body through walls for 50 s: vanilla Glowing, as the NoellesRoles Noisemaker does.
-                // 所有人隔墙看到这具尸体 50 秒：原版发光，与 NoellesRoles 大嗓门的做法相同。
-                body.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, KokoRules.CORPSE_GLOW_TICKS, 0,
-                        false, false));
-                state.recordCorpseStream(corpseKey(body), now);
+                // Every body in the cluster lights up for 50 s and pays once: vanilla Glowing, as the NoellesRoles
+                // Noisemaker does. Up to three bodies within five blocks of the one she clicked.
+                // 簇内每具尸体都发光 50 秒并各计一次流量：原版发光，与 NoellesRoles 大嗓门的做法相同。以她点中的那具为中心，
+                // 五格内最多三具。
+                List<PlayerBodyEntity> cluster = corpseCluster(player, state, body);
+                for (PlayerBodyEntity target : cluster) {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, KokoRules.CORPSE_GLOW_TICKS,
+                            0, false, false));
+                    state.recordCorpseStream(corpseKey(target), now);
+                    KokoReplay.recordCorpseStream(player, target.getPlayerUuid());
+                }
                 cue(player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.8F, 0.8F);
                 player.sendMessage(Text.translatable("message.sparkdlc.koko.corpse.streamed",
-                        KokoRules.CORPSE_TRAFFIC), true);
-                KokoReplay.recordCorpseStream(player, body.getPlayerUuid());
+                        KokoRules.CORPSE_TRAFFIC * cluster.size()), true);
                 return ActionResult.SUCCESS;
             }
         }
@@ -222,6 +229,40 @@ public final class KokoStreamService {
      * “每具尸体只能一次”的计数对象：尸体所属的死者；尸体没有主人时退回到尸体实体本身。同一名玩家的第二具尸体（反复假死，或先
      * 假尸体后真尸体）对她来说是同一具。
      */
+    /**
+     * The bodies one corpse stream lights up: the clicked one first, then every other live-camera body within
+     * {@link KokoRules#CORPSE_CLUSTER_RADIUS} blocks, capped at {@link KokoRules#CORPSE_CLUSTER_MAX}. Bodies she already
+     * streamed this round are skipped, so a repeated feigned death never pays twice.
+     * 一次尸体直播点亮的尸体：先是被点中的那具，然后是 {@link KokoRules#CORPSE_CLUSTER_RADIUS} 格内的其它可瞄准尸体，
+     * 上限 {@link KokoRules#CORPSE_CLUSTER_MAX}。本局已直播过的尸体跳过，因此反复假死不会重复给流量。
+     */
+    private static List<PlayerBodyEntity> corpseCluster(ServerPlayerEntity player, KokoComponent state,
+                                                        PlayerBodyEntity origin) {
+        double radius = KokoRules.CORPSE_CLUSTER_RADIUS;
+        Box box = Box.of(origin.getPos(), radius * 2, radius * 2, radius * 2);
+        List<PlayerBodyEntity> fresh = player.getServerWorld().getEntitiesByClass(PlayerBodyEntity.class, box,
+                b -> b.canHit()
+                        && CanTargetBody.EVENT.invoker().canTarget(player, b)
+                        && b.squaredDistanceTo(origin) <= radius * radius
+                        && !state.hasStreamed(corpseKey(b)));
+        // The clicked body always comes first, so `limit` never drops it in favour of a neighbour.
+        // 被点中的那具始终排在最前，保证 `limit` 不会为了邻居把它挤掉。
+        List<PlayerBodyEntity> ordered = new java.util.ArrayList<>(fresh.size());
+        if (!state.hasStreamed(corpseKey(origin)) && origin.canHit()) {
+            ordered.add(origin);
+        }
+        for (PlayerBodyEntity candidate : fresh) {
+            if (candidate != origin) {
+                ordered.add(candidate);
+            }
+            if (ordered.size() >= KokoRules.CORPSE_CLUSTER_MAX) {
+                break;
+            }
+        }
+        return ordered.size() > KokoRules.CORPSE_CLUSTER_MAX
+                ? ordered.subList(0, KokoRules.CORPSE_CLUSTER_MAX) : ordered;
+    }
+
     static UUID corpseKey(PlayerBodyEntity body) {
         UUID owner = body.getPlayerUuid();
         return owner != null ? owner : body.getUuid();
@@ -257,14 +298,25 @@ public final class KokoStreamService {
                     && GameFunctions.isPlayerPlayingAndAlive(player)
                     && KokoRules.isKoko(game.getRole(player));
             tickStream(player, state, now, livingKoko);
-            if (livingKoko && now % KokoRules.SPEED_REFRESH_TICKS == 0L && KokoRules.hasSpeed(state.traffic())) {
-                // Renewed once per second and gone within 2.5 s of dropping under 1000 (a lightstick purchase), her
-                // death or the round's end. Ambient, no particles, icon on.
-                // 每秒续一次；流量跌破 1000（买应援棒）、死亡或对局结束后 2.5 秒内消失。环境效果、无粒子、显示图标。
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, KokoRules.SPEED_EFFECT_TICKS,
-                        KokoRules.SPEED_AMPLIFIER, true, false, true));
+            int totalPlayers = player.getServerWorld().getPlayers().size();
+            // Permanent, not renewed: once she reaches half the win threshold the Speed III never expires, so the
+            // server only has to grant it when the current effect is missing, finite or weaker.
+            // 永久而非续期：流量达到获胜阈值一半后速度 III 不再过期，因此服务端只需在当前效果缺失、有限或更弱时补一次。
+            if (livingKoko && KokoRules.hasSpeed(state.traffic(), totalPlayers)
+                    && !hasPermanentSpeed(player)) {
+                // Infinite duration: it survives the stream ending and only disappears with death, a role change or
+                // the round's end. Ambient, no particles, icon on.
+                // 无限时长：直播结束也不会消失，只随死亡、职业变化或对局结束一起消失。环境效果、无粒子、显示图标。
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED,
+                        StatusEffectInstance.INFINITE, KokoRules.SPEED_AMPLIFIER, true, false, true));
             }
         }
+    }
+
+    /** Whether the Speed III she is holding is already the permanent one. / 她当前的速度 III 是否已经是永久的那一份。 */
+    private static boolean hasPermanentSpeed(ServerPlayerEntity player) {
+        StatusEffectInstance speed = player.getStatusEffect(StatusEffects.SPEED);
+        return speed != null && speed.isInfinite() && speed.getAmplifier() >= KokoRules.SPEED_AMPLIFIER;
     }
 
     private static void tickStream(ServerPlayerEntity player, KokoComponent state, long now, boolean livingKoko) {

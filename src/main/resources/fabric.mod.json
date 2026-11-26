@@ -165,7 +165,9 @@
       "sparkdlc:criminal_reasoner_player",
       "sparkdlc:planner_master_player",
       "sparkdlc:sphinx_hao_player",
-      "sparkdlc:sphinx_hao_world"
+      "sparkdlc:sphinx_hao_world",
+      "sparkdlc:body_health",
+      "sparkdlc:health_mode"
     ],
     "sparkdlc:native_wathe_factions": {
       "sparkdlc:jiahao": "JIAHAO",

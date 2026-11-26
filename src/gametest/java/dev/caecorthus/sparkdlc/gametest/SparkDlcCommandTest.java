@@ -58,9 +58,11 @@ import java.util.function.IntPredicate;
 public final class SparkDlcCommandTest implements FabricGameTest {
     /**
      * Every executable path of the mod's own roots, in registration order (the order the five mods registered in
-     * before the fusion): 44 current paths and {@code /replay}. The misspelt roots the role-kit commands always had
-     * are old names of the legacy layer since stage 3 ({@link #OLD_NAMES}).
-     * 本模组自有根节点的全部可执行路径，按注册顺序排列（即融合前五个模组的注册顺序）：44 条当前路径与 {@code /replay}。
+     * before the fusion, then {@code /sparkdlc:healthMode}, added after it and so without an old name): 49 current
+     * paths and {@code /replay}. The misspelt roots the role-kit commands always had are old names of the legacy
+     * layer since stage 3 ({@link #OLD_NAMES}).
+     * 本模组自有根节点的全部可执行路径，按注册顺序排列（即融合前五个模组的注册顺序，然后是融合之后新增、因而没有旧名字的
+     * {@code /sparkdlc:healthMode}）：49 条当前路径与 {@code /replay}。
      * 职业套件命令一直保留的拼写别名自第三阶段起是兼容层的旧名字（{@link #OLD_NAMES}）。
      */
     private static final List<String> CURRENT_COMMANDS = List.of(
@@ -109,7 +111,12 @@ public final class SparkDlcCommandTest implements FabricGameTest {
             "sparkdlc:witchFactor Rule MaxCarrier",
             "sparkdlc:witchFactor DivideMode <num>",
             "sparkdlc:witchFactor MaxCarrierMode unlimited",
-            "sparkdlc:witchFactor MaxCarrierMode <num>");
+            "sparkdlc:witchFactor MaxCarrierMode <num>",
+            "sparkdlc:healthMode",
+            "sparkdlc:healthMode on",
+            "sparkdlc:healthMode off",
+            "sparkdlc:healthMode set <targets> <part> <value>",
+            "sparkdlc:healthMode reset <targets>");
 
     /** The two branches the mod adds to Wathe's own command. / 本模组挂在 Wathe 自有命令下的两个分支。 */
     private static final List<String> WATHE_BRANCHES = List.of(
@@ -176,7 +183,7 @@ public final class SparkDlcCommandTest implements FabricGameTest {
      */
     private static final Map<String, List<String>> NODE_COMMANDS = Map.of(
             "sparkdlc.command.admin", List.of("sparkdlc:clearCooldown", "sparkdlc:addTask", "sparkdlc:deleteTask",
-                    "sparkdlc:completeTask", "sparkdlc:setSanity", "sparkdlc:antifastround"),
+                    "sparkdlc:completeTask", "sparkdlc:setSanity", "sparkdlc:antifastround", "sparkdlc:healthMode"),
             "sparkdlc.command.setmana", List.of("sparkdlc:setMana"),
             "sparkdlc.command.forceability", List.of("sparkdlc:forceAbility"),
             "sparkdlc.command.forcepromotion", List.of("sparkdlc:forcePromotion"),

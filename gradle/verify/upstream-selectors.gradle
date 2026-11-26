@@ -841,6 +841,187 @@ def watheClientMixinContracts = [
                 providerEntry: "dev/doctor4t/wathe/util/ShootMuzzleS2CPayload\$Receiver.class",
                 providerMethod: "receive",
                 providerDescriptor: "(Ldev/doctor4t/wathe/util/ShootMuzzleS2CPayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking\$Context;)V"
+        ],
+        [
+                // Top-left HUD re-layout (body health figure): renderHud HEAD resets how present the task rows are.
+                // 左上角 HUD 重排（身体健康示意图）：renderHud 的 HEAD 清零任务行存在度。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$beginTopLeftFrame",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderHud",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderHud's only drawTextWithShadow(TextRenderer, Text, III) draws one task row.
+                // 左上角 HUD 重排：renderHud 中唯一的 drawTextWithShadow(TextRenderer, Text, III) 绘制一行任务。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$moveTaskRow",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
+                atTarget: "Lnet/minecraft/class_332;method_27535(Lnet/minecraft/class_327;Lnet/minecraft/class_2561;III)I",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderHud",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderHud's only renderPsycho call, moved as one block with the flag.
+                // 左上角 HUD 重排：renderHud 中唯一的 renderPsycho 调用，随旗帜整体移动。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$movePsychoBlock",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
+                atTarget: "Ldev/doctor4t/wathe/client/gui/MoodRenderer;renderPsycho(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderHud",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderPsycho's only enableScissor, the banner clip, shifted with that block.
+                // 左上角 HUD 重排：renderPsycho 中唯一的 enableScissor（横幅裁剪区域），随该区块平移。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$movePsychoScissor",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderPsycho(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V",
+                atTarget: "Lnet/minecraft/class_332;method_44379(IIII)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderPsycho",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderPsycho's only drawTextWithShadow, the scrolling banner, hidden in the re-laid corner.
+                // 左上角 HUD 重排：renderPsycho 中唯一的 drawTextWithShadow（滚动横幅），在重排后的左上角隐藏。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$hidePsychoBanner",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderPsycho(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V",
+                atTarget: "Lnet/minecraft/class_332;method_27535(Lnet/minecraft/class_327;Lnet/minecraft/class_2561;III)I",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderPsycho",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderPsycho's only fill(IIIII), the psycho timer bar, hidden in the re-laid corner.
+                // 左上角 HUD 重排：renderPsycho 中唯一的 fill(IIIII)（疯魔计时条），在重排后的左上角隐藏。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$hidePsychoTimerBar",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderPsycho(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V",
+                atTarget: "Lnet/minecraft/class_332;method_25294(IIIII)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderPsycho",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderHud's normal end draws the task-list header (as the no-sanity flag does).
+                // 左上角 HUD 重排：renderHud 的正常结尾绘制任务清单标题（与无理智旗帜相同）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$taskListHeader",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderHud",
+                providerDescriptor: "(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderCivilian's flag block translate (MatrixStack.translate(FFF) ordinal 1).
+                // 左上角 HUD 重排：renderCivilian 的旗帜区块平移（MatrixStack.translate(FFF) 第 1 个）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$moveCivilianFlag",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
+                atTarget: "Lnet/minecraft/class_4587;method_46416(FFF)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderCivilian",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V"
+        ],
+        [
+                // Top-left HUD re-layout: the mood percentage follows the civilian icon call Noa, Natsume and the faction
+                // flags wrap; this wrap is the outermost (last config entry).
+                // 左上角 HUD 重排：理智百分比跟随诺亚、夏目安安与阵营旗帜包装的同一平民图标调用；本包装位于最外层（配置最后一项）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$moodPercentBesideFlag",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
+                atTarget: "Lnet/minecraft/class_332;method_52706(Lnet/minecraft/class_2960;IIII)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderCivilian",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderCivilian's bar block translate (MatrixStack.translate(FFF) ordinal 5).
+                // 左上角 HUD 重排：renderCivilian 的理智条区块平移（MatrixStack.translate(FFF) 第 5 个）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$releaseCivilianBarBlock",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
+                atTarget: "Lnet/minecraft/class_4587;method_46416(FFF)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderCivilian",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderCivilian's two fill(IIIII) calls are the mood bar (hidden, require = 2).
+                // 左上角 HUD 重排：renderCivilian 的两次 fill(IIIII) 即理智条（隐藏，require = 2）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$hideCivilianMoodBar",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
+                atTarget: "Lnet/minecraft/class_332;method_25294(IIIII)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderCivilian",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderCivilian's only drawTextWithShadow is the breakdown warning.
+                // 左上角 HUD 重排：renderCivilian 中唯一的 drawTextWithShadow 即崩溃警告。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$moveBreakdownWarning",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
+                atTarget: "Lnet/minecraft/class_332;method_27535(Lnet/minecraft/class_327;Lnet/minecraft/class_2561;III)I",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderCivilian",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderKiller's flag block translate (MatrixStack.translate(FFF) ordinal 0).
+                // 左上角 HUD 重排：renderKiller 的旗帜区块平移（MatrixStack.translate(FFF) 第 0 个）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$moveKillerFlag",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderKiller(Lnet/minecraft/class_327;Lnet/minecraft/class_332;)V",
+                atTarget: "Lnet/minecraft/class_4587;method_46416(FFF)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderKiller",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;)V"
+        ],
+        [
+                // Top-left HUD re-layout: renderKiller's only fill(IIIII) is the fake mood bar (hidden).
+                // 左上角 HUD 重排：renderKiller 中唯一的 fill(IIIII) 即伪装理智条（隐藏）。
+                configName: "health.TopLeftHudMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/health/TopLeftHudMoodRendererMixin.class",
+                handler: "sparkdlc\$hideKillerMoodBar",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "renderKiller(Lnet/minecraft/class_327;Lnet/minecraft/class_332;)V",
+                atTarget: "Lnet/minecraft/class_332;method_25294(IIIII)V",
+                providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
+                providerMethod: "renderKiller",
+                providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;)V"
         ]
 ]
 

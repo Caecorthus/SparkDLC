@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.fiend;
 
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHud;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendMomentWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
@@ -40,6 +41,7 @@ public final class FiendMomentHud {
         TextRenderer renderer = client.textRenderer;
         Text text = Text.translatable(FiendMomentHudRules.KEY, FiendMomentHudRules.clock(moment.remainingTicks()));
         int x = FiendMomentHudRules.lineX(context.getScaledWindowWidth(), renderer.getWidth(text));
-        context.drawTextWithShadow(renderer, text, x, FiendMomentHudRules.LINE_Y, FiendMomentHudRules.TEXT_COLOR);
+        int y = FiendMomentHudRules.lineY(TopLeftHud.layout());
+        context.drawTextWithShadow(renderer, text, x, y, FiendMomentHudRules.TEXT_COLOR);
     }
 }

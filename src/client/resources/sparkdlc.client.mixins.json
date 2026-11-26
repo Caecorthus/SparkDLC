@@ -433,7 +433,8 @@
     "role.killer.specter.SpecterOtherworldGameRendererMixin",
     "role.killer.specter.ClientWorldOtherworldSkyMixin",
     "role.jiahao.sphinxhao.SphinxHaoGunArmPoseMixin",
-    "role.jiahao.sphinxhao.SphinxHaoGunEquipMixin"
+    "role.jiahao.sphinxhao.SphinxHaoGunEquipMixin",
+    "health.TopLeftHudMoodRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

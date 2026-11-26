@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bellringer;
 
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHud;
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHudLayout;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.BellEchoPlayerComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
@@ -47,18 +49,21 @@ public final class BellEchoHintHud {
         boolean moodBlockVisible = GameWorldComponent.KEY.get(client.world).getGameMode() instanceof MurderGameMode;
         boolean psychoActive = PlayerPsychoComponent.KEY.get(player).getPsychoTicks() > 0;
         TextRenderer renderer = client.textRenderer;
-        // Read after Wathe's renderMainHud updated this frame's statics. / 在 Wathe renderMainHud 更新本帧静态值之后读取。
+        // Read after Wathe's renderMainHud updated this frame's statics and the rows' presence.
+        // 在 Wathe renderMainHud 更新本帧静态值与任务行存在度之后读取。
+        TopLeftHudLayout layout = TopLeftHud.layout();
         int y = BellEchoHudRules.hintY(
+                layout,
                 moodBlockVisible,
                 psychoActive,
                 MoodRenderer.moodOffset,
                 MoodRenderer.moodRender,
-                renderer.fontHeight
+                TopLeftHud.rowPresence()
         );
         context.drawTextWithShadow(
                 renderer,
                 Text.translatable("hud.sparkdlc.bell_echo.heard"),
-                BellEchoHudRules.TEXT_X,
+                BellEchoHudRules.hintX(layout),
                 y,
                 HINT_COLOR
         );

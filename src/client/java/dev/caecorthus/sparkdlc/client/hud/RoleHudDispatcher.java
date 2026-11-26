@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.client.hud;
 
 import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
+import dev.caecorthus.sparkdlc.client.health.BodyHealthHud;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenHudRenderer;
 import dev.caecorthus.sparkdlc.client.role.witch.curser.CurserHudRenderer;
 import dev.caecorthus.sparkdlc.client.role.witch.curser.CurserHudRules;
@@ -75,14 +76,16 @@ public final class RoleHudDispatcher {
     }
 
     /**
-     * Layers at {@code InGameHud.renderMainHud} TAIL (hidden with F1), in the former JSON order.
-     * {@code InGameHud.renderMainHud} TAIL 处的各层（F1 时隐藏），按原 JSON 顺序。
+     * Layers at {@code InGameHud.renderMainHud} TAIL (hidden with F1), in the former JSON order; the body health
+     * figure is a newer layer appended after them.
+     * {@code InGameHud.renderMainHud} TAIL 处的各层（F1 时隐藏），按原 JSON 顺序；身体健康示意图是之后追加在末尾的新层。
      */
     public static void renderMainHudTail(DrawContext context) {
         renderWitchMana(context);
         renderWitchSkill(context);
         renderMagician(context);
         renderBlackRaven(context);
+        renderBodyHealth(context);
     }
 
     /**
@@ -356,5 +359,18 @@ public final class RoleHudDispatcher {
         if (player != null) {
             BlackRavenHudRenderer.render(context, player);
         }
+    }
+
+    /**
+     * Body health figure (health mode; new layer, appended last): the local player's seven-part paper-doll in the
+     * top-left corner. Not a role panel; it is a layer here because this is the mod's one main-HUD TAIL seam, so it is
+     * hidden with F1 like the rest of the main HUD. Every gate (confirmed server, health mode, round, liveness, train
+     * HUD) is {@code BodyHealthHudRules.visible}, which the renderer checks.
+     * 身体健康示意图（健康模式；新增层，追加在最后）：左上角显示本地玩家七个部位的纸娃娃。它不是职业面板；之所以作为此处的
+     * 一层，是因为这是本模组唯一的主 HUD TAIL 接缝，因此与主 HUD 其余部分一样在 F1 时隐藏。全部门槛（已确认服务器、健康
+     * 模式、回合、存活、列车 HUD）都在 {@code BodyHealthHudRules.visible} 中，由渲染器检查。
+     */
+    private static void renderBodyHealth(DrawContext context) {
+        BodyHealthHud.render(context);
     }
 }

@@ -15,13 +15,16 @@
       "dev.caecorthus.sparkdlc.gametest.SparkDlcStartupTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcSharedHelpersGameTest",
-      "dev.caecorthus.sparkdlc.gametest.ShiningNeonPillarGameTest"
+      "dev.caecorthus.sparkdlc.gametest.ShiningNeonPillarGameTest",
+      "dev.caecorthus.sparkdlc.gametest.BodyHealthGameTest"
     ],
     "client": [
-      "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit",
+      "dev.caecorthus.sparkdlc.gametest.hudsnapshot.HudSnapshotClient"
     ],
     "preLaunch": [
-      "dev.caecorthus.sparkdlc.gametest.LegacyClientNamesFixture"
+      "dev.caecorthus.sparkdlc.gametest.LegacyClientNamesFixture",
+      "dev.caecorthus.sparkdlc.gametest.hudsnapshot.HudSnapshotRunDirectory"
     ]
   },
   "depends": {

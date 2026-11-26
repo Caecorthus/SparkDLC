@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.event.RoleKitEvents;
 import dev.caecorthus.sparkdlc.event.RoleEvents;
 import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.health.BodyHealthService;
 import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
 import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
 import dev.caecorthus.sparkdlc.net.SparkDlcPackets;
@@ -124,6 +125,7 @@ public final class SparkDLC implements ModInitializer {
         registerOwnRoleContent();
         registerOwnRolesAndSkills();
         registerOwnRoleGameplay();
+        registerBodyHealth();
         // Every command of the mod, and the old command names, in one place.
         // 本模组的全部命令以及旧命令名，统一在一处注册。
         SparkDlcCommands.register();
@@ -297,6 +299,17 @@ public final class SparkDLC implements ModInitializer {
             return sender == null || mayUseTextChat(sender);
         });
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkDlcRoles.refreshAssassinGuessRoleOrder());
+    }
+
+    /**
+     * The body-health pool: its reset on Wathe's {@code ResetPlayer}. It belongs to no role, kit or trait and was
+     * added after the fusion, so it is a step of its own after every gameplay step: its listener runs after every
+     * older {@code ResetPlayer} listener and none of them changes place.
+     * 部位血量池：在 Wathe 的 {@code ResetPlayer} 时重置。它不属于任何职业、套件或词条，且在融合之后新增，因此单独成为排在
+     * 所有玩法步骤之后的一步：它的监听器在所有更早的 {@code ResetPlayer} 监听器之后执行，后者的位置均不变。
+     */
+    private static void registerBodyHealth() {
+        BodyHealthService.register();
     }
 
     private static boolean mayUseTextChat(ServerPlayerEntity sender) {

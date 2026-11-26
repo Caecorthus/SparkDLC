@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import dev.caecorthus.sparkdlc.client.hud.moodflag.MoodFlags;
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHud;
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHudLayout;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -28,7 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *     traits' effective-mood {@code @Redirect}; NONE draws nothing. Two {@code @Inject}s right before those calls mark
  *     the dispatch in a {@code @Share}d local, and the TAIL {@code @Inject} (the normal end only: the not-playing and
  *     Psycho early returns never reach it) draws the no-sanity flag when neither ran, at {@code renderKiller}'s spot
- *     ({@code 3 * moodOffset}) without a bar.</li>
+ *     ({@code 3 * moodOffset} in Wathe's layout, the fixed flag spot of {@code TopLeftHudLayout} in the re-laid
+ *     corner) without a bar.</li>
  * </ul>
  * Client-only and display-only: the server owns roles, traits and sanity, and no value is ever shown.
  * 阵营心情旗帜（{@link MoodFlags}）的客户端表现接缝，锁定 Wathe 1.5.6 {@code MoodRenderer}。
@@ -40,7 +43,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *     <li>{@code renderHud} 在词条的有效理智类型 {@code @Redirect} 之后，把 FAKE 分派给 {@code renderKiller}、REAL
  *     分派给 {@code renderCivilian}；NONE 什么都不画。两个紧贴这两处调用之前的 {@code @Inject} 在 {@code @Share} 局部变量中
  *     标记已分派，TAIL {@code @Inject}（只在正常结尾：未在局与疯魔的提前返回不会到达）在两者都未执行时于
- *     {@code renderKiller} 的位置（{@code 3 * moodOffset}）绘制无理智旗帜，不画理智条。</li>
+ *     {@code renderKiller} 的位置（Wathe 布局下为 {@code 3 * moodOffset}，重排后的左上角为 {@code TopLeftHudLayout}
+ *     的固定旗帜位置）绘制无理智旗帜，不画理智条。</li>
  * </ul>
  * 仅客户端、仅展示：职业、词条与理智均由服务端负责，且从不显示任何数值。
  */
@@ -144,9 +148,16 @@ public abstract class MoodFlagRendererMixin {
         if (flag == null) {
             return;
         }
+        // Same block translation as renderKiller's flag, which the top-left re-layout moves the same way.
+        // 与 renderKiller 的旗帜使用同一区块平移，左上角重排对两者的移动方式相同。
+        TopLeftHudLayout layout = TopLeftHud.layout();
         context.getMatrices().push();
-        context.getMatrices().translate(0, 3 * MoodRenderer.moodOffset, 0);
-        context.drawGuiTexture(flag, 5, 6, 14, 17);
+        context.getMatrices().translate(
+                (float) layout.flagDx(),
+                layout.flagTranslateY(TopLeftHudLayout.WATHE_FLAG_SLIDE * MoodRenderer.moodOffset),
+                0.0F);
+        context.drawGuiTexture(flag, TopLeftHudLayout.WATHE_FLAG_X, TopLeftHudLayout.WATHE_FLAG_Y,
+                TopLeftHudLayout.FLAG_WIDTH, TopLeftHudLayout.FLAG_HEIGHT);
         context.getMatrices().pop();
     }
 }

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.client.SparkDLCClient;
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHud;
 import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendMomentHudRules;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.net.KnightDuelStopSoundS2CPayload;
@@ -132,7 +133,7 @@ public final class KnightDuelClient {
             if (GameFunctions.isPlayerPlayingAndAlive(player)) {
                 Text text = Text.translatable("hud.sparkdlc.knight.duel");
                 int x = (context.getScaledWindowWidth() - renderer.getWidth(text)) / 2;
-                int y = FiendMomentHudRules.LINE_Y + renderer.fontHeight + ROW_GAP;
+                int y = FiendMomentHudRules.lineY(TopLeftHud.layout()) + renderer.fontHeight + ROW_GAP;
                 context.drawTextWithShadow(renderer, text, x, y, pulseColor());
             }
             return;

@@ -4,6 +4,7 @@ import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -107,6 +108,23 @@ public final class JunkerLoot {
             return Kind.WALKIE_TALKIE;
         }
         return isNeutralMasterKey(stack) ? Kind.NEUTRAL_MASTER_KEY : Kind.OTHER;
+    }
+
+    /**
+     * Loot nobody can use: the Tablet and the round letter are handed out by other roles and do nothing in a
+     * ragpicker's hands, so searching a body never yields them (owner 2026-11-26).
+     * 谁也派不上用场的战利品：平板电脑与信件由别的职业发放，在拾荒者手里毫无作用，因此搜刮尸体不会再拿到它们
+     * （所有者 2026-11-26）。
+     */
+    static boolean isUseless(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        if (stack.isOf(SparkDlcItems.tablet())) {
+            return true;
+        }
+        Item letter = Registries.ITEM.get(Identifier.of("wathe", "letter"));
+        return letter != Items.AIR && stack.isOf(letter);
     }
 
     private static boolean isNeutralMasterKey(ItemStack stack) {

@@ -198,11 +198,11 @@ public final class JunkerLootWorldComponent implements Component {
     private static List<Integer> lootSlots(PlayerInventory inventory) {
         List<Integer> slots = new ArrayList<>();
         for (int slot = 0; slot < inventory.main.size(); slot++) {
-            if (!inventory.main.get(slot).isEmpty()) {
+            if (!inventory.main.get(slot).isEmpty() && !JunkerLoot.isUseless(inventory.main.get(slot))) {
                 slots.add(slot);
             }
         }
-        if (!inventory.offHand.get(0).isEmpty()) {
+        if (!inventory.offHand.get(0).isEmpty() && !JunkerLoot.isUseless(inventory.offHand.get(0))) {
             slots.add(PlayerInventory.OFF_HAND_SLOT);
         }
         return slots;
@@ -211,7 +211,10 @@ public final class JunkerLootWorldComponent implements Component {
     private static List<ItemStack> copyLootable(PlayerInventory inventory) {
         List<ItemStack> loot = new ArrayList<>();
         for (int slot : lootSlots(inventory)) {
-            loot.add(inventory.getStack(slot).copy());
+            ItemStack stack = inventory.getStack(slot);
+            if (!JunkerLoot.isUseless(stack)) {
+                loot.add(stack.copy());
+            }
         }
         return loot;
     }

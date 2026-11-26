@@ -18,6 +18,13 @@ public final class PreparefullTrait implements Trait {
     public static final int CHARGE_TICKS = 10 * 20;
     /** Speed III duration granted on the next movement. 下次移动时给予的速度 III 持续 tick 数（3 秒）。 */
     public static final int SPEED_TICKS = 3 * 20;
+    /**
+     * Rearm delay after the Speed III fires (owner 2026-11-26): the charge cannot start again for this long, so the
+     * trait triggers at most once every fifteen seconds instead of after every short stop.
+     * 速度 III 触发后的重新蓄力延迟（所有者 2026-11-26）：这段时间内不再充能，因此该词条最快每十五秒触发一次，
+     * 而不是每停一下就能触发。
+     */
+    public static final int REARM_TICKS = 15 * 20;
     /** Speed III amplifier index. 速度 III 的等级索引。 */
     public static final int SPEED_AMPLIFIER = 2;
     /**

@@ -741,6 +741,11 @@ public final class SparkDLCClient implements ClientModInitializer {
                     // Real role only; the module drops a dead, spectating or swallowed Reasoner's press. The key opens
                     // his own reasoning menu. / 仅限真实职业；死亡、旁观或被吞下的推理学家的按键由模块丢弃。该键打开推理菜单。
                     CriminalReasonerClientModule.requestSelection(client);
+                } else if (dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererRules.isDiscoverer(role)) {
+                    // Discoverer: the key asked the server for Night Vision; the server owns the light test and the
+                    // cooldown, so a dead or swallowed Discoverer's press simply does nothing there.
+                    // 探索者：按键向服务端请求夜视；亮度判定与冷却都在服务端，因此死亡或被吞下时按下也不会有结果。
+                    dev.caecorthus.sparkdlc.client.role.civilian.discoverer.DiscovererClientModule.onAbilityKey(client);
                 } else if (JunkerRules.isRagpicker(role)) {
                     // Real role only; a dead or swallowed Ragpicker's press is dropped here, not sent as a witch skill.
                     // 仅限真实职业；死亡或被吞下的拾荒者的按键在此被丢弃，不会作为魔女技能发送。

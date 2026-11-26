@@ -322,6 +322,7 @@ public final class RoleEvents {
         });
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
         DiscovererService.register();
+        dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererNightVisionService.register();
         DiscovererShopService.register();
         AccountantFeatureService.register();
         // Tono Hanna (PR #212): after the shared RoleAssigned listener above, whose WitchManaService.assignForRole

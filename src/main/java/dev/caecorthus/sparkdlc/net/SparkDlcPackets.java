@@ -227,6 +227,9 @@ public final class SparkDlcPackets {
                 BlindPulseS2CPayload.CODEC
         );
         // Junker. / 拾荒者。
+        PayloadTypeRegistry.playC2S().register(
+                dev.caecorthus.sparkdlc.net.DiscovererNightVisionC2SPacket.ID,
+                dev.caecorthus.sparkdlc.net.DiscovererNightVisionC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(JunkerSearchC2SPacket.ID, JunkerSearchC2SPacket.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(JunkerSearchC2SPacket.ID,
                 (payload, context) -> JunkerService.handleSearchRequest(context.player(), payload.bodyUuid()));

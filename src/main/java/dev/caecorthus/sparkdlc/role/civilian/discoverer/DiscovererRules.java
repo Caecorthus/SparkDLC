@@ -54,6 +54,20 @@ public final class DiscovererRules {
     /** "Nothing captured this tick" marker. / “本刻未捕获”的标记。 */
     public static final float NOT_CAPTURED = Float.NaN;
 
+    // ---- Night vision (owner 2026-11-26) ----
+
+    /** Fifteen seconds of Night Vision per activation. / 每次激活 15 秒夜视。 */
+    public static final int NIGHT_VISION_TICKS = 15 * 20;
+    /** First activation of the round, later ones. / 本局第一次激活与之后的每一次。 */
+    public static final int NIGHT_VISION_INITIAL_COOLDOWN_TICKS = 60 * 20;
+    public static final int NIGHT_VISION_COOLDOWN_TICKS = 75 * 20;
+    /**
+     * The key only works at or below this packed light level, skylight included: open air at noon is 15 and refuses,
+     * a lamp-lit room is refused too, and an open roof at night works.
+     * 只有总亮度不高于该值时才生效（含天光）：正午露天是 15，会被拒绝；亮着灯的房间同样被拒绝；夜里露天则可以。
+     */
+    public static final int NIGHT_VISION_MAX_LIGHT = 8;
+
     // ---- Economy ----
 
     /** Coins per finished task; the role has no passive income. / 每完成一个任务的金币；该职业没有被动收入。 */

@@ -13,15 +13,16 @@ import net.minecraft.client.network.ClientPlayerEntity;
  * in-round HUD, one hollow cell per {@link BodyPart}: only its frame is drawn, coloured by how much health the part has left, and
  * the inside stays see-through; no number is drawn.
  * The figure has the proportions of the vanilla player model at two GUI pixels per skin pixel (head 8x8, torso 8x12,
- * arms and legs 4x12), the torso split into chest (upper 7) and abdomen (lower 5). It is seen from the FRONT, like a
+ * arms and legs 4x12), the torso split into chest and abdomen 6:4 like the hitboxes ({@code health.hitbox}), which on its
+ * 24 GUI pixels is 14 and 10, the nearest whole pixels. It is seen from the FRONT, like a
  * player facing the viewer: the player's RIGHT arm and leg are on the LEFT of the screen. All rectangles are GUI
  * pixels; cell rectangles are relative to the figure origin ({@link #FIGURE_X}, {@link #FIGURE_Y}). The figure's
  * rectangle is reserved for it while {@link #visible} holds: Wathe's mood flag and task rows are moved out of it by
  * their own feature ({@code client.hud.topleft}), which reads these constants. Display only: nothing here changes
  * state.
  * 身体健康示意图的布局、配色与可见性：对局 HUD 左上角的站立纸娃娃，每个 {@link BodyPart} 一个空心格子：只绘制边框，边框按该部位
- * 剩余血量着色，内部保持透明；不绘制数字。示意图采用原版玩家模型的比例，每个皮肤像素对应两个 GUI 像素（头 8x8、躯干 8x12、手臂与腿 4x12），躯干分为胸部（上 7）
- * 与腹部（下 5）。示意图为正视（如同面向观察者的玩家）：玩家的右臂与右腿位于屏幕左侧。所有矩形单位为 GUI 像素；各格矩形
+ * 剩余血量着色，内部保持透明；不绘制数字。示意图采用原版玩家模型的比例，每个皮肤像素对应两个 GUI 像素（头 8x8、躯干 8x12、手臂与腿 4x12），躯干与命中箱
+ * （{@code health.hitbox}）一样按 6:4 分为胸部与腹部，在其 24 个 GUI 像素上取最接近的整像素，即 14 与 10。示意图为正视（如同面向观察者的玩家）：玩家的右臂与右腿位于屏幕左侧。所有矩形单位为 GUI 像素；各格矩形
  * 相对于示意图原点（{@link #FIGURE_X}、{@link #FIGURE_Y}）。{@link #visible} 成立时，示意图的矩形保留给它：Wathe 的心情
  * 旗帜与任务行由其自身功能（{@code client.hud.topleft}）读取这些常量后移出该区域。仅用于展示：此处不改变任何状态。
  */

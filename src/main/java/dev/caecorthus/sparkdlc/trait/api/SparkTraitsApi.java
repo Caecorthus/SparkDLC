@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.GoingDarkRules;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
@@ -295,6 +296,25 @@ public final class SparkTraitsApi {
 
     public static float getLastEscapeDesaturation(PlayerEntity player) {
         return hasLastEscapeGrayscale(player) ? 0.5f : 0.0f;
+    }
+
+    /**
+     * Whether the player is drawn with the baby proportions of the Childish trait (a bigger head on a shorter body,
+     * filling the scaled-down box). Read from the synced scale modifier, so both sides and every viewer agree. Only
+     * the shape is answered; who owns the hidden trait is not a question this is meant for.
+     * 玩家是否按幼稚词条的幼体比例绘制（更大的头、更短的身体，填满缩小后的碰撞箱）。读取已同步的体型修饰符，因此两端与
+     * 所有观察者的结论一致。这里只回答体型，不用于查询隐藏词条的持有情况。
+     */
+    public static boolean hasChildishBody(PlayerEntity player) {
+        return player != null && GlobalTraitService.hasChildishScale(player);
+    }
+
+    /**
+     * Whether the player is drawn as a pig with its own head (the Pig trait) instead of the player model. Both sides.
+     * 玩家是否被绘制为带自己头颅的猪（猪词条），而非玩家模型。两端通用。
+     */
+    public static boolean hasPigBody(PlayerEntity player) {
+        return PigTraitService.isPig(player);
     }
 
     /**

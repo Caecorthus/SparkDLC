@@ -42,8 +42,13 @@ public final class M16A4Client {
         if (player == null) {
             return;
         }
-        boolean pressed = client.options.attackKey.wasPressed();
-        if (pressed && client.currentScreen == null && player.getMainHandStack().isOf(SparkDlcItems.m16a4())) {
+        // Look at the hand before touching the key: wasPressed() consumes the press counter, and draining it every
+        // tick would swallow left-click presses that other items and roles read from the same key.
+        // 先看主手再碰按键：wasPressed() 会消费按下计数，每刻都取会把其他物品与职业从同一个按键读取的左键按下吞掉。
+        if (client.currentScreen != null || !player.getMainHandStack().isOf(SparkDlcItems.m16a4())) {
+            return;
+        }
+        if (client.options.attackKey.wasPressed()) {
             dev.caecorthus.sparkdlc.SparkDLC.LOGGER.info("[m16a4] reload request sent");
             ClientPlayNetworking.send(M16A4ReloadC2SPayload.INSTANCE);
         }

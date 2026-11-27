@@ -570,6 +570,8 @@ public final class SparkDLCClient implements ClientModInitializer {
         // 夏目安安（PR #194）：目标菜单接收器（本能由 NatsumeInstinctGateMixin 屏蔽）。
         dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeClientModule.register();
         SaviorClient.register();
+        // M16A4: recoil kick on each accepted round and the one-per-press reload intent. / M16A4：每发后坐与每次按键一次的换弹意图。
+        dev.caecorthus.sparkdlc.client.item.m16a4.M16A4Client.register();
         ProphetClientModule.register();
         ControlExpertStunClient.register();
         ControlExpertStatusHud.register();

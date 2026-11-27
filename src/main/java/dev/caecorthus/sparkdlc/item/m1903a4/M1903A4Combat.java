@@ -34,7 +34,9 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -76,10 +78,20 @@ public final class M1903A4Combat {
      * 可见的事实预测（主手、旁观、冷却、弹数），因此客户端对被拒绝的步枪蓄力也永远不会开火。
      */
     public static M1903A4Rules.Decision decide(PlayerEntity user, ItemStack rifle, Hand hand) {
-        boolean mainHand = hand == Hand.MAIN_HAND && user.getMainHandStack() == rifle
-                && rifle.getItem() instanceof M1903A4Item;
-        boolean coolingDown = user.getItemCooldownManager().isCoolingDown(rifle.getItem());
-        boolean loaded = M1903A4Item.getLoadedRounds(rifle) > 0;
+        return decideForGun(user, rifle, hand, M1903A4Item.getLoadedRounds(rifle) > 0,
+                user.getItemCooldownManager().isCoolingDown(rifle.getItem()));
+    }
+
+    /**
+     * The same gate for any rifle-class gun of this mod: main hand, the shooter's own held states, the trait block, the
+     * gun's item cooldown and at least one round. The M1903A4 passes its loaded rounds and running cooldown; the M16A4
+     * passes its magazine and {@code false}, since it has no item cooldown.
+     * 本模组任何步枪类枪械共用的门槛：主手、射手自身受控状态、词条拦截、枪械物品冷却与至少一发子弹。M1903A4 传入弹栈与
+     * 运行中的冷却；M16A4 传入弹匣与 {@code false}，因为它没有物品冷却。
+     */
+    public static M1903A4Rules.Decision decideForGun(PlayerEntity user, ItemStack gun, Hand hand, boolean loaded,
+                                                     boolean coolingDown) {
+        boolean mainHand = hand == Hand.MAIN_HAND && user.getMainHandStack() == gun;
         if (!(user instanceof ServerPlayerEntity shooter)) {
             return M1903A4Rules.decide(new M1903A4Rules.Facts(OffMatchUse.Mode.MATCH, mainHand, user.isSpectator(),
                     false, false, coolingDown, loaded));
@@ -87,7 +99,31 @@ public final class M1903A4Combat {
         OffMatchUse.Mode mode = OffMatchUse.mode(shooter,
                 GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator());
         return M1903A4Rules.decide(new M1903A4Rules.Facts(mode, mainHand, shooter.isSpectator(), isHeld(shooter),
-                mainHand && SparkTraitsApi.blocksWeaponAction(shooter, rifle), coolingDown, loaded));
+                mainHand && SparkTraitsApi.blocksWeaponAction(shooter, gun), coolingDown, loaded));
+    }
+
+    /**
+     * The same gate for a gun any holder may pick up and fire (the M16A4): a presentation use (no ACTIVE round, or a
+     * lobby holder) is allowed to fire normally instead of being refused, while a dead participant of an ACTIVE match
+     * still may not fire. The kill itself is still limited to a MATCH shooter by the caller, so nothing lethal leaks
+     * out of a live round; a refusal outside one only costs the shot.
+     * 任何持有者都能拾取并开火的枪械（M16A4）所用的同一门槛：表现性使用（没有 ACTIVE 对局，或大厅持有者）允许正常开火，
+     * 而不是被拒绝；ACTIVE 对局中已死亡的参与者仍然不能开火。击杀本身由调用方限制为 MATCH 射手，因此进行中的对局不会漏出
+     * 致命效果；对局外唯一失去的只是命中结算。
+     */
+    public static M1903A4Rules.Decision decideForOpenGun(PlayerEntity user, ItemStack gun, Hand hand,
+                                                         boolean loaded) {
+        boolean mainHand = hand == Hand.MAIN_HAND && user.getMainHandStack() == gun;
+        if (!(user instanceof ServerPlayerEntity shooter)) {
+            return M1903A4Rules.decide(new M1903A4Rules.Facts(OffMatchUse.Mode.MATCH, mainHand, user.isSpectator(),
+                    false, false, false, loaded));
+        }
+        OffMatchUse.Mode mode = OffMatchUse.mode(shooter,
+                GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator());
+        return M1903A4Rules.decide(new M1903A4Rules.Facts(
+                mode == OffMatchUse.Mode.REFUSED ? mode : OffMatchUse.Mode.MATCH,
+                mainHand, shooter.isSpectator(), isHeld(shooter),
+                mainHand && SparkTraitsApi.blocksWeaponAction(shooter, gun), false, loaded));
     }
 
     /**
@@ -117,29 +153,45 @@ public final class M1903A4Combat {
      * 及只有射手听得到的确认音效。
      */
     static void fire(ServerPlayerEntity shooter, ItemStack rifle) {
+        fireRifle(shooter, rifle, SparkDlcItems.M1903A4_ID, true, SparkDlcSounds.M1903A4_KILL, RANGE);
+    }
+
+    /**
+     * Server half of one accepted rifle shot, shared by the M1903A4 and the M16A4: resolve, optional smoke, replay
+     * (recorded before the kill, like Wathe's gun), then the one kill and its optional shooter-only confirmation.
+     * {@code recordId} is the gun the replay names; {@code smoke} draws the sniper rifle's white trace (the M16A4 fires
+     * fifteen rounds a second, so it leaves none); a null {@code killSound} stays silent on a kill.
+     * 一次被接受的步枪射击的服务端部分，由 M1903A4 与 M16A4 共用：结算、可选烟迹、回放（与 Wathe 枪械一样在击杀之前记录），
+     * 然后是唯一一次击杀及可选的、只有射手听得到的确认音效。{@code recordId} 是回放中的枪械；{@code smoke} 绘制狙击步枪的
+     * 白色弹道（M16A4 每秒 15 发，因此不画）；{@code killSound} 为 null 时击杀不播放音效。
+     */
+    public static void fireRifle(ServerPlayerEntity shooter, ItemStack gun, Identifier recordId, boolean smoke,
+                                 @Nullable SoundEvent killSound, double range) {
         ServerWorld world = shooter.getServerWorld();
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         Vec3d start = shooter.getEyePos();
-        Vec3d rayEnd = rayEnd(shooter, start);
+        Vec3d rayEnd = rayEnd(shooter, start, range);
         // Players the shooter may not affect are filtered before the nearest pick, so they are transparent; the shooter
         // aimed at its delayed client view, so the server tests rewound volumes.
         // 射手无法影响的玩家在选取最近者之前就被过滤，因此对射线透明；射手瞄准的是客户端的延迟画面，因此服务端检测回溯后的体积。
-        ServerPlayerEntity picked = ControlExpertTaserTargeting.findTarget(shooter, RANGE, world.getPlayers(),
+        ServerPlayerEntity picked = ControlExpertTaserTargeting.findTarget(shooter, range, world.getPlayers(),
                 candidate -> isEligible(shooter, candidate, game),
                 candidate -> PlayerHitboxHistory.hitVolumes(shooter, candidate, M1903A4Rules.HIT_MARGIN));
-        Hit hit = resolve(shooter, rifle, picked, start, rayEnd);
+        Hit hit = resolve(shooter, gun, picked, start, rayEnd, range);
         ServerPlayerEntity victim = hit.victim();
 
-        RangedSmokeCarve.ray(world, start, hit.stop()); // BEAR smoke: the round's tunnel / BEAR 烟雾：子弹的通道
-        spawnSmoke(world, start, hit.stop());
+        if (smoke) {
+            RangedSmokeCarve.ray(world, start, hit.stop()); // BEAR smoke: the round's tunnel / BEAR 烟雾：子弹的通道
+            spawnSmoke(world, start, hit.stop());
+        }
         NbtCompound extra = new NbtCompound();
         extra.putBoolean(M1903A4Rules.RECORD_HIT, victim != null);
-        GameRecordManager.recordItemUse(shooter, SparkDlcItems.M1903A4_ID, victim, extra);
+        GameRecordManager.recordItemUse(shooter, recordId, victim, extra);
 
-        if (victim != null && strike(shooter, victim, game)) {
+        if (victim != null && strike(shooter, victim, game) && killSound != null) {
             // Shooter only: bystanders must not learn the outcome, nor hear a Fiend / Charon feign fail.
             // 只给射手：旁观者不得得知结果，也不得听出魔人 / 卡戎假死。
-            shooter.playSoundToPlayer(SparkDlcSounds.M1903A4_KILL, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            shooter.playSoundToPlayer(killSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
     }
 
@@ -163,7 +215,7 @@ public final class M1903A4Combat {
      * 然后恰好一次写入。
      */
     private static Hit resolve(ServerPlayerEntity shooter, ItemStack rifle, @Nullable ServerPlayerEntity picked,
-                               Vec3d start, Vec3d rayEnd) {
+                               Vec3d start, Vec3d rayEnd, double range) {
         BlackRavenCrowHits.ShotgunHit crow = BlackRavenCrowHits.onM1903A4Fired(shooter, picked, start, rayEnd,
                 M1903A4Rules.HIT_MARGIN);
         if (crow != null) {
@@ -175,14 +227,14 @@ public final class M1903A4Combat {
             MagicianPuppetHits.endM1903A4Puppet(shooter, rifle, puppet);
             return new Hit(null, stop);
         }
-        SeekerDeviceEntity device = SeekerDeviceHits.m1903a4Absorber(shooter, picked, RANGE);
+        SeekerDeviceEntity device = SeekerDeviceHits.m1903a4Absorber(shooter, picked, range);
         Vec3d deviceStop = device == null ? null
                 : entryPoint(start, rayEnd, List.of(device.getBoundingBox()), device.getBoundingBox().getCenter());
         // Once per shot, full range: the seam also asks Partygoers and Bomber drones (cut at the first block); null
         // means a device, a Partygoer or a drone took the round.
         // 每发一次、满射程：该接缝同时询问派对客与轰炸者无人机（在第一个方块处截断）；返回 null 表示设备、派对客或无人机
         // 吃下了子弹。
-        ServerPlayerEntity target = SeekerDeviceHits.onM1903A4Fired(shooter, picked, RANGE);
+        ServerPlayerEntity target = SeekerDeviceHits.onM1903A4Fired(shooter, picked, range);
         if (target != null) {
             return new Hit(target, impactPoint(shooter, target, start, rayEnd));
         }
@@ -222,8 +274,8 @@ public final class M1903A4Combat {
     }
 
     /** The eye ray's end: the first collider block, else the full range. / 眼睛射线终点：第一个碰撞方块，否则为满射程。 */
-    private static Vec3d rayEnd(PlayerEntity shooter, Vec3d start) {
-        Vec3d end = start.add(shooter.getRotationVec(1.0F).multiply(RANGE));
+    private static Vec3d rayEnd(PlayerEntity shooter, Vec3d start, double range) {
+        Vec3d end = start.add(shooter.getRotationVec(1.0F).multiply(range));
         BlockHitResult block = shooter.getWorld().raycast(new RaycastContext(
                 start, end, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, shooter));
         return block.getType() == HitResult.Type.MISS ? end : block.getPos();

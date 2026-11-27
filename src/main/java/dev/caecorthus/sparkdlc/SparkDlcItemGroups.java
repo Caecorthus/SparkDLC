@@ -152,6 +152,7 @@ public final class SparkDlcItemGroups {
                 // The Sniper's M1903A4 and .30-06 rounds (Team Jiahao) / 狙击手的 M1903A4 与 .30-06 子弹（嘉豪阵营）
                 SparkDlcItems.m1903a4(),
                 SparkDlcItems.ammo3006(),
+                SparkDlcItems.m16a4(),
                 // Civilian / 平民
                 SparkDlcItems.perfumeEssence(),
                 SparkDlcItems.cologne(),

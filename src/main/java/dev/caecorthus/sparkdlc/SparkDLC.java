@@ -285,6 +285,8 @@ public final class SparkDLC implements ModInitializer {
         SaviorLightsaberCombatService.register();
         SaviorDomainService.register();
         HunterShotgunAimClaims.register();
+        // M16A4: reload timer, its intent/feedback payloads and the held-button guards. / M16A4：换弹计时、意图/反馈数据包与按键守卫。
+        dev.caecorthus.sparkdlc.item.m16a4.M16A4Service.register();
         PlayerHitboxHistory.register();
         CurserFeatureService.register();
         RoleEvents.register();

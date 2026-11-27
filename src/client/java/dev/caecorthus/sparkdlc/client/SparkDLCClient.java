@@ -679,6 +679,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void registerOwnRoleWorldHooks() {
         WitchInstinctSuppressionClientHooks.register();
         HunterTrapClientHooks.register();
+        dev.caecorthus.sparkdlc.client.hooks.RealityAnchorClientHooks.register();
         HunterTrapDismantleHud.register();
         DoubleBarrelMuzzleClient.register();
         NinjaGrappleClientPull.register();
@@ -1071,6 +1072,10 @@ public final class SparkDLCClient implements ClientModInitializer {
         // 狮身豪's "手"枪: loaded-model predicate, fist model and the spring-fist renderer (lattice + fist).
         // 狮身豪的“手”枪：装填模型谓词、拳头模型与弹簧拳头渲染器（剪刀架 + 拳头）。
         dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao.SphinxHaoGunClient.register();
+        // Reality stabilization anchor: static Blockbench element model, placed by its item.
+        // 现实稳定锚：由物品放置的静态 Blockbench 元素模型。
+        EntityRendererRegistry.register(SparkDlcEntities.realityAnchor(),
+                dev.caecorthus.sparkdlc.client.render.entity.RealityAnchorEntityRenderer::new);
     }
 
     private static void registerGrandWitchCeremonialSwordBgm() {

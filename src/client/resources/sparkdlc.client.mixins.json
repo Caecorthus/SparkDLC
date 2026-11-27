@@ -294,6 +294,7 @@
     "role.killer.blackraven.crow.BlackRavenCrowSkyMixin",
     "role.killer.blackraven.crow.BlackRavenCrowTerrainGridMixin",
     "role.civilian.controlexpert.ControlExpertInstinctGateMixin",
+    "entity.RealityAnchorInstinctGateMixin",
     "role.civilian.controlexpert.ControlExpertStunInteractionMixin",
     "role.civilian.controlexpert.ControlExpertStunKeyBindingMixin",
     "role.civilian.controlexpert.ControlExpertStunMinecraftClientMixin",

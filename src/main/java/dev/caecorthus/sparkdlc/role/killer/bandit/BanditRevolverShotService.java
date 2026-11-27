@@ -76,6 +76,10 @@ public final class BanditRevolverShotService {
             return;
         }
         ServerWorld world = shooter.getServerWorld();
+        // A shot whose line reaches a placed reality anchor destroys it (owner 2026-11-27).
+        // 弹道打到现实稳定锚就摧毁它（所有者 2026-11-27）。
+        dev.caecorthus.sparkdlc.entity.RealityAnchorHits.destroyAlongRay(world, shooter, shooter.getEyePos(),
+                shooter.getEyePos().add(shooter.getRotationVec(1.0F).multiply(range)));
         world.playSound(null, shooter.getX(), shooter.getEyeY(), shooter.getZ(), WatheSounds.ITEM_REVOLVER_CLICK,
                 SoundCategory.PLAYERS, 0.5F, 1.0F + shooter.getRandom().nextFloat() * 0.1F - 0.05F);
         BanditRevolverItem.write(gun, state.withRoundFired());

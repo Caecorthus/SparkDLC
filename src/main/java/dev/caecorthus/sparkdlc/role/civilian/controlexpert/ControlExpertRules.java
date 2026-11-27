@@ -25,7 +25,11 @@ public final class ControlExpertRules {
     public static final String DISRUPTOR_ENTRY_ID = "control_expert_disruptor";
     public static final String TASER_ENTRY_ID = "control_expert_taser";
     public static final String SHOCK_DEVICE_ENTRY_ID = "control_expert_shock_device";
+    /** Shop slot that used to sell the disruptor; now sells the reality stabilization anchor at the same price.
+     *  原先出售干扰器的商店位置；现在以相同价格出售现实稳定锚。 */
+    public static final String REALITY_ANCHOR_ENTRY_ID = "control_expert_reality_anchor";
     public static final int DISRUPTOR_PRICE = 100;
+    public static final int REALITY_ANCHOR_PRICE = DISRUPTOR_PRICE;
     public static final int TASER_PRICE = 100;
     public static final int SHOCK_DEVICE_PRICE = 150;
     public static final int INITIAL_MONEY = 0;

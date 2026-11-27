@@ -28,6 +28,7 @@ import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.player.PlayerEntity;
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
@@ -130,6 +131,9 @@ public final class M1903A4Combat {
         Hit hit = resolve(shooter, rifle, picked, start, rayEnd);
         ServerPlayerEntity victim = hit.victim();
 
+        // A shot that reaches a placed reality anchor destroys it (owner 2026-11-27).
+        // 子弹打到现实稳定锚就摧毁它（所有者 2026-11-27）。
+        RealityAnchorHits.destroyAlongRay(world, shooter, start, hit.stop());
         RangedSmokeCarve.ray(world, start, hit.stop()); // BEAR smoke: the round's tunnel / BEAR 烟雾：子弹的通道
         spawnSmoke(world, start, hit.stop());
         NbtCompound extra = new NbtCompound();

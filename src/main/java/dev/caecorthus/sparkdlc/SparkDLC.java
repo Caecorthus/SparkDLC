@@ -150,6 +150,7 @@ public final class SparkDLC implements ModInitializer {
         PsychoRecorder.register();
         AntiFastRoundBootstrap.register();
         LobbyMapResetBootstrap.register();
+        dev.caecorthus.sparkdlc.entity.RealityAnchorAuraService.register();
         CaecorthusTeamSync.start();
     }
 

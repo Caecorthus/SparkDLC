@@ -147,6 +147,8 @@
   "item.sparkdlc.capture_device": "捕捉装置",
   "item.sparkdlc.capture_device.tooltip.line1": "右键可放置天花板和地板，手持时对玩家不可见",
   "item.sparkdlc.capture_device.tooltip.line2": "放置后半径范围内的玩家会被定在原地，同时生成捕捉报告给放置者",
+  "item.sparkdlc.reality_anchor": "现实稳定锚",
+  "item.sparkdlc.reality_anchor.tooltip.line1": "右键方块放置，左键打一下即可清除",
   "item.sparkdlc.capture_device.tooltip.line3": "超过一定时间未触发则自动消失",
   "item.sparkdlc.power_restoration": "破坏维修",
   "item.sparkdlc.power_restoration.tooltip": "远程修复当前的一次破坏（灯光或动力）",

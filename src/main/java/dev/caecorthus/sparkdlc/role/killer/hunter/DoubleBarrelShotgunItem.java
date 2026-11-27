@@ -211,6 +211,10 @@ public final class DoubleBarrelShotgunItem extends Item {
     private static void fire(ServerPlayerEntity shooter, ItemStack shotgun, boolean slug, int remainingShells) {
         double range = slug ? HunterRules.SLUG_RANGE : HunterRules.SHOTGUN_RANGE;
         List<Aim> aims = slug ? List.of(slugAim(shooter)) : spreadAims(shooter);
+        // A pellet whose line reaches a placed reality anchor destroys it (owner 2026-11-27).
+        // 弹丸打到现实稳定锚就摧毁它（所有者 2026-11-27）。
+        aims.forEach(aim -> dev.caecorthus.sparkdlc.entity.RealityAnchorHits.destroyAlongRay(
+                shooter.getServerWorld(), shooter, aim.eye(), aim.end()));
         // A Magician puppet proxy is a FakePlayer sharing its owner's UUID: it must never read (and use up) the
         // owner's claim, so it always takes the server's own pick.
         // 魔术师皮套代理是与主人共用 UUID 的 FakePlayer：绝不能读取（并用掉）主人的声明，因此始终使用服务端自行选取。

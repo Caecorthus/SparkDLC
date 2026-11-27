@@ -90,6 +90,10 @@ public final class SaviorPistolService {
         }
         ServerWorld world = shooter.getServerWorld();
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
+        // A shot whose line reaches a placed reality anchor destroys it (owner 2026-11-27); the player path below is
+        // unchanged. / 弹道打到现实稳定锚就摧毁它（所有者 2026-11-27）；下方玩家路径不变。
+        dev.caecorthus.sparkdlc.entity.RealityAnchorHits.destroyAlongRay(world, shooter, shooter.getEyePos(),
+                shooter.getEyePos().add(shooter.getRotationVec(1.0F).multiply(SaviorRules.PISTOL_SERVER_TOLERANCE)));
 
         // The client sends whatever RevolverItem.getGunTarget picked. Raven Form seam, as in Wathe's revolver lookup: a
         // crow on the shooter's look ray resolves to its owner, so the whole player path below runs on the Black Raven.

@@ -147,6 +147,8 @@
   "item.sparkdlc.capture_device": "Capture Device",
   "item.sparkdlc.capture_device.tooltip.line1": "Right-click to place on floors or ceilings; hidden from players while held",
   "item.sparkdlc.capture_device.tooltip.line2": "Players in range are immobilized and a capture report is generated for the placer",
+  "item.sparkdlc.reality_anchor": "Reality Stabilization Anchor",
+  "item.sparkdlc.reality_anchor.tooltip.line1": "Right-click a block to place it; hit it once to clear it",
   "item.sparkdlc.capture_device.tooltip.line3": "Disappears automatically if it is not triggered in time",
   "item.sparkdlc.power_restoration": "Sabotage Repair",
   "item.sparkdlc.power_restoration.tooltip": "Remotely repairs the current sabotage (lights or engine)",

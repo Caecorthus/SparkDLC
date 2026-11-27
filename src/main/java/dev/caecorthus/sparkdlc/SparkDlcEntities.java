@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.entity.NinjaGrapplingHookEntity;
 import dev.caecorthus.sparkdlc.entity.NinjaShurikenEntity;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.entity.RealityAnchorEntity;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.entity.TaotieHeadEntity;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
@@ -43,6 +44,7 @@ public final class SparkDlcEntities {
     public static final Identifier BOMB_DRONE_ID = SparkDLC.id("bomb_drone");
     public static final Identifier TAOTIE_HEAD_ID = SparkDLC.id("taotie_head");
     public static final Identifier PARTYGOER_ID = SparkDLC.id("partygoer");
+    public static final Identifier REALITY_ANCHOR_ID = SparkDLC.id("reality_anchor");
     private static EntityType<M67GrenadeEntity> m67;
     private static EntityType<CapsuleEntity> capsule;
     private static EntityType<CaptureDeviceEntity> captureDevice;
@@ -52,6 +54,7 @@ public final class SparkDlcEntities {
     private static EntityType<DroneEntity> bombDrone;
     private static EntityType<TaotieHeadEntity> taotieHead;
     private static EntityType<PartygoerEntity> partygoer;
+    private static EntityType<RealityAnchorEntity> realityAnchor;
     private static boolean roleKitEntitiesRegistered;
 
     public static synchronized void registerRoleKitEntities() {
@@ -166,6 +169,17 @@ public final class SparkDlcEntities {
                         .build(PARTYGOER_ID.toString())
         );
         FabricDefaultAttributeRegistry.register(partygoer, PartygoerEntity.createAttributes());
+        // Static decoration: no shadow-casting box changes, no saving needed beyond ordinary entity persistence.
+        // 静态装饰：不写额外逻辑，按普通实体持久化即可。
+        realityAnchor = Registry.register(
+                Registries.ENTITY_TYPE,
+                REALITY_ANCHOR_ID,
+                EntityType.Builder.<RealityAnchorEntity>create(RealityAnchorEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.5F, 0.5F)
+                        .maxTrackingRange(16)
+                        .trackingTickInterval(20)
+                        .build(REALITY_ANCHOR_ID.toString())
+        );
         roleKitEntitiesRegistered = true;
     }
 
@@ -181,6 +195,13 @@ public final class SparkDlcEntities {
             throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return capsule;
+    }
+
+    public static EntityType<RealityAnchorEntity> realityAnchor() {
+        if (realityAnchor == null) {
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
+        }
+        return realityAnchor;
     }
 
     public static EntityType<CaptureDeviceEntity> captureDevice() {

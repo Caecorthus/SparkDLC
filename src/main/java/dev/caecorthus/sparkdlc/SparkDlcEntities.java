@@ -169,8 +169,8 @@ public final class SparkDlcEntities {
                         .build(PARTYGOER_ID.toString())
         );
         FabricDefaultAttributeRegistry.register(partygoer, PartygoerEntity.createAttributes());
-        // Static decoration: no shadow-casting box changes, no saving needed beyond ordinary entity persistence.
-        // 静态装饰：不写额外逻辑，按普通实体持久化即可。
+        // Reality stabilization anchor: a static, saved entity; its NBT carries its own light block and its match.
+        // 现实稳定锚：静态、会存盘的实体；其 NBT 记录自己的光源方块与所属对局。
         realityAnchor = Registry.register(
                 Registries.ENTITY_TYPE,
                 REALITY_ANCHOR_ID,

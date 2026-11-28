@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
  *   <li>Corpse stream (right-click a corpse): no mana; the clicked body and up to 2 more within 5 blocks of it glow for
  *   everyone for 50 s, +100 traffic each, once per dead player. Both share one cooldown: 60 s at the deal, 45 s after a
  *   stream ends or a corpse is streamed.</li>
- *   <li>Win threshold: round players / 4 + 500 traffic. Half of it gives her a permanent Speed III; live at the full
- *   threshold she wins alone.</li>
+ *   <li>Win threshold: round players / 4 * 100 + 500 traffic. Half of it gives her a permanent Speed III; live at the
+ *   full threshold she wins alone.</li>
  *   <li>Shop: one lightstick for 100 traffic (Speed II for 10 s, traffic gain doubled for those 10 s, 30 s between
  *   uses). No coins, no knife, no lockpick; she starts with one neutral master key.</li>
  *   <li>Mana follows the Murderous Witch's natural regeneration ({@code WitchManaRules}): 1 per 2 s up to 150, nothing
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  *   其他所有存活玩家，疾跑体力消耗减半；前 10 秒所有人都能隔墙看到她。</li>
  *   <li>尸体直播（右键对准尸体）：不耗魔力，被点中的尸体及其 5 格内至多另外 2 具对所有人高亮 50 秒，每具 +100 流量，每名死者
  *   只能一次。两者共用冷却：发牌后 60 秒，直播结束或尸体直播之后 45 秒。</li>
- *   <li>获胜阈值：本局人数 / 4 + 500 流量。达到一半时获得永久速度 III；直播中流量达到阈值时独自获胜。</li>
+ *   <li>获胜阈值：本局人数 / 4 × 100 + 500 流量。达到一半时获得永久速度 III；直播中流量达到阈值时独自获胜。</li>
  *   <li>商店：应援棒 100 流量，限购一根（10 秒速度 II，这 10 秒内流量获取翻倍，每 30 秒可用一次）。没有金币、刀和撬锁器；
  *   开局持有一把中立万能钥匙。</li>
  *   <li>魔力恢复与杀意魔女相同（见 {@code WitchManaRules}）：每 2 秒 1 点、上限 150，开局为 0，没有任务或击杀奖励。</li>

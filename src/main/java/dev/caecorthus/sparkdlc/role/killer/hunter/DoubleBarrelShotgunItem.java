@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import dev.caecorthus.sparkdlc.sabotage.JunctionBoxService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
@@ -211,10 +212,6 @@ public final class DoubleBarrelShotgunItem extends Item {
     private static void fire(ServerPlayerEntity shooter, ItemStack shotgun, boolean slug, int remainingShells) {
         double range = slug ? HunterRules.SLUG_RANGE : HunterRules.SHOTGUN_RANGE;
         List<Aim> aims = slug ? List.of(slugAim(shooter)) : spreadAims(shooter);
-        // A pellet whose line reaches a placed reality anchor destroys it (owner 2026-11-27).
-        // 弹丸打到现实稳定锚就摧毁它（所有者 2026-11-27）。
-        aims.forEach(aim -> dev.caecorthus.sparkdlc.entity.RealityAnchorHits.destroyAlongRay(
-                shooter.getServerWorld(), shooter, aim.eye(), aim.end()));
         // A Magician puppet proxy is a FakePlayer sharing its owner's UUID: it must never read (and use up) the
         // owner's claim, so it always takes the server's own pick.
         // 魔术师皮套代理是与主人共用 UUID 的 FakePlayer：绝不能读取（并用掉）主人的声明，因此始终使用服务端自行选取。
@@ -224,6 +221,16 @@ public final class DoubleBarrelShotgunItem extends Item {
             rays.add(readRay(shooter, aims.get(index), HunterShotgunAim.claimForRay(claim, aims.size(), index)));
         }
         aims.forEach(aim -> RangedSmokeCarve.ray(shooter.getWorld(), aim.eye(), aim.end())); // BEAR: pellet tunnels / 弹丸通道
+        // A placed reality anchor on a pellet's line breaks (owner 2026-11-27), in front of the first block. Buckshot
+        // pierces players, so only a slug also stops at its first victim. Read-only for everything resolved above.
+        // 弹丸弹道上已放置的现实稳定锚会被打掉（所有者 2026-11-27），须位于第一个方块之前。霰弹会穿透玩家，因此只有独头弹还会在
+        // 第一名受害者处停下。对上方已得出的结算结果只读。
+        for (int index = 0; index < aims.size(); index++) {
+            Aim aim = aims.get(index);
+            List<RayTarget> pierced = rays.get(index).pierced();
+            RealityAnchorHits.destroyAlongRay(shooter.getServerWorld(), shooter, aim.eye(),
+                    slug && !pierced.isEmpty() ? pointOnAim(aim, pierced.get(0).entryDistanceSquared()) : aim.end());
+        }
 
         RayOutcome centre = rays.get(0);
         boolean centreRayAbsorbed = false;
@@ -575,6 +582,14 @@ public final class DoubleBarrelShotgunItem extends Item {
 
     /** Shared by the server pick, the claim check and the client claim. / 服务端选取、声明确认与客户端声明共用。 */
     public record Aim(Vec3d eye, Vec3d end) {
+    }
+
+    /** The point of {@code aim} at the given squared distance from its eye, never beyond its end. / 弹道上距眼睛给定平方距离的点。 */
+    private static Vec3d pointOnAim(Aim aim, double distanceSquared) {
+        Vec3d line = aim.end().subtract(aim.eye());
+        double length = line.length();
+        double distance = Math.sqrt(Math.max(0.0D, distanceSquared));
+        return length <= 1.0E-6D || distance >= length ? aim.end() : aim.eye().add(line.multiply(distance / length));
     }
 
     private static boolean isShotgunTarget(PlayerEntity user, PlayerEntity candidate) {

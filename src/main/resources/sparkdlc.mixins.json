@@ -523,9 +523,6 @@
     "role.civilian.bear.GameFunctionsBearItemDropMixin",
     "role.civilian.bear.PlayerEntityBearItemMixin",
     "role.civilian.bear.RicochetKillPlayerMixin",
-    "entity.GunShootPayloadRealityAnchorMixin",
-    "entity.GrenadeEntityRealityAnchorMixin",
-    "entity.ServerPlayNetworkHandlerAnchorMeleeMixin",
     "role.civilian.bear.GunShootPayloadSmokeCarveMixin",
     "role.civilian.bear.DemonHunterShotSmokeCarveMixin",
     "role.civilian.bear.GrenadeEntityOriginSmokeCarveMixin",
@@ -547,7 +544,8 @@
     "role.jiahao.sphinxhao.ScreenHandlerSphinxHaoGunMixin",
     "role.jiahao.sphinxhao.DecoratedPotBlockSphinxHaoGunMixin",
     "item.defense.FoodPlatterBlockDefenseVialPourMixin",
-    "item.defense.GameRecordManagerDefenseVialTakeMixin"
+    "item.defense.GameRecordManagerDefenseVialTakeMixin",
+    "entity.GunShootPayloadRealityAnchorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

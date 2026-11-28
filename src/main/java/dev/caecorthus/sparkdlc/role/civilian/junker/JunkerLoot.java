@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.civilian.junker;
 
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -111,20 +111,14 @@ public final class JunkerLoot {
     }
 
     /**
-     * Loot nobody can use: the Tablet and the round letter are handed out by other roles and do nothing in a
-     * ragpicker's hands, so searching a body never yields them (owner 2026-11-26).
-     * 谁也派不上用场的战利品：平板电脑与信件由别的职业发放，在拾荒者手里毫无作用，因此搜刮尸体不会再拿到它们
-     * （所有者 2026-11-26）。
+     * Loot nobody can use: the Tablet and Wathe's round letter do nothing in a ragpicker's hands, so they are never
+     * among a body's lootable stacks: a search never yields them, and a body that holds nothing else counts as empty
+     * (PR #13, 2026-11-26).
+     * 谁也派不上用场的战利品：平板电脑与 Wathe 的信件在拾荒者手里毫无作用，因此它们永远不算尸体上可搜刮的物品：搜刮
+     * 不会拿到它们，只带着这两样的尸体视为空尸体（PR #13，2026-11-26）。
      */
     static boolean isUseless(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return false;
-        }
-        if (stack.isOf(SparkDlcItems.tablet())) {
-            return true;
-        }
-        Item letter = Registries.ITEM.get(Identifier.of("wathe", "letter"));
-        return letter != Items.AIR && stack.isOf(letter);
+        return stack.isOf(SparkDlcItems.tablet()) || stack.isOf(WatheItems.LETTER);
     }
 
     private static boolean isNeutralMasterKey(ItemStack stack) {

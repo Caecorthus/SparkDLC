@@ -194,7 +194,12 @@ public final class JunkerLootWorldComponent implements Component {
                 : null;
     }
 
-    /** Non-empty main and off-hand slots; armour is never loot. / 非空的主背包与副手槽位；盔甲永远不是战利品。 */
+    /**
+     * Non-empty main and off-hand slots, without the stacks {@link JunkerLoot#isUseless} names; armour is never loot.
+     * The live inventory, the offline snapshot and the owed removals all read this one list.
+     * 非空的主背包与副手槽位，不含 {@link JunkerLoot#isUseless} 点名的物品；盔甲永远不是战利品。实时背包、离线快照与
+     * 待移除项都读这同一份列表。
+     */
     private static List<Integer> lootSlots(PlayerInventory inventory) {
         List<Integer> slots = new ArrayList<>();
         for (int slot = 0; slot < inventory.main.size(); slot++) {
@@ -211,10 +216,7 @@ public final class JunkerLootWorldComponent implements Component {
     private static List<ItemStack> copyLootable(PlayerInventory inventory) {
         List<ItemStack> loot = new ArrayList<>();
         for (int slot : lootSlots(inventory)) {
-            ItemStack stack = inventory.getStack(slot);
-            if (!JunkerLoot.isUseless(stack)) {
-                loot.add(stack.copy());
-            }
+            loot.add(inventory.getStack(slot).copy());
         }
         return loot;
     }

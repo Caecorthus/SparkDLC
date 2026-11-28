@@ -303,11 +303,6 @@ public final class SparkDlcItems {
                 CAPTURE_DEVICE_ID,
                 new CaptureDeviceItem(new Item.Settings().maxCount(1))
         );
-        realityAnchor = Registry.register(
-                Registries.ITEM,
-                REALITY_ANCHOR_ID,
-                new RealityAnchorItem(RealityAnchorItem.createSettings())
-        );
         powerRestoration = Registry.register(
                 Registries.ITEM,
                 POWER_RESTORATION_ID,
@@ -506,6 +501,14 @@ public final class SparkDlcItems {
                     new BanditAmmoItem(new Item.Settings().maxCount(BanditRevolverRules.AMMO_MAX_STACK), ammo)
             ));
         }
+        // Reality stabilization anchor (PR #14), appended last in this part, after the Bandit's rounds, so every
+        // earlier raw id and creative-tab position keeps its place.
+        // 现实稳定锚（PR #14），追加在本部分的最后（强盗子弹之后），既有物品的 raw id 与创造模式物品栏位置都保持不变。
+        realityAnchor = Registry.register(
+                Registries.ITEM,
+                REALITY_ANCHOR_ID,
+                new RealityAnchorItem(RealityAnchorItem.createSettings())
+        );
         roleKitItemsRegistered = true;
     }
 

@@ -33,6 +33,7 @@ import dev.caecorthus.sparkdlc.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.client.item.M67Client;
 import dev.caecorthus.sparkdlc.client.item.PerfumerItemsClient;
+import dev.caecorthus.sparkdlc.client.item.m16a4.M16A4Client;
 import dev.caecorthus.sparkdlc.client.legacy.LegacyClientNames;
 import dev.caecorthus.sparkdlc.client.net.SparkDlcClientPackets;
 import dev.caecorthus.sparkdlc.client.net.version.SparkDlcClientVersionHandshake;
@@ -623,6 +624,12 @@ public final class SparkDLCClient implements ClientModInitializer {
         // Discoverer Night Vision line (PR #12, role-owned HUD), appended last; the request itself rides the shared
         // ability key below. / 探索者夜视行（PR #12，职业自有 HUD），追加在最后；请求本身走下方的共享技能键。
         DiscovererClientModule.init();
+        // M16A4 (an item of no role): the recoil kick of each accepted round and the tick that re-arms its reload
+        // input. Appended last (after the Discoverer line of PR #12), as on the common side, so each earlier client
+        // listener keeps its place.
+        // M16A4（不属于任何职业的物品）：每发被接受子弹的后坐，以及为换弹输入重新上闸的每刻回调。与公共端一样追加在最后
+        // （位于 PR #12 的探索者夜视行之后），既有客户端监听器的位置都不变。
+        M16A4Client.register();
     }
 
     /** What an active Wraith may type and whether it may jump. / 活跃冤魂能否打字、能否跳跃。 */

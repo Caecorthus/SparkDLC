@@ -1739,6 +1739,43 @@ Current build baseline:
     visible living non-Wraith player or live puppet, boxes grown by the shot's margin, then `SmokeTargetOcclusion`).
     `M1903A4ChargeWobbleMixin` wraps only the bow-sway translate (slice from the bow case's `20.0F`) and
     `M1903A4AimPoseMixin` shifts the main-hand rifle while it is the active hand.
+- `item/m16a4/`: the M16A4 burst rifle (`sparkdlc:m16a4`, PR #15), an easter egg of no role: only the creative tab
+  or a command gives it (no shop, loot table, loadout or Ragpicker / Junker pool names it). Numbers and the timing rules
+  in `M16A4Rules`. Client in `client/item/m16a4/` and `client/mixin/item/m16a4/`.
+  - Item (`M16A4Item`, a `BowItem` with `UseAction.NONE`): `maxCount(1)`; CUSTOM_DATA `Ammo` (31, absent = full)
+    and `Burst` (rounds left in the burst window, 3). One right-click is one trigger pull: it refills an empty
+    window, enters the use state and fires while the button is down; the window is spent, not refilled, by an early
+    release or a reload, and the use state stays idle until the release, so a held button never starts a second
+    burst. The trigger state is per shooter in `M16A4Service` (server only, cleared on disconnect and server stop):
+    the deadline of the next round and the stack the trigger was pulled on. Every round, the first of a pull
+    included, goes through `fireWhenDue`: `M16A4Rules.roundDue` (the shooter's deadline; this is what caps the rate
+    at 15 rounds/s whatever the client sends and however many rifles it carries) and a fresh `M16A4Combat.decide`;
+    `usageTick` fires only the pulled stack. Rounds leave on ticks 0, 2, 3 of a burst (`nextDeadline` carries the
+    fraction of 20/15). A gate that refuses mid-pull spends the window. Holding the trigger slows the shooter like a
+    drawn bow (vanilla use state).
+  - Gate and shot (`M16A4Combat`): the M1903A4's gate through `M1903A4Combat.decideForOpenGun` (main hand, spectator,
+    the held states, `blocksWeaponAction`, the rifle's item cooldown, a round), except that an `OffMatchUse`
+    PRESENTATION use fires; only a dead participant is refused. A MATCH shooter's round runs
+    `M1903A4Combat.fireRifle` with 40 blocks, no white trace and no kill sound; everything else (eligibility, crow /
+    puppet / Seeker / Partygoer / drone seams, the BEAR smoke tunnel, the item-use record of every round, one
+    non-forced `killPlayer` with Wathe's `GUN` reason) is the M1903A4's code. The replay prints only the rounds that
+    hit a player (`M16A4Replay`, `replay.item_use.sparkdlc.m16a4.shot`); a miss is recorded without a line, and the
+    record still spends Ragpicker loot, so a looted rifle fires one round. A presentation round only plays the sound,
+    the flash and the recoil and spends the round.
+  - Reload (`M16A4Service`): left-click sends `sparkdlc:m16a4_reload` (no content; row in the payload policy table).
+    The server asks `M16A4Combat.mayReload` (the fire gate without the magazine), starts a timer bound to that stack
+    object (tactical 44 ticks to 31, empty 60 ticks to 30) and spends the window; the magazine is written only when
+    the timer ends, and the timer is dropped when the stack is no longer the main-hand stack, on death, Wathe
+    `ResetPlayer`, disconnect and server stop. No round leaves while it runs. `sparkdlc:m16a4_shot` (S2C, shooter
+    only) kicks the view 4 degrees per round.
+  - Other lists: on `MurderSenseAbility.DANGEROUS_ITEM_IDS` and a foreign gun for `SaviorGunPickupRules`, like the
+    M1903A4. Not in `wathe:guns` (Wathe's `gunshoot` receiver fires any tagged gun), not bound, no cooldown nominal.
+  - Client: `M16A4InputMixin` + `M16A4ReloadInput` are the launcher's left-click layer with a reload for a shot
+    (`doAttack` and `handleBlockBreaking` swallowed, the press edge taken from vanilla's own `wasPressed` reads, a
+    keyboard auto-repeat latch); `M16A4MacControlClickMixin` keeps Ctrl + left-click a left press on macOS;
+    `M16A4AimPoseMixin` holds the main-hand rifle in the M1903A4's charged first-person frame at all times;
+    `M16A4ArmPoseMixin` (priority 1600, the M32A1's wrapper) answers `BOW_AND_ARROW` for the shown main-hand rifle;
+    `M16A4EquipMixin` skips the equip animation on a pull, as Wathe does for its guns.
 - `role/witch/`: rules shared by Grand Witch and Accomplice.
   - Other-witch roles (owner 2026-11-13): `OtherWitchRoles` is the one list of roles the Grand Witch's instinct
     specially recognises, by role id: the Apprentice Witch, the Murderous Witch and the Witch Trial girls (魔裁,

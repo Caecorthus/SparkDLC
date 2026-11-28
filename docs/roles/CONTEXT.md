@@ -1835,6 +1835,11 @@ Current build baseline:
   with owned-effect tracking, and lifecycle cleanup; its mixins live in `mixin/role/civilian/controlexpert/`
   and `client/mixin/role/civilian/controlexpert/`, client presentation (status HUD, stun input lock, Taser
   crosshair) in `client/role/civilian/controlexpert/`.
+  Since PR #14 (2026-11-27) the shop's first entry sells the reality stabilization anchor instead of the Disruptor
+  (same 100 coins, no stock limit); the Disruptor item, its cooldown and its instinct gate remain, but no shop sells
+  it. The anchor itself is not a Control Expert class: `item/RealityAnchorItem`, `entity/RealityAnchorEntity`,
+  `entity/RealityAnchorAuraService`, `entity/RealityAnchorHits`, `client/hooks/RealityAnchorClientHooks`,
+  `client/render/entity/RealityAnchorEntityRenderer` and `BlockbenchRotatedModel`.
 - `role/civilian/seeker/`: Seeker (`sparkdlc:seeker`) role rules, loadout, economy, shop,
   owner-private `SeekerStatusComponent`, targeting predicates (`SeekerTargeting`), and lifecycle
   cleanup. Subpackages: `device/` (car and camera entities, placement, battery, cooldowns, shared
@@ -4338,6 +4343,33 @@ The Disruptor gates
 keyed instinct only through `client/mixin/role/civilian/controlexpert/ControlExpertInstinctGateMixin`
 (`@WrapMethod` on `WatheClient`). The Control Expert never renders in the
 `gui.sparkdlc.skills` panel.
+
+Reality stabilization anchor (`sparkdlc:reality_anchor`, PR #14). A saved, static entity that is never an obstacle:
+`damage` always answers false, projectiles fly through it, explosions, fluids, pistons and portals ignore it. Every
+break ends in `RealityAnchorEntity.destroy()` and comes from `entity/RealityAnchorHits`: a left-click
+(`AttackEntityCallback`, default phase, so the stun / hypnosis / session-lock phases refuse first; reach is vanilla's,
+line of sight is re-checked), the server ray of a gun (`gunShot` for the client-targeted ones: Wathe's receiver through
+`mixin/entity/GunShootPayloadRealityAnchorMixin` at the `recordItemUse` anchor, the Savior pistol, the Bandit revolver,
+the serial pistols; `destroyAlongRay` for the double barrel's pellets and the M1903A4), and the Wathe grenade blast
+(`onBlast`, called from the TAIL hook of `mixin/item/grenade/GrenadeBlastMixin`, sphere plus line of sight like the
+Seeker devices). A ray breaks only the nearest anchor in front of the first COLLIDER block and of the entity the shot
+hit or claimed; the anchor never stops a shot and no call site changes what the weapon does to players. Other weapons
+(Demon Hunter pistol, USEC rifle, launchers, the M67, drones, thrown items) do not break it.
+The light is a real `minecraft:light` block (level 15) at the anchor's block position, or one block up when it stands
+in a carpet or slab. It replaces air only, is set without neighbour or shape updates, is remembered in the entity's NBT
+(`LightPos`) and is removed only if it is still that exact block, whenever the anchor is removed for good; a chunk
+unload keeps both. An anchor placed while a Wathe match is active stores the match id (`Match`,
+`GameRecordManager`): `ON_FINISH_FINALIZE` discards the loaded ones silently and one that loads later removes itself on
+its first tick. An anchor placed outside a match stays until broken.
+Night vision (`RealityAnchorAuraService`): players within 5 blocks get 60 s, refreshed every 20 ticks, removed within
+20 ticks after leaving, on disconnect and at server stop. The service only ever removes an effect that still matches
+its own grant (ambient, no particles, no icon, amplifier 0, expected remaining ticks ± 5); a player who already has
+night vision is not touched, and an effect another source changed is handed over, never removed.
+Instinct: within 15 blocks the local player's two keyed Wathe gates read false
+(`client/mixin/entity/RealityAnchorInstinctGateMixin`, the Control Expert gate's scope: key-gated highlights and
+instinct light, never the always-on outlines; spectating viewers are exempt). The check is the client's own, cached per
+client tick. The placed model is `assets/sparkdlc/blockbench/reality_anchor.json`, outside `models/` because vanilla
+would log it as a broken model; it is baked once per resource reload.
 
 Fabric runs `ServerPlayNetworkAddon#receive` on the Netty thread (vanilla `onCustomPayload` has no
 `forceMainThread`); only the Runnable it hands to `MinecraftServer#execute` runs on the server thread. Every

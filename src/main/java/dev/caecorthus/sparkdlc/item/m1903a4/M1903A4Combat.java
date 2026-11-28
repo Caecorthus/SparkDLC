@@ -78,52 +78,46 @@ public final class M1903A4Combat {
      * 可见的事实预测（主手、旁观、冷却、弹数），因此客户端对被拒绝的步枪蓄力也永远不会开火。
      */
     public static M1903A4Rules.Decision decide(PlayerEntity user, ItemStack rifle, Hand hand) {
-        return decideForGun(user, rifle, hand, M1903A4Item.getLoadedRounds(rifle) > 0,
-                user.getItemCooldownManager().isCoolingDown(rifle.getItem()));
+        boolean mainHand = hand == Hand.MAIN_HAND && user.getMainHandStack() == rifle
+                && rifle.getItem() instanceof M1903A4Item;
+        boolean coolingDown = user.getItemCooldownManager().isCoolingDown(rifle.getItem());
+        boolean loaded = M1903A4Item.getLoadedRounds(rifle) > 0;
+        return gate(user, rifle, mainHand, coolingDown, loaded, false);
     }
 
     /**
-     * The same gate for any rifle-class gun of this mod: main hand, the shooter's own held states, the trait block, the
-     * gun's item cooldown and at least one round. The M1903A4 passes its loaded rounds and running cooldown; the M16A4
-     * passes its magazine and {@code false}, since it has no item cooldown.
-     * 本模组任何步枪类枪械共用的门槛：主手、射手自身受控状态、词条拦截、枪械物品冷却与至少一发子弹。M1903A4 传入弹栈与
-     * 运行中的冷却；M16A4 传入弹匣与 {@code false}，因为它没有物品冷却。
+     * The same gate for a gun any holder may pick up and fire (the M16A4), which states its own {@code mainHand},
+     * {@code coolingDown} and {@code loaded} facts: a presentation use (no ACTIVE round, or a lobby holder) passes
+     * instead of being refused, while a dead participant of an ACTIVE match still may not fire. The caller limits the
+     * hitscan itself to a MATCH shooter, so nothing lethal leaks out of a live round.
+     * 任何持有者都能拾取并开火的枪械（M16A4）所用的同一门槛，由调用方给出自己的 {@code mainHand}、{@code coolingDown} 与
+     * {@code loaded} 事实：表现性使用（没有 ACTIVE 对局，或大厅持有者）放行而不是拒绝；ACTIVE 对局中已死亡的参与者仍然不能
+     * 开火。即时射线本身由调用方限制为 MATCH 射手，因此进行中的对局不会漏出致命效果。
      */
-    public static M1903A4Rules.Decision decideForGun(PlayerEntity user, ItemStack gun, Hand hand, boolean loaded,
-                                                     boolean coolingDown) {
-        boolean mainHand = hand == Hand.MAIN_HAND && user.getMainHandStack() == gun;
+    public static M1903A4Rules.Decision decideForOpenGun(PlayerEntity user, ItemStack gun, boolean mainHand,
+                                                         boolean coolingDown, boolean loaded) {
+        return gate(user, gun, mainHand, coolingDown, loaded, true);
+    }
+
+    /**
+     * The one gate body. {@code presentationFires} is false for the M1903A4 (only a MATCH shooter passes) and true for
+     * an open gun, where only {@link OffMatchUse.Mode#REFUSED} is turned away.
+     * 唯一的门槛实现。{@code presentationFires} 对 M1903A4 为 false（只有 MATCH 射手通过），对开放枪械为 true（只拒绝
+     * {@link OffMatchUse.Mode#REFUSED}）。
+     */
+    private static M1903A4Rules.Decision gate(PlayerEntity user, ItemStack gun, boolean mainHand, boolean coolingDown,
+                                              boolean loaded, boolean presentationFires) {
         if (!(user instanceof ServerPlayerEntity shooter)) {
             return M1903A4Rules.decide(new M1903A4Rules.Facts(OffMatchUse.Mode.MATCH, mainHand, user.isSpectator(),
                     false, false, coolingDown, loaded));
         }
         OffMatchUse.Mode mode = OffMatchUse.mode(shooter,
                 GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator());
+        if (presentationFires && mode == OffMatchUse.Mode.PRESENTATION) {
+            mode = OffMatchUse.Mode.MATCH;
+        }
         return M1903A4Rules.decide(new M1903A4Rules.Facts(mode, mainHand, shooter.isSpectator(), isHeld(shooter),
                 mainHand && SparkTraitsApi.blocksWeaponAction(shooter, gun), coolingDown, loaded));
-    }
-
-    /**
-     * The same gate for a gun any holder may pick up and fire (the M16A4): a presentation use (no ACTIVE round, or a
-     * lobby holder) is allowed to fire normally instead of being refused, while a dead participant of an ACTIVE match
-     * still may not fire. The kill itself is still limited to a MATCH shooter by the caller, so nothing lethal leaks
-     * out of a live round; a refusal outside one only costs the shot.
-     * 任何持有者都能拾取并开火的枪械（M16A4）所用的同一门槛：表现性使用（没有 ACTIVE 对局，或大厅持有者）允许正常开火，
-     * 而不是被拒绝；ACTIVE 对局中已死亡的参与者仍然不能开火。击杀本身由调用方限制为 MATCH 射手，因此进行中的对局不会漏出
-     * 致命效果；对局外唯一失去的只是命中结算。
-     */
-    public static M1903A4Rules.Decision decideForOpenGun(PlayerEntity user, ItemStack gun, Hand hand,
-                                                         boolean loaded) {
-        boolean mainHand = hand == Hand.MAIN_HAND && user.getMainHandStack() == gun;
-        if (!(user instanceof ServerPlayerEntity shooter)) {
-            return M1903A4Rules.decide(new M1903A4Rules.Facts(OffMatchUse.Mode.MATCH, mainHand, user.isSpectator(),
-                    false, false, false, loaded));
-        }
-        OffMatchUse.Mode mode = OffMatchUse.mode(shooter,
-                GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator());
-        return M1903A4Rules.decide(new M1903A4Rules.Facts(
-                mode == OffMatchUse.Mode.REFUSED ? mode : OffMatchUse.Mode.MATCH,
-                mainHand, shooter.isSpectator(), isHeld(shooter),
-                mainHand && SparkTraitsApi.blocksWeaponAction(shooter, gun), false, loaded));
     }
 
     /**
@@ -153,20 +147,23 @@ public final class M1903A4Combat {
      * 及只有射手听得到的确认音效。
      */
     static void fire(ServerPlayerEntity shooter, ItemStack rifle) {
-        fireRifle(shooter, rifle, SparkDlcItems.M1903A4_ID, true, SparkDlcSounds.M1903A4_KILL, RANGE);
+        fireRifle(shooter, rifle, SparkDlcItems.M1903A4_ID, RANGE, true, SparkDlcSounds.M1903A4_KILL);
     }
 
     /**
-     * Server half of one accepted rifle shot, shared by the M1903A4 and the M16A4: resolve, optional smoke, replay
-     * (recorded before the kill, like Wathe's gun), then the one kill and its optional shooter-only confirmation.
-     * {@code recordId} is the gun the replay names; {@code smoke} draws the sniper rifle's white trace (the M16A4 fires
-     * fifteen rounds a second, so it leaves none); a null {@code killSound} stays silent on a kill.
-     * 一次被接受的步枪射击的服务端部分，由 M1903A4 与 M16A4 共用：结算、可选烟迹、回放（与 Wathe 枪械一样在击杀之前记录），
-     * 然后是唯一一次击杀及可选的、只有射手听得到的确认音效。{@code recordId} 是回放中的枪械；{@code smoke} 绘制狙击步枪的
-     * 白色弹道（M16A4 每秒 15 发，因此不画）；{@code killSound} 为 null 时击杀不播放音效。
+     * Server half of one accepted rifle shot, shared by the M1903A4 and the M16A4: resolve, the BEAR smoke tunnel
+     * (every hitscan ray carves one), the optional white trace, replay (recorded before the kill, like Wathe's gun),
+     * then the one kill and its optional shooter-only confirmation. {@code recordId} is the gun the record names
+     * (every round is recorded: the record is also the "really used" signal other features read, such as the
+     * Ragpicker's loot spend); {@code whiteTrace} draws the sniper rifle's trail (the M16A4 fires fifteen rounds a
+     * second, so it leaves none); a null {@code killSound} stays silent on a kill.
+     * 一次被接受的步枪射击的服务端部分，由 M1903A4 与 M16A4 共用：结算、BEAR 烟雾通道（每条即时射线都会开出）、可选的白色
+     * 弹道、回放（与 Wathe 枪械一样在击杀之前记录），然后是唯一一次击杀及可选的、只有射手听得到的确认音效。{@code recordId}
+     * 是记录中的枪械（每一发都记录：该记录同时是其他功能读取的“确实使用过”信号，例如拾荒者战利品的消耗）；
+     * {@code whiteTrace} 绘制狙击步枪的弹道（M16A4 每秒 15 发，因此不画）；{@code killSound} 为 null 时击杀不播放音效。
      */
-    public static void fireRifle(ServerPlayerEntity shooter, ItemStack gun, Identifier recordId, boolean smoke,
-                                 @Nullable SoundEvent killSound, double range) {
+    public static void fireRifle(ServerPlayerEntity shooter, ItemStack gun, Identifier recordId, double range,
+                                 boolean whiteTrace, @Nullable SoundEvent killSound) {
         ServerWorld world = shooter.getServerWorld();
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         Vec3d start = shooter.getEyePos();
@@ -180,8 +177,8 @@ public final class M1903A4Combat {
         Hit hit = resolve(shooter, gun, picked, start, rayEnd, range);
         ServerPlayerEntity victim = hit.victim();
 
-        if (smoke) {
-            RangedSmokeCarve.ray(world, start, hit.stop()); // BEAR smoke: the round's tunnel / BEAR 烟雾：子弹的通道
+        RangedSmokeCarve.ray(world, start, hit.stop()); // BEAR smoke: the round's tunnel / BEAR 烟雾：子弹的通道
+        if (whiteTrace) {
             spawnSmoke(world, start, hit.stop());
         }
         NbtCompound extra = new NbtCompound();

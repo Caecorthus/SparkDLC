@@ -1403,7 +1403,8 @@ Current build baseline:
     so the stream never reveals a feigned death. Her own client answers SUCCESS for a body so the same click never
     also uses the held item; it predicts nothing else.
   - Speed and win (PR #9): both thresholds come from the synced round roster (`GameWorldComponent.getAllPlayers`), so
-    the server and her HUD agree: `KokoRules.winTraffic` = players / 4 + 500, `speedTraffic` = half of it. Reaching
+    the server and her HUD agree: `KokoRules.winTraffic` = players / 4 (integer division) × 100 + 500 (PR #10; 700 with 8 players, 800 with 12),
+    `speedTraffic` = half of it. Reaching
     `speedTraffic` gives her an infinite ambient Speed III, kept when traffic is spent; `KokoStreamService.clear` (role
     assignment, `ResetPlayer`) removes exactly that effect, and Wathe's reset clears every effect at the round's end. `KokoWinService` runs in phase `sparkdlc:koko_stream_win`, ordered after the
     Fiend's and the Charon's phases and before `Event.DEFAULT_PHASE` (a default-phase `block()` from the Murderous

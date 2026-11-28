@@ -78,13 +78,22 @@ public final class KokoRules {
     /**
      * Her two thresholds are derived from the round's player count, Wathe's synced round roster
      * ({@code GameWorldComponent.getAllPlayers}, so server and her HUD agree; PR #9, 2026-11-23): win at
-     * {@code roundPlayers / WIN_TRAFFIC_PER_PLAYER + WIN_TRAFFIC_BASE} traffic, permanent Speed III at half of that.
+     * {@code roundPlayers / WIN_TRAFFIC_PER_PLAYER * WIN_TRAFFIC_PER_GROUP + WIN_TRAFFIC_BASE} traffic (integer
+     * division: 600 with 4 players, 700 with 8, 1000 with 20), permanent Speed III at half of that.
      * 她的两个阈值由本局人数决定，取 Wathe 已同步的本局名单（{@code GameWorldComponent.getAllPlayers}，服务端与她的 HUD
-     * 因此一致；PR #9，2026-11-23）：流量达到「本局人数 / {@link #WIN_TRAFFIC_PER_PLAYER} + {@link #WIN_TRAFFIC_BASE}」即可
-     * 获胜，达到该值的一半获得永久速度 III。
+     * 因此一致；PR #9，2026-11-23）：流量达到「本局人数 / {@link #WIN_TRAFFIC_PER_PLAYER} ×
+     * {@link #WIN_TRAFFIC_PER_GROUP} + {@link #WIN_TRAFFIC_BASE}」（整数除法：4 人 600，8 人 700，20 人 1000）即可获胜，
+     * 达到该值的一半获得永久速度 III。
      */
     public static final int WIN_TRAFFIC_BASE = 500;
+    /** Players per group: every full group of this many raises the win threshold. / 每组人数：每满这么多人，获胜阈值升一档。 */
     public static final int WIN_TRAFFIC_PER_PLAYER = 4;
+    /**
+     * Traffic each full group adds (PR #10, 2026-11-24): PR #9 added a single point per four players, which was
+     * invisible in a 6–20 player lobby.
+     * 每满一组增加的流量（PR #10，2026-11-24）：PR #9 每四人只加一点，在 6–20 人的房间里几乎看不出来。
+     */
+    public static final int WIN_TRAFFIC_PER_GROUP = 100;
     /** Speed III. / 速度 III。 */
     public static final int SPEED_AMPLIFIER = 2;
     /** Radius of the corpse-stream cluster, in blocks. / 尸体直播的作用半径（格）。 */
@@ -205,7 +214,7 @@ public final class KokoRules {
 
     /** Traffic needed to win this round. / 本局获胜所需的流量。 */
     public static int winTraffic(int roundPlayers) {
-        return Math.max(1, roundPlayers) / WIN_TRAFFIC_PER_PLAYER + WIN_TRAFFIC_BASE;
+        return Math.max(1, roundPlayers) / WIN_TRAFFIC_PER_PLAYER * WIN_TRAFFIC_PER_GROUP + WIN_TRAFFIC_BASE;
     }
 
     /** Traffic needed for the permanent Speed III, half of the win threshold. / 永久速度 III 所需的流量，为获胜阈值的一半。 */

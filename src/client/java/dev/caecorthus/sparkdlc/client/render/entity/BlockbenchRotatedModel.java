@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -14,7 +13,7 @@ import net.minecraft.client.render.model.CubeFace;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
@@ -27,15 +26,22 @@ import java.util.Map;
 
 /**
  * Renders a Blockbench model JSON that uses per-element multi-axis rotations, which vanilla's model loader rejects
- * (it only accepts one axis at a time and ±45°). The JSON is parsed once from the resource pack and drawn quad by
- * quad with the same corner order, UV rect and sprite lookup vanilla's {@code BakedQuadFactory} uses, so the result
- * matches what a plain model would look like. Used by the placed reality anchor; its item icon is a normal 2D model.
- * 渲染带逐元素多轴旋转的 Blockbench 模型 JSON——原版模型加载器只接受单轴且 ±45° 以内的旋转，会整份拒绝。这里从资源包解析一次，
- * 按原版 {@code BakedQuadFactory} 相同的角点顺序、UV 矩形与图集取样逐面绘制，效果等同普通模型。用于放置后的现实稳定锚；
+ * (it only accepts one axis at a time and ±45°). The JSON is drawn quad by quad with the same corner order, UV rect
+ * and sprite lookup vanilla's {@code BakedQuadFactory} uses, so the result matches what a plain model would look like.
+ * Used by the placed reality anchor; its item icon is a normal 2D model.
+ * 渲染带逐元素多轴旋转的 Blockbench 模型 JSON——原版模型加载器只接受单轴且 ±45° 以内的旋转，会整份拒绝。这里按原版
+ * {@code BakedQuadFactory} 相同的角点顺序、UV 矩形与图集取样逐面绘制，效果等同普通模型。用于放置后的现实稳定锚；
  * 它的物品图标是普通 2D 模型。
+ *
+ * <p>The file lives outside {@code models/} on purpose: vanilla parses every JSON under {@code models/} at each
+ * resource load and would log this one as a broken model. It is parsed and baked into quads once per resource reload
+ * ({@link #reload}); a frame only looks up the sprite, which a reload re-stitches, and emits the baked vertices.
+ * <p>该文件有意放在 {@code models/} 之外：原版每次加载资源都会解析 {@code models/} 下的所有 JSON，会把这一份当作损坏的模型
+ * 记入日志。它在每次资源重载时解析并烘焙成面片一次（{@link #reload}）；每帧只查询贴图（重载会重新拼接图集）并输出烘焙好的
+ * 顶点。
  */
 public final class BlockbenchRotatedModel {
-    private static final Identifier MODEL_ID = SparkDLC.id("models/item/reality_anchor_placed.json");
+    private static final Identifier MODEL_ID = SparkDLC.id("blockbench/reality_anchor.json");
     private static final Identifier TEXTURE_ID = SparkDLC.id("item/reality_anchor");
 
     /** One cuboid with its rotation. / 一个带旋转的立方体。 */
@@ -43,28 +49,51 @@ public final class BlockbenchRotatedModel {
                            float rotationZ, Map<Direction, float[]> faces, String name) {
     }
 
-    private static List<Element> elements;
-    private static Sprite sprite;
+    /**
+     * One baked face: four corners (x, y, z in blocks), their (u, v) as fractions of the sprite, and the normal.
+     * 一个烘焙好的面：四个角点（以方块为单位的 x、y、z）、各自在贴图内的 (u, v) 比例，以及法线。
+     */
+    private record Quad(float[] positions, float[] uvs, float normalX, float normalY, float normalZ) {
+    }
+
+    private static List<Quad> quads = List.of();
 
     private BlockbenchRotatedModel() {
     }
 
+    /**
+     * Re-reads and re-bakes the model; called for every client resource reload, the first one included. A missing or
+     * broken file is logged once per reload and leaves nothing to draw.
+     * 重新读取并烘焙模型；每次客户端资源重载（包括第一次）都会调用。文件缺失或损坏时每次重载记录一条日志，并且不绘制任何东西。
+     */
+    public static void reload(ResourceManager manager) {
+        quads = load(manager);
+    }
+
     public static void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        load();
-        if (elements == null || elements.isEmpty() || sprite == null) {
+        List<Quad> baked = quads;
+        if (baked.isEmpty()) {
             return;
         }
+        Sprite sprite = MinecraftClient.getInstance().getBakedModelManager()
+                .getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).getSprite(TEXTURE_ID);
         VertexConsumer consumer = vertexConsumers.getBuffer(TexturedRenderLayers.getItemEntityTranslucentCull());
         MatrixStack.Entry entry = matrices.peek();
-        for (Element element : elements) {
-            for (Map.Entry<Direction, float[]> face : element.faces().entrySet()) {
-                renderFace(entry, consumer, light, overlay, element, face.getKey(), face.getValue());
+        for (Quad quad : baked) {
+            float[] positions = quad.positions();
+            float[] uvs = quad.uvs();
+            for (int corner = 0; corner < 4; corner++) {
+                consumer.vertex(entry, positions[corner * 3], positions[corner * 3 + 1], positions[corner * 3 + 2])
+                        .color(1.0F, 1.0F, 1.0F, 1.0F)
+                        .texture(sprite.getFrameU(uvs[corner * 2]), sprite.getFrameV(uvs[corner * 2 + 1]))
+                        .overlay(overlay)
+                        .light(light)
+                        .normal(entry, quad.normalX(), quad.normalY(), quad.normalZ());
             }
         }
     }
 
-    private static void renderFace(MatrixStack.Entry entry, VertexConsumer consumer, int light, int overlay,
-                                   Element element, Direction direction, float[] uvs) {
+    private static Quad bakeFace(Element element, Direction direction, float[] uvs) {
         CubeFace cubeFace = CubeFace.getFace(direction);
         float[] positions = positionMatrix(element);
         float[] corners = new float[12];
@@ -80,24 +109,22 @@ public final class BlockbenchRotatedModel {
         }
         double[] normal = rotateDirection(element, direction.getOffsetX(), direction.getOffsetY(),
                 direction.getOffsetZ());
+        // Same UV rect mapping as ModelElementTexture.getU/getV. Elements rotated off the 180° grid (the hex
+        // prisms' slanted sides) draw their textures upside down, so only the V corners are swapped; the U
+        // corners stay as they are, which keeps the texture un-mirrored left to right.
+        // 与 ModelElementTexture 相同的 UV 取角。旋转不在 180° 整数倍上的元素（六棱柱斜面）贴图上下颠倒，因此只对调 V 角，
+        // U 角保持原样，左右不会镜像。
+        boolean flip = flipsUv(element) && !keepsPlainUv(element);
+        float[] cornerUvs = new float[8];
         for (int corner = 0; corner < 4; corner++) {
-            // Same UV rect mapping as ModelElementTexture.getU/getV. Elements rotated off the 180° grid (the hex
-            // prisms' slanted sides) draw their textures upside down, so only the V corners are swapped; the U
-            // corners stay as they are, which keeps the texture un-mirrored left to right.
-            // 与 ModelElementTexture 相同的 UV 取角。旋转不在 180° 整数倍上的元素（六棱柱斜面）贴图上下颠倒，因此只对调 V 角，
-            // U 角保持原样，左右不会镜像。
-            boolean flip = flipsUv(element) && !keepsPlainUv(element);
             float u = (corner == 0 || corner == 1) ? uvs[0] : uvs[2];
             float v = (corner == 0 || corner == 3)
                     ? (flip ? uvs[3] : uvs[1])
                     : (flip ? uvs[1] : uvs[3]);
-            consumer.vertex(entry, corners[corner * 3], corners[corner * 3 + 1], corners[corner * 3 + 2])
-                    .color(1.0F, 1.0F, 1.0F, 1.0F)
-                    .texture(sprite.getFrameU(u / 16.0F), sprite.getFrameV(v / 16.0F))
-                    .overlay(overlay)
-                    .light(light)
-                    .normal(entry, (float) normal[0], (float) normal[1], (float) normal[2]);
+            cornerUvs[corner * 2] = u / 16.0F;
+            cornerUvs[corner * 2 + 1] = v / 16.0F;
         }
+        return new Quad(corners, cornerUvs, (float) normal[0], (float) normal[1], (float) normal[2]);
     }
 
     /**
@@ -167,57 +194,57 @@ public final class BlockbenchRotatedModel {
         return new double[]{x3, y3, z2};
     }
 
-    private static void load() {
-        if (elements != null) {
-            return;
-        }
-        MinecraftClient client = MinecraftClient.getInstance();
-        sprite = client.getBakedModelManager().getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
-                .getSprite(TEXTURE_ID);
+    private static List<Quad> load(ResourceManager manager) {
         try (InputStreamReader reader = new InputStreamReader(
-                client.getResourceManager().getResourceOrThrow(MODEL_ID).getInputStream(), StandardCharsets.UTF_8)) {
+                manager.getResourceOrThrow(MODEL_ID).getInputStream(), StandardCharsets.UTF_8)) {
             JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
             JsonArray array = json.getAsJsonArray("elements");
-            List<Element> parsed = new ArrayList<>();
+            List<Quad> baked = new ArrayList<>();
             for (JsonElement raw : array) {
-                JsonObject object = raw.getAsJsonObject();
-                JsonArray from = object.getAsJsonArray("from");
-                JsonArray to = object.getAsJsonArray("to");
-                float rotationX = 0.0F;
-                float rotationY = 0.0F;
-                float rotationZ = 0.0F;
-                float[] origin = {0.0F, 0.0F, 0.0F};
-                if (object.has("rotation")) {
-                    JsonObject rotation = object.getAsJsonObject("rotation");
-                    rotationX = rotation.get("x").getAsFloat();
-                    rotationY = rotation.get("y").getAsFloat();
-                    rotationZ = rotation.get("z").getAsFloat();
-                    JsonArray originArray = rotation.getAsJsonArray("origin");
-                    origin = new float[]{originArray.get(0).getAsFloat(), originArray.get(1).getAsFloat(),
-                            originArray.get(2).getAsFloat()};
+                Element element = parseElement(raw.getAsJsonObject());
+                for (Map.Entry<Direction, float[]> face : element.faces().entrySet()) {
+                    baked.add(bakeFace(element, face.getKey(), face.getValue()));
                 }
-                Map<Direction, float[]> faces = new EnumMap<>(Direction.class);
-                JsonObject faceObject = object.getAsJsonObject("faces");
-                for (Map.Entry<String, JsonElement> face : faceObject.entrySet()) {
-                    Direction direction = directionOf(face.getKey());
-                    if (direction == null) {
-                        continue;
-                    }
-                    JsonArray uv = face.getValue().getAsJsonObject().getAsJsonArray("uv");
-                    faces.put(direction, new float[]{uv.get(0).getAsFloat(), uv.get(1).getAsFloat(),
-                            uv.get(2).getAsFloat(), uv.get(3).getAsFloat()});
-                }
-                parsed.add(new Element(
-                        new float[]{from.get(0).getAsFloat(), from.get(1).getAsFloat(), from.get(2).getAsFloat()},
-                        new float[]{to.get(0).getAsFloat(), to.get(1).getAsFloat(), to.get(2).getAsFloat()},
-                        origin, rotationX, rotationY, rotationZ, faces,
-                        object.has("name") ? object.get("name").getAsString() : ""));
             }
-            elements = List.copyOf(parsed);
+            return List.copyOf(baked);
         } catch (Exception exception) {
             SparkDLC.LOGGER.warn("Could not load the reality anchor model {}", MODEL_ID, exception);
-            elements = List.of();
+            return List.of();
         }
+    }
+
+    private static Element parseElement(JsonObject object) {
+        JsonArray from = object.getAsJsonArray("from");
+        JsonArray to = object.getAsJsonArray("to");
+        float rotationX = 0.0F;
+        float rotationY = 0.0F;
+        float rotationZ = 0.0F;
+        float[] origin = {0.0F, 0.0F, 0.0F};
+        if (object.has("rotation")) {
+            JsonObject rotation = object.getAsJsonObject("rotation");
+            rotationX = rotation.get("x").getAsFloat();
+            rotationY = rotation.get("y").getAsFloat();
+            rotationZ = rotation.get("z").getAsFloat();
+            JsonArray originArray = rotation.getAsJsonArray("origin");
+            origin = new float[]{originArray.get(0).getAsFloat(), originArray.get(1).getAsFloat(),
+                    originArray.get(2).getAsFloat()};
+        }
+        Map<Direction, float[]> faces = new EnumMap<>(Direction.class);
+        JsonObject faceObject = object.getAsJsonObject("faces");
+        for (Map.Entry<String, JsonElement> face : faceObject.entrySet()) {
+            Direction direction = directionOf(face.getKey());
+            if (direction == null) {
+                continue;
+            }
+            JsonArray uv = face.getValue().getAsJsonObject().getAsJsonArray("uv");
+            faces.put(direction, new float[]{uv.get(0).getAsFloat(), uv.get(1).getAsFloat(),
+                    uv.get(2).getAsFloat(), uv.get(3).getAsFloat()});
+        }
+        return new Element(
+                new float[]{from.get(0).getAsFloat(), from.get(1).getAsFloat(), from.get(2).getAsFloat()},
+                new float[]{to.get(0).getAsFloat(), to.get(1).getAsFloat(), to.get(2).getAsFloat()},
+                origin, rotationX, rotationY, rotationZ, faces,
+                object.has("name") ? object.get("name").getAsString() : "");
     }
 
     private static Direction directionOf(String name) {
@@ -230,10 +257,5 @@ public final class BlockbenchRotatedModel {
             case "down" -> Direction.DOWN;
             default -> null;
         };
-    }
-
-    /** Block atlas texture used for the model; kept for callers that need a texture id. / 模型使用的方块图集贴图。 */
-    public static Identifier atlasTexture() {
-        return PlayerScreenHandler.BLOCK_ATLAS_TEXTURE;
     }
 }

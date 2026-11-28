@@ -153,6 +153,8 @@ public final class RoleEvents {
         registered = true;
 
         JudgeRuntime.register();
+        dev.caecorthus.sparkdlc.role.civilian.fruitvendor.FruitVendorService.register();
+        dev.caecorthus.sparkdlc.role.civilian.fruitvendor.BananaPeelService.register();
         CeremonialSwordCombatService.register();
         CeremonialSwordDashService.register();
         GrandWitchFeatureService.register();

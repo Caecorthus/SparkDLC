@@ -1077,6 +1077,8 @@ public final class SparkDLCClient implements ClientModInitializer {
         NinjaGrapplingHookEntityRenderer.registerHeadModel();
         EntityRendererRegistry.register(SparkDlcEntities.ninjaGrapplingHook(), NinjaGrapplingHookEntityRenderer::new);
         EntityRendererRegistry.register(HunterEntities.hunterTrap(), HunterTrapEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.bananaPeel(),
+                dev.caecorthus.sparkdlc.client.render.entity.BananaPeelRenderer::new);
         // The thrown Shock Device renders its synced item stack like vanilla thrown items.
         // 投出的电击装置与原版投掷物一样渲染其同步的物品。
         EntityRendererRegistry.register(ControlExpertEntities.shockDevice(), FlyingItemEntityRenderer::new);

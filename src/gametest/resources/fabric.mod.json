@@ -15,7 +15,8 @@
       "dev.caecorthus.sparkdlc.gametest.SparkDlcStartupTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcSharedHelpersGameTest",
-      "dev.caecorthus.sparkdlc.gametest.ShiningNeonPillarGameTest"
+      "dev.caecorthus.sparkdlc.gametest.ShiningNeonPillarGameTest",
+      "dev.caecorthus.sparkdlc.gametest.RealityAnchorGameTest"
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"

@@ -155,6 +155,7 @@ public final class SparkDlcItemGroups {
                 // Civilian / 平民
                 SparkDlcItems.perfumeEssence(),
                 SparkDlcItems.cologne(),
+                SparkDlcItems.exoskeleton(),
                 SparkDlcItems.tarotCard(),
                 SparkDlcItems.prophetNecrology(),
                 SparkDlcItems.vendettaKnife(),

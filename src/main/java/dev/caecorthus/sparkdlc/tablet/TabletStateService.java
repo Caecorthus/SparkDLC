@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.tablet.net.TabletChatNotifyS2CPacket;
 import dev.caecorthus.sparkdlc.tablet.net.TabletSnapshot;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.DoorLogTabletSnapshots;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerSharedCameras;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneTabletSnapshots;
 import dev.caecorthus.sparkdlc.role.neutral.jester.JesterMomentService;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenVisibility;
@@ -61,6 +62,13 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>Drone rows are filled only for viewers holding {@link TabletFeature#DRONE} and list only the viewer's own drones;
  * besides the periodic sync, {@code DronePilotService} pushes a snapshot when a pilot session starts or ends.
  * 无人机行只为拥有无人机功能的观看者填充，且只列出查看者自己的无人机；除周期同步外，DronePilotService 在驾驶会话开始或结束时推送快照。</p>
+ *
+ * <p>Camera rows are filled only for viewers holding {@link TabletFeature#CAMERAS} (living police-network members while
+ * a Seeker camera stands) and list every Seeker's wall cameras; an owner's name is sent only under the police
+ * channel's own identity rule. Besides the periodic sync, the Seeker's device service calls
+ * {@link #syncPoliceMembers} when a camera is placed or destroyed.
+ * 摄像头行只为拥有摄像头功能的观看者填充（有搜寻者摄像头存在时的存活义警网络成员），并列出每名搜寻者的摄像头；拥有者的名字只按
+ * 义警频道自身的身份规则下发。除周期同步外，搜寻者的设备服务在摄像头被放置或损坏时调用 syncPoliceMembers。</p>
  *
  * <p>The server remembers the last snapshot each client holds: periodic and fan-out syncs skip a viewer whose
  * snapshot is unchanged, while direct single-player syncs ({@link #syncTo}, {@link #syncPair}, a client request) always
@@ -529,6 +537,106 @@ public final class TabletStateService {
         syncChannelMembers(pass, TabletChannel.POLICE);
     }
 
+    /**
+     * The Track button of a suspect row (owner 2026-11-28; it replaced the passive through-wall reveal). The tracker
+     * must hold the tablet, view the police channel and be an alive member of it (so an Impostor viewing the police
+     * channel may track, exactly the holders the passive reveal used to serve); the target must be a current suspect
+     * other than the tracker (alive or not: the tablet never reports a death). The (tracker, suspect) pair's cooldown starts at the click, whatever happens to
+     * the suspect afterwards; other pairs are untouched. Only the tracker is synced: the reveal is theirs alone and
+     * nobody else, the suspect included, is told.
+     * 嫌疑人行上的“追查”按钮（所有者 2026-11-28；取代原先的被动穿墙显示）。追查者必须持有平板、正在查看义警频道且是其存活成员
+     * （因此查看义警频道的内鬼也能追查，正是原先被动显示所服务的那些持有者）；目标必须是当前嫌疑人且不是追查者本人（无论是否存活：平板从不通报死讯）。
+     * （追查者，嫌疑人）组合的冷却从点击时开始，与此后嫌疑人的状态无关；其他组合不受影响。只同步追查者：显示只属于他一人，
+     * 包括嫌疑人在内的其他人都不会得到通知。
+     */
+    public static void trackSuspect(ServerPlayerEntity tracker, UUID suspectUuid) {
+        TabletChannelResolver.Access access = meetingFeatureAccess(tracker);
+        if (access == null) {
+            return;
+        }
+        ServerWorld world = tracker.getServerWorld();
+        TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
+        if (!access.isPoliceElector()) {
+            tracker.sendMessage(Text.translatable("message.sparkdlc.tablet.track_denied"), true);
+            return;
+        }
+        if (!tablet.isSuspect(suspectUuid)) {
+            // Stale view (the suspect was just removed and that push is on its way): throttled resync.
+            // 过期视图（嫌疑人刚被移除，推送已在途中）：限流重新同步。
+            resyncThrottled(tracker);
+            return;
+        }
+        if (suspectUuid.equals(tracker.getUuid())) {
+            // The client disables the button on the tracker's own row. A dead or offline suspect is tracked like any
+            // other (the cooldown runs, the client simply has nobody to outline): refusing would report the death.
+            // 客户端会禁用追查者本人那一行的按钮。已死亡或离线的嫌疑人与其他嫌疑人一样可以追查（冷却照常开始，客户端只是没有
+            // 可描边的人）：拒绝就等于通报了死讯。
+            tracker.sendMessage(Text.translatable("message.sparkdlc.tablet.track_unavailable"), true);
+            resyncThrottled(tracker);
+            return;
+        }
+        long now = world.getTime();
+        int cooldownTicks = tablet.suspectTrackCooldownTicks(tracker.getUuid(), suspectUuid, now);
+        if (TabletRules.suspectTrackTooEarly(cooldownTicks)) {
+            tracker.sendMessage(Text.translatable(
+                    "message.sparkdlc.tablet.track_cooldown",
+                    TabletRules.secondsCeil(cooldownTicks)
+            ), true);
+            resyncThrottled(tracker);
+            return;
+        }
+        if (!acceptAction(tracker)) {
+            return;
+        }
+
+        tablet.startSuspectTrack(tracker.getUuid(), suspectUuid, now);
+        tracker.sendMessage(Text.translatable(
+                "message.sparkdlc.tablet.track_started",
+                playerName(world, suspectUuid),
+                TabletRules.secondsCeil(TabletRules.SUSPECT_TRACK_DELAY_TICKS)
+        ), true);
+        syncTo(tracker);
+    }
+
+    /**
+     * Seam for other features: puts {@code suspect} on the suspect list of their world without a meeting. When the
+     * player is newly added, {@code policeNotice} goes to the action bar of every police-channel member and their
+     * tablets are resynced; an existing suspect changes nothing and nobody is told. No meeting achievement event is
+     * recorded (that one belongs to a vote, see {@code finishMeeting}).
+     * 供其他功能调用的接口：不经会议直接把 suspect 列入其所在世界的嫌疑人名单。新加入时，policeNotice 会显示在每名义警频道成员的
+     * 动作栏，并重新同步他们的平板；已是嫌疑人时不做任何改动，也不通知任何人。不记录会议成就事件（那只属于投票，见 finishMeeting）。
+     *
+     * @return true only when the player was not a suspect before / 仅当该玩家此前不是嫌疑人时返回 true
+     */
+    public static boolean markSuspect(ServerPlayerEntity suspect, Text policeNotice) {
+        if (suspect == null) {
+            return false;
+        }
+        ServerWorld world = suspect.getServerWorld();
+        if (!TabletWorldComponent.KEY.get(world).addSuspect(suspect.getUuid())) {
+            return false;
+        }
+        SyncPass pass = prepare(world);
+        if (policeNotice != null) {
+            broadcastToChannelMembers(pass, TabletChannel.POLICE, policeNotice);
+        }
+        syncChannelMembers(pass, TabletChannel.POLICE);
+        return true;
+    }
+
+    /**
+     * Pushes a changed snapshot to every holder on the police network, without a notice: the Seeker's device service
+     * calls it when a wall camera is placed or destroyed, so the camera section follows at once instead of waiting
+     * for the periodic sync.
+     * 向义警网络的每名持有者推送有变化的快照，不带提示：搜寻者的设备服务在摄像头被放置或损坏时调用，使摄像头分区立即更新，
+     * 而不必等待周期同步。
+     */
+    public static void syncPoliceMembers(ServerWorld world) {
+        if (world != null) {
+            syncChannelMembers(prepare(world), TabletChannel.POLICE);
+        }
+    }
+
     public static void tick(ServerWorld world) {
         TabletLinkService.tick(world);
         boolean periodic = world.getTime() % TabletRules.SYNC_INTERVAL_TICKS == 0;
@@ -620,7 +728,13 @@ public final class TabletStateService {
                         tablet.channelSwitchCooldownTicks(viewerUuid, now)
                 )),
                 TabletRules.deadlineTick(now, tablet.chatCooldownTicks(viewerUuid, now)),
-                tablet.chatIntervalTicks()
+                tablet.chatIntervalTicks(),
+                // The police network's own identity rule decides whose camera is named, whatever channel is viewed.
+                // 由义警网络自身的身份规则决定显示谁的摄像头归属，与当前查看的频道无关。
+                access.hasFeature(TabletFeature.CAMERAS)
+                        ? SeekerSharedCameras.tabletRows(viewer, owner -> TabletIdentityRules.revealsIdentity(
+                                TabletChannel.POLICE, viewerUuid, owner, links, tasksDone))
+                        : List.of()
         );
     }
 
@@ -721,13 +835,21 @@ public final class TabletStateService {
         int required = TabletRules.requiredTwoThirds(electorate.size());
         return tablet.suspects().stream()
                 .sorted(Comparator.comparing(uuid -> playerName(world, uuid), String.CASE_INSENSITIVE_ORDER))
-                .map(uuid -> new TabletSnapshot.SuspectRow(
-                        uuid,
-                        playerName(world, uuid),
-                        tablet.removalApprovals(uuid).size(),
-                        required,
-                        tablet.removalApprovals(uuid).contains(viewerUuid)
-                ))
+                .map(uuid -> {
+                    // The viewer's own track of this suspect only (v12); absolute ticks, so a running one leaves the
+                    // snapshot unchanged. 只含查看者自己对该嫌疑人的追查（v12）；为绝对 tick，进行中的追查不会改变快照。
+                    TabletWorldComponent.SuspectTrack track = tablet.suspectTrack(viewerUuid, uuid);
+                    return new TabletSnapshot.SuspectRow(
+                            uuid,
+                            playerName(world, uuid),
+                            tablet.removalApprovals(uuid).size(),
+                            required,
+                            tablet.removalApprovals(uuid).contains(viewerUuid),
+                            track.revealStartTick(),
+                            track.revealEndTick(),
+                            track.cooldownEndTick()
+                    );
+                })
                 .toList();
     }
 
@@ -932,9 +1054,9 @@ public final class TabletStateService {
     }
 
     /**
-     * Clients without the current (v11) payload are skipped instead of being disconnected by unknown bytes. Every
+     * Clients without the current (v13) payload are skipped instead of being disconnected by unknown bytes. Every
      * snapshot that goes out, empty ones included, becomes what that client holds.
-     * 未注册当前（v11）负载的客户端直接跳过，避免因未知字节断线。每份发出的快照（包括空快照）都记为该客户端当前持有的快照。
+     * 未注册当前（v13）负载的客户端直接跳过，避免因未知字节断线。每份发出的快照（包括空快照）都记为该客户端当前持有的快照。
      */
     private static boolean sendPacket(ServerPlayerEntity player, TabletSnapshot snapshot) {
         if (!ServerPlayNetworking.canSend(player, SyncTabletSnapshotS2CPacket.ID)) {

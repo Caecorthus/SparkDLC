@@ -41,11 +41,15 @@ public final class SeekerDeviceAvailability {
     }
 
     /**
-     * "View camera" availability: usable while any camera is placed, at any distance.
-     * “查看摄像头”可用性：只要放置了任一摄像头即可用，距离不限。
+     * "View camera" availability: usable while any camera the local player may view is placed, at any distance. That
+     * is the Seeker's own cameras and, with the tablet snapshot at hand, the other Seekers' cameras too (owner spec
+     * 2026-11-28), so a Seeker without a camera of their own can still open a colleague's.
+     * “查看摄像头”可用性：只要本地玩家可以观看的任一摄像头已放置即可用，距离不限。即搜寻者自己的摄像头，以及（有平板快照时）
+     * 其他搜寻者的摄像头（所有者规格 2026-11-28），因此自己没有摄像头的搜寻者仍可打开同事的摄像头。
      */
     public static SeekerConsoleRules.Availability camera(@Nullable MinecraftClient client) {
-        return SeekerConsoleRules.cameraAvailability(SeekerClientState.cameras().size(), blocked(player(client)));
+        return SeekerConsoleRules.cameraAvailability(SeekerClientState.viewableCameras().size(),
+                blocked(player(client)));
     }
 
     /** Remote recall availability (no entity resolution). / 远程回收可用性（无需解析实体）。 */

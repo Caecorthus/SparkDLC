@@ -53,6 +53,11 @@ public final class OrthopedistSkillService {
         OrthopedistPlayerComponent.KEY.get(player).clear();
     }
 
+    /** {@link #clearPlayer} for a Last Stand survivor: Exoskeleton layers stay. / 背水一战存活者所用的 {@link #clearPlayer}：保留外骨骼层数。 */
+    public static void clearPlayerKeepingExoskeleton(ServerPlayerEntity player) {
+        OrthopedistPlayerComponent.KEY.get(player).clearKeepingExoskeleton();
+    }
+
     public static void use(ServerPlayerEntity caster) {
         GameWorldComponent game = GameWorldComponent.KEY.get(caster.getWorld());
         OrthopedistPlayerComponent component = OrthopedistPlayerComponent.KEY.get(caster);

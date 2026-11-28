@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.role.civilian.saint.SaintGunShotService;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -82,6 +83,12 @@ public final class KnightDuelInterference {
             return;
         }
         if (attacker == null || attacker == victim || !isThirdParty(victim, attacker)) {
+            return;
+        }
+        // The Saint's gunshot never kills (it roots and lights the target up instead), so it is a non-lethal hit and,
+        // like every other non-lethal hit, no interference. This HEAD runs long before her replacement of the kill.
+        // 圣徒的枪击永不致死（改为禁锢并点亮目标），属于非致死命中，与其他非致死命中一样不算干扰决斗。本 HEAD 远早于她对击杀的替换。
+        if (SaintGunShotService.isNonLethalShot(victim, attacker, reason)) {
             return;
         }
         punish(attacker);

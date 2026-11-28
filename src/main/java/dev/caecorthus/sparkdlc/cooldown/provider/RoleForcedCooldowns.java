@@ -146,7 +146,6 @@ public final class RoleForcedCooldowns {
     static List<RoleSkillCooldownStore> roleSkillStores() {
         return List.of(
                 new WitchSkillCooldownStore(),
-                new SaintHellfireCooldownStore(),
                 orthopedist(),
                 saboteur(),
                 new NoellesAbilityCooldownStore(),
@@ -690,15 +689,15 @@ public final class RoleForcedCooldowns {
      * {@code sparkdlc:dominator} component; it gates both marking and releasing. An ACTIVE round, the raw role (the
      * Dominator is never a Black Raven disguise target, so {@code DominatorSkillService}'s {@code isRole} gate reads
      * the same) and no active mark: the same counter gates the release press, and the mark's end writes the post-mark
-     * cooldown, so a running mark is never forced (like the Kidnapper's carried body and a burning Hellfire).
+     * cooldown, so a running mark is never forced (like the Kidnapper's carried body).
      * {@code SimpleRoleSkillCooldownStore} has no {@code mayForce}, so that clause sits in the gate; the registry
      * leaves out a store for which either is false. Remaining time includes the 45 s round-start cooldown; the nominal
      * is the 10 s cooldown after each mark ends. The setter is exact (floored at 0) and syncs the owner. The skill has
      * no item, so the admin {@code clearCooldown} (held item only) does not reach it, like Raven Form.
      * 支配者 G 键冷却（PR #192），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:dominator} 组件中；它同时拦住标记与
      * 释放。ACTIVE 回合、真实职业（支配者不可能是黑羽鸦的伪装目标，因此 DominatorSkillService 的 isRole 门控读到的相同）
-     * 且没有进行中的标记：同一计数也拦着释放键，且标记结束时会写入标记后冷却，因此进行中的标记绝不强制（与绑架者携尸、
-     * 业火燃烧相同）。SimpleRoleSkillCooldownStore 没有 mayForce，因此该条件放在门控中；二者任一为假时注册表
+     * 且没有进行中的标记：同一计数也拦着释放键，且标记结束时会写入标记后冷却，因此进行中的标记绝不强制（与绑架者携尸
+     * 相同）。SimpleRoleSkillCooldownStore 没有 mayForce，因此该条件放在门控中；二者任一为假时注册表
      * 都会略过该存储。剩余时间包含 45 秒回合初始冷却；标准冷却为每次标记结束后的 10 秒。setter 为精确写入（下限为 0）并
      * 同步给本人。该技能没有物品，因此管理员 {@code clearCooldown}（只清手持物品）触及不到它，与化鸦相同。
      */
@@ -923,8 +922,12 @@ public final class RoleForcedCooldowns {
 
     /**
      * The Seeker car is exempt: {@code SeekerCooldowns} is its frozen sole "max + exact" writer, driven only by the
-     * Seeker state machine, and offers no write path to other features.
-     * 搜寻者小车豁免：SeekerCooldowns 是其冻结的唯一“取最大 + 精确”写入方，只由搜寻者状态机驱动，不向其他功能开放写入。
+     * Seeker state machine (and shortened only by the Seeker's own shop), and offers no write path to other features.
+     * The Seeker camera is not exempt: its cooldown is a plain per-item gate with no state behind it, and a carried
+     * camera was a forced-cooldown slot before it had a cooldown of its own.
+     * 搜寻者小车豁免：SeekerCooldowns 是其冻结的唯一“取最大 + 精确”写入方，只由搜寻者状态机驱动（且只由搜寻者自己的商店缩短），
+     * 不向其他功能开放写入。搜寻者摄像头不豁免：它的冷却只是按物品的普通门槛、背后没有状态，而且携带的摄像头在拥有自己的冷却之前
+     * 就已经是强制冷却槽位。
      * The Knight's cross sword is exempt too: it has no cooldown at all, so forced raises must not lock it.
      * 骑士十字剑同样豁免：它完全没有冷却，强制抬高不得将其锁住。
      */

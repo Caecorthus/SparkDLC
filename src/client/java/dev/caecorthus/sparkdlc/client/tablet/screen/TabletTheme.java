@@ -94,6 +94,9 @@ public final class TabletTheme {
             case DOOR_LOG -> MONITOR;
             case DRONE -> DRONE;
             case SABOTAGE -> SABOTAGE;
+            // Granted only with the police network, so the holder is never feature-only; the network's own blue.
+            // 只随义警网络授予，持有者不会是“仅功能”；使用该网络自身的蓝色。
+            case CAMERAS -> POLICE;
         };
     }
 

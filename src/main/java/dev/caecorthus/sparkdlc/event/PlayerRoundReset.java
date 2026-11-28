@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.role.killer.assassin.AssassinGuessService;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardShieldService;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityService;
+import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterPistolService;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureDeviceService;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingService;
@@ -62,6 +63,7 @@ public final class PlayerRoundReset {
         TimekeeperWatchComponent.KEY.get(player).reset();
         DetectiveCasePlayerComponent.KEY.get(player).clearAll();
         DemonHunterSniffService.clearPlayer(player);
+        DemonHunterPistolService.clearPlayer(player);
         VultureSuperCurseService.clearPlayer(player);
         CorruptCopAbilityService.reset(player);
         CoronerService.clearPlayer(player);

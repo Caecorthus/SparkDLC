@@ -520,9 +520,10 @@ public final class AchievementRecords {
     }
 
     /**
-     * W12: a Saint died with Hellfire active and {@code killer} took Karma (it passed the Karma immunity check).
-     * {@code actor} is the dead Saint.
-     * W12：圣徒在业火状态下死亡，{@code killer} 背上了业障（已通过业障免疫检查）。{@code actor} 为死去的圣徒。
+     * W12: a Saint was killed and {@code killer} burns with her Hellfire (it passed the immunity check; the record
+     * id keeps the lock's former name, Karma). {@code actor} is the dead Saint.
+     * W12：圣徒被杀，{@code killer} 被她的业火灼烧（已通过免疫检查；记录 id 沿用这把锁原先的名字“业障”）。
+     * {@code actor} 为死去的圣徒。
      */
     public static void saintKarma(ServerPlayerEntity saint, ServerPlayerEntity killer) {
         safelyUntyped(() -> GameRecordManager.event(SAINT_KARMA).actor(saint).target(killer).record());

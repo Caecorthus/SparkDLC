@@ -75,11 +75,6 @@ public final class ForcedCooldownMath {
         return !(kidnapperDragSkill && carryingBody);
     }
 
-    /** Hellfire's end writes its own post cooldown, so a burning Hellfire is never forced. / 业火燃烧期间不强制。 */
-    public static boolean mayForceSaintHellfire(boolean hellfireActive) {
-        return !hellfireActive;
-    }
-
     /**
      * NoellesRoles' Spirit Walker overwrites the shared ability counter with a flat 1-minute cooldown when its projection
      * ends (return press or cancel), dropping anything forced meanwhile, so a projecting Spirit Walker is never forced.

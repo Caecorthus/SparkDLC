@@ -71,6 +71,10 @@ import static dev.caecorthus.sparkdlc.client.tablet.screen.TabletSectionPainter.
  * <p>The drone section only asks to connect ({@link DronePilotStartC2SPacket}); the server re-validates ownership,
  * state and the pilot's body, and the pilot client owns everything after that (camera, input, closing this screen).
  * 无人机分区只发出连接请求；服务端重新校验归属、状态与驾驶者本体，此后的一切（视角、输入、关闭本界面）由驾驶客户端负责。</p>
+ *
+ * <p>The camera section works the same way for the Seekers' wall cameras ({@code TabletCamerasPage}): it only asks to
+ * view one, and the Seeker's remote-view client owns the view.
+ * 摄像头分区以同样的方式处理搜寻者的摄像头（TabletCamerasPage）：它只发出观看请求，画面由搜寻者的遥控视角客户端负责。</p>
  */
 public final class TabletScreen extends Screen {
     private final TabletUiSession session = new TabletUiSession(TabletClientState.chatDraft());
@@ -131,6 +135,7 @@ public final class TabletScreen extends Screen {
         pages.put(Section.DOOR_LOG, new TabletDoorLogPage(this));
         pages.put(Section.DRONE, new TabletDronePage(this));
         pages.put(Section.SABOTAGE, new TabletSabotagePage(this));
+        pages.put(Section.CAMERAS, new TabletCamerasPage(this));
         Section resume = TabletClientState.consumeResumeSection();
         if (resume != null) {
             // init() falls back to the first visible section if it is gone. 若该分区已不可见，init() 会回退到第一个可见分区。

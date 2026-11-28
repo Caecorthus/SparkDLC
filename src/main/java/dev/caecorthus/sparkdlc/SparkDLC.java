@@ -233,6 +233,9 @@ public final class SparkDLC implements ModInitializer {
         // NoellesRoles 仍负责装备包过滤，本模组这里只扩展其隐藏物品判定。
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.perfumeEssence());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.cologne());
+        // Only the Orthopedist's shop sells it, so a visible one in the hand would expose the role like the Cologne.
+        // 只有骨科大夫的商店出售它，手中可见的外骨骼会像古龙水一样暴露身份。
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.exoskeleton());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.blackRavenLedger());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStealerClock());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStealerGiftWatch());

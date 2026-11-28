@@ -32,8 +32,14 @@ public final class TabletRules {
     public static final int DEFAULT_MEETING_DURATION_TICKS = GameConstants.getInTicks(1, 40);
     public static final int MEETING_DURATION_TICKS = DEFAULT_MEETING_DURATION_TICKS;
     public static final int MEETING_COOLDOWN_TICKS = GameConstants.getInTicks(1, 0);
-    public static final int SUSPECT_REVEAL_INTERVAL_TICKS = GameConstants.getInTicks(0, 45);
-    public static final int SUSPECT_REVEAL_TICKS = GameConstants.getInTicks(0, 5);
+    // Suspect tracking (the Track button of the Suspects page; owner 2026-11-28, it replaced the passive reveal of 5 s
+    // every 45 s): the suspect is outlined through walls for the tracker alone from DELAY after the click, for REVEAL;
+    // that (tracker, suspect) pair may not be tracked again until COOLDOWN after the click. Pairs are independent.
+    // 嫌疑人追查（嫌疑分区的“追查”按钮；所有者 2026-11-28，取代原先每 45 秒透视 5 秒的被动显示）：点击后经过 DELAY，该嫌疑人
+    // 只对追查者穿墙描边 REVEAL 这么久；同一（追查者，嫌疑人）组合在点击后 COOLDOWN 内不能再次追查。各组合互不影响。
+    public static final int SUSPECT_TRACK_DELAY_TICKS = GameConstants.getInTicks(0, 3);
+    public static final int SUSPECT_TRACK_REVEAL_TICKS = GameConstants.getInTicks(0, 8);
+    public static final int SUSPECT_TRACK_COOLDOWN_TICKS = GameConstants.getInTicks(0, 45);
     public static final int SYNC_INTERVAL_TICKS = 20;
     public static final int SNAPSHOT_REQUEST_INTERVAL_TICKS = 10;
     // State-changing tablet packets per player (see acceptAction): one every 2 ticks (10 per second), bursts of 20.
@@ -103,13 +109,24 @@ public final class TabletRules {
     }
 
     /**
-     * Rate gate for state-changing tablet packets (chat, vote, confirm, removal approval, channel switch), each of which
+     * Server side: whether a track request arriving {@code waitTicks} before the pair's cooldown ends must be refused.
+     * The button unlocks on the client's world clock, which can run a few ticks ahead of the server's under lag (see
+     * {@link #CHAT_COOLDOWN_GRACE_TICKS}), so that much is let through instead of refusing a click on a ready button.
+     * 服务端：在该组合冷却结束前 waitTicks 到达的追查请求是否须拒绝。按钮按客户端的世界时钟解锁，服务器卡顿时它可能比服务端
+     * 快几 tick（见 CHAT_COOLDOWN_GRACE_TICKS），因此放行这点误差，而不是拒绝一次对已就绪按钮的点击。
+     */
+    public static boolean suspectTrackTooEarly(int waitTicks) {
+        return waitTicks > CHAT_COOLDOWN_GRACE_TICKS;
+    }
+
+    /**
+     * Rate gate for state-changing tablet packets (chat, vote, confirm, removal approval, suspect track, channel switch), each of which
      * rebuilds and pushes snapshots: a token bucket of {@link #ACTION_BURST} refilled one per
      * {@link #ACTION_REFILL_TICKS}, far above what anyone clicking or typing reaches, so it only ever stops a modified
      * client sending in a loop. {@code budgetTick} is the tick at which the player's budget is full again
      * ({@link Long#MIN_VALUE} when never used); returns the new value when accepted, empty when the packet must be
      * dropped. A value too far ahead (impossible with world time) restarts from a full budget.
-     * 改变状态的平板数据包（聊天、投票、确认、移除赞成、切换频道）的限流闸门，每个都会重建并推送快照：容量为 ACTION_BURST、
+     * 改变状态的平板数据包（聊天、投票、确认、移除赞成、追查嫌疑人、切换频道）的限流闸门，每个都会重建并推送快照：容量为 ACTION_BURST、
      * 每 ACTION_REFILL_TICKS 恢复一个的令牌桶，远高于任何人点击或打字能达到的速度，因此只会拦下循环发包的改版客户端。
      * budgetTick 是该玩家预算重新满额的 tick（从未使用时为 Long.MIN_VALUE）；接受时返回新值，应丢弃时返回空。
      * 超前过多的值（世界时间下不可能出现）按满额预算重新开始。

@@ -100,8 +100,8 @@ public class SeekerCarEntity extends SeekerDeviceEntity {
         }
         Box playArea = MapVariablesWorldComponent.KEY.get(world).getPlayArea();
         if (SeekerPlacementRules.isBelowPlayArea(getY(), playArea)) {
-            // Fell out of the train: 180 s, never marks. Idempotent if WP-09's checks got there first.
-            // 掉出列车：180 秒，不标记。若 WP-09 的检查已先处理则幂等。
+            // Fell out of the train: 90 s, never marks. Idempotent if WP-09's checks got there first.
+            // 掉出列车：90 秒，不标记。若 WP-09 的检查已先处理则幂等。
             SeekerDeviceService.breakDevice(this, SeekerBreakSource.VOID, null);
             return;
         }

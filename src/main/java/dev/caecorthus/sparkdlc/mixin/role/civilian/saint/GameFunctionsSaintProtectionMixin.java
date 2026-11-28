@@ -16,8 +16,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Enforces Saint protection before Wathe's first-result-wins kill event can bypass later listeners.
- * 在 Wathe 的首个结果短路击杀事件绕过后续监听器之前，强制执行圣徒保护。
+ * Enforces the Saint's Voodoo immunity before Wathe's first-result-wins kill event can bypass later listeners (Wathe
+ * member, HEAD of the 5-arg {@code killPlayer}, default priority and order). Since 2026-11-28 it is her only
+ * immunity: kills by good players are no longer refused here.
+ * 在 Wathe 的首个结果短路击杀事件绕过后续监听器之前，强制执行圣徒的巫毒免疫（Wathe 成员，五参 {@code killPlayer} 的 HEAD，
+ * 默认优先级与 order）。自 2026-11-28 起这是她唯一的免疫：好人的击杀不再在此被拒绝。
  */
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsSaintProtectionMixin {
@@ -53,7 +56,7 @@ public abstract class GameFunctionsSaintProtectionMixin {
             return;
         }
         if (CeremonialSwordProtectionPolicy.cancelsDeath(
-                SaintFeatureService.blocksKill(victim, killer, deathReason), deathReason)) {
+                SaintFeatureService.blocksKill(victim, deathReason), deathReason)) {
             ci.cancel();
         }
     }

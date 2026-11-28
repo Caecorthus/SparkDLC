@@ -21,6 +21,7 @@ import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaRules;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashRules;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRules;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.BellRingerRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
@@ -49,10 +50,10 @@ import java.util.OptionalInt;
 /**
  * Nominal (full post-use) cooldowns of the items whose cooldown the mod's own roles write, plus the public NoellesRoles
  * item constants, keyed by registry id so the provider works before and after item registration. Initial round-start
- * cooldowns are not nominals. Items without a cooldown (traps, shells, stamps, camera, Swordfish) are absent, the
+ * cooldowns are not nominals. Items without a cooldown (traps, shells, stamps, Swordfish) are absent, the
  * Seeker car is exempt instead, and Wathe items fall through to Wathe's own table.
  * 本模组职业写入其冷却的物品与 NoellesRoles 公开物品常量的标准（使用后完整）冷却，按注册 id 索引，物品注册前后均可用。
- * 开局冷却不算标准冷却。没有冷却的物品（陷阱、弹壳、邮票、摄像头、剑鱼）不在表内，搜寻者小车改为豁免，Wathe 物品回落到
+ * 开局冷却不算标准冷却。没有冷却的物品（陷阱、弹壳、邮票、剑鱼）不在表内，搜寻者小车改为豁免，Wathe 物品回落到
  * Wathe 自身的表。
  */
 final class RoleItemCooldownNominals implements ItemCooldownNominalProvider {
@@ -154,6 +155,11 @@ final class RoleItemCooldownNominals implements ItemCooldownNominalProvider {
             // M1903A4Cooldowns is its only writer.
             // 狙击手 M1903A4：开火后 10 秒，而非装填后的 2 秒下限或开局 60 秒锁定；M1903A4Cooldowns 是唯一写入方。
             entries.put(SparkDlcItems.M1903A4_ID, M1903A4Rules.SHOT_COOLDOWN_TICKS);
+            // Seeker camera (owner spec 2026-11-28): the 45 s after a placement, not the 60 s round-start cooldown;
+            // SeekerCooldowns is its only writer. Unlike the car it is not exempt.
+            // 搜寻者摄像头（所有者规格 2026-11-28）：放置后的 45 秒，而非开局 60 秒冷却；SeekerCooldowns 是唯一写入方。
+            // 与小车不同，它不豁免。
+            entries.put(SparkDlcItems.SEEKER_CAMERA_ID, SeekerRules.CAMERA_USE_COOLDOWN_TICKS);
             // Timetable pocket watch: the 25 s between two readings, shared with the timetable block.
             // 时刻表怀表：两次读数之间的 25 秒，与时刻表方块共用。
             entries.put(SparkDlcBlocks.SCHEDULE_WATCH_ID, ScheduleBlock.READ_COOLDOWN_TICKS);

@@ -447,7 +447,7 @@ public final class AchievementCatalog {
                     "以先知身份对一名死者第一次预言就猜中死因，且揭示的凶手是非好人",
                     SparkRoleRecordRules::firstProphecyNamesNonCivilian),
             new Achievement("martyr", 2, "minecraft:soul_campfire", "我不入地狱，谁入地狱",
-                    "以圣徒身份在业火中被杀死，使凶手背上业障",
+                    "以圣徒身份被杀死，使凶手被业火灼烧",
                     SparkRoleRecordRules::karmaOnMyKiller),
             new Achievement("outlaw_zhang_san", 2, "minecraft:lectern", "法外狂徒张三",
                     "以法官身份判刑一名非好人，并在其刑期内亲手将其击杀",

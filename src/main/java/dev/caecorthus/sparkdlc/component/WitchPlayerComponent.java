@@ -7,7 +7,6 @@ import dev.caecorthus.sparkdlc.skill.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.ApprenticeAbilityRuntime;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.ApprenticeAbilityWindowRules;
 import dev.caecorthus.sparkdlc.role.civilian.piggod.PigGodChaseRuntime;
-import dev.caecorthus.sparkdlc.role.civilian.saint.SaintAbilityService;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintPlayerState;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaParryRuntime;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray.MurderousWitchDeathRayService;
@@ -647,7 +646,6 @@ public final class WitchPlayerComponent implements AutoSyncedComponent, ServerTi
         tickCooldown();
         if (serverPlayer != null) {
             WitchManaService.tickRegeneration(serverPlayer, this);
-            SaintAbilityService.tick(serverPlayer, this);
         }
     }
 

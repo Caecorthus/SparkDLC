@@ -334,13 +334,136 @@ Current build baseline:
     a Prophecy record made against an earlier death of the same victim (revived, then killed again) is
     treated as fresh. Never in the Witch skill panel;
     both C2S ids are in the Control Expert stun and Seeker remote-view deny-lists.
-- `role/civilian/saint/`: Saint protection, Hellfire, player-local state,
-  UUID-bound Karma, and the Saint shop (`SaintShopService`).
+- `role/civilian/saint/`: the Saint (`sparkdlc:saint`, 圣徒), rebalanced by the owner on 2026-11-28; every number is
+  in `SaintRules`. She has no active skill and no key any more (she left `SparkDlcRoleRegistry.isRegisteredSkillRole`,
+  the shared skill packet and `WitchPlayerComponent.serverTick`; the forced-cooldown store `sparkdlc:saint_hellfire`
+  is gone).
+  - Protection: only Voodoo (`noellesroles:voodoo`) is refused, at HEAD of Wathe's 5-arg `killPlayer`
+    (`mixin/role/civilian/saint/GameFunctionsSaintProtectionMixin`, default priority and order, with its pass-through
+    cases unchanged). Kills by good players are no longer refused.
+  - Passive Hellfire (`SaintFeatureService.afterKill` on `KillPlayer.AFTER`): any other player who kills her, of any
+    faction, burns for `coins / 50 + 5` seconds (`SaintRules.hellfireTicks`); the Grand Witch is immune
+    (`SaintRules.isKarmaImmune`); no killer, nobody burns. The coins are read in a phase ordered before the default
+    phase of that event (`sparkdlc:saint_death_balance`), because the Plunderer trait's listener, registered earlier,
+    takes coins from the victim. It fires on every `KillPlayer.AFTER` of a Saint, a death Last Stand then intercepts
+    included. The lock itself is still called Karma in code: `SaintKarmaService.inflict` starts it once (a longer one
+    already running is kept), rings the bell, sends `message.sparkdlc.saint.hellfire.received` and returns false only
+    for an immune role; `SaintKarmaState` (world component, by UUID, round-scoped) holds the ticks left and drops the
+    entry when they run out; `SaintKarmaRuntime` keeps every carried item on cooldown through
+    `SaintKarmaCooldownService` and mirrors the countdown to the owner (`SaintPlayerState`). Nothing re-triggers it:
+    the round-long mark and its triggers (later kills, poison-needle hits, bomb passes, the Bomber's longer value) are
+    removed. `SaintPlayerState` keeps the layout of the shared player sync packet (the two former Hellfire timers are
+    written as 0 and skipped on read); its NBT keys `SaintHellfireCooldownTicks` / `SaintHellfireActiveTicks` were
+    round-scoped and are no longer written or read.
+  - Guns: she is no longer added to Wathe's gun-pickup ban, so Wathe's ordinary rule for an innocent applies. Her
+    bullet never kills (`SaintGunShotService`): a kill credited to her raw role with a bullet's death reason
+    (`wathe:gun_shot`, which every gun of `wathe:guns` and the rifles use, or `noellesroles:demon_hunter_shot`) is
+    cancelled on the alive branch's `changeGameMode(SPECTATOR)` call of the 5-arg `killPlayer`
+    (`mixin/role/civilian/saint/GameFunctionsSaintGunShotMixin`, `@Inject` `order = 1050`, pinned in
+    `verifyUpstreamMixinSelectors`), and the victim is rooted for 60 ticks (`HunterPlayerComponent.applyRoot`: the
+    trap's root alone, no fracture, Bone Setting untouched, the longer root wins) and gets vanilla Glowing for 200
+    ticks. The place is the contract: every `@WrapMethod` pre-call, HEAD veto, `KillPlayer.BEFORE` listener, psycho
+    armour, the Specter shield, Tofana (one instruction earlier) and Last Escape (default order) run first, so what
+    would have stopped the kill stops the shot too and pays what it always pays; the Cat's takeover (order 1100) and
+    Hiro's fake death (order 1200) come after and never see it, because they act only on a death that commits. The
+    same mixin wraps both `stopPsycho()` calls so a victim in psycho mode keeps it. The shot the Dominator forces
+    (`DominatorForcedShotScope.isFiring`) is the Dominator's kill and stays lethal. In Wathe's gun receiver
+    (`SaintGunShotReceiverMixin`, chaining `@WrapOperation`s like the Judge's and the Dominator's)
+    `ShouldPunishGunShooter` answers cancel for a Saint shooter without asking the listeners (no backfire, no
+    innocent-shot punishment, no custom punishment) and the mood loss is skipped; the receiver's HEAD vetoes, the
+    click, record, derringer state, sound, muzzle flash and cooldown are untouched. The shotgun and the Demon Hunter
+    pistol never punish their shooter; the Serial Killer pistols and the Bandit revolver only fire for their own role.
+  - Dropping (`SaintGunDropService`): a living Saint in a running round can throw the selected stack when it is in
+    `wathe:guns` (never the Dominator's marked forced-shot revolver), with the drop key only. Server:
+    `mixin/role/civilian/saint/ServerPlayNetworkHandlerSaintGunDropMixin`, a `@WrapMethod` on `onPlayerAction` with
+    priority 1100, outside Wathe's default-priority wrapper that swallows drops while the train HUD is on and inside
+    the Last Escape click lock (2000); it performs `ServerPlayerEntity#dropSelectedItem` itself, so the item entity
+    keeps the stack's components and names her as thrower, and Wathe's pickup rule keeps her from taking it back; a
+    drop the server will not perform (Dominator sequence, carried by the Partygoer) resyncs the inventory. Client:
+    `client/role/civilian/saint/SaintGunDropClient` answers Wathe's `ShouldAllowSuppressedKey` for the drop key, with
+    no screen open. Inventory-screen drops (Q over a slot, dragging out) stay refused by Wathe.
+  - HUD (`client/hud/SaintHudRenderer`, drawn by `RoleHudDispatcher`): the Saint sees the seconds her killer would
+    burn now (`hud.sparkdlc.saint.hellfire.passive`, from her own synced coins); a burning player sees the countdown
+    (`hud.sparkdlc.saint.hellfire.burning`).
+  - Economy and shop (`SaintEconomyService`, `SaintShopService`): unchanged, 0 coins at the start, +50 per task, the
+    Holy Flash.
   - `flash/`: the Holy Flash (`sparkdlc:holy_flash`) item, thrown entity,
     owner-only component, victim targeting, inventory rules, and lifecycle;
     its no-drop mixin lives in `mixin/role/civilian/saint/`.
 - `role/civilian/perfumer/`: private scent marks, cologne healing, corpse mood,
   outlines, shop, and economy.
+- `role/civilian/orthopedist/`: Bone Setting (`OrthopedistSkillService`, `OrthopedistRules`, the 25% cheaper sprint
+  drain in `mixin/role/civilian/orthopedist/`), the per-player `OrthopedistPlayerComponent` (`sparkdlc:orthopedist`,
+  on every player), and since the owner's 2026-11-28 buff an economy and a shop.
+  - Economy (`OrthopedistEconomyService`, wired in `event/RoleEvents` next to the Perfumer's): `CanSeeMoney` ALLOW for
+    the raw role, balance 0 on assignment, +50 per finished task. Unlike the Perfumer it pays no Impostor trait holder
+    (that trait pays its holder's task income itself, the rule of the newer role economies).
+  - Shop (`OrthopedistShopService`, a `BuildShopEntries` listener gated on the widened `isRole`): one entry,
+    `orthopedist_exoskeleton`, the Exoskeleton (`sparkdlc:exoskeleton`, 外骨骼) for 75 coins, no stock limit, through
+    the Charisma discount. The item is hidden in other players' hands (`NoellesHiddenEquipmentRegistry`), like the
+    Cologne.
+  - Exoskeleton (`ExoskeletonItem`, `ExoskeletonService`, `ExoskeletonRules`): right-click a player within 3 blocks
+    and in sight to fit one layer on them, sneak and right-click to fit it on yourself (a plain right-click that hits
+    no player only shows a reminder, so a missed click never spends the item on the user). A Last Stand survivor keeps
+    the layers (`OrthopedistSkillService.clearPlayerKeepingExoskeleton`). Any
+    holder may use it; user and target must be playing, alive and not spectator or creative. A player holds at most 2
+    layers; a refusal (at the cap, out of range, no round) spends nothing and tells the user why.
+    - The layers are `OrthopedistPlayerComponent.getExoskeletonLayers()`: server-only, saved as `ExoskeletonLayers`,
+      never synced (the component's sync layout is unchanged). `clear()` takes them off, so they end with death
+      (a death the Last Stand trait intercepted included, like Bone Setting), `ResetPlayer` and round end, for every
+      player whatever the role; role assignment does not touch them. The component tick also drops layers once no
+      round runs or the wearer has no role in it (data saved for a wearer who was offline at round end).
+    - Stamina: one temporary modifier `sparkdlc:exoskeleton_stamina` on Wathe's tracked `max_sprint_time`,
+      `ADD_MULTIPLIED_BASE`, amount = layers (1 layer = 2x, 2 layers = 3x the role's base maximum; the Excellent
+      Physique total multiplier applies on top). The component rewrites it when it is out of step with the layers
+      (after a load). A role with infinite stamina carries it without effect, as Wathe never reads the attribute then.
+    - Fracture: `HunterPlayerComponent.serverTick` passes `ExoskeletonRules.fractureTickStep(layers)` to
+      `HunterInjuryState.tick(int)`, so a wearer's fracture layers lose 2 ticks per tick (a 60 s layer lasts 30 s, and
+      layers gained before the fitting run down at double speed from then on). The root is not shortened.
+  - Black Raven disguise (`OrthopedistDisguiseAdapter`): money visible, shop whitelist `orthopedist_exoskeleton`
+    (native entry only), task income `OWN_ROLE`.
+- `role/civilian/demonhunter/`: the NoellesRoles Demon Hunter (`noellesroles:demon_hunter`, 猎魔人). NoellesRoles
+  owns the role, the pistol item (`noellesroles:demon_hunter_pistol`, bullets in `noellesroles:bullets`), the shot
+  receiver and the frenzy list (`DemonHunterPlayerComponent`, the through-wall highlight); the mod adds the Sniff
+  skill (`DemonHunterSniff*`, `sparkdlc:demon_hunter_sniff`) and, since the owner's 2026-11-28 spec, reworks the
+  pistol (`DemonHunterPistolRules` pure decisions, `DemonHunterPistolService`, mixins in
+  `mixin/role/civilian/demonhunter/`). "Frenzy" (疯魔) is any Wathe psycho: `DemonHunterPistolService.isAnyoneFrenzied`
+  (a living player of the round with psycho ticks left) is the one definition, because `isPsychoActive` counts the
+  public psycho only.
+  - Carried all round. `assignForRole` (the `RoleAssigned` listener in `event/RoleKitEvents`, round start and
+    mid-round alike) puts a pistol with 0 bullets in the first free hotbar slot unless one is carried, and takes it
+    back from a player the role map moves away from the Demon Hunter (it remembers who was assigned; cleared in
+    `PlayerRoundReset`). Nothing else removes it before the round reset: for a player whose raw role is the Demon
+    Hunter, `DemonHunterPistolShotMixin` keeps the stack at 0 bullets where NoellesRoles removed it after the last
+    bullet, and `DemonHunterFrenzyListenerMixin` (`ON_PSYCHO_END`, `lambda$registerEvents$12`) and
+    `DemonHunterComponentTickMixin` (`DemonHunterPlayerComponent#serverTick`) skip NoellesRoles' `removePistol`.
+    NoellesRoles' `ResetPlayer` listener still removes it. Leftover bullets stay.
+  - Ammunition comes only from a frenzy start: NoellesRoles' `ON_PSYCHO_START` listener adds 2 bullets to a carried
+    pistol (a hunter without one and without another gun still gets a fresh pistol with 2). A frenzy already running
+    when the role is assigned adds nothing.
+  - No cooldown during a frenzy. The receiver's 10 s is skipped when anyone was frenzied at the shot (read before the
+    kill, so the shot that kills the last frenzied player counts), and the 5 s NoellesRoles puts on a pistol it
+    hands out at a frenzy start is skipped (`lambda$registerEvents$10`). A shot with nobody frenzied keeps the 10 s;
+    a cooldown already running when a frenzy starts is not cleared.
+  - Frenzied hit: a shot whose player target has psycho ticks left gives its bullet back, into the stack that fired
+    (so the last bullet leaves 1, not an empty pistol). A Jester target is left to NoellesRoles' own Jester refund,
+    so a shot never returns two bullets. A Magician puppet is not a player: only the Jester puppet refund
+    (`MagicianDemonHunterRefundMixin`) exists.
+  - The shot rules (cooldown, refund) apply to whoever fires; the keep rules only to the raw Demon Hunter role. A
+    Coroner's loaned pistol (`CoronerLoanedGear`) keeps its own grant / take-back lifecycle; a refunded bullet goes
+    into the loaned stack and leaves with it.
+  - Ground guns. The pistol is in `wathe:guns`, and Wathe's pickup rule refuses a gun to a player who has one.
+    `DemonHunterGunPickupMixin` (`@WrapMethod` around `ItemEntity#onPlayerCollision`, so Wathe's HEAD handler and
+    every HEAD veto of the mod run inside it) opens a window for a Demon Hunter touching a gun other than the
+    pistol, in which `DemonHunterHeldGunMixin` hides that hunter's pistols from `PlayerInventory#contains(Predicate)`.
+    A second real gun, a pistol held on the cursor and every other condition refuse as before. A hunter can
+    therefore hold the pistol and a revolver; Wathe's client gun-drop notice (`GunDropPayload`) removes the first
+    `wathe:guns` stack locally while the server drops the revolver only, so
+    `client/mixin/role/civilian/demonhunter/GunDropKeepsDemonHunterPistolMixin` makes that client removal skip the
+    pistol.
+  - Text: the pistol's tooltip lines the rework made wrong are pointed at `tip.sparkdlc.demon_hunter_pistol.*`
+    (`DemonHunterPistolTooltipMixin`), and the welcome goal line at `announcement.goal(s).sparkdlc.demon_hunter`
+    (`util/UpstreamTextKeys`); NoellesRoles' own keys are never redefined.
 - `role/civilian/tarotreader/`: divination shop, one-shot selection sessions,
   faction-count snapshots, purchaser-only reading results, and economy. Client
   presentation (faction-count HUD, reading slip, reading log, selector ledger)
@@ -1118,7 +1241,7 @@ Current build baseline:
       (`mixin/item/rope/NoellesRopeShieldPassMixin`, two `@ModifyExpressionValue` in the pinned BEFORE lambda), Wathe psycho
       armour and the Specter's Otherworld shield (a `ShouldPiercePsychoArmour` listener); SparkStrength's shield/vest
       table and the Rys-T ricochet never list the reason. Still stopping it: SparkTraits traits, the Fiend, the
-      Charon's pardon, Saint/SparkFactionAPI vetoes, Tofana, the Cat, NoellesRoles moment immunities and Jester stasis.
+      Charon's pardon, SparkFactionAPI vetoes, Tofana, the Cat, NoellesRoles moment immunities and Jester stasis.
   - Client (presentation only): `client/role/killer/hiro/HiroClientModule` registers `client/hud/HiroHudRenderer`, two
     right-aligned corner rows like the Specter's (pure layout and state in `client/hud/HiroHudRules`;
     `SaintHudLayoutRules.ownsTwoCornerRows` reserves both): 死亡回归 below (key hint, `魔力不足` under
@@ -2026,14 +2149,14 @@ Current build baseline:
     shield. The SparkTraits Second Strike mirror in SparkStrength keeps its two settlements; a pierced vest ends them
     and lets the kill go on. An innocent shot the shield stops is never punished (SparkStrength's
     `ShouldPunishGunShooter` cancel, asked before the kill as for the revolver); a vest stop or a pierced vest is
-    punished like the revolver's vest stop. Every other protection hooked on `killPlayer` (Saint, Judge, the
+    punished like the revolver's vest stop. Every other protection hooked on `killPlayer` (Judge, the
     SparkFactionAPI veto, Fiend, Ninja parry, Pig God, Last Stand, Last Escape, Depression, Tofana) runs exactly once
     and is never pierced; KillPlayer.BEFORE fires once and AFTER at most once. Known quirk: a layer earlier in the
     BEFORE chain (or the vest, at HEAD) than a later parry is pierced and spent, then the parry still blocks. The death
     reason stays `wathe:gun_shot`, and the Ceremonial Sword path is unchanged.
   - Hit punishment (`UsecFirePunishment`, Q8 and owner O1 2026-10-07, Wathe's revolver receiver): Wathe's
     `ShouldPunishGunShooter` is asked for every player hit, before the kill, and the punishment is decided on the hit,
-    whether or not the victim dies (a Saint, shield, Last Stand or Judge denial does not spare the USEC). A listener's
+    whether or not the victim dies (a shield, Last Stand or Judge denial does not spare the USEC). A listener's
     custom result runs 4 ticks later for any hit. Otherwise only an innocent shot (shooter and victim both
     SparkFactionAPI civilians before the shot) by a non-creative shooter that no listener cancelled is punished, also 4
     ticks later and only while the shooter still carries a USEC rifle (inventory, offhand or cursor; Wathe: still
@@ -3840,7 +3963,7 @@ Current build baseline:
   is still a stray.
 - `cooldown/provider/`: SparkWitch's registrations with the SparkFactionAPI forced-cooldown contract
   (`cooldown.api.ForcedCooldowns`): role-skill stores for SparkWitch and NoellesRoles counters, the SparkWitch item
-  nominal-cooldown provider, and the Seeker car item exemption. `RoleForcedCooldowns.register()` runs once from
+  nominal-cooldown provider (the Seeker camera's 45 s is in it), and the Seeker car item exemption. `RoleForcedCooldowns.register()` runs once from
   `SparkDLC#registerOwnRoleGameplay`, right after `RoleEvents.register()`. `RoleItemCooldownReleases` releases the
   SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/cooldown/provider/RoleItemTimerReleaseMixin`). For the
   admin clear alone (its `afterAdminRemove`, an `AdminCooldownClear` listener registered by `RoleForcedCooldowns`), it also exempts the item from Saint Karma.
@@ -3872,7 +3995,7 @@ Current build baseline:
   `sparkdlc:prophecy` (`target` dead victim, `guess` cause group id, `correct`, `attempt` 1-based on this death via
   `ProphetProphecyRules.attemptNumber`, `killer` + `killer_faction` only when a correct guess revealed someone;
   `ProphetProphecyService.confirmGuess`, after the charge and cooldown), `sparkdlc:saint_karma` (`actor` dead Saint,
-  `target` killer; only when `SaintKarmaService.mark` passed the immunity check), `sparkdlc:judge_verdict`
+  `target` killer; only when `SaintKarmaService.inflict` passed the immunity check, i.e. a killer who received Hellfire), `sparkdlc:judge_verdict`
   (`sentenced`, `kills`, `required_kills`, `duration` ticks or 0; every charged judgment in
   `JudgeRuntime.confirmSelection`), `sparkdlc:emma_hunt_reward` (`target` Witch Factor holder; when
   `EmmaGunCycle.confirmKill` grants the reward), `sparkdlc:seeker_mark` (`target` breaker, `duration`; after
@@ -4040,7 +4163,8 @@ Tests: `registry/WitchThirdFactionLineupRulesTest`, `roles/neutral/insider/Jiaha
 5. Ninja parry window
 6. shared cooldown
 7. mana regeneration
-8. Saint ability
+
+(The Saint's ability tick was step 8 until her Hellfire became passive on 2026-11-28.)
 
 The Prophet no longer ticks here; `sparkdlc:prophet_player` ticks itself.
 
@@ -4188,7 +4312,7 @@ line is restyled only through `client/mixin/role/killer/bellringer/` on
 (`sparkdlc:bell_toll`) is a forced, terminal kill that pierces every role,
 item, and trait protection (registered as SparkTraits-terminal); only
 SparkFactionAPI's structural `canAffectPlayer` veto still applies. Guards that
-ignore Wathe's `force` flag (currently only the Saint HEAD guard) opt out through
+ignore Wathe's `force` flag (currently only the Saint HEAD guard, which refuses Voodoo alone since 2026-11-28) opt out through
 `BellRingerRules.piercesProtection`. As with sword piercing, protections that
 run as `KillPlayer.BEFORE` listeners still pay their normal costs before the
 forced kill proceeds. The Bell Ringer never renders in the
@@ -4410,7 +4534,7 @@ creative, active Wraith). A Rift Gate occupant is the exception: it is an alive 
 (Riftwalker D3), so entering a gate never cleanses a flash, which keeps counting down inside.
 No new flash reaches an occupant, with or without a thrower: the victim filter requires a
 participant first, and the `sparkdlc:holy_flash` veto denies occupants as well. The
-Holy Flash never renders in the `gui.sparkdlc.skills` panel and never triggers Saint Karma.
+Holy Flash never renders in the `gui.sparkdlc.skills` panel.
 Client side lives in `client/role/civilian/saint/`: `HolyFlashOverlayRenderer` (via `client/mixin/role/civilian/saint/HolyFlashHudMixin`,
 `InGameHud.render` TAIL, priority 1100) draws owner pick B — a bright spot at the projected burst, then
 black held to 60% and eased out — above every HUD overlay, including the Seeker remote view;
@@ -4426,7 +4550,9 @@ fail-closed black; the tinnitus, the muffle and the voice muffle are not gated o
 Seeker state never enters that shared schema either. `sparkdlc:seeker_status` (`NEVER_COPY`,
 owner-only sync) holds the Seeker's car, cameras, session, battery, cooldown-reason, and mark state
 bound to the current Wathe match id; remote-session bookkeeping stays server-only and is never
-synced or saved, and other players never see the battery or the mark. The remote view is a
+synced or saved, and other players never see the battery or the mark. Every player has the component; a
+police-channel member who is no Seeker uses only its session fields, while watching a Seeker's camera
+(shared cameras, below). The remote view is a
 client-only camera switch (`MinecraftClient#setCameraEntity` on the owner's client); the server
 never calls `ServerPlayerEntity#setCameraEntity`, so server camera writers (Taotie, Last Stand,
 Depression) keep working and the body stays in place. While the owner views the car or camera,
@@ -4438,10 +4564,10 @@ processor; the shared `client/mixin/render/PostEffectProcessorAccessor` only rea
 pass list (for per-pass matrix and array uniforms, never adding or removing passes) and is used only
 by `client/role/civilian/blind/render/BlindEchoView`. A placed camera's look (`LOOK_YAW`,
 `LOOK_PITCH`) and `VIEWING` flag are public DataTracker state that every tracking client renders
-(the head follows the view, the LED glows while viewed, and an idle head holds its last look); only
-the owner's client sends `seeker_camera_look` while viewing, and the server accepts it only for the
-owner's own CAMERA session and clamps it into that camera's cone (`SeekerCameraLookRules`; the
-latest look wins). Sessions are server-authoritative: the
+(the head follows the view, the LED glows while anybody views, and an idle head holds its last look); a
+viewing client sends `seeker_camera_look`, and the server accepts it only for the sender's own open
+CAMERA session on that camera (the owner's, or any other police-channel viewer's) and clamps it into
+that camera's cone (`SeekerCameraLookRules`; the latest look wins). Sessions are server-authoritative: the
 client never predicts entry, and every exit except the owner's own Shift is detected on the server.
 The owner's client only simulates the car it drives (`SeekerRules.CAR_SPEED` 0.375 blocks/tick, owner
 decision 2026-10-04), and every move is validated against the shared `SeekerCarPhysics` (speed budget,
@@ -4450,7 +4576,8 @@ car nor a camera has a distance limit from the body (owner decision 2026-10-04):
 the only spatial bound of open, the per-tick exit (`OUT_OF_RANGE`, a stable name that now means outside
 the play area) and the car clamp; deploy and camera-place reach limit placement only. Console
 availability, quick connect and camera cycling therefore read the owner-synced car state and camera
-list, never client entity presence (a far device is usually untracked until a session views it), and
+list (and, for other Seekers' cameras, the tablet snapshot's camera rows; `SeekerClientState.viewableCameras`),
+never client entity presence (a far device is usually untracked until a session views it), and
 the CCTV HUD shows the body distance without a range bar. The session lock (`LOCK_SCOPE = SESSION`) applies only while
 the Seeker drives the car or views a camera: `mixin/role/civilian/seeker/SeekerSprintLockMixin` clears sprint on
 both sides, `SeekerInteractionGuards` fail the Fabric player callbacks in the `seeker_session_lock`
@@ -4462,8 +4589,12 @@ may right-click whitelisted doors, trapdoors, fence gates, buttons, and levers t
 `remote/SeekerCarUseService` bypasses the body's use callbacks by design, re-validates the session,
 reach, the car's forward cone, and line of sight from the car's eye, and acts with an empty hand,
 so the body's held item is never used from the car. Device entities never save to disk and cannot be
-summoned; every device is swept at game start and at finalize. The Seeker may own any number of
-cameras (150 each, no cap); each keeps a per-match label, the synced session focus names the viewed
+summoned; every device is swept at game start and at finalize. The Seeker starts with one camera
+(owner spec 2026-11-28, `SeekerLoadoutService`, also on the mid-round path) and may own any number of
+cameras (150 each, no cap); the `seeker_camera` item cools down for 60 s from the loadout grant and for
+45 s after each successful placement (exact + max writes of `SeekerCooldowns.writeCameraFloorExact`; one
+vanilla cooldown for every camera stack; unlike the car the camera is an ordinary forced-cooldown slot
+with a 45 s nominal). Each camera keeps a per-match label, the synced session focus names the viewed
 camera, an untargeted camera open views the last-viewed usable camera (else the lowest label), and
 while viewing, a fresh strafe-key press requests the previous or next camera by label as an atomic
 switch (a held key cycles once and must be released after every session start or switch).
@@ -4472,8 +4603,14 @@ end the session and clean up devices and state; disconnect only ends the session
 starts at 100% battery and drains 1% every 10 ticks while driven and 1% every 60 ticks otherwise;
 the drain runs on the server tick and the client only displays the synced value. At 0% the car shuts
 down (`BATTERY_DEPLETED`) with the broken-car cooldown and no mark. Car cooldowns are exact + max
-writes on the `seeker_car` item: 60 s at round start, 180 s after a break, a recall (physical or
-remote), or depletion, and 60 s after a Taotie return. Any other round participant may break a
+writes on the `seeker_car` item: 60 s at round start, 90 s (owner spec 2026-11-28, was 180 s) after a
+break, a recall (physical or remote), or depletion, and 60 s after a Taotie return. The shop's second
+entry, the car service (`seeker_car_service`, 50 coins, no stock limit, the car item as its icon), is a
+consumable: its `onBuy` shortens the car cooldown running right now by 60 s (to zero when less is left)
+through `SeekerCooldowns.shortenExact`, the one deliberate shortening write, and returns false, so
+nothing is charged, when the car is not cooling down (a deny-only `ShopPurchase.BEFORE` explains the
+refusal). The HUD and the console read the remaining time from the synced vanilla cooldown, so the
+synced state layout is unchanged. Any other round participant may break a
 device: the break gate `SeekerDamageRules.mayBreak` uses the role-agnostic
 `SeekerTargeting.isRoundParticipant` (never the Seeker-only `isActiveParticipant`), with the owner
 as SparkFactionAPI proxy target and Vendetta isolation. Break sources are bare hands and every
@@ -4507,18 +4644,80 @@ before. An M67 breaks devices only when the round is ACTIVE and its thrower hold
 break a device: the firecracker (sound only), the Bomber timed bomb (kills only its holder), and the
 poison gas cloud (status effect). A breaker other than the owner is marked for the owner only (10 s,
 newest replaces oldest) when the owner holds the tablet; recalls, depletion, and Taotie swallows
-never mark. The Taotie path goes only through `compat/noellesroles/NoellesTaotieSeekerBridge` (pinned
+never mark. The same call (`SeekerMarkService.onDeviceBroken`, attributable sources only, so never a void
+fall) also puts that breaker on the tablet's suspect list through `TabletStateService.markSuspect` (owner
+spec 2026-11-28): it needs only a breaker other than the owner, not the owner's tablet, and a new
+suspect is announced to the police channel by name with the kind of device
+(`message.sparkdlc.seeker.suspect.car` / `.camera`). The Taotie path goes only through `compat/noellesroles/NoellesTaotieSeekerBridge` (pinned
 NoellesRoles `b58fa5f`) and `role/civilian/seeker/taotie/`: the client predicts the Taotie's
 swallow key on a car in its crosshair (`client/mixin/role/civilian/seeker/SeekerTaotieAbilityKeyMixin`) and sends
 `seeker_car_swallow`, which the server re-validates; a swallow consumes the Taotie's swallow
-cooldown, removes the car without a mark or the 180 s cooldown, and tells the owner without naming
+cooldown, removes the car without a mark or the 90 s cooldown, and tells the owner without naming
 the Taotie; the car returns (60 s cooldown) when that Taotie finally dies or loses the role, into its
 original slot, else the first empty hotbar slot, else the shown second row (SparkFactionAPI
 0.1.5.13+), else a main slot. The Seeker never renders in the `gui.sparkdlc.skills` panel.
 
+Shared cameras (owner spec 2026-11-28: every player who can connect to the police channel can use the
+monitors). Viewing a camera, and switching between cameras, is open to every living round participant who
+belongs to the tablet's police network by identity and carries the tablet: `SeekerTargeting.canWatchCameras`
+= `TabletChannelResolver.isPoliceNetworkMember` (police-network roles and Impostors; for a living holder the
+same as `access(player).isMember(POLICE)`, read without that call's bookkeeping). Such a viewer sees every
+camera of every Seeker of the round. Everything else stays the owner's: the car (CAR opens, moves, use,
+recall), placing, the breaker mark, the economy.
+- Gate. `SeekerTargeting.sessionDenyReason(player, mode)` picks it: CAR keeps `commonDenyReason` (exact role,
+  owner of record, no Impostor). CAMERA uses `cameraViewDenyReason`, the same ordered gate with police
+  membership in place of the Seeker role, the role-agnostic `isRoundParticipant` in place of the owner's
+  participant rule, no Impostor denial (an Impostor Seeker may watch cameras, and still may not use devices),
+  and `blocked` for a player who holds another remote body (Raven Form, a rift, a piloted drone, a possessed
+  Wraith), which only a non-Seeker can; the start payloads of those four are on the Seeker session deny-list,
+  so the reverse order was already refused. Swallow, Fear, role-skill block, stun, kidnap, Last Stand, footing,
+  busy, throttle, tablet and play area apply unchanged, at open and every tick.
+- Where the session lives. In the viewer's own `sparkdlc:seeker_status`: the session fields
+  (`SeekerState.openSession(mode, id, sharedCamera)` accepts a camera the state does not list) plus the
+  server-only `SeekerSessionState`. Nothing of the camera owner's state is copied. The lock, the collision
+  exemption, the payload guard, the streaming and the whole client view are therefore one code path for a
+  Seeker and for any other viewer; the client mixins under `client/mixin/role/civilian/seeker` key on
+  `SeekerRemoteViewClient.isActive()`, never on the role.
+- Cleanup paths. The component tick cleans up a non-owner of record that holds owner state
+  (`SeekerState.holdsOwnerState`: car, cameras, mark, a car owed by a Taotie) as before; one that holds only a
+  session is a viewer, for whom only `SeekerRemoteSessionService.tick` runs. Its exit checks end the view:
+  round not ACTIVE, police membership lost (`ROLE_CHANGED`), death, spectator, stun, kidnap, Fear, tablet gone
+  (`CONSOLE_LOST`), body moved, focus gone (`FOCUS_LOST`). `RoleAssigned` to any non-Seeker role, a final death,
+  reset, win, finalize and disconnect end a viewer's session through the unchanged lifecycle hooks.
+- The camera. It still belongs to, and dies with, its owner (self-check, `discardAllFor`). The device service
+  ends only the owner's own session; every other viewer of that camera ends on its next tick with `FOCUS_LOST`
+  ("Signal lost"). Several players may view one camera at once; `VIEWING` is true while any player of the
+  camera's world has a CAMERA session focused on it.
+- The list. `SeekerSharedCameras.list(viewer)`: live cameras in the viewer's world that their owner of record
+  still lists, the viewer's own first by label, then the other Seekers' by owner UUID and label; `find`
+  validates one id, and an untargeted open walks that order after the last-viewed camera. It reaches clients
+  in the per-viewer tablet snapshot (`sync_tablet_snapshot_v13`, `TabletSnapshot.CameraRow`: entity id, label,
+  the owner's number among camera-owning Seekers, and the owner's name only when the police channel's
+  identity rule reveals that member to this viewer; never a UUID) for holders of `TabletFeature.CAMERAS`
+  (wire 4): a living police-network member while at least one camera stands in their world, so a round
+  without cameras shows no extra tab and keeps its tab count. `TabletStateService.syncPoliceMembers` pushes it
+  when a camera is placed or broken; the periodic sync covers every other change.
+- Entry point. The Seeker keeps the console. Everybody else (and the Seeker too, through "Police network")
+  uses the tablet's camera section (`TabletUiSession.Section.CAMERAS`, `client/tablet/screen/TabletCamerasPage`
+  and `TabletCamerasPainter`): one card per camera, with whose camera it is when several Seekers own cameras,
+  and a View button that sends the existing `seeker_remote_open` (CAMERA, explicit target), the request the
+  A/D cycler sends. No C2S payload was added; the three rows of `config/payload-policy/actions.tsv` say who
+  sends them now. The remote-view client closes the tablet when the session starts.
+- Client. `SeekerClientState.viewableCameras()` merges the local Seeker's own cameras (owner-synced component,
+  immediate, no hotbar tablet needed) with the snapshot's other rows; the cycler, the CCTV label (the owner
+  appended when several Seekers own cameras) and the console's "View camera" availability use it, and
+  `SeekerRemoteViewClient` resolves a CAMERA focus from the synced session focus alone, so a view never
+  depends on the list.
+- Looking around. Every viewer's picture is its own client viewpoint inside the cone, as the owner's always
+  was; the head is the shared entity state and follows the latest look of anybody viewing. With several
+  viewers `SeekerCameraLookSender` re-sends a quiet look only while the head was never seen at the last look
+  it sent, so two idle viewers with different pictures do not turn the head back and forth.
+
 Seeker remote streaming (unlimited range, owner decision 2026-10-04) is server-only and never moves
 the body: `remote/SeekerRemoteStreaming#focusOf` names the device a live session shows (alive owner,
-not a spectator, its own server camera, server bookkeeping matching the synced focus), and the three
+not a spectator, its own server camera, server bookkeeping matching the synced focus; "owner" is the
+player whose session it is, so for a camera it may be a police-channel viewer watching another
+Seeker's camera, while a car focus must be that player's own), and the three
 `mixin/seeker/SeekerRemote*` mixins centre that owner's chunk view (`sendWatchPackets`), chunk batches
 (`sendChunkBatches`) and entity tracking (`EntityTracker#updateTrackedStatus`: the focus is always
 tracked, other entities are measured from it) on the device, chaining with SparkStrength's drone
@@ -5238,15 +5437,15 @@ per-role nominal); stores 3, 4 and 7-18 are `SimpleRoleSkillCooldownStore` insta
 `RoleForcedCooldowns` (2026-10-22), each with an explicit round gate (`anyGameStatus` or `whileActive`) and write
 kind (`EXACT`, `CLAMPED_AT_ZERO`, `RAISED_READY_TICK`); nominals are read lazily. The per-store differences below are
 deliberate and kept:
-1. `sparkdlc:witch_skill`: the shared `WitchPlayerComponent` cooldown, for any player with a skill (`hasSkill()`;
-   Saint has none). Remaining time includes a pending deferred cooldown (`max(cooldown, window + deferred)`); the
+1. `sparkdlc:witch_skill`: the shared `WitchPlayerComponent` cooldown, for any player with a skill (`hasSkill()`).
+   Remaining time includes a pending deferred cooldown (`max(cooldown, window + deferred)`); the
    nominal is the active `WitchSkillDefinition.cooldownTicks`. Raises and extensions go through the additive
    `WitchPlayerComponent.raiseForcedCooldownFloors`, which floors the shared cooldown and, only while a deferred
    cooldown is already pending, that too, so a penalty during an active window survives the window end; it never
    shortens, never creates a deferred cooldown, and syncs once. Never forced while the Kidnapper's drag skill carries a
    body (the same counter gates the release press).
-2. `sparkdlc:saint_hellfire`: `SaintPlayerState.raiseHellfireCooldown` plus `component.sync()`; never forced while
-   Hellfire burns (its end writes the post cooldown). Nominal 1200.
+2. (removed 2026-11-28) `sparkdlc:saint_hellfire` was the Saint's Hellfire cooldown; her Hellfire is passive now and
+   has no cooldown, so the store is gone and nothing is registered in its place.
 3. `sparkdlc:orthopedist` and 4. `sparkdlc:saboteur`: their exact, syncing public setters. The Orthopedist gate is
    the widened `isRole` self gate, as in `OrthopedistSkillService.use`.
 5. `noellesroles:ability` (`AbilityPlayerComponent`, always through `setCooldown`, the only syncing write), for the
@@ -5398,7 +5597,7 @@ then acts by item id:
 Other items gate only on the vanilla entry, so the command already clears them fully.
 The admin command alone also beats Saint Karma (owner decision, 2026-10-05). `RoleItemCooldownReleases.afterAdminRemove` runs after the
 command's `remove` call (an `AdminCooldownClear` listener; it was a mixin wrapping that call while the command lived in another jar). When that call really
-cleared the item, `SaintKarmaState` exempts the item for that player until the Karma ends or is triggered again. The
+cleared the item, `SaintKarmaState` exempts the item for that player until the Karma ends or is inflicted again. The
 exemption is transient and never saved. Role mechanics that remove a cooldown (NoellesRoles Catalyst, the Bomber pass)
 do not come through the command, so Karma still re-covers those items. SparkTraits lifts its own forced melee floor
 for the same command, as an `AdminCooldownClear` listener that runs before the `remove`. Not released: the Black Raven disguise switch, since
@@ -6686,7 +6885,7 @@ Server:
   again, never latched.
 - `JudgeWorldComponent` compares viewers without allocating. JOIN syncs the Judge world component to the joiner only:
   Fabric fires JOIN before the joiner is added to its world, and CCA syncs world components to it in `sendWorldInfo`.
-- `SaintKarmaRuntime` skips unmarked players whose mirror is clear; `EmmaLifecycle` skips the empty penalty copy.
+- `SaintKarmaRuntime` skips players without a Karma entry whose mirror is clear; `EmmaLifecycle` skips the empty penalty copy.
 - `VendettaKnifeLoadoutService` reconciles the entitled Vendetta every world tick; the stray-knife sweep for everyone
   else runs once per 20 ticks per player, offset by entity id (owner decision 2026-10-22), so a stray knife can stay up
   to 1 s (drops stay blocked by the mixins).
@@ -6721,7 +6920,7 @@ Network:
 
 2026-11 review pass, second wave (authority, private state and request cadence):
 - The shared `sparkdlc:use_skill` dispatch (`WitchSkillUseService.use`) asks
-  `SparkTraitsApi.isRoleSkillBlocked` after the role, life and Fear gates and before the Saint delegation and
+  `SparkTraitsApi.isRoleSkillBlocked` after the role, life and Fear gates and before
   every registered skill, with the shared "unavailable" line. It is the rule the dedicated handlers already apply
   (Last Escape, or a silenced effective killer); the bridge fails open without SparkTraits, and Wathe-dead Wraiths
   never reach it.

@@ -1022,6 +1022,21 @@ def watheClientMixinContracts = [
                 providerEntry: "dev/doctor4t/wathe/client/gui/MoodRenderer.class",
                 providerMethod: "renderKiller",
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_332;)V"
+        ],
+        [
+                // Demon Hunter pistol rework (2026-11-28): Wathe's client gun-drop notice removes the first wathe:guns
+                // stack; its only PlayerInventory#remove (vanilla, remapped in the shipped jar) skips the pistol.
+                // 猎魔枪重做（2026-11-28）：Wathe 的客户端丢枪通知会移除第一个 wathe:guns 物品堆；其中唯一的
+                // PlayerInventory#remove（原版，发布包中已重映射）跳过猎魔枪。
+                configName: "role.civilian.demonhunter.GunDropKeepsDemonHunterPistolMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/demonhunter/GunDropKeepsDemonHunterPistolMixin.class",
+                handler: "sparkdlc\$dropTheGunNotThePistol",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/ModifyArg;",
+                selector: "receive(Ldev/doctor4t/wathe/util/GunDropPayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking\$Context;)V",
+                atTarget: "Lnet/minecraft/class_1661;method_29280(Ljava/util/function/Predicate;ILnet/minecraft/class_1263;)I",
+                providerEntry: "dev/doctor4t/wathe/util/GunDropPayload\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Ldev/doctor4t/wathe/util/GunDropPayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking\$Context;)V"
         ]
 ]
 
@@ -1069,6 +1084,125 @@ def watheCommonMixinContracts = [
                 providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket\$Receiver.class",
                 providerMethod: "receive",
                 providerDescriptor: "(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // Demon Hunter pistol rework (2026-11-28), shot rules in NoellesRoles' receiver: "is anyone frenzied"
+                // is read at the accepted-shot record anchor, before the kill.
+                // 猎魔枪重做（2026-11-28），NoellesRoles 接收器内的射击规则：“是否有人疯魔”在已接受射击的记录锚点、击杀之前读取。
+                configName: "role.civilian.demonhunter.DemonHunterPistolShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterPistolShotMixin.class",
+                handler: "sparkdlc\$noteFrenzyAtShot",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/class_3222;Lnet/minecraft/class_2960;Lnet/minecraft/class_3222;Lnet/minecraft/class_2487;)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // The receiver's single Jester read, reached only with a valid player target: a frenzied hit is noted.
+                // 接收器唯一一次小丑判定读取，只有存在有效玩家目标时才会到达：在此记下命中疯魔者。
+                configName: "role.civilian.demonhunter.DemonHunterPistolShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterPistolShotMixin.class",
+                handler: "sparkdlc\$noteFrenziedHit",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Lnet/minecraft/class_1657;Ldev/doctor4t/wathe/api/Role;)Z",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // The emptied pistol's removal (vanilla PlayerInventory#removeOne, remapped in the shipped jar): a Demon
+                // Hunter's pistol and a refunded one stay with 0 bullets.
+                // 打空后移除猎魔枪的调用（原版 PlayerInventory#removeOne，发布包中已重映射）：猎魔人的枪与返还子弹的枪以 0 发保留。
+                configName: "role.civilian.demonhunter.DemonHunterPistolShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterPistolShotMixin.class",
+                handler: "sparkdlc\$keepEmptiedPistol",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Lnet/minecraft/class_1661;method_7378(Lnet/minecraft/class_1799;)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // The receiver's kill call, always reached for a frenzied hit: the bullet is paid back just before it.
+                // 接收器的击杀调用，命中疯魔者时必然到达：子弹在它之前返还。
+                configName: "role.civilian.demonhunter.DemonHunterPistolShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterPistolShotMixin.class",
+                handler: "sparkdlc\$refundFrenziedHit",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // The receiver's 10 s cooldown (vanilla ItemCooldownManager#set, remapped in the shipped jar): skipped
+                // for a shot fired during a frenzy.
+                // 接收器的 10 秒冷却（原版 ItemCooldownManager#set，发布包中已重映射）：疯魔期间开的枪跳过它。
+                configName: "role.civilian.demonhunter.DemonHunterPistolShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterPistolShotMixin.class",
+                handler: "sparkdlc\$noCooldownDuringFrenzy",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/v2/WrapWithCondition;",
+                selector: "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Lnet/minecraft/class_1796;method_7906(Lnet/minecraft/class_1792;I)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // NoellesRoles' ON_PSYCHO_START listener in the pinned jar (javac lambda $10): the 5 s cooldown on a
+                // pistol it has just handed out, its only ItemCooldownManager#set, is skipped.
+                // 固定 jar 中 NoellesRoles 的 ON_PSYCHO_START 监听器（javac lambda $10）：跳过它给刚发出的猎魔枪加的 5 秒冷却，
+                // 即其中唯一的 ItemCooldownManager#set。
+                configName: "role.civilian.demonhunter.DemonHunterFrenzyListenerMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterFrenzyListenerMixin.class",
+                handler: "sparkdlc\$noCooldownAtFrenzyStart",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/v2/WrapWithCondition;",
+                selector: "lambda\$registerEvents\$10(Lnet/minecraft/class_3222;Ldev/doctor4t/wathe/api/event/PsychoType;)V",
+                atTarget: "Lnet/minecraft/class_1796;method_7906(Lnet/minecraft/class_1792;I)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/Noellesroles.class",
+                providerMethod: "lambda\$registerEvents\$10",
+                providerDescriptor: "(Lnet/minecraft/class_3222;Ldev/doctor4t/wathe/api/event/PsychoType;)V"
+        ],
+        [
+                // NoellesRoles' ON_PSYCHO_END listener in the pinned jar (javac lambda $12): its removePistol is
+                // skipped for a Demon Hunter, who keeps the pistol until the round reset.
+                // 固定 jar 中 NoellesRoles 的 ON_PSYCHO_END 监听器（javac lambda $12）：对猎魔人跳过其中的 removePistol，
+                // 猎魔人把枪保留到回合重置。
+                configName: "role.civilian.demonhunter.DemonHunterFrenzyListenerMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterFrenzyListenerMixin.class",
+                handler: "sparkdlc\$keepPistolAfterFrenzy",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/v2/WrapWithCondition;",
+                selector: "lambda\$registerEvents\$12(Lnet/minecraft/class_3222;Ldev/doctor4t/wathe/api/event/PsychoType;)V",
+                atTarget: "Lorg/agmas/noellesroles/demonhunter/DemonHunterPistolItem;removePistol(Lnet/minecraft/class_1657;)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/Noellesroles.class",
+                providerMethod: "lambda\$registerEvents\$12",
+                providerDescriptor: "(Lnet/minecraft/class_3222;Ldev/doctor4t/wathe/api/event/PsychoType;)V"
+        ],
+        [
+                // NoellesRoles' Demon Hunter component tick: the same removePistol, once its frenzy list has run out.
+                // NoellesRoles 猎魔人组件的 tick：疯魔名单耗尽后的同一个 removePistol。
+                configName: "role.civilian.demonhunter.DemonHunterComponentTickMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/demonhunter/DemonHunterComponentTickMixin.class",
+                handler: "sparkdlc\$keepPistolAfterFrenzy",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/v2/WrapWithCondition;",
+                selector: "serverTick()V",
+                atTarget: "Lorg/agmas/noellesroles/demonhunter/DemonHunterPistolItem;removePistol(Lnet/minecraft/class_1657;)V",
+                provider: "noellesroles",
+                providerEntry: "org/agmas/noellesroles/demonhunter/DemonHunterPlayerComponent.class",
+                providerMethod: "serverTick",
+                providerDescriptor: "()V"
         ],
         [
                 // BEAR: the Wathe grenade's whole onCollision runs in its origin scope, then carves smoke.
@@ -1258,6 +1392,59 @@ def watheCommonMixinContracts = [
                 providerEntry: "dev/doctor4t/wathe/game/GameFunctions.class",
                 providerMethod: "killPlayer",
                 providerDescriptor: "(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V"
+        ],
+        [
+                // Saint gunshot (owner 2026-11-28): the commit point (changeGameMode call), order 1050, after Tofana and
+                // Last Escape, before the Cat (1100) and Hiro's fake death (1200); the kill becomes a root and a glow.
+                // 圣徒枪击（所有者 2026-11-28）：提交点（changeGameMode 调用），order 1050，位于托法娜与绝境逃生之后、
+                // 猫（1100）与希罗假死（1200）之前；击杀改为禁锢与发光。
+                configName: "role.civilian.saint.GameFunctionsSaintGunShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/saint/GameFunctionsSaintGunShotMixin.class",
+                handler: "sparkdlc\$saintGunShotRootsInsteadOfKilling",
+                annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
+                selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
+                atTarget: "Lnet/minecraft/class_3222;method_7336(Lnet/minecraft/class_1934;)Z",
+                providerEntry: "dev/doctor4t/wathe/game/GameFunctions.class",
+                providerMethod: "killPlayer",
+                providerDescriptor: "(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V"
+        ],
+        [
+                // Saint gunshot: a victim in psycho mode keeps it, both stopPsycho calls before the commit point.
+                // 圣徒枪击：处于疯魔状态的受害者保留疯魔，包裹提交点之前的两处 stopPsycho 调用。
+                configName: "role.civilian.saint.GameFunctionsSaintGunShotMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/saint/GameFunctionsSaintGunShotMixin.class",
+                handler: "sparkdlc\$saintGunShotKeepsPsycho",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
+                atTarget: "Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;stopPsycho()V",
+                providerEntry: "dev/doctor4t/wathe/game/GameFunctions.class",
+                providerMethod: "killPlayer",
+                providerDescriptor: "(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V"
+        ],
+        [
+                // Saint shooter in Wathe's gun receiver: no backfire, no innocent-shot punishment.
+                // Wathe 枪械接收器中的圣徒射手：不走火，没有误伤惩罚。
+                configName: "role.civilian.saint.SaintGunShotReceiverMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/saint/SaintGunShotReceiverMixin.class",
+                handler: "sparkdlc\$saintShotIsNeverPunished",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Ldev/doctor4t/wathe/api/event/ShouldPunishGunShooter;shouldPunish(Lnet/minecraft/class_1657;Lnet/minecraft/class_1657;)Ldev/doctor4t/wathe/api/event/ShouldPunishGunShooter\$PunishResult;",
+                providerEntry: "dev/doctor4t/wathe/util/GunShootPayload\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+        ],
+        [
+                // Saint shooter in Wathe's gun receiver: no passenger mood loss. / Wathe 枪械接收器中的圣徒射手：不扣乘客理智。
+                configName: "role.civilian.saint.SaintGunShotReceiverMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/saint/SaintGunShotReceiverMixin.class",
+                handler: "sparkdlc\$saintShotCostsNoMood",
+                annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                selector: "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
+                atTarget: "Ldev/doctor4t/wathe/cca/PlayerMoodComponent;setMood(F)V",
+                providerEntry: "dev/doctor4t/wathe/util/GunShootPayload\$Receiver.class",
+                providerMethod: "receive",
+                providerDescriptor: "(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
         ],
         [
                 // 二阶堂希罗 死亡回归: the Swapper never swaps a fake-dead victim. / 二阶堂希罗死亡回归：换位者不会换走假死的受害者。

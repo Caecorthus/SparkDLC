@@ -25,7 +25,8 @@ import java.util.function.Function;
 public final class UpstreamTextKeys {
     private static final String NOELLESROLES = "noellesroles";
     /** NoellesRoles roles whose welcome goal line the mod rewrites. / 开局目标句由本模组改写的 NoellesRoles 身份。 */
-    private static final Set<String> RETUNED_GOAL_ROLES = Set.of("assassin", "bodyguard", "pathogen", "undercover");
+    private static final Set<String> RETUNED_GOAL_ROLES =
+            Set.of("assassin", "bodyguard", "demon_hunter", "pathogen", "undercover");
     /** Upstream key to the mod's key: the reworked Bodyguard's letter line. / 上游键到本模组的键：重做后保镖的信件附言。 */
     private static final Map<String, String> RETUNED_KEYS = Map.of(
             "tip.letter.bodyguard.tooltip2", "tip.letter.sparkdlc.bodyguard.tooltip2"

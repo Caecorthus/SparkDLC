@@ -90,6 +90,12 @@ public final class TabletWorldComponent implements AutoSyncedComponent {
     // Tasks completed this round per player (police identity unlock): in-memory only, a restart fails closed to locked.
     // 本局每名玩家已完成的任务数（用于解锁义警身份）：仅内存保存，重启后安全回退为未解锁。
     private final HashMap<UUID, Integer> completedTasks = new HashMap<>();
+    // Suspect tracking, one record per (tracker, suspect) pair: round-scoped and in-memory only (never NBT); after a
+    // restart every pair may simply track again. A record is kept until the round is cleared (its ticks are absolute,
+    // so an ended one changes no snapshot) and is replaced by that pair's next track.
+    // 嫌疑人追查，每个（追查者，嫌疑人）组合一条记录：仅本局内存状态（绝不写入 NBT）；重启后每个组合都可以重新追查。记录保留到
+    // 清局（其 tick 为绝对值，已结束的记录不会改变快照），并被该组合的下一次追查覆盖。
+    private final HashMap<TrackKey, SuspectTrack> suspectTracks = new HashMap<>();
     // Players whose free tablet grant is settled this round (granted, or already holding one): round-scoped and
     // in-memory only (never NBT); a restart only re-checks alive eligible players, who are granted one if they hold none.
     // 本局已结算免费平板发放的玩家（已发放或本就持有）：仅本局内存状态（绝不写入 NBT）；重启后只会重新检查存活且有资格的玩家，
@@ -318,6 +324,31 @@ public final class TabletWorldComponent implements AutoSyncedComponent {
         }
     }
 
+    /**
+     * This tracker's latest track of that suspect this round, {@link SuspectTrack#NONE} when there is none. Other
+     * trackers and other suspects never show through it.
+     * 该追查者本局对该嫌疑人最近一次追查，没有时为 SuspectTrack.NONE。其他追查者与其他嫌疑人的记录不会由此读出。
+     */
+    public SuspectTrack suspectTrack(UUID trackerUuid, UUID suspectUuid) {
+        return suspectTracks.getOrDefault(new TrackKey(trackerUuid, suspectUuid), SuspectTrack.NONE);
+    }
+
+    /** Ticks until this pair may track again; 0 when it may now. / 该组合距离可再次追查的 tick 数；可追查时为 0。 */
+    public int suspectTrackCooldownTicks(UUID trackerUuid, UUID suspectUuid, long currentTick) {
+        long remaining = suspectTrack(trackerUuid, suspectUuid).cooldownEndTick() - currentTick;
+        return (int) Math.max(0, Math.min(TabletRules.SUSPECT_TRACK_COOLDOWN_TICKS, remaining));
+    }
+
+    /**
+     * Starts this pair's track at {@code currentTick} (the click): reveal window and cooldown both count from it.
+     * 在 currentTick（点击时刻）开始该组合的追查：显示窗口与冷却都从这一刻起算。
+     */
+    public SuspectTrack startSuspectTrack(UUID trackerUuid, UUID suspectUuid, long currentTick) {
+        SuspectTrack track = SuspectTrack.startedAt(currentTick);
+        suspectTracks.put(new TrackKey(trackerUuid, suspectUuid), track);
+        return track;
+    }
+
     public void pruneRemovalApprovals(Set<UUID> electorate) {
         removalApprovals.values().forEach(approvals -> approvals.removeIf(voter -> !electorate.contains(voter)));
         removalApprovals.entrySet().removeIf(entry -> entry.getValue().isEmpty() || !suspects.contains(entry.getKey()));
@@ -446,6 +477,7 @@ public final class TabletWorldComponent implements AutoSyncedComponent {
         linkRequests.clear();
         lastLinkGestures.clear();
         completedTasks.clear();
+        suspectTracks.clear();
         tabletGrantSettled.clear();
         tabletGrantLinesShown.clear();
         doorLog.clear();
@@ -672,6 +704,30 @@ public final class TabletWorldComponent implements AutoSyncedComponent {
     }
 
     private record LastLinkGesture(UUID target, long tick) {
+    }
+
+    /**
+     * One tracker's track of one suspect, as absolute world ticks (0 = never tracked): the suspect is outlined through
+     * walls for the tracker during [{@code revealStartTick}, {@code revealEndTick}), and the pair may track again from
+     * {@code cooldownEndTick}.
+     * 某名追查者对某名嫌疑人的一次追查，均为绝对世界 tick（0 表示从未追查）：在 [revealStartTick, revealEndTick) 期间该嫌疑人
+     * 对追查者穿墙描边，自 cooldownEndTick 起该组合可以再次追查。
+     */
+    public record SuspectTrack(long revealStartTick, long revealEndTick, long cooldownEndTick) {
+        public static final SuspectTrack NONE = new SuspectTrack(0L, 0L, 0L);
+
+        /** The track started by a click at {@code clickTick}. / 在 clickTick 点击所开始的追查。 */
+        public static SuspectTrack startedAt(long clickTick) {
+            long revealStart = clickTick + TabletRules.SUSPECT_TRACK_DELAY_TICKS;
+            return new SuspectTrack(
+                    revealStart,
+                    revealStart + TabletRules.SUSPECT_TRACK_REVEAL_TICKS,
+                    clickTick + TabletRules.SUSPECT_TRACK_COOLDOWN_TICKS
+            );
+        }
+    }
+
+    private record TrackKey(UUID tracker, UUID suspect) {
     }
 
     public static final class Meeting {

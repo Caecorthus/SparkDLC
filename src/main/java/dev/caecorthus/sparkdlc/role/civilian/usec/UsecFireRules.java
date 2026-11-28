@@ -219,13 +219,13 @@ public final class UsecFireRules {
 
     /**
      * Revolver-parity punishment for a player hit (owner O1, 2026-10-07; Wathe's revolver receiver): it
-     * is decided on the hit itself, so a victim saved by a Saint, a shield, Last Stand or a Judge denial still costs
+     * is decided on the hit itself, so a victim saved by a shield, Last Stand or a Judge denial still costs
      * the shooter. A listener's custom result wins for any hit, as in Wathe; otherwise only an innocent shot by a
      * non-creative shooter that no listener cancelled is punished, by Wathe's configured punishment
      * ({@code PREVENT_GUN_PICKUP} confiscates, anything else kills the shooter, Wathe's own default). No backfire
      * roll: Wathe's backfire chance defaults to 0.
      * 与左轮一致的命中惩罚（所有者 O1，2026-10-07；Wathe 左轮接收器）：在命中时即作判定，因此即使受害者
-     * 被圣徒、护盾、背水一战或法官禁杀救下，射手仍要受罚。与 Wathe 一样，监听器的自定义结果对任何命中都优先；否则只有未被
+     * 被护盾、背水一战或法官禁杀救下，射手仍要受罚。与 Wathe 一样，监听器的自定义结果对任何命中都优先；否则只有未被
      * 监听器取消、非创造模式射手的误杀才受罚，执行 Wathe 配置的惩罚（{@code PREVENT_GUN_PICKUP} 没收，其余一律处死射手，
      * 即 Wathe 自身的默认值）。没有走火判定：Wathe 的走火概率默认为 0。
      */

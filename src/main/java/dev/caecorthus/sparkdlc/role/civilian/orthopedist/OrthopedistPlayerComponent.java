@@ -18,8 +18,13 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Independent Orthopedist state: owner-private cooldown plus viewer-safe Bone Setting visibility.
- * 骨科大夫的独立状态：本人私有冷却，以及可安全同步给骨科大夫观察者的正骨标记。
+ * Independent Orthopedist state: owner-private cooldown plus viewer-safe Bone Setting visibility. Every player has
+ * this component, so it also holds the player's Exoskeleton layers (the wearer can be anyone). The layers are
+ * server-only: they are saved but never synced, and reach the client only as the tracked stamina modifier
+ * ({@link ExoskeletonService#STAMINA_MODIFIER_ID}).
+ * 骨科大夫的独立状态：本人私有冷却，以及可安全同步给骨科大夫观察者的正骨标记。每名玩家都有本组件，因此它也保存该玩家的
+ * 外骨骼层数（穿戴者可以是任何人）。层数仅存在于服务端：会存档但从不同步，客户端只能通过被追踪的体力修饰符
+ * （{@link ExoskeletonService#STAMINA_MODIFIER_ID}）间接得知。
  */
 public final class OrthopedistPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
@@ -31,9 +36,37 @@ public final class OrthopedistPlayerComponent
     private final PlayerEntity player;
     private int cooldownTicks;
     private boolean boneSettingActive;
+    private int exoskeletonLayers;
+    /**
+     * Layer count the stamina modifier was last written for; -1 = not written yet (a new entity, or loaded data),
+     * so the next server tick writes it.
+     * 上一次写入体力修饰符时对应的层数；-1 表示尚未写入（新实体或刚读档），下一个服务端刻会写入。
+     */
+    private int appliedExoskeletonLayers = -1;
 
     public OrthopedistPlayerComponent(PlayerEntity player) {
         this.player = player;
+    }
+
+    /**
+     * Exoskeleton layers on this player. Server-authoritative; always 0 on a client.
+     * 该玩家身上的外骨骼层数。以服务端为准；客户端恒为 0。
+     */
+    public int getExoskeletonLayers() {
+        return exoskeletonLayers;
+    }
+
+    /**
+     * Server only: fits one more layer and updates the stamina modifier at once. False at the cap, nothing changed.
+     * 仅服务端：再装一层并立即更新体力修饰符。已达上限时返回 false，不做任何改动。
+     */
+    public boolean addExoskeletonLayer() {
+        if (player.getWorld().isClient || exoskeletonLayers >= ExoskeletonRules.MAX_LAYERS) {
+            return false;
+        }
+        exoskeletonLayers++;
+        writeExoskeletonModifier();
+        return true;
     }
 
     public int getCooldownTicks() {
@@ -57,10 +90,32 @@ public final class OrthopedistPlayerComponent
         updateBoneSettingState(player.hasStatusEffect(OrthopedistEffects.boneSetting()));
     }
 
+    /**
+     * Death, reset and round end, for every player whatever the role: also takes the Exoskeleton layers off, which
+     * last exactly as long as this per-round state.
+     * 死亡、重置与对局结束时对每名玩家执行，与职业无关：同时卸下外骨骼层数，其持续时间与这份每局状态完全一致。
+     */
     public void clear() {
+        clear(false);
+    }
+
+    /**
+     * {@link #clear} for a death the Last Stand trait intercepted: the survivor is not dead, so the Exoskeleton layers
+     * stay on; the cooldown and Bone Setting are cleared as before.
+     * 被背水一战词条拦截的死亡所用的 {@link #clear}：存活者并未死亡，外骨骼层数保留；冷却与正骨照旧清除。
+     */
+    public void clearKeepingExoskeleton() {
+        clear(true);
+    }
+
+    private void clear(boolean keepExoskeleton) {
         cooldownTicks = 0;
         boneSettingActive = false;
         player.removeStatusEffect(OrthopedistEffects.boneSetting());
+        if (!keepExoskeleton && !player.getWorld().isClient) {
+            exoskeletonLayers = 0;
+            writeExoskeletonModifier();
+        }
         sync();
     }
 
@@ -90,6 +145,26 @@ public final class OrthopedistPlayerComponent
             }
         }
         refreshBoneSettingState();
+        tickExoskeleton();
+    }
+
+    /**
+     * Drops layers that no longer belong to a running round, then rewrites the stamina modifier when it is out of
+     * step (after a load, where the temporary modifier is gone but the saved layers are back).
+     * 先丢弃已不属于进行中对局的层数，再在体力修饰符与层数不一致时重写（读档后临时修饰符已消失，而存档的层数已恢复）。
+     */
+    private void tickExoskeleton() {
+        if (exoskeletonLayers > 0 && !ExoskeletonService.keepsLayers(player)) {
+            exoskeletonLayers = 0;
+        }
+        if (appliedExoskeletonLayers != exoskeletonLayers) {
+            writeExoskeletonModifier();
+        }
+    }
+
+    private void writeExoskeletonModifier() {
+        ExoskeletonService.writeStaminaModifier(player, exoskeletonLayers);
+        appliedExoskeletonLayers = exoskeletonLayers;
     }
 
     @Override
@@ -134,6 +209,9 @@ public final class OrthopedistPlayerComponent
         if (cooldownTicks > 0) {
             tag.putInt("CooldownTicks", cooldownTicks);
         }
+        if (exoskeletonLayers > 0) {
+            tag.putInt("ExoskeletonLayers", exoskeletonLayers);
+        }
     }
 
     @Override
@@ -142,6 +220,11 @@ public final class OrthopedistPlayerComponent
                 ? Math.max(0, tag.getInt("CooldownTicks"))
                 : 0;
         boneSettingActive = false;
+        // Absent in data saved before the Exoskeleton existed: no layers. / 外骨骼出现之前的存档没有此键：视为 0 层。
+        exoskeletonLayers = tag.contains("ExoskeletonLayers", NbtElement.NUMBER_TYPE)
+                ? ExoskeletonRules.clampLayers(tag.getInt("ExoskeletonLayers"))
+                : 0;
+        appliedExoskeletonLayers = -1;
     }
 
     private void updateBoneSettingState(boolean active) {

@@ -2,11 +2,16 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
+import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowSessions;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DronePilotService;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
+import dev.caecorthus.sparkdlc.tablet.TabletChannelResolver;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -26,6 +31,13 @@ import java.util.function.BooleanSupplier;
  * fail only the participant predicate, so they end sessions (WP-09) but never clear state, devices, LostTo or
  * PendingReturn.
  * Server only: the match id is never synced, so every predicate is false on a client.
+ * <p>Watching a camera is the one action that is not the owner's alone (owner spec 2026-11-28): every living round
+ * participant on the tablet's police channel may watch the cameras of every Seeker of the round
+ * ({@link #canWatchCameras}, {@link #cameraViewDenyReason}). Everything else (the car, placing, recalling, the breaker
+ * mark, the economy) stays behind the two owner predicates.
+ * 观看摄像头是唯一不专属于拥有者的行动（所有者规格 2026-11-28）：平板义警频道中每名存活的对局参与者都可以观看本局所有搜寻者的
+ * 摄像头（{@link #canWatchCameras}、{@link #cameraViewDenyReason}）。其余一切（小车、放置、回收、损坏者标记、经济）
+ * 仍由两个拥有者谓词把关。
  * 冻结契约：搜寻者的两个谓词。“记录中的拥有者”（在线、恰为搜寻者、对局进行中、matchId 一致）用于清理；
  * “可行动的参与者”（另加存活、非旁观/创造、非激活冤魂）作为所有行动的门槛。活着的旁观状态（本体被饕餮吞噬、
  * 背水一战词条待定或抑郁词条假死）只让参与者谓词失败，因此只结束会话（WP-09），从不清空状态、设备、LostTo 或 PendingReturn。
@@ -137,6 +149,62 @@ public final class SeekerTargeting {
     }
 
     /**
+     * Who may watch the cameras of the round's Seekers (owner spec 2026-11-28): a member of the tablet's police
+     * channel by identity, that is a police-network role (the Seeker is one) or an Impostor-trait holder. This is
+     * {@code TabletChannelResolver.access(player).isMember(TabletChannel.POLICE)} for a living player, read without the
+     * resolver's bookkeeping writes; it replaces both "exactly Seeker" and "not an Impostor" for camera viewing only.
+     * Side-neutral (owner-synced data), but only the server decides.
+     * 谁可以观看本局搜寻者的摄像头（所有者规格 2026-11-28）：按身份属于平板义警频道的成员，即义警网络身份（搜寻者是其中之一）
+     * 或内鬼天赋持有者。对存活玩家它等同于 {@code TabletChannelResolver.access(player).isMember(TabletChannel.POLICE)}，
+     * 但不触发解析器的记录写入；仅对观看摄像头而言，它同时取代“恰为搜寻者”与“不是内鬼”两项检查。
+     * 两端通用（只读同步给本人的数据），但只有服务端作出决定。
+     */
+    public static boolean canWatchCameras(@Nullable PlayerEntity player) {
+        return player != null && TabletChannelResolver.isPoliceNetworkMember(player);
+    }
+
+    /**
+     * The gate of a CAMERA {@code seeker_remote_open} and of a running CAMERA session, for the owner and every other
+     * viewer alike: {@link #commonDenyReason} with the police-channel membership in place of the Seeker role, the
+     * role-agnostic {@link #isRoundParticipant} in place of the owner's participant rule, and no Impostor denial.
+     * Viewers who are no Seeker can hold another remote body (a Black Raven's crow, a Riftwalker's rift, a piloted
+     * drone or a possessed Wraith, which a Seeker never has); such a player is refused as {@code blocked}, so two
+     * remote views never fight over one client camera.
+     * CAMERA 模式的 {@code seeker_remote_open} 与进行中的 CAMERA 会话共用的门槛，拥有者与其他观看者一视同仁：即
+     * {@link #commonDenyReason}，但以义警频道成员资格取代搜寻者职业、以与职业无关的 {@link #isRoundParticipant}
+     * 取代拥有者的参与者规则，且不再拒绝内鬼。非搜寻者的观看者可能正持有另一个远程身体（黑羽的乌鸦、裂隙行者的裂隙、
+     * 驾驶中的无人机或附身的冤魂，搜寻者从不会有）；此时按 {@code blocked} 拒绝，两个远程视角绝不争夺同一个客户端相机。
+     */
+    @Nullable
+    public static String cameraViewDenyReason(ServerPlayerEntity player) {
+        if (player == null) {
+            return DENY_BLOCKED;
+        }
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        return denyReason(
+                game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
+                canWatchCameras(player),
+                () -> NoellesTaotieSeekerBridge.isSwallowed(player),
+                () -> isRoundParticipant(player) && !holdsAnotherRemoteBody(player),
+                () -> GrandWitchFearService.isPlayerFeared(player),
+                () -> SparkTraitsApi.isRoleSkillBlocked(player),
+                () -> ControlExpertStunCounter.isCounting(player),
+                () -> isKidnapped(player),
+                () -> false);
+    }
+
+    /**
+     * The gate of one session mode: {@link #cameraViewDenyReason} for CAMERA, the owner-only
+     * {@link #commonDenyReason} for the car (and for an unknown mode).
+     * 单个会话模式的门槛：CAMERA 用 {@link #cameraViewDenyReason}，小车（以及未知模式）用仅限拥有者的
+     * {@link #commonDenyReason}。
+     */
+    @Nullable
+    public static String sessionDenyReason(ServerPlayerEntity player, @Nullable SeekerSessionMode mode) {
+        return mode == SeekerSessionMode.CAMERA ? cameraViewDenyReason(player) : commonDenyReason(player);
+    }
+
+    /**
      * Current match binding id (Wathe's replay match UUID as a string), or null when no match is active or on a client.
      * 当前对局绑定 id（Wathe 回放对局 UUID 的字符串形式）；无进行中对局或在客户端上时为 null。
      */
@@ -192,5 +260,17 @@ public final class SeekerTargeting {
 
     private static boolean isKidnapped(PlayerEntity player) {
         return KidnapperControlComponent.KEY.get(player).isControlled();
+    }
+
+    /**
+     * Raven Form, a rift, a piloted drone or a possessed Wraith: the session itself, whether or not its view is
+     * currently being streamed.
+     * 化鸦、裂隙、驾驶中的无人机或附身的冤魂：以会话本身为准，与其视野此刻是否正在流式加载无关。
+     */
+    private static boolean holdsAnotherRemoteBody(ServerPlayerEntity player) {
+        return BlackRavenCrowSessions.isActive(player)
+                || RiftSessionService.isInside(player)
+                || DronePilotService.isPiloting(player)
+                || SpiritPossessionService.isPossessing(player);
     }
 }

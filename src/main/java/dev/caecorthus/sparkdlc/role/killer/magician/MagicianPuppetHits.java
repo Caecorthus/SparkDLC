@@ -364,14 +364,16 @@ public final class MagicianPuppetHits {
     /**
      * NoellesRoles Demon Hunter pistol receiver, called at its single target lookup (after NoellesRoles' spectator,
      * held-pistol, cooldown and bullet checks). A puppet id never resolves to its player target, so NoellesRoles then
-     * finishes the shot as a miss: bullet spent, sound, muzzle flash, cooldown (D3). Validates the pistol in the main
+     * finishes the shot as a miss: bullet spent, sound, muzzle flash, cooldown (D3; since 2026-11-28 no cooldown while
+     * anyone is frenzied, and no bullet back for a frenzied player's puppet). Validates the pistol in the main
      * hand, no cooldown, a bullet, a live foreign puppet below the 65 cap, aim and line of sight like the Wathe guns.
      * The pistol kills only a non-stasis Jester or a player in frenzy, so the puppet ends ({@code demon_hunter}) only
      * when the copied player is one of those; any other "hit" changes nothing, exactly as on that player. A Jester
      * puppet also earns NoellesRoles' bullet refund, paid by {@link #afterDemonHunterShot} once NoellesRoles has spent
      * the bullet (it spends from a count read before this lookup). True = ended.
      * NoellesRoles 猎魔枪接收器，在其唯一一次目标查找处调用（位于 NoellesRoles 的旁观、手持、冷却与子弹检查之后）。皮套 id
-     * 永远不会解析为其玩家目标，因此 NoellesRoles 随后按未命中收尾：消耗子弹、声音、枪口火光、冷却（D3）。校验主手猎魔枪、
+     * 永远不会解析为其玩家目标，因此 NoellesRoles 随后按未命中收尾：消耗子弹、声音、枪口火光、冷却（D3；2026-11-28 起有人
+     * 疯魔时无冷却，打掉疯魔玩家的皮套不返还子弹）。校验主手猎魔枪、
      * 未冷却、有子弹、65 以内的他人活皮套，以及与 Wathe 枪械相同的瞄准与视线。猎魔枪只击杀非禁锢小丑或疯魔中的玩家，因此只有
      * 被复制的玩家属于其中之一时皮套才结束（{@code demon_hunter}）；其余“命中”与打在该玩家身上一样毫无变化。小丑皮套还会获得
      * NoellesRoles 的返还子弹，由 {@link #afterDemonHunterShot} 在 NoellesRoles 扣除子弹之后补上（它按本次查找之前读取的数量

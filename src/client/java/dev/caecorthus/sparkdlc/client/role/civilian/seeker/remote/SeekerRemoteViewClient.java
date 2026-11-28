@@ -34,6 +34,9 @@ import org.jetbrains.annotations.Nullable;
  * {@code sparkdlc:seeker_status} component: the server alone opens sessions, the client only predicts the Shift
  * exit. It calls only {@code MinecraftClient#setCameraEntity}, never the server-side camera, and hands the camera
  * back only while it is still our focus, so a server camera writer (Taotie, Last Stand, Depression) always wins.
+ * The local player need not be a Seeker: a CAMERA session is also what a police-channel member gets from the tablet's
+ * camera section (owner spec 2026-11-28), and nothing here or in the {@code SeekerRemote*} client mixins asks for the
+ * role; they all key on {@link #isActive()}.
  * <p>
  * Start edge (mode not NONE, new session id): clear (never release) the item in use, stop mining, close gameplay
  * screens, drain queued presses, reset the shared ability-key bridge, install {@link SeekerFrozenInput}, zero the
@@ -58,6 +61,8 @@ import org.jetbrains.annotations.Nullable;
  * （CCA 客户端 tick 太晚），且只响应仅同步给拥有者的 {@code sparkdlc:seeker_status} 组件：只有服务端能打开会话，
  * 客户端只预测 Shift 退出。它只调用 {@code MinecraftClient#setCameraEntity}，从不使用服务端相机；
  * 只有相机仍是我们的焦点时才归还，因此服务端相机写入方（饕餮、最后一搏、抑郁）总是优先。
+ * 本地玩家不必是搜寻者：义警频道成员从平板的摄像头分区得到的同样是 CAMERA 会话（所有者规格 2026-11-28），这里以及
+ * {@code SeekerRemote*} 客户端 mixin 都不询问职业，一律以 {@link #isActive()} 为准。
  * 开始沿（模式非 NONE、会话 id 变化）：清除（绝不释放）正在使用的物品、停止挖掘、关闭游戏界面、清空积压按键、重置共享技能键桥、
  * 装上 {@link SeekerFrozenInput}、清零本体速度与疾跑、保存并关闭区块剔除、隐藏手部，焦点可解析后再切换相机。每刻：玩家对象
  * 变化、服务端模式为 NONE、相机不再属于我们、或焦点未在连接宽限内到达时本地退出；Shift 发送关闭并退出。结束沿：仅当相机仍属于
@@ -554,9 +559,14 @@ public final class SeekerRemoteViewClient {
         }
         int id = switch (mode) {
             case CAR -> SeekerClientState.carEntityId();
-            // The synced session focus is the one camera the server opened. / 同步的会话焦点就是服务端打开的那台摄像头。
-            case CAMERA -> SeekerClientState.hasCamera(SeekerClientState.sessionFocusEntityId())
-                    ? SeekerClientState.sessionFocusEntityId() : -1;
+            // The synced session focus is the one camera the server opened. It need not be one of the local player's
+            // own (a police-channel member views any Seeker's camera, owner spec 2026-11-28), and the list of other
+            // Seekers' cameras may be missing here (it comes with the tablet snapshot), so the server's word and the
+            // entity type below are all that is asked.
+            // 同步的会话焦点就是服务端打开的那台摄像头。它不必是本地玩家自己的（义警频道成员可观看任意搜寻者的摄像头，
+            // 所有者规格 2026-11-28），其他搜寻者的摄像头列表在这里也可能缺失（它随平板快照下发），因此只以服务端的结论与
+            // 下方的实体类型为准。
+            case CAMERA -> SeekerClientState.sessionFocusEntityId();
             case NONE -> -1;
         };
         if (id < 0) {

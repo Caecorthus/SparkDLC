@@ -16,6 +16,7 @@
     "settings.GameMenuScreenMixin",
     "achievement.RoundEndSyncAchievementMixin",
     "achievement.GunDropPayloadMixin",
+    "role.civilian.demonhunter.GunDropKeepsDemonHunterPistolMixin",
     "settings.KeyBindingMixin",
     "guidebook.LimitedInventoryScreenMixin",
     "blood.ParticleAccessorMixin",

@@ -27,7 +27,7 @@ public enum SeekerBreakSource {
     SHOCK_DEVICE(Kind.PROJECTILE),
     GRENADE(Kind.BLAST),
     M67(Kind.BLAST),
-    /** Fell out of the train or left the play area: 180 s, never marks. / 掉出列车或离开游戏区域：180 秒，不标记。 */
+    /** Fell out of the train or left the play area: 90 s, never marks. / 掉出列车或离开游戏区域：90 秒，不标记。 */
     VOID(Kind.ENVIRONMENT),
     /** Independent single-use Fisher weapon; keeps its own item/payload identity. / 钓鱼佬独立的一次性武器与数据包。 */
     SWORDFISH(Kind.RAY),

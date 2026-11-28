@@ -5,26 +5,18 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.RegistryByteBuf;
 
 /**
- * Owns Saint's player-local ability state and the client-visible mirror of UUID-owned Karma.
- * 持有圣徒的玩家技能状态，以及 UUID 业障在客户端可见的镜像。
+ * The client-visible mirror of the Hellfire a player received for killing the Saint. The lock itself is owned by the
+ * world component, keyed by UUID, and is still called Karma in code ({@link SaintKarmaState}); this mirror only feeds
+ * the owner's HUD. Since the 2026-11-28 rebalance the Saint herself has no state here: her Hellfire is passive, so the
+ * former ability timers (and their NBT keys {@code SaintHellfireCooldownTicks} / {@code SaintHellfireActiveTicks}, which
+ * were round-scoped) are gone.
+ * 玩家因击杀圣徒而承受的业火在客户端可见的镜像。锁本身由世界组件按 UUID 持有，代码中仍称为业障（{@link SaintKarmaState}）；
+ * 此镜像只供本人的 HUD 使用。自 2026-11-28 重做起圣徒自身在这里没有状态：她的业火是被动，原先的技能计时（及其仅限本局的
+ * NBT 键 {@code SaintHellfireCooldownTicks} / {@code SaintHellfireActiveTicks}）已移除。
  */
 public final class SaintPlayerState {
-    private int hellfireCooldownTicks;
-    private int hellfireActiveTicks;
     private boolean karmaMarked;
     private int karmaCooldownTicks;
-
-    public int hellfireCooldownTicks() {
-        return hellfireCooldownTicks;
-    }
-
-    public int hellfireActiveTicks() {
-        return hellfireActiveTicks;
-    }
-
-    public boolean isHellfireActive() {
-        return hellfireActiveTicks > 0;
-    }
 
     public boolean isKarmaMarked() {
         return karmaMarked;
@@ -32,75 +24,6 @@ public final class SaintPlayerState {
 
     public int karmaCooldownTicks() {
         return karmaCooldownTicks;
-    }
-
-    public boolean initializeAbility() {
-        boolean changed = hellfireCooldownTicks != SaintRules.HELLFIRE_INITIAL_COOLDOWN_TICKS
-                || hellfireActiveTicks != 0;
-        hellfireCooldownTicks = SaintRules.HELLFIRE_INITIAL_COOLDOWN_TICKS;
-        hellfireActiveTicks = 0;
-        return changed;
-    }
-
-    public void activateHellfire() {
-        hellfireCooldownTicks = 0;
-        hellfireActiveTicks = SaintRules.HELLFIRE_ACTIVE_TICKS;
-    }
-
-    public boolean clearHellfire() {
-        if (hellfireActiveTicks <= 0) {
-            return false;
-        }
-        hellfireActiveTicks = 0;
-        return true;
-    }
-
-    public boolean clearAbility() {
-        if (hellfireCooldownTicks == 0 && hellfireActiveTicks == 0) {
-            return false;
-        }
-        hellfireCooldownTicks = 0;
-        hellfireActiveTicks = 0;
-        return true;
-    }
-
-    /**
-     * Forced-cooldown floor for the {@code sparkdlc:saint_hellfire} cooldown store: raises the Hellfire
-     * cooldown, never shortens it, and refuses while Hellfire burns (its end writes the post cooldown). Returns true
-     * when it changed; the owning component syncs.
-     * 冷却存储 sparkdlc:saint_hellfire 的强制冷却下限：只抬高业火冷却、绝不缩短；业火燃烧期间拒绝
-     * （燃烧结束会写入其后冷却）。有变更时返回 true，由所属组件同步。
-     */
-    public boolean raiseHellfireCooldown(int ticks) {
-        if (hellfireActiveTicks > 0) {
-            return false;
-        }
-        int normalized = Math.max(0, ticks);
-        if (normalized <= hellfireCooldownTicks) {
-            return false;
-        }
-        hellfireCooldownTicks = normalized;
-        return true;
-    }
-
-    /**
-     * Advances Hellfire and reports whether the owner component should sync this tick.
-     * 推进业火计时，并返回本 tick 是否需要由所属组件同步。
-     */
-    public boolean tickAbility() {
-        if (hellfireActiveTicks > 0) {
-            hellfireActiveTicks--;
-            if (hellfireActiveTicks == 0) {
-                hellfireCooldownTicks = SaintRules.HELLFIRE_POST_COOLDOWN_TICKS;
-                return true;
-            }
-            return hellfireActiveTicks % 20 == 0;
-        }
-        if (hellfireCooldownTicks <= 0) {
-            return false;
-        }
-        hellfireCooldownTicks--;
-        return hellfireCooldownTicks == 0 || hellfireCooldownTicks % 20 == 0;
     }
 
     public boolean updateKarma(boolean marked, int remainingTicks) {
@@ -118,15 +41,10 @@ public final class SaintPlayerState {
     }
 
     public boolean isEmpty() {
-        return hellfireCooldownTicks == 0
-                && hellfireActiveTicks == 0
-                && !karmaMarked
-                && karmaCooldownTicks == 0;
+        return !karmaMarked && karmaCooldownTicks == 0;
     }
 
     public void clear() {
-        hellfireCooldownTicks = 0;
-        hellfireActiveTicks = 0;
         karmaMarked = false;
         karmaCooldownTicks = 0;
     }
@@ -136,12 +54,6 @@ public final class SaintPlayerState {
      * 拆分内存状态时仍保持既有圣徒 NBT 键不变。
      */
     public void writeNbt(NbtCompound tag) {
-        if (hellfireCooldownTicks > 0) {
-            tag.putInt("SaintHellfireCooldownTicks", hellfireCooldownTicks);
-        }
-        if (hellfireActiveTicks > 0) {
-            tag.putInt("SaintHellfireActiveTicks", hellfireActiveTicks);
-        }
         if (karmaMarked) {
             tag.putBoolean("SaintKarmaMarked", true);
             if (karmaCooldownTicks > 0) {
@@ -151,12 +63,6 @@ public final class SaintPlayerState {
     }
 
     public void readNbt(NbtCompound tag) {
-        hellfireCooldownTicks = tag.contains("SaintHellfireCooldownTicks", NbtElement.NUMBER_TYPE)
-                ? Math.max(0, tag.getInt("SaintHellfireCooldownTicks"))
-                : 0;
-        hellfireActiveTicks = tag.contains("SaintHellfireActiveTicks", NbtElement.NUMBER_TYPE)
-                ? Math.max(0, tag.getInt("SaintHellfireActiveTicks"))
-                : 0;
         karmaMarked = tag.getBoolean("SaintKarmaMarked");
         karmaCooldownTicks = karmaMarked && tag.contains("SaintKarmaCooldownTicks", NbtElement.NUMBER_TYPE)
                 ? Math.max(0, tag.getInt("SaintKarmaCooldownTicks"))
@@ -164,19 +70,22 @@ public final class SaintPlayerState {
     }
 
     /**
-     * These four fields remain one contiguous packet segment in their original order.
-     * 这四个字段继续按原顺序占据同步包中的同一连续区段。
+     * These four fields remain one contiguous packet segment in their original order. The first two were the Saint's
+     * Hellfire cooldown and burn timers; the active skill is gone (2026-11-28), so they are written as 0 and skipped on
+     * read, which keeps the layout of the shared player sync packet unchanged.
+     * 这四个字段继续按原顺序占据同步包中的同一连续区段。前两个原为圣徒的业火冷却与燃烧计时；主动技能已移除（2026-11-28），
+     * 因此写入 0、读取时跳过，共享玩家同步包的布局保持不变。
      */
     public void writeSync(RegistryByteBuf buf, boolean ownerVisible) {
-        buf.writeVarInt(ownerVisible ? hellfireCooldownTicks : 0);
-        buf.writeVarInt(ownerVisible ? hellfireActiveTicks : 0);
+        buf.writeVarInt(0);
+        buf.writeVarInt(0);
         buf.writeBoolean(ownerVisible && karmaMarked);
         buf.writeVarInt(ownerVisible ? karmaCooldownTicks : 0);
     }
 
     public void readSync(RegistryByteBuf buf) {
-        hellfireCooldownTicks = Math.max(0, buf.readVarInt());
-        hellfireActiveTicks = Math.max(0, buf.readVarInt());
+        buf.readVarInt();
+        buf.readVarInt();
         karmaMarked = buf.readBoolean();
         karmaCooldownTicks = Math.max(0, buf.readVarInt());
     }

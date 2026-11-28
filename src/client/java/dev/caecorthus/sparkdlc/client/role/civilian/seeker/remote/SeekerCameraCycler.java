@@ -20,7 +20,9 @@ import java.util.function.IntPredicate;
  * Camera cycling while viewing a camera, called once per tick by {@link SeekerRemoteViewClient} while a session
  * continues. The left/right movement keys (A/D by default) stay allowed while viewing because they steer the car; in
  * CAMERA mode a fresh key-down here ({@link SeekerRemoteViewRules#freshPress}) asks the server for the previous/next
- * camera by label among the owner-synced cameras, wrapping around and skipping only cameras this client already sees
+ * camera in viewing order ({@code SeekerClientState#viewingOrder}: the local Seeker's own cameras by label, then the
+ * other Seekers' from the tablet snapshot, which is all a police-channel viewer who is no Seeker has), wrapping around
+ * and skipping only cameras this client already sees
  * dead; a camera beyond this client's entity tracking (no longer a range limit since 2026-10-04) stays selectable.
  * OS key repeat never cycles again: a held key cycles once, and every bind of a viewpoint (session
  * start, car to camera, camera to camera) drains the queued left/right presses and treats both keys as held until they
@@ -32,7 +34,8 @@ import java.util.function.IntPredicate;
  * switch arrives as a new session id that {@link SeekerRemoteViewClient} retargets in place.
  * 观看摄像头时的摄像头切换，由 {@link SeekerRemoteViewClient} 在会话持续期间每刻调用一次。左右移动键（默认 A/D）在观看期间
  * 仍被放行，因为它们用于驾驶小车；在摄像头模式下，这里检测到新的按下沿（{@link SeekerRemoteViewRules#freshPress}）时，
- * 在拥有者同步的摄像头中按编号向服务端请求上一台/下一台摄像头，循环切换，只跳过本客户端已看到失效的摄像头；超出本客户端
+ * 按观看顺序（{@code SeekerClientState#viewingOrder}：先是本地搜寻者自己的摄像头按编号，再是平板快照中其他搜寻者的；
+ * 非搜寻者的义警频道观看者只有后者）向服务端请求上一台/下一台摄像头，循环切换，只跳过本客户端已看到失效的摄像头；超出本客户端
  * 实体追踪范围的摄像头仍可选（自 2026-10-04 起不再有距离限制）。系统按键重复不会再次
  * 触发切换：按住只切换一次；每次绑定视点（会话开始、小车切到摄像头、摄像头切到摄像头）都会清空左右键积压的按下次数，
  * 并把两个键视为按住，直到观察到松开，因此驾驶时或切换过程中一直按住的键不会触发切换。任何模式下每刻也都会清空积压的
@@ -96,7 +99,7 @@ public final class SeekerCameraCycler {
                 || !ClientPlayNetworking.canSend(SeekerRemoteOpenC2SPacket.ID)) {
             return;
         }
-        int target = SeekerCameraRules.cycle(SeekerClientState.cameras(), SeekerClientState.sessionFocusEntityId(),
+        int target = SeekerCameraRules.cycle(SeekerClientState.viewingOrder(), SeekerClientState.sessionFocusEntityId(),
                 direction, selectable(client.world));
         if (target < 0) {
             return;
@@ -111,7 +114,7 @@ public final class SeekerCameraCycler {
     }
 
     /**
-     * The cameras the strafe keys may land on, applied to the owner-synced camera list: every listed camera except one
+     * The cameras the strafe keys may land on, applied to the viewable camera list: every listed camera except one
      * this client resolves as something other than a live camera. A far camera is usually not tracked by this client
      * (the device only streams in once a session views it), so an absent entity stays selectable; the server
      * re-validates. Also used by the CCTV overlay's "2/3" hint.

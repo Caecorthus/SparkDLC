@@ -72,9 +72,9 @@ public final class FiendDashHud {
         FiendDashHudRules.Line line = FiendDashHudRules.line(
                 FiendMomentWorldComponent.get(client.world).dashCooldownTicks());
         // The corner row is taken by the shared witch skill line (defensive: a Fiend has no witch skill id) or by the
-        // Saint's Karma line, which any killer of a Hellfire Saint can carry, drawn flush in the corner.
-        // 右下角这一行可能被共享魔女技能行占用（防御性处理：魔人没有魔女技能 id），或被圣徒业报行占用（任何在地狱火
-        // 期间击杀圣徒的人都可能带有，紧贴角落绘制）。
+        // Saint's Karma line, which any killer of the Saint can carry, drawn flush in the corner.
+        // 右下角这一行可能被共享魔女技能行占用（防御性处理：魔人没有魔女技能 id），或被圣徒业报行占用（任何
+        // 击杀圣徒的人都可能带有，紧贴角落绘制）。
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;

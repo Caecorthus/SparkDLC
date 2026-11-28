@@ -74,8 +74,10 @@ public final class SeekerLifecycleService {
             }
         });
 
-        // Any role change away from Seeker drops the session, devices and state.
-        // 任何从搜寻者转出的职业变更都会清除会话、设备与状态。
+        // Any role change away from Seeker drops the session, devices and state. That includes a police-channel
+        // member who is no Seeker and was watching a camera: the view ends with the role change, whatever the new role.
+        // 任何从搜寻者转出的职业变更都会清除会话、设备与状态。这也包括正在观看摄像头的非搜寻者义警频道成员：
+        // 无论新职业是什么，视角都随职业变更结束。
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer && !SeekerRules.isSeeker(role)) {
                 cleanUp(serverPlayer, SeekerExitReason.ROLE_CHANGED);
@@ -177,9 +179,11 @@ public final class SeekerLifecycleService {
     /**
      * Terminal cleanup for one player, in order: end the session (WP-09), discard every device (the car and all
      * cameras, WP-03), clear the component. A no-op for players holding no Seeker state. Also the component tick's
-     * self-heal and final-death path.
+     * self-heal and final-death path. For a police-channel member who only watches a camera it ends that view (such a
+     * player owns no device, and the cameras it watched stay with their owners).
      * 单名玩家的终局清理，顺序：结束会话（WP-09）、移除所有设备（小车与全部摄像头，WP-03）、清空组件。
-     * 对不持有搜寻者状态的玩家为空操作。同时也是组件刻自愈与最终死亡路径。
+     * 对不持有搜寻者状态的玩家为空操作。同时也是组件刻自愈与最终死亡路径。对只是在观看摄像头的义警频道成员，它结束该视角
+     * （这类玩家没有任何设备，其观看的摄像头仍归各自的拥有者）。
      */
     static void cleanUp(ServerPlayerEntity player, SeekerExitReason reason) {
         if (!holdsState(player)) {

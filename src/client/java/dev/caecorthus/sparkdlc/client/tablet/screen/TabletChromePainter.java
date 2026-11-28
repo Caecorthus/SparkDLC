@@ -395,6 +395,7 @@ final class TabletChromePainter {
             case DOOR_LOG -> TabletIcons.door(c, box.x(), box.y(), box.width(), color);
             case DRONE -> TabletIcons.drone(c, box.x(), box.y(), box.width(), color);
             case SABOTAGE -> TabletIcons.bolt(c, box.x(), box.y(), box.width(), color);
+            case CAMERAS -> TabletIcons.eye(c, box.x(), box.y(), box.width(), color);
         }
     }
 

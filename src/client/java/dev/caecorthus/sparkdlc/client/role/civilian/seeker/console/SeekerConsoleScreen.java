@@ -34,7 +34,7 @@ import java.util.List;
  * this client tracks the device, since a far device has no range limit and is usually untracked), "Control car" and
  * "View camera" (send {@code seeker_remote_open} and close; "View camera" lets the server pick the default camera; the server
  * opens the possession session and the remote view takes over), "Recall car" (remote, after a confirm step;
- * {@code seeker_car_recall}, 180 s), and "Police network" (only for the tablet: one-shot bypass and
+ * {@code seeker_car_recall}, 90 s), and "Police network" (only for the tablet: one-shot bypass and
  * vanilla re-use so the tablet opens its own screen). Every enablement is a client prediction shared with quick
  * connect through {@link SeekerDeviceAvailability}; the server validates each packet. The console never pauses and
  * closes itself when the device leaves the inventory, the role changes, the player dies, or a session starts.
@@ -42,7 +42,7 @@ import java.util.List;
  * 状态行（小车、电量、摄像头数量与最近距离、标记；仅当本客户端追踪到设备时才显示距离，因为远处设备没有距离限制且通常
  * 不被追踪）；“操控小车”“查看摄像头”（发送 {@code seeker_remote_open} 并关闭，
  * “查看摄像头”由服务端选择默认摄像头；由服务端开启附身会话、遥控视角接管）；“回收小车”（远程，二次确认后发送
- * {@code seeker_car_recall}，180 秒）；“警察网络”（仅限平板：一次性旁路后重发原版使用，由平板
+ * {@code seeker_car_recall}，90 秒）；“警察网络”（仅限平板：一次性旁路后重发原版使用，由平板
  * 打开自己的界面）。所有启用状态都只是客户端预测，经 {@link SeekerDeviceAvailability} 与快速连接共用，
  * 服务端校验每个数据包。控制台不暂停游戏，并在设备离开背包、职业变化、死亡或会话开始时自动关闭。
  */

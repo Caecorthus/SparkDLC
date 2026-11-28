@@ -18,8 +18,8 @@ import org.jetbrains.annotations.Nullable;
  *       reason; the Rys-T ricochet only acts on ranged reasons.</li>
  * </ul>
  * Trait-type protections and role immunities are not shields and keep stopping the kill (the Ceremonial Sword's line):
- * the traits Last Stand, Last Escape, Stands Firm and Depression, the Fiend's immunity, the Charon's pardon, the Saint
- * and faction-core affect vetoes, Tofana, Schrödinger's Cat, the Jester's stasis. Unlike
+ * the traits Last Stand, Last Escape, Stands Firm and Depression, the Fiend's immunity, the Charon's pardon, the
+ * faction-core affect vetoes, Tofana, Schrödinger's Cat, the Jester's stasis. Unlike
  * {@code CeremonialSwordProtectionPolicy}, nothing is consumed first.
  * 「不破盾」（所有者 2026-11-11）：绳索的击杀穿过所有护盾与护甲层且不消耗它们。稳定接缝，唯一的死因是
  * {@code sparkdlc:strangled}；每个护盾在拦截或消耗之前都先询问 {@link #passesShields} 并让开（{@code KillPlayer.BEFORE}
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
  * 直接返回；NoellesRoles 铁人与威士忌护盾由 {@code mixin/rope/NoellesRopeShieldPassMixin} 处理；Wathe 疯魔护甲以及依赖同一答案的
  * 幽魂里世界护盾由 {@link RopeStrangleService} 注册的 {@code ShouldPiercePsychoArmour} 监听处理；保镖的民主盾牌与防弹衣
  * 只按自己的死因表生效（表中没有该死因），Rys-T 跳弹只作用于远程死因。词条类保护与职业免疫不是护盾，仍会挡下击杀（与仪礼剑同一条线）：
- * 词条背水一战、脱险、站得住与抑郁，魔人免疫，卡戎宽恕，圣徒与阵营核心的影响否决，托法娜，薛定谔之猫，小丑禁锢。
+ * 词条背水一战、脱险、站得住与抑郁，魔人免疫，卡戎宽恕，阵营核心的影响否决，托法娜，薛定谔之猫，小丑禁锢。
  * 与 {@code CeremonialSwordProtectionPolicy} 不同，这里不会先消耗任何东西。
  */
 public final class RopeShieldPolicy {

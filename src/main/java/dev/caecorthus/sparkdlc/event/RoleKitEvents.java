@@ -27,6 +27,7 @@ import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerShopService;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityService;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseService;
+import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterPistolService;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.economy.RoleEconomyService;
 import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService;
@@ -206,6 +207,9 @@ public final class RoleKitEvents {
                 AttendantFlashlightService.assignForRole(serverPlayer, role);
                 DetectiveCaseService.assignForRole(serverPlayer, role);
                 DemonHunterSniffService.assignForRole(serverPlayer, role);
+                // The Demon Hunter's pistol comes with the role (empty until a frenzy starts) and leaves with it.
+                // 猎魔枪随猎魔人职业发放（有人疯魔前是空枪），职业变更时收回。
+                DemonHunterPistolService.assignForRole(serverPlayer, role);
                 VultureSuperCurseService.assignForRole(serverPlayer, role);
                 PartygoerSkillService.assignForRole(serverPlayer, role);
                 MorphlingService.assignForRole(serverPlayer, role);

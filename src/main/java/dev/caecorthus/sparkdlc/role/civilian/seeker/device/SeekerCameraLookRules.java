@@ -5,8 +5,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * Stable contract: the camera look cone shared by the owner's client view, the server clamp of
- * {@code sparkdlc:seeker_camera_look}, and the head every client renders, plus the owner client's send cadence and
+ * Stable contract: the camera look cone shared by every viewer's client view, the server clamp of
+ * {@code sparkdlc:seeker_camera_look}, and the head every client renders, plus the viewer client's send cadence and
  * the render smoothing. The cone is centre +-{@link SeekerRules#CAMERA_YAW_CONE} yaw (the wall normal, or the mount
  * yaw on floors and ceilings) and centre +-{@link SeekerRules#CAMERA_PITCH_CONE} pitch (level on walls, looking up
  * from floors, down from ceilings). Pure and side-neutral, so the server clamps with exactly the client's math.
@@ -91,10 +91,15 @@ public final class SeekerCameraLookRules {
     }
 
     /**
-     * Owner-client cadence: never faster than {@link #SEND_INTERVAL_TICKS}; send when the look moved since the last
-     * send, or after {@link #RESYNC_TICKS} quiet ticks when the server's tracked look still disagrees.
-     * 拥有者客户端节奏：不快于 {@link #SEND_INTERVAL_TICKS}；自上次发送后视角有变化时发送，或安静满
-     * {@link #RESYNC_TICKS} 刻后服务端同步的视角仍不一致时补发。
+     * Viewer-client cadence: never faster than {@link #SEND_INTERVAL_TICKS}; send when the look moved since the last
+     * send, or after {@link #RESYNC_TICKS} quiet ticks when the server's tracked look still disagrees. The caller
+     * passes {@code differsFromServer} only while the head has never been seen at the last look it sent: with several
+     * viewers of one camera (owner spec 2026-11-28) a head that moved away afterwards was turned by somebody else and
+     * must not be turned back by a viewer who is not moving.
+     * 观看者客户端节奏：不快于 {@link #SEND_INTERVAL_TICKS}；自上次发送后视角有变化时发送，或安静满
+     * {@link #RESYNC_TICKS} 刻后服务端同步的视角仍不一致时补发。调用方只在机头从未到过其最后发送的视角时才传入
+     * {@code differsFromServer}：同一台摄像头有多名观看者时（所有者规格 2026-11-28），之后转开的机头是别人转动的，
+     * 不应被一名静止的观看者转回去。
      */
     public static boolean shouldSend(int ticksSinceSend, boolean movedSinceSend, boolean differsFromServer) {
         if (ticksSinceSend < SEND_INTERVAL_TICKS) {

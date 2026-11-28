@@ -16,7 +16,8 @@ import java.util.List;
 /**
  * Stateless painters shared by every tablet section (empty state, scroll thumb, pulse dot, text helpers) and every
  * {@link TabletPressable} button look; each section's own cards live in its painter (TabletConnectionsPainter,
- * TabletMeetingPainter, TabletSuspectsPainter, TabletDoorLogPainter, TabletDronePainter, TabletSabotagePainter).
+ * TabletMeetingPainter, TabletSuspectsPainter, TabletDoorLogPainter, TabletDronePainter, TabletSabotagePainter,
+ * TabletCamerasPainter).
  * Pure presentation of the server-redacted snapshot: nothing here decides what a player may see or do; the pages pass
  * in already-derived flags (clickable, active, state).
  * 平板各分区共用的无状态绘制器（空状态、滚动条、脉冲圆点、文字工具）与所有 TabletPressable 按钮外观；各分区自己的卡片在
@@ -26,10 +27,10 @@ import java.util.List;
  * <p>Package-visible geometry constants (and the card {@link Grid} built on {@code GRID_GAP}) are shared with the
  * screen and its pages, which place the widgets and scroll by them; changing one changes hit boxes as well as visuals. Private constants are painter-only; button hit boxes that
  * depend on them are exposed through rect helpers ({@code heroButtonRect}, {@code suspectButtonRect},
- * {@code droneButtonRect}). Text is 8 px high and
+ * {@code suspectTrackRect}, {@code droneButtonRect}). Text is 8 px high and
  * is always drawn at {@code centreY - 4}.
  * 包可见的几何常量（以及基于 GRID_GAP 的卡片网格 Grid）与界面及其页面共享，它们据此放置控件与滚动；修改它们会同时改变点击区域与外观。私有常量仅供绘制器使用，
- * 依赖它们的按钮点击区域通过 heroButtonRect、suspectButtonRect、droneButtonRect 暴露。文字高 8 px，一律绘制在 centreY - 4。</p>
+ * 依赖它们的按钮点击区域通过 heroButtonRect、suspectButtonRect、suspectTrackRect、droneButtonRect 暴露。文字高 8 px，一律绘制在 centreY - 4。</p>
  */
 final class TabletSectionPainter {
     static final int GRID_GAP = 8;
@@ -57,7 +58,7 @@ final class TabletSectionPainter {
     private TabletSectionPainter() {
     }
 
-    enum EmptyIcon { MEMBERS, CHAT, SHIELD, DOOR, DRONE }
+    enum EmptyIcon { MEMBERS, CHAT, SHIELD, DOOR, DRONE, CAMERA }
 
     /**
      * DANGER_SOFT: danger tint + danger ink that an inactive button keeps, so an alarm reason (a drone out of control)
@@ -133,6 +134,7 @@ final class TabletSectionPainter {
                 case SHIELD -> TabletIcons.shield(c, cx - half, cy - half, EMPTY_ICON, TabletTheme.TEXT_3);
                 case DOOR -> TabletIcons.door(c, cx - half, cy - half, EMPTY_ICON, TabletTheme.TEXT_3);
                 case DRONE -> TabletIcons.drone(c, cx - half, cy - half, EMPTY_ICON, TabletTheme.TEXT_3);
+                case CAMERA -> TabletIcons.eye(c, cx - half, cy - half, EMPTY_ICON, TabletTheme.TEXT_3);
             }
             top += EMPTY_DISC + EMPTY_GAP;
         }
@@ -251,6 +253,16 @@ final class TabletSectionPainter {
         if (!text.isEmpty()) {
             c.text(tr, text, left + iconSpace, centerY - 4, ink);
         }
+    }
+
+    /**
+     * Whether {@link #button} would draw {@code label} beside {@code icon} untrimmed in a button {@code width} wide;
+     * lets a page whose label changes while the button stays put pick a shorter one.
+     * button 在宽为 width 的按钮中能否不截断地把 label 画在 icon 旁边；供文字会变而按钮不动的页面改用较短的文字。
+     */
+    static boolean buttonFits(TextRenderer tr, Text label, ButtonIcon icon, int width) {
+        int iconSpace = icon == ButtonIcon.NONE ? 0 : BUTTON_ICON + BUTTON_ICON_GAP;
+        return tr.getWidth(label.getString()) <= width - 2 * BUTTON_PAD - iconSpace;
     }
 
     // ============================================================================================ helpers

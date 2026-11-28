@@ -70,6 +70,7 @@ import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaRules;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaUmbrellaItem;
 import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordItem;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.ExoskeletonItem;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.CologneItem;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumeEssenceItem;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
@@ -802,6 +803,7 @@ public final class SparkDlcItems {
     public static final Identifier FIRE_POKER_ID = SparkDLC.id("fire_poker");
     public static final Identifier PERFUME_ESSENCE_ID = SparkDLC.id("perfume_essence");
     public static final Identifier COLOGNE_ID = SparkDLC.id("cologne");
+    public static final Identifier EXOSKELETON_ID = SparkDLC.id("exoskeleton");
     public static final Identifier TAROT_CARD_ID = SparkDLC.id("tarot_card");
     public static final Identifier NINJA_KNIFE_ID = SparkDLC.id("ninja_knife");
     public static final Identifier VENDETTA_KNIFE_ID = SparkDLC.id("vendetta_knife");
@@ -876,6 +878,7 @@ public final class SparkDlcItems {
     private static Item firePoker;
     private static Item perfumeEssence;
     private static Item cologne;
+    private static Item exoskeleton;
     private static Item tarotCard;
     private static Item ninjaKnife;
     private static Item vendettaKnife;
@@ -973,6 +976,12 @@ public final class SparkDlcItems {
                 Registries.ITEM,
                 COLOGNE_ID,
                 new CologneItem(new Item.Settings().maxCount(1))
+        );
+        // The Orthopedist's Exoskeleton (owner 2026-11-28). / 骨科大夫的外骨骼（所有者 2026-11-28）。
+        exoskeleton = Registry.register(
+                Registries.ITEM,
+                EXOSKELETON_ID,
+                new ExoskeletonItem(new Item.Settings().maxCount(1))
         );
         tarotCard = Registry.register(
                 Registries.ITEM,
@@ -1511,6 +1520,13 @@ public final class SparkDlcItems {
             throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return cologne;
+    }
+
+    public static Item exoskeleton() {
+        if (exoskeleton == null) {
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
+        }
+        return exoskeleton;
     }
 
     public static Item tarotCard() {

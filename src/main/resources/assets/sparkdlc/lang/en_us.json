@@ -1085,7 +1085,7 @@
   "trait.sparkdlc.stands_firm.name": "Stands Firm",
   "trait.sparkdlc.stands_firm.description": "Players of your own faction cannot kill you.",
   "trait.sparkdlc.preparefull.name": "Preparefully",
-  "trait.sparkdlc.preparefull.description": "Stand still for 10 seconds to charge; your next movement grants Speed III for 3 seconds.",
+  "trait.sparkdlc.preparefull.description": "Stand still for 10 seconds to charge; your next movement grants Speed III for 3 seconds. After it fires, the charge cannot start again for 15 seconds.",
   "hud.sparkdlc.preparefull": "Charge %s%%",
   "trait.sparkdlc.extroverted.name": "Extroverted",
   "trait.sparkdlc.extroverted.description": "Your sanity does not drain while at least two other living players are within eight blocks.",

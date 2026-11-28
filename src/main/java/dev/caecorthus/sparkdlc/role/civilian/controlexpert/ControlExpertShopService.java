@@ -39,12 +39,14 @@ public final class ControlExpertShopService {
         // 词条的商店条目（如内鬼左轮）可能已先加入；重建时保留它们。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
+        // Re-buyable like the shock device: no stock gate, so any number of anchors can be bought with money.
+        // 与电击装置一样可重复购买：不设库存上限，有钱就能买多个。
         context.addEntry(new ShopEntry.Builder(
-                ControlExpertRules.DISRUPTOR_ENTRY_ID,
-                SparkDlcItems.disruptor().getDefaultStack(),
-                ControlExpertRules.DISRUPTOR_PRICE,
+                ControlExpertRules.REALITY_ANCHOR_ENTRY_ID,
+                SparkDlcItems.realityAnchor().getDefaultStack(),
+                ControlExpertRules.REALITY_ANCHOR_PRICE,
                 ShopEntry.Type.TOOL
-        ).stock(1).build());
+        ).build());
         context.addEntry(new ShopEntry.Builder(
                 ControlExpertRules.TASER_ENTRY_ID,
                 SparkDlcItems.taser().getDefaultStack(),

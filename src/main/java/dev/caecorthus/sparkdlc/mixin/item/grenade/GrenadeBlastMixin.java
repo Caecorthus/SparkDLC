@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.item.grenade;
 
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastRules;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.AttackOriginScope;
@@ -57,6 +58,10 @@ public abstract class GrenadeBlastMixin {
     // 直接命中无人机的手雷就地爆炸。
     // Partygoers in the blast die too (wathe:grenade); a grenade that hits one explodes on it.
     // 爆炸范围内的派对客同样死亡（wathe:grenade）；直接命中派对客的手雷就地爆炸。
+    // Placed reality anchors in the blast break as well (owner 2026-11-27): an area effect like the two above, with
+    // the same sphere and line of sight; the thrown grenade itself flies through an anchor.
+    // 爆炸范围内已放置的现实稳定锚同样被炸掉（所有者 2026-11-27）：与上面两者一样是范围效果，使用相同的球形范围与视线判定；
+    // 投出的手雷本身会穿过锚。
     @Inject(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", at = @At("TAIL"))
     private void sparkdlc$breakDronesInBlast(HitResult hitResult, CallbackInfo ci) {
         GrenadeEntity grenade = (GrenadeEntity) (Object) this;
@@ -64,6 +69,8 @@ public abstract class GrenadeBlastMixin {
             ServerPlayerEntity thrower = grenade.getOwner() instanceof ServerPlayerEntity player ? player : null;
             DroneCombatService.breakDronesInBlast(world, grenade, GrenadeBlastRules.WATHE_BLAST_RADIUS, thrower);
             PartygoerWeaponHits.onGrenadeBlast(world, grenade, GrenadeBlastRules.WATHE_BLAST_RADIUS, thrower);
+            RealityAnchorHits.onBlast(world, grenade.getBoundingBox().getCenter(),
+                    GrenadeBlastRules.WATHE_BLAST_RADIUS, grenade);
         }
     }
 }

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.serialkiller;
 
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
@@ -91,6 +92,12 @@ public final class SerialPistolShotService {
         world.playSound(null, shooter.getX(), shooter.getEyeY(), shooter.getZ(), WatheSounds.ITEM_REVOLVER_CLICK,
                 SoundCategory.PLAYERS, 0.5F, 1.0F + shooter.getRandom().nextFloat() * 0.1F - 0.05F);
 
+        // A placed reality anchor on the shot's line breaks (owner 2026-11-27): only for an accepted shot, within the
+        // pistol's own range, and only in front of the first block and of the claimed target. Nothing below changes.
+        // 弹道上已放置的现实稳定锚会被打掉（所有者 2026-11-27）：仅限已接受的射击，在手枪自身射程内，且必须位于第一个方块与
+        // 所声明目标之前。下方流程不变。
+        RealityAnchorHits.gunShot(shooter, targetId < 0 ? null : world.getEntityById(targetId),
+                SerialKillerConstants.PISTOL_RANGE_BLOCKS);
         if (candidate == null) {
             // Wathe's revolver is hooked at this point (before the record): a non-player id naming a Magician
             // puppet or Seeker device ends or breaks it, and the shot below stays a recorded miss (D3: sound, muzzle,

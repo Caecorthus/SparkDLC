@@ -70,6 +70,8 @@ import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownSer
 import dev.caecorthus.sparkdlc.role.civilian.waiter.WaiterTaskRevealService;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.entity.RealityAnchorAuraService;
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import dev.caecorthus.sparkdlc.sabotage.BlackoutSightService;
 import dev.caecorthus.sparkdlc.sabotage.ImpostorLockpickService;
 import dev.caecorthus.sparkdlc.sabotage.SabotageService;
@@ -178,6 +180,11 @@ public final class RoleKitEvents {
         // Bandit moddable revolver: shop (late phase, after NoellesRoles' Bandit handler) and round seating/reconcile.
         // 强盗改装左轮：商店（晚于 NoellesRoles 强盗处理器的阶段）与子弹到位/对账。
         BanditShopService.register();
+        // Reality stabilization anchor: night vision upkeep and the round-end sweep, then the left-click that breaks
+        // one (default attack phase; it answers for anchors only).
+        // 现实稳定锚：夜视维护与回合结束清理，然后是打掉锚的左键回调（默认攻击阶段；只对锚作答）。
+        RealityAnchorAuraService.register();
+        RealityAnchorHits.register();
         ServerTickEvents.END_WORLD_TICK.register(BanditRevolverService::tick);
         // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
         ServerTickEvents.END_WORLD_TICK.register(CoronerEconomyService::tick);

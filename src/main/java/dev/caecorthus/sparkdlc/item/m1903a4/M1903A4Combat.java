@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
@@ -177,6 +178,10 @@ public final class M1903A4Combat {
         Hit hit = resolve(shooter, gun, picked, start, rayEnd, range);
         ServerPlayerEntity victim = hit.victim();
 
+        // A shot that reaches a placed reality anchor destroys it (owner 2026-11-27); this is the shared rifle path,
+        // so an M16A4 round in a match does the same.
+        // 子弹打到现实稳定锚就摧毁它（所有者 2026-11-27）；这是共用的步枪路径，因此对局中的 M16A4 子弹同样如此。
+        RealityAnchorHits.destroyAlongRay(world, shooter, start, hit.stop());
         RangedSmokeCarve.ray(world, start, hit.stop()); // BEAR smoke: the round's tunnel / BEAR 烟雾：子弹的通道
         if (whiteTrace) {
             spawnSmoke(world, start, hit.stop());

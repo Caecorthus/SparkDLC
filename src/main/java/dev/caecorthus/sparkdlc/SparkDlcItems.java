@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.item.BlueVitriolItem;
 import dev.caecorthus.sparkdlc.item.BodyguardVestItem;
 import dev.caecorthus.sparkdlc.item.CapsuleItem;
 import dev.caecorthus.sparkdlc.item.CaptureDeviceItem;
+import dev.caecorthus.sparkdlc.item.RealityAnchorItem;
 import dev.caecorthus.sparkdlc.item.CaseFolderItem;
 import dev.caecorthus.sparkdlc.item.CircuitConfiguratorItem;
 import dev.caecorthus.sparkdlc.item.CoolingOilItem;
@@ -183,6 +184,7 @@ public final class SparkDlcItems {
     public static final Identifier SEDATIVE_ID = SparkDLC.id("sedative");
     public static final Identifier TRUTH_SERUM_ID = SparkDLC.id("truth_serum");
     public static final Identifier CAPTURE_DEVICE_ID = SparkDLC.id("capture_device");
+    public static final Identifier REALITY_ANCHOR_ID = SparkDLC.id("reality_anchor");
     public static final Identifier POWER_RESTORATION_ID = SparkDLC.id("power_restoration");
     public static final Identifier CIRCUIT_CONFIGURATOR_ID = SparkDLC.id("circuit_configurator");
     public static final Identifier MORPH_REAGENT_ID = SparkDLC.id("morph_reagent");
@@ -222,6 +224,7 @@ public final class SparkDlcItems {
     private static Item sedative;
     private static Item truthSerum;
     private static Item captureDevice;
+    private static Item realityAnchor;
     private static Item powerRestoration;
     private static Item circuitConfigurator;
     private static Item morphReagent;
@@ -299,6 +302,11 @@ public final class SparkDlcItems {
                 Registries.ITEM,
                 CAPTURE_DEVICE_ID,
                 new CaptureDeviceItem(new Item.Settings().maxCount(1))
+        );
+        realityAnchor = Registry.register(
+                Registries.ITEM,
+                REALITY_ANCHOR_ID,
+                new RealityAnchorItem(RealityAnchorItem.createSettings())
         );
         powerRestoration = Registry.register(
                 Registries.ITEM,
@@ -555,6 +563,13 @@ public final class SparkDlcItems {
             throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return truthSerum;
+    }
+
+    public static Item realityAnchor() {
+        if (realityAnchor == null) {
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
+        }
+        return realityAnchor;
     }
 
     public static Item captureDevice() {

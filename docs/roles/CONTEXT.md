@@ -2537,7 +2537,8 @@ Current build baseline:
     `sparkdlc:ragpicker_search` (body UUID only), a payload on the stun, Fear, Seeker-session, Rift-occupant and
     Knight-duel G lists. The server re-checks the raw role and every state gate, then needs the corpse within 3 blocks
     in block line of sight (no search through walls) for 5 s. Success transfers one stack from the dead owner's
-    snapshot into a free hotbar slot (moved, never copied). An empty corpse is marked searched at once; the owner
+    snapshot into a free hotbar slot (moved, never copied). The Tablet and Wathe's letter are never lootable
+    (`JunkerLoot.isUseless`, PR #13), so a body that holds nothing else is an empty corpse. An empty corpse is marked searched at once; the owner
     accepts that instant "nothing on the body" line as a fake-corpse tell. A refusal costs nothing.
   - Cooldown: 45 s at round start and 60 s after a successful search, kept as the ready tick and exposed as the
     SparkFactionAPI role-skill store `sparkdlc:ragpicker_search` (`cooldown/provider/RoleForcedCooldowns`).

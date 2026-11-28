@@ -194,15 +194,20 @@ public final class JunkerLootWorldComponent implements Component {
                 : null;
     }
 
-    /** Non-empty main and off-hand slots; armour is never loot. / 非空的主背包与副手槽位；盔甲永远不是战利品。 */
+    /**
+     * Non-empty main and off-hand slots, without the stacks {@link JunkerLoot#isUseless} names; armour is never loot.
+     * The live inventory, the offline snapshot and the owed removals all read this one list.
+     * 非空的主背包与副手槽位，不含 {@link JunkerLoot#isUseless} 点名的物品；盔甲永远不是战利品。实时背包、离线快照与
+     * 待移除项都读这同一份列表。
+     */
     private static List<Integer> lootSlots(PlayerInventory inventory) {
         List<Integer> slots = new ArrayList<>();
         for (int slot = 0; slot < inventory.main.size(); slot++) {
-            if (!inventory.main.get(slot).isEmpty()) {
+            if (!inventory.main.get(slot).isEmpty() && !JunkerLoot.isUseless(inventory.main.get(slot))) {
                 slots.add(slot);
             }
         }
-        if (!inventory.offHand.get(0).isEmpty()) {
+        if (!inventory.offHand.get(0).isEmpty() && !JunkerLoot.isUseless(inventory.offHand.get(0))) {
             slots.add(PlayerInventory.OFF_HAND_SLOT);
         }
         return slots;

@@ -1085,7 +1085,7 @@
   "trait.sparkdlc.stands_firm.name": "立场坚定",
   "trait.sparkdlc.stands_firm.description": "同阵营的玩家无法杀死你。",
   "trait.sparkdlc.preparefull.name": "养精蓄锐",
-  "trait.sparkdlc.preparefull.description": "静止 10 秒完成蓄力，下次移动时获得 3 秒速度 III。",
+  "trait.sparkdlc.preparefull.description": "静止 10 秒完成蓄力，下次移动时获得 3 秒速度 III；触发后需再等 15 秒才能重新蓄力。",
   "hud.sparkdlc.preparefull": "蓄力 %s%%",
   "trait.sparkdlc.extroverted.name": "外向",
   "trait.sparkdlc.extroverted.description": "8格内至少有另外两名存活玩家时，你的理智不会自然流失。",

@@ -3479,6 +3479,7 @@
   "item.sparkdlc.m16a4.tooltip.ammo": "Ammo: %s / %s",
   "item.sparkdlc.m16a4.tooltip.burst": "Burst left this pull: %s / %s",
   "item.sparkdlc.m16a4.tooltip.use": "Right-click fires a three-round burst; left-click reloads.",
+  "replay.item_use.sparkdlc.m16a4.shot": "%s shot %s with the §6M16A4§r",
   "option.sparkdlc.event_sound_volume.psycho_mode": "Psycho Mode",
   "option.sparkdlc.event_sound_volume.corrupt_cop_moment": "Execution Moment",
   "option.sparkdlc.event_sound_volume.jester_moment": "Jester's Feast",

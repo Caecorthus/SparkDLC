@@ -3479,6 +3479,7 @@
   "item.sparkdlc.m16a4.tooltip.ammo": "弹药：%s / %s",
   "item.sparkdlc.m16a4.tooltip.burst": "本轮点射剩余：%s / %s",
   "item.sparkdlc.m16a4.tooltip.use": "右键开火（三发点射），左键换弹。",
+  "replay.item_use.sparkdlc.m16a4.shot": "%s 用§6M16A4§r射中了 %s",
   "option.sparkdlc.event_sound_volume.psycho_mode": "疯魔模式",
   "option.sparkdlc.event_sound_volume.corrupt_cop_moment": "处决时刻",
   "option.sparkdlc.event_sound_volume.jester_moment": "小丑盛宴",

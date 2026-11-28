@@ -17,6 +17,7 @@ public final class TabletUiSession {
     private int connectionsFirstRow;
     private int doorLogFirstRow;
     private int droneFirstRow;
+    private int cameraFirstRow;
     private int chatScroll;
 
     public TabletUiSession(String initialDraft) {
@@ -206,6 +207,27 @@ public final class TabletUiSession {
         );
     }
 
+    public int cameraFirstRow() {
+        return cameraFirstRow;
+    }
+
+    public void scrollCameras(double verticalAmount, int totalRows, int visibleRows) {
+        cameraFirstRow = TabletMeetingScrollRules.scrollFirstRow(
+                cameraFirstRow,
+                verticalAmount,
+                totalRows,
+                visibleRows
+        );
+    }
+
+    public void clampCameras(int totalRows, int visibleRows) {
+        cameraFirstRow = TabletMeetingScrollRules.clampFirstRow(
+                cameraFirstRow,
+                totalRows,
+                visibleRows
+        );
+    }
+
     /**
      * Chat scroll in logical pixels measured from the bottom: 0 pins the newest message in view, larger values reveal
      * older messages. Positive {@code deltaPixels} scrolls towards older messages (mouse wheel up).
@@ -240,7 +262,9 @@ public final class TabletUiSession {
         // Feature sections come last so channel sections keep their rail slots. 功能分区放在最后，频道分区的侧栏位置不变。
         DOOR_LOG("screen.sparkdlc.tablet.tab.door_log", false, TabletFeature.DOOR_LOG),
         DRONE("screen.sparkdlc.tablet.tab.drone", false, TabletFeature.DRONE),
-        SABOTAGE("screen.sparkdlc.tablet.tab.sabotage", false, TabletFeature.SABOTAGE);
+        SABOTAGE("screen.sparkdlc.tablet.tab.sabotage", false, TabletFeature.SABOTAGE),
+        // Last, so the sections that existed before it keep their rail slots. 放在最后，此前已有的分区保持原有的侧栏位置。
+        CAMERAS("screen.sparkdlc.tablet.tab.cameras", false, TabletFeature.CAMERAS);
 
         private final String translationKey;
         private final boolean requiresMeetingFeatures;

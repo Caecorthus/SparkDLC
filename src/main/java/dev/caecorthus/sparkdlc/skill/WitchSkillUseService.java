@@ -10,8 +10,6 @@ import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeResonance;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
-import dev.caecorthus.sparkdlc.role.civilian.saint.SaintAbilityService;
-import dev.caecorthus.sparkdlc.role.civilian.saint.SaintRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -65,10 +63,6 @@ public final class WitchSkillUseService {
             send(player, "message.sparkdlc.skill.unavailable");
             return false;
         }
-        if (SaintRules.isSaint(role)) {
-            return SaintAbilityService.use(player);
-        }
-
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier skillId = component.getActiveSkillId();
         WitchSkillDefinition skill = skillId == null ? null : WitchSkillRegistry.get(skillId);

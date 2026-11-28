@@ -1,19 +1,20 @@
 package dev.caecorthus.sparkdlc.client.role.witch.abysslistener;
 
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHudLayout;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
 
 /**
  * Pure layout and style math for the display-only 「快离开这里！！！」 line, mirroring Wathe's {@code MoodRenderer} task list:
- * lines are 10 px apart from y = 6, the mood bar sits under the line with the largest offset, rows fade with
+ * lines are one row pitch apart, the mood bar sits under the line with the largest offset, rows fade with
  * {@code lerp(delta / 16)} and leave the layout below the same alpha cutoff. The pseudo line is always the last row.
- * 仅用于显示的「快离开这里！！！」行的纯布局与样式计算，仿照 Wathe {@code MoodRenderer} 任务列表：各行从 y = 6 起间隔 10 像素，
+ * Where the row column is on screen comes from {@code TopLeftHudLayout} (Wathe's (22, 6), or the re-laid task column).
+ * 仅用于显示的「快离开这里！！！」行的纯布局与样式计算，仿照 Wathe {@code MoodRenderer} 任务列表：各行间隔一个行距，
  * 理智条位于偏移最大的行下方，行以 {@code lerp(delta / 16)} 淡入淡出，并在相同的透明度阈值以下离开布局。临时任务行始终是最后一行。
+ * 任务列在屏幕上的位置取自 {@code TopLeftHudLayout}（Wathe 的 (22, 6)，或重排后的任务列）。
  */
 public final class AbyssZoneExposureTaskLineRules {
-    /** Wathe's line spacing and first-line y. / Wathe 的行距与首行 y。 */
-    public static final int LINE_HEIGHT = 10;
-    public static final int FIRST_LINE_Y = 6;
-    public static final int TEXT_X = 22;
+    /** Wathe's line spacing. / Wathe 的行距。 */
+    public static final int LINE_HEIGHT = TopLeftHudLayout.ROW_PITCH;
     /** Wathe's default bar width when no task line exists. / 没有任务行时 Wathe 的默认理智条宽度。 */
     public static final float NO_TASK_TEXT_WIDTH = 100.0F;
     /** Wathe drops a task row below this alpha. / Wathe 在此透明度以下移除任务行。 */
@@ -56,10 +57,6 @@ public final class AbyssZoneExposureTaskLineRules {
     /** Row offset of the pseudo line: below the last Wathe row, else the first row. / 临时任务行的行偏移。 */
     public static float lineOffset(boolean hasWatheRow, float maxWatheOffset) {
         return hasWatheRow ? maxWatheOffset + 1.0F : 0.0F;
-    }
-
-    public static float lineY(float offset) {
-        return FIRST_LINE_Y + LINE_HEIGHT * offset;
     }
 
     /**

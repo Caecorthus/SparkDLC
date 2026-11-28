@@ -30,8 +30,13 @@ import java.util.UUID;
  * Stable CCA contract {@code sparkdlc:seeker_status} (NEVER_COPY): the Seeker's own car, camera, session, battery
  * and mark state. Server-authoritative; synced only to the owner as remaining ticks, never absolute server ticks. It
  * never enters the shared {@code sparkdlc:player} schema.
+ * <p>Every player has this component. A police-channel member who is no Seeker uses only its session fields, while
+ * watching a Seeker's camera (owner spec 2026-11-28); the rest stays empty for them, and nothing of the camera's owner
+ * is copied here (the list of shared cameras travels in the viewer's tablet snapshot).
  * 稳定 CCA 契约 {@code sparkdlc:seeker_status}（NEVER_COPY）：搜寻者自己的小车、摄像头、会话、电量与标记状态。
  * 由服务端权威决定，仅以剩余刻数同步给拥有者，从不发送绝对服务端刻；从不进入共享的 {@code sparkdlc:player} 结构。
+ * 每名玩家都有此组件。非搜寻者的义警频道成员只在观看搜寻者的摄像头时使用其中的会话字段（所有者规格 2026-11-28）；
+ * 其余字段对他们始终为空，摄像头拥有者的任何状态都不会复制到这里（共享摄像头的列表随观看者的平板快照下发）。
  */
 public final class SeekerStatusComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
@@ -128,11 +133,14 @@ public final class SeekerStatusComponent
     /**
      * Server only, the single sink of every transition result: writes {@code delta.cooldownTicks()} with
      * {@code SeekerCooldowns.writeFloorExact(owner, ticks, reason)} when positive (callers never write car cooldowns
-     * themselves) and syncs the owner when dirty. It never ends sessions, sends messages or calls device services:
+     * themselves; the one other car write is the shop's car service, which only shortens a running cooldown through
+     * {@code SeekerCooldowns.shortenExact}) and syncs the owner when dirty. It never ends sessions, sends messages or
+     * calls device services:
      * session endings go through {@code SeekerRemoteSessionService.end} first, and {@code batteryDepleted} is handled by
      * the component's own tick ({@code SeekerDeviceService.depleteCar}).
      * 仅服务端，所有状态转移结果的唯一收口：{@code delta.cooldownTicks()} 为正时经
-     * {@code SeekerCooldowns.writeFloorExact} 写入（调用方从不自行写小车冷却），delta 有变化时同步给拥有者。
+     * {@code SeekerCooldowns.writeFloorExact} 写入（调用方从不自行写小车冷却；另外唯一的小车写入是商店的小车整备，它只经
+     * {@code SeekerCooldowns.shortenExact} 缩短正在进行的冷却），delta 有变化时同步给拥有者。
      * 它从不结束会话、发送消息或调用设备服务：会话结束先经 {@code SeekerRemoteSessionService.end}，
      * {@code batteryDepleted} 由组件自己的刻处理（{@code SeekerDeviceService.depleteCar}）。
      */
@@ -177,8 +185,9 @@ public final class SeekerStatusComponent
      */
     @Override
     public void serverTick() {
-        // Ticks for every player: non-Seekers hold no state and leave here after a few field reads.
-        // 每位玩家都会执行：非搜寻者不持有状态，仅读取几个字段后即在此返回。
+        // Ticks for every player: non-Seekers who are not watching a camera hold no state and leave here after a few
+        // field reads.
+        // 每位玩家都会执行：未在观看摄像头的非搜寻者不持有状态，仅读取几个字段后即在此返回。
         if (sessionState == null && state.isIdle()) {
             return;
         }
@@ -188,7 +197,16 @@ public final class SeekerStatusComponent
         // 1. Owner-of-record self-heal: role lost, round over or a stale match drops everything.
         // 1. 记录拥有者自愈：失去职业、对局结束或对局过期时清除一切。
         if (!SeekerTargeting.isOwnerOfRecord(owner)) {
-            SeekerLifecycleService.cleanUp(owner, selfHealReason(owner));
+            if (state.holdsOwnerState()) {
+                SeekerLifecycleService.cleanUp(owner, selfHealReason(owner));
+                return;
+            }
+            // A police-channel member who is no Seeker and watches a camera (owner spec 2026-11-28) holds nothing but
+            // the session: only the session checks run, and they end it by themselves (round over, access lost, death,
+            // camera gone). Stale session data without a session is dropped there too.
+            // 非搜寻者的义警频道成员观看摄像头时（所有者规格 2026-11-28）只持有会话：只执行会话检查，并由其自行结束会话
+            // （对局结束、失去权限、死亡、摄像头消失）。没有会话却残留的会话数据也在那里清除。
+            SeekerRemoteSessionService.tick(owner, this);
             return;
         }
         // 2. Final-death fallback; a Last Stand pending death is an alive-spectator state, not a final death.
@@ -281,8 +299,9 @@ public final class SeekerStatusComponent
     }
 
     /**
-     * Writes the delta's cooldown (the single cooldown writer) and reports whether a synced field changed.
-     * 写入 delta 的冷却（唯一的冷却写入方），并返回同步字段是否有变化。
+     * Writes the delta's cooldown (the single writer of a cooldown a transition starts) and reports whether a synced
+     * field changed.
+     * 写入 delta 的冷却（状态转移所开始的冷却的唯一写入方），并返回同步字段是否有变化。
      */
     private boolean applyQuietly(SeekerState.Delta delta) {
         if (delta == null || player.getWorld().isClient()) {

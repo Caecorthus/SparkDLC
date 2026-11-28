@@ -8,8 +8,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 /**
- * Advances world-owned Karma and continuously covers newly acquired inventory items.
- * 推进世界组件持有的业障计时，并让计时期间新获得的背包物品继承剩余冷却。
+ * Advances world-owned Karma (the Hellfire a killer of the Saint burns with) and continuously covers newly acquired
+ * inventory items.
+ * 推进世界组件持有的业障计时（击杀圣徒者所承受的业火），并让计时期间新获得的背包物品继承剩余冷却。
  */
 public final class SaintKarmaRuntime {
     private SaintKarmaRuntime() {

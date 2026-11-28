@@ -21,8 +21,8 @@ import java.util.UUID;
  * 服务端还会按查看者裁剪身份：杀手匿名频道按互认状态，义警频道按查看者本局已完成的任务数。被隐藏发送者的聊天行不含 UUID
  * 与名字，被隐藏成员不会出现在 connections 中。</p>
  *
- * <p>Wire layout (v10, in order; changing it requires a new sync payload id):
- * 线上布局（v10，按顺序；修改它必须更换同步包 id）：
+ * <p>Wire layout (v13, in order; changing it requires a new sync payload id):
+ * 线上布局（v13，按顺序；修改它必须更换同步包 id）：
  * <ol>
  *   <li>bool localHasTablet, varint channelWire, varint allowedChannelMask, bool canSend,
  *   varlong channelSwitchCooldownEndTick (varint seconds before v10), bool channelLocked</li>
@@ -46,6 +46,16 @@ import java.util.UUID;
  *   and varint chatIntervalTicks (the server's send interval, 0 = none) appended.
  *   v11：追加 varlong chatCooldownEndTick（查看者可发送下一条聊天消息的世界 tick，0 表示现在即可）与 varint chatIntervalTicks
  *   （服务端的发送间隔，0 表示无）。</li>
+ *   <li>v12: a {@link SuspectRow} appends the viewer's own track of that suspect as three absolute world
+ *   ticks (varlong, 0 = never tracked): trackRevealStartTick, trackRevealEndTick, trackCooldownEndTick. The passive
+ *   suspect reveal is gone; the client outlines a suspect through walls only inside that row's reveal window. The row
+ *   deliberately says nothing about whether the suspect is alive: the tablet must not report a death.
+ *   v12：SuspectRow 追加查看者自己对该嫌疑人的追查，为三个绝对世界 tick（varlong，0 表示从未追查）：
+ *   trackRevealStartTick、trackRevealEndTick、trackCooldownEndTick。被动的嫌疑人显示已取消；客户端只在该行的显示窗口内
+ *   穿墙描边嫌疑人。</li>
+ *   <li>v13: list cameras ({@link CameraRow}) appended: the Seekers' wall cameras a viewer holding
+ *   {@link TabletFeature#CAMERAS} may watch.
+ *   v13：追加 list cameras（{@link CameraRow}）：拥有 {@link TabletFeature#CAMERAS} 的查看者可以观看的搜寻者摄像头。</li>
  * </ol>
  * Lists are a varint count followed by the rows.
  * 列表为 varint 数量后接各行。</p>
@@ -82,7 +92,8 @@ public record TabletSnapshot(
         List<SabotageLogRow> sabotageLog,
         int cooldownChannelMask,
         long chatCooldownEndTick,
-        int chatIntervalTicks
+        int chatIntervalTicks,
+        List<CameraRow> cameras
 ) {
     public TabletSnapshot {
         chatIntervalTicks = Math.max(0, chatIntervalTicks);
@@ -90,9 +101,10 @@ public record TabletSnapshot(
         drones = drones == null ? List.of() : List.copyOf(drones);
         sabotage = sabotage == null ? List.of() : List.copyOf(sabotage);
         sabotageLog = sabotageLog == null ? List.of() : List.copyOf(sabotageLog);
+        cameras = cameras == null ? List.of() : List.copyOf(cameras);
     }
 
-    /** v10 shape: no chat send interval. / v10 的形状：没有聊天发送间隔。 */
+    /** v10 shape: no chat send interval and no cameras. / v10 的形状：没有聊天发送间隔，也没有摄像头。 */
     public TabletSnapshot(
             boolean localHasTablet,
             int channelWire,
@@ -117,7 +129,8 @@ public record TabletSnapshot(
     ) {
         this(localHasTablet, channelWire, allowedChannelMask, canSend, channelSwitchCooldownEndTick, channelLocked,
                 localMeetingParticipant, meetingCooldownEndTick, localMeetingCallsRemaining, connections, chat, meeting, suspects,
-                featureMask, doorLog, identityTasksRemaining, drones, sabotage, sabotageLog, cooldownChannelMask, 0L, 0);
+                featureMask, doorLog, identityTasksRemaining, drones, sabotage, sabotageLog, cooldownChannelMask, 0L, 0,
+                List.of());
     }
 
     /** Pre-v9 shape: no channel is blocked by the switch cooldown. / v9 之前的形状：没有频道被切换冷却阻止。 */
@@ -144,7 +157,7 @@ public record TabletSnapshot(
     ) {
         this(localHasTablet, channelWire, allowedChannelMask, canSend, channelSwitchCooldownEndTick, channelLocked,
                 localMeetingParticipant, meetingCooldownEndTick, localMeetingCallsRemaining, connections, chat, meeting, suspects,
-                featureMask, doorLog, identityTasksRemaining, drones, sabotage, sabotageLog, 0, 0L, 0);
+                featureMask, doorLog, identityTasksRemaining, drones, sabotage, sabotageLog, 0, 0L, 0, List.of());
     }
 
     public static TabletSnapshot empty() {
@@ -248,6 +261,7 @@ public record TabletSnapshot(
         buf.writeVarInt(cooldownChannelMask);
         buf.writeVarLong(chatCooldownEndTick);
         buf.writeVarInt(chatIntervalTicks);
+        writeList(buf, cameras, (targetBuf, row) -> row.write(targetBuf));
     }
 
     public static TabletSnapshot read(PacketByteBuf buf) {
@@ -273,7 +287,8 @@ public record TabletSnapshot(
                 readList(buf, SabotageLogRow::read),
                 buf.readVarInt(),
                 buf.readVarLong(),
-                buf.readVarInt()
+                buf.readVarInt(),
+                readList(buf, CameraRow::read)
         );
     }
 
@@ -415,13 +430,51 @@ public record TabletSnapshot(
         }
     }
 
-    public record SuspectRow(UUID uuid, String name, int approvals, int requiredApprovals, boolean localApproved) {
+    /**
+     * One suspect of the police channel. The last three fields (v12) drive the row's Track button and the through-wall
+     * outline, and describe the VIEWER's own track of this suspect only: another member's track never shows here.
+     * Nothing in the row tells whether the suspect is alive, so the list is no death report.
+     * 义警频道的一名嫌疑人。最后三个字段（v12）驱动该行的“追查”按钮与穿墙描边，且只描述查看者自己对该嫌疑人的追查：
+     * 其他成员的追查不会出现在这里。行内不含嫌疑人是否存活的信息，因此名单不会成为死讯通报。
+     *
+     * @param trackRevealStartTick world tick from which the viewer sees this suspect through walls, 0 = never tracked /
+     *                             查看者自此世界 tick 起可穿墙看到该嫌疑人，0 表示从未追查
+     * @param trackRevealEndTick   world tick at which that outline ends (exclusive) / 该描边结束的世界 tick（不含）
+     * @param trackCooldownEndTick world tick from which the viewer may track this suspect again / 查看者自此世界 tick 起可再次追查该嫌疑人
+     */
+    public record SuspectRow(
+            UUID uuid,
+            String name,
+            int approvals,
+            int requiredApprovals,
+            boolean localApproved,
+            long trackRevealStartTick,
+            long trackRevealEndTick,
+            long trackCooldownEndTick
+    ) {
+        public SuspectRow {
+            trackRevealStartTick = Math.max(0L, trackRevealStartTick);
+            trackRevealEndTick = Math.max(0L, trackRevealEndTick);
+            trackCooldownEndTick = Math.max(0L, trackCooldownEndTick);
+        }
+
+        /**
+         * Whether the viewer's track outlines this suspect through walls at {@code worldTime}.
+         * worldTime 时查看者的追查是否让该嫌疑人穿墙描边。
+         */
+        public boolean trackRevealing(long worldTime) {
+            return worldTime >= trackRevealStartTick && worldTime < trackRevealEndTick;
+        }
+
         private void write(PacketByteBuf buf) {
             buf.writeUuid(uuid);
             buf.writeString(name);
             buf.writeVarInt(approvals);
             buf.writeVarInt(requiredApprovals);
             buf.writeBoolean(localApproved);
+            buf.writeVarLong(trackRevealStartTick);
+            buf.writeVarLong(trackRevealEndTick);
+            buf.writeVarLong(trackCooldownEndTick);
         }
 
         private static SuspectRow read(PacketByteBuf buf) {
@@ -430,7 +483,10 @@ public record TabletSnapshot(
                     buf.readString(32767),
                     buf.readVarInt(),
                     buf.readVarInt(),
-                    buf.readBoolean()
+                    buf.readBoolean(),
+                    buf.readVarLong(),
+                    buf.readVarLong(),
+                    buf.readVarLong()
             );
         }
     }
@@ -549,6 +605,40 @@ public record TabletSnapshot(
         private static DroneRow read(PacketByteBuf buf) {
             return new DroneRow(buf.readVarInt() - 1, buf.readVarInt(), buf.readVarInt(), buf.readVarInt(),
                     buf.readBoolean(), buf.readVarInt(), buf.readVarInt() - 1);
+        }
+    }
+
+    /**
+     * One Seeker wall camera a viewer holding {@link TabletFeature#CAMERAS} may watch (v13), in viewing order: the
+     * viewer's own cameras first, then the other Seekers'. The row never carries the owner's UUID, and the name only
+     * when the police channel's identity rule shows that member to this viewer ({@code TabletIdentityRules}).
+     * 拥有 {@link TabletFeature#CAMERAS} 的查看者可以观看的一台搜寻者摄像头（v13），按观看顺序排列：先是查看者自己的，再是
+     * 其他搜寻者的。该行从不携带拥有者的 UUID；只有义警频道的身份规则向该查看者显示这名成员时才携带其名字
+     * （见 TabletIdentityRules）。
+     *
+     * @param entityId  the placed camera's entity id, the target of the open request / 已放置摄像头的实体 id，即打开请求的目标
+     * @param label     the camera's per-match label of its owner ("CAM 01") / 该摄像头在其拥有者处的本局编号
+     * @param owner     1-based number of the owning Seeker among the Seekers who own a camera, the same for every
+     *                  viewer; tells two Seekers' cameras apart when names are hidden /
+     *                  拥有它的搜寻者在拥有摄像头的搜寻者中的序号（从 1 开始），对所有查看者相同；名字被隐藏时用于区分两名搜寻者的摄像头
+     * @param ownerName the owner's game name, or empty when hidden from this viewer / 拥有者的游戏名；对该查看者隐藏时为空
+     */
+    public record CameraRow(int entityId, int label, int owner, String ownerName) {
+        public CameraRow {
+            label = Math.max(0, label);
+            owner = Math.max(0, owner);
+            ownerName = ownerName == null ? "" : ownerName;
+        }
+
+        private void write(PacketByteBuf buf) {
+            buf.writeVarInt(entityId);
+            buf.writeVarInt(label);
+            buf.writeVarInt(owner);
+            buf.writeString(ownerName);
+        }
+
+        private static CameraRow read(PacketByteBuf buf) {
+            return new CameraRow(buf.readVarInt(), buf.readVarInt(), buf.readVarInt(), buf.readString(32767));
         }
     }
 

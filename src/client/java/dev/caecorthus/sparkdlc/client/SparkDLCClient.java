@@ -171,7 +171,6 @@ import dev.caecorthus.sparkdlc.role.civilian.medium.UseMediumSkillC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
-import dev.caecorthus.sparkdlc.role.civilian.saint.SaintRules;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashEntities;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
@@ -584,6 +583,8 @@ public final class SparkDLCClient implements ClientModInitializer {
         StowawaySensesClient.register();
         BlindClient.register();
         dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashAudioClient.register();
+        // The Saint's drop key on a held gun (owner 2026-11-28). / 圣徒对手持枪械的丢弃键（所有者 2026-11-28）。
+        dev.caecorthus.sparkdlc.client.role.civilian.saint.SaintGunDropClient.register();
         AbyssListenerClient.init();
         RiftwalkerClient.init();
         // Bewitched promotion progress line (role-owned HUD). / 魔化使晋升进度行（职业自有 HUD）。
@@ -889,8 +890,7 @@ public final class SparkDLCClient implements ClientModInitializer {
                     // 推演（共享技能键），仅限真实职业：空请求，服务端检查尸体、冷却与金币后以候选面板应答。
                     SherryClient.onAbilityKey(client);
                 } else if (!WitchMaidenRules.isWitchMaiden(role)
-                        && (WitchPlayerComponent.KEY.get(client.player).hasSkill()
-                        || SaintRules.isSaint(role))) {
+                        && WitchPlayerComponent.KEY.get(client.player).hasSkill()) {
                     ClientPlayNetworking.send(new UseWitchSkillC2SPacket());
                 }
             }

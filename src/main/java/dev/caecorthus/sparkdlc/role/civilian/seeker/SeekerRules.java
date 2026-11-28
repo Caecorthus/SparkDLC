@@ -78,6 +78,16 @@ public final class SeekerRules {
     public static final String CAMERA_ENTRY_ID = "seeker_camera";
     public static final int CAMERA_PRICE = 150;
     /**
+     * Owner spec 2026-11-28: a consumable shop entry (50 coins, no stock limit) that shortens the car cooldown running
+     * right now by {@link #CAR_SERVICE_TICKS}; refused, with nothing charged, while the car is not cooling down. It
+     * sells no item and is no permanent upgrade.
+     * 所有者规格 2026-11-28：消耗型商店条目（50 金币，不限库存），把小车当前正在进行的冷却缩短 {@link #CAR_SERVICE_TICKS}；
+     * 小车不在冷却中时拒绝购买且不扣钱。它不出售任何物品，也不是永久升级。
+     */
+    public static final String CAR_SERVICE_ENTRY_ID = "seeker_car_service";
+    public static final int CAR_SERVICE_PRICE = 50;
+    public static final int CAR_SERVICE_TICKS = 60 * 20;
+    /**
      * Owner decision: 0. The old 50 only paid for the 50-coin tablet, which {@code TabletShopService} now issues free
      * at round start.
      * 所有者决定：0。原先的 50 只用于购买 50 金币的平板，而 {@code TabletShopService} 现已在开局免费发放平板。
@@ -87,11 +97,22 @@ public final class SeekerRules {
 
     // ---- Cooldowns on the seeker_car item (exact + max writes) ----
     public static final int INITIAL_COOLDOWN_TICKS = 60 * 20;
-    /** Owner decision: any recall (physical or remote) costs the broken cooldown. / 所有者决定：任何回收都按损坏冷却计。 */
-    public static final int RECALL_COOLDOWN_TICKS = 180 * 20;
-    public static final int BROKEN_COOLDOWN_TICKS = 180 * 20;
-    public static final int DEPLETED_COOLDOWN_TICKS = 180 * 20;
+    /**
+     * Owner decision: any recall (physical or remote) costs the broken cooldown. Owner spec 2026-11-28: that cooldown
+     * (recalled, broken, battery depleted) is 90 s, down from 180 s; round start and Taotie return stay 60 s.
+     * 所有者决定：任何回收都按损坏冷却计。所有者规格 2026-11-28：该冷却（回收、损坏、电量耗尽）由 180 秒改为 90 秒；
+     * 开局与饕餮归还仍为 60 秒。
+     */
+    public static final int RECALL_COOLDOWN_TICKS = 90 * 20;
+    public static final int BROKEN_COOLDOWN_TICKS = 90 * 20;
+    public static final int DEPLETED_COOLDOWN_TICKS = 90 * 20;
     public static final int RETURNED_COOLDOWN_TICKS = 60 * 20;
+
+    // ---- Cooldowns on the seeker_camera item (owner spec 2026-11-28; exact + max writes, one cooldown for every stack) ----
+    /** From the loadout grant (round start, or a mid-round Seeker). / 自装备发放起（开局，或对局中途成为搜寻者）。 */
+    public static final int CAMERA_INITIAL_COOLDOWN_TICKS = 60 * 20;
+    /** After each use; a use is one successful placement. / 每次使用之后；一次使用即一次成功放置。 */
+    public static final int CAMERA_USE_COOLDOWN_TICKS = 45 * 20;
 
     // ---- Battery (server-authoritative, owner-only) ----
     public static final int BATTERY_MAX = 100;
@@ -258,6 +279,15 @@ public final class SeekerRules {
     /** Max-merge: a longer existing cooldown (e.g. Saint Karma) is never shortened. / 取大：不缩短更长的既有冷却。 */
     public static int mergeCooldownTicks(int existingTicks, int requestedTicks) {
         return Math.max(Math.max(0, existingTicks), Math.max(0, requestedTicks));
+    }
+
+    /**
+     * The car cooldown left after the shop's car service: {@code remainingTicks} shortened by {@code byTicks}, never
+     * below zero (less than {@code byTicks} left ends the cooldown).
+     * 购买小车整备后剩余的小车冷却：{@code remainingTicks} 减去 {@code byTicks}，不低于零（剩余不足 {@code byTicks} 时冷却直接结束）。
+     */
+    public static int shortenedCooldownTicks(int remainingTicks, int byTicks) {
+        return Math.max(0, Math.max(0, remainingTicks) - Math.max(0, byTicks));
     }
 
     /**

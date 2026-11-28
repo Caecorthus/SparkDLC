@@ -28,7 +28,9 @@ public final class SeekerRemoteOpenRules {
      * Facts about one open request, all read on the server.
      * 一次打开请求的全部事实，均在服务端读取。
      *
-     * @param commonDeny     {@code SeekerTargeting.commonDenyReason} (null = passed) / 公共门槛结果
+     * @param commonDeny     {@code SeekerTargeting.sessionDenyReason} for the requested mode (null = passed): the
+     *                       owner-only gate for the car, the police-channel gate for a camera / 所请求模式的公共门槛结果：
+     *                       小车为仅限拥有者的门槛，摄像头为义警频道的门槛
      * @param requested      decoded mode; NONE for an unknown byte / 解码后的模式，未知字节为 NONE
      * @param current        current session mode / 当前会话模式
      * @param sameDevice     the resolved target is the device the open session already shows
@@ -38,7 +40,8 @@ public final class SeekerRemoteOpenRules {
      * @param grounded       {@link SeekerRemoteRules#isBodyGrounded} / 本体立足
      * @param throttled      {@link SeekerRemoteRules#isOpenThrottled} / 打开节流中
      * @param consoleDevice  a console device anywhere in the inventory / 背包任意位置持有控制台设备
-     * @param deviceUsable   target device exists, is owned and alive / 目标设备存在、归属本人且存活
+     * @param deviceUsable   target device exists, is alive and this player's to view (the own car, or any camera of
+     *                       the round) / 目标设备存在、存活且该玩家可以观看（自己的小车，或本局的任意摄像头）
      * @param inPlayArea     inside the Wathe play area; the only spatial check, with no distance limit from the body
      *                       (2026-10-04) / 在 Wathe 游戏区域内；唯一的空间检查，与本体之间没有距离限制（2026-10-04）
      */

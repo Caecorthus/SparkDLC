@@ -559,21 +559,22 @@ final class SparkCivilianScenes {
      * Seeker (SeekerRules, SeekerCameraItem, SeekerCarItem, SeekerDeviceService, SeekerPlacementRules,
      * SeekerQuickConnectHandler, SeekerCarUseRules, SeekerCameraEntity, SeekerCameraLookRules, SeekerDeviceHits,
      * SeekerMarkService; client SeekerCarEntityRenderer, SeekerCameraEntityRenderer, SeekerMarkClientHooks): a camera
-     * from the shop is mounted with a right-click on a full block face within 4.5 blocks, never within a block of a
+     * (the role starts with one, more come from the shop; 60 s cooldown at round start, 45 s after each placement)
+     * is mounted with a right-click on a full block face within 4.5 blocks, never within a block of a
      * door, bed, seat or other interactive block; the car the role starts with is set down at the feet or up to 3
      * blocks ahead. Neither swings the arm (CONSUME), and the camera, the car and the tablet are hidden in hand from
      * other living players. The secondary skill key (N) or the tablet connects to a device and the body then stands
      * still. The car drives at 7.5 blocks a second; its own right-click toggles a door, gate, button or lever ahead
      * like an empty hand (key-locked and jammed doors refuse, and train doors during a round). Viewing a camera turns
      * its head with the Seeker's look and lights its LED, which everyone sees. One hit (any melee, a gun, a blast)
-     * breaks a device, with a sound and no particles; the breaker then wears a red outline for 10 s that only the
-     * Seeker sees, provided a tablet is in his inventory. The devices are drawn with their own placed models, as the
-     * entity renderers draw them; the outline is a box.
-     * 搜寻者：商店买的摄像头右键装在 4.5 格内的完整方块面上，不能装在门、床、座位等可交互方块 1 格之内；身份自带的小车放在
+     * breaks a device, with a sound and no particles; the breaker is put on the tablet's suspect list and then wears a
+     * red outline for 10 s that only the Seeker sees, provided a tablet is in his inventory. The devices are drawn with
+     * their own placed models, as the entity renderers draw them; the outline is a box.
+     * 搜寻者：摄像头（身份自带一个，商店可再买；开局冷却 60 秒，每装一个冷却 45 秒）右键装在 4.5 格内的完整方块面上，不能装在门、床、座位等可交互方块 1 格之内；身份自带的小车放在
      * 脚下或前方 3 格内。两者都不挥手（CONSUME），摄像头、小车和平板拿在手上时其他活着的玩家都看不见。第二技能键（N）或
      * 平板连上设备后，本体站着不动。小车每秒跑 7.5 格；它自己的右键像空手一样开关前方的门、栅栏门、按钮或拉杆（要钥匙的门、
      * 被卡住的门打不开，对局中的列车门也打不开）。观看摄像头时，它的机头跟着搜寻者的视角转动、指示灯亮起，人人可见。
-     * 设备挨一下（任何近战、枪、爆炸）就坏，有声音、没有粒子；损坏者随后被红色描边 10 秒，只有搜寻者本人看得到，前提是
+     * 设备挨一下（任何近战、枪、爆炸）就坏，有声音、没有粒子；损坏者被列入平板的嫌疑人名单，随后被红色描边 10 秒，描边只有搜寻者本人看得到，前提是
      * 他背包里有平板。设备用它们自己的放置模型绘制，与实体渲染器相同；描边用方框表示。
      */
     private static void seeker(SceneBuilder scene, SceneBuildingUtil util) {
@@ -589,7 +590,7 @@ final class SparkCivilianScenes {
         // The mount spot; the caption points there, as the 0.3-block camera is small. 安装位置；摄像头只有 0.3 格，字幕指向那里。
         Vec3d mountSpot = new Vec3d(1.5, 2.5, 2.85);
         scene.overlay().showText(80)
-                .text("搜寻者在商店买摄像头，对着 4.5 格内的墙面右键装上")
+                .text("搜寻者自带一个摄像头（商店可再买），对着 4.5 格内的墙面右键装上；每装一个冷却 45 秒")
                 .pointAt(mountSpot)
                 .placeNearTarget()
                 .attachKeyFrame();
@@ -608,7 +609,7 @@ final class SparkCivilianScenes {
         Actors.hold(scene, seeker, carItem);
         scene.idle(10);
         Vec3d overHead = new Vec3d(5.5, 3.6, 1.3);
-        SceneCaptions.keyframeCaption(scene, 80, "自带的小车开局冷却 60 秒；右键放到脚下或前方 3 格内");
+        SceneCaptions.keyframeCaption(scene, 80, "小车和摄像头开局都冷却 60 秒；小车右键放到脚下或前方 3 格内");
         scene.idle(30);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick().withItem(carItem);
         scene.idle(10);
@@ -664,7 +665,7 @@ final class SparkCivilianScenes {
         Actors.highlight(scene, killer, MARK_RED, 200);
         scene.overlay().showText(90)
                 .colored(PonderPalette.RED)
-                .text("别人一般一下就能打坏设备，打坏的人被红框标记 10 秒")
+                .text("别人一般一下就能打坏设备；打坏的人被列为嫌疑人，并被红框标记 10 秒")
                 .independent()
                 .attachKeyFrame();
         scene.idle(100);
@@ -827,71 +828,68 @@ final class SparkCivilianScenes {
     }
 
     /**
-     * Saint (SaintRules, SaintFeatureService, GameFunctionsSaintProtectionMixin, SaintAbilityService,
-     * SaintKarmaService, HolyFlashItem, HolyFlashEntity, HolyFlashRules, HolyFlashTargeting; Wathe GunShootPayload): a
-     * kill by a player of the effective civilian faction is cancelled at Wathe's kill entry (a few forced kills and the
-     * Ceremonial Sword pierce it, and an Impostor is no civilian). The shot itself still happens: muzzle flash, and
-     * Wathe's innocent-shot punishment runs 4 ticks later (default: the revolver drops and the shooter dies). Hellfire
-     * costs 100 coins on the ability key and runs 15 s, shown only on the Saint's HUD; a non-civilian (not the Grand
-     * Witch) who kills him then gains Karma: every later kill puts all their items on a 5 s cooldown (20 s for the
-     * Bomber). The Holy Flash (visible in hand) is thrown like Wathe's grenade with a swing; it bursts on its first
-     * block or player (big explosion, 40 end rods, 24 firework sparks) and blacks out the screen of every affectable
-     * player whose body is within 6 blocks and who has a line of sight to it, the thrower too: 10 s at the burst down
-     * to 3 s at the edge, x0.75 facing away. Only the flashed players see it; nobody else sees a change. All Holy
-     * Flashes share a 15 s cooldown. The gold arc marks the 6-block edge.
-     * 圣徒：实际阵营为好人的玩家造成的击杀会在 Wathe 的击杀入口被取消（少数强制击杀与仪礼剑例外，内鬼也不算好人）。开枪本身
-     * 照常发生：有枪口火光，Wathe 的误杀惩罚在 4 tick 后执行（默认丢枪并处死开枪者）。业火：按技能键花 100 金币，持续 15 秒，
-     * 只显示在圣徒自己的屏幕上；此时杀死他的非好人（大魔女除外）背上业障：之后每次杀人，身上所有物品冷却 5 秒（炸弹客 20 秒）。
-     * 圣光弹（拿在手上别人看得到）像 Wathe 手雷一样挥手扔出，碰到第一个方块或玩家就爆开（大爆炸、40 颗末地烛光点、24 颗烟花
-     * 火花），让身体在 6 格内、与爆点之间没有遮挡的可影响玩家黑屏，投掷者本人也算：爆点处 10 秒，边缘 3 秒，背对 ×0.75。
-     * 只有被闪的人自己看得到，旁人看不出变化。所有圣光弹共用 15 秒冷却。金色弧线示意 6 格边界。
+     * Saint (SaintRules, SaintFeatureService, SaintGunShotService, SaintGunDropService, SaintKarmaService,
+     * GameFunctionsSaintGunShotMixin, HolyFlashItem, HolyFlashEntity, HolyFlashRules, HolyFlashTargeting; Wathe
+     * GunShootPayload), owner rebalance 2026-11-28. He may pick guns up, but a kill credited to his bullet never commits:
+     * the shot happens as usual (muzzle flash, cooldown), costs him no punishment or mood, and a target nothing protected
+     * is rooted for 3 s and glows for 10 s (the white box stands in for the glow). The drop key throws the selected gun
+     * away; Wathe then keeps him from picking that gun up again. The Holy Flash (visible in hand) is thrown like Wathe's
+     * grenade with a swing; it bursts on its first block or player (big explosion, 40 end rods, 24 firework sparks) and
+     * blacks out the screen of every affectable player whose body is within 6 blocks and who has a line of sight to it,
+     * the thrower too: 10 s at the burst down to 3 s at the edge, x0.75 facing away. Only the flashed players see it;
+     * nobody else sees a change. All Holy Flashes share a 15 s cooldown. The gold arc marks the 6-block edge. Anyone can
+     * kill him now, good players included (only Voodoo is still refused); whoever does (not the Grand Witch) burns with
+     * Hellfire: every item they carry stays on cooldown for his coins at death / 50 + 5 seconds.
+     * 圣徒（所有者 2026-11-28 重做）：可以捡枪，但记在他子弹名下的击杀永远不会落定：开枪照常发生（枪口火光、冷却），他不受
+     * 惩罚也不扣理智；没有被任何保护挡下的目标被禁锢 3 秒并发光 10 秒（白色方框代替发光）。丢弃键把选中的枪丢出，此后 Wathe
+     * 不允许他再捡起这把枪。圣光弹（拿在手上别人看得到）像 Wathe 手雷一样挥手扔出，碰到第一个方块或玩家就爆开（大爆炸、40 颗
+     * 末地烛光点、24 颗烟花火花），让身体在 6 格内、与爆点之间没有遮挡的可影响玩家黑屏，投掷者本人也算：爆点处 10 秒，边缘
+     * 3 秒，背对 ×0.75。只有被闪的人自己看得到，旁人看不出变化。所有圣光弹共用 15 秒冷却。金色弧线示意 6 格边界。现在任何人都
+     * 能杀死他，好人也不例外（只有巫毒仍被拒绝）；杀死他的人（大魔女除外）被业火灼烧：随身携带的每件物品保持冷却，时长为他
+     * 死亡时的金币 ÷ 50 + 5 秒。
      */
     private static void saint(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("role_saint", "圣徒：好人一般杀不死你");
+        scene.title("role_saint", "圣徒：谁杀了你，谁被业火灼烧");
         WatheItemScenes.stage(scene);
         ItemStack revolver = stack("wathe:revolver");
         ItemStack flash = stack("sparkdlc:holy_flash");
-        ElementLink<ActorElement> saint = Actors.enter(scene, RoleColors.of("sparkdlc:saint", 0xEEBC78),
-                Text.literal("圣徒"), new Vec3d(3.2, 1, 3.8), SCREEN_LEFT, Direction.DOWN);
         Vec3d shooterFeet = new Vec3d(5.8, 1, 1.2);
-        ElementLink<ActorElement> vigilante = Actors.enter(scene, RoleColors.VIGILANTE, Text.literal("义警"),
-                shooterFeet, SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, vigilante, revolver);
+        ElementLink<ActorElement> saint = Actors.enter(scene, RoleColors.of("sparkdlc:saint", 0xEEBC78),
+                Text.literal("圣徒"), shooterFeet, SCREEN_RIGHT, Direction.DOWN);
+        Actors.hold(scene, saint, revolver);
+        ElementLink<ActorElement> target = Actors.enter(scene, RoleColors.KILLER, Text.literal("杀手"),
+                new Vec3d(3.2, 1, 3.8), SCREEN_LEFT, Direction.DOWN);
         scene.idle(15);
-        SceneCaptions.keyframeCaption(scene, 54, "好人阵营的人一般杀不死圣徒");
+        SceneCaptions.keyframeCaption(scene, 54, "圣徒可以捡枪，但你的子弹杀不了人");
         scene.idle(50);
         scene.overlay().showControls(shooterFeet.add(0, 2.6, 0), Pointing.DOWN, 30).rightClick().withItem(revolver);
         scene.idle(10);
         // The muzzle of a levelled revolver held by an actor at (5.8, 1, 1.2) facing screen-right, as in
         // controlExpert; RevolverItem kicks the view up 4 degrees. 与 controlExpert 相同的端平左轮枪口；开枪时视角上抬 4 度。
         Effects.gunshotFlash(scene, new Vec3d(5.2, 2.05, 1.8));
-        Actors.lookPitch(scene, vigilante, -4);
+        Actors.lookPitch(scene, saint, -4);
         scene.idle(3);
-        Actors.lookPitch(scene, vigilante, 0);
+        Actors.lookPitch(scene, saint, 0);
         scene.idle(1);
-        // GunShootPayload: 4 ticks later the revolver drops ahead and the shooter dies (SHOT_INNOCENT).
-        // 4 tick 后左轮掉在前方，开枪者死亡。
-        Actors.hold(scene, vigilante, ItemStack.EMPTY);
+        // GameFunctionsSaintGunShotMixin: the target stays alive, rooted and glowing; the box stands in for the glow.
+        // 目标存活，被禁锢并发光；方框代替发光。
+        Actors.highlight(scene, target, 0xFFFFFF, 100);
+        SceneCaptions.keyframeCaption(scene, 100, "被你打中的人不会死：禁锢 3 秒，并发光 10 秒");
+        scene.idle(110);
+        scene.overlay().showControls(shooterFeet.add(0, 2.6, 0), Pointing.DOWN, 30).showing(key("key.drop", "Q"));
+        scene.idle(10);
+        // The selected gun leaves the hand like any vanilla drop. 选中的枪像原版丢弃一样离手。
+        Actors.hold(scene, saint, ItemStack.EMPTY);
         ElementLink<ThrownElement> dropped = Actors.toss(scene, revolver, new Vec3d(5.4, 2.0, 1.6),
                 new Vec3d(4.6, 1.05, 2.4), 8, 0.3, true, ThrownElement.Flight.SPIN);
-        Actors.fall(scene, vigilante);
-        scene.overlay().showText(100)
-                .colored(PonderPalette.RED)
-                .text("好人朝你开枪你不会死，开枪的人照样受罚（默认丢枪并死亡）")
-                .independent()
-                .attachKeyFrame();
-        scene.idle(110);
-        Actors.leave(scene, vigilante, Direction.UP);
+        SceneCaptions.keyframeCaption(scene, 80, "按丢弃键把枪丢掉；丢掉的枪你自己捡不回来");
+        scene.idle(90);
+        Actors.leave(scene, target, Direction.UP);
         Actors.remove(scene, dropped);
         scene.idle(10);
-        Actors.walk(scene, saint, new Vec3d(3.3, 0, -3.3), 30);
-        scene.idle(32);
+        Actors.walk(scene, saint, new Vec3d(0.7, 0, -0.7), 10);
+        scene.idle(12);
         Vec3d overHead = new Vec3d(6.5, 3.6, 0.5);
-        scene.overlay().showControls(overHead, Pointing.DOWN, 40).showing(key(ABILITY_KEY, "G"));
-        SceneCaptions.keyframeCaption(scene, 90, "花 100 金币按技能键点燃业火：持续 15 秒，别人看不出来");
-        scene.idle(100);
-        SceneCaptions.caption(scene, 90, "业火中杀你的人一般会背上业障，此后每次行凶都会被缴械几秒");
-        scene.idle(60);
         Actors.turn(scene, saint, SCREEN_RIGHT);
         Actors.hold(scene, saint, flash);
         scene.idle(30);
@@ -924,6 +922,17 @@ final class SparkCivilianScenes {
         scene.idle(100);
         SceneCaptions.caption(scene, 90, "你自己在 6 格内也会被闪；所有圣光弹共用 15 秒冷却");
         scene.idle(100);
+        // The killer walks up and stabs: nothing protects the Saint from anyone any more.
+        // 杀手走上前刺击：圣徒不再对任何人免疫。
+        Actors.walk(scene, killer, new Vec3d(4.7, 0, -4.7), 40);
+        scene.idle(42);
+        Actors.swing(scene, killer);
+        scene.idle(3);
+        Actors.fall(scene, saint);
+        SceneCaptions.keyframeCaption(scene, 90, "好人也能杀死你了；但谁杀了你，谁就被业火灼烧");
+        scene.idle(100);
+        SceneCaptions.caption(scene, 100, "业火：凶手随身物品全部冷却，时长为你死时的金币 ÷ 50 + 5 秒");
+        scene.idle(110);
         scene.markAsFinished();
     }
 

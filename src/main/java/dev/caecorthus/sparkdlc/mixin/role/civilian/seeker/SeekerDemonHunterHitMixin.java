@@ -18,7 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
  * cooldown and bullet checks, so a forged packet cannot break a device without a real, loaded, ready pistol. When
  * {@link SeekerDeviceHits#onDemonHunterPayload} reports that a device absorbed the shot, the lookup resolves to
  * {@code null}: NoellesRoles then runs its own miss path (null target recorded, bullet spent, sound, muzzle flash,
- * cooldown) and never hits a player behind the device. Any other result is returned untouched. The same seam ends a
+ * cooldown; none while anyone is frenzied, see {@code DemonHunterPistolShotMixin}) and never hits a player behind
+ * the device. Any other result is returned untouched. The same seam ends a
  * validated Magician puppet ({@code MagicianPuppetHits.onDemonHunterPayload}; a puppet is never a player target, so
  * NoellesRoles also runs its miss path; a Jester puppet's refund is paid by {@code MagicianDemonHunterRefundMixin}).
  * Class-level {@code remap = false} (Fabric/NoellesRoles members); the vanilla {@code ServerWorld#getEntityById}
@@ -26,7 +27,8 @@ import org.spongepowered.asm.mixin.injection.At;
  * 服务端猎魔枪接收器（NoellesRoles）：打坏经校验的设备目标；NoellesRoles 的击杀逻辑不变。接缝是 NoellesRoles
  * 唯一一次目标查找，它只在旁观、手持猎魔枪、冷却与子弹检查之后执行，因此伪造的数据包无法在没有真实、已装弹、
  * 可射击的猎魔枪时打坏设备。当 {@link SeekerDeviceHits#onDemonHunterPayload} 表示设备吸收了这一枪时，查找结果变为
- * {@code null}：NoellesRoles 随后走自己的未命中流程（记录空目标、消耗子弹、音效、枪口火光、冷却），
+ * {@code null}：NoellesRoles 随后走自己的未命中流程（记录空目标、消耗子弹、音效、枪口火光、冷却；有人疯魔时无冷却，
+ * 见 {@code DemonHunterPistolShotMixin}），
  * 也绝不会命中设备后方的玩家。其他结果原样返回。同一接缝也会结束经校验的魔术师皮套
  * （{@code MagicianPuppetHits.onDemonHunterPayload}；皮套从不是玩家目标，因此 NoellesRoles 同样走未命中流程；小丑皮套的返还
  * 子弹由 {@code MagicianDemonHunterRefundMixin} 支付）。类级 {@code remap = false}（Fabric/NoellesRoles 成员）；

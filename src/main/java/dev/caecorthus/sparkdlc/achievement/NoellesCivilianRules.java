@@ -91,11 +91,12 @@ final class NoellesCivilianRules {
     // ---- Demon Hunter 猎魔人 ----
 
     /**
-     * 你们这是自寻死路: as the Demon Hunter, a Demon Hunter pistol kill ({@code noellesroles:demon_hunter_shot}; the
-     * {@code killer_item} is air after the last bullet) of a player in psycho mode at the kill ({@code victim_psycho},
-     * else the psycho record).
-     * 以猎魔人身份用猎魔枪击杀（死因 {@code noellesroles:demon_hunter_shot}；最后一发子弹后 {@code killer_item} 是空气）
-     * 一名击杀时处于疯魔中的玩家（取 {@code victim_psycho}，没有时取疯魔记录）。
+     * 你们这是自寻死路: as the Demon Hunter, a Demon Hunter pistol kill (by the death reason
+     * {@code noellesroles:demon_hunter_shot}, not by {@code killer_item}, which was air after the last bullet until
+     * the 2026-11-28 pistol rework) of a player in psycho mode at the kill ({@code victim_psycho}, else the psycho
+     * record).
+     * 以猎魔人身份用猎魔枪击杀（按死因 {@code noellesroles:demon_hunter_shot} 判断，不看 {@code killer_item}：2026-11-28
+     * 猎魔枪重做之前，最后一发子弹后它是空气）一名击杀时处于疯魔中的玩家（取 {@code victim_psycho}，没有时取疯魔记录）。
      */
     static boolean demonHunterKillsPsycho(AchievementContext context) {
         return !demonHunterPsychoKills(context).isEmpty();
@@ -103,10 +104,10 @@ final class NoellesCivilianRules {
 
     /**
      * 你们还没有准备好: such a kill within 10 s of the victim's psycho mode starting ({@code sparkdlc:psycho},
-     * every psycho kind). A fresh pistol cannot fire for its first 5 s, so the window is really 5–10 s unless the
-     * hunter already held one.
-     * 上述击杀发生在死者进入疯魔（{@code sparkdlc:psycho}，各种疯魔都算）后 10 秒内。新发的猎魔枪前 5 秒不能开火，
-     * 所以除非猎魔人手里已有枪，实际窗口是 5–10 秒。
+     * every psycho kind). Since the 2026-11-28 pistol rework the hunter carries the pistol all round and it has no
+     * cooldown during a psycho, so the whole 10 s count (before, a freshly handed pistol could not fire for 5 s).
+     * 上述击杀发生在死者进入疯魔（{@code sparkdlc:psycho}，各种疯魔都算）后 10 秒内。2026-11-28 猎魔枪重做之后，猎魔人整局
+     * 带枪且疯魔期间没有冷却，因此整个 10 秒都可用（此前新发的猎魔枪前 5 秒不能开火）。
      */
     static boolean demonHunterKillsFreshPsycho(AchievementContext context) {
         return demonHunterPsychoKills(context).stream().anyMatch(kill -> context.timeline().psychoWindows(kill.target())

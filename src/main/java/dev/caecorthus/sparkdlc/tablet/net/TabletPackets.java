@@ -21,6 +21,7 @@ public final class TabletPackets {
         PayloadTypeRegistry.playC2S().register(CastTabletVoteC2SPacket.ID, CastTabletVoteC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ConfirmTabletVoteC2SPacket.ID, ConfirmTabletVoteC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ApproveSuspectRemovalC2SPacket.ID, ApproveSuspectRemovalC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(TrackSuspectC2SPacket.ID, TrackSuspectC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SelectTabletChannelC2SPacket.ID, SelectTabletChannelC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(TabletChatNotifyS2CPacket.ID, TabletChatNotifyS2CPacket.CODEC);
@@ -47,5 +48,7 @@ public final class TabletPackets {
                         payload.suspectUuid(),
                         payload.approved()
                 ));
+        ServerPlayNetworking.registerGlobalReceiver(TrackSuspectC2SPacket.ID,
+                (payload, context) -> TabletStateService.trackSuspect(context.player(), payload.suspectUuid()));
     }
 }

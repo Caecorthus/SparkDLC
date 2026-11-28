@@ -105,8 +105,17 @@ public final class SeekerRemoteStreamingRules {
         return referenced ? sessionFocusEntityId : -1;
     }
 
+    /**
+     * {@link #expectedFocusId(SeekerSessionMode, int, SeekerCarState, int, IntPredicate)} for one player's state. A
+     * CAMERA session may show a camera this state does not list (another Seeker's, or any camera for a police-channel
+     * viewer who is no Seeker; owner spec 2026-11-28), so the camera check is left to the caller, which resolves the
+     * id to a live camera entity; the session service ends a session whose camera is gone.
+     * 针对单名玩家状态的 {@link #expectedFocusId(SeekerSessionMode, int, SeekerCarState, int, IntPredicate)}。CAMERA 会话
+     * 可能显示本状态未登记的摄像头（其他搜寻者的，或非搜寻者的义警频道观看者所看的任意摄像头；所有者规格 2026-11-28），
+     * 因此摄像头检查留给调用方：由其把 id 解析为存活的摄像头实体；摄像头消失的会话由会话服务结束。
+     */
     public static int expectedFocusId(SeekerState state) {
         return expectedFocusId(state.sessionMode(), state.sessionFocusEntityId(), state.carState(),
-                state.carEntityId(), state::hasCamera);
+                state.carEntityId(), cameraEntityId -> true);
     }
 }

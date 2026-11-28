@@ -78,6 +78,33 @@ loom {
             startupOrderDump(it)
             runDir "build/run/clientAudit"
         }
+        // Dev-only screenshots of the top-left in-round HUD (gametest `hudsnapshot` package): `./gradlew
+        // runHudSnapshot` boots a real 1280x720 client in its own run directory, creates a throwaway void world,
+        // fakes a running murder round on the integrated server, saves one PNG (plus a 2x crop of the top-left
+        // corner) per case to build/run/hudSnapshot/snapshots and closes the game; the exit code is non-zero when a
+        // case was not saved. `-PhudSnapshotCases=a,b` runs a subset, `-PhudSnapshotBackdrop=mid|sky|dark` picks
+        // what is behind the HUD (a mid-tone wall by default). Not a check: nothing here is named `verify*`.
+        // 仅供开发使用的对局左上角 HUD 截图（gametest 的 `hudsnapshot` 包）：`./gradlew runHudSnapshot` 在独立运行目录中
+        // 启动真实的 1280x720 客户端，创建一次性虚空世界，在内置服务器上伪造一局进行中的谋杀对局，为每个用例保存一张 PNG
+        // （外加左上角的 2 倍裁剪图）到 build/run/hudSnapshot/snapshots，然后自行关闭；有用例未保存时退出码非零。
+        // `-PhudSnapshotCases=a,b` 只运行部分用例，`-PhudSnapshotBackdrop=mid|sky|dark` 选择 HUD 背后的内容（默认是中间调
+        // 的墙）。它不是校验：这里没有任何以 `verify` 命名的东西。
+        hudSnapshot {
+            client()
+            configName = "HUD Snapshot"
+            source sourceSets.gametest
+            vmArg "-Dsparkdlc.hudSnapshot=true"
+            if (project.hasProperty("hudSnapshotCases")) {
+                vmArg "-Dsparkdlc.hudSnapshot.cases=${project.property("hudSnapshotCases")}"
+            }
+            if (project.hasProperty("hudSnapshotBackdrop")) {
+                vmArg "-Dsparkdlc.hudSnapshot.backdrop=${project.property("hudSnapshotBackdrop")}"
+            }
+            // Same DEBUG_INJECTORS reason as clientAudit above. / 与上方 clientAudit 相同的 DEBUG_INJECTORS 原因。
+            vmArg "-Dmixin.debug=false"
+            programArgs "--width", "1280", "--height", "720"
+            runDir "build/run/hudSnapshot"
+        }
     }
 }
 

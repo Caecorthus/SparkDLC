@@ -12,6 +12,8 @@ import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionTraitService;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.GoingDarkRules;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
+import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
@@ -208,6 +210,34 @@ public final class SparkTraitsApi {
     }
 
     /**
+     * The mood a HUD shows for the player, as a signed fraction of the player's own mood range, always in -1..1.
+     * At or above zero it is {@code mood / max}, where max is the player's mood maximum under
+     * {@code effectiveMoodType}: 1, or 1.25 for a REAL mood with Steady, so a full Steady mood reads 1 like anyone
+     * else's and only falls more slowly. Below zero it is {@code mood / |min|}; the minimum is -1 for every player (no
+     * trait moves it), so the breakdown point reads -1. This is the ratio the traits' mood bar used.
+     * {@code effectiveMoodType} is the mood type the player is shown with, after the traits' effective-mood rules; a
+     * caller inside Wathe's {@code MoodRenderer.renderCivilian} passes REAL, the only type that reaches it. Reads the
+     * player's active traits once per call and nothing below zero: a per-frame caller asks once per frame. Null-safe
+     * (a null player has no trait); a mood that is not a number reads 0. Display only, both sides.
+     * HUD 为该玩家显示的理智值，以其自身理智范围的带符号比例表示，恒在 -1..1 之间。不低于零时为 {@code mood / max}，其中 max 是
+     * 玩家在 {@code effectiveMoodType} 下的理智上限：1，或真实理智且拥有“沉稳”时为 1.25，因此沉稳玩家满理智时与其他人一样
+     * 读作 1，只是下降得更慢。低于零时为 {@code mood / |min|}；所有玩家的下限都是 -1（没有词条改变它），因此崩溃点读作 -1。
+     * 这正是词条理智条所用的比例。{@code effectiveMoodType} 是按词条有效理智规则得出的、玩家实际显示的理智类型；位于 Wathe
+     * {@code MoodRenderer.renderCivilian} 内的调用方传入 REAL（只有该类型会进入此方法）。每次调用只读取一次玩家的生效词条，
+     * 低于零时完全不读取：逐帧调用方每帧只应询问一次。可传入空玩家（视为没有词条）；非数值的理智读作 0。仅用于展示，双端可用。
+     */
+    public static float displayedMoodFraction(PlayerEntity player, Role.MoodType effectiveMoodType, float mood) {
+        if (Float.isNaN(mood)) {
+            return 0.0F;
+        }
+        if (mood < 0.0F) {
+            return -Math.min(1.0F, mood / GlobalTraitService.MOOD_MIN);
+        }
+        float moodMax = GlobalTraitService.moodMax(effectiveMoodType, getActiveTraitIds(player));
+        return GlobalTraitService.positiveMoodBarProgress(mood, moodMax);
+    }
+
+    /**
      * Killer-team membership after the alignment flips, for a caller that already holds the player's role: Impostor
      * turns an original civilian into a killer, Conscience turns an original killer into a civilian, and with both
      * traits Impostor decides (killer). A null role is on neither side; a null player counts as holding neither trait.
@@ -266,6 +296,25 @@ public final class SparkTraitsApi {
 
     public static float getLastEscapeDesaturation(PlayerEntity player) {
         return hasLastEscapeGrayscale(player) ? 0.5f : 0.0f;
+    }
+
+    /**
+     * Whether the player is drawn with the baby proportions of the Childish trait (a bigger head on a shorter body,
+     * filling the scaled-down box). Read from the synced scale modifier, so both sides and every viewer agree. Only
+     * the shape is answered; who owns the hidden trait is not a question this is meant for.
+     * 玩家是否按幼稚词条的幼体比例绘制（更大的头、更短的身体，填满缩小后的碰撞箱）。读取已同步的体型修饰符，因此两端与
+     * 所有观察者的结论一致。这里只回答体型，不用于查询隐藏词条的持有情况。
+     */
+    public static boolean hasChildishBody(PlayerEntity player) {
+        return player != null && GlobalTraitService.hasChildishScale(player);
+    }
+
+    /**
+     * Whether the player is drawn as a pig with its own head (the Pig trait) instead of the player model. Both sides.
+     * 玩家是否被绘制为带自己头颅的猪（猪词条），而非玩家模型。两端通用。
+     */
+    public static boolean hasPigBody(PlayerEntity player) {
+        return PigTraitService.isPig(player);
     }
 
     /**

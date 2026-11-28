@@ -30,6 +30,12 @@ import java.util.UUID;
  * 无限遥控距离的服务端部分（所有者 2026-10-04 决定）：即使服务端玩家（本体）从不移动，拥有者也能看到远处小车或摄像头的画面。
  * 仅服务端、仅服务端线程，不同步也不存盘。
  *
+ * "Owner" below is the player whose session it is: the Seeker for a car, and for a camera any police-channel viewer
+ * (owner spec 2026-11-28), whose focus may be another Seeker's camera. Several viewers of one camera each stream it to
+ * their own client; the focus ticket is the same ticket for all of them.
+ * 下文的“拥有者”指会话所属的玩家：小车即搜寻者；摄像头则可以是义警频道的任何观看者（所有者规格 2026-11-28），其焦点可能是
+ * 其他搜寻者的摄像头。同一台摄像头的多名观看者各自向自己的客户端流式加载；焦点票据对他们而言是同一张。
+ *
  * <ul>
  *   <li>Focus streaming: while {@link #focusOf} names a device, an expiring {@link #FOCUS_TICKET} around it (radius
  *   {@link SeekerRemoteStreamingRules#focusTicketRadius}) keeps its surroundings loaded and entity-ticking (tracker
@@ -125,8 +131,9 @@ public final class SeekerRemoteStreaming {
     /** End of every world tick; see the class Javadoc for the order. / 每个世界刻末尾；顺序见类注释。 */
     static void tick(ServerWorld world) {
         for (ServerPlayerEntity player : world.getPlayers()) {
-            // Non-Seekers hold no state and leave after two field reads; a live session is never idle.
-            // 非搜寻者不持有状态，读取两个字段后即跳过；存活的会话绝不处于空闲状态。
+            // Players without Seeker state or a camera view leave after two field reads; a live session (a Seeker's,
+            // or a police-channel viewer's) is never idle.
+            // 既无搜寻者状态也未在观看摄像头的玩家读取两个字段后即跳过；存活的会话（搜寻者的或义警频道观看者的）绝不处于空闲状态。
             SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
             boolean holdsState = !status.state().isIdle();
             if (holdsState) {
@@ -158,8 +165,13 @@ public final class SeekerRemoteStreaming {
             return null;
         }
         Entity entity = owner.getServerWorld().getEntityById(focusId);
+        // A car is its owner's alone; a camera may be another Seeker's, viewed by a police-channel member (owner spec
+        // 2026-11-28). Whose camera a session may show is the session service's decision, made at open and re-checked
+        // every tick before this runs, so here a live camera with the session's id is enough.
+        // 小车只属于其拥有者；摄像头可能属于其他搜寻者，由义警频道成员观看（所有者规格 2026-11-28）。会话可以显示谁的摄像头
+        // 由会话服务决定（打开时判定，并在本方法运行之前每刻重新校验），因此这里只需是与会话 id 一致的存活摄像头。
         return entity instanceof SeekerDeviceEntity device && !device.isRemoved() && device.kind() == kind
-                && device.isOwnedBy(owner.getUuid()) ? device : null;
+                && (kind == SeekerDeviceKind.CAMERA || device.isOwnedBy(owner.getUuid())) ? device : null;
     }
 
     /**

@@ -1,7 +1,9 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.ExoskeletonRules;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistEffects;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
 import java.util.ArrayList;
@@ -63,6 +65,18 @@ public final class HunterPlayerComponent implements AutoSyncedComponent, ServerT
         refreshFractureState();
         sync();
         return application;
+    }
+
+    /**
+     * The trap's root alone, for {@code ticks}: the player cannot move but can still look and act. No fracture layer is
+     * added and Bone Setting is not consumed; a longer root already running is kept. Used by another role's effect (the
+     * Saint's gunshot), so it is no trap catch and marks none.
+     * 仅施加捕兽夹的禁锢，持续 {@code ticks} 刻：玩家无法移动，但仍可转动视角与操作。不添加骨折层，也不消耗正骨；已有更长的
+     * 禁锢时保留更长的。供其他职业的效果使用（圣徒的枪击），因此不算被夹住，也不记录夹住。
+     */
+    public void applyRoot(int ticks) {
+        injury.rootFor(ticks);
+        sync();
     }
 
     /** Marks the moment this player was caught by a trap and who placed it, for the placer's kill-reward window.
@@ -185,7 +199,12 @@ public final class HunterPlayerComponent implements AutoSyncedComponent, ServerT
             return;
         }
         boolean rootWasActive = injury.rootTicks() > 0;
-        HunterInjuryState.TickResult tickResult = injury.tick();
+        // An Exoskeleton wearer's fractures run down at double speed (owner 2026-11-28); the layer count is read every
+        // tick, so a fitting or a removal takes effect on the time that is left. The root is not shortened.
+        // 外骨骼穿戴者的骨折以两倍速度消退（所有者 2026-11-28）；层数每刻读取，因此装上或卸下都只影响剩余时间。禁锢不会缩短。
+        HunterInjuryState.TickResult tickResult = injury.tick(ExoskeletonRules.fractureTickStep(
+                OrthopedistPlayerComponent.KEY.get(player).getExoskeletonLayers()
+        ));
         boolean injuryActive = rootWasActive || injury.fractureLayers() > 0;
 
         if (rootWasActive) {

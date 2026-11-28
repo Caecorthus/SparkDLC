@@ -13,17 +13,20 @@ import net.minecraft.util.Identifier;
  * tasks before police identities unlock; v6 appended the Bomber's own drone rows; v7 appended the killer team's sabotage
  * cards and log; v8 sends a door-log row's world tick instead of its age; v9 adds the public channel's per-row signal and the switch
  * cooldown's blocked channels; v10 sends the switch cooldown, the meeting cooldown and the meeting's end as world ticks
- * instead of remaining seconds; v11 appends the chat send interval and the viewer's next allowed send tick. Old clients
+ * instead of remaining seconds; v11 appends the chat send interval and the viewer's next allowed send tick; v12 appends
+ * to each suspect row whether the suspect is alive and the viewer's own track of them (reveal start, reveal end and
+ * cooldown end, as world ticks); v13 appends the Seekers' wall cameras a police-network viewer may watch. Old clients
  * never register this id, so the
  * server checks {@code ServerPlayNetworking.canSend} instead of disconnecting them with unknown bytes.
  * 完整的按观看者平板状态。v2 增加了频道字段；v3 将聊天发送者改为可选（匿名行）并移除聊天时间戳；v4 追加了功能掩码与乘务员房门记录；
  * v5 追加了查看者解锁义警身份前剩余的任务数；v6 追加了炸弹客自己的无人机行；v7 追加了杀手阵营的破坏卡片与日志；v8 房门记录行改发世界 tick 而非经过时间；
  * v9 增加了公共频道每行的信号格数与切换冷却阻止的频道；v10 将切换冷却、会议冷却与会议结束改为世界 tick 而非剩余秒数；
- * v11 追加了聊天发送间隔与查看者下一次可发送的 tick。
+ * v11 追加了聊天发送间隔与查看者下一次可发送的 tick；v12 在每个嫌疑人行追加了该嫌疑人是否存活，以及查看者自己对其的追查
+ * （显示开始、显示结束与冷却结束，均为世界 tick）；v13 追加了义警网络查看者可以观看的搜寻者摄像头。
  * 旧客户端不会注册此 id，服务端先检查 canSend，避免未知字节导致断线。
  */
 public record SyncTabletSnapshotS2CPacket(TabletSnapshot snapshot) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkDLC.id("sync_tablet_snapshot_v11");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("sync_tablet_snapshot_v13");
     public static final Id<SyncTabletSnapshotS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SyncTabletSnapshotS2CPacket> CODEC =
             PacketCodec.of(SyncTabletSnapshotS2CPacket::write, SyncTabletSnapshotS2CPacket::read);

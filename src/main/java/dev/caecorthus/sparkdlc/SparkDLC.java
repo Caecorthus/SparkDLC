@@ -7,6 +7,8 @@ import dev.caecorthus.sparkdlc.event.RoleKitEvents;
 import dev.caecorthus.sparkdlc.event.RoleEvents;
 import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.health.BodyHealthService;
+import dev.caecorthus.sparkdlc.health.hitbox.BodyPoseHistory;
 import dev.caecorthus.sparkdlc.item.m16a4.M16A4Service;
 import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
 import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
@@ -125,6 +127,7 @@ public final class SparkDLC implements ModInitializer {
         registerOwnRoleContent();
         registerOwnRolesAndSkills();
         registerOwnRoleGameplay();
+        registerBodyHealth();
         // Every command of the mod, and the old command names, in one place.
         // 本模组的全部命令以及旧命令名，统一在一处注册。
         SparkDlcCommands.register();
@@ -231,6 +234,9 @@ public final class SparkDLC implements ModInitializer {
         // NoellesRoles 仍负责装备包过滤，本模组这里只扩展其隐藏物品判定。
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.perfumeEssence());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.cologne());
+        // Only the Orthopedist's shop sells it, so a visible one in the hand would expose the role like the Cologne.
+        // 只有骨科大夫的商店出售它，手中可见的外骨骼会像古龙水一样暴露身份。
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.exoskeleton());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.blackRavenLedger());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStealerClock());
         NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStealerGiftWatch());
@@ -303,6 +309,20 @@ public final class SparkDLC implements ModInitializer {
             return sender == null || mayUseTextChat(sender);
         });
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkDlcRoles.refreshAssassinGuessRoleOrder());
+    }
+
+    /**
+     * The body-health pool: its reset on Wathe's {@code ResetPlayer}. It belongs to no role, kit or trait and was
+     * added after the fusion, so it is a step of its own after every gameplay step: its listener runs after every
+     * older {@code ResetPlayer} listener and none of them changes place. The pose history of the body-part hitboxes
+     * records at the end of each server tick, after every older end-of-tick listener for the same reason.
+     * 部位血量池：在 Wathe 的 {@code ResetPlayer} 时重置。它不属于任何职业、套件或词条，且在融合之后新增，因此单独成为排在
+     * 所有玩法步骤之后的一步：它的监听器在所有更早的 {@code ResetPlayer} 监听器之后执行，后者的位置均不变。部位命中箱的
+     * 姿态历史在每个服务端刻结束时记录，出于同样的原因排在所有更早的刻末监听器之后。
+     */
+    private static void registerBodyHealth() {
+        BodyHealthService.register();
+        BodyPoseHistory.register();
     }
 
     private static boolean mayUseTextChat(ServerPlayerEntity sender) {

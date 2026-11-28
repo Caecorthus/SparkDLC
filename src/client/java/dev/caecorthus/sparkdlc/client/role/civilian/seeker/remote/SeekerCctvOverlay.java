@@ -32,7 +32,9 @@ import java.util.List;
  * and exit/switch hints.
  * Decorations follow the usual role HUD gates (confirmed server, not F1, Wathe HUD on). The opaque SIGNAL LOST
  * panel (body blind or in darkness, NoellesRoles Gin immunity respected) is a gameplay mask, so it ignores F1 and
- * the Wathe HUD toggle. It reads only the local owner's own synced state and never renders in the witch skill panel.
+ * the Wathe HUD toggle. It reads only the local player's own synced state (and, for the camera labels, the cameras
+ * that player may view: a police-channel member who is no Seeker gets the same overlay) and never renders in the witch
+ * skill panel.
  * In camera mode the label carries the viewed camera's zero-padded number ("CAM 02"), and while the strafe keys can
  * reach another camera a camera-switch hint with the keys and the "2/3" position sits one line above the exit hint.
  * 搜寻者遥控视角的纯客户端 CCTV 叠加层（{@code HudRenderCallback}）：四角框、闪烁 REC、模式标签、会话计时、
@@ -185,9 +187,7 @@ public final class SeekerCctvOverlay {
         context.drawTextWithShadow(text, clock, x + text.getWidth(Text.translatable("hud.sparkdlc.seeker.view.rec")) + 6,
                 y, frame);
         y += line;
-        int cameraLabel = SeekerCameraRules.label(SeekerClientState.cameras(), SeekerClientState.sessionFocusEntityId());
-        Text label = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkdlc.seeker.view.car")
-                : Text.translatable("hud.sparkdlc.seeker.view.camera", SeekerCctvRules.cameraNumber(cameraLabel));
+        Text label = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkdlc.seeker.view.car") : cameraTitle();
         context.drawTextWithShadow(text, label, x, y, frame);
         y += line;
         Entity focus = SeekerRemoteViewClient.focus();
@@ -251,7 +251,7 @@ public final class SeekerCctvOverlay {
     private static void renderCameraCycleHint(DrawContext context, TextRenderer text, MinecraftClient client,
                                               SeekerSessionMode mode, int width, int exitY, int frame) {
         int focusId = SeekerClientState.sessionFocusEntityId();
-        List<SeekerState.Camera> ring = SeekerCameraRules.cycleRing(SeekerClientState.cameras(), focusId,
+        List<SeekerState.Camera> ring = SeekerCameraRules.cycleRing(SeekerClientState.viewingOrder(), focusId,
                 SeekerCameraCycler.selectable(client.world));
         int count = ring.size();
         if (!SeekerCctvRules.showsCameraCycleHint(mode, count)) {
@@ -262,6 +262,36 @@ public final class SeekerCctvOverlay {
                 client.options.leftKey.getBoundKeyLocalizedText(), client.options.rightKey.getBoundKeyLocalizedText(),
                 position > 0 ? Integer.toString(position) : "?", count);
         context.drawCenteredTextWithShadow(text, cycle, width / 2, exitY - text.fontHeight - 3, frame);
+    }
+
+    /**
+     * "CAM 02" for the viewed camera, from the cameras the local player may view; "CAM --" while that list does not
+     * hold the session's focus (a viewer who is no Seeker without the tablet snapshot). When the list holds cameras of
+     * more than one Seeker, the owner's name follows (or that Seeker's number while the server withholds the name), so
+     * two Seekers' "CAM 01" can be told apart.
+     * 正在观看的摄像头的“摄像头 02”，取自本地玩家可以观看的摄像头；列表中没有会话焦点时（没有平板快照的非搜寻者观看者）为
+     * “摄像头 --”。列表包含不止一名搜寻者的摄像头时，其后附上拥有者的名字（服务端未下发名字时为该搜寻者的序号），
+     * 以便区分两名搜寻者各自的“摄像头 01”。
+     */
+    private static Text cameraTitle() {
+        List<SeekerClientState.ViewCamera> cameras = SeekerClientState.viewableCameras();
+        int focusId = SeekerClientState.sessionFocusEntityId();
+        SeekerClientState.ViewCamera viewed = null;
+        boolean severalOwners = false;
+        for (SeekerClientState.ViewCamera camera : cameras) {
+            if (camera.entityId() == focusId) {
+                viewed = camera;
+            }
+            severalOwners |= camera.owner() != cameras.get(0).owner() || camera.own() != cameras.get(0).own();
+        }
+        Text title = Text.translatable("hud.sparkdlc.seeker.view.camera",
+                SeekerCctvRules.cameraNumber(viewed == null ? SeekerCameraRules.NO_CAMERA : viewed.label()));
+        if (viewed == null || !severalOwners || viewed.own()) {
+            return title;
+        }
+        return viewed.ownerName().isEmpty()
+                ? Text.translatable("hud.sparkdlc.seeker.view.camera_owner_unknown", title, viewed.owner())
+                : Text.translatable("hud.sparkdlc.seeker.view.camera_owner", title, viewed.ownerName());
     }
 
     private static void renderSignalLost(DrawContext context, TextRenderer text, long ticks) {
@@ -279,10 +309,7 @@ public final class SeekerCctvOverlay {
      */
     private static void renderConnecting(DrawContext context, TextRenderer text, SeekerSessionMode mode, long ticks) {
         int frame = SeekerCctvRules.frameColor(mode);
-        int cameraLabel = SeekerCameraRules.label(SeekerClientState.cameras(),
-                SeekerClientState.sessionFocusEntityId());
-        Text target = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkdlc.seeker.view.car")
-                : Text.translatable("hud.sparkdlc.seeker.view.camera", SeekerCctvRules.cameraNumber(cameraLabel));
+        Text target = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkdlc.seeker.view.car") : cameraTitle();
         renderPanel(context, text, ticks, Text.translatable("hud.sparkdlc.seeker.view.connecting"), frame, target,
                 true);
     }

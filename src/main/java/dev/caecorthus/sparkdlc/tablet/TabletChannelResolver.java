@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.AttendantRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerSharedCameras;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoleRules;
 import dev.caecorthus.sparkdlc.sabotage.SabotageAccess;
 import dev.doctor4t.wathe.api.Role;
@@ -60,6 +61,19 @@ public final class TabletChannelResolver {
     }
 
     /**
+     * Whether the player belongs to the police network by identity (a police-network role, or an Impostor), whatever
+     * channel is being viewed and with or without a tablet. Side-agnostic and pure like {@link #identityChannels}; for
+     * a living holder it is {@code access(player).isMember(TabletChannel.POLICE)} without that call's bookkeeping.
+     * The Seeker's shared cameras ask it ({@code SeekerTargeting.canWatchCameras}).
+     * 玩家是否按身份属于义警网络（义警网络身份或内鬼），与当前查看的频道及是否持有平板无关。与 identityChannels 一样与端无关且
+     * 无副作用；对存活的持有者它等同于 access(player).isMember(TabletChannel.POLICE)，但不做该调用的记录写入。
+     * 搜寻者的共享摄像头据此判断（SeekerTargeting.canWatchCameras）。
+     */
+    public static boolean isPoliceNetworkMember(PlayerEntity player) {
+        return identityChannels(player).contains(TabletChannel.POLICE);
+    }
+
+    /**
      * Server-authoritative access for one holder. Resolving it records the alive-time allowed set and persists the
      * chosen selection, so every packet handler and sync pass sees the same channel.
      * 服务端权威的单个持有者访问状态。解析时会记录存活时的允许集合并回写所选频道，保证所有处理器与同步轮次一致。
@@ -106,6 +120,15 @@ public final class TabletChannelResolver {
      * <p>Sabotage: an alive player who may sabotage ({@code SabotageAccess}: the killer network by identity, which
      * keeps it independent of the selected channel, so an Impostor viewing the police channel keeps it).
      * 破坏：可以破坏的存活玩家（SabotageAccess：按身份属于杀手网络，因此与所选频道无关，内鬼查看义警频道时仍保留）。</p>
+     *
+     * <p>Cameras: an alive player on the police network by identity ({@link #isPoliceNetworkMember}, the predicate of
+     * {@code SeekerTargeting.canWatchCameras}: police-network roles and Impostors), while at least one Seeker camera
+     * stands in the player's world ({@code SeekerSharedCameras.hasAny}). Without a camera there is no section, so a
+     * round without a Seeker shows no empty tab and keeps the tab count (and with it the layout mode) it had before.
+     * Opening a camera is validated again by the Seeker's session service.
+     * 摄像头：按身份属于义警网络的存活玩家（isPoliceNetworkMember，即 SeekerTargeting.canWatchCameras 的谓词：义警网络身份
+     * 与内鬼），且其所在世界至少立着一台搜寻者摄像头（SeekerSharedCameras.hasAny）。没有摄像头就没有该分区，因此没有搜寻者的
+     * 对局不会出现空标签，标签数量（以及随之而定的布局模式）与此前相同。打开摄像头时由搜寻者的会话服务再次校验。</p>
      */
     public static EnumSet<TabletFeature> features(ServerPlayerEntity player) {
         EnumSet<TabletFeature> features = EnumSet.noneOf(TabletFeature.class);
@@ -118,6 +141,10 @@ public final class TabletChannelResolver {
         }
         if (SabotageAccess.canUse(player)) {
             features.add(TabletFeature.SABOTAGE);
+        }
+        if (GameFunctions.isPlayerPlayingAndAlive(player) && isPoliceNetworkMember(player)
+                && SeekerSharedCameras.hasAny(player)) {
+            features.add(TabletFeature.CAMERAS);
         }
         return features;
     }

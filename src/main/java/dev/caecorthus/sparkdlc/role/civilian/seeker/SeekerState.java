@@ -128,9 +128,10 @@ public final class SeekerState {
     }
 
     /**
-     * Server-only: the camera the owner viewed last (kept after the session ends), the default for an open request
-     * without an explicit target; -1 when none. Never synced.
-     * 仅服务端：拥有者最近观看的摄像头（会话结束后仍保留），是未指定目标的打开请求的默认选择；没有时为 -1。从不同步。
+     * Server-only: the camera the player viewed last (kept after the session ends; it may be another Seeker's), the
+     * default for an open request without an explicit target; -1 when none. Never synced.
+     * 仅服务端：该玩家最近观看的摄像头（会话结束后仍保留；可能属于其他搜寻者），是未指定目标的打开请求的默认选择；
+     * 没有时为 -1。从不同步。
      */
     public int lastViewedCameraId() {
         return lastViewedCameraId;
@@ -187,17 +188,28 @@ public final class SeekerState {
     }
 
     /**
-     * True when this player holds no Seeker state at all (every non-Seeker). The component's per-tick early return.
-     * 该玩家不持有任何搜寻者状态时为真（所有非搜寻者）；组件每刻的提前返回条件。
+     * True when this player holds no Seeker state at all (every non-Seeker who is not watching a camera). The
+     * component's per-tick early return.
+     * 该玩家不持有任何搜寻者状态时为真（所有未在观看摄像头的非搜寻者）；组件每刻的提前返回条件。
      */
     public boolean isIdle() {
-        return carState == SeekerCarState.NONE
-                && cameras.isEmpty()
-                && sessionMode == SeekerSessionMode.NONE
-                && markTarget == null
-                && markRemainingTicks <= 0
-                && carLostTo == null
-                && !pendingReturn;
+        return !holdsOwnerState() && sessionMode == SeekerSessionMode.NONE;
+    }
+
+    /**
+     * True when this player holds state only a Seeker can have: a car, cameras, a mark or a car owed by a Taotie. A
+     * session alone is not owner state: every police-channel member may watch a Seeker's camera (owner spec
+     * 2026-11-28), and such a viewer holds nothing but the session fields.
+     * 该玩家持有只有搜寻者才会有的状态时为真：小车、摄像头、标记或饕餮欠还的小车。仅有会话不算拥有者状态：
+     * 义警频道的每名成员都可以观看搜寻者的摄像头（所有者规格 2026-11-28），这样的观看者只持有会话字段。
+     */
+    public boolean holdsOwnerState() {
+        return carState != SeekerCarState.NONE
+                || !cameras.isEmpty()
+                || markTarget != null
+                || markRemainingTicks > 0
+                || carLostTo != null
+                || pendingReturn;
     }
 
     /** NONE → READY at the round-start grant (+INITIAL). / 开局发放：NONE → READY（+INITIAL）。 */
@@ -223,17 +235,17 @@ public final class SeekerState {
         return new Delta(true, 0, SeekerCooldownReason.NONE, false, null, false);
     }
 
-    /** DEPLOYED → READY (+RECALL 180 s); closes a CAR session with CAR_RECALLED. / 回收。 */
+    /** DEPLOYED → READY (+RECALL 90 s); closes a CAR session with CAR_RECALLED. / 回收。 */
     public Delta recall() {
         return leaveDeployed(SeekerCooldownReason.RECALL, SeekerExitReason.CAR_RECALLED);
     }
 
-    /** DEPLOYED → READY (+BROKEN 180 s); closes a CAR session with CAR_BROKEN. / 损坏。 */
+    /** DEPLOYED → READY (+BROKEN 90 s); closes a CAR session with CAR_BROKEN. / 损坏。 */
     public Delta breakCar() {
         return leaveDeployed(SeekerCooldownReason.BROKEN, SeekerExitReason.CAR_BROKEN);
     }
 
-    /** DEPLOYED → READY (+DEPLETED 180 s); closes a CAR session with BATTERY_DEPLETED. / 电量耗尽。 */
+    /** DEPLOYED → READY (+DEPLETED 90 s); closes a CAR session with BATTERY_DEPLETED. / 电量耗尽。 */
     public Delta deplete() {
         return leaveDeployed(SeekerCooldownReason.DEPLETED, SeekerExitReason.BATTERY_DEPLETED);
     }
@@ -325,6 +337,19 @@ public final class SeekerState {
      * CAMERA 需 {@code focusEntityId} 是拥有者的摄像头之一）；sessionId 递增。切换会把上一个会话报告为以 SWITCHED 关闭。
      */
     public Delta openSession(SeekerSessionMode mode, int focusEntityId) {
+        return openSession(mode, focusEntityId, false);
+    }
+
+    /**
+     * {@link #openSession(SeekerSessionMode, int)} that may also view a camera this state does not list:
+     * {@code sharedCamera} is the service's word that {@code focusEntityId} is a live camera of a Seeker of this round
+     * which the player may watch (another Seeker's camera, or any camera for a police-channel member who is no
+     * Seeker; owner spec 2026-11-28). It never lifts the CAR rule: only the owner drives the car.
+     * 可观看本状态未登记的摄像头的 {@link #openSession(SeekerSessionMode, int)}：{@code sharedCamera} 由服务保证
+     * {@code focusEntityId} 是本局某名搜寻者的存活摄像头且该玩家可以观看（其他搜寻者的摄像头，或非搜寻者的义警频道成员
+     * 观看任意摄像头；所有者规格 2026-11-28）。它从不放宽小车规则：只有拥有者能驾驶小车。
+     */
+    public Delta openSession(SeekerSessionMode mode, int focusEntityId, boolean sharedCamera) {
         if (mode == null || mode == SeekerSessionMode.NONE) {
             return Delta.NONE;
         }
@@ -333,7 +358,7 @@ public final class SeekerState {
         }
         boolean deviceReady = mode == SeekerSessionMode.CAR
                 ? carState == SeekerCarState.DEPLOYED
-                : hasCamera(focusEntityId);
+                : hasCamera(focusEntityId) || sharedCamera && focusEntityId >= 0;
         if (!deviceReady) {
             return Delta.NONE;
         }

@@ -14,11 +14,11 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 /**
- * The shared {@link WitchPlayerComponent} skill cooldown, used by every role that holds a registered witch skill
- * (Saint's Hellfire lives in its own store). Remaining time includes a deferred cooldown that waits for an active
+ * The shared {@link WitchPlayerComponent} skill cooldown, used by every role that holds a registered witch skill.
+ * Remaining time includes a deferred cooldown that waits for an active
  * window. A raise floors only the shared cooldown (it counts down through the window); an extension also grows that
  * deferred cooldown so the extra time is not lost at the window end.
- * 共享的 WitchPlayerComponent 技能冷却，适用于所有持有已注册魔女技能的职业（圣徒业火另有存储）。剩余时间包含等待主动
+ * 共享的 WitchPlayerComponent 技能冷却，适用于所有持有已注册魔女技能的职业。剩余时间包含等待主动
  * 窗口结束的延后冷却。抬高只抬高共享冷却（它在窗口期间照常递减）；延长同时增加该延后冷却，使额外时长不会在窗口结束时丢失。
  */
 final class WitchSkillCooldownStore implements RoleSkillCooldownStore {

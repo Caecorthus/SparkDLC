@@ -180,9 +180,9 @@ public final class UsecAmmoHudRules {
 
     /**
      * Top y of the row: {@code height - 16} in the corner; one row higher when the shared corner line (a witch skill
-     * line or the Saint's Karma line, which any killer of a Hellfire Saint can carry) is drawn there; above the hotbar
+     * line or the Saint's Karma line, which any killer of the Saint can carry) is drawn there; above the hotbar
      * and Wathe's stamina row when the row is wide enough to reach the hotbar column.
-     * 该行的顶部 y：角落中为 {@code height - 16}；若共享角落行（魔女技能行，或任何在地狱火期间击杀圣徒的人都可能带有的圣徒
+     * 该行的顶部 y：角落中为 {@code height - 16}；若共享角落行（魔女技能行，或任何击杀圣徒的人都可能带有的圣徒
      * 业报行）正在显示则上移一行；行宽到会伸入快捷栏列时抬升到快捷栏与 Wathe 体力行之上。
      */
     public static int rowY(int scaledWidth, int scaledHeight, int rowWidth, int fontHeight,

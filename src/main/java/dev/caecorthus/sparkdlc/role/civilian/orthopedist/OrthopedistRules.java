@@ -16,8 +16,20 @@ public final class OrthopedistRules {
     public static final int BONE_SETTING_TICKS = 20 * 20;
     public static final int SPEED_TICKS = 20 * 5;
     public static final double STAMINA_CONSUMPTION_MULTIPLIER = 0.75D;
+    // Economy (owner 2026-11-28): no opening coins, the mod's standard task reward. The shop is in ExoskeletonRules.
+    // 经济（所有者 2026-11-28）：开局没有金币，任务奖励为本模组的标准数额。商店数值见 ExoskeletonRules。
+    public static final int INITIAL_MONEY = 0;
+    public static final int TASK_REWARD = 50;
 
     private OrthopedistRules() {
+    }
+
+    /**
+     * Pays only a non-Impostor: the Impostor trait pays its holder's task income itself, so the two never stack.
+     * 只向非内鬼发放：内鬼词条自行支付持有者的任务收入，两者绝不叠加。
+     */
+    public static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     public static TargetAction targetAction(int fractureLayers, boolean boneSettingActive) {

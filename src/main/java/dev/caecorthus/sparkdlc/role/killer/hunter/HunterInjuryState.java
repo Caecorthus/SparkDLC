@@ -36,6 +36,18 @@ public final class HunterInjuryState {
     }
 
     public TickResult tick() {
+        return tick(1);
+    }
+
+    /**
+     * One server tick. The root always loses one tick; every fracture layer loses {@code fractureStep} ticks (at least
+     * one). The caller chooses the step each tick, so a step that changes mid-injury (an Exoskeleton fitted onto an
+     * already fractured player) applies to the time that is left, never to time already served.
+     * 一个服务端刻。禁锢始终减少 1 刻；每层骨折减少 {@code fractureStep} 刻（至少 1 刻）。步长由调用方每刻决定，因此伤势中途
+     * 变化的步长（给已骨折的玩家装上外骨骼）只作用于剩余时间，不追溯已经过去的时间。
+     */
+    public TickResult tick(int fractureStep) {
+        int step = Math.max(1, fractureStep);
         boolean rootChanged = rootTicks > 0;
         if (rootChanged) {
             rootTicks--;
@@ -43,7 +55,7 @@ public final class HunterInjuryState {
 
         boolean fractureChanged = false;
         for (int index = fractureTimers.size() - 1; index >= 0; index--) {
-            int remaining = fractureTimers.get(index) - 1;
+            int remaining = fractureTimers.get(index) - step;
             if (remaining <= 0) {
                 fractureTimers.remove(index);
                 fractureChanged = true;

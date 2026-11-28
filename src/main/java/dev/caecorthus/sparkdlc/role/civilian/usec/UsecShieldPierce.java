@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  * spent as if it had blocked, then the shot goes on; the layer that finds the budget empty blocks as usual. The scope
  * also carries the round ({@link #scopedAmmo}), which {@code SparkRoleApi.piercingShotAmmoId} exposes so a
  * shield that is never pierced (the Bodyguard's Democracy Shield) can price its block by round. Every other
- * protection (Saint, Judge, the {@code PlayerAffectPolicy} veto, Fiend, Ninja parry, Pig God, Last Stand, Last Escape,
+ * protection (Judge, the {@code PlayerAffectPolicy} veto, Fiend, Ninja parry, Pig God, Last Stand, Last Escape,
  * Depression, Jester fake death, Tofana) runs exactly once in its native place and is never pierced, because nothing
  * calls {@code killPlayer} again. Only the exact scoped victim, killer and {@code wathe:gun_shot} reason match, so
  * nested kills inside the scope (a Bodyguard sacrifice, a death in AFTER, Tofana retaliation) never spend it. The
@@ -37,7 +37,7 @@ import java.util.function.Supplier;
  * 以及经冻结的 {@code SparkRoleApi.tryPierceShieldLayer} 接入的其他护盾层（所有者 2026-10-07：保镖防弹衣）。
  * 被击穿的一层如同挡下一样被消耗，随后子弹继续；遇到预算已空的那一层照常挡下。作用域还携带弹种（{@link #scopedAmmo}），由
  * {@code SparkRoleApi.piercingShotAmmoId} 对外提供，使从不被击穿的盾牌（保镖的民主盾牌）能按弹种为格挡定价。
- * 其他所有保护（圣徒、法官、{@code PlayerAffectPolicy} 否决、
+ * 其他所有保护（法官、{@code PlayerAffectPolicy} 否决、
  * 魔人、忍者格挡、猪神、背水一战、绝处逢生、抑郁、小丑假死、托法娜）都只在原处执行一次且从不被击穿，因为没有任何地方再次调用
  * {@code killPlayer}。只有作用域内确切的受害者、击杀者与 {@code wathe:gun_shot} 死因才匹配，因此作用域内的嵌套击杀（保镖牺牲、
  * AFTER 中的死亡、托法娜反击）从不花费预算。作用域是服务端线程上的 {@link ThreadLocal}，在 {@code finally} 中恢复。不持有任何

@@ -78,6 +78,10 @@ public final class SparkDlcCommands {
         ThirdFactionSettingsCommand.register(dispatcher);
         WitchFactorCommand.register(dispatcher);
 
+        // Body-health mode switch and body-health editing (node sparkdlc.command.admin); added after the fusion, so
+        // it has no old name. / 部位血量模式开关与部位血量编辑（节点 sparkdlc.command.admin）；融合之后新增，因此没有旧名字。
+        HealthModeCommand.register(dispatcher);
+
         // Old names last: an alias copies the finished root it stands for.
         // 旧命令名放在最后：别名复制的是它所代表的、已经注册完成的根节点。
         LegacyCommandAliases.register(dispatcher);

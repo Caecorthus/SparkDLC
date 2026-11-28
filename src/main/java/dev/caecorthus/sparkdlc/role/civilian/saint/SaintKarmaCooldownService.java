@@ -12,8 +12,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
- * Applies Karma to item types currently carried in main inventory, hotbar, or offhand; armor is excluded.
- * 将业障冷却施加到主背包、快捷栏和副手内的物品类型；盔甲栏不在范围内。
+ * Applies Karma (the lock of the Hellfire a killer of the Saint burns with) to item types currently carried in main
+ * inventory, hotbar, or offhand; armor is excluded.
+ * 将业障冷却（击杀圣徒者所承受业火的那把锁）施加到主背包、快捷栏和副手内的物品类型；盔甲栏不在范围内。
  */
 public final class SaintKarmaCooldownService {
     /**
@@ -63,9 +64,9 @@ public final class SaintKarmaCooldownService {
 
     /**
      * An admin clear ({@code /sparkdlc:clearCooldown}) that really removed {@code item}'s cooldown sticks for the
-     * running Karma: Karma stops re-covering that item until it ends or is triggered again.
+     * running Karma: Karma stops re-covering that item until it ends or is inflicted again.
      * 真正移除了 {@code item} 冷却的管理员清除（{@code /sparkdlc:clearCooldown}）在本次业障内保持有效：业障结束或
-     * 再次触发前不再覆盖该物品。
+     * 再次施加前不再覆盖该物品。
      */
     public static void exemptAdminCleared(ServerPlayerEntity player, Item item) {
         WitchWorldComponent.KEY.get(player.getServerWorld())

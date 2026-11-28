@@ -117,6 +117,9 @@ public final class EffectiveTraitEligibility {
                 // Toxicologist owns the blue-poison kit, which must stay on the innocent side.
                 // 毒理学家持有蓝毒道具，必须保持好人身份。
                 || role.identifier().equals(Noellesroles.TOXICOLOGIST_ID)
+                // Owner 2026-11-28 (Impostor nerf): the Coroner never rolls Impostor.
+                // 所有者 2026-11-28（内鬼削弱）：验尸官永不获得内鬼。
+                || role.identifier().equals(Noellesroles.CORONER_ID)
                 || role.identifier().equals(PIG_GOD_ID)
                 || role.identifier().equals(SAINT_ID)
                 || role.identifier().equals(BLIND_ID)

@@ -166,7 +166,9 @@
       "sparkdlc:planner_master_player",
       "sparkdlc:sphinx_hao_player",
       "sparkdlc:sphinx_hao_world",
-      "sparkdlc:discoverer_player"
+      "sparkdlc:discoverer_player",
+      "sparkdlc:body_health",
+      "sparkdlc:health_mode"
     ],
     "sparkdlc:native_wathe_factions": {
       "sparkdlc:jiahao": "JIAHAO",

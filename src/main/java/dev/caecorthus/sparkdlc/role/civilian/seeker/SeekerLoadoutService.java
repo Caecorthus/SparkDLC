@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarItem;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCooldowns;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -11,15 +12,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Round-start loadout at ON_FINISH_INITIALIZE: revolver + Search Car, exact 60 s car cooldown, starting balance.
+ * Round-start loadout at ON_FINISH_INITIALIZE: revolver + Search Car + one Security Camera, exact 60 s car cooldown,
+ * exact 60 s camera cooldown, starting balance.
  * The grant is driven only by {@code SeekerLifecycleService} (WP-02), after the Conscience trait's compensation and
  * Wathe's per-Item revolver start cooldown, while the round is still STARTING; this module registers no round-start
  * listener of its own, so the loadout can never be granted twice.
- * ON_FINISH_INITIALIZE 时的开局装备：左轮 + 搜寻小车、精确 60 秒小车冷却、开局余额。发放只由
+ * ON_FINISH_INITIALIZE 时的开局装备：左轮 + 搜寻小车 + 一个摄像头、精确 60 秒小车冷却、精确 60 秒摄像头冷却、开局余额。发放只由
  * {@code SeekerLifecycleService}（WP-02）驱动，时机在良心词条补偿与 Wathe 按物品写入的左轮开局冷却之后、
  * 对局仍处于 STARTING 时；本模块不注册任何开局监听，因此装备不会被发放两次。
  */
 public final class SeekerLoadoutService {
+    /** Cameras in the loadout (owner spec 2026-11-28); more come from the shop. / 装备中的摄像头数量（所有者规格 2026-11-28）；更多的从商店购买。 */
+    static final int STARTING_CAMERAS = 1;
+
     private SeekerLoadoutService() {
     }
 
@@ -30,10 +35,11 @@ public final class SeekerLoadoutService {
 
     /**
      * Called exactly once per final Seeker by {@code SeekerLifecycleService} at ON_FINISH_INITIALIZE, after
-     * {@code bindMatch}: revolver + car item, {@code component.apply(state.grant())} (INITIAL cooldown written by
-     * {@code apply}) and the starting balance. Mid-round only through {@code SeekerLifecycleService.grantLateLoadout}.
+     * {@code bindMatch}: revolver + car item + one camera (camera cooldown 60 s),
+     * {@code component.apply(state.grant())} (INITIAL cooldown written by {@code apply}) and the starting balance.
+     * Mid-round only through {@code SeekerLifecycleService.grantLateLoadout}.
      * 由 {@code SeekerLifecycleService} 在 ON_FINISH_INITIALIZE、{@code bindMatch} 之后对每名最终搜寻者恰好调用一次：
-     * 发放左轮与小车物品、{@code component.apply(state.grant())}（INITIAL 冷却由 {@code apply} 写入）以及开局余额。对局中途仅经由
+     * 发放左轮、小车物品与一个摄像头（摄像头冷却 60 秒）、{@code component.apply(state.grant())}（INITIAL 冷却由 {@code apply} 写入）以及开局余额。对局中途仅经由
      * {@code SeekerLifecycleService.grantLateLoadout} 调用。
      */
     public static void grant(ServerPlayerEntity player) {
@@ -51,8 +57,14 @@ public final class SeekerLoadoutService {
         if (needsCarItem(holdsCarItem(inventory))) {
             inventory.insertStack(new ItemStack(SparkDlcItems.seekerCar()));
         }
-        // READY + INITIAL: apply() is the only writer of the car cooldown (exact + max, 60 s).
-        // READY + INITIAL：apply() 是小车冷却的唯一写入方（精确 + 取大，60 秒）。
+        // Owner spec 2026-11-28: one starting camera, with the camera item on its 60 s opening cooldown (exact + max;
+        // the cooldown is per item, so it also covers cameras bought during it). The mid-round path grants the same.
+        // 所有者规格 2026-11-28：开局发放一个摄像头，摄像头物品进入 60 秒开局冷却（精确 + 取大；冷却按物品计，因此期间买到的
+        // 摄像头同样受其限制）。对局中途的路径发放相同内容。
+        inventory.insertStack(new ItemStack(SparkDlcItems.seekerCamera(), STARTING_CAMERAS));
+        SeekerCooldowns.writeCameraFloorExact(player, SeekerRules.CAMERA_INITIAL_COOLDOWN_TICKS);
+        // READY + INITIAL: apply() writes the car cooldown a transition starts (exact + max, 60 s).
+        // READY + INITIAL：apply() 写入状态转移开始的小车冷却（精确 + 取大，60 秒）。
         SeekerStatusComponent component = SeekerStatusComponent.KEY.get(player);
         component.apply(component.state().grant());
         SeekerEconomyService.initialize(player);

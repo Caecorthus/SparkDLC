@@ -15,13 +15,17 @@ import java.util.List;
 /**
  * The Security Camera item; usable in adventure mode ({@link AdventureUsable} lets Wathe's adventure players use it on
  * blocks), stackable (the owner may place any number) and one is consumed per placement. The server decides every
- * placement in {@code SeekerDeviceService.placeCamera}; the client only reports CONSUME.
+ * placement in {@code SeekerDeviceService.placeCamera}; the client only reports CONSUME. The item carries the camera
+ * cooldown (owner spec 2026-11-28: 60 s from the loadout grant, 45 s after each placement, written only by
+ * {@code SeekerCooldowns}); vanilla skips {@code useOnBlock} on both sides while it runs.
  * 摄像头物品；冒险模式下可用（{@link AdventureUsable} 让 Wathe 的冒险模式玩家可以对方块使用），可堆叠（拥有者可放置任意数量），
- * 每次放置消耗一个。每次放置都由服务端 {@code SeekerDeviceService.placeCamera} 决定；客户端只返回 CONSUME。
+ * 每次放置消耗一个。每次放置都由服务端 {@code SeekerDeviceService.placeCamera} 决定；客户端只返回 CONSUME。该物品承载摄像头冷却
+ * （所有者规格 2026-11-28：装备发放起 60 秒，每次放置后 45 秒，只由 {@code SeekerCooldowns} 写入）；冷却期间原版在两端都不调用
+ * {@code useOnBlock}。
  */
 public class SeekerCameraItem extends Item implements AdventureUsable {
     /** Tooltip lines {@code item.sparkdlc.seeker_camera.tooltip.line1..N}. / 物品提示行数。 */
-    public static final int TOOLTIP_LINES = 3;
+    public static final int TOOLTIP_LINES = 4;
     /** Cameras per stack; each shop purchase still arrives as its own stack. / 每组数量；每次商店购买仍单独成组。 */
     public static final int MAX_STACK = 16;
 

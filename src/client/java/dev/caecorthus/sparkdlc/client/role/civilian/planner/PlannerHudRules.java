@@ -128,10 +128,10 @@ public final class PlannerHudRules {
     /**
      * Top y of the lower (skill) row. Both rows lift together: {@code measuredWidth} is the wider of the two measured
      * rows. {@code sharedLineOccupied} is the shared witch skill line (defensive: the planner has no witch skill) or
-     * the Saint's Karma line, which any killer of a Hellfire Saint can carry and which is drawn flush in the corner for
+     * the Saint's Karma line, which any killer of the Saint can carry and which is drawn flush in the corner for
      * a role {@code SaintHudLayoutRules} does not reserve (the Hanna rule); both rows then move up one row.
      * 下行（技能行）的顶部 y。两行一同抬升：{@code measuredWidth} 为两行测量宽度中的较宽者。{@code sharedLineOccupied}
-     * 指共享魔女技能行（防御性处理：规划大师没有魔女技能）或圣徒业报行——任何在地狱火期间击杀圣徒的人都可能带有，对
+     * 指共享魔女技能行（防御性处理：规划大师没有魔女技能）或圣徒业报行——任何击杀圣徒的人都可能带有，对
      * {@code SaintHudLayoutRules} 未预留的职业紧贴角落绘制（汉娜的规则）；此时两行一同上移一行。
      */
     public static int lowerRowY(int scaledWidth, int scaledHeight, int measuredWidth, int fontHeight,

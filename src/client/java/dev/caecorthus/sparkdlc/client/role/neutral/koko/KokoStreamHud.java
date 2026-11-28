@@ -66,8 +66,8 @@ public final class KokoStreamHud {
         KokoStreamHudRules.Line traffic = KokoStreamHudRules.trafficLine(state.traffic(),
                 KokoRules.winTraffic(game.getAllPlayers().size()));
         // The corner row may be taken by the shared witch skill line (defensive: Koko has no witch skill id) or by the
-        // Saint's Karma line, which any killer of a Hellfire Saint can carry.
-        // 右下角这一行可能被共享魔女技能行占用（防御性处理：可可没有魔女技能 id），或被圣徒业报行占用（任何在地狱火期间击杀
+        // Saint's Karma line, which any killer of the Saint can carry.
+        // 右下角这一行可能被共享魔女技能行占用（防御性处理：可可没有魔女技能 id），或被圣徒业报行占用（任何击杀
         // 圣徒的人都可能带有）。
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;

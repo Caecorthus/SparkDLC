@@ -12,6 +12,8 @@ import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WraithRoundComponent;
 import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyWorldComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.health.BodyHealthComponent;
+import dev.caecorthus.sparkdlc.health.HealthModeComponent;
 import dev.caecorthus.sparkdlc.item.rope.RopeHoldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteComponent;
@@ -522,6 +524,13 @@ public final class SparkDlcComponents
         registry.beginRegistration(PlayerEntity.class, DiscovererComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(DiscovererComponent::new);
+        // Body health (2026-11-26): the health of each body part, saved, synced to its owner only; not a role
+        // component, appended last, after the Discoverer's.
+        // 部位血量（2026-11-26）：每个身体部位的血量，随存档保存，只同步给本人；不属于任何职业，追加在最后，位于探索者的
+        // 组件之后。
+        registry.beginRegistration(PlayerEntity.class, BodyHealthComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BodyHealthComponent::new);
     }
 
     @Override
@@ -578,5 +587,8 @@ public final class SparkDlcComponents
                 ThirdFactionComponent.KEY,
                 ThirdFactionComponent::new
         );
+        // Body-health mode: the server-wide switch of the body-health system, synced to every client; appended last.
+        // 部位血量模式：部位血量系统的全服开关，同步给所有客户端；追加在最后。
+        registry.registerScoreboardComponent(HealthModeComponent.KEY, HealthModeComponent::new);
     }
 }

@@ -24,13 +24,16 @@ import java.util.UUID;
 
 /**
  * Frozen contract base for Seeker devices. Owner UUID and match id are server-only fields, never in the DataTracker,
- * so no client can learn who owns a device (the owner recognises its own devices through its owner-only component).
+ * so no client can learn who owns a device from the entity (the owner recognises its own devices through its
+ * owner-only component; a police-channel member is told whose camera it may watch only by the tablet's camera rows,
+ * under the police channel's identity rule).
  * Devices never take vanilla damage: every break goes through an explicit seam into
  * {@code SeekerDeviceService.breakDevice}. They are ray-targetable ({@link #canHit()}) with a small margin, but
  * projectiles pass through them, players are never blocked or pushed, and nothing is saved. The server discards a
  * device on its own when the round, the owner of record, the match binding or the owner's reference to it is gone.
  * 搜寻者设备的冻结契约基类。拥有者 UUID 与对局 id 仅存在于服务端，从不进入 DataTracker，任何客户端都无法得知设备归属
- * （拥有者通过自己的仅拥有者组件识别自己的设备）。设备从不承受原版伤害：所有损坏都经显式接缝进入
+ * （拥有者通过自己的仅拥有者组件识别自己的设备；义警频道成员只能经平板的摄像头行、按义警频道的身份规则得知可观看的摄像头
+ * 属于谁）。设备从不承受原版伤害：所有损坏都经显式接缝进入
  * {@code SeekerDeviceService.breakDevice}。它们可被射线选中（余量很小），但投射物会直接穿过，不阻挡也不推动玩家，
  * 且从不存盘。当对局、记录中的拥有者、对局绑定或拥有者对它的引用消失时，服务端会自行移除设备。
  */

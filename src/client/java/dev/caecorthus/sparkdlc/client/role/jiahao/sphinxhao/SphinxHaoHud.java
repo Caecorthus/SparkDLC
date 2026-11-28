@@ -73,8 +73,8 @@ final class SphinxHaoHud {
         SphinxHaoHudRules.Line infected = SphinxHaoHudRules.infectedLine(world.infectedIds().size());
         SphinxHaoHudRules.Line hao = SphinxHaoHudRules.haoLine(state.hao());
         // The corner row may be taken by the shared witch skill line (defensive: it has no witch skill id) or by the
-        // Saint's Karma line, which any killer of a Hellfire Saint can carry.
-        // 右下角这一行可能被共享魔女技能行占用（防御性处理：它没有魔女技能 id），或被圣徒业报行占用（任何在地狱火期间击杀圣徒的人
+        // Saint's Karma line, which any killer of the Saint can carry.
+        // 右下角这一行可能被共享魔女技能行占用（防御性处理：它没有魔女技能 id），或被圣徒业报行占用（任何击杀圣徒的人
         // 都可能带有）。
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;

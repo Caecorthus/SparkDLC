@@ -38,7 +38,7 @@ final class SparkRoleRecordRules {
      * {@code killer} / {@code killer_faction}。
      */
     static final String PROPHECY = "sparkdlc:prophecy";
-    /** W12: actor = the dead Saint, target = the killer who took Karma. W12：死去的圣徒让 target 背上业障。 */
+    /** W12: actor = the dead Saint, target = the killer who burns with Hellfire. W12：死去的圣徒让 target 被业火灼烧。 */
     static final String SAINT_KARMA = "sparkdlc:saint_karma";
     /** W13: actor = the Judge, target = the defendant; {@code sentenced}, {@code duration}. W13：法官的一次审判。 */
     static final String JUDGE_VERDICT = "sparkdlc:judge_verdict";
@@ -178,10 +178,11 @@ final class SparkRoleRecordRules {
     }
 
     /**
-     * 我不入地狱，谁入地狱: as the Saint, die with Hellfire active and my killer takes Karma
-     * ({@code sparkdlc:saint_karma}; written only for a killer outside the civilian side who passed the Karma
-     * immunity check).
-     * 以圣徒身份在业火中被杀死，凶手背上业障（{@code sparkdlc:saint_karma}；只为通过业障免疫检查、不在好人一方的凶手写入）。
+     * 我不入地狱，谁入地狱: as the Saint, be killed by another player, who then burns with Hellfire
+     * ({@code sparkdlc:saint_karma}, the record id from when the lock was called Karma; written for any killer who
+     * passed the Hellfire immunity check, good players included since 2026-11-28).
+     * 以圣徒身份被其他玩家杀死，凶手被业火灼烧（{@code sparkdlc:saint_karma}，记录 id 沿用这把锁还叫业障时的名字；为通过业火
+     * 免疫检查的任何凶手写入，自 2026-11-28 起包括好人）。
      */
     static boolean karmaOnMyKiller(AchievementContext context) {
         UUID self = context.self();

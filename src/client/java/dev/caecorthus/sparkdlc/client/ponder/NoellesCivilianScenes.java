@@ -165,19 +165,21 @@ final class NoellesCivilianScenes {
 
     /**
      * Demon Hunter (NoellesRoles Noellesroles ON_PSYCHO_START / ON_PSYCHO_END, DemonHunterPistolItem,
-     * DemonHunterShootC2SPacket; client highlight in NoellesrolesClient): whenever anyone starts psycho mode, each
-     * living Demon Hunter gets a Demon Hunter pistol with 2 bullets (2 more if they already have one; none while
-     * carrying another gun), first shot after 5 s. It is held levelled (Wathe's gun tag) and not hidden. Right-click
-     * hits the first player within 5 blocks; every pull spends a bullet and cools down 10 s. A psycho target loses one
-     * armour, then killPlayer runs, so the default single armour does not save them (extra armour, shields or a
-     * bodyguard can); a Jester (outside stasis) dies and returns a bullet; other players are unharmed (SparkDLC
-     * lets it break drones, devices and puppets). The pistol goes when its bullets run out or no psycho
-     * is left. The hunter sees psychos through walls in the hunter's colour, except the Silencer and invisible players.
-     * 猎魔人：每当有人开启疯魔，每个活着的猎魔人都会拿到一把装 2 发子弹的猎魔枪（已有则加 2 发；身上带着别的枪则不发），
-     * 5 秒后才能开第一枪。它按 Wathe 的枪标签端平，且不会被隐藏。右键命中 5 格内的第一个玩家；每扣一次扳机消耗 1 发、
-     * 冷却 10 秒。命中疯魔者会先打掉 1 层护盾再执行击杀，所以默认的 1 层护盾救不了对方（额外护甲、护盾或保镖可以）；
-     * 命中小丑（非静止状态）直接击杀并返还 1 发；打其他玩家没有效果（SparkDLC 让它能打坏无人机、
-     * 装置和傀儡）。子弹打光或没有人在疯魔时枪就会消失。猎魔人能隔墙看到疯魔者（猎魔人颜色），静语者和隐身者除外。
+     * DemonHunterShootC2SPacket; client highlight in NoellesrolesClient; reworked 2026-11-28 in
+     * role/civilian/demonhunter DemonHunterPistolRules): the Demon Hunter carries the pistol for the whole round, empty
+     * at first. Whenever anyone starts psycho mode, each living Demon Hunter's pistol gains 2 bullets. It is held
+     * levelled (Wathe's gun tag) and not hidden. Right-click hits the first player within 5 blocks; every pull spends
+     * a bullet. While anyone is in psycho mode there is no cooldown; with nobody in psycho mode (leftover bullets) a
+     * shot cools down 10 s. A psycho target loses one armour, then killPlayer runs, so the default single armour does
+     * not save them (extra armour, shields or a bodyguard can), and the bullet comes back; a Jester (outside stasis)
+     * dies and returns a bullet; other players are unharmed (SparkDLC lets it break drones, devices and puppets). The
+     * hunter sees psychos through walls in the hunter's colour, except the Silencer and invisible players.
+     * 猎魔人（2026-11-28 重做，规则见 role/civilian/demonhunter 的 DemonHunterPistolRules）：猎魔人整局都带着猎魔枪，开局时是
+     * 空枪。每当有人开启疯魔，每个活着的猎魔人的枪都会加 2 发子弹。它按 Wathe 的枪标签端平，且不会被隐藏。右键命中 5 格内的
+     * 第一个玩家；每扣一次扳机消耗 1 发。有人疯魔期间没有冷却；没人疯魔时（用剩余子弹）每枪冷却 10 秒。命中疯魔者会先打掉
+     * 1 层护盾再执行击杀，所以默认的 1 层护盾救不了对方（额外护甲、护盾或保镖可以），并返还这发子弹；命中小丑（非静止状态）
+     * 直接击杀并返还 1 发；打其他玩家没有效果（SparkDLC 让它能打坏无人机、装置和傀儡）。猎魔人能隔墙看到疯魔者（猎魔人颜色），
+     * 静语者和隐身者除外。
      */
     private static void demonHunter(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_demon_hunter", "猎魔人：猎魔枪专打疯魔者");
@@ -185,12 +187,14 @@ final class NoellesCivilianScenes {
         int hunterColor = RoleColors.of("noellesroles:demon_hunter", 0x8C9BB4);
         ElementLink<ActorElement> hunter = Actors.enter(scene, hunterColor, Text.literal("猎魔人"),
                 new Vec3d(5.8, 1, 1.2), SCREEN_RIGHT, Direction.DOWN);
+        // The pistol is in the hunter's hand from the first frame to the last. 猎魔枪从第一帧到最后一帧都在猎魔人手里。
+        Actors.hold(scene, hunter, stack("noellesroles:demon_hunter_pistol"));
         scene.idle(5);
         ElementLink<ActorElement> killer = Actors.enter(scene, RoleColors.KILLER, Text.literal("杀手"),
                 new Vec3d(1.2, 1, 5.8), SCREEN_LEFT, Direction.DOWN);
         Actors.hold(scene, killer, stack("wathe:knife"));
         scene.idle(15);
-        SceneCaptions.keyframeCaption(scene, 70, "猎魔人是专门对付疯魔的好人，平时没有猎魔枪");
+        SceneCaptions.keyframeCaption(scene, 70, "猎魔人是专门对付疯魔的好人，开局就带着猎魔枪，但枪里没有子弹");
         scene.idle(80);
         scene.overlay().showControls(new Vec3d(1.2, 3.6, 5.8), Pointing.DOWN, 60)
                 .withItem(stack("wathe:psycho_mode"));
@@ -200,9 +204,8 @@ final class NoellesCivilianScenes {
         Actors.hold(scene, killer, stack("wathe:bat"));
         Actors.retint(scene, killer, RoleColors.KILLER,
                 Text.literal("urscrewed").formatted(Formatting.OBFUSCATED, Formatting.DARK_RED));
-        Actors.hold(scene, hunter, stack("noellesroles:demon_hunter_pistol"));
         scene.idle(40);
-        SceneCaptions.keyframeCaption(scene, 80, "……猎魔人一般会马上拿到猎魔枪：2 发子弹，5 秒后能开枪");
+        SceneCaptions.keyframeCaption(scene, 80, "……猎魔枪就会装上 2 发子弹；只要有人还在疯魔，开枪就没有冷却");
         scene.idle(90);
         Actors.highlight(scene, killer, hunterColor, 80);
         SceneCaptions.caption(scene, 80, "你还能隔墙看到疯魔中的人（方框示意；静语者和隐身者除外）");
@@ -219,7 +222,7 @@ final class NoellesCivilianScenes {
                 .attachKeyFrame();
         scene.idle(90);
         Actors.walk(scene, killer, new Vec3d(1.4, 0, -1.4), 40);
-        SceneCaptions.caption(scene, 70, "每开一枪默认冷却 10 秒；等疯魔者走进 5 格再开枪");
+        SceneCaptions.caption(scene, 70, "疯魔期间开枪没有冷却，但子弹有限；等疯魔者走进 5 格再开枪");
         scene.idle(80);
         scene.overlay().showControls(new Vec3d(5.8, 3.6, 1.2), Pointing.DOWN, 30).rightClick()
                 .withItem(stack("noellesroles:demon_hunter_pistol"));
@@ -227,14 +230,13 @@ final class NoellesCivilianScenes {
         WatheItemScenes.shoot(scene, hunter, PISTOL_MUZZLE, new Vec3d(2.9, 1.9, 4.1));
         Actors.fall(scene, killer);
         scene.idle(4);
-        Actors.hold(scene, hunter, ItemStack.EMPTY);
         scene.overlay().showText(80)
                 .colored(PonderPalette.GREEN)
-                .text("命中会多打掉 1 层护盾，所以疯魔者一般一枪毙命")
+                .text("命中疯魔者会多打掉 1 层护盾，还会返还这 1 发子弹，所以一般一枪毙命")
                 .independent()
                 .attachKeyFrame();
         scene.idle(90);
-        SceneCaptions.caption(scene, 70, "子弹打光、或所有疯魔都结束后，猎魔枪就会消失");
+        SceneCaptions.caption(scene, 70, "猎魔枪整局都不会消失；没人疯魔时用剩下的子弹开枪，每枪冷却 10 秒");
         scene.idle(80);
         SceneCaptions.caption(scene, 80, "它只能击杀疯魔中的人和小丑，打其他人没有任何效果");
         scene.idle(90);

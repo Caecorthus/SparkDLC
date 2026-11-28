@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.ferryman;
 
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHud;
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHudLayout;
 import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendMomentHudRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -25,16 +27,24 @@ public final class LostSoulOrderHud {
     private static final String ORDER_KEY = "hud.sparkdlc.ferryman.soul_order";
     private static final int ORDER_COLOR = 0xFFFF4A4A;
     /**
-     * A Lost Soul has a FAKE mood, so Wathe's {@code MoodRenderer} fills the corner itself: the flag at (5, 6), the
-     * task rows from (22, 6) down and the bar under them. The line therefore sits under the deepest pixel that block
-     * can reach ({@link FiendMomentHudRules#MOOD_BLOCK_MAX_BOTTOM}), aligned with the flag; the Fiend Moment countdown
-     * on that row is centred on the screen.
-     * 迷失的灵魂是 FAKE 情绪，Wathe 的 {@code MoodRenderer} 自己占用了这个角落：旗帜在 (5, 6)，任务行自 (22, 6) 向下，其下是
-     * 情绪条。因此本行位于该区块可能到达的最低像素（{@link FiendMomentHudRules#MOOD_BLOCK_MAX_BOTTOM}）之下，并与旗帜
-     * 左对齐；同一行上的魔人时刻倒计时位于屏幕水平中央。
+     * A Lost Soul has a FAKE mood, so Wathe's {@code MoodRenderer} fills the corner itself: the flag, the task rows
+     * and, in Wathe's own layout, the bar under them. The line therefore sits under the deepest pixel that corner can
+     * reach in this frame's layout ({@link TopLeftHudLayout#maxBottom()}: rows, warning and shake, or the health
+     * figure if it is deeper), aligned with the corner's left edge ({@link TopLeftHudLayout#leftX()}: the flag at
+     * x = 5 in Wathe's layout, the left margin or the figure at x = 6 in the re-laid corner, so it is under the figure
+     * when the task list is beside it); the Fiend Moment countdown on that row is centred on the screen.
+     * 迷失的灵魂是 FAKE 情绪，Wathe 的 {@code MoodRenderer} 自己占用了这个角落：旗帜、任务行，以及 Wathe 自身布局下位于其下
+     * 的情绪条。因此本行位于本帧布局下该角落可能到达的最低像素（{@link TopLeftHudLayout#maxBottom()}：任务行、警告与抖动，
+     * 或更深的健康示意图）之下，并与角落左缘对齐（{@link TopLeftHudLayout#leftX()}：Wathe 布局下为 x = 5 的旗帜，重排后
+     * 为 x = 6 的左边距或示意图，因此任务清单位于示意图旁边时本行在示意图下方）；同一行上的魔人时刻倒计时位于屏幕水平中央。
      */
-    static final int LINE_X = 5;
-    static final int LINE_Y = FiendMomentHudRules.MOOD_BLOCK_MAX_BOTTOM + 2;
+    static int lineX(TopLeftHudLayout layout) {
+        return layout.leftX();
+    }
+
+    static int lineY(TopLeftHudLayout layout) {
+        return FiendMomentHudRules.lineY(layout);
+    }
 
     private LostSoulOrderHud() {
     }
@@ -54,6 +64,8 @@ public final class LostSoulOrderHud {
                 GameWorldComponent.KEY.get(client.world).getFade(), trainHudActive)) {
             return;
         }
-        context.drawTextWithShadow(client.textRenderer, Text.translatable(ORDER_KEY), LINE_X, LINE_Y, ORDER_COLOR);
+        TopLeftHudLayout layout = TopLeftHud.layout();
+        context.drawTextWithShadow(client.textRenderer, Text.translatable(ORDER_KEY), lineX(layout), lineY(layout),
+                ORDER_COLOR);
     }
 }

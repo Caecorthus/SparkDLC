@@ -1493,7 +1493,9 @@ public final class SparkDlcRoleRegistry {
                 || role == prophet
                 || role == murderousWitch
                 || role == pigGod
-                || role == saint
+                // The Saint left this list with her active Hellfire (owner 2026-11-28): the passive needs no key, so
+                // the shared skill packet answers her like any other role without a skill.
+                // 圣徒随主动业火一同移出此列表（所有者 2026-11-28）：被动无需按键，共享技能数据包对她的应答与其他无技能职业相同。
                 || role == perfumer
                 || role == tarotReader
                 || role == ninja

@@ -40,6 +40,8 @@ import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorSanityService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerService;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistEconomyService;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistShopService;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotLifecycle;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotService;
@@ -178,6 +180,10 @@ public final class RoleEvents {
         NinjaFeatureService.register();
         HunterFeatureService.register();
         OrthopedistSkillService.registerReplayFormatter();
+        // The Orthopedist's economy and Exoskeleton shop (owner 2026-11-28): money visibility, then the shop entry.
+        // 骨科大夫的经济与外骨骼商店（所有者 2026-11-28）：先是金币可见性，然后是商店条目。
+        OrthopedistEconomyService.register();
+        OrthopedistShopService.register();
         GuardianAngelFeatureService.register();
         VendettaInteractionService.register();
         VendettaDisconnectService.register();
@@ -314,6 +320,7 @@ public final class RoleEvents {
                 PerfumerEconomyService.assignForRole(serverPlayer, role);
                 NinjaFeatureService.assignForRole(serverPlayer, role);
                 OrthopedistSkillService.assignForRole(serverPlayer, role);
+                OrthopedistEconomyService.assignForRole(serverPlayer, role);
                 DominatorSkillService.assignForRole(serverPlayer, role);
                 SaviorDomainService.assignForRole(serverPlayer, role);
                 if (!GuardianAngelRules.isGuardianAngel(role)) {
@@ -359,6 +366,7 @@ public final class RoleEvents {
         TaskComplete.EVENT.register((player, taskType) -> ProphetEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> SaintEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> PerfumerEconomyService.onTaskComplete(player));
+        TaskComplete.EVENT.register((player, taskType) -> OrthopedistEconomyService.onTaskComplete(player));
         KillPlayer.AFTER.register(WraithConversion::afterKill);
         KillPlayer.AFTER.register(WitchManaService::afterKill);
         KillPlayer.AFTER.register(WitchEconomyService::afterKill);
@@ -388,7 +396,14 @@ public final class RoleEvents {
                 // 死亡的橘雪莉失去冷却、徽章持有者与揭示（同一背水一战先例）。
                 dev.caecorthus.sparkdlc.role.civilian.sherry.SherryComponent.KEY.get(victim).clear();
             }
-            OrthopedistSkillService.clearPlayer(victim);
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
+                // A Last Stand survivor keeps the Exoskeleton layers (they last until death); the Orthopedist cooldown
+                // and Bone Setting are cleared as they always were.
+                // 背水一战存活者保留外骨骼层数（它们持续到死亡）；骨科大夫的冷却与正骨照旧清除。
+                OrthopedistSkillService.clearPlayerKeepingExoskeleton(victim);
+            } else {
+                OrthopedistSkillService.clearPlayer(victim);
+            }
             if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 DominatorSkillService.clearPlayer(victim);
             }

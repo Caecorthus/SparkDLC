@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerExitReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerTargeting;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.console.SeekerConsoleDevices;
@@ -16,6 +17,7 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCameraEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerSharedCameras;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerCarCorrectS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerNetworking;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerRemoteCloseC2SPacket;
@@ -33,6 +35,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -42,9 +45,22 @@ import java.util.WeakHashMap;
  * server camera writers (Taotie, Last Stand, Depression) keep working and the body is never dragged along.
  * Authority: the client never predicts entry; every exit except the owner's own Shift is detected here and reaches
  * the owner through the owner-only component sync.
+ * <p>"Owner" in this class is the player whose session it is. For a CAR session that is the Seeker who owns the car.
+ * A CAMERA session may be anybody's on the tablet's police channel (owner spec 2026-11-28,
+ * {@code SeekerTargeting.cameraViewDenyReason}) and may show any camera of the round
+ * ({@code SeekerSharedCameras}); several players may view one camera at once. The session of such a viewer lives in the
+ * viewer's own {@code sparkdlc:seeker_status} (its session fields and this service's {@code SeekerSessionState}), so
+ * the lock, the payload guard, the streaming and the client view are the same code for everyone. A viewer whose
+ * camera goes away is not ended by the device service (that ends only the camera owner's own session): the viewer's
+ * next tick finds no focus and ends with FOCUS_LOST.
  * 冻结契约：服务端持有的遥控视角会话（打开校验、逐刻退出检查、清除疾跑、结束）。
  * 相机只在拥有者客户端切换；本服务从不切换服务端相机实体，因此服务端相机写入方（饕餮、最后一搏、抑郁）照常工作，本体也不会被拖动。
  * 权威划分：客户端从不预测进入；除拥有者自己按 Shift 外，所有退出都在此检测，并经仅拥有者可见的组件同步下发。
+ * 本类中的“拥有者”指会话所属的玩家。小车会话即拥有小车的搜寻者。摄像头会话可以属于平板义警频道中的任何人（所有者规格
+ * 2026-11-28，{@code SeekerTargeting.cameraViewDenyReason}），并可显示本局的任意摄像头（{@code SeekerSharedCameras}）；
+ * 多名玩家可以同时观看同一台摄像头。这类观看者的会话保存在其自己的 {@code sparkdlc:seeker_status} 中（会话字段与本服务的
+ * {@code SeekerSessionState}），因此锁定、数据包拦截、流式加载与客户端视角对所有人都是同一套代码。观看者所看的摄像头消失时，
+ * 设备服务不会结束其会话（它只结束摄像头拥有者自己的会话）：观看者的下一刻找不到焦点，以 FOCUS_LOST 结束。
  */
 public final class SeekerRemoteSessionService {
     private static final String DENIED_KEY_PREFIX = "message.sparkdlc.seeker.remote.denied.";
@@ -74,12 +90,16 @@ public final class SeekerRemoteSessionService {
     /**
      * Validates {@code seeker_remote_open} in the plan §3.6 order ({@link SeekerRemoteOpenRules}); on success opens a
      * new session (fresh sessionId, anchor = body position, attach deadline now + 40) or atomically switches mode or
-     * camera. A CAMERA request without a target views {@link #defaultCamera}; an explicit target must be one of the
-     * owner's cameras (never trusted beyond that: ownership, liveness, world and play area are re-checked; there is no
-     * distance limit from the body, owner decision 2026-10-04).
+     * camera. A CAMERA request without a target views {@link #defaultCamera}; an explicit target must be a live camera
+     * of the round (never trusted beyond that: the camera's reference by its owner of record, liveness, world and play
+     * area are re-checked; there is no distance limit from the body, owner decision 2026-10-04). The gate depends on
+     * the requested mode ({@code SeekerTargeting.sessionDenyReason}): the car is the Seeker's alone, a camera is open
+     * to the police channel.
      * 按计划 §3.6 的顺序校验 {@code seeker_remote_open}；成功时打开新会话（新 sessionId、锚点为本体位置、挂接截止为当前 + 40 刻），
-     * 或原子地切换模式或摄像头。未指定目标的摄像头请求观看 {@link #defaultCamera}；指定的目标必须是拥有者的摄像头之一
-     * （除此之外不信任客户端：归属、存活、世界与游戏区域都会重新校验；与本体之间没有距离限制，所有者决定 2026-10-04）。
+     * 或原子地切换模式或摄像头。未指定目标的摄像头请求观看 {@link #defaultCamera}；指定的目标必须是本局的存活摄像头
+     * （除此之外不信任客户端：记录中的拥有者对该摄像头的引用、存活、世界与游戏区域都会重新校验；与本体之间没有距离限制，
+     * 所有者决定 2026-10-04）。门槛取决于所请求的模式（{@code SeekerTargeting.sessionDenyReason}）：小车只属于搜寻者，
+     * 摄像头对义警频道开放。
      */
     public static void handleOpen(ServerPlayerEntity player, SeekerRemoteOpenC2SPacket packet) {
         if (player == null || packet == null) {
@@ -88,7 +108,7 @@ public final class SeekerRemoteSessionService {
         SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
         long now = serverTick(player);
         SeekerSessionMode requested = packet.sessionMode();
-        String commonDeny = SeekerTargeting.commonDenyReason(player);
+        String commonDeny = SeekerTargeting.sessionDenyReason(player, requested);
         Box playArea = playArea(player);
         SeekerDeviceEntity device = commonDeny == null
                 ? usableDevice(player, status, requested, packet.targetEntityId(), playArea) : null;
@@ -218,7 +238,9 @@ public final class SeekerRemoteSessionService {
                 && previous.sessionId == status.sessionId() && previous.mode == status.sessionMode()
                 ? previous.anchor : player.getPos();
         int previousSessionId = status.sessionId();
-        status.apply(status.state().openSession(mode, device.getId()));
+        // usableDevice validated the device: a camera this player does not list is another Seeker's live camera.
+        // usableDevice 已校验设备：该玩家未登记的摄像头即其他搜寻者的存活摄像头。
+        status.apply(status.state().openSession(mode, device.getId(), mode == SeekerSessionMode.CAMERA));
         if (status.sessionMode() != mode || status.sessionId() == previousSessionId) {
             player.sendMessage(Text.translatable(DENIED_KEY_PREFIX + SeekerRemoteOpenRules.DENY_BLOCKED), true);
             return;
@@ -250,7 +272,12 @@ public final class SeekerRemoteSessionService {
         if (game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE) {
             return SeekerExitReason.ROUND_END;
         }
-        if (!SeekerRules.isSeeker(game.getRole(player))) {
+        // The car is the Seeker's; a camera is watched by police-channel membership, which a role change, a lost
+        // Impostor trait or a new faction can end mid-session.
+        // 小车属于搜寻者；摄像头凭义警频道成员资格观看，职业变更、失去内鬼天赋或阵营变化都可能在会话中途结束它。
+        if (session.mode == SeekerSessionMode.CAMERA
+                ? !SeekerTargeting.canWatchCameras(player)
+                : !SeekerRules.isSeeker(game.getRole(player))) {
             return SeekerExitReason.ROLE_CHANGED;
         }
         if (NoellesTaotieSeekerBridge.isSwallowed(player)) {
@@ -274,7 +301,7 @@ public final class SeekerRemoteSessionService {
         if (GrandWitchFearService.isPlayerFeared(player)) {
             return SeekerExitReason.FEARED;
         }
-        String deny = SeekerTargeting.commonDenyReason(player);
+        String deny = SeekerTargeting.sessionDenyReason(player, session.mode);
         if (deny != null) {
             return SeekerRemoteRules.exitReasonForDeny(deny);
         }
@@ -305,24 +332,30 @@ public final class SeekerRemoteSessionService {
         return null;
     }
 
-    /** The session's focus entity if it is still the owner's live device of the right kind. / 仍有效的焦点设备。 */
+    /**
+     * The session's focus entity if it is still a live device of the right kind that this player may view: the
+     * player's own car, or a camera of the round ({@link SeekerSharedCameras#find}).
+     * 会话的焦点实体，前提是它仍是该玩家可以观看的、类型正确的存活设备：该玩家自己的小车，或本局的一台摄像头
+     * （{@link SeekerSharedCameras#find}）。
+     */
     @Nullable
     private static Entity liveFocus(ServerPlayerEntity player, SeekerStatusComponent status,
                                     SeekerSessionState session) {
         SeekerDeviceEntity device = switch (session.mode) {
             case CAR -> status.carState() == SeekerCarState.DEPLOYED && status.carEntityId() == session.focusEntityId
                     ? SeekerDeviceService.findCar(player) : null;
-            case CAMERA -> SeekerDeviceService.findCamera(player, session.focusEntityId);
+            case CAMERA -> SeekerSharedCameras.find(player, session.focusEntityId);
             case NONE -> null;
         };
-        return device != null && device.getId() == session.focusEntityId && isOwnedAndAlive(player, device)
+        return device != null && device.getId() == session.focusEntityId && isViewableAndAlive(player, device)
                 ? device : null;
     }
 
     /**
-     * Open target: exists, owned, alive, in the body's world and matching the synced id (CAMERA: the explicit target,
-     * or {@link #defaultCamera}; the target id is ignored for CAR).
-     * 打开目标的有效性（摄像头：指定的目标或 {@link #defaultCamera}；小车忽略目标 id）。
+     * Open target: exists, viewable by this player, alive, in the body's world and matching the synced id (CAMERA: the
+     * explicit target, or {@link #defaultCamera}; the target id is ignored for CAR).
+     * 打开目标的有效性：存在、该玩家可以观看、存活、与本体同世界且与同步的 id 一致（摄像头：指定的目标或
+     * {@link #defaultCamera}；小车忽略目标 id）。
      */
     @Nullable
     private static SeekerDeviceEntity usableDevice(ServerPlayerEntity player, SeekerStatusComponent status,
@@ -336,41 +369,46 @@ public final class SeekerRemoteSessionService {
                 SeekerCarEntity car = SeekerDeviceService.findCar(player);
                 yield car != null && car.getId() == status.carEntityId() ? car : null;
             }
-            case CAMERA -> SeekerDeviceService.findCamera(player,
+            case CAMERA -> SeekerSharedCameras.find(player,
                     targetEntityId >= 0 ? targetEntityId : defaultCamera(player, status, playArea));
             case NONE -> null;
         };
-        return device != null && isOwnedAndAlive(player, device) ? device : null;
+        return device != null && isViewableAndAlive(player, device) ? device : null;
     }
 
     /**
      * The camera an untargeted CAMERA open views: the last-viewed camera if it is still usable (alive, in the body's
-     * world and inside the play area, at any distance), otherwise the lowest-label usable one. With none usable it
-     * falls back to the same order over merely live cameras, so the owner is told "outside the play area" rather than
-     * "no device".
+     * world and inside the play area, at any distance), otherwise the first usable one in viewing order
+     * ({@link SeekerSharedCameras#viewingOrder}: the player's own cameras by label, then the other Seekers'). With
+     * none usable it falls back to the same order over merely live cameras, so the player is told "outside the play
+     * area" rather than "no device".
      * 未指定目标的摄像头打开所观看的摄像头：最近观看的那台若仍可用（存活、与本体同世界且位于游戏区域内，距离不限）则选它，
-     * 否则选编号最小的可用那台。都不可用时按同样顺序退回到仅存活的摄像头，使拥有者收到“不在游戏区域内”而非“设备不可用”。
+     * 否则选观看顺序（{@link SeekerSharedCameras#viewingOrder}：先是该玩家自己的摄像头按编号，再是其他搜寻者的）中第一台
+     * 可用的。都不可用时按同样顺序退回到仅存活的摄像头，使玩家收到“不在游戏区域内”而非“设备不可用”。
      */
     private static int defaultCamera(ServerPlayerEntity player, SeekerStatusComponent status,
                                      @Nullable Box playArea) {
         int lastViewed = status.state().lastViewedCameraId();
-        int reachable = SeekerCameraRules.defaultCamera(status.cameras(), lastViewed, id -> {
-            SeekerCameraEntity camera = SeekerDeviceService.findCamera(player, id);
-            return camera != null && isOwnedAndAlive(player, camera)
-                    && SeekerRemoteRules.insidePlayArea(playArea, camera.getPos());
+        List<SeekerState.Camera> cameras = SeekerSharedCameras.viewingOrder(player);
+        int reachable = SeekerCameraRules.defaultCamera(cameras, lastViewed, id -> {
+            SeekerCameraEntity camera = SeekerSharedCameras.find(player, id);
+            return camera != null && SeekerRemoteRules.insidePlayArea(playArea, camera.getPos());
         });
         if (reachable >= 0) {
             return reachable;
         }
-        return SeekerCameraRules.defaultCamera(status.cameras(), lastViewed, id -> {
-            SeekerCameraEntity camera = SeekerDeviceService.findCamera(player, id);
-            return camera != null && isOwnedAndAlive(player, camera);
-        });
+        return SeekerCameraRules.defaultCamera(cameras, lastViewed, id -> SeekerSharedCameras.find(player, id) != null);
     }
 
-    private static boolean isOwnedAndAlive(ServerPlayerEntity player, SeekerDeviceEntity device) {
+    /**
+     * Alive in the body's world, and this player's to view: a car only for its owner, a camera for whoever passed
+     * {@link SeekerSharedCameras#find} (the caller resolved it through that).
+     * 存活且与本体同世界，并且该玩家可以观看：小车仅限其拥有者；摄像头只要通过 {@link SeekerSharedCameras#find}
+     * （调用方已经由它解析）即可。
+     */
+    private static boolean isViewableAndAlive(ServerPlayerEntity player, SeekerDeviceEntity device) {
         return !device.isRemoved() && device.isAlive() && device.getWorld() == player.getWorld()
-                && player.getUuid().equals(device.ownerUuid());
+                && (device instanceof SeekerCameraEntity || player.getUuid().equals(device.ownerUuid()));
     }
 
     private static boolean isInSession(PlayerEntity player) {

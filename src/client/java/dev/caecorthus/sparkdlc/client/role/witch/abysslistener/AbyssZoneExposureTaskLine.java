@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.abysslistener;
 
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHud;
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHudLayout;
 import dev.caecorthus.sparkdlc.client.mixin.role.witch.abysslistener.MoodRendererTaskRowAbyssAccessor;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.DeepDarkZoneStandingDrain;
@@ -16,11 +18,13 @@ import org.jetbrains.annotations.Nullable;
  * player's owner-synced {@code sparkdlc:abyss_zone_exposure} is set; the client never decides exposure. It is never
  * put into Wathe's task map, so it cannot be completed, fires no {@code TaskComplete}, pays nothing and never touches
  * the Bell Ringer task hold. It joins Wathe's layout as the last row (also with zero real tasks), so the mood bar
- * moves below it, and fades like a Wathe row.
+ * moves below it (in the re-laid top-left corner, which has no bar, the breakdown warning and the lines pinned under
+ * the rows do), and fades like a Wathe row.
  * 仅用于显示的临时任务「快离开这里！！！」（所有者 D7），位于 Wathe 左上角任务列表。只在本地玩家仅同步给本人的
  * {@code sparkdlc:abyss_zone_exposure} 生效时绘制；客户端从不判定暴露。它从不进入 Wathe 任务表，因此无法完成、不触发
  * {@code TaskComplete}、不给任何奖励，也不影响敲钟人对任务生成的接管。它作为最后一行加入 Wathe 布局（没有真实任务时同样如此），
- * 理智条随之移到其下方，并像 Wathe 的任务行一样淡入淡出。
+ * 理智条随之移到其下方（重排后的左上角没有理智条，随之下移的是崩溃警告与固定在任务行下方的文本），并像 Wathe 的任务行一样
+ * 淡入淡出。
  * The fade is static client state, so {@link #settleFrame} drops it after any frame Wathe's layout skipped while the
  * local player is not exposed, and {@link #reset} drops it on every disconnect and join; a stale fade therefore never
  * flashes the line in a new round or on another server.
@@ -109,15 +113,21 @@ public final class AbyssZoneExposureTaskLine {
         }
         Text line = Text.translatable(TRANSLATION_KEY);
         float lineOffset = AbyssZoneExposureTaskLineRules.lineOffset(hasWatheRow, maxOffset);
+        // The row column of this frame's corner layout (Wathe's (22, 6), or the re-laid task column), and the line
+        // counts as a shown row for the task-list header and the lines pinned under the rows.
+        // 本帧角落布局的任务列（Wathe 的 (22, 6)，或重排后的任务列）；本行同样计为已显示的任务行，供任务清单标题与固定在
+        // 任务行下方的文本使用。
+        TopLeftHudLayout layout = TopLeftHud.layout();
         context.getMatrices().push();
         context.getMatrices().translate(0.0F, AbyssZoneExposureTaskLineRules.LINE_HEIGHT * lineOffset, 0.0F);
         context.drawTextWithShadow(
                 textRenderer,
                 line,
-                AbyssZoneExposureTaskLineRules.TEXT_X,
-                AbyssZoneExposureTaskLineRules.FIRST_LINE_Y,
+                layout.taskX(),
+                layout.firstTaskY(),
                 AbyssZoneExposureTaskLineRules.argb(AbyssZoneExposureTaskLineRules.color(player.age), alpha));
         context.getMatrices().pop();
+        TopLeftHud.rowShown(alpha);
 
         MoodRenderer.moodOffset += AbyssZoneExposureTaskLineRules.moodOffsetCorrection(delta, hasWatheRow, maxOffset);
         float lastWidth = lastText == null ? 0.0F : textRenderer.getWidth(lastText);

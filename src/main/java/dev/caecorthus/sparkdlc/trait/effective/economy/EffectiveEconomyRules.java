@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.trait.effective.economy;
 import dev.caecorthus.sparkdlc.trait.effective.alignment.EffectiveAlignment;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
-import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.Noellesroles;
 
@@ -13,6 +12,11 @@ import java.util.Collection;
  *  阵营翻转天赋产生的有效经济与奖励规则。 */
 public final class EffectiveEconomyRules {
     public static final int TASK_MONEY_REWARD = 50;
+    /** Owner 2026-11-28 (nerf): an Impostor's kill pays 50, no longer Wathe's killer reward
+     *  ({@code GameConstants.MONEY_PER_KILL}, 100). The Depression fake-death half share follows this value.
+     *  所有者 2026-11-28（削弱）：内鬼击杀奖励为 50，不再沿用 Wathe 的杀手击杀奖励
+     *  （{@code GameConstants.MONEY_PER_KILL}，100）。抑郁假死的半额奖励随此值变化。 */
+    public static final int IMPOSTOR_KILL_REWARD = 50;
 
     private EffectiveEconomyRules() {
     }
@@ -58,7 +62,7 @@ public final class EffectiveEconomyRules {
     }
 
     public static int impostorKillReward(Role victimRole, Collection<Identifier> victimTraits, boolean canAccessShop) {
-        return canAccessShop && shouldRewardImpostorKill(victimRole, victimTraits) ? GameConstants.MONEY_PER_KILL : 0;
+        return canAccessShop && shouldRewardImpostorKill(victimRole, victimTraits) ? IMPOSTOR_KILL_REWARD : 0;
     }
 
     /** Keeps Wathe's original killer kill reward away from Conscience killers.

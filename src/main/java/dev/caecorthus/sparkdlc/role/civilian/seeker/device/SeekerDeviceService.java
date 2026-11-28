@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerTargeting;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.console.SeekerConsoleDevices;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerMarkService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
+import dev.caecorthus.sparkdlc.tablet.TabletStateService;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -48,14 +49,19 @@ import java.util.UUID;
  * Frozen contract: the only place where Seeker device state transitions happen (deploy, recall, remote recall,
  * battery depletion, place, break, swallow, return, sweep). Server only. Cameras are unlimited; each is tracked by its
  * own entity id. Every transition that can close a session first calls {@code SeekerRemoteSessionService.end} (only
- * for the session that shows the affected device, for a camera that very camera), then changes the world, then hands
- * the pure transition to {@code SeekerStatusComponent#apply} (the only cooldown writer), then records replay and
- * messages the owner. Owner messages never name a breaker or a Taotie.
+ * for the owner's own session that shows the affected device, for a camera that very camera; another police-channel
+ * member viewing that camera is ended by its own session tick as FOCUS_LOST), then changes the world, then hands
+ * the pure transition to {@code SeekerStatusComponent#apply} (the writer of the car cooldown a transition starts),
+ * then records replay and messages the owner. The owner messages of this service never name a breaker or a Taotie;
+ * the breaker's name reaches the police channel only through the tablet suspect notice of
+ * {@code SeekerMarkService} (owner spec 2026-11-28).
  * 冻结契约：搜寻者设备状态转移的唯一入口（部署、回收、远程回收、电量耗尽、放置、损坏、吞噬、归还、清扫）。仅服务端。
  * 摄像头数量不限，每台按自身实体 id 追踪。每个可能结束会话的转移都先调用 {@code SeekerRemoteSessionService.end}
- * （仅针对正在显示该设备的会话，摄像头即正在显示那一台的会话），
- * 再改动世界，再把纯状态转移交给 {@code SeekerStatusComponent#apply}（唯一的冷却写入方），最后记录回放并通知拥有者。
- * 给拥有者的消息从不说出损坏者或饕餮的名字。
+ * （仅针对拥有者自己正在显示该设备的会话，摄像头即正在显示那一台的会话；正在观看该摄像头的其他义警频道成员由其自身的
+ * 会话刻以 FOCUS_LOST 结束），
+ * 再改动世界，再把纯状态转移交给 {@code SeekerStatusComponent#apply}（状态转移所开始的小车冷却的写入方），最后记录回放并通知拥有者。
+ * 本服务给拥有者的消息从不说出损坏者或饕餮的名字；损坏者的名字只经由 {@code SeekerMarkService} 的平板嫌疑人通知到达义警频道
+ * （所有者规格 2026-11-28）。
  */
 public final class SeekerDeviceService {
     static final String DEVICE_BLOCKED = "message.sparkdlc.seeker.device.blocked";
@@ -152,7 +158,7 @@ public final class SeekerDeviceService {
         return TypedActionResult.fail(stack);
     }
 
-    /** Physical right-click recall on the car; 180 s cooldown, no mark. / 右键实体回收；冷却 180 秒，不标记。 */
+    /** Physical right-click recall on the car; 90 s cooldown, no mark. / 右键实体回收；冷却 90 秒，不标记。 */
     public static ActionResult recallCar(ServerPlayerEntity owner, SeekerCarEntity car) {
         if (car.isRemoved() || !car.isOwnedBy(owner.getUuid())) {
             return ActionResult.PASS;
@@ -170,9 +176,9 @@ public final class SeekerDeviceService {
     }
 
     /**
-     * Console / {@code seeker_car_recall}: recall from anywhere; 180 s cooldown, no mark. Performs the shared open
+     * Console / {@code seeker_car_recall}: recall from anywhere; 90 s cooldown, no mark. Performs the shared open
      * gate and the console-device check itself.
-     * 控制台 / {@code seeker_car_recall}：任意位置远程回收；冷却 180 秒，不标记。自行执行公共门槛与控制台设备检查。
+     * 控制台 / {@code seeker_car_recall}：任意位置远程回收；冷却 90 秒，不标记。自行执行公共门槛与控制台设备检查。
      */
     public static boolean remoteRecallCar(ServerPlayerEntity owner) {
         if (owner == null) {
@@ -208,9 +214,9 @@ public final class SeekerDeviceService {
     }
 
     /**
-     * Battery reached 0%: end the CAR session (BATTERY_DEPLETED), remove the car, 180 s DEPLETED cooldown, power-down
+     * Battery reached 0%: end the CAR session (BATTERY_DEPLETED), remove the car, 90 s DEPLETED cooldown, power-down
      * sound; no mark and no replay breaker.
-     * 电量归零：结束小车会话（BATTERY_DEPLETED）、移除小车、写入 180 秒 DEPLETED 冷却、播放断电音；不标记、回放无损坏者。
+     * 电量归零：结束小车会话（BATTERY_DEPLETED）、移除小车、写入 90 秒 DEPLETED 冷却、播放断电音；不标记、回放无损坏者。
      */
     public static boolean depleteCar(ServerPlayerEntity owner) {
         SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
@@ -232,6 +238,13 @@ public final class SeekerDeviceService {
 
     // ---- Camera ----
 
+    /**
+     * Camera item use on a block. A use is one successful placement: it consumes one camera and puts the camera item
+     * on its 45 s cooldown (owner spec 2026-11-28); a refused placement costs neither. Vanilla already skips
+     * {@code useOnBlock} for an item that is cooling down; the check here is the server's own backstop.
+     * 对方块使用摄像头物品。一次使用即一次成功放置：消耗一个摄像头，并让摄像头物品进入 45 秒冷却（所有者规格 2026-11-28）；
+     * 被拒绝的放置两者都不消耗。原版对冷却中的物品本就不调用 {@code useOnBlock}；此处的检查是服务端自己的兜底。
+     */
     public static ActionResult placeCamera(ServerPlayerEntity owner, ItemUsageContext context) {
         ItemStack stack = context.getStack();
         if (!(stack.getItem() instanceof SeekerCameraItem)) {
@@ -239,6 +252,7 @@ public final class SeekerDeviceService {
         }
         SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
         if (status.sessionMode() != SeekerSessionMode.NONE
+                || owner.getItemCooldownManager().isCoolingDown(stack.getItem())
                 || !SeekerTargeting.canUseDevice(owner, stack)) {
             actionBar(owner, DEVICE_BLOCKED);
             return ActionResult.FAIL;
@@ -269,10 +283,15 @@ public final class SeekerDeviceService {
             return ActionResult.FAIL;
         }
         stack.decrementUnlessCreative(1, owner);
+        SeekerCooldowns.writeCameraFloorExact(owner, SeekerRules.CAMERA_USE_COOLDOWN_TICKS);
         NbtCompound extra = new NbtCompound();
         extra.putString(SeekerRules.REPLAY_ACTION_KEY, SeekerRules.REPLAY_PLACE_ACTION);
         GameRecordManager.recordItemUse(owner, SeekerRules.CAMERA_ITEM_ID, null, extra);
         actionBar(owner, CAMERA_PLACED);
+        // The police channel's tablets list the new camera at once (owner spec 2026-11-28); the periodic tablet sync
+        // would add it a second later anyway.
+        // 义警频道的平板立即列出新摄像头（所有者规格 2026-11-28）；否则周期性的平板同步也会在一秒后补上。
+        TabletStateService.syncPoliceMembers(world);
         return ActionResult.CONSUME;
     }
 
@@ -322,14 +341,16 @@ public final class SeekerDeviceService {
     /**
      * The single break sink for every source, in order: {@code SeekerRemoteSessionService.end(owner, CAR_BROKEN |
      * CAMERA_BROKEN)} (a camera session only when it shows this camera) → discard +
-     * {@code SeekerDeviceSounds.playBreak} → {@code component.apply(breakCar() | destroyCamera(id))} (180 s BROKEN
+     * {@code SeekerDeviceSounds.playBreak} → {@code component.apply(breakCar() | destroyCamera(id))} (90 s BROKEN
      * written by apply) → replay {@code seeker_device_broken} (keys in
      * {@code SeekerRules.REPLAY_*_KEY}; breaker only when {@code source.attributable()}) →
-     * {@code SeekerMarkService.onDeviceBroken(owner, breaker, kind)} when attributable → owner message
+     * {@code SeekerMarkService.onDeviceBroken(owner, breaker, kind)} when attributable (the breaker becomes a tablet
+     * suspect, owner spec 2026-11-28, and is outlined for the owner) → owner message
      * {@code car.broken}/{@code camera.broken} (never names the breaker). Idempotent for an already-removed device;
      * a device its owner no longer references (orphan) is only removed.
      * 所有损坏来源的唯一收口，顺序：结束会话（摄像头会话仅在显示这台摄像头时）→ 移除并播放损坏音 →
-     * 应用状态转移（apply 写入 180 秒）→ 记录回放 → 可归属时调用标记服务 → 通知拥有者（不说出损坏者）。对已移除的设备幂等；拥有者不再引用的孤儿设备只会被移除。
+     * 应用状态转移（apply 写入 90 秒）→ 记录回放 → 可归属时调用标记服务（损坏者被列为平板嫌疑人，所有者规格 2026-11-28，
+     * 并对拥有者描边）→ 通知拥有者（不说出损坏者）。对已移除的设备幂等；拥有者不再引用的孤儿设备只会被移除。
      */
     public static void breakDevice(SeekerDeviceEntity device, SeekerBreakSource source,
                                    @Nullable ServerPlayerEntity breaker) {
@@ -360,11 +381,18 @@ public final class SeekerDeviceService {
             SeekerMarkService.onDeviceBroken(owner, recordedBreaker, kind);
         }
         chat(owner, brokenMessageKey(kind));
+        if (kind == SeekerDeviceKind.CAMERA) {
+            // Drop the camera from the police channel's tablets at once. Other players viewing it are not ended here:
+            // their own session tick finds the focus gone (FOCUS_LOST, "Signal lost") on its next run.
+            // 立即把该摄像头从义警频道的平板上移除。正在观看它的其他玩家不在这里结束会话：其自身的会话刻会在下一次运行时
+            // 发现焦点已消失（FOCUS_LOST，“信号丢失”）。
+            TabletStateService.syncPoliceMembers(world);
+        }
     }
 
     // ---- Taotie ----
 
-    /** Device side of a Taotie swallow (no mark, no 180 s). / 饕餮吞车的设备侧处理（不标记、不计 180 秒）。 */
+    /** Device side of a Taotie swallow (no mark, no 90 s). / 饕餮吞车的设备侧处理（不标记、不计 90 秒）。 */
     public static boolean swallowCar(SeekerCarEntity car, ServerPlayerEntity taotie) {
         if (car == null || taotie == null || car.isRemoved()) {
             return false;

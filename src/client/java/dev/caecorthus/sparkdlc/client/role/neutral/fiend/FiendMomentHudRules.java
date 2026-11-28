@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.fiend;
 
+import dev.caecorthus.sparkdlc.client.hud.topleft.TopLeftHudLayout;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendRules;
 import dev.caecorthus.sparkdlc.util.TickTime;
 
@@ -7,19 +8,27 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * Pure layout and text rules for the Fiend Moment countdown that every player sees: one fixed, horizontally centred
  * line at the top of the screen. The rows above it are Wathe's round timer and NoellesRoles' Jester timer
  * ({@code y = 6}, digit roll to 26), the Depression trait timer ({@code y = 18}, roll to 38), the Seeker CCTV
- * warning ({@code y = 30 .. 40}) and, on the left, Wathe 1.5.6 {@code MoodRenderer}: four task rows (last at 36 .. 45),
- * the mood bar ({@code 17 + 10 * moodOffset}) and the breakdown warning three pixels below it with up to 3 px of shake,
- * whose English rows reach about {@code x = 212}. The line therefore sits below the mood block's deepest reach, so it
- * never jumps with the task count. On the right, the Tarot table ({@code x >= W - 104}, {@code y <= 78}) stays clear on
- * scaled widths above about 310 px; the bottom HUDs, the action bar and the title band ({@code H / 2 - 40}) are
- * untouched. Re-check these rows when a pinned Wathe or NoellesRoles HUD or a trait HUD moves.
+ * warning ({@code y = 30 .. 40}) and, on the left, the top-left block Wathe 1.5.6 {@code MoodRenderer} draws, whose
+ * place and depth are described by {@link TopLeftHudLayout}: in Wathe's own layout four task rows (last at 36 .. 45),
+ * the mood bar ({@code 17 + 10 * moodOffset}) and the breakdown warning three pixels below it with up to 3 px of
+ * shake, whose English rows reach about {@code x = 212}; in the re-laid corner the header is at {@code y = 26}, the
+ * four rows at 36 .. 75 and the warning under them reaches 88 with its shake, at the left margin or, beside the
+ * standing body health figure, 21 px further right than Wathe's rows; the figure itself reaches {@code y = 70}. The
+ * line therefore sits below the corner's deepest reach ({@link TopLeftHudLayout#maxBottom()}: the deeper of rows and
+ * figure, 88 in both re-laid layouts, so the line is at 90), and it never jumps with the task count. On the right, the Tarot table
+ * ({@code x >= W - 104}, {@code y <= 78}) stays clear on scaled widths above about 310 px; the bottom HUDs, the action
+ * bar and the title band ({@code H / 2 - 40}) are untouched. Re-check these rows when a pinned Wathe or NoellesRoles
+ * HUD or a trait HUD moves.
  * 所有玩家可见的魔人时刻倒计时的纯布局与文本规则：屏幕顶部一行固定、水平居中的文本。其上方依次为 Wathe 回合计时与
  * NoellesRoles 小丑计时（{@code y = 6}，数字滚动至 26）、抑郁特质计时（{@code y = 18}，滚动至 38）、搜寻者监控警告
- * （{@code y = 30 .. 40}），以及左侧的 Wathe 1.5.6 {@code MoodRenderer}：四行任务（最后一行 36 .. 45）、情绪条
- * （{@code 17 + 10 * moodOffset}）及其下方 3 像素、最多抖动 3 像素的崩溃警告，英文行最远约到 {@code x = 212}。因此本行
- * 位于情绪区块可能到达的最低处之下，不会随任务数量跳动。右侧塔罗表格（{@code x >= W - 104}，{@code y <= 78}）在缩放宽度
- * 约 310 像素以上时不受影响；底部 HUD、动作栏与标题区（{@code H / 2 - 40}）均不触及。锁定版本的 Wathe、NoellesRoles HUD
- * 或特质 HUD 位置变化时需重新核对。
+ * （{@code y = 30 .. 40}），以及左侧由 Wathe 1.5.6 {@code MoodRenderer} 绘制的左上角区块，其位置与深度由
+ * {@link TopLeftHudLayout} 描述：Wathe 自身布局下为四行任务（最后一行 36 .. 45）、情绪条（{@code 17 + 10 * moodOffset}）
+ * 及其下方 3 像素、最多抖动 3 像素的崩溃警告，英文行最远约到 {@code x = 212}；重排后的角落中标题位于 {@code y = 26}，四行
+ * 任务位于 36 .. 75，其下的警告连同抖动最低到 88，位置在左边距，或在站立的身体健康示意图旁边、比 Wathe 的任务行再靠右
+ * 21 像素；示意图自身最低到 {@code y = 70}。因此本行位于该角落可能到达的最低处（{@link TopLeftHudLayout#maxBottom()}：
+ * 任务行与示意图中较深者，两种重排布局下均为 88，故本行位于 90）之下，不会随任务数量跳动。
+ * 右侧塔罗表格（{@code x >= W - 104}，{@code y <= 78}）在缩放宽度约 310 像素以上时不受影响；底部 HUD、动作栏与标题区
+ * （{@code H / 2 - 40}）均不触及。锁定版本的 Wathe、NoellesRoles HUD 或特质 HUD 位置变化时需重新核对。
  */
 public final class FiendMomentHudRules {
     public static final String KEY = "hud.sparkdlc.fiend.moment";
@@ -28,12 +37,20 @@ public final class FiendMomentHudRules {
      * 为便于阅读而使用的 {@link FiendRules#COLOR} 不透明浅色调；描边仍使用冻结的主题色。
      */
     public static final int TEXT_COLOR = 0xFFE0506E;
-    /** Deepest pixel of Wathe's mood block: 4 tasks, breakdown warning and shake. / Wathe 情绪区块最低像素：4 行任务、崩溃警告与抖动。 */
-    public static final int MOOD_BLOCK_MAX_BOTTOM = 62;
-    /** Top y of the countdown line. / 倒计时行的顶部 y。 */
-    public static final int LINE_Y = MOOD_BLOCK_MAX_BOTTOM + 2;
+    /** Gap between the mood block's deepest pixel and the line. / 情绪区块最低像素与本行之间的间距。 */
+    public static final int LINE_GAP = 2;
 
     private FiendMomentHudRules() {
+    }
+
+    /**
+     * Top y of the countdown line: under the deepest pixel of the top-left corner in this frame's layout (4 tasks,
+     * breakdown warning and shake, or the health figure if it is deeper; 64 in Wathe's own layout, 90 re-laid).
+     * 倒计时行的顶部 y：位于本帧布局下左上角最低像素（4 行任务、崩溃警告与抖动，或更深的健康示意图）之下；Wathe 自身布局下
+     * 为 64，重排后为 90。
+     */
+    public static int lineY(TopLeftHudLayout layout) {
+        return layout.maxBottom() + LINE_GAP;
     }
 
     /** Whole seconds, rounded up, never negative. / 向上取整的整秒数，不为负。 */

@@ -582,7 +582,13 @@ def requiredMixins = [
                 "round.antifastround.AntiFastRoundPayloadGuardMixin",
                 "team.GameFunctionsLetterNameMixin",
                 "team.PlayerEntityTeamTagMixin",
-                "faction.thirdfaction.GameSettingsCommandThirdFactionMixin"
+                "faction.thirdfaction.GameSettingsCommandThirdFactionMixin",
+                // The two halves of "a Demon Hunter's pistol is no held gun for a ground pickup": the window around
+                // ItemEntity#onPlayerCollision and the inventory scan that honours it. Either one alone does nothing.
+                // “猎魔人的猎魔枪在地面捡枪时不算持有的枪”的两半：ItemEntity#onPlayerCollision 外的窗口与遵守该窗口的背包扫描。
+                // 只剩其中一个时不起任何作用。
+                "role.civilian.demonhunter.DemonHunterGunPickupMixin",
+                "role.civilian.demonhunter.DemonHunterHeldGunMixin"
         ],
         (clientMixinConfig): [
                 // The merged main-HUD dispatcher: the HUD lines consolidated into one hook hang on it.

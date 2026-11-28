@@ -212,10 +212,6 @@ public final class WitchWorldComponent implements AutoSyncedComponent, ServerTic
         sync();
     }
 
-    public boolean markSaintKarma(UUID playerUuid) {
-        return saintKarmaState.mark(playerUuid);
-    }
-
     public boolean hasSaintKarma(UUID playerUuid) {
         return saintKarmaState.isMarked(playerUuid);
     }
@@ -224,8 +220,13 @@ public final class WitchWorldComponent implements AutoSyncedComponent, ServerTic
         return saintKarmaState.remainingTicks(playerUuid);
     }
 
-    public int triggerSaintKarma(UUID playerUuid, int durationTicks) {
-        return saintKarmaState.trigger(playerUuid, durationTicks);
+    /**
+     * The Hellfire a killer of the Saint receives (Karma in code): locks for {@code durationTicks}, a longer running
+     * lock is kept; returns the ticks now left.
+     * 击杀圣徒者承受的业火（代码中称为业障）：锁定 {@code durationTicks} 刻，已有更长的锁时保留更长的；返回此刻的剩余刻数。
+     */
+    public int inflictSaintKarma(UUID playerUuid, int durationTicks) {
+        return saintKarmaState.inflict(playerUuid, durationTicks);
     }
 
     public boolean clearSaintKarma(UUID playerUuid) {

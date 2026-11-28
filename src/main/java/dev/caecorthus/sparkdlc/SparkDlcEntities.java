@@ -45,6 +45,7 @@ public final class SparkDlcEntities {
     public static final Identifier TAOTIE_HEAD_ID = SparkDLC.id("taotie_head");
     public static final Identifier PARTYGOER_ID = SparkDLC.id("partygoer");
     public static final Identifier REALITY_ANCHOR_ID = SparkDLC.id("reality_anchor");
+    private static EntityType<dev.caecorthus.sparkdlc.entity.BananaPeelEntity> bananaPeel;
     private static EntityType<M67GrenadeEntity> m67;
     private static EntityType<CapsuleEntity> capsule;
     private static EntityType<CaptureDeviceEntity> captureDevice;
@@ -69,6 +70,16 @@ public final class SparkDlcEntities {
                         .maxTrackingRange(4)
                         .trackingTickInterval(10)
                         .build(CAPSULE_ID.toString())
+        );
+        bananaPeel = Registry.register(
+                Registries.ENTITY_TYPE,
+                sparkdlc$bananaPeelId(),
+                EntityType.Builder.<dev.caecorthus.sparkdlc.entity.BananaPeelEntity>create(
+                                dev.caecorthus.sparkdlc.entity.BananaPeelEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.6F, 0.06F)
+                        .maxTrackingRange(8)
+                        .trackingTickInterval(20)
+                        .build(sparkdlc$bananaPeelId().toString())
         );
         captureDevice = Registry.register(
                 Registries.ENTITY_TYPE,
@@ -188,6 +199,17 @@ public final class SparkDlcEntities {
             throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return m67;
+    }
+
+    private static Identifier sparkdlc$bananaPeelId() {
+        return dev.caecorthus.sparkdlc.SparkDLC.id("banana_peel");
+    }
+
+    public static EntityType<dev.caecorthus.sparkdlc.entity.BananaPeelEntity> bananaPeel() {
+        if (bananaPeel == null) {
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
+        }
+        return bananaPeel;
     }
 
     public static EntityType<CapsuleEntity> capsule() {

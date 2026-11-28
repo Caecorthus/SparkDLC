@@ -56,6 +56,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertS
 import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStunClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.demonhunter.DemonHunterSniffClientHooks;
+import dev.caecorthus.sparkdlc.client.role.civilian.discoverer.DiscovererClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.engineer.EngineerClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.fisher.FisherClient;
@@ -158,6 +159,7 @@ import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteRules;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererRules;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaRules;
@@ -618,6 +620,9 @@ public final class SparkDLCClient implements ClientModInitializer {
         // Shining neon pillar (PR #2, a map-maker block registered with the role items): its settings screen receiver.
         // 闪烁霓虹灯柱（PR #2，随职业物品注册的地图作者方块）：其设置界面的接收器。
         ShiningNeonPillarClient.register();
+        // Discoverer Night Vision line (PR #12, role-owned HUD), appended last; the request itself rides the shared
+        // ability key below. / 探索者夜视行（PR #12，职业自有 HUD），追加在最后；请求本身走下方的共享技能键。
+        DiscovererClientModule.init();
     }
 
     /** What an active Wraith may type and whether it may jump. / 活跃冤魂能否打字、能否跳跃。 */
@@ -823,6 +828,15 @@ public final class SparkDLCClient implements ClientModInitializer {
                     // Real role only (the Athlete is never a disguise target); the server decides use.
                     // 仅真实职业（运动员不可被伪装）；是否生效由服务端决定。
                     AthleteDashClient.onAbilityKey(client);
+                } else if (DiscovererRules.isDiscoverer(role)) {
+                    // Night Vision (PR #12), real role only (getRole stays raw), right after the Athlete as in the
+                    // role registration order: an empty request; the server owns the light test, the cooldown and
+                    // every lock. Every branch above is another exact role, a duelist or a dead voter, so no other
+                    // role's press comes here; a Discoverer has no witch skill, so the last branch loses nothing.
+                    // 夜视（PR #12），仅真实职业（getRole 始终是真实身份），与职业注册顺序一致紧随运动员之后：空请求；亮度判定、
+                    // 冷却与所有锁都在服务端。上方每个分支都是另一个确切职业、决斗者或已死亡的投票者，因此其他职业的按键不会到这里；
+                    // 探索者没有魔女技能，末尾的分支也不受影响。
+                    DiscovererClientModule.onAbilityKey(client);
                 } else if (SphinxHaoRules.isSphinxHao(role)) {
                     // 嘉豪病毒, real role only (getRole stays raw): an empty request; the synced cooldown only trims
                     // obviously refused presses (with a local hint), the server decides use.

@@ -12,6 +12,8 @@ import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.purify.PurifyA
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteComponent;
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteRules;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererComponent;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererRules;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaComponent;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
@@ -118,6 +120,7 @@ public final class RoleForcedCooldowns {
     static final Identifier PLANNER_RECOMMEND_ID = PlannerRules.RECOMMEND_SKILL_ID;
     static final Identifier SPHINX_HAO_INFECT_ID = SphinxHaoRules.INFECT_SKILL_ID;
     static final Identifier SPHINX_HAO_ROAR_ID = SphinxHaoRules.ROAR_SKILL_ID;
+    static final Identifier DISCOVERER_NIGHT_VISION_ID = DiscovererRules.NIGHT_VISION_SKILL_ID;
 
     private static final Set<Identifier> NOELLES_ASSASSIN_ROLES = Set.of(NOELLES_ASSASSIN_ROLE_ID);
 
@@ -231,7 +234,36 @@ public final class RoleForcedCooldowns {
                 sphinxHaoInfect(),
                 // 狮身豪 豪气冲天 (Role Skill 2, 2026-11-17), store 34, appended after its 嘉豪病毒.
                 // 狮身豪豪气冲天（职业技能 2，2026-11-17），第 34 个存储，追加在其嘉豪病毒之后。
-                sphinxHaoRoar()
+                sphinxHaoRoar(),
+                // Discoverer Night Vision (shared key G, PR #12), store 35, appended after 狮身豪's 豪气冲天.
+                // 探索者夜视（共享 G 键，PR #12），第 35 个存储，追加在狮身豪豪气冲天之后。
+                discovererNightVision()
+        );
+    }
+
+    /**
+     * The Discoverer's Night Vision cooldown (PR #12), kept as an absolute ready tick in the owner-synced
+     * {@code sparkdlc:discoverer_player} component. An ACTIVE round and the raw role (the
+     * {@code DiscovererNightVisionService} role and round gates). There is no opening cooldown; the nominal is the
+     * 75 s cooldown after every activation but the first of a round (which takes 60 s). Writes only move the ready
+     * tick later through {@code setNightVisionReadyTick} and leave the used-this-round flag alone, so a forced
+     * cooldown never turns the first activation into a later one. The skill has no item, so the admin
+     * {@code clearCooldown} (held item only) does not reach it.
+     * 探索者夜视的冷却（PR #12），以绝对就绪刻保存在只同步给本人的 {@code sparkdlc:discoverer_player} 组件中。ACTIVE 回合且为
+     * 真实职业（与 DiscovererNightVisionService 的职业与回合门控一致）。没有开局冷却；标准冷却为除本局第一次（60 秒）之外每次
+     * 激活后的 75 秒。写入只经 {@code setNightVisionReadyTick} 把就绪刻推后，不改动“本局已使用”标记，因此强制冷却不会把第一次
+     * 激活变成后续激活。该技能没有物品，因此管理员 {@code clearCooldown}（只清手持物品）触及不到它。
+     */
+    static SimpleRoleSkillCooldownStore discovererNightVision() {
+        return SimpleRoleSkillCooldownStore.raisedReadyTick(
+                DISCOVERER_NIGHT_VISION_ID,
+                whileActive((game, player) -> DiscovererRules.isDiscoverer(game.getRole(player))),
+                player -> DiscovererComponent.KEY.get(player)
+                        .nightVisionCooldownRemaining(player.getServerWorld().getTime()),
+                () -> DiscovererRules.NIGHT_VISION_COOLDOWN_TICKS,
+                player -> DiscovererComponent.KEY.get(player),
+                DiscovererComponent::nightVisionReadyTick,
+                DiscovererComponent::setNightVisionReadyTick
         );
     }
 

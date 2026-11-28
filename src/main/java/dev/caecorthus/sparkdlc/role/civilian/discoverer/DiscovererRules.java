@@ -7,10 +7,12 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Stable contract: 探索者 Discoverer, a passenger role built around open-air travel. Owner spec: Speed II in the open
- * air, 25% slower sprint drain, no passive income (+50 coins per finished task) and a shop selling one spyglass. Holds
- * the owner numbers, the literal shop id and side-neutral pure predicates; the services only read them.
+ * air, 25% slower sprint drain, no passive income (+50 coins per finished task), a shop selling one spyglass and, on
+ * the ability key, 15 s of Night Vision in a dark place (PR #12). Holds the owner numbers, the literal shop id and
+ * side-neutral pure predicates; the services only read them.
  * 稳定契约：探索者，围绕露天行走设计的乘客职业。所有者设定：露天时速度 II、疾跑体力消耗慢 25%、没有被动收入
- * （每完成一个任务 +50 金币），商店出售一个望远镜。本类保存所有者数值、商店条目字面量 id 与两端通用的纯判定；各服务只读取。
+ * （每完成一个任务 +50 金币），商店出售一个望远镜，按技能键可在暗处获得 15 秒夜视（PR #12）。本类保存所有者数值、商店条目
+ * 字面量 id 与两端通用的纯判定；各服务只读取。
  */
 public final class DiscovererRules {
 
@@ -54,17 +56,22 @@ public final class DiscovererRules {
     /** "Nothing captured this tick" marker. / “本刻未捕获”的标记。 */
     public static final float NOT_CAPTURED = Float.NaN;
 
-    // ---- Night vision (owner 2026-11-26) ----
+    // ---- Night vision (PR #12, owner 2026-11-26) ----
 
+    /** Forced-cooldown store id of the Night Vision skill. / 夜视技能的强制冷却存储 id。 */
+    public static final Identifier NIGHT_VISION_SKILL_ID = SparkDLC.id("discoverer_night_vision");
     /** Fifteen seconds of Night Vision per activation. / 每次激活 15 秒夜视。 */
     public static final int NIGHT_VISION_TICKS = 15 * 20;
-    /** First activation of the round, later ones. / 本局第一次激活与之后的每一次。 */
+    /** Cooldown after the first activation of a round. / 本局第一次激活后的冷却。 */
     public static final int NIGHT_VISION_INITIAL_COOLDOWN_TICKS = 60 * 20;
+    /** Cooldown after every later activation. / 之后每次激活后的冷却。 */
     public static final int NIGHT_VISION_COOLDOWN_TICKS = 75 * 20;
     /**
-     * The key only works at or below this packed light level, skylight included: open air at noon is 15 and refuses,
-     * a lamp-lit room is refused too, and an open roof at night works.
-     * 只有总亮度不高于该值时才生效（含天光）：正午露天是 15，会被拒绝；亮着灯的房间同样被拒绝；夜里露天则可以。
+     * The key only works at or below this light level. The level is the server's effective one: block light, or sky
+     * light less the ambient darkness of the time of day and weather, whichever is higher. Open air is 15 at noon
+     * (refused), 10 at Wathe's sundown (refused) and 4 at night (works); a lamp-lit room is refused too.
+     * 只有亮度不高于该值时才生效。亮度取服务端的有效亮度：方块光，或天光减去由时间与天气决定的环境暗度，取较高者。露天在正午为
+     * 15（拒绝），在 Wathe 的黄昏为 10（拒绝），在夜里为 4（可用）；亮着灯的房间同样被拒绝。
      */
     public static final int NIGHT_VISION_MAX_LIGHT = 8;
 
@@ -119,6 +126,72 @@ public final class DiscovererRules {
         }
         return amplifier == OPEN_AIR_SPEED_AMPLIFIER && !infinite
                 && duration <= OPEN_AIR_SPEED_REFRESH_AT_OR_BELOW_TICKS;
+    }
+
+    /** Outcome of a Night Vision request. / 夜视请求的结果。 */
+    public enum NightVisionVerdict {
+        /** Grant the effect and start the cooldown. / 发放效果并开始冷却。 */
+        USE,
+        /** Refused silently; costs nothing. / 静默拒绝，不消耗任何东西。 */
+        REFUSE,
+        /** Still cooling down; the player is told how long. / 仍在冷却，提示剩余时间。 */
+        COOLING_DOWN,
+        /** Too bright here; the player is told so. / 此处太亮，给出提示。 */
+        TOO_BRIGHT,
+        /** A Night Vision that lasts at least as long is already running; costs nothing. / 已有不短于本技能的夜视，不消耗冷却。 */
+        ALREADY_ACTIVE,
+        /** Refused by Grand Witch Fear; the player is told why. / 被大魔女恐惧拒绝，并提示原因。 */
+        FEARED
+    }
+
+    /**
+     * Night Vision gate, checked in order (Noa's painting set): the real Discoverer in an ACTIVE round, playing, alive
+     * and not a spectator, not swallowed by a Taotie, not stunned by the Control Expert, not role-skill blocked
+     * (SparkTraitsApi); then the cooldown, the light and a Night Vision already running, each with its own hint; Fear
+     * is checked last so its message only appears when the skill would otherwise fire. Safe time, the Taotie daze and
+     * the Seeker, Riftwalker and Knight duel sessions drop the payload before it gets here.
+     * 夜视门槛，按顺序检查（与诺亚作画相同）：处于 ACTIVE 回合的真实探索者，在局存活且不是旁观者，未被饕餮吞下，未被控场专家
+     * 眩晕，未被职业技能封锁（SparkTraitsApi）；然后是冷却、亮度与已有的夜视，各有提示；恐惧最后检查，使其提示只在本可生效时
+     * 出现。安全时间、饕餮眩晕以及搜寻者、隙行者与骑士决斗会话会在此之前丢弃数据包。
+     */
+    public static NightVisionVerdict nightVisionVerdict(boolean discoverer, boolean roundActive,
+                                                        boolean playingAndAlive, boolean swallowed, boolean stunned,
+                                                        boolean roleSkillBlocked, boolean ready, boolean darkEnough,
+                                                        boolean alreadyActive, boolean feared) {
+        if (!discoverer || !roundActive || !playingAndAlive || swallowed || stunned || roleSkillBlocked) {
+            return NightVisionVerdict.REFUSE;
+        }
+        if (!ready) {
+            return NightVisionVerdict.COOLING_DOWN;
+        }
+        if (!darkEnough) {
+            return NightVisionVerdict.TOO_BRIGHT;
+        }
+        if (alreadyActive) {
+            return NightVisionVerdict.ALREADY_ACTIVE;
+        }
+        return feared ? NightVisionVerdict.FEARED : NightVisionVerdict.USE;
+    }
+
+    /** Whether the effective light level allows the skill. / 有效亮度是否允许使用技能。 */
+    public static boolean isDarkEnoughForNightVision(int light) {
+        return light <= NIGHT_VISION_MAX_LIGHT;
+    }
+
+    /**
+     * Whether a Night Vision the player already has (gin, the Savior's domain, a blackout grant) makes the skill
+     * pointless: vanilla never shortens an effect, so an infinite one or one with at least the skill's length left
+     * would swallow the grant while the cooldown was still spent.
+     * 玩家已有的夜视（金酒、救世主领域、停电发放等）是否让本技能失去意义：原版从不缩短效果，因此无限时长或剩余时间不短于本技能的
+     * 夜视会吞掉这次发放，冷却却照样消耗。
+     */
+    public static boolean nightVisionAlreadyCovers(boolean present, boolean infinite, int duration) {
+        return present && (infinite || duration >= NIGHT_VISION_TICKS);
+    }
+
+    /** 60 s after the first activation of a round, 75 s after every later one. / 本局第一次激活后 60 秒，之后每次 75 秒。 */
+    public static int nightVisionCooldownTicks(boolean usedThisRound) {
+        return usedThisRound ? NIGHT_VISION_COOLDOWN_TICKS : NIGHT_VISION_INITIAL_COOLDOWN_TICKS;
     }
 
     /**

@@ -24,7 +24,8 @@ gets Wathe's knife after its first task, and may pick up one ground gun per roun
 The Athlete (`sparkdlc:athlete`, 运动员, contributed in PR #191) is an ordinary civilian with unlimited stamina whose
 shared ability key (G) dashes up to 5 blocks forward along the ground, with a 15 s cooldown.
 The Discoverer (`sparkdlc:discoverer`, 探索者, contributed in PR #189) is an ordinary civilian that gets Speed II
-under open sky, sprints with 25% less stamina drain, and earns 50 coins per task to spend on a spyglass.
+under open sky, sprints with 25% less stamina drain, and earns 50 coins per task to spend on a spyglass; its shared
+ability key (G) gives 15 s of Night Vision in a dark place (PR #12).
 SparkWitch also gives the NoellesRoles Attendant (`noellesroles:attendant`, 乘务员) one Spare Key
 (`sparkdlc:spare_key`, 备用钥匙) at round start; it opens train doors and room-locked doors for durability.
 It also adds two map-maker beds (contributed in PR #239 and reworked in review), both Wathe trimmed beds: the Stained
@@ -2362,6 +2363,27 @@ Current build baseline:
   - Shop (`DiscovererShopService`, both sides via `BuildShopEntries`): only the vanilla spyglass (`discoverer_spyglass`,
     150, stock 1), priced through `SparkTraitsApi.discountShopEntryForCharisma`. The PR's conductor key is no longer sold here; it became
     the Attendant's Spare Key below.
+  - Night Vision (PR #12, owner 2026-11-26; reworked in review): `DiscovererNightVisionService` registers the empty
+    C2S `sparkdlc:discoverer_night_vision` and gates each request with `DiscovererRules.nightVisionVerdict`, Noa's
+    painting set (real role, ACTIVE round, playing, alive and not a spectator, not swallowed, not Control Expert
+    stunned, not role-skill blocked), then, each with an action-bar hint and at no cost: the cooldown, the light, a
+    Night Vision already running that is infinite or has 15 s or more left, and Fear last. The light is the server's
+    effective level at the feet block (`world.getLightLevel(pos)`: block light, or sky light less the ambient
+    darkness) and must be 8 or lower: open air is 15 at Wathe's DAY, 10 at SUNDOWN and 4 at NIGHT, so only a night
+    map allows it outdoors; raw sky light would refuse open air at any hour. A grant is plain Night Vision for 300
+    ticks with the flags of the mod's other grants, so vanilla merges it and never shortens another source. Not
+    immune to a blackout: Wathe blinds the Discoverer during one and removes every player's Night Vision when it
+    ends, as does the Engineer's repair. No replay line.
+  - Night Vision cooldown: `DiscovererComponent` (`sparkdlc:discoverer_player`, `NEVER_COPY`, appended last in the
+    CCA list) keeps an absolute ready tick synced to the owner only and a server-only used-this-round flag: 60 s
+    after the first activation of a round, 75 s after every later one, no opening cooldown. `RoleAssigned` and
+    Wathe's `ResetPlayer` clear both; NBT keeps them across a relog. The forced-cooldown store
+    `sparkdlc:discoverer_night_vision` (store 35) only raises the ready tick. The owner's corner line
+    (`client/role/civilian/discoverer`, the Athlete line's layout) shows "ready: press G" or the seconds left; the
+    key branch in `SparkDLCClient` sits right after the Athlete's.
+  - Deny lists: `discoverer_night_vision` is classified like `use_athlete_dash` in
+    `config/payload-policy/actions.tsv` (safe time, Control Expert stun, Seeker and Riftwalker sessions, Fear, Knight
+    duel, Taotie daze).
   - Open: no SparkAssist guidebook page and no Black Raven disguise entry yet.
 - `block/` + `SparkDlcBlocks` (PR #239, reworked in review): the two map-maker beds, the only SparkWitch
   blocks. `SparkBedBlock` extends Wathe's `TrimmedBedBlock` with Wathe's bed settings, and `SparkDlcBlocks` adds both
@@ -5368,6 +5390,12 @@ deliberate and kept:
    re-sets the cooldown; Dominator / Specter / Charon / 二阶堂希罗 precedent). Remaining time includes the 90 s opening
    cooldown; the nominal is `SphinxHaoRules.ROAR_COOLDOWN_TICKS` (600). Every write only moves the ready tick later
    through `setRoarReadyTick`.
+35. `sparkdlc:discoverer_night_vision` (`RoleForcedCooldowns#discovererNightVision`, PR #12, appended after
+   狮身豪's 豪气冲天): the Discoverer's Night Vision, for the raw role in an ACTIVE round. Remaining time counts to the
+   absolute ready tick in `DiscovererComponent`; there is no opening cooldown, and the nominal is
+   `DiscovererRules.NIGHT_VISION_COOLDOWN_TICKS` (1500, the cooldown after every activation but the first of a round).
+   Every write only moves the ready tick later through the owner-syncing `setNightVisionReadyTick` and leaves the
+   used-this-round flag alone. No item, so the admin `clearCooldown` does not reach it.
 `RoleItemCooldownNominals` supplies the full post-use cooldown of every SparkWitch item that writes one (Taser,
 Disruptor, Shock Device, shotgun empty reload, Time Pocket Watch, toll bell, Angler rod and edible fish, Holy Flash,
 White Cane (its tap writes the 5 s window plus the 10 s cooldown), Ninja shuriken, knife and Grappling Hook (the 10 s

@@ -94,15 +94,18 @@ public final class SaviorGunPickupRules {
 
     /**
      * Guns other than the Savior's own weapons that any holder can fire: the Sniper's M1903A4 joins like the AXMC (both
-     * outside {@code wathe:guns}, neither role-gated). 狮身豪's "手"枪 is left out: it fires only for a Sphinx Hao.
+     * outside {@code wathe:guns}, neither role-gated), and so does the M16A4 (no role gives it, but a lethal rifle an
+     * operator handed out is still a gun). 狮身豪's "手"枪 is left out: it fires only for a Sphinx Hao.
      * 救世主自有武器以外、任何持有者都能开火的枪械：狙击手的 M1903A4 与 AXMC 一样列入（二者都不在 {@code wathe:guns} 中，
-     * 也都不限职业）。狮身豪的“手”枪不列入：它只对狮身豪开火。
+     * 也都不限职业），M16A4 同样列入（没有职业会获得它，但管理员发出的致命步枪仍然是枪）。狮身豪的“手”枪不列入：它只对
+     * 狮身豪开火。
      */
     public static boolean isForeignGun(ItemStack stack) {
         return stack.isIn(WatheItemTags.GUNS)
                 || stack.isOf(SparkDlcItems.doubleBarrelShotgun())
                 || stack.isOf(SparkDlcItems.usecRifle())
                 || stack.isOf(SparkDlcItems.m1903a4())
+                || stack.isOf(SparkDlcItems.m16a4())
                 || stack.isOf(SparkDlcItems.shriekGun());
     }
 

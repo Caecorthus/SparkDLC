@@ -39,7 +39,9 @@ public final class MurderSenseAbility {
             // Sphinx Hao "手"枪 (outside wathe:guns, so it needs its own entry). / 狮身豪“手”枪（不在 wathe:guns 中，需单独列出）。
             SparkDLC.id("sphinx_hao_hand_gun"),
             // Sniper M1903A4 (outside wathe:guns, so it needs its own entry). / 狙击手 M1903A4（不在 wathe:guns 中，需单独列出）。
-            SparkDLC.id("m1903a4")
+            SparkDLC.id("m1903a4"),
+            // M16A4 burst rifle (outside wathe:guns, so it needs its own entry). / M16A4 点射步枪（不在 wathe:guns 中，需单独列出）。
+            SparkDLC.id("m16a4")
     );
 
     private MurderSenseAbility() {

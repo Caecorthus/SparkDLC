@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.entity.RealityAnchorHits;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorGunDropS2CPayload;
@@ -136,6 +137,12 @@ public final class SaviorPistolService {
         // BEAR 弹道通道，位于与左轮相同的锚点（已接受的射击，紧接记录之前）：从眼睛到原始目标的进入点，未命中时沿视线，
         // 使用这一枪自身的目标容差。纯视觉。
         RangedSmokeCarve.gunShot(shooter, world.getEntityById(targetEntityId), SaviorRules.PISTOL_CLIENT_RANGE,
+                tolerance);
+        // A placed reality anchor on that same line breaks (owner 2026-11-27): only for an accepted shot, and only in
+        // front of the first block and of the raw target. Nothing below changes.
+        // 同一条弹道上已放置的现实稳定锚会被打掉（所有者 2026-11-27）：仅限已接受的射击，且必须位于第一个方块与原始目标之前。
+        // 下方流程不变。
+        RealityAnchorHits.gunShot(shooter, world.getEntityById(targetEntityId), SaviorRules.PISTOL_CLIENT_RANGE,
                 tolerance);
         // Record the shot exactly like Wathe's revolver instead of the custom pistol id. / 按 Wathe 左轮的身份记录，不用自定义手枪 id。
         GameRecordManager.recordItemUse(shooter, Registries.ITEM.getId(WatheItems.REVOLVER), target, null);

@@ -23,6 +23,9 @@ public final class PreparefullService {
     /** Last sampled horizontal position per player. 每名玩家上次采样的水平位置。 */
     private static final Map<UUID, double[]> LAST_POSITION = new HashMap<>();
 
+    /** Per player, the world time before which the charge may not restart. / 每名玩家重新蓄力前必须等到的世界时间。 */
+    private static final Map<UUID, Long> REARM_UNTIL = new HashMap<>();
+
     private PreparefullService() {
     }
 
@@ -34,11 +37,30 @@ public final class PreparefullService {
                 }
             }
         });
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> LAST_POSITION.clear());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            LAST_POSITION.clear();
+            REARM_UNTIL.clear();
+        });
     }
 
     private static void tick(ServerPlayerEntity player) {
         PreparefullComponent component = PreparefullComponent.KEY.get(player);
+        long now = player.getServerWorld().getTime();
+        Long rearmUntil = REARM_UNTIL.get(player.getUuid());
+        if (rearmUntil != null) {
+            if (rearmUntil > now) {
+                // Rearming: no charge, and the progress bar shows empty until the delay is over.
+                // 重新蓄力中：不充能，进度条在这段时间内保持空。
+                if (component.getProgress() > 0.0F) {
+                    component.setProgress(0.0F);
+                }
+                LAST_POSITION.remove(player.getUuid());
+                return;
+            }
+            // Over: the entry is dropped, so the map only holds players who are rearming.
+            // 已结束：移除该项，表中只留下正在重新蓄力的玩家。
+            REARM_UNTIL.remove(player.getUuid());
+        }
         if (!TraitPlayerComponent.KEY.get(player).hasActiveTrait(PreparefullTrait.ID)) {
             if (component.getProgress() > 0.0F) {
                 component.setProgress(0.0F);
@@ -65,6 +87,7 @@ public final class PreparefullService {
 
         // Movement both fires a full charge and interrupts an unfinished one. 移动既触发满蓄力，也会打断未完成的蓄力。
         if (component.isCharged()) {
+            REARM_UNTIL.put(player.getUuid(), now + PreparefullTrait.REARM_TICKS);
             player.addStatusEffect(new StatusEffectInstance(
                     StatusEffects.SPEED,
                     PreparefullTrait.SPEED_TICKS,

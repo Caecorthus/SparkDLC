@@ -16,6 +16,7 @@
       "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest",
       "dev.caecorthus.sparkdlc.gametest.SparkDlcSharedHelpersGameTest",
       "dev.caecorthus.sparkdlc.gametest.ShiningNeonPillarGameTest",
+      "dev.caecorthus.sparkdlc.gametest.RealityAnchorGameTest",
       "dev.caecorthus.sparkdlc.gametest.BodyHealthGameTest",
       "dev.caecorthus.sparkdlc.gametest.BodyHitboxGameTest"
     ],

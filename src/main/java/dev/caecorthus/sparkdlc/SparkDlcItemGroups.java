@@ -152,6 +152,9 @@ public final class SparkDlcItemGroups {
                 // The Sniper's M1903A4 and .30-06 rounds (Team Jiahao) / 狙击手的 M1903A4 与 .30-06 子弹（嘉豪阵营）
                 SparkDlcItems.m1903a4(),
                 SparkDlcItems.ammo3006(),
+                // The M16A4 burst rifle: an easter egg of no role, only obtainable here or by command.
+                // M16A4 点射步枪：不属于任何职业的彩蛋，只能从这里或用指令获得。
+                SparkDlcItems.m16a4(),
                 // Civilian / 平民
                 SparkDlcItems.perfumeEssence(),
                 SparkDlcItems.cologne(),

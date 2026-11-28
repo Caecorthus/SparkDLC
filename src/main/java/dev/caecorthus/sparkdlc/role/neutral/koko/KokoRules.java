@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
  *   <li>Corpse stream (right-click a corpse): no mana; the clicked body and up to 2 more within 5 blocks of it glow for
  *   everyone for 50 s, +100 traffic each, once per dead player. Both share one cooldown: 60 s at the deal, 45 s after a
  *   stream ends or a corpse is streamed.</li>
- *   <li>Win threshold: round players / 4 + 500 traffic. Half of it gives her a permanent Speed III; live at the full
- *   threshold she wins alone.</li>
+ *   <li>Win threshold: round players / 4 * 100 + 500 traffic. Half of it gives her a permanent Speed III; live at the
+ *   full threshold she wins alone.</li>
  *   <li>Shop: one lightstick for 100 traffic (Speed II for 10 s, traffic gain doubled for those 10 s, 30 s between
  *   uses). No coins, no knife, no lockpick; she starts with one neutral master key.</li>
  *   <li>Mana follows the Murderous Witch's natural regeneration ({@code WitchManaRules}): 1 per 2 s up to 150, nothing
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  *   其他所有存活玩家，疾跑体力消耗减半；前 10 秒所有人都能隔墙看到她。</li>
  *   <li>尸体直播（右键对准尸体）：不耗魔力，被点中的尸体及其 5 格内至多另外 2 具对所有人高亮 50 秒，每具 +100 流量，每名死者
  *   只能一次。两者共用冷却：发牌后 60 秒，直播结束或尸体直播之后 45 秒。</li>
- *   <li>获胜阈值：本局人数 / 4 + 500 流量。达到一半时获得永久速度 III；直播中流量达到阈值时独自获胜。</li>
+ *   <li>获胜阈值：本局人数 / 4 × 100 + 500 流量。达到一半时获得永久速度 III；直播中流量达到阈值时独自获胜。</li>
  *   <li>商店：应援棒 100 流量，限购一根（10 秒速度 II，这 10 秒内流量获取翻倍，每 30 秒可用一次）。没有金币、刀和撬锁器；
  *   开局持有一把中立万能钥匙。</li>
  *   <li>魔力恢复与杀意魔女相同（见 {@code WitchManaRules}）：每 2 秒 1 点、上限 150，开局为 0，没有任务或击杀奖励。</li>
@@ -78,13 +78,22 @@ public final class KokoRules {
     /**
      * Her two thresholds are derived from the round's player count, Wathe's synced round roster
      * ({@code GameWorldComponent.getAllPlayers}, so server and her HUD agree; PR #9, 2026-11-23): win at
-     * {@code roundPlayers / WIN_TRAFFIC_PER_PLAYER + WIN_TRAFFIC_BASE} traffic, permanent Speed III at half of that.
+     * {@code roundPlayers / WIN_TRAFFIC_PER_PLAYER * WIN_TRAFFIC_PER_GROUP + WIN_TRAFFIC_BASE} traffic (integer
+     * division: 600 with 4 players, 700 with 8, 1000 with 20), permanent Speed III at half of that.
      * 她的两个阈值由本局人数决定，取 Wathe 已同步的本局名单（{@code GameWorldComponent.getAllPlayers}，服务端与她的 HUD
-     * 因此一致；PR #9，2026-11-23）：流量达到「本局人数 / {@link #WIN_TRAFFIC_PER_PLAYER} + {@link #WIN_TRAFFIC_BASE}」即可
-     * 获胜，达到该值的一半获得永久速度 III。
+     * 因此一致；PR #9，2026-11-23）：流量达到「本局人数 / {@link #WIN_TRAFFIC_PER_PLAYER} ×
+     * {@link #WIN_TRAFFIC_PER_GROUP} + {@link #WIN_TRAFFIC_BASE}」（整数除法：4 人 600，8 人 700，20 人 1000）即可获胜，
+     * 达到该值的一半获得永久速度 III。
      */
     public static final int WIN_TRAFFIC_BASE = 500;
+    /** Players per group: every full group of this many raises the win threshold. / 每组人数：每满这么多人，获胜阈值升一档。 */
     public static final int WIN_TRAFFIC_PER_PLAYER = 4;
+    /**
+     * Traffic each full group adds (PR #10, 2026-11-24): PR #9 added a single point per four players, which was
+     * invisible in a 6–20 player lobby.
+     * 每满一组增加的流量（PR #10，2026-11-24）：PR #9 每四人只加一点，在 6–20 人的房间里几乎看不出来。
+     */
+    public static final int WIN_TRAFFIC_PER_GROUP = 100;
     /** Speed III. / 速度 III。 */
     public static final int SPEED_AMPLIFIER = 2;
     /** Radius of the corpse-stream cluster, in blocks. / 尸体直播的作用半径（格）。 */
@@ -205,7 +214,7 @@ public final class KokoRules {
 
     /** Traffic needed to win this round. / 本局获胜所需的流量。 */
     public static int winTraffic(int roundPlayers) {
-        return Math.max(1, roundPlayers) / WIN_TRAFFIC_PER_PLAYER + WIN_TRAFFIC_BASE;
+        return Math.max(1, roundPlayers) / WIN_TRAFFIC_PER_PLAYER * WIN_TRAFFIC_PER_GROUP + WIN_TRAFFIC_BASE;
     }
 
     /** Traffic needed for the permanent Speed III, half of the win threshold. / 永久速度 III 所需的流量，为获胜阈值的一半。 */

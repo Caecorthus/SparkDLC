@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.item.BlueVitriolItem;
 import dev.caecorthus.sparkdlc.item.BodyguardVestItem;
 import dev.caecorthus.sparkdlc.item.CapsuleItem;
 import dev.caecorthus.sparkdlc.item.CaptureDeviceItem;
+import dev.caecorthus.sparkdlc.item.RealityAnchorItem;
 import dev.caecorthus.sparkdlc.item.CaseFolderItem;
 import dev.caecorthus.sparkdlc.item.CircuitConfiguratorItem;
 import dev.caecorthus.sparkdlc.item.CoolingOilItem;
@@ -42,6 +43,7 @@ import dev.caecorthus.sparkdlc.item.defense.DefenseVialItem;
 import dev.caecorthus.sparkdlc.item.defense.DefenseVialRules;
 import dev.caecorthus.sparkdlc.item.m1903a4.Ammo3006Item;
 import dev.caecorthus.sparkdlc.item.m1903a4.M1903A4Item;
+import dev.caecorthus.sparkdlc.item.m16a4.M16A4Item;
 import dev.caecorthus.sparkdlc.item.ninja.NinjaGrapplingHookItem;
 import dev.caecorthus.sparkdlc.item.ninja.NinjaKnifeItem;
 import dev.caecorthus.sparkdlc.item.ninja.NinjaShurikenItem;
@@ -183,6 +185,7 @@ public final class SparkDlcItems {
     public static final Identifier SEDATIVE_ID = SparkDLC.id("sedative");
     public static final Identifier TRUTH_SERUM_ID = SparkDLC.id("truth_serum");
     public static final Identifier CAPTURE_DEVICE_ID = SparkDLC.id("capture_device");
+    public static final Identifier REALITY_ANCHOR_ID = SparkDLC.id("reality_anchor");
     public static final Identifier POWER_RESTORATION_ID = SparkDLC.id("power_restoration");
     public static final Identifier CIRCUIT_CONFIGURATOR_ID = SparkDLC.id("circuit_configurator");
     public static final Identifier MORPH_REAGENT_ID = SparkDLC.id("morph_reagent");
@@ -222,6 +225,7 @@ public final class SparkDlcItems {
     private static Item sedative;
     private static Item truthSerum;
     private static Item captureDevice;
+    private static Item realityAnchor;
     private static Item powerRestoration;
     private static Item circuitConfigurator;
     private static Item morphReagent;
@@ -498,6 +502,14 @@ public final class SparkDlcItems {
                     new BanditAmmoItem(new Item.Settings().maxCount(BanditRevolverRules.AMMO_MAX_STACK), ammo)
             ));
         }
+        // Reality stabilization anchor (PR #14), appended last in this part, after the Bandit's rounds, so every
+        // earlier raw id and creative-tab position keeps its place.
+        // 现实稳定锚（PR #14），追加在本部分的最后（强盗子弹之后），既有物品的 raw id 与创造模式物品栏位置都保持不变。
+        realityAnchor = Registry.register(
+                Registries.ITEM,
+                REALITY_ANCHOR_ID,
+                new RealityAnchorItem(RealityAnchorItem.createSettings())
+        );
         roleKitItemsRegistered = true;
     }
 
@@ -555,6 +567,13 @@ public final class SparkDlcItems {
             throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return truthSerum;
+    }
+
+    public static Item realityAnchor() {
+        if (realityAnchor == null) {
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
+        }
+        return realityAnchor;
     }
 
     public static Item captureDevice() {
@@ -873,6 +892,8 @@ public final class SparkDlcItems {
     public static final Identifier DEFENSE_VIAL_ID = DefenseVialRules.ITEM_ID;
     public static final Identifier M1903A4_ID = SparkDLC.id("m1903a4");
     public static final Identifier AMMO_3006_ID = SparkDLC.id("ammo_3006");
+    /** The M16A4 burst rifle, appended last so every earlier raw id keeps its place. / M16A4 点射步枪，追加在最后以保持既有 id。 */
+    public static final Identifier M16A4_ID = SparkDLC.id("m16a4");
     private static Item ceremonialSword;
     private static Item crossSword;
     private static Item firePoker;
@@ -950,6 +971,7 @@ public final class SparkDlcItems {
     private static Item defenseVial;
     private static Item m1903a4;
     private static Item ammo3006;
+    private static Item m16a4;
 
     private static boolean roleItemsRegistered;
 
@@ -1412,6 +1434,14 @@ public final class SparkDlcItems {
         // after the Sniper's items, so earlier registration order stays unchanged.
         // 车站时刻表（地图作者用的方块及其 BlockItem）与读它的怀表，追加在最后（狙击手物品之后），以保持既有注册顺序不变。
         SparkDlcBlocks.registerSchedule();
+        // The M16A4 burst rifle (magazine, burst window and reload timer in custom data), appended after every existing
+        // item and block so earlier raw ids keep their order.
+        // M16A4 点射步枪（弹匣、点射窗口与换弹计时存于自定义数据），追加在所有既有物品与方块之后，保持既有 id 顺序不变。
+        m16a4 = Registry.register(
+                Registries.ITEM,
+                M16A4_ID,
+                new M16A4Item(M16A4Item.createSettings())
+        );
         registerMeleeSuppression();
         VendettaKnifeLoadoutService.register();
         roleItemsRegistered = true;
@@ -1996,5 +2026,12 @@ public final class SparkDlcItems {
             throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ammo3006;
+    }
+
+    public static Item m16a4() {
+        if (m16a4 == null) {
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
+        }
+        return m16a4;
     }
 }

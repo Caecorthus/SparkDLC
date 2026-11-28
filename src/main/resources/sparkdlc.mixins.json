@@ -553,7 +553,8 @@
     "role.jiahao.sphinxhao.ScreenHandlerSphinxHaoGunMixin",
     "role.jiahao.sphinxhao.DecoratedPotBlockSphinxHaoGunMixin",
     "item.defense.FoodPlatterBlockDefenseVialPourMixin",
-    "item.defense.GameRecordManagerDefenseVialTakeMixin"
+    "item.defense.GameRecordManagerDefenseVialTakeMixin",
+    "entity.GunShootPayloadRealityAnchorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

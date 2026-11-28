@@ -854,5 +854,29 @@
         "attenuation_distance": 16
       }
     ]
+  },
+  "item.m16a4.shoot": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m16a4_shoot",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "item.m16a4.reload_tactical": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m16a4_reload_tactical",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m16a4.reload_empty": {
+    "sounds": [
+      {
+        "name": "sparkdlc:item/m16a4_reload_empty",
+        "attenuation_distance": 8
+      }
+    ]
   }
 }

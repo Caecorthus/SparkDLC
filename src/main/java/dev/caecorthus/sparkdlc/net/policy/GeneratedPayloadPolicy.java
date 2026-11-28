@@ -15,9 +15,9 @@ import java.util.Set;
  */
 public final class GeneratedPayloadPolicy {
     /** SHA-256 of the canonical table this file was generated from. / 生成本文件所用规范表的 SHA-256。 */
-    public static final String CONTRACT_SHA256 = "b13045aa7a4436ccfbaa4ae92298202531bd3adb4651967a4d4e9ab02eb4af32";
+    public static final String CONTRACT_SHA256 = "c3a61c52580f10852f87cde45919e2452d8c62b78c3bf64c218d8641cc9de4ce";
 
-    /** Column SAFE_TIME: 104 ids. / SAFE_TIME 列：104 个 id。 */
+    /** Column SAFE_TIME: 106 ids. / SAFE_TIME 列：106 个 id。 */
     public static final Set<Identifier> SAFE_TIME = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -52,6 +52,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "criminal_reasoner_invisibility"),
             Identifier.of("sparkdlc", "cross_sword_stab"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "drone_pilot_action"),
             Identifier.of("sparkdlc", "drone_pilot_start"),
             Identifier.of("sparkdlc", "emma_factor"),
@@ -65,6 +66,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "guardian"),
             Identifier.of("sparkdlc", "interrogate_detective_suspect"),
             Identifier.of("sparkdlc", "knight_duel_target"),
+            Identifier.of("sparkdlc", "m16a4_reload"),
             Identifier.of("sparkdlc", "magician_ability"),
             Identifier.of("sparkdlc", "mini_wither_toggle"),
             Identifier.of("sparkdlc", "noisemaker_glow"),
@@ -124,7 +126,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("wathe", "gunshoot"),
             Identifier.of("wathe", "knifestab"));
 
-    /** Column STUN: 107 ids. / STUN 列：107 个 id。 */
+    /** Column STUN: 109 ids. / STUN 列：109 个 id。 */
     public static final Set<Identifier> STUN = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -160,6 +162,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "criminal_reasoner_invisibility"),
             Identifier.of("sparkdlc", "cross_sword_stab"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "drone_pilot_action"),
             Identifier.of("sparkdlc", "drone_pilot_start"),
             Identifier.of("sparkdlc", "emma_factor"),
@@ -173,6 +176,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "guardian"),
             Identifier.of("sparkdlc", "interrogate_detective_suspect"),
             Identifier.of("sparkdlc", "knight_duel_target"),
+            Identifier.of("sparkdlc", "m16a4_reload"),
             Identifier.of("sparkdlc", "magician_ability"),
             Identifier.of("sparkdlc", "mini_wither_toggle"),
             Identifier.of("sparkdlc", "noisemaker_glow"),
@@ -234,7 +238,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("wathe", "knifestab"),
             Identifier.of("wathe", "storebuy"));
 
-    /** Column SEEKER: 107 ids. / SEEKER 列：107 个 id。 */
+    /** Column SEEKER: 109 ids. / SEEKER 列：109 个 id。 */
     public static final Set<Identifier> SEEKER = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -270,6 +274,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "criminal_reasoner_invisibility"),
             Identifier.of("sparkdlc", "cross_sword_stab"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "drone_pilot_action"),
             Identifier.of("sparkdlc", "drone_pilot_start"),
             Identifier.of("sparkdlc", "emma_factor"),
@@ -283,6 +288,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "guardian"),
             Identifier.of("sparkdlc", "interrogate_detective_suspect"),
             Identifier.of("sparkdlc", "knight_duel_target"),
+            Identifier.of("sparkdlc", "m16a4_reload"),
             Identifier.of("sparkdlc", "magician_ability"),
             Identifier.of("sparkdlc", "mini_wither_toggle"),
             Identifier.of("sparkdlc", "noisemaker_glow"),
@@ -344,7 +350,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("wathe", "storebuy"),
             Identifier.of("wathe", "walkie_talkie_channel"));
 
-    /** Column RIFT: 106 ids. / RIFT 列：106 个 id。 */
+    /** Column RIFT: 108 ids. / RIFT 列：108 个 id。 */
     public static final Set<Identifier> RIFT = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -380,6 +386,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "criminal_reasoner_invisibility"),
             Identifier.of("sparkdlc", "cross_sword_stab"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "drone_pilot_action"),
             Identifier.of("sparkdlc", "drone_pilot_start"),
             Identifier.of("sparkdlc", "emma_factor"),
@@ -393,6 +400,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "guardian"),
             Identifier.of("sparkdlc", "interrogate_detective_suspect"),
             Identifier.of("sparkdlc", "knight_duel_target"),
+            Identifier.of("sparkdlc", "m16a4_reload"),
             Identifier.of("sparkdlc", "magician_ability"),
             Identifier.of("sparkdlc", "mini_wither_toggle"),
             Identifier.of("sparkdlc", "noisemaker_glow"),
@@ -453,7 +461,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("wathe", "storebuy"),
             Identifier.of("wathe", "walkie_talkie_channel"));
 
-    /** Column FEAR: 82 ids. / FEAR 列：82 个 id。 */
+    /** Column FEAR: 83 ids. / FEAR 列：83 个 id。 */
     public static final Set<Identifier> FEAR = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -479,6 +487,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "coroner_morph"),
             Identifier.of("sparkdlc", "criminal_reasoner_invisibility"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "drone_pilot_action"),
             Identifier.of("sparkdlc", "drone_pilot_start"),
             Identifier.of("sparkdlc", "emma_factor"),
@@ -542,7 +551,7 @@ public final class GeneratedPayloadPolicy {
     public static final Set<Identifier> FEAR_SILENT = Set.of(
             Identifier.of("sparkdlc", "black_raven_crow_move"));
 
-    /** Column DUEL_PRIMARY: 49 ids. / DUEL_PRIMARY 列：49 个 id。 */
+    /** Column DUEL_PRIMARY: 50 ids. / DUEL_PRIMARY 列：50 个 id。 */
     public static final Set<Identifier> DUEL_PRIMARY = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -561,6 +570,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "confirm_prophecy"),
             Identifier.of("sparkdlc", "confirm_sherry_deduction"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "emma_factor"),
             Identifier.of("sparkdlc", "ferryman_pardon"),
             Identifier.of("sparkdlc", "guardian"),
@@ -625,7 +635,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "magician_target"),
             Identifier.of("sparkdlc", "swordfish_stab"));
 
-    /** Column DAZE: 106 ids. / DAZE 列：106 个 id。 */
+    /** Column DAZE: 108 ids. / DAZE 列：108 个 id。 */
     public static final Set<Identifier> DAZE = Set.of(
             Identifier.of("noellesroles", "ability"),
             Identifier.of("noellesroles", "assassin_guess_role"),
@@ -661,6 +671,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "criminal_reasoner_invisibility"),
             Identifier.of("sparkdlc", "cross_sword_stab"),
             Identifier.of("sparkdlc", "demon_hunter_sniff"),
+            Identifier.of("sparkdlc", "discoverer_night_vision"),
             Identifier.of("sparkdlc", "drone_pilot_action"),
             Identifier.of("sparkdlc", "drone_pilot_start"),
             Identifier.of("sparkdlc", "emma_factor"),
@@ -674,6 +685,7 @@ public final class GeneratedPayloadPolicy {
             Identifier.of("sparkdlc", "guardian"),
             Identifier.of("sparkdlc", "interrogate_detective_suspect"),
             Identifier.of("sparkdlc", "knight_duel_target"),
+            Identifier.of("sparkdlc", "m16a4_reload"),
             Identifier.of("sparkdlc", "magician_ability"),
             Identifier.of("sparkdlc", "mini_wither_toggle"),
             Identifier.of("sparkdlc", "noisemaker_glow"),

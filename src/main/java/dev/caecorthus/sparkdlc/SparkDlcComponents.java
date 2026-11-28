@@ -25,6 +25,7 @@ import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererComponent;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
@@ -517,9 +518,15 @@ public final class SparkDlcComponents
         registry.beginRegistration(PlayerEntity.class, SphinxHaoPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SphinxHaoPlayerComponent::new);
+        // Discoverer (PR #12): Night Vision ready tick and the used-this-round flag; the ready tick is synced to the
+        // owner only; appended last, after 狮身豪's component.
+        // 探索者（PR #12）：夜视就绪刻与本局已使用标记；就绪刻只同步给本人；追加在最后，位于狮身豪的组件之后。
+        registry.beginRegistration(PlayerEntity.class, DiscovererComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(DiscovererComponent::new);
         // Body health (2026-11-26): the health of each body part, saved, synced to its owner only; not a role
-        // component, appended last, after 狮身豪's.
-        // 部位血量（2026-11-26）：每个身体部位的血量，随存档保存，只同步给本人；不属于任何职业，追加在最后，位于狮身豪的
+        // component, appended last, after the Discoverer's.
+        // 部位血量（2026-11-26）：每个身体部位的血量，随存档保存，只同步给本人；不属于任何职业，追加在最后，位于探索者的
         // 组件之后。
         registry.beginRegistration(PlayerEntity.class, BodyHealthComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)

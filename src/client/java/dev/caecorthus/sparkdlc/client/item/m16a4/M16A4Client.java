@@ -34,7 +34,9 @@ public final class M16A4Client {
                 M16A4ReloadInput.reset();
             }
         });
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> M16A4ReloadInput.reset());
+        // Fabric may fire DISCONNECT on the Netty thread, so the reset is handed to the client thread like every
+        // other session reset. / Fabric 可能在 Netty 线程触发 DISCONNECT，因此与其他会话重置一样把重置移交给客户端线程。
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(M16A4ReloadInput::reset));
         // Also on JOIN: a proxy backend switch re-joins without a disconnect. / JOIN 时同样重置：代理切换后端时不会断线而是重新加入。
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> M16A4ReloadInput.reset());
     }

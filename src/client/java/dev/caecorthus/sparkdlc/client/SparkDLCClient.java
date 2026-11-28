@@ -33,6 +33,7 @@ import dev.caecorthus.sparkdlc.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.client.item.M67Client;
 import dev.caecorthus.sparkdlc.client.item.PerfumerItemsClient;
+import dev.caecorthus.sparkdlc.client.item.m16a4.M16A4Client;
 import dev.caecorthus.sparkdlc.client.legacy.LegacyClientNames;
 import dev.caecorthus.sparkdlc.client.net.SparkDlcClientPackets;
 import dev.caecorthus.sparkdlc.client.net.version.SparkDlcClientVersionHandshake;
@@ -570,8 +571,6 @@ public final class SparkDLCClient implements ClientModInitializer {
         // 夏目安安（PR #194）：目标菜单接收器（本能由 NatsumeInstinctGateMixin 屏蔽）。
         dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeClientModule.register();
         SaviorClient.register();
-        // M16A4: recoil kick on each accepted round and the one-per-press reload intent. / M16A4：每发后坐与每次按键一次的换弹意图。
-        dev.caecorthus.sparkdlc.client.item.m16a4.M16A4Client.register();
         ProphetClientModule.register();
         ControlExpertStunClient.register();
         ControlExpertStatusHud.register();
@@ -620,6 +619,11 @@ public final class SparkDLCClient implements ClientModInitializer {
         // Shining neon pillar (PR #2, a map-maker block registered with the role items): its settings screen receiver.
         // 闪烁霓虹灯柱（PR #2，随职业物品注册的地图作者方块）：其设置界面的接收器。
         ShiningNeonPillarClient.register();
+        // M16A4 (an item of no role): the recoil kick of each accepted round and the tick that re-arms its reload
+        // input. Appended last, as on the common side, so each earlier client listener keeps its place.
+        // M16A4（不属于任何职业的物品）：每发被接受子弹的后坐，以及为换弹输入重新上闸的每刻回调。与公共端一样追加在最后，
+        // 既有客户端监听器的位置都不变。
+        M16A4Client.register();
     }
 
     /** What an active Wraith may type and whether it may jump. / 活跃冤魂能否打字、能否跳跃。 */

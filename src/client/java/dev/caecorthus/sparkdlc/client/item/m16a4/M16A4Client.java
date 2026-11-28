@@ -1,20 +1,19 @@
 package dev.caecorthus.sparkdlc.client.item.m16a4;
 
-import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.m16a4.M16A4Rules;
-import dev.caecorthus.sparkdlc.net.M16A4ReloadC2SPayload;
 import dev.caecorthus.sparkdlc.net.M16A4ShotS2CPayload;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
 /**
- * Client half of the M16A4: each accepted round kicks the view by the revolver's four degrees, and a fresh attack-key
- * press while the rifle is in the main hand asks the server for a reload exactly once (holding the button does not
- * repeat it).
- * M16A4 的客户端部分：每发被接受的子弹按左轮的 4 度抬起视角；主手持步枪时攻击键的一次新按下只向服务端请求一次换弹
- * （按住不会重复）。
+ * Client half of the M16A4: each accepted round kicks the view by the revolver's four degrees, and the reload input
+ * ({@link M16A4ReloadInput}, driven by {@code M16A4InputMixin}) is re-armed at every tick end and reset whenever the
+ * connection changes.
+ * M16A4 的客户端部分：每发被接受的子弹按左轮的 4 度抬起视角；换弹输入（{@link M16A4ReloadInput}，由
+ * {@code M16A4InputMixin} 驱动）在每刻末尾重新上闸，并在连接变化时重置。
  */
 public final class M16A4Client {
     private M16A4Client() {
@@ -28,29 +27,15 @@ public final class M16A4Client {
                         player.setPitch(player.getPitch() - M16A4Rules.RECOIL_PITCH);
                     }
                 }));
-        ClientTickEvents.START_CLIENT_TICK.register(M16A4Client::tick);
-    }
-
-    /**
-     * One reload intent per attack-key press. {@code wasPressed} counts the key-down events instead of sampling the key
-     * at the tick boundary, so a click that goes down and up inside one tick is not lost.
-     * 每次按下攻击键只发一次换弹意图。{@code wasPressed} 统计按下事件而不是在刻边界采样按键状态，因此在一个刻内按下又松开的
-     * 快速点击不会被漏掉。
-     */
-    private static void tick(MinecraftClient client) {
-        ClientPlayerEntity player = client.player;
-        if (player == null) {
-            return;
-        }
-        // Look at the hand before touching the key: wasPressed() consumes the press counter, and draining it every
-        // tick would swallow left-click presses that other items and roles read from the same key.
-        // 先看主手再碰按键：wasPressed() 会消费按下计数，每刻都取会把其他物品与职业从同一个按键读取的左键按下吞掉。
-        if (client.currentScreen != null || !player.getMainHandStack().isOf(SparkDlcItems.m16a4())) {
-            return;
-        }
-        if (client.options.attackKey.wasPressed()) {
-            dev.caecorthus.sparkdlc.SparkDLC.LOGGER.info("[m16a4] reload request sent");
-            ClientPlayNetworking.send(M16A4ReloadC2SPayload.INSTANCE);
-        }
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
+                M16A4ReloadInput.tick(client);
+            } else {
+                M16A4ReloadInput.reset();
+            }
+        });
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> M16A4ReloadInput.reset());
+        // Also on JOIN: a proxy backend switch re-joins without a disconnect. / JOIN 时同样重置：代理切换后端时不会断线而是重新加入。
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> M16A4ReloadInput.reset());
     }
 }

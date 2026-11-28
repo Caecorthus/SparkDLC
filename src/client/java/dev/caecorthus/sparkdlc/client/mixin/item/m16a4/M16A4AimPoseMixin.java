@@ -17,9 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * The M16A4 is always held in the sniper rifle's charged-aim first-person pose: the same quarter-screen shift towards
  * the middle, the same slight drop and forward nudge and the same 12 degree roll the M1903A4 takes only while charging.
- * Keyed on the rendered main-hand stack, so the other hand and every other rendered player keep vanilla's pose.
+ * Keyed on the rendered main-hand stack, so the other hand and every other item keep vanilla's pose. The hook is the
+ * M1903A4's: right before the general item branch's {@code renderItem} (ordinal 1, after vanilla's use-action pose);
+ * the two never answer for the same stack.
  * M16A4 常驻狙击步枪蓄力瞄准时的第一人称姿势：同样向屏幕中间平移四分之一屏宽、同样的下沉与前移、同样的 12 度滚转，
- * 而 M1903A4 只在蓄力时使用该姿势。判定依据是正在渲染的主手物品，因此另一只手与其他被渲染的玩家保持原版姿势。
+ * 而 M1903A4 只在蓄力时使用该姿势。判定依据是正在渲染的主手物品，因此另一只手与其他物品保持原版姿势。注入点与 M1903A4
+ * 相同：通用物品分支的 {@code renderItem} 之前（序号 1，在原版使用动作姿势之后）；两者不会对同一物品作答。
  */
 @Mixin(HeldItemRenderer.class)
 public abstract class M16A4AimPoseMixin {

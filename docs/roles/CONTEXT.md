@@ -24,7 +24,8 @@ gets Wathe's knife after its first task, and may pick up one ground gun per roun
 The Athlete (`sparkdlc:athlete`, 运动员, contributed in PR #191) is an ordinary civilian with unlimited stamina whose
 shared ability key (G) dashes up to 5 blocks forward along the ground, with a 15 s cooldown.
 The Discoverer (`sparkdlc:discoverer`, 探索者, contributed in PR #189) is an ordinary civilian that gets Speed II
-under open sky, sprints with 25% less stamina drain, and earns 50 coins per task to spend on a spyglass.
+under open sky, sprints with 25% less stamina drain, and earns 50 coins per task to spend on a spyglass; its shared
+ability key (G) gives 15 s of Night Vision in a dark place (PR #12).
 SparkWitch also gives the NoellesRoles Attendant (`noellesroles:attendant`, 乘务员) one Spare Key
 (`sparkdlc:spare_key`, 备用钥匙) at round start; it opens train doors and room-locked doors for durability.
 It also adds two map-maker beds (contributed in PR #239 and reworked in review), both Wathe trimmed beds: the Stained
@@ -1403,7 +1404,8 @@ Current build baseline:
     so the stream never reveals a feigned death. Her own client answers SUCCESS for a body so the same click never
     also uses the held item; it predicts nothing else.
   - Speed and win (PR #9): both thresholds come from the synced round roster (`GameWorldComponent.getAllPlayers`), so
-    the server and her HUD agree: `KokoRules.winTraffic` = players / 4 + 500, `speedTraffic` = half of it. Reaching
+    the server and her HUD agree: `KokoRules.winTraffic` = players / 4 (integer division) × 100 + 500 (PR #10; 700 with 8 players, 800 with 12),
+    `speedTraffic` = half of it. Reaching
     `speedTraffic` gives her an infinite ambient Speed III, kept when traffic is spent; `KokoStreamService.clear` (role
     assignment, `ResetPlayer`) removes exactly that effect, and Wathe's reset clears every effect at the round's end. `KokoWinService` runs in phase `sparkdlc:koko_stream_win`, ordered after the
     Fiend's and the Charon's phases and before `Event.DEFAULT_PHASE` (a default-phase `block()` from the Murderous
@@ -1737,6 +1739,43 @@ Current build baseline:
     visible living non-Wraith player or live puppet, boxes grown by the shot's margin, then `SmokeTargetOcclusion`).
     `M1903A4ChargeWobbleMixin` wraps only the bow-sway translate (slice from the bow case's `20.0F`) and
     `M1903A4AimPoseMixin` shifts the main-hand rifle while it is the active hand.
+- `item/m16a4/`: the M16A4 burst rifle (`sparkdlc:m16a4`, PR #15), an easter egg of no role: only the creative tab
+  or a command gives it (no shop, loot table, loadout or Ragpicker / Junker pool names it). Numbers and the timing rules
+  in `M16A4Rules`. Client in `client/item/m16a4/` and `client/mixin/item/m16a4/`.
+  - Item (`M16A4Item`, a `BowItem` with `UseAction.NONE`): `maxCount(1)`; CUSTOM_DATA `Ammo` (31, absent = full)
+    and `Burst` (rounds left in the burst window, 3). One right-click is one trigger pull: it refills an empty
+    window, enters the use state and fires while the button is down; the window is spent, not refilled, by an early
+    release or a reload, and the use state stays idle until the release, so a held button never starts a second
+    burst. The trigger state is per shooter in `M16A4Service` (server only, cleared on disconnect and server stop):
+    the deadline of the next round and the stack the trigger was pulled on. Every round, the first of a pull
+    included, goes through `fireWhenDue`: `M16A4Rules.roundDue` (the shooter's deadline; this is what caps the rate
+    at 15 rounds/s whatever the client sends and however many rifles it carries) and a fresh `M16A4Combat.decide`;
+    `usageTick` fires only the pulled stack. Rounds leave on ticks 0, 2, 3 of a burst (`nextDeadline` carries the
+    fraction of 20/15). A gate that refuses mid-pull spends the window. Holding the trigger slows the shooter like a
+    drawn bow (vanilla use state).
+  - Gate and shot (`M16A4Combat`): the M1903A4's gate through `M1903A4Combat.decideForOpenGun` (main hand, spectator,
+    the held states, `blocksWeaponAction`, the rifle's item cooldown, a round), except that an `OffMatchUse`
+    PRESENTATION use fires; only a dead participant is refused. A MATCH shooter's round runs
+    `M1903A4Combat.fireRifle` with 40 blocks, no white trace and no kill sound; everything else (eligibility, crow /
+    puppet / Seeker / Partygoer / drone seams, the BEAR smoke tunnel, the item-use record of every round, one
+    non-forced `killPlayer` with Wathe's `GUN` reason) is the M1903A4's code. The replay prints only the rounds that
+    hit a player (`M16A4Replay`, `replay.item_use.sparkdlc.m16a4.shot`); a miss is recorded without a line, and the
+    record still spends Ragpicker loot, so a looted rifle fires one round. A presentation round only plays the sound,
+    the flash and the recoil and spends the round.
+  - Reload (`M16A4Service`): left-click sends `sparkdlc:m16a4_reload` (no content; row in the payload policy table).
+    The server asks `M16A4Combat.mayReload` (the fire gate without the magazine), starts a timer bound to that stack
+    object (tactical 44 ticks to 31, empty 60 ticks to 30) and spends the window; the magazine is written only when
+    the timer ends, and the timer is dropped when the stack is no longer the main-hand stack, on death, Wathe
+    `ResetPlayer`, disconnect and server stop. No round leaves while it runs. `sparkdlc:m16a4_shot` (S2C, shooter
+    only) kicks the view 4 degrees per round.
+  - Other lists: on `MurderSenseAbility.DANGEROUS_ITEM_IDS` and a foreign gun for `SaviorGunPickupRules`, like the
+    M1903A4. Not in `wathe:guns` (Wathe's `gunshoot` receiver fires any tagged gun), not bound, no cooldown nominal.
+  - Client: `M16A4InputMixin` + `M16A4ReloadInput` are the launcher's left-click layer with a reload for a shot
+    (`doAttack` and `handleBlockBreaking` swallowed, the press edge taken from vanilla's own `wasPressed` reads, a
+    keyboard auto-repeat latch); `M16A4MacControlClickMixin` keeps Ctrl + left-click a left press on macOS;
+    `M16A4AimPoseMixin` holds the main-hand rifle in the M1903A4's charged first-person frame at all times;
+    `M16A4ArmPoseMixin` (priority 1600, the M32A1's wrapper) answers `BOW_AND_ARROW` for the shown main-hand rifle;
+    `M16A4EquipMixin` skips the equip animation on a pull, as Wathe does for its guns.
 - `role/witch/`: rules shared by Grand Witch and Accomplice.
   - Other-witch roles (owner 2026-11-13): `OtherWitchRoles` is the one list of roles the Grand Witch's instinct
     specially recognises, by role id: the Apprentice Witch, the Murderous Witch and the Witch Trial girls (魔裁,
@@ -2367,6 +2406,27 @@ Current build baseline:
   - Shop (`DiscovererShopService`, both sides via `BuildShopEntries`): only the vanilla spyglass (`discoverer_spyglass`,
     150, stock 1), priced through `SparkTraitsApi.discountShopEntryForCharisma`. The PR's conductor key is no longer sold here; it became
     the Attendant's Spare Key below.
+  - Night Vision (PR #12, owner 2026-11-26; reworked in review): `DiscovererNightVisionService` registers the empty
+    C2S `sparkdlc:discoverer_night_vision` and gates each request with `DiscovererRules.nightVisionVerdict`, Noa's
+    painting set (real role, ACTIVE round, playing, alive and not a spectator, not swallowed, not Control Expert
+    stunned, not role-skill blocked), then, each with an action-bar hint and at no cost: the cooldown, the light, a
+    Night Vision already running that is infinite or has 15 s or more left, and Fear last. The light is the server's
+    effective level at the feet block (`world.getLightLevel(pos)`: block light, or sky light less the ambient
+    darkness) and must be 8 or lower: open air is 15 at Wathe's DAY, 10 at SUNDOWN and 4 at NIGHT, so only a night
+    map allows it outdoors; raw sky light would refuse open air at any hour. A grant is plain Night Vision for 300
+    ticks with the flags of the mod's other grants, so vanilla merges it and never shortens another source. Not
+    immune to a blackout: Wathe blinds the Discoverer during one and removes every player's Night Vision when it
+    ends, as does the Engineer's repair. No replay line.
+  - Night Vision cooldown: `DiscovererComponent` (`sparkdlc:discoverer_player`, `NEVER_COPY`, appended last in the
+    CCA list) keeps an absolute ready tick synced to the owner only and a server-only used-this-round flag: 60 s
+    after the first activation of a round, 75 s after every later one, no opening cooldown. `RoleAssigned` and
+    Wathe's `ResetPlayer` clear both; NBT keeps them across a relog. The forced-cooldown store
+    `sparkdlc:discoverer_night_vision` (store 35) only raises the ready tick. The owner's corner line
+    (`client/role/civilian/discoverer`, the Athlete line's layout) shows "ready: press G" or the seconds left; the
+    key branch in `SparkDLCClient` sits right after the Athlete's.
+  - Deny lists: `discoverer_night_vision` is classified like `use_athlete_dash` in
+    `config/payload-policy/actions.tsv` (safe time, Control Expert stun, Seeker and Riftwalker sessions, Fear, Knight
+    duel, Taotie daze).
   - Open: no SparkAssist guidebook page and no Black Raven disguise entry yet.
 - `block/` + `SparkDlcBlocks` (PR #239, reworked in review): the two map-maker beds, the only SparkWitch
   blocks. `SparkBedBlock` extends Wathe's `TrimmedBedBlock` with Wathe's bed settings, and `SparkDlcBlocks` adds both
@@ -2541,7 +2601,8 @@ Current build baseline:
     `sparkdlc:ragpicker_search` (body UUID only), a payload on the stun, Fear, Seeker-session, Rift-occupant and
     Knight-duel G lists. The server re-checks the raw role and every state gate, then needs the corpse within 3 blocks
     in block line of sight (no search through walls) for 5 s. Success transfers one stack from the dead owner's
-    snapshot into a free hotbar slot (moved, never copied). An empty corpse is marked searched at once; the owner
+    snapshot into a free hotbar slot (moved, never copied). The Tablet and Wathe's letter are never lootable
+    (`JunkerLoot.isUseless`, PR #13), so a body that holds nothing else is an empty corpse. An empty corpse is marked searched at once; the owner
     accepts that instant "nothing on the body" line as a fake-corpse tell. A refusal costs nothing.
   - Cooldown: 45 s at round start and 60 s after a successful search, kept as the ready tick and exposed as the
     SparkFactionAPI role-skill store `sparkdlc:ragpicker_search` (`cooldown/provider/RoleForcedCooldowns`).
@@ -4350,7 +4411,8 @@ break ends in `RealityAnchorEntity.destroy()` and comes from `entity/RealityAnch
 (`AttackEntityCallback`, default phase, so the stun / hypnosis / session-lock phases refuse first; reach is vanilla's,
 line of sight is re-checked), the server ray of a gun (`gunShot` for the client-targeted ones: Wathe's receiver through
 `mixin/entity/GunShootPayloadRealityAnchorMixin` at the `recordItemUse` anchor, the Savior pistol, the Bandit revolver,
-the serial pistols; `destroyAlongRay` for the double barrel's pellets and the M1903A4), and the Wathe grenade blast
+the serial pistols; `destroyAlongRay` for the double barrel's pellets and the shared rifle path of the M1903A4 and the
+M16A4, `M1903A4Combat.fireRifle`), and the Wathe grenade blast
 (`onBlast`, called from the TAIL hook of `mixin/item/grenade/GrenadeBlastMixin`, sphere plus line of sight like the
 Seeker devices). A ray breaks only the nearest anchor in front of the first COLLIDER block and of the entity the shot
 hit or claimed; the anchor never stops a shot and no call site changes what the weapon does to players. Other weapons
@@ -5400,6 +5462,12 @@ deliberate and kept:
    re-sets the cooldown; Dominator / Specter / Charon / 二阶堂希罗 precedent). Remaining time includes the 90 s opening
    cooldown; the nominal is `SphinxHaoRules.ROAR_COOLDOWN_TICKS` (600). Every write only moves the ready tick later
    through `setRoarReadyTick`.
+35. `sparkdlc:discoverer_night_vision` (`RoleForcedCooldowns#discovererNightVision`, PR #12, appended after
+   狮身豪's 豪气冲天): the Discoverer's Night Vision, for the raw role in an ACTIVE round. Remaining time counts to the
+   absolute ready tick in `DiscovererComponent`; there is no opening cooldown, and the nominal is
+   `DiscovererRules.NIGHT_VISION_COOLDOWN_TICKS` (1500, the cooldown after every activation but the first of a round).
+   Every write only moves the ready tick later through the owner-syncing `setNightVisionReadyTick` and leaves the
+   used-this-round flag alone. No item, so the admin `clearCooldown` does not reach it.
 `RoleItemCooldownNominals` supplies the full post-use cooldown of every SparkWitch item that writes one (Taser,
 Disruptor, Shock Device, shotgun empty reload, Time Pocket Watch, toll bell, Angler rod and edible fish, Holy Flash,
 White Cane (its tap writes the 5 s window plus the 10 s cooldown), Ninja shuriken, knife and Grappling Hook (the 10 s

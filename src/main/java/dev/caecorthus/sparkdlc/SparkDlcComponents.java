@@ -23,6 +23,7 @@ import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererComponent;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
@@ -515,6 +516,12 @@ public final class SparkDlcComponents
         registry.beginRegistration(PlayerEntity.class, SphinxHaoPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SphinxHaoPlayerComponent::new);
+        // Discoverer (PR #12): Night Vision ready tick and the used-this-round flag; the ready tick is synced to the
+        // owner only; appended last, after 狮身豪's component.
+        // 探索者（PR #12）：夜视就绪刻与本局已使用标记；就绪刻只同步给本人；追加在最后，位于狮身豪的组件之后。
+        registry.beginRegistration(PlayerEntity.class, DiscovererComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(DiscovererComponent::new);
     }
 
     @Override

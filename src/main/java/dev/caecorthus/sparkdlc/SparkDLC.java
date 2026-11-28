@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.event.RoleKitEvents;
 import dev.caecorthus.sparkdlc.event.RoleEvents;
 import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.item.m16a4.M16A4Service;
 import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
 import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
 import dev.caecorthus.sparkdlc.net.SparkDlcPackets;
@@ -289,6 +290,11 @@ public final class SparkDLC implements ModInitializer {
         CurserFeatureService.register();
         RoleEvents.register();
         dev.caecorthus.sparkdlc.cooldown.provider.RoleForcedCooldowns.register();
+        // The M16A4 (an item of no role): its reload intent and recoil payloads, the reload timer with its cleanup
+        // listeners and its replay line. Appended after every role service, so each earlier listener keeps its place.
+        // M16A4（不属于任何职业的物品）：换弹意图与后坐数据包、换弹计时及其清理监听器，以及回放文本。追加在所有职业服务
+        // 之后，既有监听器的位置都不变。
+        M16A4Service.register();
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(
                 (message, sender, params) -> mayUseTextChat(sender)
         );

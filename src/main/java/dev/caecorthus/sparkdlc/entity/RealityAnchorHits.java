@@ -23,12 +23,14 @@ import java.util.List;
 /**
  * Destruction seam for placed reality stabilization anchors: every break ends in {@link RealityAnchorEntity#destroy()}.
  * A left-click breaks one ({@link #onMelee}). Every firearm that fires a server-side ray (Wathe's revolver family, the
- * Bandit revolver, the serial killer's psycho pistols, the Savior pistol, the double barrel and the M1903A4) offers
- * its line to {@link #gunShot} or {@link #destroyAlongRay}; Wathe grenades call {@link #onBlast}. The anchor never
+ * Bandit revolver, the serial killer's psycho pistols, the Savior pistol, the double barrel, the M1903A4 and the
+ * M16A4) offers its line to {@link #gunShot} or {@link #destroyAlongRay}; Wathe grenades call {@link #onBlast}. The
+ * anchor never
  * blocks the shot itself and nothing here touches a player: the weapon's own resolution runs unchanged. An anchor is
  * hit only when it is the first thing on the line, in front of the first colliding block and of what the weapon hit.
  * 现实稳定锚被摧毁的接缝：每次摧毁都汇入 {@link RealityAnchorEntity#destroy()}。左键可打掉它（{@link #onMelee}）。所有服务端
- * 射线的枪械（Wathe 左轮系、强盗左轮、连环杀手疯魔双枪、救世主手枪、双管猎枪与 M1903A4）都把弹道交给 {@link #gunShot} 或
+ * 射线的枪械（Wathe 左轮系、强盗左轮、连环杀手疯魔双枪、救世主手枪、双管猎枪、M1903A4 与 M16A4）都把弹道交给
+ * {@link #gunShot} 或
  * {@link #destroyAlongRay}；Wathe 手雷调用 {@link #onBlast}。锚不会拦截子弹，这里也不触碰任何玩家：武器自身的判定照常执行。
  * 只有当锚是弹道上的第一个东西（位于第一个阻挡方块以及武器命中的目标之前）时才会被击中。
  */

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.junker;
 
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
@@ -107,6 +108,17 @@ public final class JunkerLoot {
             return Kind.WALKIE_TALKIE;
         }
         return isNeutralMasterKey(stack) ? Kind.NEUTRAL_MASTER_KEY : Kind.OTHER;
+    }
+
+    /**
+     * Loot nobody can use: the Tablet and Wathe's round letter do nothing in a ragpicker's hands, so they are never
+     * among a body's lootable stacks: a search never yields them, and a body that holds nothing else counts as empty
+     * (PR #13, 2026-11-26).
+     * 谁也派不上用场的战利品：平板电脑与 Wathe 的信件在拾荒者手里毫无作用，因此它们永远不算尸体上可搜刮的物品：搜刮
+     * 不会拿到它们，只带着这两样的尸体视为空尸体（PR #13，2026-11-26）。
+     */
+    static boolean isUseless(ItemStack stack) {
+        return stack.isOf(SparkDlcItems.tablet()) || stack.isOf(WatheItems.LETTER);
     }
 
     private static boolean isNeutralMasterKey(ItemStack stack) {

@@ -225,6 +225,13 @@ public final class SparkDlcSounds {
     /** Kill confirmation played at the shooter when the rifle kills. / 击杀时在射手位置播放的确认音。 */
     public static final Identifier M1903A4_KILL_ID = SparkDLC.id("item.m1903a4.kill");
     /**
+     * M16A4 sounds: shot (16 blocks) and the two reloads, tactical (rounds left) and empty. No subtitles.
+     * M16A4 音效：枪声（16 格）与两种换弹——战术换弹（还有子弹）和空仓换弹。无字幕。
+     */
+    public static final Identifier M16A4_SHOOT_ID = SparkDLC.id("item.m16a4.shoot");
+    public static final Identifier M16A4_RELOAD_TACTICAL_ID = SparkDLC.id("item.m16a4.reload_tactical");
+    public static final Identifier M16A4_RELOAD_EMPTY_ID = SparkDLC.id("item.m16a4.reload_empty");
+    /**
      * Savior pistol sounds (ids live in SaviorRules): the shot carries at Wathe's revolver volume 5.0 and the click at
      * 0.5. The bundled audio lives under {@code sparkdlc:sounds/item/} so it can be replaced.
      * 救世主手枪音效（id 定义在 SaviorRules）：枪声沿用 Wathe 左轮的 5.0 音量，点击声 0.5。音频位于
@@ -262,6 +269,9 @@ public final class SparkDlcSounds {
     public static SoundEvent M1903A4_OPENBOLT;
     public static SoundEvent M1903A4_LOAD;
     public static SoundEvent M1903A4_KILL;
+    public static SoundEvent M16A4_SHOOT;
+    public static SoundEvent M16A4_RELOAD_TACTICAL;
+    public static SoundEvent M16A4_RELOAD_EMPTY;
     public static SoundEvent SAVIOR_PISTOL_SHOOT;
     public static SoundEvent SAVIOR_PISTOL_CLICK;
     public static SoundEvent SAVIOR_LIGHTSABER_HIT;
@@ -386,6 +396,12 @@ public final class SparkDlcSounds {
                 SoundEvent.of(M1903A4_LOAD_ID));
         M1903A4_KILL = Registry.register(Registries.SOUND_EVENT, M1903A4_KILL_ID,
                 SoundEvent.of(M1903A4_KILL_ID));
+        M16A4_SHOOT = Registry.register(Registries.SOUND_EVENT, M16A4_SHOOT_ID,
+                SoundEvent.of(M16A4_SHOOT_ID));
+        M16A4_RELOAD_TACTICAL = Registry.register(Registries.SOUND_EVENT, M16A4_RELOAD_TACTICAL_ID,
+                SoundEvent.of(M16A4_RELOAD_TACTICAL_ID));
+        M16A4_RELOAD_EMPTY = Registry.register(Registries.SOUND_EVENT, M16A4_RELOAD_EMPTY_ID,
+                SoundEvent.of(M16A4_RELOAD_EMPTY_ID));
         SAVIOR_PISTOL_SHOOT = Registry.register(Registries.SOUND_EVENT, SAVIOR_PISTOL_SHOOT_ID,
                 SoundEvent.of(SAVIOR_PISTOL_SHOOT_ID));
         SAVIOR_PISTOL_CLICK = Registry.register(Registries.SOUND_EVENT, SAVIOR_PISTOL_CLICK_ID,

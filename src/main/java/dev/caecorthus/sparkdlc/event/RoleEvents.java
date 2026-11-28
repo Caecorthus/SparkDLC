@@ -24,6 +24,7 @@ import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeFeatureService
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce.MightyForceCombatService;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertFeatureService;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererNightVisionService;
 import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererService;
 import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererShopService;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherFeatureService;
@@ -322,6 +323,9 @@ public final class RoleEvents {
         });
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
         DiscovererService.register();
+        // Night Vision key (PR #12): its payload and its cooldown lifecycle, right after the passives.
+        // 夜视键（PR #12）：数据包与冷却生命周期，紧随被动之后。
+        DiscovererNightVisionService.register();
         DiscovererShopService.register();
         AccountantFeatureService.register();
         // Tono Hanna (PR #212): after the shared RoleAssigned listener above, whose WitchManaService.assignForRole

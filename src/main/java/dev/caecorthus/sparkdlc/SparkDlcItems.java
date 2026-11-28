@@ -43,6 +43,7 @@ import dev.caecorthus.sparkdlc.item.defense.DefenseVialItem;
 import dev.caecorthus.sparkdlc.item.defense.DefenseVialRules;
 import dev.caecorthus.sparkdlc.item.m1903a4.Ammo3006Item;
 import dev.caecorthus.sparkdlc.item.m1903a4.M1903A4Item;
+import dev.caecorthus.sparkdlc.item.m16a4.M16A4Item;
 import dev.caecorthus.sparkdlc.item.ninja.NinjaGrapplingHookItem;
 import dev.caecorthus.sparkdlc.item.ninja.NinjaKnifeItem;
 import dev.caecorthus.sparkdlc.item.ninja.NinjaShurikenItem;
@@ -886,6 +887,8 @@ public final class SparkDlcItems {
     public static final Identifier DEFENSE_VIAL_ID = DefenseVialRules.ITEM_ID;
     public static final Identifier M1903A4_ID = SparkDLC.id("m1903a4");
     public static final Identifier AMMO_3006_ID = SparkDLC.id("ammo_3006");
+    /** The M16A4 burst rifle, appended last so every earlier raw id keeps its place. / M16A4 点射步枪，追加在最后以保持既有 id。 */
+    public static final Identifier M16A4_ID = SparkDLC.id("m16a4");
     private static Item ceremonialSword;
     private static Item crossSword;
     private static Item firePoker;
@@ -962,6 +965,7 @@ public final class SparkDlcItems {
     private static Item defenseVial;
     private static Item m1903a4;
     private static Item ammo3006;
+    private static Item m16a4;
 
     private static boolean roleItemsRegistered;
 
@@ -1418,6 +1422,14 @@ public final class SparkDlcItems {
         // after the Sniper's items, so earlier registration order stays unchanged.
         // 车站时刻表（地图作者用的方块及其 BlockItem）与读它的怀表，追加在最后（狙击手物品之后），以保持既有注册顺序不变。
         SparkDlcBlocks.registerSchedule();
+        // The M16A4 burst rifle (magazine, burst window and reload timer in custom data), appended after every existing
+        // item and block so earlier raw ids keep their order.
+        // M16A4 点射步枪（弹匣、点射窗口与换弹计时存于自定义数据），追加在所有既有物品与方块之后，保持既有 id 顺序不变。
+        m16a4 = Registry.register(
+                Registries.ITEM,
+                M16A4_ID,
+                new M16A4Item(M16A4Item.createSettings())
+        );
         registerMeleeSuppression();
         VendettaKnifeLoadoutService.register();
         roleItemsRegistered = true;
@@ -1995,5 +2007,12 @@ public final class SparkDlcItems {
             throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ammo3006;
+    }
+
+    public static Item m16a4() {
+        if (m16a4 == null) {
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
+        }
+        return m16a4;
     }
 }

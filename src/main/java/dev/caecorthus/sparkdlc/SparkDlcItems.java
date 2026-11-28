@@ -976,6 +976,7 @@ public final class SparkDlcItems {
     private static boolean roleItemsRegistered;
 
     public static synchronized void registerRoleItems() {
+        dev.caecorthus.sparkdlc.item.drink.SparkDrinks.register();
         if (roleItemsRegistered) {
             return;
         }

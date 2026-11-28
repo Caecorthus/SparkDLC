@@ -29,6 +29,7 @@ public final class SparkDrinks {
     }
 
     public static void register() {
+        dev.caecorthus.sparkdlc.replay.role.SparkDrinksReplay.register();
         if (registered) {
             return;
         }

@@ -4832,5 +4832,6 @@
   "item.sparkdlc.crimson_martini": "猩红马天尼",
   "item.sparkdlc.sunset_whiskey": "落日威士忌",
   "item.sparkdlc.polar_mint": "极地薄荷饮",
-  "item.sparkdlc.blackberry_dream": "黑莓之梦"
+  "item.sparkdlc.blackberry_dream": "黑莓之梦",
+  "replay.item_use.sparkdlc.drink": "喝下了 %s"
 }

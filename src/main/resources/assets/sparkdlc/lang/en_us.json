@@ -4832,5 +4832,6 @@
   "item.sparkdlc.crimson_martini": "Crimson Martini",
   "item.sparkdlc.sunset_whiskey": "Sunset Whiskey",
   "item.sparkdlc.polar_mint": "Polar Mint",
-  "item.sparkdlc.blackberry_dream": "Blackberry Dream"
+  "item.sparkdlc.blackberry_dream": "Blackberry Dream",
+  "replay.item_use.sparkdlc.drink": "drank %s"
 }
